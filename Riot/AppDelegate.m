@@ -228,7 +228,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 
     // Set the App Group identifier.
     MXSDKOptions *sdkOptions = [MXSDKOptions sharedInstance];
-    sdkOptions.applicationGroupIdentifier = @"group.im.vector";
+    sdkOptions.applicationGroupIdentifier = @"group.im.vector.vmodev";
 
     // Track SDK performance on Google analytics
     // TODO: needs the same tool

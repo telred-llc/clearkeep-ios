@@ -1,6 +1,9 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, "9.0"
 
+# ignore all warnings from all pods
+inhibit_all_warnings!
+
 # Use frameforks to allow usage of pod written in Swift (like PiwikTracker)
 use_frameworks!
 
