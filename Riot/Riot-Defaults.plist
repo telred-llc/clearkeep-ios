@@ -7,19 +7,19 @@
 	<key>pinRoomsWithUnread</key>
 	<true/>
 	<key>pushGatewayURL</key>
-	<string>https://matrix.org/_matrix/push/v1/notify</string>
+	<string>http://study.sinbadflyce.com:5000/_matrix/push/v1/notify</string>
 	<key>pusherAppIdDev</key>
-	<string>im.vector.app.ios.dev</string>
+	<string>im.vector.vmodev.app</string>
 	<key>pusherAppIdProd</key>
-	<string>im.vector.app.ios.prod</string>
+	<string>im.vector.vmodev.app.prod</string>
 	<key>pushKitAppIdProd</key>
-	<string>im.vector.app.ios.voip.prod</string>
+	<string>im.vector.vmodev.app</string>
 	<key>identityserverurl</key>
 	<string>https://vector.im</string>
 	<key>homeserverurl</key>
-	<string>https://matrix.org</string>
+	<string>https://study.sinbadflyce.com</string>
 	<key>homeserver</key>
-	<string>matrix.org</string>
+	<string>study.sinbadflyce.com</string>
 	<key>webAppUrlDev</key>
 	<string>https://riot.im/develop</string>
 	<key>webAppUrlBeta</key>
@@ -29,9 +29,9 @@
 	<key>matrixApps</key>
 	<true/>
 	<key>integrationsUiUrl</key>
-	<string>https://scalar-staging.riot.im/scalar-web/</string>
+	<string>http://scalar.sinbadflyce.com/riot/</string>
 	<key>integrationsRestUrl</key>
-	<string>https://scalar-staging.riot.im/scalar/api</string>
+	<string>http://scalar.sinbadflyce.com/api/v1/scalar</string>
 	<key>piwik</key>
 	<dict>
 		<key>url</key>

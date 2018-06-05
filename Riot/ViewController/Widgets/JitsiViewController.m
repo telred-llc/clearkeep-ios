@@ -16,7 +16,7 @@
 
 #import "JitsiViewController.h"
 
-static const NSString *kJitsiServerUrl = @"https://jitsi.riot.im/";
+static const NSString *kJitsiServerUrl = @"https://meet.jit.si/";
 
 @interface JitsiViewController ()
 {
