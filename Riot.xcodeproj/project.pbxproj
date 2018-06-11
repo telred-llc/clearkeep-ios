@@ -4067,7 +4067,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4a0e2dc0-d8ab-4786-9d61-7cd702329c17";
+				PROVISIONING_PROFILE = "439297f3-ef8d-4dda-b9a9-641f9ab33e62";
 				PROVISIONING_PROFILE_SPECIFIER = "Riot Extension Developer";
 				SKIP_INSTALL = YES;
 			};
@@ -4093,7 +4093,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4a0e2dc0-d8ab-4786-9d61-7cd702329c17";
+				PROVISIONING_PROFILE = "439297f3-ef8d-4dda-b9a9-641f9ab33e62";
 				PROVISIONING_PROFILE_SPECIFIER = "Riot Extension Developer";
 				SKIP_INSTALL = YES;
 			};
@@ -4117,7 +4117,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.SiriIntents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "958d37ed-5ed7-4130-a1c8-7f37ac4112fc";
+				PROVISIONING_PROFILE = "c57ccd1c-3d9a-4a2f-9f4a-98ca67b46567";
 				PROVISIONING_PROFILE_SPECIFIER = "Riot Siri Developer";
 				SKIP_INSTALL = YES;
 			};
@@ -4142,7 +4142,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.SiriIntents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "958d37ed-5ed7-4130-a1c8-7f37ac4112fc";
+				PROVISIONING_PROFILE = "c57ccd1c-3d9a-4a2f-9f4a-98ca67b46567";
 				PROVISIONING_PROFILE_SPECIFIER = "Riot Siri Developer";
 				SKIP_INSTALL = YES;
 			};
@@ -4265,7 +4265,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cf8ec2d8-dbb5-4679-9584-9241a8e8bb21";
+				PROVISIONING_PROFILE = "a1528851-6cd5-467c-bf3a-cd5023a61b36";
 				PROVISIONING_PROFILE_SPECIFIER = "Riot App Developer";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4302,7 +4302,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cf8ec2d8-dbb5-4679-9584-9241a8e8bb21";
+				PROVISIONING_PROFILE = "a1528851-6cd5-467c-bf3a-cd5023a61b36";
 				PROVISIONING_PROFILE_SPECIFIER = "Riot App Developer";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
