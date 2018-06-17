@@ -2687,6 +2687,11 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         // Reset the contact manager
         [[MXKContactManager sharedManager] reset];
         
+        // O365 logout
+        NSURL *o365LogoutUrl = [NSURL URLWithString:@"https://study.sinbadflyce.com:15050/o365/logout"];
+        NSURLSessionTask *task =  [[NSURLSession sharedSession] dataTaskWithURL:o365LogoutUrl];
+        [task resume];
+        
     }];
 }
 

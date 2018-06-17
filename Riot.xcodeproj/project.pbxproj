@@ -110,6 +110,10 @@
 		92726A511F587410004AD26F /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92726A501F587410004AD26F /* Intents.framework */; };
 		9D686B069F967C4D4BBC610F /* Pods_RiotPods_SiriIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB50EEBE8214352B9EBD6394 /* Pods_RiotPods_SiriIntents.framework */; };
 		DDDE2AB95F865F2292B1D315 /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D7292481328A48B8D5D4ED /* Pods_RiotPods_RiotShareExtension.framework */; };
+		E5994BEA20D21F90002368C9 /* O365AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5994BE820D21F90002368C9 /* O365AuthViewController.m */; };
+		E5994BEB20D21F90002368C9 /* O365AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5994BE920D21F90002368C9 /* O365AuthViewController.xib */; };
+		E5A672E720D3BE2E0033073B /* AuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A672E620D3BE2E0033073B /* AuthWebViewController.m */; };
+		E5A672E920D3C9750033073B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A672E820D3C9740033073B /* WebKit.framework */; };
 		F0131DE51F2200D600CBF707 /* RiotSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0131DE41F2200D600CBF707 /* RiotSplitViewController.m */; };
 		F0173EB51FCF346800B5F6A3 /* Vector.strings in Resources */ = {isa = PBXBuildFile; fileRef = F0173EAF1FCF346800B5F6A3 /* Vector.strings */; };
 		F0173EB61FCF346800B5F6A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F0173EB11FCF346800B5F6A3 /* Localizable.strings */; };
@@ -797,6 +801,12 @@
 		C195C53961EA28E6900AEB68 /* Pods-Riot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Riot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Riot/Pods-Riot.release.xcconfig"; sourceTree = "<group>"; };
 		C5258DFF261AA3AB228A3F11 /* Pods-RiotPods-RiotShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension/Pods-RiotPods-RiotShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		DB50EEBE8214352B9EBD6394 /* Pods_RiotPods_SiriIntents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_SiriIntents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5994BE720D21F90002368C9 /* O365AuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = O365AuthViewController.h; sourceTree = "<group>"; };
+		E5994BE820D21F90002368C9 /* O365AuthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = O365AuthViewController.m; sourceTree = "<group>"; };
+		E5994BE920D21F90002368C9 /* O365AuthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = O365AuthViewController.xib; sourceTree = "<group>"; };
+		E5A672E520D3BE2E0033073B /* AuthWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthWebViewController.h; sourceTree = "<group>"; };
+		E5A672E620D3BE2E0033073B /* AuthWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuthWebViewController.m; sourceTree = "<group>"; };
+		E5A672E820D3C9740033073B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		F0131DE31F2200D600CBF707 /* RiotSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiotSplitViewController.h; sourceTree = "<group>"; };
 		F0131DE41F2200D600CBF707 /* RiotSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RiotSplitViewController.m; sourceTree = "<group>"; };
 		F0173EB01FCF346800B5F6A3 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = Vector.strings; sourceTree = "<group>"; };
@@ -1449,6 +1459,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5A672E920D3C9750033073B /* WebKit.framework in Frameworks */,
 				3233F7461F3497E2006ACA81 /* JitsiMeet.framework in Frameworks */,
 				68A2327678CA647A9A7739C7 /* Pods_RiotPods_Riot.framework in Frameworks */,
 			);
@@ -1664,6 +1675,7 @@
 		5FC42FA41F5186AFFB6A2404 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E5A672E820D3C9740033073B /* WebKit.framework */,
 				92726A501F587410004AD26F /* Intents.framework */,
 				FD9D0BDE9232898950554DD5 /* libPods-Riot.a */,
 				7246451C668D6782166E22EC /* libPods-RiotShareExtension.a */,
@@ -2282,6 +2294,11 @@
 				24B5103F1EFA88CC004C6AD2 /* ReadReceiptsViewController.xib */,
 				F0B4CBA31F418D0B008E99C5 /* WebViewViewController.h */,
 				F0B4CBA41F418D0B008E99C5 /* WebViewViewController.m */,
+				E5994BE720D21F90002368C9 /* O365AuthViewController.h */,
+				E5994BE820D21F90002368C9 /* O365AuthViewController.m */,
+				E5994BE920D21F90002368C9 /* O365AuthViewController.xib */,
+				E5A672E520D3BE2E0033073B /* AuthWebViewController.h */,
+				E5A672E620D3BE2E0033073B /* AuthWebViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2969,6 +2986,7 @@
 				F083BDA91E7009ED00A9B29C /* notificationsOff@3x.png in Resources */,
 				F083BD731E7009ED00A9B29C /* e2e_unencrypted@3x.png in Resources */,
 				F083BD3F1E7009ED00A9B29C /* call_speaker_off_icon.png in Resources */,
+				E5994BEB20D21F90002368C9 /* O365AuthViewController.xib in Resources */,
 				F083BD3D1E7009ED00A9B29C /* call_hangup_icon@2x.png in Resources */,
 				F083BE551E7009ED00A9B29C /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				32A9B3BA2089CA410087E7A3 /* Vector.strings in Resources */,
@@ -3705,6 +3723,7 @@
 				F083BE7A1E7009ED00A9B29C /* RoomInputToolbarView.m in Sources */,
 				F083BDFF1E7009ED00A9B29C /* RecentsDataSource.m in Sources */,
 				F0B4CBAA1F41E71A008E99C5 /* RiotNavigationController.m in Sources */,
+				E5994BEA20D21F90002368C9 /* O365AuthViewController.m in Sources */,
 				F083BE461E7009ED00A9B29C /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				F083BE251E7009ED00A9B29C /* SegmentedViewController.m in Sources */,
 				F083BE1B1E7009ED00A9B29C /* RoomFilesViewController.m in Sources */,
@@ -3722,6 +3741,7 @@
 				F083BDF81E7009ED00A9B29C /* RoomDataSource.m in Sources */,
 				F083BE371E7009ED00A9B29C /* RoomActivitiesView.m in Sources */,
 				F083BE131E7009ED00A9B29C /* HomeMessagesSearchViewController.m in Sources */,
+				E5A672E720D3BE2E0033073B /* AuthWebViewController.m in Sources */,
 				926FA53F1F4C132000F826C2 /* MXSession+Riot.m in Sources */,
 				F083BE8C1E7009ED00A9B29C /* PreviewRoomTitleView.m in Sources */,
 				F083BE271E7009ED00A9B29C /* SettingsViewController.m in Sources */,
@@ -4063,7 +4083,7 @@
 				DEVELOPMENT_TEAM = 5KH4V6747U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RiotShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4089,7 +4109,7 @@
 				DEVELOPMENT_TEAM = 5KH4V6747U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RiotShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4113,7 +4133,7 @@
 				DEVELOPMENT_TEAM = 5KH4V6747U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SiriIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.SiriIntents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4138,7 +4158,7 @@
 				DEVELOPMENT_TEAM = 5KH4V6747U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SiriIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.SiriIntents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4261,7 +4281,7 @@
 					"\"$(PROJECT_DIR)/Riot/libs/jitsi-meet\"",
 				);
 				INFOPLIST_FILE = Riot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4298,7 +4318,7 @@
 					"\"$(PROJECT_DIR)/Riot/libs/jitsi-meet\"",
 				);
 				INFOPLIST_FILE = Riot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";

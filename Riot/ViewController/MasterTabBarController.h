@@ -17,6 +17,7 @@
 #import <MatrixKit/MatrixKit.h>
 
 #import "AuthenticationViewController.h"
+#import "O365AuthViewController.h"
 
 #import "HomeViewController.h"
 #import "FavouritesViewController.h"
@@ -121,7 +122,7 @@
 
 
 // Reference to the current auth VC. It is not nil only when the auth screen is displayed.
-@property (nonatomic, readonly) AuthenticationViewController *authViewController;
+@property (nonatomic, readonly) O365AuthViewController *authViewController;
 
 @property (nonatomic, readonly) HomeViewController *homeViewController;
 @property (nonatomic, readonly) FavouritesViewController *favouritesViewController;
