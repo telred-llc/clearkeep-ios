@@ -9,7 +9,7 @@
 #import <MatrixKit/MatrixKit.h>
 #import "AuthWebViewController.h"
 
-@interface O365AuthViewController : MXKAuthenticationViewController<AuthWebViewControllerDelegate>
+@interface O365AuthViewController : MXKAuthenticationViewController<AuthWebViewControllerDelegate, MXKAuthenticationViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 

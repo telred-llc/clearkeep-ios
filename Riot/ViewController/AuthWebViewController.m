@@ -50,8 +50,10 @@ NSString *const kO365contacts = @"o365/contacts";
 
 - (void)handleO365Login:(NSData *)data {
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    [self.delegate authWebViewController:self didO365LoginWithDictionary:dictionary];
     [self dismissViewControllerAnimated:NO completion:nil];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+       [self.delegate authWebViewController:self didO365LoginWithDictionary:dictionary];
+    }];    
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {

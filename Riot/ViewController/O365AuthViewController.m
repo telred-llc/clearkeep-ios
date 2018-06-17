@@ -63,7 +63,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+        
     self.authType = MXKAuthenticationTypeLogin;
     self.mainNavigationItem.title = nil;
     self.rightBarButtonItem.title = @"";
@@ -92,7 +92,7 @@
     [self hideCustomServers:YES];
     
     // The view controller dismiss itself on successful login.
-    // self.delegate = self;
+    self.delegate = self;
     
     self.homeServerTextField.placeholder = NSLocalizedStringFromTable(@"auth_home_server_placeholder", @"Vector", nil);
     self.identityServerTextField.placeholder = NSLocalizedStringFromTable(@"auth_identity_server_placeholder", @"Vector", nil);
@@ -202,6 +202,8 @@
         // Not sure this case is right with O365 login.
         // [NSException raise:@"False logout. Kill the app" format:@"O365AuthViewController has been displayed whereas there is an existing account"];
     }
+    
+    [self.submitButton setEnabled:YES];
 }
 
 - (void)destroy
@@ -263,43 +265,7 @@
 
 - (void)setAuthInputsView:(MXKAuthInputsView *)authInputsView
 {
-    // Keep the current country code if any.
-    if ([self.authInputsView isKindOfClass:AuthInputsView.class])
-        {
-        // We will reuse the current country code
-        defaultCountryCode = ((AuthInputsView*)self.authInputsView).isoCountryCode;
-        }
-    
-    // Finalize the new auth inputs view
-    if ([authInputsView isKindOfClass:AuthInputsView.class])
-        {
-        AuthInputsView *authInputsview = (AuthInputsView*)authInputsView;
-        
-        // Retrieve the MCC from the SIM card information (Note: the phone book country code is not defined yet)
-        NSString *countryCode = [MXKAppSettings standardAppSettings].phonebookCountryCode;
-        if (!countryCode)
-            {
-            // If none, consider the preferred locale
-            NSLocale *local = [[NSLocale alloc] initWithLocaleIdentifier:[[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0]];
-            if ([local respondsToSelector:@selector(countryCode)])
-                {
-                countryCode = local.countryCode;
-                }
-            
-            if (!countryCode)
-                {
-                countryCode = defaultCountryCode;
-                }
-            }
-        authInputsview.isoCountryCode = countryCode;
-        authInputsview.delegate = self;
-        }
-    
-    [super setAuthInputsView:authInputsView];
-    
-    // Restore here the actual content view height.
-    // Indeed this height has been modified according to the authInputsView height in the default implementation of MXKAuthenticationViewController.
-    [self refreshContentViewHeightConstraint];
+    // Do nothing.
 }
 
 - (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled
@@ -678,8 +644,7 @@
         MXCredentials* credentials = [[MXCredentials alloc] initWithHomeServer:@"https://study.sinbadflyce.com"
                                                                         userId:userId
                                                                    accessToken:accessToken];
-        
-        [super onSuccessfulLogin:credentials];
+        [self onSuccessfulLogin:credentials];
     }
 }
 
