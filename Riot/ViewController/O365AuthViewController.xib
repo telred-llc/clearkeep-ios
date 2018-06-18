@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,6 +14,7 @@
                 <outlet property="authenticationScrollView" destination="OHV-KQ-Ww0" id="gyc-zq-fA1"/>
                 <outlet property="contentView" destination="rhx-dD-4EJ" id="XXc-2j-Gi6"/>
                 <outlet property="contentViewHeightConstraint" destination="6v6-fz-e8o" id="wHX-YX-3gE"/>
+                <outlet property="identityServerTextField" destination="n6V-D9-GLl" id="npy-0P-Y4y"/>
                 <outlet property="mainNavigationItem" destination="rj9-wP-8QS" id="yNN-Dg-4Yw"/>
                 <outlet property="navigationBar" destination="k7D-Gy-yBR" id="6Uc-3Q-3dO"/>
                 <outlet property="optionsContainer" destination="Gg0-TE-OGb" id="RWa-Pl-eaL"/>
@@ -61,6 +61,13 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rhx-dD-4EJ" userLabel="Content View">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="485"/>
                             <subviews>
+                                <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://matrix.org" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="n6V-D9-GLl">
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="d8r-TX-pwX" userLabel="Welcome Image View">
                                     <rect key="frame" x="147" y="25" width="120" height="101"/>
                                     <accessibility key="accessibilityConfiguration" identifier="AuthenticationVCWelcomeImageView"/>

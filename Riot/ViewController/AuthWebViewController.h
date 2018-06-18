@@ -11,7 +11,7 @@
 
 @class AuthWebViewController;
 
-@protocol AuthWebViewControllerDelegate
+@protocol AuthWebViewControllerDelegate <NSObject>
 - (void)authWebViewController: (AuthWebViewController* )controller didO365LoginWithDictionary:(NSDictionary *)dictionary;
 @end
 

@@ -33,6 +33,7 @@
 @end
 
 @implementation O365AuthViewController
+
 + (UINib *)nib
 {
     return [UINib nibWithNibName:NSStringFromClass(self)
@@ -188,7 +189,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+
     // Verify that the app does not show the authentification screean whereas
     // the user has already logged in.
     // This bug rarely happens (https://github.com/vector-im/riot-ios/issues/1643)
@@ -390,35 +391,7 @@
         }
 }
 
-- (void)onSuccessfulLogin:(MXCredentials*)credentials
-{
-    // Check whether a third party identifiers has not been used
-    if ([self.authInputsView isKindOfClass:AuthInputsView.class])
-        {
-        AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
-        if (authInputsview.isThirdPartyIdentifierPending)
-            {
-            // Alert user
-            if (alert)
-                {
-                [alert dismissViewControllerAnimated:NO completion:nil];
-                }
-            
-            alert = [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"warning", @"Vector", nil) message:NSLocalizedStringFromTable(@"auth_add_email_and_phone_warning", @"Vector", nil) preferredStyle:UIAlertControllerStyleAlert];
-            
-            [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
-                                                      style:UIAlertActionStyleDefault
-                                                    handler:^(UIAlertAction * action) {
-                                                        
-                                                        [super onSuccessfulLogin:credentials];
-                                                        
-                                                    }]];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            return;
-            }
-        }
-    
+- (void)onSuccessfulLogin:(MXCredentials*)credentials {
     [super onSuccessfulLogin:credentials];
 }
 
@@ -586,40 +559,17 @@
 - (void)authenticationViewController:(MXKAuthenticationViewController *)authenticationViewController didLogWithUserId:(NSString *)userId
 {
     // Hide the custom server details in order to save customized inputs
-    [self hideCustomServers:YES];
-    
-    // Create DM with Riot-bot on new account creation.
-    if (self.authType == MXKAuthenticationTypeRegister)
-        {
-        MXKAccount *account = [[MXKAccountManager sharedManager] accountForUserId:userId];
-        
-        [account.mxSession createRoom:nil
-                           visibility:kMXRoomDirectoryVisibilityPrivate
-                            roomAlias:nil
-                                topic:nil
-                               invite:@[@"@riot-bot:matrix.org"]
-                           invite3PID:nil
-                             isDirect:YES
-                               preset:kMXRoomPresetTrustedPrivateChat
-                              success:nil
-                              failure:^(NSError *error) {
-                                  
-                                  NSLog(@"[AuthenticationVC] Create chat with riot-bot failed");
-                                  
-                              }];
-        }
+    //[self hideCustomServers:YES];
     
     // Remove auth view controller on successful login
-    if (self.navigationController)
-        {
+    if (self.navigationController) {
         // Pop the view controller
         [self.navigationController popViewControllerAnimated:YES];
-        }
-    else
-        {
+    }
+    else {
         // Dismiss on successful login
-        [self dismissViewControllerAnimated:YES completion:nil];
-        }
+        [self dismissViewControllerAnimated:YES completion:nil];        
+    }
 }
 
 #pragma mark - MXKAuthInputsViewDelegate
@@ -640,10 +590,12 @@
     if (dictionary != nil) {
         NSString *userId = [dictionary objectForKey:@"userId"];
         NSString *accessToken = [dictionary objectForKey:@"accessToken"];
+        NSString *deviceId = [dictionary objectForKey:@"deviceId"];
         
         MXCredentials* credentials = [[MXCredentials alloc] initWithHomeServer:@"https://study.sinbadflyce.com"
                                                                         userId:userId
                                                                    accessToken:accessToken];
+        [credentials setDeviceId:deviceId];
         [self onSuccessfulLogin:credentials];
     }
 }
