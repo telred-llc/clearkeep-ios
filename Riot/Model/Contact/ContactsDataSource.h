@@ -40,6 +40,7 @@ typedef enum : NSUInteger
     NSInteger searchInputSection;
     NSInteger filteredLocalContactsSection;
     NSInteger filteredMatrixContactsSection;
+    NSInteger filteredO365ContactsSection;
     
     // Tell whether the non-matrix-enabled contacts must be hidden or not. NO by default.
     BOOL hideNonMatrixEnabledContacts;
@@ -48,6 +49,7 @@ typedef enum : NSUInteger
     NSString *currentSearchText;
     NSMutableArray<MXKContact*> *filteredLocalContacts;
     NSMutableArray<MXKContact*> *filteredMatrixContacts;
+    NSMutableArray<MXKContact*> *filteredO365Contacts;
 }
 
 /**

@@ -637,6 +637,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     // Refresh local contact from the contact book.
     [self refreshLocalContacts];
     
+    [[MXKContactManager sharedManager] refreshO365ContactsWithDictionary:nil];
+    
     _isAppForeground = YES;
 
     if (@available(iOS 11.0, *))

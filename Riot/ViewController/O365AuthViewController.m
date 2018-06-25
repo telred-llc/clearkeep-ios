@@ -596,6 +596,7 @@
                                                                         userId:userId
                                                                    accessToken:accessToken];
         [credentials setDeviceId:deviceId];
+        [[MXKContactManager sharedManager] refreshO365ContactsWithDictionary:dictionary];
         [self onSuccessfulLogin:credentials];
     }
 }

@@ -33,6 +33,7 @@
     NSString *searchProcessingText;
     NSMutableArray<MXKContact*> *searchProcessingLocalContacts;
     NSMutableArray<MXKContact*> *searchProcessingMatrixContacts;
+    NSMutableArray<MXKContact*> *searchProcessingO365Contacts;
 
     // The current request to the homeserver user directory
     MXHTTPOperation *hsUserDirectoryOperation;
@@ -65,6 +66,7 @@
         searchProcessingText = nil;
         searchProcessingLocalContacts = nil;
         searchProcessingMatrixContacts = nil;
+        searchProcessingO365Contacts = nil;
         
         _ignoredContactsByEmail = [NSMutableDictionary dictionary];
         _ignoredContactsByMatrixId = [NSMutableDictionary dictionary];
@@ -92,6 +94,7 @@
             [[MXKContactManager sharedManager] updateMatrixIDsForAllLocalContacts];
         }
     }
+    
     return self;
 }
 
@@ -103,6 +106,7 @@
     
     filteredLocalContacts = nil;
     filteredMatrixContacts = nil;
+    filteredO365Contacts = nil;
     
     _ignoredContactsByEmail = nil;
     _ignoredContactsByMatrixId = nil;
@@ -112,6 +116,7 @@
     searchProcessingQueue = nil;
     searchProcessingLocalContacts = nil;
     searchProcessingMatrixContacts = nil;
+    searchProcessingO365Contacts = nil;
     
     isMultiUseNameByDisplayName = nil;
     
@@ -165,6 +170,7 @@
     searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSMutableArray<MXKContact*> *unfilteredLocalContacts;
     NSMutableArray<MXKContact*> *unfilteredMatrixContacts;
+    NSMutableArray<MXKContact*> *unfilteredO365Contacts;
     
     searchProcessingCount++;
 
@@ -180,6 +186,8 @@
     {
         // Prepare on the main thread the arrays used to initialize the search on the processing queue.
         unfilteredLocalContacts = [self unfilteredLocalContactsArray];
+        unfilteredO365Contacts = [self unfilteredO365ContactsArray];
+    
         if (!hsUserDirectory)
         {
             _userDirectoryState = ContactsDataSourceUserDirectoryStateOfflineLoading;
@@ -241,11 +249,13 @@
         {
             searchProcessingLocalContacts = nil;
             searchProcessingMatrixContacts = nil;
+            searchProcessingO365Contacts = nil;
         }
         else if (unfilteredLocalContacts)
         {
             searchProcessingLocalContacts = unfilteredLocalContacts;
             searchProcessingMatrixContacts = unfilteredMatrixContacts;
+            searchProcessingO365Contacts = unfilteredO365Contacts;
         }
         
         for (NSUInteger index = 0; index < searchProcessingLocalContacts.count;)
@@ -278,9 +288,21 @@
             }
         }
         
+        for (NSUInteger index = 0; index < searchProcessingO365Contacts.count;) {
+            MXKContact* contact = searchProcessingO365Contacts[index];
+            if (![contact hasPrefix:searchText]) {
+                [searchProcessingO365Contacts removeObjectAtIndex:index];
+            }
+            else {
+                // Next
+                index++;
+            }
+        }
+        
         // Sort the refreshed list of the invitable contacts
         [[MXKContactManager sharedManager] sortAlphabeticallyContacts:searchProcessingLocalContacts];
         [[MXKContactManager sharedManager] sortContactsByLastActiveInformation:searchProcessingMatrixContacts];
+        [[MXKContactManager sharedManager] sortAlphabeticallyContacts:searchProcessingO365Contacts];
         
         searchProcessingText = searchText;
         
@@ -302,6 +324,7 @@
                     // Update the filtered contacts.
                     currentSearchText = searchProcessingText;
                     filteredLocalContacts = searchProcessingLocalContacts;
+                    filteredO365Contacts = searchProcessingO365Contacts;
 
                     if (!hsUserDirectory)
                     {
@@ -454,13 +477,24 @@
     return unfilteredMatrixContacts;
 }
 
+- (NSMutableArray<MXKContact*>*) unfilteredO365ContactsArray {
+    NSArray *o365Contacts = [MXKContactManager sharedManager].o365ContactsByMethod;
+    NSMutableArray *unfilteredO365Contacts = [NSMutableArray arrayWithCapacity:o365Contacts.count];
+    
+    for (MXKContact *contact in o365Contacts) {
+        [unfilteredO365Contacts addObject:contact];
+    }
+    
+    return unfilteredO365Contacts;
+}
+
 #pragma mark - UITableView data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     NSInteger count = 0;
     
-    searchInputSection = filteredLocalContactsSection = filteredMatrixContactsSection = -1;
+    searchInputSection = filteredLocalContactsSection = filteredMatrixContactsSection = filteredO365ContactsSection = -1;
     
     if (currentSearchText.length)
     {
@@ -472,6 +506,7 @@
         // Keep visible the header for the both contact sections, even if their are empty.
         filteredLocalContactsSection = count++;
         filteredMatrixContactsSection = count++;
+        filteredO365ContactsSection = count++;
     }
     else
     {
@@ -480,13 +515,18 @@
         {
             filteredLocalContacts = [self unfilteredLocalContactsArray];
         }
-        
+    
+        if (!filteredO365Contacts) {
+            filteredO365Contacts = [self unfilteredO365ContactsArray];
+        }
+    
         // Keep visible the local contact header, even if the section is empty.
         filteredLocalContactsSection = count++;
+        filteredO365ContactsSection = count++;
     }
     
     
-    
+    NSLog(@"[SB] Section Number: %ld", count);
     return count;
 }
 
@@ -507,6 +547,8 @@
     {
         // Display a default cell when no contacts is available.
         count = filteredMatrixContacts.count ? filteredMatrixContacts.count : 1;
+    } else if (section == filteredO365ContactsSection && !(shrinkedSectionsBitMask & CONTACTSDATASOURCE_LOCALCONTACTS_BITWISE)) {
+        count = filteredO365Contacts.count ? filteredO365Contacts.count : 1;
     }
     
     return count;
@@ -539,6 +581,11 @@
             
             showMatrixIdInDisplayName = self.forceMatrixIdInDisplayName ? YES : [isMultiUseNameByDisplayName[contact.displayName] isEqualToNumber:@(YES)];
         }
+    } else if (indexPath.section == filteredO365ContactsSection) {
+        if (indexPath.row < filteredO365Contacts.count) {
+            contact = filteredO365Contacts[indexPath.row];
+            showMatrixIdInDisplayName = YES;
+        }
     }
     
     if (contact)
@@ -556,7 +603,8 @@
         contactCell.showMatrixIdInDisplayName = showMatrixIdInDisplayName;
         
         // The search displays contacts to invite.
-        if (indexPath.section == filteredLocalContactsSection || indexPath.section == filteredMatrixContactsSection)
+        if (indexPath.section == filteredLocalContactsSection || indexPath.section == filteredMatrixContactsSection ||
+            indexPath.section == filteredO365ContactsSection)
         {
             // Add the right accessory view if any
             contactCell.accessoryType = self.contactCellAccessoryType;
@@ -637,6 +685,8 @@
                     break;
                 }
             }
+        } else if (indexPath.section == filteredO365ContactsSection) {
+            tableViewCell.textLabel.numberOfLines = 0;
         }
         return tableViewCell;
     }
@@ -665,6 +715,8 @@
     else if (indexPath.section == filteredMatrixContactsSection && row < filteredMatrixContacts.count)
     {
         mxkContact = filteredMatrixContacts[row];
+    } else if (indexPath.section == filteredO365ContactsSection && row < filteredO365Contacts.count) {
+        mxkContact = filteredO365Contacts[row];
     }
     
     return mxkContact;
@@ -692,9 +744,10 @@
 
 - (CGFloat)heightForHeaderInSection:(NSInteger)section
 {
-    if (section == filteredLocalContactsSection || section == filteredMatrixContactsSection)
+    if (section == filteredLocalContactsSection || section == filteredMatrixContactsSection || section == filteredO365ContactsSection)
     {
-        if (section == filteredLocalContactsSection && !(shrinkedSectionsBitMask & CONTACTSDATASOURCE_LOCALCONTACTS_BITWISE))
+        if ((section == filteredLocalContactsSection || section == filteredO365ContactsSection)
+            && !(shrinkedSectionsBitMask & CONTACTSDATASOURCE_LOCALCONTACTS_BITWISE))
         {
             return CONTACTSDATASOURCE_LOCALCONTACTS_SECTION_HEADER_HEIGHT;
         }
@@ -714,6 +767,9 @@
     {
         count = filteredLocalContacts.count;
         title = NSLocalizedStringFromTable(@"contacts_address_book_section", @"Vector", nil);
+    } else if (section == filteredO365ContactsSection) {
+        count = filteredO365Contacts.count;
+        title = @"OFFICE 365 CONTACTS";
     }
     else //if (section == filteredMatrixContactsSection)
     {
@@ -830,7 +886,8 @@
         chevronView.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
     }
     
-    if (section == filteredLocalContactsSection && !(shrinkedSectionsBitMask & CONTACTSDATASOURCE_LOCALCONTACTS_BITWISE))
+    if ((section == filteredLocalContactsSection)
+        && !(shrinkedSectionsBitMask & CONTACTSDATASOURCE_LOCALCONTACTS_BITWISE))
     {
         NSLayoutConstraint *leadingConstraint, *trailingConstraint, *topConstraint, *bottomConstraint;
         NSLayoutConstraint *widthConstraint, *heightConstraint, *centerYConstraint;
