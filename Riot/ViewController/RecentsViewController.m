@@ -1643,6 +1643,17 @@
                                                        }
                                                        
                                                    }]];
+
+    [currentAlert addAction:[UIAlertAction actionWithTitle:@"Create video conference"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       
+                                                       if (weakSelf) {
+                                                           typeof(self) self = weakSelf;
+                                                           self->currentAlert = nil;
+                                                           [self createVideoConferencing];
+                                                        }
+                                                   }]];
     
     [currentAlert addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"room_recents_join_room", @"Vector", nil)
                                                      style:UIAlertActionStyleDefault
@@ -1677,6 +1688,75 @@
     [self presentViewController:currentAlert animated:YES completion:nil];
 }
 
+- (void)createVideoConferencing {
+    
+    // Sanity check
+    if (self.mainSession) {
+        // Create one room at time
+        if (!currentRequest) {
+            [self startActivityIndicator];
+            
+            // Create an empty room.
+            currentRequest = [self.mainSession createRoom:@"Video Conference"
+                                               visibility:kMXRoomDirectoryVisibilityPrivate
+                                                roomAlias:nil
+                                                    topic:nil
+                                                  success:^(MXRoom *room) {
+                                                      
+                                                      NSLog(@"[YS] Start to enable room encryption");
+                                                      
+                                                      [self stopActivityIndicator];
+                                                      if (currentAlert) {
+                                                          [currentAlert dismissViewControllerAnimated:NO completion:nil];
+                                                          currentAlert = nil;
+                                                      }
+                                                      
+                                                  
+                                                      [[AppDelegate theDelegate].masterTabBarController selectRoomWithId:room.state.roomId andEventId:nil inMatrixSession:self.mainSession];
+                                                      [AppDelegate theDelegate].masterTabBarController.currentRoomViewController.showExpandedHeader = YES;
+                                                  
+                                                      currentRequest = nil;
+                                                      
+                                                  } failure:^(NSError *error) {
+                                                      
+                                                      currentRequest = nil;
+                                                      [self stopActivityIndicator];
+                                                      if (currentAlert) {
+                                                          [currentAlert dismissViewControllerAnimated:NO completion:nil];
+                                                          currentAlert = nil;
+                                                      }
+                                                      
+                                                      NSLog(@"[RecentsViewController] Create new room failed");
+                                                      
+                                                      // Alert user
+                                                      [[AppDelegate theDelegate] showErrorAsAlert:error];
+                                                  }];
+        }
+        else {
+            // Ask the user to wait
+            __weak __typeof(self) weakSelf = self;
+            currentAlert = [UIAlertController alertControllerWithTitle:nil
+                                                               message:NSLocalizedStringFromTable(@"room_creation_wait_for_creation", @"Vector", nil)
+                                                        preferredStyle:UIAlertControllerStyleAlert];
+            
+            [currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               
+                                                               if (weakSelf)
+                                                                   {
+                                                                   typeof(self) self = weakSelf;
+                                                                   self->currentAlert = nil;
+                                                                   }
+                                                               
+                                                           }]];
+            
+            [currentAlert mxk_setAccessibilityIdentifier:@"RecentsVCRoomCreationInProgressAlert"];
+            [self presentViewController:currentAlert animated:YES completion:nil];
+        }
+    }
+}
+
 - (void)createAnEmptyRoom
 {
     // Sanity check
@@ -1694,25 +1774,42 @@
                                                     topic:nil
                                                   success:^(MXRoom *room) {
                                                       
-                                                      currentRequest = nil;
-                                                      [self stopActivityIndicator];
-                                                      if (currentAlert)
-                                                      {
-                                                          [currentAlert dismissViewControllerAnimated:NO completion:nil];
-                                                          currentAlert = nil;
-                                                      }
+                                                      NSLog(@"[YS] Start to enable room encryption");
                                                       
-                                                      [[AppDelegate theDelegate].masterTabBarController selectRoomWithId:room.state.roomId andEventId:nil inMatrixSession:self.mainSession];
-                                                      
-                                                      // Force the expanded header
-                                                      [AppDelegate theDelegate].masterTabBarController.currentRoomViewController.showExpandedHeader = YES;
+                                                      // Encryption room
+                                                      currentRequest = [room enableEncryptionWithAlgorithm:kMXCryptoMegolmAlgorithm success:^{
+                                                          NSLog(@"[YS] Success to enable room encryption");
+                                                          
+                                                          [self stopActivityIndicator];
+                                                          if (currentAlert) {
+                                                              [currentAlert dismissViewControllerAnimated:NO completion:nil];
+                                                              currentAlert = nil;
+                                                          }
+                                                          
+                                                          if (currentRequest != nil) {
+                                                              [[AppDelegate theDelegate].masterTabBarController selectRoomWithId:room.state.roomId andEventId:nil inMatrixSession:self.mainSession];
+                                                              [AppDelegate theDelegate].masterTabBarController.currentRoomViewController.showExpandedHeader = YES;
+                                                          }
+                                                          
+                                                          currentRequest = nil;
+                                                      } failure:^(NSError *error) {
+                                                          currentRequest = nil;
+                                                          [self stopActivityIndicator];
+                                                          if (currentAlert) {
+                                                              [currentAlert dismissViewControllerAnimated:NO completion:nil];
+                                                              currentAlert = nil;
+                                                          }
+                                                          
+                                                          // Alert user
+                                                          [[AppDelegate theDelegate] showErrorAsAlert:error];
+                                                          NSLog(@"[YS] Fail to enable room encryption");
+                                                      }];
                                                       
                                                   } failure:^(NSError *error) {
                                                       
                                                       currentRequest = nil;
                                                       [self stopActivityIndicator];
-                                                      if (currentAlert)
-                                                      {
+                                                      if (currentAlert) {
                                                           [currentAlert dismissViewControllerAnimated:NO completion:nil];
                                                           currentAlert = nil;
                                                       }
@@ -1721,7 +1818,6 @@
                                                       
                                                       // Alert user
                                                       [[AppDelegate theDelegate] showErrorAsAlert:error];
-                                                      
                                                   }];
         }
         else

@@ -3238,14 +3238,28 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                            preset:kMXRoomPresetTrustedPrivateChat
                           success:^(MXRoom *room) {
                               
-                              // Open created room
-                              [self showRoom:room.state.roomId andEventId:nil withMatrixSession:mxSession];
+                              // Enable Room
                               
-                              if (completion)
-                              {
-                                  completion();
-                              }
-                              
+                              __block BOOL IsEnabledRoom = NO;
+                              [room enableEncryptionWithAlgorithm:kMXCryptoMegolmAlgorithm success:^{
+                                  
+                                  // Open created room
+                                  
+                                  if (!IsEnabledRoom) {
+                                      [self showRoom:room.state.roomId andEventId:nil withMatrixSession:mxSession];
+                                  }
+                                  
+                                  if (completion) {
+                                      completion();
+                                  }
+                                  
+                                  IsEnabledRoom = YES;
+                                  
+                              } failure:^(NSError *error) {
+                                  if (completion) {
+                                      completion();
+                                  }
+                              }];
                           }
                           failure:^(NSError *error) {
                               
@@ -3277,17 +3291,39 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         
         if (mxSession)
         {
-            MXRoom *directRoom = [mxSession directJoinedRoomWithUserId:userId];
+            MXRoom *directRoom = [mxSession directJoinedRoomWithUserId:userId];            
             
             // if the room exists
             if (directRoom)
             {
-                // open it
-                [self showRoom:directRoom.roomId andEventId:nil withMatrixSession:mxSession];
-                
-                if (completion)
-                {
-                    completion();
+                if (directRoom.summary.isEncrypted == NO) {
+                    
+                    // enable ecryption room
+                    __block BOOL IsEnabledRoom = NO;
+                    [directRoom enableEncryptionWithAlgorithm:kMXCryptoMegolmAlgorithm success:^{
+                        
+                        // open it
+                        
+                        if (!IsEnabledRoom) {
+                            [self showRoom:directRoom.roomId andEventId:nil withMatrixSession:mxSession];
+                        }
+                        
+                        if (completion) {
+                            completion();
+                        }
+                        
+                        IsEnabledRoom = YES;
+                    } failure:^(NSError *error) {
+                        if (completion) {
+                            completion();
+                        }
+                    }];
+                } else {
+                    [self showRoom:directRoom.roomId andEventId:nil withMatrixSession:mxSession];
+                    
+                    if (completion) {
+                        completion();
+                    }
                 }
             }
             else

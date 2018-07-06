@@ -176,7 +176,7 @@
 "contacts_address_book_matrix_users_toggle" = "Matrix users only";
 "contacts_address_book_no_contact" = "No local contacts";
 "contacts_address_book_permission_required" = "Permission required to access local contacts";
-"contacts_address_book_permission_denied" = "You didn't allow Riot to access your local contacts";
+"contacts_address_book_permission_denied" = "You didn't allow ClearKeep to access your local contacts";
 "contacts_user_directory_section" = "USER DIRECTORY";
 "contacts_user_directory_offline_section" = "USER DIRECTORY (offline)";
 
@@ -351,7 +351,7 @@
 //"settings_call_invitations" = "Call invitations";
 
 "settings_enable_callkit" = "Integrated calling";
-"settings_callkit_info" = "Receive incoming calls on your lock screen. See your Riot calls in the system's call history. If iCloud is enabled, this call history will be shared with Apple.";
+"settings_callkit_info" = "Receive incoming calls on your lock screen. See your ClearKeep calls in the system's call history. If iCloud is enabled, this call history will be shared with Apple.";
 "settings_ui_language" = "Language";
 "settings_ui_theme" = "Theme";
 "settings_ui_theme_auto" = "Auto";
@@ -550,7 +550,7 @@
 "google_analytics_use_prompt" = "Would you like to help improve %@ by automatically reporting anonymous crash reports and usage data?";
 
 // Crypto
-"e2e_enabling_on_app_update" = "Riot now supports end-to-end encryption but you need to log in again to enable it.\n\nYou can do it now or later from the application settings.";
+"e2e_enabling_on_app_update" = "ClearKeep now supports end-to-end encryption but you need to log in again to enable it.\n\nYou can do it now or later from the application settings.";
 "e2e_need_log_in_again" = "You need to log back in to generate end-to-end encryption keys for this device and submit the public key to your homeserver.\nThis is a once off; sorry for the inconvenience.";
 
 // Bug report

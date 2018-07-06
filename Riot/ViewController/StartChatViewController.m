@@ -578,21 +578,27 @@
                                                         preset:preset
                                                        success:^(MXRoom *room) {
                                                            
-                                                           roomCreationRequest = nil;
-                                                           
-                                                           [self stopActivityIndicator];
-                                                           
-                                                           [[AppDelegate theDelegate] showRoom:room.state.roomId andEventId:nil withMatrixSession:self.mainSession];
+                                                           // enable encryption room
+                                                           roomCreationRequest = [room enableEncryptionWithAlgorithm:kMXCryptoMegolmAlgorithm success:^{
+                                                               [self stopActivityIndicator];
+                                                               
+                                                               if (roomCreationRequest != nil) {
+                                                                   [[AppDelegate theDelegate] showRoom:room.state.roomId andEventId:nil withMatrixSession:self.mainSession];
+                                                               }
+                                                               roomCreationRequest = nil;
+                                                           } failure:^(NSError *error) {
+                                                               createBarButtonItem.enabled = YES;
+                                                               [self stopActivityIndicator];
+                                                               [[AppDelegate theDelegate] showErrorAsAlert:error];
+                                                               roomCreationRequest = nil;
+                                                           }];
                                                            
                                                        } failure:^(NSError *error) {
-                                                           
                                                            createBarButtonItem.enabled = YES;
-                                                           
                                                            roomCreationRequest = nil;
                                                            [self stopActivityIndicator];
                                                            
-                                                           NSLog(@"[StartChatViewController] Create room failed");
-                                                           
+                                                           NSLog(@"[StartChatViewController] Create room failed");                                                           
                                                            // Alert user
                                                            [[AppDelegate theDelegate] showErrorAsAlert:error];
                                                            
