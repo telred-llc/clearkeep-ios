@@ -15,11 +15,11 @@
 	<key>pushKitAppIdProd</key>
 	<string>im.vector.vmodev.app</string>
 	<key>identityserverurl</key>
-	<string>https://vector.im</string>
+	<string>https://matrix.org</string>
 	<key>homeserverurl</key>
-	<string>https://study.sinbadflyce.com</string>
+	<string>https://india.sinbadflyce.com</string>
 	<key>homeserver</key>
-	<string>study.sinbadflyce.com</string>
+	<string>india.sinbadflyce.com</string>
 	<key>webAppUrlDev</key>
 	<string>https://riot.im/develop</string>
 	<key>webAppUrlBeta</key>

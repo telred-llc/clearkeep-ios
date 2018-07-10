@@ -30,6 +30,8 @@
     id kRiotDesignValuesDidChangeThemeNotificationObserver;
 }
 
+@property (weak, nonatomic) IBOutlet UIButton *loginO365Button;
+
 @end
 
 @implementation O365AuthViewController
@@ -70,10 +72,12 @@
     self.rightBarButtonItem.title = @"";
     
     self.defaultHomeServerUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"homeserverurl"];
-    
     self.defaultIdentityServerUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"identityserverurl"];
     
     self.welcomeImageView.image = [UIImage imageNamed:@"logo"];
+
+    [self setHomeServerTextFieldText:self.defaultHomeServerUrl];
+    [self setIdentityServerTextFieldText:self.defaultIdentityServerUrl];
     
     [self.submitButton.layer setCornerRadius:5];
     self.submitButton.clipsToBounds = YES;
@@ -86,6 +90,9 @@
     [self.skipButton setTitle:NSLocalizedStringFromTable(@"auth_skip", @"Vector", nil) forState:UIControlStateNormal];
     [self.skipButton setTitle:NSLocalizedStringFromTable(@"auth_skip", @"Vector", nil) forState:UIControlStateHighlighted];
     self.skipButton.enabled = YES;
+    
+    [self.loginO365Button.layer setCornerRadius:5];
+    [self.loginO365Button setClipsToBounds:YES];    
     
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateNormal];
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateHighlighted];
@@ -100,8 +107,9 @@
     
     // Custom used authInputsView
     [self registerAuthInputsViewClass:AuthInputsView.class forAuthType:MXKAuthenticationTypeLogin];
-    [self registerAuthInputsViewClass:AuthInputsView.class forAuthType:MXKAuthenticationTypeRegister];
-    [self registerAuthInputsViewClass:ForgotPasswordInputsView.class forAuthType:MXKAuthenticationTypeForgotPassword];
+    
+    //[self registerAuthInputsViewClass:AuthInputsView.class forAuthType:MXKAuthenticationTypeRegister];
+    //[self registerAuthInputsViewClass:ForgotPasswordInputsView.class forAuthType:MXKAuthenticationTypeForgotPassword];
     
     // Initialize the auth inputs display
     AuthInputsView *authInputsView = [AuthInputsView authInputsView];
@@ -264,9 +272,41 @@
     [self updateForgotPwdButtonVisibility];
 }
 
-- (void)setAuthInputsView:(MXKAuthInputsView *)authInputsView
-{
-    // Do nothing.
+- (void)setAuthInputsView:(MXKAuthInputsView *)authInputsView {
+    
+    // Keep the current country code if any.
+    if ([self.authInputsView isKindOfClass:AuthInputsView.class]) {
+        // We will reuse the current country code
+        defaultCountryCode = ((AuthInputsView*)self.authInputsView).isoCountryCode;
+    }
+
+    // Finalize the new auth inputs view
+    if ([authInputsView isKindOfClass:AuthInputsView.class]) {
+        AuthInputsView *authInputsview = (AuthInputsView*)authInputsView;
+
+        // Retrieve the MCC from the SIM card information (Note: the phone book country code is not defined yet)
+        NSString *countryCode = [MXKAppSettings standardAppSettings].phonebookCountryCode;
+        if (!countryCode) {
+
+            // If none, consider the preferred locale
+            NSLocale *local = [[NSLocale alloc] initWithLocaleIdentifier:[[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0]];
+            if ([local respondsToSelector:@selector(countryCode)]) {
+                countryCode = local.countryCode;
+            }
+
+            if (!countryCode) {
+                countryCode = defaultCountryCode;
+            }
+        }
+        authInputsview.isoCountryCode = countryCode;
+        authInputsview.delegate = self;
+    }
+    
+    [super setAuthInputsView:authInputsView];
+    
+    // Restore here the actual content view height.
+    // Indeed this height has been modified according to the authInputsView height in the default implementation of MXKAuthenticationViewController.
+    [self refreshContentViewHeightConstraint];
 }
 
 - (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled
@@ -316,8 +356,118 @@
         }
 }
 
-- (IBAction)onButtonPressed:(id)sender
-{
+- (IBAction)onButtonPressed:(id)sender {
+    if (sender == self.customServersTickButton)
+    {
+        [self hideCustomServers:!self.customServersContainer.hidden];
+    }
+    else if (sender == self.forgotPasswordButton)
+    {
+        // Update UI to reset password
+        self.authType = MXKAuthenticationTypeForgotPassword;
+    }
+    else if (sender == self.rightBarButtonItem)
+    {
+        // Check whether a request is in progress
+        if (!self.userInteractionEnabled)
+        {
+            // Cancel the current operation
+            [self cancel];
+        }
+        else if (self.authType == MXKAuthenticationTypeLogin)
+        {
+            self.authType = MXKAuthenticationTypeRegister;
+            self.rightBarButtonItem.title = NSLocalizedStringFromTable(@"auth_login", @"Vector", nil);
+        }
+        else
+        {
+            self.authType = MXKAuthenticationTypeLogin;
+            self.rightBarButtonItem.title = NSLocalizedStringFromTable(@"auth_register", @"Vector", nil);
+        }
+    }
+    else if (sender == self.mainNavigationItem.leftBarButtonItem)
+    {
+        if ([self.authInputsView isKindOfClass:AuthInputsView.class])
+        {
+            AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
+        
+            // Hide the supported 3rd party ids which may be added to the account
+            authInputsview.thirdPartyIdentifiersHidden = YES;
+        
+            [self updateRegistrationScreenWithThirdPartyIdentifiersHidden:YES];
+        }
+    }
+    else if (sender == self.submitButton)
+    {
+        // Handle here the second screen used to manage the 3rd party ids during the registration.
+        // Except if there is an external set of parameters defined to perform a registration.
+        if (self.authType == MXKAuthenticationTypeRegister && !self.externalRegistrationParameters)
+        {
+            // Sanity check
+            if ([self.authInputsView isKindOfClass:AuthInputsView.class])
+            {
+                AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
+            
+                // Show the 3rd party ids screen if it is not shown yet
+                if (authInputsview.areThirdPartyIdentifiersSupported && authInputsview.isThirdPartyIdentifiersHidden)
+                {
+                    [self dismissKeyboard];
+                
+                    [self.authenticationActivityIndicator startAnimating];
+                
+                    // Check parameters validity
+                    NSString *errorMsg = [self.authInputsView validateParameters];
+                    if (errorMsg)
+                    {
+                        [self onFailureDuringAuthRequest:[NSError errorWithDomain:MXKAuthErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:errorMsg}]];
+                    }
+                    else
+                    {
+                        [self isUserNameInUse:^(BOOL isUserNameInUse) {
+                            
+                            if (isUserNameInUse)
+                            {
+                                NSLog(@"[AuthenticationVC] User name is already use");
+                                [self onFailureDuringAuthRequest:[NSError errorWithDomain:MXKAuthErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:[NSBundle mxk_localizedStringForKey:@"auth_username_in_use"]}]];
+                            }
+                            else
+                            {
+                                [self.authenticationActivityIndicator stopAnimating];
+                            
+                                // Show the supported 3rd party ids which may be added to the account
+                                authInputsview.thirdPartyIdentifiersHidden = NO;
+                            
+                                [self updateRegistrationScreenWithThirdPartyIdentifiersHidden:NO];
+                            }
+                        }];
+                    }
+                
+                    return;
+                }
+            }
+        }
+    
+        [super onButtonPressed:sender];
+    }
+    else if (sender == self.skipButton)
+    {
+        // Reset the potential email or phone values
+        if ([self.authInputsView isKindOfClass:AuthInputsView.class])
+        {
+            AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
+        
+            [authInputsview resetThirdPartyIdentifiers];
+        }
+    
+        [super onButtonPressed:self.submitButton];
+    }
+    else
+    {
+        [super onButtonPressed:sender];
+    }
+}
+
+- (IBAction)onO365ButtonPressed:(id)sender {
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     AuthWebViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"AuthWebViewController"];
     controller.delegate = self;
@@ -592,7 +742,8 @@
         NSString *accessToken = [dictionary objectForKey:@"accessToken"];
         NSString *deviceId = [dictionary objectForKey:@"deviceId"];
         
-        MXCredentials* credentials = [[MXCredentials alloc] initWithHomeServer:@"https://study.sinbadflyce.com"
+        NSString *defaultHS = [[NSUserDefaults standardUserDefaults] objectForKey:@"homeserverurl"];
+        MXCredentials* credentials = [[MXCredentials alloc] initWithHomeServer:defaultHS
                                                                         userId:userId
                                                                    accessToken:accessToken];
         [credentials setDeviceId:deviceId];

@@ -54,7 +54,7 @@
 "sending" = "Sending";
 
 // Authentication
-"auth_login" = "Log-in with Office 365";
+"auth_login" = "Login";
 "auth_register" = "Register";
 "auth_submit" = "Submit";
 "auth_skip" = "Skip";
