@@ -28,3 +28,4 @@ Pods/
 
 # Do not track our workspace since it is created by CocoaPods
 *.xcworkspace
+/.clang-format
