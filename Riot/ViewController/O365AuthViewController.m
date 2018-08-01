@@ -97,7 +97,7 @@
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateNormal];
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateHighlighted];
     
-    [self hideCustomServers:YES];
+    [self hideCustomServers:NO];
     
     // The view controller dismiss itself on successful login.
     self.delegate = self;
@@ -357,6 +357,11 @@
 }
 
 - (IBAction)onButtonPressed:(id)sender {
+    
+    if (![self checkHomeServer]) {
+        return;
+    }
+
     if (sender == self.customServersTickButton)
     {
         [self hideCustomServers:!self.customServersContainer.hidden];
@@ -467,7 +472,27 @@
     }
 }
 
+- (BOOL)checkHomeServer {
+    if (self.homeServerTextField.text.length == 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:@"Login Failed. Please check your home server."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                }]];
+        [self presentViewController:alert animated:YES completion:nil];
+        return NO;
+    }
+    return YES;
+}
+
 - (IBAction)onO365ButtonPressed:(id)sender {
+    
+    if (![self checkHomeServer]) {
+        return;
+    }
+    
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     AuthWebViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"AuthWebViewController"];
     controller.delegate = self;
@@ -492,7 +517,7 @@
                 
                 // Store the current error, and change the homeserver url
                 loginError = error;
-                [self setHomeServerTextFieldText:@"https://matrix.org"];
+                [self setHomeServerTextFieldText:@"https://study.sinbadflyce.com"];
                 
                 // Trigger a new request
                 [self onButtonPressed:self.submitButton];
@@ -511,7 +536,7 @@
                     
                     // Store the current error, and change the homeserver url
                     loginError = error;
-                    [self setHomeServerTextFieldText:@"https://matrix.org"];
+                    [self setHomeServerTextFieldText:@"https://study.sinbadflyce.com"];
                     
                     // Trigger a new request
                     ForgotPasswordInputsView *authInputsView = (ForgotPasswordInputsView*)self.authInputsView;

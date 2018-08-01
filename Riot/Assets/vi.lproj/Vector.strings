@@ -49,7 +49,7 @@
 "auth_phone_placeholder" = "Số điện thoại";
 "auth_repeat_password_placeholder" = "Nhật lại mật khẩu";
 "auth_repeat_new_password_placeholder" = "Xác nhận mật khẩu mới";
-"auth_home_server_placeholder" = "URL (ví dụ: https://matrix.org)";
+"auth_home_server_placeholder" = "URL (ví dụ: https://yourhomeserver.com)";
 "auth_identity_server_placeholder" = "URL (ví dụ: https://matrix.org)";
 "auth_invalid_login_param" = "Tên đăng nhập hoặc mật khẩu không đúng";
 "warning" = "Cảnh báo";

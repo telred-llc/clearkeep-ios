@@ -16,10 +16,6 @@
 	<string>im.vector.vmodev.app</string>
 	<key>identityserverurl</key>
 	<string>https://matrix.org</string>
-	<key>homeserverurl</key>
-	<string>https://bd.sinbadflyce.com</string>
-	<key>homeserver</key>
-	<string>bd.sinbadflyce.com</string>
 	<key>webAppUrlDev</key>
 	<string>https://riot.im/develop</string>
 	<key>webAppUrlBeta</key>
