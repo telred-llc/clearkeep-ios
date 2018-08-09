@@ -295,7 +295,7 @@
 "directory_cell_description" = "%tu Räume";
 "directory_search_results" = "%tu Treffer gefunden für %@";
 "directory_search_results_more_than" = ">%tu Treffer gefunden für %@";
-"contacts_address_book_permission_denied" = "Riot fehlt die Berechtigung auf die lokalen Kontakte zuzugreifen";
+"contacts_address_book_permission_denied" = "ClearKeep fehlt die Berechtigung auf die lokalen Kontakte zuzugreifen";
 "room_participants_remove_third_party_invite_msg" = "Entfernen der Einladung von Dritten ist noch nicht unterstützt";
 "room_participants_invite_another_user" = "Suchen/Einladen mittels Benutzer ID, Name oder E-Mail-Adresse";
 "room_participants_invite_malformed_id" = "Ungültige ID. Sollte eine E-Mail-Adresse oder Matrix-ID wie \"@thomas:matrix.org' sein";
@@ -396,7 +396,7 @@
 // Crash report
 "google_analytics_use_prompt" = "Möchtest du helfen %@ zu verbessern, indem du anonyme Crash Reports und Daten über die Verwendung sendest?";
 // Crypto
-"e2e_enabling_on_app_update" = "Riot unterstützt nun Ende-zu-Ende Verschlüsselung, um es zu aktivieren musst du dich erneut anmelden.\n\nDu kannst es nun machen oder später in den Einstellungen.";
+"e2e_enabling_on_app_update" = "ClearKeep unterstützt nun Ende-zu-Ende Verschlüsselung, um es zu aktivieren musst du dich erneut anmelden.\n\nDu kannst es nun machen oder später in den Einstellungen.";
 "e2e_need_log_in_again" = "Du musst dich erneut anmelden um Ende-zu-Ende Schlüssel für dieses Gerät zu erstellen und zum Server zu senden.\nDies ist nur einmal notwendig.";
 // Bug report
 "bug_report_title" = "Bug Report";

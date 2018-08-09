@@ -27,7 +27,7 @@
 "room_details_low_priority_tag" = "Lehentasun baxua";
 "people_no_conversation" = "Elkarrizketarik ez";
 "contacts_address_book_no_contact" = "Gailuko kontakturik ez";
-"contacts_address_book_permission_denied" = "Ez diozu baimena eman Riot aplikazioari zure gailuko kontaktuak atzitzeko";
+"contacts_address_book_permission_denied" = "Ez diozu baimena eman ClearKeep aplikazioari zure gailuko kontaktuak atzitzeko";
 "search_no_result" = "Emaitzarik ez";
 "room_recents_no_conversation" = "Gelarik ez";
 // Rooms tab
@@ -441,7 +441,7 @@
 "settings_calls_settings" = "DEIAK";
 "settings_show_decrypted_content" = "Erakutsi deszifratutako edukia";
 "settings_enable_callkit" = "Dei integratuak";
-"settings_callkit_info" = "Jaso deiak zure blokeo-pantailan. Ikusi Riot deiak sistemaren deian historialean. Cloud gaituta badago, deien historiala Apple-ekin partekatuko da.";
+"settings_callkit_info" = "Jaso deiak zure blokeo-pantailan. Ikusi ClearKeep deiak sistemaren deian historialean. Cloud gaituta badago, deien historiala Apple-ekin partekatuko da.";
 "settings_ui_theme" = "Itxura";
 "settings_ui_theme_auto" = "Automatikoa";
 "settings_ui_theme_light" = "Argia";
