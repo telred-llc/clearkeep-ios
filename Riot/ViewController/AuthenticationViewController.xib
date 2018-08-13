@@ -179,7 +179,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbn-s6-2wF">
-                                            <rect key="frame" x="253" y="44" width="111" height="30"/>
+                                            <rect key="frame" x="253" y="48" width="111" height="30"/>
                                             <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                             <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
@@ -365,7 +365,7 @@
                                         <constraint firstItem="FIn-2w-e6H" firstAttribute="leading" secondItem="Gg0-TE-OGb" secondAttribute="leading" id="3G8-Tb-KaN"/>
                                         <constraint firstItem="wEJ-AF-rdH" firstAttribute="width" secondItem="k3J-Eg-itz" secondAttribute="width" id="7sB-YJ-eX4"/>
                                         <constraint firstItem="Vbn-s6-2wF" firstAttribute="trailing" secondItem="k3J-Eg-itz" secondAttribute="trailing" id="UaR-O6-du5"/>
-                                        <constraint firstItem="Vbn-s6-2wF" firstAttribute="top" secondItem="k3J-Eg-itz" secondAttribute="bottom" constant="6" id="Vra-vI-3Dz"/>
+                                        <constraint firstItem="Vbn-s6-2wF" firstAttribute="top" secondItem="k3J-Eg-itz" secondAttribute="bottom" constant="10" id="Vra-vI-3Dz"/>
                                         <constraint firstItem="wEJ-AF-rdH" firstAttribute="centerY" secondItem="k3J-Eg-itz" secondAttribute="centerY" id="Vze-EI-oXj"/>
                                         <constraint firstAttribute="trailing" secondItem="k3J-Eg-itz" secondAttribute="trailing" constant="11" id="ZyA-Tq-Sfq"/>
                                         <constraint firstItem="k3J-Eg-itz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Gg0-TE-OGb" secondAttribute="leading" constant="150" id="bEB-EO-b14"/>
