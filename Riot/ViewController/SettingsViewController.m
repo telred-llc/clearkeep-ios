@@ -34,6 +34,7 @@
 
 #import "CountryPickerViewController.h"
 #import "LanguagePickerViewController.h"
+#import "DeactivateAccountViewController.h"
 
 #import "NBPhoneNumberUtil.h"
 #import "RageShakeManager.h"
@@ -44,6 +45,8 @@
 #import "GroupTableViewCellWithSwitch.h"
 
 #import "GBDeviceInfo_iOS.h"
+
+#import "Riot-Swift.h"
 
 NSString* const kSettingsViewControllerPhoneBookCountryCellId = @"kSettingsViewControllerPhoneBookCountryCellId";
 
@@ -62,6 +65,7 @@ enum
     SETTINGS_SECTION_CRYPTOGRAPHY_INDEX,
     SETTINGS_SECTION_FLAIR_INDEX,
     SETTINGS_SECTION_DEVICES_INDEX,
+    SETTINGS_SECTION_DEACTIVATE_ACCOUNT_INDEX,
     SETTINGS_SECTION_COUNT
 };
 
@@ -130,7 +134,7 @@ enum {
 typedef void (^blockSettingsViewController_onReadyToDestroy)();
 
 
-@interface SettingsViewController ()
+@interface SettingsViewController () <DeactivateAccountViewControllerDelegate>
 {
     // Current alert (if any).
     UIAlertController *currentAlert;
@@ -234,6 +238,8 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
  */
 @property (nonatomic) BOOL newPhoneEditingEnabled;
 
+@property (weak, nonatomic) DeactivateAccountViewController *deactivateAccountViewController;
+
 @end
 
 @implementation SettingsViewController
@@ -257,6 +263,9 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
     // Do any additional setup after loading the view, typically from a nib.
     
     self.navigationItem.title = NSLocalizedStringFromTable(@"settings_title", @"Vector", nil);
+    
+    // Remove back bar button title when pushing a view controller
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     [self.tableView registerClass:MXKTableViewCellWithLabelAndTextField.class forCellReuseIdentifier:[MXKTableViewCellWithLabelAndTextField defaultReuseIdentifier]];
     [self.tableView registerClass:MXKTableViewCellWithLabelAndSwitch.class forCellReuseIdentifier:[MXKTableViewCellWithLabelAndSwitch defaultReuseIdentifier]];
@@ -310,6 +319,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onSave:)];
     self.navigationItem.rightBarButtonItem.accessibilityIdentifier=@"SettingsVCNavBarSaveButton";
+
     
     // Observe user interface theme change.
     kRiotDesignValuesDidChangeThemeNotificationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kRiotDesignValuesDidChangeThemeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif) {
@@ -415,7 +425,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
     [super viewWillAppear:animated];
 
     // Screen tracking
-    [[AppDelegate theDelegate] trackScreen:@"Settings"];
+    [[Analytics sharedInstance] trackScreen:@"Settings"];
     
     // Release the potential pushed view controller
     [self releasePushedViewController];
@@ -1268,6 +1278,10 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
             count = CRYPTOGRAPHY_COUNT;
         }
     }
+    else if (section == SETTINGS_SECTION_DEACTIVATE_ACCOUNT_INDEX)
+    {
+        count = 1;
+    }
     return count;
 }
 
@@ -1669,7 +1683,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
             MXKTableViewCellWithLabelAndSwitch* labelAndSwitchCell = [self getLabelAndSwitchCell:tableView forIndexPath:indexPath];
             
             labelAndSwitchCell.mxkLabel.text = NSLocalizedStringFromTable(@"settings_show_decrypted_content", @"Vector", nil);
-            labelAndSwitchCell.mxkSwitch.on = account.showDecryptedContentInNotifications;
+            labelAndSwitchCell.mxkSwitch.on = RiotSettings.shared.showDecryptedContentInNotifications;
             labelAndSwitchCell.mxkSwitch.enabled = account.isPushKitNotificationActive;
             [labelAndSwitchCell.mxkSwitch addTarget:self action:@selector(toggleShowDecodedContent:) forControlEvents:UIControlEventTouchUpInside];
             
@@ -1693,7 +1707,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
             MXKTableViewCellWithLabelAndSwitch* labelAndSwitchCell = [self getLabelAndSwitchCell:tableView forIndexPath:indexPath];
             
             labelAndSwitchCell.mxkLabel.text = NSLocalizedStringFromTable(@"settings_pin_rooms_with_missed_notif", @"Vector", nil);
-            labelAndSwitchCell.mxkSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"pinRoomsWithMissedNotif"];
+            labelAndSwitchCell.mxkSwitch.on = RiotSettings.shared.pinRoomsWithMissedNotificationsOnHome;
             labelAndSwitchCell.mxkSwitch.enabled = YES;
             [labelAndSwitchCell.mxkSwitch addTarget:self action:@selector(togglePinRoomsWithMissedNotif:) forControlEvents:UIControlEventTouchUpInside];
             
@@ -1704,7 +1718,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
             MXKTableViewCellWithLabelAndSwitch* labelAndSwitchCell = [self getLabelAndSwitchCell:tableView forIndexPath:indexPath];
             
             labelAndSwitchCell.mxkLabel.text = NSLocalizedStringFromTable(@"settings_pin_rooms_with_unread", @"Vector", nil);
-            labelAndSwitchCell.mxkSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"pinRoomsWithUnread"];
+            labelAndSwitchCell.mxkSwitch.on = RiotSettings.shared.pinRoomsWithUnreadMessagesOnHome;                        
             labelAndSwitchCell.mxkSwitch.enabled = YES;
             [labelAndSwitchCell.mxkSwitch addTarget:self action:@selector(togglePinRoomsWithUnread:) forControlEvents:UIControlEventTouchUpInside];
             
@@ -1770,7 +1784,8 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kSettingsViewControllerPhoneBookCountryCellId];
             }
 
-            NSString *theme = [[NSUserDefaults standardUserDefaults] stringForKey:@"userInterfaceTheme"];
+            NSString *theme = RiotSettings.shared.userInterfaceTheme;
+            
             if (!theme)
             {
                 if (@available(iOS 11.0, *))
@@ -1930,7 +1945,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
             MXKTableViewCellWithLabelAndSwitch* sendCrashReportCell = [self getLabelAndSwitchCell:tableView forIndexPath:indexPath];
             
             sendCrashReportCell.mxkLabel.text = NSLocalizedStringFromTable(@"settings_send_crash_report", @"Vector", nil);
-            sendCrashReportCell.mxkSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"enableCrashReport"];
+            sendCrashReportCell.mxkSwitch.on = RiotSettings.shared.enableCrashReport;
             sendCrashReportCell.mxkSwitch.enabled = YES;
             [sendCrashReportCell.mxkSwitch addTarget:self action:@selector(toggleSendCrashReport:) forControlEvents:UIControlEventTouchUpInside];
             
@@ -1941,7 +1956,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
             MXKTableViewCellWithLabelAndSwitch* enableRageShakeCell = [self getLabelAndSwitchCell:tableView forIndexPath:indexPath];
 
             enableRageShakeCell.mxkLabel.text = NSLocalizedStringFromTable(@"settings_enable_rageshake", @"Vector", nil);
-            enableRageShakeCell.mxkSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"enableRageShake"];
+            enableRageShakeCell.mxkSwitch.on = RiotSettings.shared.enableRageShake;
             enableRageShakeCell.mxkSwitch.enabled = YES;
             [enableRageShakeCell.mxkSwitch addTarget:self action:@selector(toggleEnableRageShake:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -2030,7 +2045,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
             MXKTableViewCellWithLabelAndSwitch* labelAndSwitchCell = [self getLabelAndSwitchCell:tableView forIndexPath:indexPath];
 
             labelAndSwitchCell.mxkLabel.text = NSLocalizedStringFromTable(@"settings_labs_create_conference_with_jitsi", @"Vector", nil);
-            labelAndSwitchCell.mxkSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"createConferenceCallsWithJitsi"];
+            labelAndSwitchCell.mxkSwitch.on = RiotSettings.shared.createConferenceCallsWithJitsi;
 
             [labelAndSwitchCell.mxkSwitch addTarget:self action:@selector(toggleJitsiForConference:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -2151,6 +2166,32 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
             cell = exportKeysBtnCell;
         }
     }
+    else if (section == SETTINGS_SECTION_DEACTIVATE_ACCOUNT_INDEX)
+    {
+        MXKTableViewCellWithButton *deactivateAccountBtnCell = [tableView dequeueReusableCellWithIdentifier:[MXKTableViewCellWithButton defaultReuseIdentifier]];
+        
+        if (!deactivateAccountBtnCell)
+        {
+            deactivateAccountBtnCell = [[MXKTableViewCellWithButton alloc] init];
+        }
+        else
+        {
+            // Fix https://github.com/vector-im/riot-ios/issues/1354
+            deactivateAccountBtnCell.mxkButton.titleLabel.text = nil;
+        }
+        
+        NSString *btnTitle = NSLocalizedStringFromTable(@"settings_deactivate_my_account", @"Vector", nil);
+        [deactivateAccountBtnCell.mxkButton setTitle:btnTitle forState:UIControlStateNormal];
+        [deactivateAccountBtnCell.mxkButton setTitle:btnTitle forState:UIControlStateHighlighted];
+        [deactivateAccountBtnCell.mxkButton setTintColor:kRiotColorRed];
+        deactivateAccountBtnCell.mxkButton.titleLabel.font = [UIFont systemFontOfSize:17];
+        
+        [deactivateAccountBtnCell.mxkButton removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+        [deactivateAccountBtnCell.mxkButton addTarget:self action:@selector(deactivateAccountAction) forControlEvents:UIControlEventTouchUpInside];
+        deactivateAccountBtnCell.mxkButton.accessibilityIdentifier = nil;
+        
+        cell = deactivateAccountBtnCell;
+    }
 
     return cell;
 }
@@ -2227,6 +2268,18 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
         {
             return NSLocalizedStringFromTable(@"settings_cryptography", @"Vector", nil);
         }
+    }
+    else if (section == SETTINGS_SECTION_CRYPTOGRAPHY_INDEX)
+    {
+        // Check whether this section is visible
+        if (self.mainSession.crypto)
+        {
+            return NSLocalizedStringFromTable(@"settings_cryptography", @"Vector", nil);
+        }
+    }
+    else if (section == SETTINGS_SECTION_DEACTIVATE_ACCOUNT_INDEX)
+    {
+        return NSLocalizedStringFromTable(@"settings_deactivate_my_account", @"Vector", nil);
     }
     
     return nil;
@@ -2770,8 +2823,8 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
 
 - (void)toggleShowDecodedContent:(id)sender
 {
-    MXKAccount* account = [MXKAccountManager sharedManager].activeAccounts.firstObject;
-    account.showDecryptedContentInNotifications = !account.showDecryptedContentInNotifications;
+    UISwitch *switchButton = (UISwitch*)sender;
+    RiotSettings.shared.showDecryptedContentInNotifications = switchButton.isOn;
 }
 
 - (void)toggleLocalContactsSync:(id)sender
@@ -2797,25 +2850,25 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
 
 - (void)toggleSendCrashReport:(id)sender
 {
-    BOOL enable = [[NSUserDefaults standardUserDefaults] boolForKey:@"enableCrashReport"];
+    BOOL enable = RiotSettings.shared.enableCrashReport;
     if (enable)
     {
-        NSLog(@"[SettingsViewController] disable automatic crash report sending");
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"enableCrashReport"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSLog(@"[SettingsViewController] disable automatic crash report and analytics sending");
         
-        [[AppDelegate theDelegate] stopAnalytics];
+        RiotSettings.shared.enableCrashReport = NO;
+        
+        [[Analytics sharedInstance] stop];
         
         // Remove potential crash file.
         [MXLogger deleteCrashLog];
     }
     else
     {
-        NSLog(@"[SettingsViewController] enable automatic crash report sending");
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"enableCrashReport"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSLog(@"[SettingsViewController] enable automatic crash report and analytics sending");
         
-        [[AppDelegate theDelegate] startAnalytics];
+        RiotSettings.shared.enableCrashReport = YES;
+        
+        [[Analytics sharedInstance] start];
     }
 }
 
@@ -2825,8 +2878,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
     {
         UISwitch *switchButton = (UISwitch*)sender;
 
-        [[NSUserDefaults standardUserDefaults] setBool:switchButton.isOn forKey:@"enableRageShake"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        RiotSettings.shared.enableRageShake = switchButton.isOn;
 
         [self.tableView reloadData];
     }
@@ -2837,9 +2889,8 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
     if (sender && [sender isKindOfClass:UISwitch.class])
     {
         UISwitch *switchButton = (UISwitch*)sender;
-
-        [[NSUserDefaults standardUserDefaults] setBool:switchButton.isOn forKey:@"createConferenceCallsWithJitsi"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        RiotSettings.shared.createConferenceCallsWithJitsi = switchButton.isOn;
 
         [self.tableView reloadData];
     }
@@ -2962,16 +3013,14 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
 {
     UISwitch *switchButton = (UISwitch*)sender;
     
-    [[NSUserDefaults standardUserDefaults] setBool:switchButton.on forKey:@"pinRoomsWithMissedNotif"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    RiotSettings.shared.pinRoomsWithMissedNotificationsOnHome = switchButton.on;
 }
 
 - (void)togglePinRoomsWithUnread:(id)sender
 {
     UISwitch *switchButton = (UISwitch*)sender;
-    
-    [[NSUserDefaults standardUserDefaults] setBool:switchButton.on forKey:@"pinRoomsWithUnread"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    RiotSettings.shared.pinRoomsWithUnreadMessagesOnHome = switchButton.on;
 }
 
 - (void)toggleCommunityFlair:(id)sender
@@ -3611,15 +3660,14 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
                 newTheme = @"black";
             }
 
-            NSString *theme = [[NSUserDefaults standardUserDefaults] stringForKey:@"userInterfaceTheme"];
+            NSString *theme = RiotSettings.shared.userInterfaceTheme;
             if (newTheme && ![newTheme isEqualToString:theme])
             {
                 // Clear fake Riot Avatars based on the previous theme.
                 [AvatarGenerator clear];
 
                 // The user wants to select this theme
-                [[NSUserDefaults standardUserDefaults] setObject:newTheme forKey:@"userInterfaceTheme"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
+                RiotSettings.shared.userInterfaceTheme = newTheme;
 
                 [self.tableView reloadData];
             }
@@ -3671,6 +3719,20 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
     [themePicker popoverPresentationController].sourceRect = fromCell.bounds;
 
     [self presentViewController:themePicker animated:YES completion:nil];
+}
+
+- (void)deactivateAccountAction
+{
+    DeactivateAccountViewController *deactivateAccountViewController = [DeactivateAccountViewController instantiateWithMatrixSession:self.mainSession];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:deactivateAccountViewController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+    
+    deactivateAccountViewController.delegate = self;
+    
+    self.deactivateAccountViewController = deactivateAccountViewController;
 }
 
 #pragma mark - MediaPickerViewController Delegate
@@ -4031,6 +4093,23 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
 {
     // Group data has been updated. Do a simple full reload
     [self refreshSettings];
+}
+
+#pragma mark - DeactivateAccountViewControllerDelegate
+
+- (void)deactivateAccountViewControllerDidDeactivateWithSuccess:(DeactivateAccountViewController *)deactivateAccountViewController
+{
+    NSLog(@"[SettingsViewController] Deactivate account with success");
+
+    
+    [[AppDelegate theDelegate] logoutSendingRequestServer:NO completion:^(BOOL isLoggedOut) {
+        NSLog(@"[SettingsViewController] Complete clear user data after account deactivation");
+    }];
+}
+
+- (void)deactivateAccountViewControllerDidCancel:(DeactivateAccountViewController *)deactivateAccountViewController
+{
+    [deactivateAccountViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

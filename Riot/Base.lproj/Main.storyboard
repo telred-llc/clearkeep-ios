@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -52,7 +51,7 @@
                         <segue destination="e7G-NU-7ck" kind="show" identifier="showRoomDetails" id="vCz-dl-6xQ"/>
                         <segue destination="KDg-aD-xlK" kind="show" identifier="showRoomSearch" id="hdA-V1-9AF"/>
                         <segue destination="nDS-pp-sWM" kind="show" identifier="showMemberDetails" id="cUw-vU-gJq"/>
-                        <segue destination="gkO-rP-nGK" kind="show" identifier="showContactDetails" action="showDetailViewController:sender:" id="f5u-Y1-7nt"/>
+                        <segue destination="gkO-rP-nGK" kind="show" identifier="showContactDetails" id="f5u-Y1-7nt"/>
                         <segue destination="ZZb-IS-a1F" kind="presentation" identifier="showUnknownDevices" id="wUx-4y-ybn"/>
                         <segue destination="udm-55-AMb" kind="show" identifier="showContactPicker" id="Q6y-9M-Ugl"/>
                     </connections>
@@ -248,7 +247,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" image="tab_home.png" selectedImage="tab_home_selected.png" id="hNI-yH-EXj">
+                    <tabBarItem key="tabBarItem" title="" image="tab_home.png" selectedImage="tab_home_selected.png" id="hNI-yH-EXj">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemHome"/>
                         </userDefinedRuntimeAttributes>
@@ -307,10 +306,10 @@
             </objects>
             <point key="canvasLocation" x="-516" y="-2203"/>
         </scene>
-        <!--O365AuthViewController-->
+        <!--Authentication View Controller-->
         <scene sceneID="FoA-N2-3aF">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="ZlD-EU-ncw" userLabel="O365AuthViewController" customClass="O365AuthViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="ZlD-EU-ncw" customClass="AuthenticationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="crg-iM-twR"/>
                         <viewControllerLayoutGuide type="bottom" id="gbK-Nm-HUT"/>
@@ -592,52 +591,6 @@
             </objects>
             <point key="canvasLocation" x="4174" y="-2050"/>
         </scene>
-        <!--AuthWebViewController-->
-        <scene sceneID="gOc-Rh-Vd7">
-            <objects>
-                <viewController storyboardIdentifier="AuthWebViewController" id="oyb-bd-nub" userLabel="AuthWebViewController" customClass="AuthWebViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="eQ7-d8-kDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="6oj-tk-Yoi"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Qeb-gV-adK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKy-1f-yaz">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <dataDetectorTypes key="dataDetectorTypes"/>
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zDi-Os-aaG">
-                                <rect key="frame" x="177" y="323" width="20" height="20"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="EKy-1f-yaz" secondAttribute="trailing" id="3Gs-0J-KWo"/>
-                            <constraint firstItem="6oj-tk-Yoi" firstAttribute="top" secondItem="EKy-1f-yaz" secondAttribute="bottom" id="9EE-EV-ceO"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="zDi-Os-aaG" secondAttribute="trailing" constant="162" id="B2a-cN-ycS"/>
-                            <constraint firstItem="EKy-1f-yaz" firstAttribute="leading" secondItem="Qeb-gV-adK" secondAttribute="leading" id="Bk4-Ha-Yfy"/>
-                            <constraint firstItem="zDi-Os-aaG" firstAttribute="top" secondItem="eQ7-d8-kDJ" secondAttribute="bottom" constant="303" id="ObA-bh-gX8"/>
-                            <constraint firstItem="6oj-tk-Yoi" firstAttribute="top" secondItem="zDi-Os-aaG" secondAttribute="bottom" constant="324" id="buO-wr-RhC"/>
-                            <constraint firstItem="EKy-1f-yaz" firstAttribute="top" secondItem="Qeb-gV-adK" secondAttribute="top" id="hTx-gM-2Bi"/>
-                            <constraint firstItem="zDi-Os-aaG" firstAttribute="leading" secondItem="Qeb-gV-adK" secondAttribute="leadingMargin" constant="161" id="yfn-FG-uQS"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="indicatorView" destination="zDi-Os-aaG" id="HeV-bN-bn5"/>
-                        <outlet property="webView" destination="EKy-1f-yaz" id="zji-uJ-oXe"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="GI8-AL-gXa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5392.8000000000002" y="-2195.3523238380812"/>
-        </scene>
     </scenes>
     <resources>
         <image name="apps-icon.png" width="24" height="24"/>
@@ -655,7 +608,7 @@
         <image name="tab_rooms.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bwO-oZ-2vj"/>
+        <segue reference="mhb-l9-pM3"/>
         <segue reference="fIR-e3-ssz"/>
         <segue reference="f5u-Y1-7nt"/>
         <segue reference="vCz-dl-6xQ"/>

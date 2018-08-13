@@ -1,3 +1,67 @@
+Changes in 0.6.20 (2018-07-13)
+===============================================
+
+Improvements:
+ * Update contact permission text in order to be clearer about the reasons for access to the address book.
+
+Changes in 0.6.19 (2018-07-05)
+===============================================
+
+Improvements:
+
+Bug fix:
+* RoomVC: Fix duplicated read receipts (regression due to read receipts performance improvement).
+
+Changes in 0.6.18 (2018-07-03)
+===============================================
+
+Improvements:
+ * Upgrade MatrixKit version (v0.7.15).
+ * RoomVC: Add a re-request keys button on message unable to decrypt (#1879).
+ * Analytics: Move code from AppDelegate to a dedicated class: Analytics.
+ * Analytics: Track Matrix SDK stats (time to startup the app).
+ * Crypto: Add telemetry for events unable to decrypt (UTDs).
+ * Added the i18n localisation strings to the accessibility labels (#1842), thanks to @einMarco (PR#1906).
+ * Added titles to sound files ID3 tags.
+
+Bug fix:
+ * RoomVC: Read receipts processing dramatically slows down UI (#1899).
+ * Lag in typing (#1820).
+ * E2E messages not decrypted in notifs after logging back in (#1914).
+
+Changes in 0.6.17 (2018-06-01)
+===============================================
+
+Improvements:
+ * Upgrade MatrixKit version (v0.7.14).
+ * Send Stickers (#1860).
+ * Settings: Add deactivate account (#1870).
+ * Widgets: Update from UIWebView to WKWebView to improve performance.
+ 
+Bug fix:
+ * Quotes (by themselves) render as white blocks (#1877).
+ * GDPR: consent screen could not be closed (#1883).
+ * GDPR: Do not display error alert when receiving GDPR Consent not given (#1886).
+ 
+Translations:
+ * Enable Icelandic.
+
+Changes in 0.6.16 (2018-05-23)
+===============================================
+
+Improvements:
+ * Upgrade MatrixKit version (v0.7.12).
+ * Display quick replies in timeline (#1858).
+ * Beginning of "Send sticker" support (#1860).
+ * Use existing message.mp3 for notification sounds, thanks to @pixlwave (PR #1835).
+ * GDPR: Display the consent tool in case of M_CONSENT_NOT_GIVEN error (#1871).
+ 
+Bug fix:
+ * Fix the display of side borders of HTML blockquotes (#1857).
+ * Moved UI update to main queue, thanks to @Taiwo (PR #1854).
+ * Timestamps say 'Yesterday' when it is today (#1274), thanks to @pixlwave (PR #1865).
+ * RoomVC: messages with link blink forever #1869
+
 Changes in 0.6.15 (2018-04-23)
 ===============================================
 

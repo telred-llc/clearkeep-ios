@@ -236,7 +236,7 @@ static void *RecordingContext = &RecordingContext;
     [super viewWillAppear:animated];
 
     // Screen tracking
-    [[AppDelegate theDelegate] trackScreen:@"MediaPicker"];
+    [[Analytics sharedInstance] trackScreen:@"MediaPicker"];
     
     if (!userAlbumsQueue)
     {
@@ -1188,7 +1188,9 @@ static void *RecordingContext = &RecordingContext;
             }
         }
         
-        self.cameraSwitchButton.hidden = (!frontCamera || !backCamera);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.cameraSwitchButton.hidden = (!frontCamera || !backCamera);
+        });
         
         if (currentCameraInput)
         {

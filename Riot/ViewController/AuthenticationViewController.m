@@ -100,13 +100,17 @@
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateNormal];
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateHighlighted];
     
-    [self hideCustomServers:YES];
+    [self hideCustomServers:NO];
     
     // The view controller dismiss itself on successful login.
     self.delegate = self;
     
     self.homeServerTextField.placeholder = NSLocalizedStringFromTable(@"auth_home_server_placeholder", @"Vector", nil);
     self.identityServerTextField.placeholder = NSLocalizedStringFromTable(@"auth_identity_server_placeholder", @"Vector", nil);
+    
+    // hide identify server fields
+    self.identityServerTextField.hidden = YES;
+    self.identityServerLabel.hidden = YES;
     
     // Custom used authInputsView
     [self registerAuthInputsViewClass:AuthInputsView.class forAuthType:MXKAuthenticationTypeLogin];
@@ -193,7 +197,7 @@
     [super viewWillAppear:animated];
 
     // Screen tracking
-    [[AppDelegate theDelegate] trackScreen:@"Authentication"];
+    [[Analytics sharedInstance] trackScreen:@"Authentication"];
 }
 
 - (void)viewDidAppear:(BOOL)animated

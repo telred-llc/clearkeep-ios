@@ -1,17 +1,28 @@
-//
-//  O365AuthViewController.m
-//  Riot
-//
-//  Created by Sinbad Flyce on 6/14/18.
-//  Copyright © 2018 matrix.org. All rights reserved.
-//
+/*
+ Copyright 2015 OpenMarket Ltd
+ Copyright 2017 Vector Creations Ltd
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 
 #import "O365AuthViewController.h"
+
 #import "AppDelegate.h"
+
 #import "AuthInputsView.h"
 #import "ForgotPasswordInputsView.h"
 
-@interface O365AuthViewController()
+@interface O365AuthViewController ()
 {
     /**
      Store the potential login error received by using a default homeserver different from matrix.org
@@ -29,8 +40,6 @@
      */
     id kRiotDesignValuesDidChangeThemeNotificationObserver;
 }
-
-@property (weak, nonatomic) IBOutlet UIButton *loginO365Button;
 
 @end
 
@@ -66,18 +75,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
-    self.authType = MXKAuthenticationTypeLogin;
+    
     self.mainNavigationItem.title = nil;
-    self.rightBarButtonItem.title = @"";
+    self.rightBarButtonItem.title = NSLocalizedStringFromTable(@"auth_register", @"Vector", nil);
     
     self.defaultHomeServerUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"homeserverurl"];
+    
     self.defaultIdentityServerUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"identityserverurl"];
     
     self.welcomeImageView.image = [UIImage imageNamed:@"logo"];
-
-    [self setHomeServerTextFieldText:self.defaultHomeServerUrl];
-    [self setIdentityServerTextFieldText:self.defaultIdentityServerUrl];
     
     [self.submitButton.layer setCornerRadius:5];
     self.submitButton.clipsToBounds = YES;
@@ -90,9 +96,6 @@
     [self.skipButton setTitle:NSLocalizedStringFromTable(@"auth_skip", @"Vector", nil) forState:UIControlStateNormal];
     [self.skipButton setTitle:NSLocalizedStringFromTable(@"auth_skip", @"Vector", nil) forState:UIControlStateHighlighted];
     self.skipButton.enabled = YES;
-    
-    [self.loginO365Button.layer setCornerRadius:5];
-    [self.loginO365Button setClipsToBounds:YES];    
     
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateNormal];
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateHighlighted];
@@ -107,9 +110,8 @@
     
     // Custom used authInputsView
     [self registerAuthInputsViewClass:AuthInputsView.class forAuthType:MXKAuthenticationTypeLogin];
-    
-    //[self registerAuthInputsViewClass:AuthInputsView.class forAuthType:MXKAuthenticationTypeRegister];
-    //[self registerAuthInputsViewClass:ForgotPasswordInputsView.class forAuthType:MXKAuthenticationTypeForgotPassword];
+    [self registerAuthInputsViewClass:AuthInputsView.class forAuthType:MXKAuthenticationTypeRegister];
+    [self registerAuthInputsViewClass:ForgotPasswordInputsView.class forAuthType:MXKAuthenticationTypeForgotPassword];
     
     // Initialize the auth inputs display
     AuthInputsView *authInputsView = [AuthInputsView authInputsView];
@@ -135,20 +137,20 @@
     self.authFallbackContentView.backgroundColor = kRiotPrimaryBgColor;
     
     if (kRiotPlaceholderTextColor)
-        {
+    {
         if (self.homeServerTextField.placeholder)
-            {
+        {
             self.homeServerTextField.attributedPlaceholder = [[NSAttributedString alloc]
-                                                              initWithString:self.homeServerTextField.placeholder
-                                                              attributes:@{NSForegroundColorAttributeName: kRiotPlaceholderTextColor}];
-            }
-        if (self.identityServerTextField.placeholder)
-            {
-            self.identityServerTextField.attributedPlaceholder = [[NSAttributedString alloc]
-                                                                  initWithString:self.identityServerTextField.placeholder
-                                                                  attributes:@{NSForegroundColorAttributeName: kRiotPlaceholderTextColor}];
-            }
+                                                             initWithString:self.homeServerTextField.placeholder
+                                                             attributes:@{NSForegroundColorAttributeName: kRiotPlaceholderTextColor}];
         }
+        if (self.identityServerTextField.placeholder)
+        {
+            self.identityServerTextField.attributedPlaceholder = [[NSAttributedString alloc]
+                                                             initWithString:self.identityServerTextField.placeholder
+                                                             attributes:@{NSForegroundColorAttributeName: kRiotPlaceholderTextColor}];
+        }
+    }
     
     self.submitButton.backgroundColor = kRiotColorGreen;
     self.skipButton.backgroundColor = kRiotColorGreen;
@@ -189,7 +191,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     // Screen tracking
     [[AppDelegate theDelegate] trackScreen:@"Authentication"];
 }
@@ -205,14 +207,11 @@
     // e2e messages.
     NSLog(@"[AuthenticationVC] viewDidAppear: Checking false logout");
     [[MXKAccountManager sharedManager] forceReloadAccounts];
-    if ([MXKAccountManager sharedManager].activeAccounts.count) {
+    if ([MXKAccountManager sharedManager].activeAccounts.count)
+    {
         // For now, we do not have better solution than forcing the user to restart the app
-        
-        // Not sure this case is right with O365 login.
-        // [NSException raise:@"False logout. Kill the app" format:@"O365AuthViewController has been displayed whereas there is an existing account"];
+        [NSException raise:@"False logout. Kill the app" format:@"AuthenticationViewController has been displayed whereas there is an existing account"];
     }
-    
-    [self.submitButton setEnabled:YES];
 }
 
 - (void)destroy
@@ -220,81 +219,85 @@
     [super destroy];
     
     if (kRiotDesignValuesDidChangeThemeNotificationObserver)
-        {
+    {
         [[NSNotificationCenter defaultCenter] removeObserver:kRiotDesignValuesDidChangeThemeNotificationObserver];
         kRiotDesignValuesDidChangeThemeNotificationObserver = nil;
-        }
+    }
 }
 
 - (void)setAuthType:(MXKAuthenticationType)authType
 {
     if (self.authType == MXKAuthenticationTypeRegister)
-        {
+    {
         // Restore the default registration screen
         [self updateRegistrationScreenWithThirdPartyIdentifiersHidden:YES];
-        }
+    }
     
     super.authType = authType;
     
     // Check a potential stored error.
     if (loginError)
-        {
+    {
         // Restore the default HS
         NSLog(@"[AuthenticationVC] Switch back to default homeserver");
         [self setHomeServerTextFieldText:nil];
         loginError = nil;
-        }
+    }
     
     if (authType == MXKAuthenticationTypeLogin)
-        {
+    {
         [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_login", @"Vector", nil) forState:UIControlStateNormal];
         [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_login", @"Vector", nil) forState:UIControlStateHighlighted];
-        }
+    }
     else if (authType == MXKAuthenticationTypeRegister)
-        {
+    {
         [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_register", @"Vector", nil) forState:UIControlStateNormal];
         [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_register", @"Vector", nil) forState:UIControlStateHighlighted];
-        }
+    }
     else if (authType == MXKAuthenticationTypeForgotPassword)
-        {
+    {
         if (isPasswordReseted)
-            {
+        {
             [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_return_to_login", @"Vector", nil) forState:UIControlStateNormal];
             [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_return_to_login", @"Vector", nil) forState:UIControlStateHighlighted];
-            }
+        }
         else
-            {
+        {
             [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_send_reset_email", @"Vector", nil) forState:UIControlStateNormal];
             [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_send_reset_email", @"Vector", nil) forState:UIControlStateHighlighted];
-            }
         }
+    }
     
     [self updateForgotPwdButtonVisibility];
 }
 
-- (void)setAuthInputsView:(MXKAuthInputsView *)authInputsView {
-    
+- (void)setAuthInputsView:(MXKAuthInputsView *)authInputsView
+{
     // Keep the current country code if any.
-    if ([self.authInputsView isKindOfClass:AuthInputsView.class]) {
+    if ([self.authInputsView isKindOfClass:AuthInputsView.class])
+    {
         // We will reuse the current country code
         defaultCountryCode = ((AuthInputsView*)self.authInputsView).isoCountryCode;
     }
-
+    
     // Finalize the new auth inputs view
-    if ([authInputsView isKindOfClass:AuthInputsView.class]) {
+    if ([authInputsView isKindOfClass:AuthInputsView.class])
+    {
         AuthInputsView *authInputsview = (AuthInputsView*)authInputsView;
-
+        
         // Retrieve the MCC from the SIM card information (Note: the phone book country code is not defined yet)
         NSString *countryCode = [MXKAppSettings standardAppSettings].phonebookCountryCode;
-        if (!countryCode) {
-
+        if (!countryCode)
+        {
             // If none, consider the preferred locale
             NSLocale *local = [[NSLocale alloc] initWithLocaleIdentifier:[[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0]];
-            if ([local respondsToSelector:@selector(countryCode)]) {
+            if ([local respondsToSelector:@selector(countryCode)])
+            {
                 countryCode = local.countryCode;
             }
-
-            if (!countryCode) {
+            
+            if (!countryCode)
+            {
                 countryCode = defaultCountryCode;
             }
         }
@@ -315,53 +318,49 @@
     
     // Show/Hide server options
     if (_optionsContainer.hidden == userInteractionEnabled)
-        {
+    {
         _optionsContainer.hidden = !userInteractionEnabled;
         
         [self refreshContentViewHeightConstraint];
-        }
+    }
     
     // Update the label of the right bar button according to its actual action.
     if (!userInteractionEnabled)
-        {
+    {
         // The right bar button is used to cancel the running request.
         self.rightBarButtonItem.title = NSLocalizedStringFromTable(@"cancel", @"Vector", nil);
-        
+
         // Remove the potential back button.
         self.mainNavigationItem.leftBarButtonItem = nil;
-        }
+    }
     else
-        {
+    {
         // The right bar button is used to switch the authentication type.
         if (self.authType == MXKAuthenticationTypeLogin)
-            {
-            self.rightBarButtonItem.title = @"";
-            }
+        {
+            self.rightBarButtonItem.title = NSLocalizedStringFromTable(@"auth_register", @"Vector", nil);
+        }
         else if (self.authType == MXKAuthenticationTypeRegister)
-            {
+        {
             self.rightBarButtonItem.title = NSLocalizedStringFromTable(@"auth_login", @"Vector", nil);
             
             // Restore the back button
             if ([self.authInputsView isKindOfClass:AuthInputsView.class])
-                {
+            {
                 AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
                 [self updateRegistrationScreenWithThirdPartyIdentifiersHidden:authInputsview.thirdPartyIdentifiersHidden];
-                }
-            }
-        else if (self.authType == MXKAuthenticationTypeForgotPassword)
-            {
-            // The right bar button is used to return to login.
-            self.rightBarButtonItem.title = NSLocalizedStringFromTable(@"cancel", @"Vector", nil);
             }
         }
+        else if (self.authType == MXKAuthenticationTypeForgotPassword)
+        {
+            // The right bar button is used to return to login.
+            self.rightBarButtonItem.title = NSLocalizedStringFromTable(@"cancel", @"Vector", nil);
+        }
+    }
 }
 
-- (IBAction)onButtonPressed:(id)sender {
-    
-    if (![self checkHomeServer]) {
-        return;
-    }
-
+- (IBAction)onButtonPressed:(id)sender
+{
     if (sender == self.customServersTickButton)
     {
         [self hideCustomServers:!self.customServersContainer.hidden];
@@ -395,10 +394,10 @@
         if ([self.authInputsView isKindOfClass:AuthInputsView.class])
         {
             AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
-        
+            
             // Hide the supported 3rd party ids which may be added to the account
             authInputsview.thirdPartyIdentifiersHidden = YES;
-        
+            
             [self updateRegistrationScreenWithThirdPartyIdentifiersHidden:YES];
         }
     }
@@ -412,14 +411,14 @@
             if ([self.authInputsView isKindOfClass:AuthInputsView.class])
             {
                 AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
-            
+                
                 // Show the 3rd party ids screen if it is not shown yet
                 if (authInputsview.areThirdPartyIdentifiersSupported && authInputsview.isThirdPartyIdentifiersHidden)
                 {
                     [self dismissKeyboard];
-                
+                    
                     [self.authenticationActivityIndicator startAnimating];
-                
+                    
                     // Check parameters validity
                     NSString *errorMsg = [self.authInputsView validateParameters];
                     if (errorMsg)
@@ -438,20 +437,20 @@
                             else
                             {
                                 [self.authenticationActivityIndicator stopAnimating];
-                            
+                                
                                 // Show the supported 3rd party ids which may be added to the account
                                 authInputsview.thirdPartyIdentifiersHidden = NO;
-                            
+                                
                                 [self updateRegistrationScreenWithThirdPartyIdentifiersHidden:NO];
                             }
                         }];
                     }
-                
+                    
                     return;
                 }
             }
         }
-    
+        
         [super onButtonPressed:sender];
     }
     else if (sender == self.skipButton)
@@ -460,10 +459,10 @@
         if ([self.authInputsView isKindOfClass:AuthInputsView.class])
         {
             AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
-        
+            
             [authInputsview resetThirdPartyIdentifiers];
         }
-    
+        
         [super onButtonPressed:self.submitButton];
     }
     else
@@ -472,84 +471,57 @@
     }
 }
 
-- (BOOL)checkHomeServer {
-    if (self.homeServerTextField.text.length == 0) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                       message:@"Login Failed. Please check your home server."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"OK"
-                                                  style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction * action) {
-                                                }]];
-        [self presentViewController:alert animated:YES completion:nil];
-        return NO;
-    }
-    return YES;
-}
-
-- (IBAction)onO365ButtonPressed:(id)sender {
-    
-    if (![self checkHomeServer]) {
-        return;
-    }
-    
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    AuthWebViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"AuthWebViewController"];
-    controller.delegate = self;
-    [self presentViewController:controller animated:YES completion:nil];
-}
-
 - (void)onFailureDuringAuthRequest:(NSError *)error
 {
     // Homeserver migration: When the default homeserver url is different from matrix.org,
     // the login (or forgot pwd) process with an existing matrix.org accounts will then fail.
     // Patch: Falling back to matrix.org HS so we don't break everyone's logins
     if ([self.homeServerTextField.text isEqualToString:self.defaultHomeServerUrl] && ![self.defaultHomeServerUrl isEqualToString:@"https://matrix.org"])
-        {
+    {
         MXError *mxError = [[MXError alloc] initWithNSError:error];
         
         if (self.authType == MXKAuthenticationTypeLogin)
-            {
+        {
             if (mxError && [mxError.errcode isEqualToString:kMXErrCodeStringForbidden])
-                {
+            {
                 // Falling back to matrix.org HS
                 NSLog(@"[AuthenticationVC] Retry login against matrix.org");
                 
                 // Store the current error, and change the homeserver url
                 loginError = error;
-                [self setHomeServerTextFieldText:@"https://study.sinbadflyce.com"];
+                [self setHomeServerTextFieldText:@"https://matrix.org"];
                 
                 // Trigger a new request
                 [self onButtonPressed:self.submitButton];
                 return;
-                }
             }
+        }
         else if (self.authType == MXKAuthenticationTypeForgotPassword)
-            {
+        {
             if (mxError && [mxError.errcode isEqualToString:kMXErrCodeStringNotFound])
-                {
+            {
                 // Sanity check
                 if ([self.authInputsView isKindOfClass:ForgotPasswordInputsView.class])
-                    {
+                {
                     // Falling back to matrix.org HS
                     NSLog(@"[AuthenticationVC] Retry forgot password against matrix.org");
                     
                     // Store the current error, and change the homeserver url
                     loginError = error;
-                    [self setHomeServerTextFieldText:@"https://study.sinbadflyce.com"];
+                    [self setHomeServerTextFieldText:@"https://matrix.org"];
                     
                     // Trigger a new request
                     ForgotPasswordInputsView *authInputsView = (ForgotPasswordInputsView*)self.authInputsView;
                     [authInputsView.nextStepButton sendActionsForControlEvents:UIControlEventTouchUpInside];
                     return;
-                    }
                 }
             }
         }
+    }
     
     // Check whether we were retrying against matrix.org HS
     if (loginError)
-        {
+    {
         // This is not an existing matrix.org accounts
         NSLog(@"[AuthenticationVC] This is not an existing matrix.org accounts");
         
@@ -559,14 +531,42 @@
         // Consider the original login error
         [super onFailureDuringAuthRequest:loginError];
         loginError = nil;
-        }
+    }
     else
-        {
+    {
         [super onFailureDuringAuthRequest:error];
-        }
+    }
 }
 
-- (void)onSuccessfulLogin:(MXCredentials*)credentials {
+- (void)onSuccessfulLogin:(MXCredentials*)credentials
+{
+    // Check whether a third party identifiers has not been used
+    if ([self.authInputsView isKindOfClass:AuthInputsView.class])
+    {
+        AuthInputsView *authInputsview = (AuthInputsView*)self.authInputsView;
+        if (authInputsview.isThirdPartyIdentifierPending)
+        {
+            // Alert user
+            if (alert)
+            {
+                [alert dismissViewControllerAnimated:NO completion:nil];
+            }
+            
+            alert = [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"warning", @"Vector", nil) message:NSLocalizedStringFromTable(@"auth_add_email_and_phone_warning", @"Vector", nil) preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               
+                                                               [super onSuccessfulLogin:credentials];
+                                                               
+                                                           }]];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            return;
+        }
+    }
+    
     [super onSuccessfulLogin:credentials];
 }
 
@@ -576,14 +576,14 @@
     
     // Adjust minimum leading constraint of the submit button
     if (self.forgotPasswordButton.isHidden)
-        {
+    {
         self.submitButtonMinLeadingConstraint.constant = 19;
-        }
+    }
     else
-        {
+    {
         CGRect frame = self.forgotPasswordButton.frame;
         self.submitButtonMinLeadingConstraint.constant =  frame.origin.x + frame.size.width + 10;
-        }
+    }
 }
 
 #pragma mark -
@@ -596,20 +596,20 @@
     [self refreshContentViewHeightConstraint];
     
     if (thirdPartyIdentifiersHidden)
-        {
+    {
         [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_register", @"Vector", nil) forState:UIControlStateNormal];
         [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_register", @"Vector", nil) forState:UIControlStateHighlighted];
         
         self.mainNavigationItem.leftBarButtonItem = nil;
-        }
+    }
     else
-        {
+    {
         [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_submit", @"Vector", nil) forState:UIControlStateNormal];
         [self.submitButton setTitle:NSLocalizedStringFromTable(@"auth_submit", @"Vector", nil) forState:UIControlStateHighlighted];
         
         UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(onButtonPressed:)];
         self.mainNavigationItem.leftBarButtonItem = leftBarButtonItem;
-        }
+    }
 }
 
 - (void)refreshContentViewHeightConstraint
@@ -618,20 +618,20 @@
     CGFloat constant = self.optionsContainer.frame.origin.y + 10;
     
     if (!self.optionsContainer.isHidden)
-        {
+    {
         constant += self.serverOptionsContainer.frame.origin.y;
         
         if (!self.serverOptionsContainer.isHidden)
-            {
+        {
             CGRect customServersContainerFrame = self.customServersContainer.frame;
             constant += customServersContainerFrame.origin.y;
             
             if (!self.customServersContainer.isHidden)
-                {
+            {
                 constant += customServersContainerFrame.size.height;
-                }
             }
         }
+    }
     
     self.contentViewHeightConstraint.constant = constant;
 }
@@ -639,35 +639,35 @@
 - (void)hideCustomServers:(BOOL)hidden
 {
     if (self.customServersContainer.isHidden == hidden)
-        {
+    {
         return;
-        }
+    }
     
     if (hidden)
-        {
+    {
         [self.homeServerTextField resignFirstResponder];
         [self.identityServerTextField resignFirstResponder];
         
         // Report server url typed by the user as custom url.
         NSString *homeServerURL = self.homeServerTextField.text;
         if (homeServerURL.length && ![homeServerURL isEqualToString:self.defaultHomeServerUrl])
-            {
+        {
             [[NSUserDefaults standardUserDefaults] setObject:homeServerURL forKey:@"customHomeServerURL"];
-            }
+        }
         else
-            {
+        {
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"customHomeServerURL"];
-            }
+        }
         
         NSString *identityServerURL = self.identityServerTextField.text;
         if (identityServerURL.length && ![identityServerURL isEqualToString:self.defaultIdentityServerUrl])
-            {
+        {
             [[NSUserDefaults standardUserDefaults] setObject:identityServerURL forKey:@"customIdentityServerURL"];
-            }
+        }
         else
-            {
+        {
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"customIdentityServerURL"];
-            }
+        }
         
         [[NSUserDefaults standardUserDefaults] synchronize];
         
@@ -680,32 +680,32 @@
         
         // Refresh content view height
         self.contentViewHeightConstraint.constant -= self.customServersContainer.frame.size.height;
-        }
+    }
     else
-        {
+    {
         // Load custom configuration
         NSString *customHomeServerURL = [[NSUserDefaults standardUserDefaults] objectForKey:@"customHomeServerURL"];
         if (customHomeServerURL.length)
-            {
+        {
             [self setHomeServerTextFieldText:customHomeServerURL];
-            }
+        }
         NSString *customIdentityServerURL = [[NSUserDefaults standardUserDefaults] objectForKey:@"customIdentityServerURL"];
         if (customIdentityServerURL.length)
-            {
+        {
             [self setIdentityServerTextFieldText:customIdentityServerURL];
-            }
+        }
         
         [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_tick"] forState:UIControlStateNormal];
         self.customServersContainer.hidden = NO;
         
         // Refresh content view height
         self.contentViewHeightConstraint.constant += self.customServersContainer.frame.size.height;
-        
+
         // Scroll to display server options
         CGPoint offset = self.authenticationScrollView.contentOffset;
         offset.y += self.customServersContainer.frame.size.height;
         self.authenticationScrollView.contentOffset = offset;
-        }
+    }
 }
 
 #pragma mark - KVO
@@ -714,7 +714,7 @@
 {
     // Override here the handling of the authInputsView height change.
     if ([@"viewHeightConstraint.constant" isEqualToString:keyPath])
-        {
+    {
         self.authInputContainerViewHeightConstraint.constant = self.authInputsView.viewHeightConstraint.constant;
         
         // Force to render the view
@@ -722,11 +722,11 @@
         
         // Refresh content view height by considering the updated frame of the options container.
         [self refreshContentViewHeightConstraint];
-        }
+    }
     else
-        {
+    {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-        }
+    }
 }
 
 #pragma mark - MXKAuthenticationViewControllerDelegate
@@ -734,16 +734,39 @@
 - (void)authenticationViewController:(MXKAuthenticationViewController *)authenticationViewController didLogWithUserId:(NSString *)userId
 {
     // Hide the custom server details in order to save customized inputs
-    //[self hideCustomServers:YES];
+    [self hideCustomServers:NO];
+    
+    // Create DM with Riot-bot on new account creation.
+    if (self.authType == MXKAuthenticationTypeRegister)
+    {
+        MXKAccount *account = [[MXKAccountManager sharedManager] accountForUserId:userId];
+        
+        [account.mxSession createRoom:nil
+                           visibility:kMXRoomDirectoryVisibilityPrivate
+                            roomAlias:nil
+                                topic:nil
+                               invite:@[@"@riot-bot:matrix.org"]
+                           invite3PID:nil
+                             isDirect:YES
+                               preset:kMXRoomPresetTrustedPrivateChat
+                              success:nil
+                              failure:^(NSError *error) {
+                                  
+                                  NSLog(@"[AuthenticationVC] Create chat with riot-bot failed");
+                                  
+                              }];
+    }
     
     // Remove auth view controller on successful login
-    if (self.navigationController) {
+    if (self.navigationController)
+    {
         // Pop the view controller
         [self.navigationController popViewControllerAnimated:YES];
     }
-    else {
+    else
+    {
         // Dismiss on successful login
-        [self dismissViewControllerAnimated:YES completion:nil];        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -759,22 +782,6 @@
 - (void)authInputsViewDidCancelOperation:(MXKAuthInputsView *)authInputsView
 {
     [self cancel];
-}
-
-- (void)authWebViewController: (AuthWebViewController* )controller didO365LoginWithDictionary:(NSDictionary *)dictionary {
-    if (dictionary != nil) {
-        NSString *userId = [dictionary objectForKey:@"userId"];
-        NSString *accessToken = [dictionary objectForKey:@"accessToken"];
-        NSString *deviceId = [dictionary objectForKey:@"deviceId"];
-        
-        NSString *defaultHS = [[NSUserDefaults standardUserDefaults] objectForKey:@"homeserverurl"];
-        MXCredentials* credentials = [[MXCredentials alloc] initWithHomeServer:defaultHS
-                                                                        userId:userId
-                                                                   accessToken:accessToken];
-        [credentials setDeviceId:deviceId];
-        [[MXKContactManager sharedManager] refreshO365ContactsWithDictionary:dictionary];
-        [self onSuccessfulLogin:credentials];
-    }
 }
 
 @end

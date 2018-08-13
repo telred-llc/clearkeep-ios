@@ -28,9 +28,22 @@ window.riotIOS.sendObjectMessageToObjC = function(parameters) {
 
 window.riotIOS.events = {};
 
-// Listen to messages posted by Modular
+// Listen to messages posted by the widget
 window.riotIOS.onMessage = function(event) {
 
+    // Use an internal "_id" field for matching onMessage events and requests
+    // _id was originally used by the Modular API. Keep it
+    if (!event.data._id) {
+        // The Matrix Widget API v2 spec says:
+        // "The requestId field should be unique and included in all requests"
+        event.data._id = event.data.requestId;
+    }
+
+    // Make sure to have one id
+    if (!event.data._id) {
+        event.data._id = Date.now() + "-" + Math.random().toString(36);
+    }
+    
     // Do not SPAM ObjC with event already managed
     if (riotIOS.events[event.data._id]) {
         return;
@@ -50,7 +63,7 @@ window.riotIOS.onMessage = function(event) {
 window.addEventListener('message', riotIOS.onMessage, false);
 
 
-// ObjC -> Modular JS bridge
+// ObjC -> Widget JS bridge
 window.riotIOS.sendResponse = function(eventId, res) {
 
     // Retrieve the correspong JS event

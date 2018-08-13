@@ -12,7 +12,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 # Different flavours of pods to MatrixKit
 # The current MatrixKit pod version
-$matrixKitVersion = '0.7.11'
+$matrixKitVersion = '0.7.15'
 
 # The develop branch version
 #$matrixKitVersion = 'develop'
@@ -61,7 +61,7 @@ end
 
 abstract_target 'RiotPods' do
 
-    pod 'GBDeviceInfo', '~> 5.1.0'
+    pod 'GBDeviceInfo', '~> 5.2.0'
 
     # Piwik for analytics
     # While https://github.com/matomo-org/matomo-sdk-ios/pull/223 is not released, use the PR branch

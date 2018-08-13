@@ -21,17 +21,20 @@
 
 #import "WidgetManager.h"
 
+#import "MXDecryptionResult.h"
+#import "DecryptionFailureTracker.h"
+
+#pragma mark - Constants definitions
+
+NSString *const kEventFormatterOnReRequestKeysLinkAction = @"kEventFormatterOnReRequestKeysLinkAction";
+NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
+
 @interface EventFormatter ()
 {
     /**
      The calendar used to retrieve the today date.
      */
     NSCalendar *calendar;
-
-    /**
-     The local time zone
-     */
-    NSTimeZone *localTimeZone;
 }
 @end
 
@@ -39,10 +42,10 @@
 
 - (NSAttributedString *)attributedStringFromEvent:(MXEvent *)event withRoomState:(MXRoomState *)roomState error:(MXKEventFormatterError *)error
 {
-    // Build strings for modular widget events
-    // TODO: At the moment, we support only jitsi widgets
+    // Build strings for widget events
     if (event.eventType == MXEventTypeCustom
-        && [event.type isEqualToString:kWidgetEventTypeString])
+        && ([event.type isEqualToString:kWidgetMatrixEventTypeString]
+            || [event.type isEqualToString:kWidgetModularEventTypeString]))
     {
         NSString *displayText;
 
@@ -71,7 +74,11 @@
                 // This is a closed widget
                 // Check if it corresponds to a jitsi widget by looking at other state events for
                 // this jitsi widget (widget id = event.stateKey).
-                for (MXEvent *widgetStateEvent in [roomState stateEventsWithType:kWidgetEventTypeString])
+                // Get all widgets state events in the room
+                NSMutableArray<MXEvent*> *widgetStateEvents = [NSMutableArray arrayWithArray:[roomState stateEventsWithType:kWidgetMatrixEventTypeString]];
+                [widgetStateEvents addObjectsFromArray:[roomState stateEventsWithType:kWidgetModularEventTypeString]];
+
+                for (MXEvent *widgetStateEvent in widgetStateEvents)
                 {
                     if ([widgetStateEvent.stateKey isEqualToString:widget.widgetId])
                     {
@@ -108,7 +115,47 @@
         }
     }
 
-    return [super attributedStringFromEvent:event withRoomState:roomState error:error];
+    NSAttributedString *attributedString = [super attributedStringFromEvent:event withRoomState:roomState error:error];
+
+    if (event.sentState == MXEventSentStateSent
+        && [event.decryptionError.domain isEqualToString:MXDecryptingErrorDomain])
+    {
+        // Track e2e failures
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[DecryptionFailureTracker sharedInstance] reportUnableToDecryptErrorForEvent:event withRoomState:roomState myUser:mxSession.myUser.userId];
+        });
+
+        if (event.decryptionError.code == MXDecryptingErrorUnknownInboundSessionIdCode)
+        {
+            // Append to the displayed error an attibuted string with a tappable link
+            // so that the user can try to fix the UTD
+            NSMutableAttributedString *attributedStringWithRerequestMessage = [attributedString mutableCopy];
+            [attributedStringWithRerequestMessage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+
+            NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterOnReRequestKeysLinkAction,
+                                          kEventFormatterOnReRequestKeysLinkActionSeparator,
+                                          event.eventId];
+
+            [attributedStringWithRerequestMessage appendAttributedString:
+             [[NSAttributedString alloc] initWithString:NSLocalizedStringFromTable(@"event_formatter_rerequest_keys_part1_link", @"Vector", nil)
+                                             attributes:@{
+                                                          NSLinkAttributeName: linkActionString,
+                                                          NSForegroundColorAttributeName: self.sendingTextColor,
+                                                          NSFontAttributeName: self.encryptedMessagesTextFont
+                                                          }]];
+
+            [attributedStringWithRerequestMessage appendAttributedString:
+             [[NSAttributedString alloc] initWithString:NSLocalizedStringFromTable(@"event_formatter_rerequest_keys_part2", @"Vector", nil)
+                                             attributes:@{
+                                                          NSForegroundColorAttributeName: self.sendingTextColor,
+                                                          NSFontAttributeName: self.encryptedMessagesTextFont
+                                                          }]];
+
+            attributedString = attributedStringWithRerequestMessage;
+        }
+    }
+
+    return attributedString;
 }
 
 - (NSAttributedString*)attributedStringFromEvents:(NSArray<MXEvent*>*)events withRoomState:(MXRoomState*)roomState error:(MXKEventFormatterError*)error
@@ -140,10 +187,6 @@
     if (self)
     {
         calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-        // Note: NSDate object always shows time according to GMT, so the calendar should be in GMT too.
-        calendar.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-
-        localTimeZone = [NSTimeZone localTimeZone];
         
         // Use the secondary bg color to set the background color in the default CSS.
         NSUInteger bgColor = [MXKTools rgbValueWithColor:kRiotSecondaryBgColor];
@@ -453,12 +496,9 @@
     }
     
     // Retrieve today date at midnight
-    NSDateComponents *components = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
-    NSDate *today = [calendar dateFromComponents:components];
+    NSDate *today = [calendar startOfDayForDate:[NSDate date]];
     
-    NSTimeInterval localZoneOffset = [localTimeZone secondsFromGMT];
-    
-    NSTimeInterval interval = -[date timeIntervalSinceDate:today] - localZoneOffset;
+    NSTimeInterval interval = -[date timeIntervalSinceDate:today];
     
     if (interval > 60*60*24*364)
     {

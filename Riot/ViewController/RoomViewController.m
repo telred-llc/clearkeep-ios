@@ -115,6 +115,11 @@
 
 #import "IntegrationManagerViewController.h"
 #import "WidgetPickerViewController.h"
+#import "StickerPickerViewController.h"
+
+#import "EventFormatter.h"
+
+#import "Riot-Swift.h"
 
 @interface RoomViewController ()
 {
@@ -180,6 +185,9 @@
     
     // Observer kMXRoomSummaryDidChangeNotification to keep updated the missed discussion count
     id mxRoomSummaryDidChangeObserver;
+
+    // Observer for removing the re-request explanation/waiting dialog
+    id mxEventDidDecryptNotificationObserver;
     
     // The table view cell in which the read marker is displayed (nil by default).
     MXKRoomBubbleTableViewCell *readMarkerTableViewCell;
@@ -444,7 +452,7 @@
     [super viewWillAppear:animated];
 
     // Screen tracking
-    [[AppDelegate theDelegate] trackScreen:@"ChatRoom"];
+    [[Analytics sharedInstance] trackScreen:@"ChatRoom"];
     
     // Refresh the room title view
     [self refreshRoomTitle];
@@ -590,6 +598,12 @@
     {
         [[NSNotificationCenter defaultCenter] removeObserver:mxRoomSummaryDidChangeObserver];
         mxRoomSummaryDidChangeObserver = nil;
+    }
+
+    if (mxEventDidDecryptNotificationObserver)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:mxEventDidDecryptNotificationObserver];
+        mxEventDidDecryptNotificationObserver = nil;
     }
 }
 
@@ -1102,6 +1116,11 @@
         [[NSNotificationCenter defaultCenter] removeObserver:mxRoomSummaryDidChangeObserver];
         mxRoomSummaryDidChangeObserver = nil;
     }
+    if (mxEventDidDecryptNotificationObserver)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:mxEventDidDecryptNotificationObserver];
+        mxEventDidDecryptNotificationObserver = nil;
+    }
     
     [self removeCallNotificationsListeners];
     [self removeWidgetNotificationsListeners];
@@ -1257,9 +1276,10 @@
                     // If the setting is disabled, do not show the icon
                     self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem];
                 }
-                else if (self.widgetsCount)
+                else if ([self widgetsCount:NO])
                 {
                     // Show there are widgets by changing the "apps" icon color
+                    // Show it in red only for room widgets, not user's widgets
                     // TODO: Design must be reviewed
                     UIImage *icon = self.navigationItem.rightBarButtonItems[1].image;
                     icon = [MXKTools paintImage:icon withColor:kRiotColorPinkRed];
@@ -2678,6 +2698,20 @@
             NSString *fragment = [NSString stringWithFormat:@"/group/%@", [absoluteURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             [[AppDelegate theDelegate] handleUniversalLinkFragment:fragment];
         }
+        else if ([absoluteURLString hasPrefix:kEventFormatterOnReRequestKeysLinkAction])
+        {
+            NSArray<NSString*> *arguments = [absoluteURLString componentsSeparatedByString:kEventFormatterOnReRequestKeysLinkActionSeparator];
+            if (arguments.count > 1)
+            {
+                NSString *eventId = arguments[1];
+                MXEvent *event = [self.roomDataSource eventWithEventId:eventId];
+
+                if (event)
+                {
+                    [self reRequestKeysAndShowExplanationAlert:event];
+                }
+            }
+        }
     }
     
     return shouldDoAction;
@@ -2853,6 +2887,80 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
+#pragma mark - RoomInputToolbarViewDelegate
+
+- (void)roomInputToolbarViewPresentStickerPicker:(MXKRoomInputToolbarView*)toolbarView
+{
+    // Search for the sticker picker widget in the user account
+    Widget *widget = [[WidgetManager sharedManager] userWidgets:self.roomDataSource.mxSession ofTypes:@[kWidgetTypeStickerPicker]].firstObject;
+
+    if (widget)
+    {
+        // Display the widget
+        [widget widgetUrl:^(NSString * _Nonnull widgetUrl) {
+
+            StickerPickerViewController *stickerPickerVC = [[StickerPickerViewController alloc] initWithUrl:widgetUrl forWidget:widget];
+
+            stickerPickerVC.roomDataSource = self.roomDataSource;
+
+            [self.navigationController pushViewController:stickerPickerVC animated:YES];
+        } failure:^(NSError * _Nonnull error) {
+
+            NSLog(@"[RoomVC] Cannot display widget %@", widget);
+            [[AppDelegate theDelegate] showErrorAsAlert:error];
+        }];
+    }
+    else
+    {
+        // The Sticker picker widget is not installed yet. Propose the user to install it
+        __weak typeof(self) weakSelf = self;
+
+        [currentAlert dismissViewControllerAnimated:NO completion:nil];
+
+        NSString *alertMessage = [NSString stringWithFormat:@"%@\n%@",
+                                  NSLocalizedStringFromTable(@"widget_sticker_picker_no_stickerpacks_alert", @"Vector", nil),
+                                  NSLocalizedStringFromTable(@"widget_sticker_picker_no_stickerpacks_alert_add_now", @"Vector", nil)
+                                  ];
+
+        currentAlert = [UIAlertController alertControllerWithTitle:nil message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
+
+        [currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"no"]
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:^(UIAlertAction * action)
+        {
+            if (weakSelf)
+            {
+                typeof(self) self = weakSelf;
+                self->currentAlert = nil;
+            }
+
+        }]];
+
+        [currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"yes"]
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action)
+        {
+            if (weakSelf)
+            {
+                typeof(self) self = weakSelf;
+                self->currentAlert = nil;
+
+                // Show the sticker picker settings screen
+                IntegrationManagerViewController *modularVC = [[IntegrationManagerViewController alloc]
+                                                               initForMXSession:self.roomDataSource.mxSession
+                                                               inRoom:self.roomDataSource.roomId
+                                                               screen:[IntegrationManagerViewController screenForWidget:kWidgetTypeStickerPicker]
+                                                               widgetId:nil];
+
+                [self presentViewController:modularVC animated:NO completion:nil];
+            }
+        }]];
+
+        [currentAlert mxk_setAccessibilityIdentifier:@"RoomVCStickerPickerAlert"];
+        [self presentViewController:currentAlert animated:YES completion:nil];
+    }
+}
+
 #pragma mark - MXKRoomInputToolbarViewDelegate
 
 - (void)roomInputToolbarView:(MXKRoomInputToolbarView*)toolbarView isTyping:(BOOL)typing
@@ -2906,7 +3014,7 @@
     }
 
     // If enabled, create the conf using jitsi widget and open it directly
-    else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"createConferenceCallsWithJitsi"]
+    else if (RiotSettings.shared.createConferenceCallsWithJitsi
              && self.roomDataSource.room.state.joinedMembers.count > 2)
     {
         [self startActivityIndicator];
@@ -3063,7 +3171,7 @@
     // Matrix Apps button
     else if (self.navigationItem.rightBarButtonItems.count == 2 && sender == self.navigationItem.rightBarButtonItems[1])
     {
-        if (self.widgetsCount)
+        if ([self widgetsCount:NO])
         {
             WidgetPickerViewController *widgetPicker = [[WidgetPickerViewController alloc] initForMXSession:self.roomDataSource.mxSession
                                                                                                      inRoom:self.roomDataSource.roomId];
@@ -3643,10 +3751,16 @@
     [[AppDelegate theDelegate] showErrorAsAlert:error];
 }
 
-- (NSUInteger)widgetsCount
+- (NSUInteger)widgetsCount:(BOOL)includeUserWidgets
 {
-    return [[WidgetManager sharedManager] widgetsNotOfTypes:@[kWidgetTypeJitsi]
-                                                     inRoom:self.roomDataSource.room].count;
+    NSUInteger widgetsCount = [[WidgetManager sharedManager] widgetsNotOfTypes:@[kWidgetTypeJitsi]
+                                                                        inRoom:self.roomDataSource.room].count;
+    if (includeUserWidgets)
+    {
+        widgetsCount += [[WidgetManager sharedManager] userWidgets:self.roomDataSource.room.mxSession].count;
+    }
+
+    return widgetsCount;
 }
 
 #pragma mark - Unreachable Network Handling
@@ -4497,6 +4611,58 @@
                                                    }]];
     
     [currentAlert mxk_setAccessibilityIdentifier:@"RoomVCInviteAlert"];
+    [self presentViewController:currentAlert animated:YES completion:nil];
+}
+
+#pragma mark - Re-request encryption keys
+
+- (void)reRequestKeysAndShowExplanationAlert:(MXEvent*)event
+{
+    MXWeakify(self);
+    __block UIAlertController *alert;
+
+    // Make the re-request
+    [self.mainSession.crypto reRequestRoomKeyForEvent:event];
+
+    // Observe kMXEventDidDecryptNotification to remove automatically the dialog
+    // if the user has shared the keys from another device
+    mxEventDidDecryptNotificationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kMXEventDidDecryptNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif) {
+        MXStrongifyAndReturnIfNil(self);
+
+        MXEvent *decryptedEvent = notif.object;
+
+        if ([decryptedEvent.eventId isEqualToString:event.eventId])
+        {
+            [[NSNotificationCenter defaultCenter] removeObserver:self->mxEventDidDecryptNotificationObserver];
+            self->mxEventDidDecryptNotificationObserver = nil;
+
+            if (self->currentAlert == alert)
+            {
+                [self->currentAlert dismissViewControllerAnimated:YES completion:nil];
+                self->currentAlert = nil;
+            }
+        }
+    }];
+
+    // Show the explanation dialog
+    alert = [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"rerequest_keys_alert_title", @"Vector", nil)
+                                                       message:NSLocalizedStringFromTable(@"rerequest_keys_alert_message", @"Vector", nil)
+                                                preferredStyle:UIAlertControllerStyleAlert];
+    currentAlert = alert;
+
+
+    [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action)
+                             {
+                                 MXStrongifyAndReturnIfNil(self);
+
+                                 [[NSNotificationCenter defaultCenter] removeObserver:self->mxEventDidDecryptNotificationObserver];
+                                 self->mxEventDidDecryptNotificationObserver = nil;
+
+                                 self->currentAlert = nil;
+                             }]];
+
     [self presentViewController:currentAlert animated:YES completion:nil];
 }
 

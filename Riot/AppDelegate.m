@@ -46,13 +46,15 @@
 
 #include <MatrixSDK/MXUIKitBackgroundModeHandler.h>
 
-@import PiwikTracker;
+#import "WebViewViewController.h"
 
 // Calls
 #import "CallViewController.h"
 
 #import "MXSession+Riot.h"
 #import "MXRoom+Riot.h"
+
+#import "Riot-Swift.h"
 
 //#define MX_CALL_STACK_OPENWEBRTC
 #ifdef MX_CALL_STACK_OPENWEBRTC
@@ -210,6 +212,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 
 @property (strong, nonatomic) UIAlertController *logoutConfirmation;
 
+@property (weak, nonatomic) UIAlertController *gdprConsentNotGivenAlertController;
+@property (weak, nonatomic) UIViewController *gdprConsentViewController;
+
 @property (nonatomic, nullable, copy) void (^registrationForRemoteNotificationsCompletion)(NSError *);
 
 
@@ -229,10 +234,6 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     // Set the App Group identifier.
     MXSDKOptions *sdkOptions = [MXSDKOptions sharedInstance];
     sdkOptions.applicationGroupIdentifier = @"group.im.vector.vmodev";
-
-    // Track SDK performance on Google analytics
-    // TODO: needs the same tool
-    //sdkOptions.analyticsDelegate = [[MXGoogleAnalytics alloc] init];
 
     // Redirect NSLogs to files only if we are not debugging
     if (!isatty(STDERR_FILENO))
@@ -343,6 +344,10 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions
 {
+    // Create message sound
+    NSURL *messageSoundURL = [[NSBundle mainBundle] URLForResource:@"message" withExtension:@"mp3"];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)messageSoundURL, &_messageSound);
+    
     NSLog(@"[AppDelegate] willFinishLaunchingWithOptions: Done");
 
     return YES;
@@ -452,15 +457,12 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     _isAppForeground = NO;
     
-    // Retrieve custom configuration
-    NSString* userDefaults = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UserDefaults"];
-    NSString *defaultsPathFromApp = [[NSBundle mainBundle] pathForResource:userDefaults ofType:@"plist"];
-    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPathFromApp];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self setupUserDefaults];
     
-    // Configure Google Analytics here if the option is enabled
-    [self startAnalytics];
+    // Configure our analytics. It will indeed start if the option is enabled
+    [MXSDKOptions sharedInstance].analyticsDelegate = [Analytics sharedInstance];
+    [DecryptionFailureTracker sharedInstance].delegate = [Analytics sharedInstance];
+    [[Analytics sharedInstance] start];
     
     // Prepare Pushkit handling
     _incomingPushEventIds = [NSMutableDictionary dictionary];
@@ -554,7 +556,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     _isAppForeground = NO;
     
     // Analytics: Force to send the pending actions
-    [[PiwikTracker shared] dispatch];
+    [[DecryptionFailureTracker sharedInstance] dispatch];
+    [[Analytics sharedInstance] dispatch];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -585,12 +588,15 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     NSLog(@"[AppDelegate] applicationDidBecomeActive");
     
     // Check if there is crash log to send
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableCrashReport"])
+    if (RiotSettings.shared.enableCrashReport)
     {
         [self checkExceptionToReport];
     }
     
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    // Register to GDPR consent not given notification
+    [self registerUserConsentNotGivenNotification];
     
     // Start monitoring reachability
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -637,7 +643,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     // Refresh local contact from the contact book.
     [self refreshLocalContacts];
     
-    [[MXKContactManager sharedManager] refreshO365ContactsWithDictionary:nil];
+    // [[MXKContactManager sharedManager] refreshO365ContactsWithDictionary:nil];
     
     _isAppForeground = YES;
 
@@ -840,6 +846,16 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         return nil;
     }
     
+    // Ignore GDPR Consent not given error. Already caught by kMXHTTPClientUserConsentNotGivenErrorNotification observation
+    if ([MXError isMXError:error])
+    {
+        MXError *mxError = [[MXError alloc] initWithNSError:error];
+        if ([mxError.errcode isEqualToString:kMXErrCodeStringConsentNotGiven])
+        {
+            return nil;
+        }
+    }
+    
     [_errorNotification dismissViewControllerAnimated:NO completion:nil];
     
     NSString *title = [error.userInfo valueForKey:NSLocalizedFailureReasonErrorKey];
@@ -1006,70 +1022,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     }
 }
 
-#pragma mark - Analytics
-
-- (void)startAnalytics
-{
-    NSDictionary *piwikConfig = [[NSUserDefaults standardUserDefaults] objectForKey:@"piwik"];
-    [PiwikTracker configureSharedInstanceWithSiteID:piwikConfig[@"siteId"]
-                                            baseURL:[NSURL URLWithString:piwikConfig[@"url"]]
-                                          userAgent:@"iOSPiwikTracker"];
-
-    // Check whether the user has enabled the sending of crash reports.
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableCrashReport"])
-    {
-        [PiwikTracker shared].isOptedOut = NO;
-
-        [[PiwikTracker shared] setCustomVariableWithIndex:1 name:@"App Platform" value:@"iOS Platform"];
-        [[PiwikTracker shared] setCustomVariableWithIndex:2 name:@"App Version" value:[self appVersion]];
-
-        // The language is either the one selected by the user within the app
-        // or, else, the one configured by the OS
-        NSString *language = [NSBundle mxk_language] ? [NSBundle mxk_language] : [[NSBundle mainBundle] preferredLocalizations][0];
-        [[PiwikTracker shared] setCustomVariableWithIndex:4 name:@"Chosen Language" value:language];
-
-        MXKAccount* account = [MXKAccountManager sharedManager].activeAccounts.firstObject;
-        if (account)
-        {
-            [[PiwikTracker shared] setCustomVariableWithIndex:7 name:@"Homeserver URL" value:account.mxCredentials.homeServer];
-            [[PiwikTracker shared] setCustomVariableWithIndex:8 name:@"Identity Server URL" value:account.identityServerURL];
-        }
-
-        // TODO: We should also track device and os version
-        // But that needs to be decided for all platforms
-
-        // Catch and log crashes
-        [MXLogger logCrashes:YES];
-        [MXLogger setBuildVersion:[AppDelegate theDelegate].build];
-
-#ifdef DEBUG
-        // Disable analytics in debug as it pollutes stats
-        [PiwikTracker shared].isOptedOut = YES;
-#endif
-    }
-    else if ([[NSUserDefaults standardUserDefaults] objectForKey:@"enableCrashReport"])
-    {
-        NSLog(@"[AppDelegate] The user decided to not ");
-        [PiwikTracker shared].isOptedOut = YES;
-        [MXLogger logCrashes:NO];
-    }
-}
-
-- (void)stopAnalytics
-{
-    [PiwikTracker shared].isOptedOut = YES;
-    [MXLogger logCrashes:NO];
-}
-
-- (void)trackScreen:(NSString *)screenName
-{
-    // Use the same pattern as Android
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-    NSString *appVersion = [self appVersion];
-
-    [[PiwikTracker shared] trackWithView:@[@"ios", appName, appVersion, screenName]
-                                     url:nil];
-}
+#pragma mark - Crash handling
 
 // Check if there is a crash log to send to server
 - (void)checkExceptionToReport
@@ -1451,7 +1404,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                                                @"user_id": account.mxCredentials.userId
                                                };
                 
-                BOOL isNotificationContentShown = !event.isEncrypted || account.showDecryptedContentInNotifications;
+                BOOL isNotificationContentShown = !event.isEncrypted || RiotSettings.shared.showDecryptedContentInNotifications;
+                
                 if ((event.eventType == MXEventTypeRoomMessage || event.eventType == MXEventTypeRoomEncrypted) && isNotificationContentShown)
                 {
                     eventNotification.category = @"QUICK_REPLY";
@@ -1466,7 +1420,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                         {
                             NSString *soundName = action.parameters[@"value"];
                             if ([soundName isEqualToString:@"default"])
-                                soundName = UILocalNotificationDefaultSoundName;
+                                soundName = @"message.mp3";
                             
                             eventNotification.soundName = soundName;
                         }
@@ -1539,7 +1493,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         NSString *msgType = event.content[@"msgtype"];
         NSString *content = event.content[@"body"];
         
-        if (event.isEncrypted && !account.showDecryptedContentInNotifications)
+        if (event.isEncrypted && !RiotSettings.shared.showDecryptedContentInNotifications)
         {
             // Hide the content
             msgType = nil;
@@ -2198,7 +2152,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     sdkOptions.backgroundModeHandler = [[MXUIKitBackgroundModeHandler alloc] init];
 
     // Get modular widget events in rooms histories
-    [[MXKAppSettings standardAppSettings] addSupportedEventTypes:@[kWidgetEventTypeString]];
+    [[MXKAppSettings standardAppSettings] addSupportedEventTypes:@[kWidgetMatrixEventTypeString, kWidgetModularEventTypeString]];
     
     // Disable long press on event in bubble cells
     [MXKRoomBubbleTableViewCell disableLongPressGestureOnEvent:YES];
@@ -2257,9 +2211,10 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             // Each room member will be considered as a potential contact.
             [MXKContactManager sharedManager].contactManagerMXRoomSource = MXKContactManagerMXRoomSourceAll;
 
-            // Send read receipts for modular widgets events too
+            // Send read receipts for widgets events too
             NSMutableArray<MXEventTypeString> *acknowledgableEventTypes = [NSMutableArray arrayWithArray:mxSession.acknowledgableEventTypes];
-            [acknowledgableEventTypes addObject:kWidgetEventTypeString];
+            [acknowledgableEventTypes addObject:kWidgetMatrixEventTypeString];
+            [acknowledgableEventTypes addObject:kWidgetModularEventTypeString];
             mxSession.acknowledgableEventTypes = acknowledgableEventTypes;
         }
         else if (mxSession.state == MXSessionStateStoreDataReady)
@@ -2656,6 +2611,17 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         [topVC startActivityIndicator];
     }
     
+    [self logoutSendingRequestServer:YES completion:^(BOOL isLoggedOut) {
+        if (completion)
+        {
+            completion (YES);
+        }
+    }];
+}
+
+- (void)logoutSendingRequestServer:(BOOL)sendLogoutServerRequest
+                        completion:(void (^)(BOOL isLoggedOut))completion
+{
     self.pushRegistry = nil;
     isPushRegistered = NO;
     
@@ -2887,8 +2853,11 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     if (launchAnimationContainerView)
     {
-        NSTimeInterval durationMs = [[NSDate date] timeIntervalSinceDate:launchAnimationStart] * 1000;
-        NSLog(@"[AppDelegate] LaunchAnimation was shown for %.3fms", durationMs);
+        NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:launchAnimationStart];
+        NSLog(@"[AppDelegate] LaunchAnimation was shown for %.3fms", duration * 1000);
+
+        // Track it on our analytics
+        [[Analytics sharedInstance] trackLaunchScreenDisplayDuration:duration];
 
         // TODO: Send durationMs to Piwik
         // Such information should be the same on all platforms
@@ -3063,8 +3032,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                             {
                                 if ([[ruleAction.parameters valueForKey:@"set_tweak"] isEqualToString:@"sound"])
                                 {
-                                    // Play system sound (VoicemailReceived)
-                                    AudioServicesPlaySystemSound (1002);
+                                    // Play message sound
+                                    AudioServicesPlaySystemSound(_messageSound);
                                 }
                             }
                         }
@@ -4014,6 +3983,104 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     for (MXSession *mxSession in mxSessionArray)
     {
         [self checkPendingRoomKeyRequestsInSession:mxSession];
+    }
+}
+
+#pragma mark - GDPR consent
+
+// Observe user GDPR consent not given
+- (void)registerUserConsentNotGivenNotification
+{
+    [NSNotificationCenter.defaultCenter addObserverForName:kMXHTTPClientUserConsentNotGivenErrorNotification
+                                                    object:nil
+                                                     queue:[NSOperationQueue mainQueue]
+                                                usingBlock:^(NSNotification *notification)
+    {
+        NSString *consentURI = notification.userInfo[kMXHTTPClientUserConsentNotGivenErrorNotificationConsentURIKey];
+        if (consentURI
+            && self.gdprConsentNotGivenAlertController.presentingViewController == nil
+            && self.gdprConsentViewController.presentingViewController == nil)
+        {
+            self.gdprConsentNotGivenAlertController = nil;
+            self.gdprConsentViewController = nil;
+            
+            UIViewController *presentingViewController = self.window.rootViewController.presentedViewController ?: self.window.rootViewController;
+            
+            __weak typeof(self) weakSelf = self;
+            
+            MXSession *mainSession = self.mxSessions.firstObject;
+            NSString *homeServerName = mainSession.matrixRestClient.credentials.homeServerName;
+            
+            NSString *alertMessage = [NSString stringWithFormat:NSLocalizedStringFromTable(@"gdpr_consent_not_given_alert_message", @"Vector", nil), homeServerName];
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"settings_term_conditions", @"Vector", nil)                                        
+                                                                           message:alertMessage
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"gdpr_consent_not_given_alert_review_now_action", @"Vector", nil)
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * action) {
+                                                        
+                                                        typeof(weakSelf) strongSelf = weakSelf;
+                                                        
+                                                        if (strongSelf)
+                                                        {
+                                                            [strongSelf presentGDPRConsentFromViewController:presentingViewController consentURI:consentURI];
+                                                        }
+                                                    }]];
+            
+            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"later", @"Vector", nil)
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:nil]];
+            
+            [presentingViewController presentViewController:alert animated:YES completion:nil];
+            
+            self.gdprConsentNotGivenAlertController = alert;
+        }
+    }];
+}
+
+- (void)presentGDPRConsentFromViewController:(UIViewController*)viewController consentURI:(NSString*)consentURI
+{
+    WebViewViewController *webViewViewController = [[WebViewViewController alloc] initWithURL:consentURI];    
+    webViewViewController.title = NSLocalizedStringFromTable(@"settings_term_conditions", @"Vector", nil);
+    
+    UIBarButtonItem *closeBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSBundle mxk_localizedStringForKey:@"close"]
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:self
+                                                                          action:@selector(dismissGDPRConsent)];
+    
+    webViewViewController.navigationItem.leftBarButtonItem = closeBarButtonItem;
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewViewController];
+    
+    [viewController presentViewController:navigationController animated:YES completion:nil];
+    
+    self.gdprConsentViewController = navigationController;
+}
+
+- (void)dismissGDPRConsent
+{    
+    [self.gdprConsentViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Settings
+
+- (void)setupUserDefaults
+{
+    // Register "Riot-Defaults.plist" default values
+    NSString* userDefaults = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UserDefaults"];
+    NSString *defaultsPathFromApp = [[NSBundle mainBundle] pathForResource:userDefaults ofType:@"plist"];
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPathFromApp];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    
+    // Now use RiotSettings and NSUserDefaults to store `showDecryptedContentInNotifications` setting option
+    // Migrate this information from main MXKAccount to RiotSettings, if value is not in UserDefaults
+    
+    if (!RiotSettings.shared.isShowDecryptedContentInNotificationsHasBeenSetOnce)
+    {
+        MXKAccount *currentAccount = [MXKAccountManager sharedManager].activeAccounts.firstObject;
+        RiotSettings.shared.showDecryptedContentInNotifications = currentAccount.showDecryptedContentInNotifications;
     }
 }
 

@@ -55,10 +55,11 @@
 
     NSArray<Widget*> *widgets = [[WidgetManager sharedManager] widgetsNotOfTypes:@[kWidgetTypeJitsi]
                                                                           inRoom:room];
+
     // List widgets
     for (Widget *widget in widgets)
     {
-        alertAction = [UIAlertAction actionWithTitle:widget.name
+        alertAction = [UIAlertAction actionWithTitle:widget.name ? widget.name : widget.type
                                                style:UIAlertActionStyleDefault
                                              handler:^(UIAlertAction * _Nonnull action)
                        {
@@ -68,8 +69,12 @@
                            // Display the widget
                            [widget widgetUrl:^(NSString * _Nonnull widgetUrl) {
 
-                                WidgetViewController *widgetVC = [[WidgetViewController alloc] initWithUrl:widgetUrl forWidget:widget];
-                                [mxkViewController.navigationController pushViewController:widgetVC animated:YES];
+                               WidgetViewController *widgetVC = [[WidgetViewController alloc] initWithUrl:widgetUrl forWidget:widget];
+
+                               MXKRoomDataSourceManager *roomDataSourceManager = [MXKRoomDataSourceManager sharedManagerForMatrixSession:mxSession];
+                               widgetVC.roomDataSource = [roomDataSourceManager roomDataSourceForRoom:roomId create:NO];
+
+                               [mxkViewController.navigationController pushViewController:widgetVC animated:YES];
 
                             } failure:^(NSError * _Nonnull error) {
 
