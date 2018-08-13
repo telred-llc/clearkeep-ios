@@ -41,6 +41,7 @@
                 <outlet property="rightBarButtonItem" destination="Kwt-KN-aVL" id="Y3F-wA-tf8"/>
                 <outlet property="serverOptionsContainer" destination="FIn-2w-e6H" id="Z0e-NN-3LY"/>
                 <outlet property="skipButton" destination="wEJ-AF-rdH" id="smu-MS-2IY"/>
+                <outlet property="socialLoginButton" destination="Vbn-s6-2wF" id="r0Z-zS-kDJ"/>
                 <outlet property="submitButton" destination="k3J-Eg-itz" id="fiZ-wK-6YM"/>
                 <outlet property="submitButtonMinLeadingConstraint" destination="bEB-EO-b14" id="Iz5-ks-nSX"/>
                 <outlet property="view" destination="5rn-KE-plm" id="bFJ-yJ-vc0"/>
@@ -141,7 +142,7 @@
                                     <rect key="frame" x="0.0" y="360" width="375" height="300"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AJ2-lJ-NUq">
-                                            <rect key="frame" x="19" y="33" width="122" height="30"/>
+                                            <rect key="frame" x="19" y="8" width="122" height="30"/>
                                             <accessibility key="accessibilityConfiguration" identifier="AuthenticationVCForgotPasswordButton"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="1mr-dZ-KtP"/>
@@ -161,7 +162,7 @@
                                             </connections>
                                         </button>
                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wEJ-AF-rdH">
-                                            <rect key="frame" x="11" y="33" width="106" height="30"/>
+                                            <rect key="frame" x="11" y="8" width="106" height="30"/>
                                             <color key="backgroundColor" red="0.028153735480000001" green="0.82494870580000002" blue="0.051896891280000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <accessibility key="accessibilityConfiguration" identifier="AuthenticationVCSkipButton"/>
                                             <constraints>
@@ -177,8 +178,20 @@
                                                 <action selector="onButtonPressed:" destination="-1" eventType="touchUpInside" id="iEr-Vf-f6P"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbn-s6-2wF">
+                                            <rect key="frame" x="253" y="44" width="111" height="30"/>
+                                            <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                            <state key="normal" title="Social Log In">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="onSocialButtonPressed:" destination="-1" eventType="touchUpInside" id="kgx-3m-ETZ"/>
+                                            </connections>
+                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k3J-Eg-itz" userLabel="SubmitBtn">
-                                            <rect key="frame" x="258" y="33" width="106" height="30"/>
+                                            <rect key="frame" x="258" y="8" width="106" height="30"/>
                                             <color key="backgroundColor" red="0.028153735480000001" green="0.82494870580000002" blue="0.051896891280000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <accessibility key="accessibilityConfiguration" identifier="AuthenticationVCLoginButton"/>
                                             <constraints>
@@ -196,13 +209,13 @@
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FIn-2w-e6H">
-                                            <rect key="frame" x="0.0" y="68" width="375" height="178"/>
+                                            <rect key="frame" x="0.0" y="73" width="375" height="178"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6yx-o1-vbD">
-                                                    <rect key="frame" x="19" y="5" width="337" height="30"/>
+                                                <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6yx-o1-vbD">
+                                                    <rect key="frame" x="19" y="5" width="337" height="0.0"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="AuthenticationVCCustomServersTickButton"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="buF-NU-DPO"/>
+                                                        <constraint firstAttribute="height" id="buF-NU-DPO"/>
                                                     </constraints>
                                                     <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal" image="selection_untick.png">
@@ -220,7 +233,7 @@
                                                     </connections>
                                                 </button>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOi-KN-l9I">
-                                                    <rect key="frame" x="0.0" y="38" width="375" height="140"/>
+                                                    <rect key="frame" x="0.0" y="5" width="375" height="140"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1YY-gb-LG4">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
@@ -295,7 +308,7 @@
                                                                         <outlet property="delegate" destination="-1" id="nZF-by-6t6"/>
                                                                     </connections>
                                                                 </textField>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t08-ua-0mJ">
+                                                                <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t08-ua-0mJ">
                                                                     <rect key="frame" x="10" y="69" width="355" height="1"/>
                                                                     <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
@@ -338,26 +351,29 @@
                                                 <constraint firstItem="6yx-o1-vbD" firstAttribute="top" secondItem="FIn-2w-e6H" secondAttribute="top" constant="5" id="0qc-IF-8LY"/>
                                                 <constraint firstItem="6yx-o1-vbD" firstAttribute="leading" secondItem="FIn-2w-e6H" secondAttribute="leading" constant="19" id="4Bh-4A-vvx"/>
                                                 <constraint firstAttribute="height" constant="178" id="IXz-cy-UNz"/>
-                                                <constraint firstAttribute="bottom" secondItem="uOi-KN-l9I" secondAttribute="bottom" id="OYa-Ck-seY"/>
                                                 <constraint firstAttribute="trailing" secondItem="uOi-KN-l9I" secondAttribute="trailing" id="VyL-36-Xlv"/>
                                                 <constraint firstItem="uOi-KN-l9I" firstAttribute="leading" secondItem="FIn-2w-e6H" secondAttribute="leading" id="rO6-yU-O2D"/>
                                                 <constraint firstAttribute="trailing" secondItem="6yx-o1-vbD" secondAttribute="trailing" constant="19" id="rWk-Mp-KPS"/>
+                                                <constraint firstItem="uOi-KN-l9I" firstAttribute="top" secondItem="6yx-o1-vbD" secondAttribute="bottom" id="vyP-F2-h9n"/>
                                             </constraints>
                                         </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <accessibility key="accessibilityConfiguration" identifier="AuthenticationVCOptionsContainer"/>
                                     <constraints>
+                                        <constraint firstItem="Vbn-s6-2wF" firstAttribute="height" secondItem="k3J-Eg-itz" secondAttribute="height" id="08S-I8-ebM"/>
                                         <constraint firstItem="FIn-2w-e6H" firstAttribute="leading" secondItem="Gg0-TE-OGb" secondAttribute="leading" id="3G8-Tb-KaN"/>
                                         <constraint firstItem="wEJ-AF-rdH" firstAttribute="width" secondItem="k3J-Eg-itz" secondAttribute="width" id="7sB-YJ-eX4"/>
+                                        <constraint firstItem="Vbn-s6-2wF" firstAttribute="trailing" secondItem="k3J-Eg-itz" secondAttribute="trailing" id="UaR-O6-du5"/>
+                                        <constraint firstItem="Vbn-s6-2wF" firstAttribute="top" secondItem="k3J-Eg-itz" secondAttribute="bottom" constant="6" id="Vra-vI-3Dz"/>
                                         <constraint firstItem="wEJ-AF-rdH" firstAttribute="centerY" secondItem="k3J-Eg-itz" secondAttribute="centerY" id="Vze-EI-oXj"/>
                                         <constraint firstAttribute="trailing" secondItem="k3J-Eg-itz" secondAttribute="trailing" constant="11" id="ZyA-Tq-Sfq"/>
                                         <constraint firstItem="k3J-Eg-itz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Gg0-TE-OGb" secondAttribute="leading" constant="150" id="bEB-EO-b14"/>
                                         <constraint firstItem="AJ2-lJ-NUq" firstAttribute="centerY" secondItem="k3J-Eg-itz" secondAttribute="centerY" id="dcE-Vs-7Rt"/>
                                         <constraint firstAttribute="trailing" secondItem="FIn-2w-e6H" secondAttribute="trailing" id="kFj-6g-v3H"/>
                                         <constraint firstAttribute="height" constant="300" id="lXv-gM-CjN"/>
-                                        <constraint firstItem="k3J-Eg-itz" firstAttribute="top" secondItem="Gg0-TE-OGb" secondAttribute="top" constant="33" id="mor-t9-7Ke"/>
-                                        <constraint firstItem="FIn-2w-e6H" firstAttribute="top" secondItem="k3J-Eg-itz" secondAttribute="bottom" constant="5" id="oTS-5o-MMW"/>
+                                        <constraint firstItem="k3J-Eg-itz" firstAttribute="top" secondItem="Gg0-TE-OGb" secondAttribute="top" constant="8" id="mor-t9-7Ke"/>
+                                        <constraint firstItem="FIn-2w-e6H" firstAttribute="top" secondItem="k3J-Eg-itz" secondAttribute="bottom" constant="35" id="oTS-5o-MMW"/>
                                         <constraint firstItem="wEJ-AF-rdH" firstAttribute="leading" secondItem="Gg0-TE-OGb" secondAttribute="leading" constant="11" id="sax-RY-aOJ"/>
                                         <constraint firstItem="AJ2-lJ-NUq" firstAttribute="leading" secondItem="Gg0-TE-OGb" secondAttribute="leading" constant="19" id="xFm-Bs-yzw"/>
                                     </constraints>

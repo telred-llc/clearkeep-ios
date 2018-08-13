@@ -16,8 +16,9 @@
  */
 
 #import <MatrixKit/MatrixKit.h>
+#include "AuthWebViewController.h"
 
-@interface AuthenticationViewController : MXKAuthenticationViewController <MXKAuthenticationViewControllerDelegate>
+@interface AuthenticationViewController : MXKAuthenticationViewController <MXKAuthenticationViewControllerDelegate, AuthWebViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 
@@ -28,6 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *skipButton;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
+@property (weak, nonatomic) IBOutlet UIButton *socialLoginButton;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *submitButtonMinLeadingConstraint;
 

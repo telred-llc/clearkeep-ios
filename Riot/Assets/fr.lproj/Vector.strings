@@ -542,4 +542,4 @@
 "event_formatter_rerequest_keys_part2" = " depuis vos autres appareils.";
 // Re-request confirmation dialog
 "rerequest_keys_alert_title" = "Demande envoyée";
-"rerequest_keys_alert_message" = "Veuillez lancer Riot sur un autre appareil qui peut déchiffrer le message pour qu'il puisse envoyer les clés sur cet appareil.";
+"rerequest_keys_alert_message" = "Veuillez lancer ClearKeep sur un autre appareil qui peut déchiffrer le message pour qu'il puisse envoyer les clés sur cet appareil.";

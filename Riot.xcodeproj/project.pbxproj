@@ -123,6 +123,7 @@
 		B1D818C020EA4C7400D5F36D /* RiotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D818BF20EA4C7400D5F36D /* RiotSettings.swift */; };
 		B1D818C120EA794400D5F36D /* RiotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D818BF20EA4C7400D5F36D /* RiotSettings.swift */; };
 		DDDE2AB95F865F2292B1D315 /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D7292481328A48B8D5D4ED /* Pods_RiotPods_RiotShareExtension.framework */; };
+		E500B2152121935F00E42EA4 /* AuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E500B2142121935F00E42EA4 /* AuthWebViewController.m */; };
 		F0131DE51F2200D600CBF707 /* RiotSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0131DE41F2200D600CBF707 /* RiotSplitViewController.m */; };
 		F0173EB51FCF346800B5F6A3 /* Vector.strings in Resources */ = {isa = PBXBuildFile; fileRef = F0173EAF1FCF346800B5F6A3 /* Vector.strings */; };
 		F0173EB61FCF346800B5F6A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F0173EB11FCF346800B5F6A3 /* Localizable.strings */; };
@@ -829,6 +830,8 @@
 		C195C53961EA28E6900AEB68 /* Pods-Riot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Riot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Riot/Pods-Riot.release.xcconfig"; sourceTree = "<group>"; };
 		C5258DFF261AA3AB228A3F11 /* Pods-RiotPods-RiotShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension/Pods-RiotPods-RiotShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		DB50EEBE8214352B9EBD6394 /* Pods_RiotPods_SiriIntents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_SiriIntents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E500B2132121933B00E42EA4 /* AuthWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthWebViewController.h; sourceTree = "<group>"; };
+		E500B2142121935F00E42EA4 /* AuthWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthWebViewController.m; sourceTree = "<group>"; };
 		F0131DE31F2200D600CBF707 /* RiotSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiotSplitViewController.h; sourceTree = "<group>"; };
 		F0131DE41F2200D600CBF707 /* RiotSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RiotSplitViewController.m; sourceTree = "<group>"; };
 		F0173EB01FCF346800B5F6A3 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = Vector.strings; sourceTree = "<group>"; };
@@ -2276,6 +2279,8 @@
 				F05BD7A01E7C0E4500C69941 /* MasterTabBarController.m */,
 				F05BD79C1E7AEBF800C69941 /* UnifiedSearchViewController.h */,
 				F05BD79D1E7AEBF800C69941 /* UnifiedSearchViewController.m */,
+				E500B2132121933B00E42EA4 /* AuthWebViewController.h */,
+				E500B2142121935F00E42EA4 /* AuthWebViewController.m */,
 				F083BC1A1E7009EC00A9B29C /* AttachmentsViewController.h */,
 				F083BC1B1E7009EC00A9B29C /* AttachmentsViewController.m */,
 				F083BC1C1E7009EC00A9B29C /* AuthenticationViewController.h */,
@@ -3659,6 +3664,7 @@
 				F083BE151E7009ED00A9B29C /* MediaAlbumContentViewController.m in Sources */,
 				F083BE5C1E7009ED00A9B29C /* RoomIncomingAttachmentWithoutSenderInfoBubbleCell.m in Sources */,
 				F0E05A061E9682E9004B83FB /* ContactsDataSource.m in Sources */,
+				E500B2152121935F00E42EA4 /* AuthWebViewController.m in Sources */,
 				F083BE401E7009ED00A9B29C /* RoomIncomingEncryptedTextMsgBubbleCell.m in Sources */,
 				32AE61E91F0CE099007255F4 /* RoomMembershipWithPaginationTitleBubbleCell.m in Sources */,
 				F083BDFD1E7009ED00A9B29C /* PublicRoomsDirectoryDataSource.m in Sources */,
@@ -4048,7 +4054,7 @@
 					"IS_SHARE_EXTENSION=1",
 				);
 				INFOPLIST_FILE = RiotShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4081,7 +4087,7 @@
 					"IS_SHARE_EXTENSION=1",
 				);
 				INFOPLIST_FILE = RiotShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4106,7 +4112,7 @@
 				DEVELOPMENT_TEAM = 5KH4V6747U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SiriIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.SiriIntents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4130,7 +4136,7 @@
 				DEVELOPMENT_TEAM = 5KH4V6747U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SiriIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.SiriIntents;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4257,7 +4263,7 @@
 					"\"$(PROJECT_DIR)/Riot/libs/jitsi-meet\"",
 				);
 				INFOPLIST_FILE = Riot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4299,7 +4305,7 @@
 					"\"$(PROJECT_DIR)/Riot/libs/jitsi-meet\"",
 				);
 				INFOPLIST_FILE = Riot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";

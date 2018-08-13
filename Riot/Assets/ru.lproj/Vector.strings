@@ -543,4 +543,4 @@
 "event_formatter_rerequest_keys_part2" = " с других устройств.";
 // Re-request confirmation dialog
 "rerequest_keys_alert_title" = "Запрос отправлен";
-"rerequest_keys_alert_message" = "Запустите Riot на другом устройстве, которое может расшифровать сообщение, чтобы оно могло отправить ключи этому устройству.";
+"rerequest_keys_alert_message" = "Запустите ClearKeep на другом устройстве, которое может расшифровать сообщение, чтобы оно могло отправить ключи этому устройству.";

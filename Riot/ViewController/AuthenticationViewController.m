@@ -97,6 +97,9 @@
     [self.skipButton setTitle:NSLocalizedStringFromTable(@"auth_skip", @"Vector", nil) forState:UIControlStateHighlighted];
     self.skipButton.enabled = YES;
     
+    [self.socialLoginButton.layer setCornerRadius:5];
+    [self.socialLoginButton setClipsToBounds:YES];
+
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateNormal];
     [self.customServersTickButton setImage:[UIImage imageNamed:@"selection_untick"] forState:UIControlStateHighlighted];
     
@@ -475,6 +478,29 @@
     }
 }
 
+- (IBAction)onSocialButtonPressed:(id)sender {
+    
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    AuthWebViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"AuthWebViewController"];
+    controller.delegate = self;
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (BOOL)checkHomeServer {
+    if (self.homeServerTextField.text.length == 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:@"Login Failed. Please check your home server."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                }]];
+        [self presentViewController:alert animated:YES completion:nil];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)onFailureDuringAuthRequest:(NSError *)error
 {
     // Homeserver migration: When the default homeserver url is different from matrix.org,
@@ -576,7 +602,8 @@
 
 - (void)updateForgotPwdButtonVisibility
 {
-    self.forgotPasswordButton.hidden = (self.authType != MXKAuthenticationTypeLogin);
+    // self.forgotPasswordButton.hidden = (self.authType != MXKAuthenticationTypeLogin);
+    self.forgotPasswordButton.hidden = YES;
     
     // Adjust minimum leading constraint of the submit button
     if (self.forgotPasswordButton.isHidden)

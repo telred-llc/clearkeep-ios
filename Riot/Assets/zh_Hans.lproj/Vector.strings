@@ -135,7 +135,7 @@
 "contacts_address_book_matrix_users_toggle" = "只有 Matrix 用户";
 "contacts_address_book_no_contact" = "没有本地联系人";
 "contacts_address_book_permission_required" = "需要权限以便访问本地联系人";
-"contacts_address_book_permission_denied" = "你没有允许 Riot 访问本地联系人";
+"contacts_address_book_permission_denied" = "你没有允许 ClearKeep 访问本地联系人";
 "contacts_matrix_users_section" = "已知联系人";
 // Chat participants
 "room_participants_title" = "参加者";
@@ -398,7 +398,7 @@
 // Crash report
 "google_analytics_use_prompt" = "您打算通过自动报告匿名的崩溃报告和使用数据来帮助提升 %@ 吗？";
 // Crypto
-"e2e_enabling_on_app_update" = "Riot 目前支持端对端加密，但是您需要重新登录以启用它。\n\n您可以现在重新登录，也可以之后再从应用程序设置中选择开启。";
+"e2e_enabling_on_app_update" = "ClearKeep 目前支持端对端加密，但是您需要重新登录以启用它。\n\n您可以现在重新登录，也可以之后再从应用程序设置中选择开启。";
 "e2e_need_log_in_again" = "您需要登录回来以便为此设备生成端对端加密密钥并提交公钥到您的主服务器。\n这只需要做一次；很抱歉造成打扰。";
 // Bug report
 "bug_report_title" = "Bug 报告";
