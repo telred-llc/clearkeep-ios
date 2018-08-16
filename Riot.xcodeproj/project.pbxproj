@@ -738,7 +738,7 @@
 		3267EFB020E2A04100FF1CAA /* Analytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Analytics.h; path = Riot/Analytics/Analytics.h; sourceTree = SOURCE_ROOT; };
 		3267EFB120E2A04100FF1CAA /* Analytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Analytics.m; path = Riot/Analytics/Analytics.m; sourceTree = SOURCE_ROOT; };
 		3267EFB320E379FD00FF1CAA /* CHANGES.rst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES.rst; sourceTree = "<group>"; };
-		3267EFB420E379FD00FF1CAA /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		3267EFB420E379FD00FF1CAA /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		3267EFB520E379FD00FF1CAA /* AUTHORS.rst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS.rst; sourceTree = "<group>"; };
 		3267EFB620E379FD00FF1CAA /* README.rst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.rst; sourceTree = "<group>"; };
 		3267EFBE20E4A3DD00FF1CAA /* DecryptionFailureTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DecryptionFailureTracker.m; path = Riot/Analytics/DecryptionFailureTracker.m; sourceTree = SOURCE_ROOT; };

@@ -122,6 +122,7 @@ static const NSString *kJitsiServerUrl = @"https://meet.jit.si/";
     [super viewDidLoad];
 
     self.jitsiMeetView.delegate = self;
+    self.jitsiMeetView.welcomePageEnabled = YES;    
 
     // Pass the URL to jitsi-meet sdk
     [self.jitsiMeetView loadURLObject: @{

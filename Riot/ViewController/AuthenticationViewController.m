@@ -815,4 +815,21 @@
     [self cancel];
 }
 
+#pragma mark - AuthWebViewControllerDelegate
+
+- (void)authWebViewController: (AuthWebViewController* )controller didO365LoginWithDictionary:(NSDictionary *)dictionary {
+    if (dictionary != nil) {
+        NSString *userId = [dictionary objectForKey:@"userId"];
+        NSString *accessToken = [dictionary objectForKey:@"accessToken"];
+        NSString *deviceId = [dictionary objectForKey:@"deviceId"];
+        
+        NSString *defaultHS = [[NSUserDefaults standardUserDefaults] objectForKey:@"homeserverurl"];
+        MXCredentials* credentials = [[MXCredentials alloc] initWithHomeServer:defaultHS
+                                                                        userId:userId
+                                                                   accessToken:accessToken];
+        [credentials setDeviceId:deviceId];
+        // [[MXKContactManager sharedManager] refreshO365ContactsWithDictionary:dictionary];
+        [self onSuccessfulLogin:credentials];
+    }
+}
 @end
