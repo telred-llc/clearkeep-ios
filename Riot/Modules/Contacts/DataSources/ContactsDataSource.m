@@ -478,9 +478,7 @@
 }
 
 - (NSMutableArray<MXKContact*>*) unfilteredO365ContactsArray {
-    return nil;
     
-    /*
     NSArray *o365Contacts = [MXKContactManager sharedManager].o365ContactsByMethod;
     NSMutableArray *unfilteredO365Contacts = [NSMutableArray arrayWithCapacity:o365Contacts.count];
     
@@ -489,7 +487,7 @@
     }
     
     return unfilteredO365Contacts;
-    */
+    
 }
 
 #pragma mark - UITableView data source

@@ -133,6 +133,7 @@
         
     }];
     [self userInterfaceThemeDidChange];
+    [self automaticallyPickHomeServer];
 }
 
 - (void)userInterfaceThemeDidChange
@@ -217,7 +218,9 @@
     if ([MXKAccountManager sharedManager].activeAccounts.count)
     {
         // For now, we do not have better solution than forcing the user to restart the app
-        [NSException raise:@"False logout. Kill the app" format:@"AuthenticationViewController has been displayed whereas there is an existing account"];
+    
+        //-- Temporary comment this line code for social logging-in
+        // [NSException raise:@"False logout. Kill the app" format:@"AuthenticationViewController has been displayed whereas there is an existing account"];
     }
 }
 
@@ -278,6 +281,38 @@
     [self updateForgotPwdButtonVisibility];
 }
 
+- (NSString *)currentCountryCode {
+    NSString *countryCode = [MXKAppSettings standardAppSettings].phonebookCountryCode;
+    
+    if (!countryCode) {
+        
+        // If none, consider the preferred locale
+        NSLocale *local = [[NSLocale alloc] initWithLocaleIdentifier:[[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0]];
+        if ([local respondsToSelector:@selector(countryCode)]) {
+            countryCode = local.countryCode;
+        }
+    
+        if (!countryCode) {
+            countryCode = defaultCountryCode;
+        }
+    }
+    
+    return countryCode;
+}
+
+- (void)automaticallyPickHomeServer {
+    NSString *countryCode = [self currentCountryCode];
+    
+    if ([countryCode isEqualToString:@"IN"])
+        self.defaultHomeServerUrl = @"https://in.sinbadflyce.com:8448";
+    else if ([countryCode isEqualToString:@"BD"])
+        self.defaultHomeServerUrl = @"https://bd.sinbadflyce.com:8448";
+    else
+        self.defaultHomeServerUrl = @"https://study.sinbadflyce.com:8448";
+    
+    self.homeServerTextField.text = self.defaultHomeServerUrl;
+}
+
 - (void)setAuthInputsView:(MXKAuthInputsView *)authInputsView
 {
     // Keep the current country code if any.
@@ -293,21 +328,8 @@
         AuthInputsView *authInputsview = (AuthInputsView*)authInputsView;
         
         // Retrieve the MCC from the SIM card information (Note: the phone book country code is not defined yet)
-        NSString *countryCode = [MXKAppSettings standardAppSettings].phonebookCountryCode;
-        if (!countryCode)
-        {
-            // If none, consider the preferred locale
-            NSLocale *local = [[NSLocale alloc] initWithLocaleIdentifier:[[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0]];
-            if ([local respondsToSelector:@selector(countryCode)])
-            {
-                countryCode = local.countryCode;
-            }
-            
-            if (!countryCode)
-            {
-                countryCode = defaultCountryCode;
-            }
-        }
+        NSString *countryCode = [self currentCountryCode];
+
         authInputsview.isoCountryCode = countryCode;
         authInputsview.delegate = self;
     }
@@ -828,7 +850,7 @@
                                                                         userId:userId
                                                                    accessToken:accessToken];
         [credentials setDeviceId:deviceId];
-        // [[MXKContactManager sharedManager] refreshO365ContactsWithDictionary:dictionary];
+        [[MXKContactManager sharedManager] refreshO365ContactsWithDictionary:dictionary];
         [self onSuccessfulLogin:credentials];
     }
 }

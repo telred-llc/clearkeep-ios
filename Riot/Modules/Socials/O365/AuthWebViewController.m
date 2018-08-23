@@ -44,6 +44,13 @@ NSString *const kO365contacts = @"o365/contacts";
 - (void)loadWebView {
     NSURL *loginURL = [NSURL URLWithString:@"https://study.sinbadflyce.com:15050"];
     loginURL = [loginURL URLByAppendingPathComponent:kO365login];
+    
+    NSString *homeserverUrlString = [[NSUserDefaults standardUserDefaults] objectForKey:@"homeserverurl"];
+    NSURL *homeserverUrl = [NSURL URLWithString:homeserverUrlString];
+    NSString *fullLoginUrlString = [NSString stringWithFormat:@"%@?hs=%@", loginURL.absoluteString, homeserverUrl.host];
+    
+    loginURL = [NSURL URLWithString:fullLoginUrlString];
+    
     NSURLRequest *loginRequest = [NSURLRequest requestWithURL:loginURL];
     [self.webView loadRequest:loginRequest];
 }

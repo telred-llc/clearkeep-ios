@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -270,7 +269,22 @@
                                                                 <constraint firstAttribute="height" constant="70" id="wa1-77-Lb4"/>
                                                             </constraints>
                                                         </view>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kjJ-Tb-SIW">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F7z-sx-Sgu">
+                                                            <rect key="frame" x="117" y="80" width="180" height="30"/>
+                                                            <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="M7V-BE-i1f"/>
+                                                                <constraint firstAttribute="width" constant="180" id="yAu-ER-4cY"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                            <state key="normal" title="Social Login">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="onSocialButtonPressed:" destination="-1" eventType="touchUpInside" id="3PR-RN-dA7"/>
+                                                            </connections>
+                                                        </button>
+                                                        <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kjJ-Tb-SIW">
                                                             <rect key="frame" x="0.0" y="70" width="375" height="70"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identity Server:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5CT-Ht-Z3v">
@@ -327,6 +341,7 @@
                                                         <constraint firstAttribute="trailing" secondItem="1YY-gb-LG4" secondAttribute="trailing" id="M3s-AR-hKf"/>
                                                         <constraint firstAttribute="height" constant="140" id="aWW-v9-LSk"/>
                                                         <constraint firstAttribute="trailing" secondItem="kjJ-Tb-SIW" secondAttribute="trailing" id="eIu-yM-Lhs"/>
+                                                        <constraint firstItem="F7z-sx-Sgu" firstAttribute="top" secondItem="1YY-gb-LG4" secondAttribute="bottom" constant="10" id="ks6-pO-Ute"/>
                                                         <constraint firstItem="1YY-gb-LG4" firstAttribute="leading" secondItem="uOi-KN-l9I" secondAttribute="leading" id="mGS-4h-HKB"/>
                                                         <constraint firstItem="kjJ-Tb-SIW" firstAttribute="top" secondItem="uOi-KN-l9I" secondAttribute="top" constant="70" id="n8T-xk-7sh"/>
                                                     </constraints>
@@ -440,6 +455,7 @@
                 <constraint firstItem="OHV-KQ-Ww0" firstAttribute="top" secondItem="izX-ya-hXh" secondAttribute="bottom" id="Epg-2f-qa1"/>
                 <constraint firstAttribute="trailing" secondItem="OHV-KQ-Ww0" secondAttribute="trailing" id="KAu-Wf-ojt"/>
                 <constraint firstItem="izX-ya-hXh" firstAttribute="leading" secondItem="5rn-KE-plm" secondAttribute="leading" id="MrU-gL-vGG"/>
+                <constraint firstItem="F7z-sx-Sgu" firstAttribute="centerX" secondItem="5rn-KE-plm" secondAttribute="centerX" id="Roa-zD-EYY"/>
                 <constraint firstAttribute="trailing" secondItem="q1e-Wg-6t7" secondAttribute="trailing" id="XIS-Jp-qZf"/>
                 <constraint firstItem="OHV-KQ-Ww0" firstAttribute="top" secondItem="k7D-Gy-yBR" secondAttribute="bottom" id="aCW-Po-Hty"/>
                 <constraint firstAttribute="bottom" secondItem="OHV-KQ-Ww0" secondAttribute="bottom" id="g7o-eO-7Yr"/>
