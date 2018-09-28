@@ -27,9 +27,9 @@
 	<key>matrixApps</key>
 	<true/>
 	<key>integrationsUiUrl</key>
-	<string>http://scalar.sinbadflyce.com/riot/</string>
+	<string>https://scalar.sinbadflyce.com/riot/</string>
 	<key>integrationsRestUrl</key>
-	<string>http://scalar.sinbadflyce.com/api/v1/scalar</string>
+	<string>https://scalar.sinbadflyce.com/api/v1/scalar</string>
 	<key>piwik</key>
 	<dict>
 		<key>url</key>
