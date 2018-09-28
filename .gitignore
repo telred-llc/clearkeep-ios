@@ -32,3 +32,8 @@ Pods/
 /Riot/ViewController/__O365AuthViewController.xib
 /Riot/ViewController/O365AuthViewController_org.m
 /Riot/Bak
+
+# Fastlane
+fastlane/report.xml
+fastlane/Reports
+fastlane/README.md
