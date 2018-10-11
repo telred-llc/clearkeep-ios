@@ -43,23 +43,10 @@ PODS:
   - GZIP (1.2.2)
   - HPGrowingTextView (1.1)
   - libPhoneNumber-iOS (0.9.13)
-  - MatrixKit (0.8.5):
-    - cmark (~> 0.24.1)
-    - DTCoreText (~> 1.6.21)
-    - HPGrowingTextView (~> 1.1)
-    - libPhoneNumber-iOS (~> 0.9.13)
-    - MatrixKit/Core (= 0.8.5)
-    - MatrixSDK (= 0.11.5)
   - MatrixKit/AppExtension (0.8.5):
     - cmark (~> 0.24.1)
     - DTCoreText (~> 1.6.21)
     - DTCoreText/Extension
-    - HPGrowingTextView (~> 1.1)
-    - libPhoneNumber-iOS (~> 0.9.13)
-    - MatrixSDK (= 0.11.5)
-  - MatrixKit/Core (0.8.5):
-    - cmark (~> 0.24.1)
-    - DTCoreText (~> 1.6.21)
     - HPGrowingTextView (~> 1.1)
     - libPhoneNumber-iOS (~> 0.9.13)
     - MatrixSDK (= 0.11.5)
@@ -92,8 +79,7 @@ DEPENDENCIES:
   - cmark
   - DTCoreText
   - GBDeviceInfo (~> 5.2.0)
-  - MatrixKit (= 0.8.5)
-  - MatrixKit/AppExtension (= 0.8.5)
+  - MatrixKit/AppExtension (from `https://github.com/sinbadflyce/matrix-ios-kit.git`, branch `o365`)
   - MatrixSDK/JingleCallStack
   - MatrixSDK/SwiftSupport
   - OLMKit
@@ -109,18 +95,23 @@ SPEC REPOS:
     - GZIP
     - HPGrowingTextView
     - libPhoneNumber-iOS
-    - MatrixKit
     - MatrixSDK
     - OLMKit
     - Realm
     - WebRTC
 
 EXTERNAL SOURCES:
+  MatrixKit:
+    :branch: o365
+    :git: https://github.com/sinbadflyce/matrix-ios-kit.git
   PiwikTracker:
     :branch: feature/CustomVariables
     :git: https://github.com/manuroe/matomo-sdk-ios.git
 
 CHECKOUT OPTIONS:
+  MatrixKit:
+    :commit: b85adf8777f33e41af5d2f94f1d23b1dc287cd1f
+    :git: https://github.com/sinbadflyce/matrix-ios-kit.git
   PiwikTracker:
     :commit: dfb048f25f4eefbe13ff7515c3c1c2cad5d94491
     :git: https://github.com/manuroe/matomo-sdk-ios.git
@@ -141,6 +132,6 @@ SPEC CHECKSUMS:
   Realm: 3d36f208bf3aff8335dc3298742140182bde4edb
   WebRTC: f2a6203584745fe53532633397557876b5d71640
 
-PODFILE CHECKSUM: 80264d2625b7551d0278cd95f0eb29ef43269cb0
+PODFILE CHECKSUM: 4f88fa2a50b83510eb3417f96597d84fdf519d1a
 
-COCOAPODS: 1.6.0.beta.1
+COCOAPODS: 1.5.3
