@@ -2839,7 +2839,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                 
                 // Add animation view
                 UIImageView *animationView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 170, 170)];
-                animationView.image = [UIImage animatedImageNamed:@"animatedLogo-" duration:2];
+                animationView.image = [UIImage animatedImageNamed:@"animatedLogo-" duration:0.8];
                 
                 animationView.center = CGPointMake(launchAnimationContainerView.center.x, 3 * launchAnimationContainerView.center.y / 4);
                 

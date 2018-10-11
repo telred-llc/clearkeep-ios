@@ -78,7 +78,9 @@
     _favouritesViewController = [self.viewControllers objectAtIndex:TABBAR_FAVOURITES_INDEX];
     _peopleViewController = [self.viewControllers objectAtIndex:TABBAR_PEOPLE_INDEX];
     _roomsViewController = [self.viewControllers objectAtIndex:TABBAR_ROOMS_INDEX];
-    _groupsViewController = [self.viewControllers objectAtIndex:TABBAR_GROUPS_INDEX];
+    
+    //-- CK: removed
+    //_groupsViewController = [self.viewControllers objectAtIndex:TABBAR_GROUPS_INDEX];
     
     // Set the accessibility labels for all buttons #1842
     [_settingsBarButtonItem setAccessibilityLabel:NSLocalizedStringFromTable(@"settings_title", @"Vector", nil)];
@@ -88,9 +90,10 @@
     [_peopleViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_people", @"Vector", nil)];
     [_roomsViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_rooms", @"Vector", nil)];
     [_groupsViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_groups", @"Vector", nil)];
-    
+        
     // Sanity check
-    NSAssert(_homeViewController && _favouritesViewController && _peopleViewController && _roomsViewController && _groupsViewController, @"Something wrong in Main.storyboard");
+    //-- CK: unused _groupsViewController
+    NSAssert(_homeViewController && _favouritesViewController && _peopleViewController && _roomsViewController /*&& _groupsViewController*/, @"Something wrong in Main.storyboard");
 
     // Adjust the display of the icons in the tabbar.
     for (UITabBarItem *tabBarItem in self.tabBar.items)

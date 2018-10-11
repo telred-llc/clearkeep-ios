@@ -301,6 +301,8 @@
 		B1B9194C2118984300FE25B5 /* RoomPredecessorBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B9194A2118984300FE25B5 /* RoomPredecessorBubbleCell.xib */; };
 		B1D250D82118AA0A000F4E93 /* RoomPredecessorBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D250D72118AA0A000F4E93 /* RoomPredecessorBubbleCell.m */; };
 		CD9C4E21170ABE528E087A51 /* Pods_RiotPods_SiriIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0B9DB497F579AB1084E3DC /* Pods_RiotPods_SiriIntents.framework */; };
+		E5AC22C62163775D00AA76B1 /* NavigationItemImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AC22C52163775D00AA76B1 /* NavigationItemImage.xib */; };
+		E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AC22C82163776C00AA76B1 /* NavigationItemImage.m */; };
 		E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E9062A21523EDC00155DD5 /* AuthWebViewController.m */; };
 		F05927C91FDED836009F2A68 /* MXGroup+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = F05927C71FDED835009F2A68 /* MXGroup+Riot.m */; };
 		F083BD1E1E7009ED00A9B29C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BB0D1E7009EC00A9B29C /* AppDelegate.m */; };
@@ -875,6 +877,9 @@
 		B4B35D08E11507BEE733BBC4 /* Pods-RiotPods-SiriIntents.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-SiriIntents.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-SiriIntents/Pods-RiotPods-SiriIntents.debug.xcconfig"; sourceTree = "<group>"; };
 		BC0B9DB497F579AB1084E3DC /* Pods_RiotPods_SiriIntents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_SiriIntents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D523D0ED52562EDD393BE0F0 /* Pods-RiotPods-RiotShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension/Pods-RiotPods-RiotShareExtension.release.xcconfig"; sourceTree = "<group>"; };
+		E5AC22C52163775D00AA76B1 /* NavigationItemImage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NavigationItemImage.xib; sourceTree = "<group>"; };
+		E5AC22C72163776C00AA76B1 /* NavigationItemImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationItemImage.h; sourceTree = "<group>"; };
+		E5AC22C82163776C00AA76B1 /* NavigationItemImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationItemImage.m; sourceTree = "<group>"; };
 		E5E9062921523EDC00155DD5 /* AuthWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthWebViewController.h; sourceTree = "<group>"; };
 		E5E9062A21523EDC00155DD5 /* AuthWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthWebViewController.m; sourceTree = "<group>"; };
 		EE8AD7EF51758CA3EFD23BE1 /* Pods-RiotPods-SiriIntents.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-SiriIntents.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-SiriIntents/Pods-RiotPods-SiriIntents.release.xcconfig"; sourceTree = "<group>"; };
@@ -2274,6 +2279,9 @@
 				B1B5594320EF7BD000210D55 /* TableViewCellWithCollectionView.h */,
 				B1B5594020EF7BD000210D55 /* TableViewCellWithCollectionView.m */,
 				B1B5593F20EF7BD000210D55 /* TableViewCellWithCollectionView.xib */,
+				E5AC22C52163775D00AA76B1 /* NavigationItemImage.xib */,
+				E5AC22C72163776C00AA76B1 /* NavigationItemImage.h */,
+				E5AC22C82163776C00AA76B1 /* NavigationItemImage.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2737,6 +2745,7 @@
 				B169328720F3954A00746532 /* SharedImages.xcassets in Resources */,
 				B1664DA120F4F94F00808783 /* InfoPlist.strings in Resources */,
 				B1B5579B20EF575B00210D55 /* AuthInputsView.xib in Resources */,
+				E5AC22C62163775D00AA76B1 /* NavigationItemImage.xib in Resources */,
 				B1B5594620EF7BD000210D55 /* RoomCollectionViewCell.xib in Resources */,
 				F083BDE71E7009ED00A9B29C /* callend.mp3 in Resources */,
 				B1B558EF20EF768F00210D55 /* RoomMembershipCollapsedWithPaginationTitleBubbleCell.xib in Resources */,
@@ -2872,7 +2881,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/DTCoreText/DTCoreText.framework",
 				"${BUILT_PRODUCTS_DIR}/DTFoundation/DTFoundation.framework",
@@ -2907,7 +2916,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		85AB1F69C1D9EC33197D7368 /* [CP] Check Pods Manifest.lock */ = {
@@ -3100,6 +3109,7 @@
 				B1B5573B20EE6C4D00210D55 /* FavouritesViewController.m in Sources */,
 				B1B5579920EF575B00210D55 /* AuthInputsView.m in Sources */,
 				B1B5597520EFB02A00210D55 /* InviteRecentTableViewCell.m in Sources */,
+				E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */,
 				B1B5571E20EE6C4D00210D55 /* ContactDetailsViewController.m in Sources */,
 				B1798302211B13B3001FD722 /* OnBoardingManager.swift in Sources */,
 				B1B5573520EE6C4D00210D55 /* GroupDetailsViewController.m in Sources */,

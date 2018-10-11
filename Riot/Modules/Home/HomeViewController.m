@@ -25,6 +25,8 @@
 #import "RoomCollectionViewCell.h"
 
 #import "MXRoom+Riot.h"
+#import "NavigationItemImage.h"
+#import "AvatarGenerator.h"
 
 @interface HomeViewController ()
 {
@@ -38,6 +40,10 @@
     // The content offset of the collection in which the edited room is displayed.
     // We store this value to prevent the collection view from scrolling to the beginning (observed on iOS < 10).
     CGFloat selectedCollectionViewContentOffset;
+    
+    //-- CK: profile avatar nav
+    NavigationItemImage *navigationImage;
+    UITapGestureRecognizer *avatarTapGestureRecognizer;
 }
 @end
 
@@ -73,13 +79,66 @@
     
     // Change the table data source. It must be the home view controller itself.
     self.recentsTableView.dataSource = self;
+    
+    // Listen to the direct rooms list
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDirectRoomsChange:) name:kMXSessionDirectRoomsDidChangeNotification object:nil];
+}
+
+- (NavigationItemImage *)createNavIfNeedThenUpdateProfilePicture {
+    MXSession* session = (MXSession *)([AppDelegate theDelegate].mxSessions.firstObject);
+    
+    if (session == nil) {
+        return nil;
+    }
+    
+    MXMyUser* myUser = session.myUser;
+    NavigationItemImage *navigationItem = (NavigationItemImage *)[AppDelegate theDelegate].masterTabBarController.navigationItem.titleView;
+    
+    if (navigationItem == nil) {
+        navigationItem = self->navigationImage;
+    }
+    
+    if (navigationItem == nil) {
+        navigationItem = (NavigationItemImage *)[[UINib nibWithNibName:@"NavigationItemImage" bundle:nil] instantiateWithOwner:nil options:nil].firstObject;
+        
+        avatarTapGestureRecognizer = [[UITapGestureRecognizer alloc]
+                                      initWithTarget:self
+                                      action:@selector(onTapAvatar:)];
+
+        [navigationItem addGestureRecognizer:avatarTapGestureRecognizer];
+        [navigationItem setStatus:true];
+    }
+    
+    if (myUser != nil) {
+        [navigationItem setHidden:NO];
+        UIImage* avatarImage = [AvatarGenerator generateAvatarForMatrixItem:myUser.userId withDisplayName:myUser.displayname];
+        if (myUser.avatarUrl == nil) {
+            [navigationItem setImage:avatarImage];
+        } else {
+            NSString *urlString = [session.matrixRestClient
+                                   urlOfContentThumbnail:myUser.avatarUrl
+                                   toFitViewSize:navigationItem.imgAvatar.frame.size
+                                   withMethod:MXThumbnailingMethodCrop];
+            [navigationItem setImageWithUrl:urlString previewImage:avatarImage];
+        }
+    } else {
+        [navigationItem setHidden:YES];
+    }
+    return navigationItem;
+}
+
+- (void)didDirectRoomsChange:(NSNotification *)notif
+{
+    [self createNavIfNeedThenUpdateProfilePicture];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    [AppDelegate theDelegate].masterTabBarController.navigationItem.title = NSLocalizedStringFromTable(@"title_home", @"Vector", nil);
+    //-- ck
+    // [AppDelegate theDelegate].masterTabBarController.navigationItem.title = NSLocalizedStringFromTable(@"title_home", @"Vector", nil);
+
     [AppDelegate theDelegate].masterTabBarController.navigationController.navigationBar.tintColor = kRiotColorGreen;
     [AppDelegate theDelegate].masterTabBarController.tabBar.tintColor = kRiotColorGreen;
     
@@ -91,6 +150,15 @@
     }
 
     [self moveAllCollectionsToLeft];
+    
+    // setup navigation
+    self->navigationImage = [self createNavIfNeedThenUpdateProfilePicture];
+    [[AppDelegate theDelegate].masterTabBarController.navigationItem setTitleView:self->navigationImage];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[AppDelegate theDelegate].masterTabBarController.navigationItem setTitleView:nil];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator
@@ -519,6 +587,13 @@
 - (void)onTableViewSwipe:(UIGestureRecognizer*)gestureRecognizer
 {
     [self cancelEditionMode:YES];
+}
+
+- (void)onTapAvatar:(UIGestureRecognizer*)gestureRecognizer
+{
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+    [self.navigationController pushViewController:viewController animated:YES];
+
 }
 
 #pragma mark - Action

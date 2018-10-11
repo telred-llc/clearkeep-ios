@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -266,7 +265,7 @@
             <objects>
                 <tabBarController id="xaQ-tG-rlO" customClass="MasterTabBarController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="m6O-wq-yrc">
-                        <barButtonItem key="leftBarButtonItem" image="settings_icon" id="QSE-cg-V2m">
+                        <barButtonItem key="leftBarButtonItem" enabled="NO" id="QSE-cg-V2m">
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="MasterTabBarControllerSettingsBarButton"/>
                             </userDefinedRuntimeAttributes>
@@ -298,7 +297,6 @@
                         <segue destination="HnD-LA-psC" kind="relationship" relationship="viewControllers" id="zON-Qp-EVq"/>
                         <segue destination="IGB-jr-yFz" kind="relationship" relationship="viewControllers" id="CeF-yL-aO0"/>
                         <segue destination="HPQ-zg-lZR" kind="relationship" relationship="viewControllers" id="y12-eg-vhO"/>
-                        <segue destination="SLx-Wj-p7E" kind="relationship" relationship="viewControllers" id="MLn-VT-30W"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showGroupDetails" id="fIR-e3-ssz"/>
                     </connections>
                 </tabBarController>
@@ -327,7 +325,7 @@
         <!--Settings-->
         <scene sceneID="9we-7Q-LBo">
             <objects>
-                <tableViewController title="Settings" id="taU-5Q-sdv" customClass="SettingsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsViewController" title="Settings" id="taU-5Q-sdv" customClass="SettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="egL-pK-Xhr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -438,7 +436,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="6LG-qc-7jf">
-                                <rect key="frame" x="127" y="283" width="120" height="101"/>
+                                <rect key="frame" x="127.5" y="283" width="120" height="101"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -456,7 +454,7 @@
         <!--Groups View Controller-->
         <scene sceneID="Rqp-Ti-qpu">
             <objects>
-                <viewController id="SLx-Wj-p7E" customClass="GroupsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GroupsViewController" id="SLx-Wj-p7E" customClass="GroupsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="N1j-ye-uQa"/>
                         <viewControllerLayoutGuide type="bottom" id="FYD-2t-u4k"/>
@@ -642,7 +640,6 @@
         <image name="apps-icon" width="24" height="24"/>
         <image name="logo" width="120" height="101"/>
         <image name="search_icon" width="22" height="22"/>
-        <image name="settings_icon" width="24" height="24"/>
         <image name="tab_favourites" width="25" height="25"/>
         <image name="tab_favourites_selected" width="25" height="25"/>
         <image name="tab_groups" width="25" height="25"/>
@@ -654,7 +651,7 @@
         <image name="tab_rooms" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Tfl-tq-LQp"/>
+        <segue reference="mhb-l9-pM3"/>
         <segue reference="fIR-e3-ssz"/>
         <segue reference="f5u-Y1-7nt"/>
         <segue reference="vCz-dl-6xQ"/>

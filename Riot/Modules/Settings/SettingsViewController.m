@@ -1218,7 +1218,8 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
     }
     else if (section == SETTINGS_SECTION_USER_INTERFACE_INDEX)
     {
-        count = USER_INTERFACE_COUNT;
+        //-- CK
+        count = USER_INTERFACE_THEME_INDEX;
     }
     else if (section == SETTINGS_SECTION_IGNORED_USERS_INDEX)
     {
