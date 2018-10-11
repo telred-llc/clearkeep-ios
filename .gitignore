@@ -36,5 +36,5 @@ Pods/
 # Fastlane
 fastlane/report.xml
 fastlane/Reports
-fastlane/README.md
 /Riot/Assets/Images.xcassets/LaunchScreenRiot.imageset/LaunchScreenRiot-org.png
+fastlane/README.md
