@@ -30,6 +30,8 @@
 	<string>https://scalar.sinbadflyce.com/riot/</string>
 	<key>integrationsRestUrl</key>
 	<string>https://scalar.sinbadflyce.com/api/v1/scalar</string>
+	<key>integrationsJitsiWidgetUrl</key>
+	<string>https://scalar.sinbadflyce.com/widgets/jitsi</string>
 	<key>piwik</key>
 	<dict>
 		<key>url</key>

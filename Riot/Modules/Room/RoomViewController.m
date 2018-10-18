@@ -4376,7 +4376,20 @@
                 [unknownDevices addEntriesFromMap:eventUnknownDevices];
             }
         }
-        
+    
+        //-- CK: force resending all unsent messages
+        [self.mainSession.crypto setDevicesKnown:self->unknownDevices complete:^{
+            
+            self->unknownDevices = nil;
+            [self stopActivityIndicator];
+            
+            // And resend pending messages
+            [self resendAllUnsentMessages];
+        }];
+
+    
+        //-- CK: not neccesary to popup unknown devices
+        /*
         currentAlert = [UIAlertController alertControllerWithTitle:[NSBundle mxk_localizedStringForKey:@"unknown_devices_alert_title"]
                                                            message:[NSBundle mxk_localizedStringForKey:@"unknown_devices_alert"]
                                                     preferredStyle:UIAlertControllerStyleAlert];
@@ -4420,6 +4433,7 @@
         
         [currentAlert mxk_setAccessibilityIdentifier:@"RoomVCUnknownDevicesAlert"];
         [self presentViewController:currentAlert animated:YES completion:nil];
+        */
     }
 }
 

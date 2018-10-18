@@ -274,8 +274,8 @@ NSString *const WidgetManagerErrorDomain = @"WidgetManagerErrorDomain";
     // TODO: This url should come from modular API
     // Note: this url can be used as is inside a web container (like iframe for Riot-web)
     // Riot-iOS does not directly use it but extracts params from it (see `[JitsiViewController openWidget:withVideo:]`)
-    NSString *modularRestUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"integrationsRestUrl"];
-    NSString *url = [NSString stringWithFormat:@"%@/widgets/jitsi.html?confId=%@&isAudioConf=%@&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&email=$matrix_user_id@", modularRestUrl, confId, video ? @"false" : @"true"];
+    NSString *modularRestUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"integrationsJitsiWidgetUrl"];
+    NSString *url = [NSString stringWithFormat:@"%@?confId=%@&isAudioConf=%@&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&email=$matrix_user_id@", modularRestUrl, confId, video ? @"false" : @"true"];
 
     return [self createWidget:widgetId
                   withContent:@{

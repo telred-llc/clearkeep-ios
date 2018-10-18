@@ -304,9 +304,9 @@
     NSString *countryCode = [self currentCountryCode];
     
     if ([countryCode isEqualToString:@"IN"])
-        self.defaultHomeServerUrl = @"https://in.sinbadflyce.com:8448";
+        self.defaultHomeServerUrl = @"https://study.sinbadflyce.com:8448";
     else if ([countryCode isEqualToString:@"BD"])
-        self.defaultHomeServerUrl = @"https://bd.sinbadflyce.com:8448";
+        self.defaultHomeServerUrl = @"https://study.sinbadflyce.com:8448";
     else
         self.defaultHomeServerUrl = @"https://study.sinbadflyce.com:8448";
     
@@ -531,6 +531,13 @@
 
 - (void)onFailureDuringAuthRequest:(NSError *)error
 {
+    
+    //-- CK: show error immediately
+    if (/* DISABLES CODE */ (YES)) {
+        [super onFailureDuringAuthRequest:error];        
+        return;
+    }
+    
     // Homeserver migration: When the default homeserver url is different from matrix.org,
     // the login (or forgot pwd) process with an existing matrix.org accounts will then fail.
     // Patch: Falling back to matrix.org HS so we don't break everyone's logins
