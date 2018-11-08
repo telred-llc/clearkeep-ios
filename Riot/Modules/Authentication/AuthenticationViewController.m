@@ -301,15 +301,7 @@
 }
 
 - (void)automaticallyPickHomeServer {
-    NSString *countryCode = [self currentCountryCode];
-    
-    if ([countryCode isEqualToString:@"IN"])
-        self.defaultHomeServerUrl = @"https://study.sinbadflyce.com:8448";
-    else if ([countryCode isEqualToString:@"BD"])
-        self.defaultHomeServerUrl = @"https://study.sinbadflyce.com:8448";
-    else
-        self.defaultHomeServerUrl = @"https://study.sinbadflyce.com:8448";
-    
+    self.defaultHomeServerUrl = @"https://study.sinbadflyce.com";
     self.homeServerTextField.text = self.defaultHomeServerUrl;
 }
 

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>homeserverurl</key>
-	<string>https://study.sinbadflyce.com:8448</string>
+	<string>https://study.sinbadflyce.com</string>
 	<key>pinRoomsWithMissedNotif</key>
 	<true/>
 	<key>pinRoomsWithUnread</key>
