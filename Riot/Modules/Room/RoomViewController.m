@@ -571,6 +571,9 @@
     MXKAccount *account = [[MXKAccountManager sharedManager] accountForUserId:self.roomDataSource.mxSession.myUser.userId];
     if (account && !account.isWarnedAboutEncryption && self.roomDataSource.room.summary.isEncrypted)
     {
+        //-- CK: just warned, no present
+       account.warnedAboutEncryption = YES;
+       /*
         [currentAlert dismissViewControllerAnimated:NO completion:nil];
         
         __weak __typeof(self) weakSelf = self;
@@ -594,6 +597,7 @@
         
         [currentAlert mxk_setAccessibilityIdentifier:@"RoomVCEncryptionAlert"];
         [self presentViewController:currentAlert animated:YES completion:nil];
+        */
     }
 }
 

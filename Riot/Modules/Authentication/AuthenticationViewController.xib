@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.23.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.16.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -85,11 +85,11 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="485"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="d8r-TX-pwX" userLabel="Welcome Image View">
-                                    <rect key="frame" x="137.66666666666666" y="25" width="100" height="100"/>
+                                    <rect key="frame" x="127.66666666666669" y="25" width="120" height="101"/>
                                     <accessibility key="accessibilityConfiguration" identifier="AuthenticationVCWelcomeImageView"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="100" id="ZFx-Mn-Kzq"/>
-                                        <constraint firstAttribute="height" constant="100" id="zA1-WN-LdU"/>
+                                        <constraint firstAttribute="width" constant="120" id="ZFx-Mn-Kzq"/>
+                                        <constraint firstAttribute="height" constant="101" id="zA1-WN-LdU"/>
                                     </constraints>
                                 </imageView>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xWb-IJ-v7F" userLabel="AuthInputsContainerView">
@@ -242,7 +242,7 @@
                                                                         <constraint firstAttribute="height" constant="21" id="RT2-FT-tLZ"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="done" textContentType="url"/>
                                                                     <connections>
                                                                         <outlet property="delegate" destination="-1" id="UVr-c4-V8L"/>
                                                                     </connections>
@@ -270,22 +270,7 @@
                                                                 <constraint firstAttribute="height" constant="70" id="wa1-77-Lb4"/>
                                                             </constraints>
                                                         </view>
-                                                        <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F7z-sx-Sgu">
-                                                            <rect key="frame" x="117" y="80" width="180" height="30"/>
-                                                            <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="30" id="M7V-BE-i1f"/>
-                                                                <constraint firstAttribute="width" constant="180" id="yAu-ER-4cY"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                            <state key="normal" title="Office 365 Login">
-                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="onSocialButtonPressed:" destination="-1" eventType="touchUpInside" id="3PR-RN-dA7"/>
-                                                            </connections>
-                                                        </button>
-                                                        <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kjJ-Tb-SIW">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kjJ-Tb-SIW">
                                                             <rect key="frame" x="0.0" y="70" width="375" height="70"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Identity Server:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5CT-Ht-Z3v">
@@ -305,7 +290,7 @@
                                                                         <constraint firstAttribute="height" constant="21" id="XTt-dw-c6p"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="done" textContentType="url"/>
                                                                     <connections>
                                                                         <outlet property="delegate" destination="-1" id="nZF-by-6t6"/>
                                                                     </connections>
@@ -342,10 +327,8 @@
                                                         <constraint firstAttribute="trailing" secondItem="1YY-gb-LG4" secondAttribute="trailing" id="M3s-AR-hKf"/>
                                                         <constraint firstAttribute="height" constant="140" id="aWW-v9-LSk"/>
                                                         <constraint firstAttribute="trailing" secondItem="kjJ-Tb-SIW" secondAttribute="trailing" id="eIu-yM-Lhs"/>
-                                                        <constraint firstItem="F7z-sx-Sgu" firstAttribute="top" secondItem="1YY-gb-LG4" secondAttribute="bottom" constant="10" id="ks6-pO-Ute"/>
                                                         <constraint firstItem="1YY-gb-LG4" firstAttribute="leading" secondItem="uOi-KN-l9I" secondAttribute="leading" id="mGS-4h-HKB"/>
                                                         <constraint firstItem="kjJ-Tb-SIW" firstAttribute="top" secondItem="uOi-KN-l9I" secondAttribute="top" constant="70" id="n8T-xk-7sh"/>
-                                                        <constraint firstAttribute="trailing" secondItem="F7z-sx-Sgu" secondAttribute="trailing" constant="78" id="y5k-7b-fWO"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -457,7 +440,6 @@
                 <constraint firstItem="OHV-KQ-Ww0" firstAttribute="top" secondItem="izX-ya-hXh" secondAttribute="bottom" id="Epg-2f-qa1"/>
                 <constraint firstAttribute="trailing" secondItem="OHV-KQ-Ww0" secondAttribute="trailing" id="KAu-Wf-ojt"/>
                 <constraint firstItem="izX-ya-hXh" firstAttribute="leading" secondItem="5rn-KE-plm" secondAttribute="leading" id="MrU-gL-vGG"/>
-                <constraint firstItem="F7z-sx-Sgu" firstAttribute="centerX" secondItem="5rn-KE-plm" secondAttribute="centerX" id="Roa-zD-EYY"/>
                 <constraint firstAttribute="trailing" secondItem="q1e-Wg-6t7" secondAttribute="trailing" id="XIS-Jp-qZf"/>
                 <constraint firstItem="OHV-KQ-Ww0" firstAttribute="top" secondItem="k7D-Gy-yBR" secondAttribute="bottom" id="aCW-Po-Hty"/>
                 <constraint firstAttribute="bottom" secondItem="OHV-KQ-Ww0" secondAttribute="bottom" id="g7o-eO-7Yr"/>
@@ -467,7 +449,7 @@
         </view>
     </objects>
     <resources>
-        <image name="logo" width="100" height="100"/>
+        <image name="logo" width="120" height="101"/>
         <image name="selection_untick" width="22" height="22"/>
     </resources>
 </document>

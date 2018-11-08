@@ -414,10 +414,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         {
             // Move this setting into the shared userDefaults object to apply it to the extensions.
             [sharedUserDefaults setObject:language forKey:@"appLanguage"];
-            [sharedUserDefaults synchronize];
-            
+
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"appLanguage"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }
     [NSBundle mxk_setLanguage:language];
@@ -2940,7 +2938,15 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         {
             return;
         }
-        
+
+        // If the app is doing an initial sync, ignore all events from which we
+        // did not receive a notification from APNS/PushKit
+        if (!mxSession.isEventStreamInitialised && !self->incomingPushPayloads[event.eventId])
+        {
+            NSLog(@"[AppDelegate][Push] enableLocalNotificationsFromMatrixSession: Initial sync in progress. Ignore event %@", event.eventId);
+            return;
+        }
+
         // Sanity check
         if (event.eventId && event.roomId && rule)
         {
@@ -2993,7 +2999,6 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     if (!isErrorNotificationSuspended && ![[NSUserDefaults standardUserDefaults] boolForKey:@"deviceIdAtStartupChecked"])
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"deviceIdAtStartupChecked"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
         
         // Check if there is a device id
         if (!mxSession.matrixRestClient.credentials.deviceId)
