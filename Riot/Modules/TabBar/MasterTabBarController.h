@@ -28,6 +28,8 @@
 #import "ContactDetailsViewController.h"
 #import "GroupDetailsViewController.h"
 
+@class CkAuthenticationViewController;
+
 #define TABBAR_HOME_INDEX         0
 #define TABBAR_FAVOURITES_INDEX   1
 #define TABBAR_PEOPLE_INDEX       2
@@ -131,7 +133,7 @@
 
 
 // Reference to the current auth VC. It is not nil only when the auth screen is displayed.
-@property (nonatomic, readonly) AuthenticationViewController *authViewController;
+@property (nonatomic, readonly) CkAuthenticationViewController *authViewController;
 
 @property (nonatomic, readonly) HomeViewController *homeViewController;
 @property (nonatomic, readonly) FavouritesViewController *favouritesViewController;
@@ -155,6 +157,8 @@
 @property (nonatomic, readonly) GroupDetailsViewController *currentGroupDetailViewController;
 @property (nonatomic, readonly) MXGroup *selectedGroup;
 @property (nonatomic, readonly) MXSession *selectedGroupSession;
+
+@property (nonatomic, readwrite) BOOL isCkAuthViewControllerPreparing;
 
 @end
 

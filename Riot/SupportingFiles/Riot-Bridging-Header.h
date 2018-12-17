@@ -4,3 +4,7 @@
 
 @import MatrixSDK;
 #import "WebViewViewController.h"
+
+//-- ClearKeep
+#import "AppDelegate.h"
+#import "RiotSplitViewController.h"

@@ -301,6 +301,12 @@
 		B1B9194C2118984300FE25B5 /* RoomPredecessorBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B9194A2118984300FE25B5 /* RoomPredecessorBubbleCell.xib */; };
 		B1D250D82118AA0A000F4E93 /* RoomPredecessorBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D250D72118AA0A000F4E93 /* RoomPredecessorBubbleCell.m */; };
 		CD9C4E21170ABE528E087A51 /* Pods_RiotPods_SiriIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0B9DB497F579AB1084E3DC /* Pods_RiotPods_SiriIntents.framework */; };
+		E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */; };
+		E5720EDC21ACFA1F0093D99A /* CkMasterTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */; };
+		E5720EDE21ACFB390093D99A /* CkAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */; };
+		E5720EE421AD1B7D0093D99A /* CkAuthenticationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5720EE321AD1B7D0093D99A /* CkAuthenticationViewController.xib */; };
+		E57814FC21A7B6A8001BF40D /* MainEx.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57814FA21A7B6A8001BF40D /* MainEx.storyboard */; };
+		E57814FE21A7B773001BF40D /* CkSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57814FD21A7B773001BF40D /* CkSplitViewController.swift */; };
 		E5AC22C62163775D00AA76B1 /* NavigationItemImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AC22C52163775D00AA76B1 /* NavigationItemImage.xib */; };
 		E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AC22C82163776C00AA76B1 /* NavigationItemImage.m */; };
 		E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E9062A21523EDC00155DD5 /* AuthWebViewController.m */; };
@@ -877,6 +883,12 @@
 		B4B35D08E11507BEE733BBC4 /* Pods-RiotPods-SiriIntents.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-SiriIntents.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-SiriIntents/Pods-RiotPods-SiriIntents.debug.xcconfig"; sourceTree = "<group>"; };
 		BC0B9DB497F579AB1084E3DC /* Pods_RiotPods_SiriIntents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_SiriIntents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D523D0ED52562EDD393BE0F0 /* Pods-RiotPods-RiotShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension/Pods-RiotPods-RiotShareExtension.release.xcconfig"; sourceTree = "<group>"; };
+		E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAppDelegate.swift; sourceTree = "<group>"; };
+		E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkMasterTabBarController.swift; sourceTree = "<group>"; };
+		E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAuthenticationViewController.swift; sourceTree = "<group>"; };
+		E5720EE321AD1B7D0093D99A /* CkAuthenticationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CkAuthenticationViewController.xib; sourceTree = "<group>"; };
+		E57814FB21A7B6A8001BF40D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Riot/Assets/Base.lproj/MainEx.storyboard; sourceTree = SOURCE_ROOT; };
+		E57814FD21A7B773001BF40D /* CkSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkSplitViewController.swift; sourceTree = "<group>"; };
 		E5AC22C52163775D00AA76B1 /* NavigationItemImage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NavigationItemImage.xib; sourceTree = "<group>"; };
 		E5AC22C72163776C00AA76B1 /* NavigationItemImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationItemImage.h; sourceTree = "<group>"; };
 		E5AC22C82163776C00AA76B1 /* NavigationItemImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationItemImage.m; sourceTree = "<group>"; };
@@ -2379,6 +2391,51 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		E5720EDF21ACFB5F0093D99A /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				E5720EE221ACFC0A0093D99A /* Authentication */,
+				E5720EE021ACFB800093D99A /* Main */,
+				E5720EE121ACFBED0093D99A /* TabBar */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		E5720EE021ACFB800093D99A /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				E57814FD21A7B773001BF40D /* CkSplitViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		E5720EE121ACFBED0093D99A /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		E5720EE221ACFC0A0093D99A /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */,
+				E5720EE321AD1B7D0093D99A /* CkAuthenticationViewController.xib */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		E57814F921A7B582001BF40D /* ClearKeep */ = {
+			isa = PBXGroup;
+			children = (
+				E5720EDF21ACFB5F0093D99A /* Modules */,
+				E57814FA21A7B6A8001BF40D /* MainEx.storyboard */,
+				E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */,
+			);
+			path = ClearKeep;
+			sourceTree = "<group>";
+		};
 		E5E9062721523EDC00155DD5 /* Socials */ = {
 			isa = PBXGroup;
 			children = (
@@ -2522,6 +2579,7 @@
 				3267EFB320E379FD00FF1CAA /* CHANGES.rst */,
 				3267EFB520E379FD00FF1CAA /* AUTHORS.rst */,
 				3267EFB420E379FD00FF1CAA /* Podfile */,
+				E57814F921A7B582001BF40D /* ClearKeep */,
 				F083BB081E7009EC00A9B29C /* Riot */,
 				F083BB021E7005FD00A9B29C /* RiotTests */,
 				24CBEC4F1F0EAD310093EABB /* RiotShareExtension */,
@@ -2754,6 +2812,7 @@
 				B1B558F220EF768F00210D55 /* RoomIncomingTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				B1B558EA20EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleBubbleCell.xib in Resources */,
 				B1B558CD20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
+				E5720EE421AD1B7D0093D99A /* CkAuthenticationViewController.xib in Resources */,
 				B1B9194C2118984300FE25B5 /* RoomPredecessorBubbleCell.xib in Resources */,
 				B1B5572120EE6C4D00210D55 /* ContactsTableViewController.xib in Resources */,
 				B1B5593A20EF7BAC00210D55 /* TableViewCellWithLabelAndLargeTextView.xib in Resources */,
@@ -2773,6 +2832,7 @@
 				B1B558E320EF768F00210D55 /* RoomEmptyBubbleCell.xib in Resources */,
 				B1B5590420EF768F00210D55 /* RoomOutgoingAttachmentBubbleCell.xib in Resources */,
 				B1B558F120EF768F00210D55 /* RoomIncomingAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
+				E57814FC21A7B6A8001BF40D /* MainEx.storyboard in Resources */,
 				B1B557CB20EF5D8000210D55 /* DirectoryServerTableViewCell.xib in Resources */,
 				B1B558EC20EF768F00210D55 /* RoomMembershipCollapsedBubbleCell.xib in Resources */,
 				B1B558D720EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.xib in Resources */,
@@ -2991,6 +3051,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E57814FE21A7B773001BF40D /* CkSplitViewController.swift in Sources */,
 				B1B557D120EF5E3500210D55 /* MediaAlbumTableCell.m in Sources */,
 				B16932AC20F3A7B100746532 /* RiotDesignValues.m in Sources */,
 				B1B557A120EF58AD00210D55 /* ContactTableViewCell.m in Sources */,
@@ -3098,6 +3159,7 @@
 				B1B5577E20EE84BF00210D55 /* IncomingCallView.m in Sources */,
 				E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */,
 				B1B5578F20EF568D00210D55 /* GroupTableViewCell.m in Sources */,
+				E5720EDE21ACFB390093D99A /* CkAuthenticationViewController.swift in Sources */,
 				B1B5573220EE6C4D00210D55 /* GroupHomeViewController.m in Sources */,
 				B1B5595220EF9A8700210D55 /* RecentTableViewCell.m in Sources */,
 				B1B5574120EE6C4D00210D55 /* RecentsViewController.m in Sources */,
@@ -3111,6 +3173,7 @@
 				B1B5597520EFB02A00210D55 /* InviteRecentTableViewCell.m in Sources */,
 				E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */,
 				B1B5571E20EE6C4D00210D55 /* ContactDetailsViewController.m in Sources */,
+				E5720EDC21ACFA1F0093D99A /* CkMasterTabBarController.swift in Sources */,
 				B1798302211B13B3001FD722 /* OnBoardingManager.swift in Sources */,
 				B1B5573520EE6C4D00210D55 /* GroupDetailsViewController.m in Sources */,
 				B1B5575220EE6C4D00210D55 /* RoomKeyRequestViewController.m in Sources */,
@@ -3142,6 +3205,7 @@
 				B1B557CC20EF5D8000210D55 /* DirectoryServerTableViewCell.m in Sources */,
 				B1B5575C20EE6C4D00210D55 /* DirectoryViewController.m in Sources */,
 				B1B558BD20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
+				E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */,
 				B1B5577020EE702800210D55 /* WidgetPickerViewController.m in Sources */,
 				B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				B1B5576F20EE702800210D55 /* IntegrationManagerViewController.m in Sources */,
@@ -3270,6 +3334,14 @@
 				B169329620F39E6300746532 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E57814FA21A7B6A8001BF40D /* MainEx.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E57814FB21A7B6A8001BF40D /* Base */,
+			);
+			name = MainEx.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -3518,6 +3590,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5KH4V6747U;

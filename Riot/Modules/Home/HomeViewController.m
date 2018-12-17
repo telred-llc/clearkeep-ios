@@ -591,7 +591,7 @@
 
 - (void)onTapAvatar:(UIGestureRecognizer*)gestureRecognizer
 {
-    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"MainEx" bundle:nil] instantiateViewControllerWithIdentifier:@"SettingsViewController"];
     [self.navigationController pushViewController:viewController animated:YES];
 
 }

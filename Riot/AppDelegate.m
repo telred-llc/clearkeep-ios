@@ -360,6 +360,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //-- CK
+    [self useCkStoryboard:application];
+    
     NSDate *startDate = [NSDate date];
     
 #ifdef DEBUG
@@ -835,7 +838,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         {
             UIViewController *mainViewController = splitViewController.viewControllers[0];
             
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainEx" bundle:[NSBundle mainBundle]];
             UIViewController *emptyDetailsViewController = [storyboard instantiateViewControllerWithIdentifier:@"EmptyDetailsViewControllerStoryboardId"];
             emptyDetailsViewController.view.backgroundColor = kRiotPrimaryBgColor;
             
@@ -3731,7 +3734,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     {
         splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
     }
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainEx" bundle:[NSBundle mainBundle]];
     UIViewController *emptyDetailsViewController = [storyboard instantiateViewControllerWithIdentifier:@"EmptyDetailsViewControllerStoryboardId"];
     emptyDetailsViewController.view.backgroundColor = kRiotPrimaryBgColor;
     return emptyDetailsViewController;

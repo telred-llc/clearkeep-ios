@@ -546,7 +546,7 @@
             {
                 // Replace the rootviewcontroller with a room view controller
                 // Get the RoomViewController from the storyboard
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainEx" bundle:[NSBundle mainBundle]];
                 _currentRoomViewController = [storyboard instantiateViewControllerWithIdentifier:@"RoomViewControllerStoryboardId"];
 
                 navigationController.viewControllers = @[_currentRoomViewController];
@@ -564,7 +564,7 @@
 
                     // Replace the rootviewcontroller with a room view controller
                     // Get the RoomViewController from the storyboard
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainEx" bundle:[NSBundle mainBundle]];
                     self->_currentRoomViewController = [storyboard instantiateViewControllerWithIdentifier:@"RoomViewControllerStoryboardId"];
 
                     navigationController.viewControllers = @[self.currentRoomViewController];
@@ -926,6 +926,16 @@
             [self.favouritesViewController scrollToNextRoomWithMissedNotifications];
         }
     }
+}
+
+#pragma mark - Extension
+
+- (BOOL)isCkAuthViewControllerPreparingEx {
+    return self->isAuthViewControllerPreparing;
+}
+
+- (void)setIsCkAuthViewControllerPreparing:(BOOL)isCkAuthViewControllerPreparing {
+    self->isAuthViewControllerPreparing = isCkAuthViewControllerPreparing;
 }
 
 @end

@@ -256,7 +256,7 @@
                                                                self->currentAlert = nil;
                                                                
                                                                // Get the UsersDevicesViewController from the storyboard
-                                                               UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                                                               UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainEx" bundle:[NSBundle mainBundle]];
                                                                UsersDevicesViewController *usersDevicesViewController = [storyboard instantiateViewControllerWithIdentifier:@"UsersDevicesViewControllerStoryboardId"];
                                                                
                                                                [usersDevicesViewController displayUsersDevices:unknownDevices andMatrixSession:self.mainSession onComplete:^(BOOL doneButtonPressed) {
