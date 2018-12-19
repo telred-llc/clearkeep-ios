@@ -76,11 +76,11 @@ final public class CkAuthenticationViewController: MXKViewController {
         self.signupButton.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
     
-    @IBAction onEmailPress() {
+    @IBAction func onEmailPress() {
     
     }
 
-    @IBAction onUsernamePress() {
+    @IBAction func onUsernamePress() {
     
     }
 }

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -373,11 +372,10 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="y85-h8-0pT" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="I2b-J0-mmE"/>
-                <constraint firstItem="y85-h8-0pT" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="Jfv-ea-p1g"/>
-                <constraint firstItem="y85-h8-0pT" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Yny-nU-IcP"/>
-                <constraint firstItem="y85-h8-0pT" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="gD7-ja-Vn5"/>
+                <constraint firstItem="y85-h8-0pT" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="Jfv-ea-p1g"/>
+                <constraint firstItem="y85-h8-0pT" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="MQV-wE-DfS"/>
+                <constraint firstItem="y85-h8-0pT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Yny-nU-IcP"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>
         </view>
     </objects>
