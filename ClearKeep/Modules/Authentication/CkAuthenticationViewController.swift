@@ -9,11 +9,17 @@
 import Foundation
 import MatrixKit
 
-final public class CkAuthenticationViewController: MXKViewController {
+protocol CkAuthenticationViewControllerDelegate: class {
+    func authentication(_ authentication: CkAuthenticationViewController, requestAction action: String)
+}
+
+public class CkAuthenticationViewController: MXKViewController {
     
     @IBOutlet weak var authenticationScrollView: UIScrollView!
     @IBOutlet weak var welcomeImageView: UIImageView!
     @IBOutlet weak var signupButton: UIButton!
+    
+    weak var delegate: CkAuthenticationViewControllerDelegate?
     
     /**
      The matrix REST client used to make matrix API requests.
@@ -52,14 +58,6 @@ final public class CkAuthenticationViewController: MXKViewController {
      */
     @objc public var externalRegistrationParameters: NSDictionary!
     
-    public class func nib() -> UINib {
-        return UINib(nibName: "CkAuthenticationViewController", bundle: Bundle(for: CkAuthenticationViewController.classForCoder()))
-    }
-    
-    convenience init() {
-        self.init(nibName: "CkAuthenticationViewController", bundle: Bundle(for: CkAuthenticationViewController.classForCoder()))
-    }
-    
     public override func finalizeInit() {
         super.finalizeInit()
     }
@@ -67,20 +65,27 @@ final public class CkAuthenticationViewController: MXKViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        if self.authenticationScrollView == nil {
-            type(of: self).nib().instantiate(withOwner: self, options: nil)
+        if self.signupButton != nil {
+            self.signupButton.layer.borderWidth = 1
+            self.signupButton.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         }
-        
-        self.welcomeImageView.image = UIImage(named: "logo")
-        self.signupButton.layer.borderWidth = 1
-        self.signupButton.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
     
+    // MARK: - Actions
+
     @IBAction func onEmailPress() {
     
     }
 
     @IBAction func onUsernamePress() {
     
+    }
+    
+    @IBAction func onSignIn() {
+        self.delegate?.authentication(self, requestAction: "login")
+    }
+    
+    @IBAction func onSignUp() {
+        self.delegate?.authentication(self, requestAction: "register")
     }
 }

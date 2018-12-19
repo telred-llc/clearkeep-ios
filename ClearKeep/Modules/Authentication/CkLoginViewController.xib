@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CkAuthenticationViewController" customModule="Riot" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CkLoginViewController" customModule="Riot" customModuleProvider="target">
             <connections>
                 <outlet property="authenticationScrollView" destination="y85-h8-0pT" id="vCp-QD-0Up"/>
                 <outlet property="signupButton" destination="0EG-RQ-Ok4" id="lcv-pN-rq1"/>
@@ -297,6 +297,9 @@
                                                     <state key="normal" title="SIGN IN">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="onSignIn" destination="-1" eventType="touchUpInside" id="a3p-SX-U9f"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0EG-RQ-Ok4">
                                                     <rect key="frame" x="0.0" y="60" width="315" height="50"/>
@@ -305,6 +308,9 @@
                                                     <state key="normal" title="SIGN UP">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="onSignUp" destination="-1" eventType="touchUpInside" id="ycP-Ar-2Wv"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

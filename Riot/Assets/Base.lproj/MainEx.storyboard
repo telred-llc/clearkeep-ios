@@ -304,10 +304,10 @@
             </objects>
             <point key="canvasLocation" x="-516" y="-2203"/>
         </scene>
-        <!--Ck Authentication View Controller-->
+        <!--Ck Masterauth View Controller-->
         <scene sceneID="FoA-N2-3aF">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="ZlD-EU-ncw" customClass="CkAuthenticationViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="ZlD-EU-ncw" customClass="CkMasterauthViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="crg-iM-twR"/>
                         <viewControllerLayoutGuide type="bottom" id="gbK-Nm-HUT"/>
@@ -436,7 +436,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="6LG-qc-7jf">
-                                <rect key="frame" x="137.5" y="283.5" width="100" height="100"/>
+                                <rect key="frame" x="130.5" y="292.5" width="114" height="82"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -638,7 +638,7 @@
     </scenes>
     <resources>
         <image name="apps-icon" width="24" height="24"/>
-        <image name="logo" width="100" height="100"/>
+        <image name="logo" width="114" height="82"/>
         <image name="search_icon" width="22" height="22"/>
         <image name="tab_favourites" width="25" height="25"/>
         <image name="tab_favourites_selected" width="25" height="25"/>
