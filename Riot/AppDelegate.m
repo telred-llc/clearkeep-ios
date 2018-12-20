@@ -56,6 +56,8 @@
 
 #import "Riot-Swift.h"
 
+#import <IQKeyboardManagerSwift/IQKeyboardManagerSwift-Swift.h>
+
 //#define MX_CALL_STACK_OPENWEBRTC
 #ifdef MX_CALL_STACK_OPENWEBRTC
 #import <MatrixOpenWebRTCWrapper/MatrixOpenWebRTCWrapper.h>
@@ -476,6 +478,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     // Add matrix observers, and initialize matrix sessions if the app is not launched in background.
     [self initMatrixSessions];
 
+    [[IQKeyboardManager shared] setEnable:YES];
+    
     NSLog(@"[AppDelegate] didFinishLaunchingWithOptions: Done in %.0fms", [[NSDate date] timeIntervalSinceDate:startDate] * 1000);
 
     return YES;

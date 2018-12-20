@@ -10,8 +10,6 @@ import UIKit
 
 class CheckBox: UIButton {
     
-    
-    
     // Images
     let checkedBox = UIImage(named: "Checkbox")
     let uncheckBox = UIImage(named: "Uncheckbox")
