@@ -2,18 +2,32 @@
 //  CkSignUpViewController.swift
 //  Riot
 //
-//  Created by Sinbad Flyce on 12/19/18.
+//  Created by Hiếu Nguyễn on 12/19/18.
 //  Copyright © 2018 matrix.org. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-final public class CkSignUpViewController: CkAuthenticationViewController {
+ public class CkSignUpViewController: CkAuthenticationViewController {
+
+    @IBOutlet weak var signinButton: UIButton!
+    
+    
     public override func finalizeInit() {
         super.finalizeInit()
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()        
+   public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.welcomeImageView.image = UIImage(named: "logo")
     }
+    
+    
+    
+    @IBAction func actionRegister(_ sender: UIButton) {
+    }
+    
+    @IBAction func actionSignIn(_ sender: UIButton) {
+    }
+
 }
