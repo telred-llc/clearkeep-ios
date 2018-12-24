@@ -309,6 +309,7 @@
 		E5720EE421AD1B7D0093D99A /* CkLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5720EE321AD1B7D0093D99A /* CkLoginViewController.xib */; };
 		E57814FC21A7B6A8001BF40D /* MainEx.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57814FA21A7B6A8001BF40D /* MainEx.storyboard */; };
 		E57814FE21A7B773001BF40D /* CkSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57814FD21A7B773001BF40D /* CkSplitViewController.swift */; };
+		E5ABD65521CC8CA10017D93E /* CkAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABD65421CC8CA10017D93E /* CkAuthorizer.swift */; };
 		E5AC22C62163775D00AA76B1 /* NavigationItemImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AC22C52163775D00AA76B1 /* NavigationItemImage.xib */; };
 		E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AC22C82163776C00AA76B1 /* NavigationItemImage.m */; };
 		E5C0B9A021CA353700910D8B /* CkMasterauthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C0B99F21CA353700910D8B /* CkMasterauthViewController.swift */; };
@@ -899,6 +900,7 @@
 		E5720EE321AD1B7D0093D99A /* CkLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CkLoginViewController.xib; sourceTree = "<group>"; };
 		E57814FB21A7B6A8001BF40D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Riot/Assets/Base.lproj/MainEx.storyboard; sourceTree = SOURCE_ROOT; };
 		E57814FD21A7B773001BF40D /* CkSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkSplitViewController.swift; sourceTree = "<group>"; };
+		E5ABD65421CC8CA10017D93E /* CkAuthorizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAuthorizer.swift; sourceTree = "<group>"; };
 		E5AC22C52163775D00AA76B1 /* NavigationItemImage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NavigationItemImage.xib; sourceTree = "<group>"; };
 		E5AC22C72163776C00AA76B1 /* NavigationItemImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationItemImage.h; sourceTree = "<group>"; };
 		E5AC22C82163776C00AA76B1 /* NavigationItemImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationItemImage.m; sourceTree = "<group>"; };
@@ -2453,6 +2455,7 @@
 				E5C0B9A521CA717F00910D8B /* CkForgotPasswordViewController.xib */,
 				E5C0B9A721CA76A400910D8B /* CkSignUpViewController.swift */,
 				E5C0B9A921CA76B300910D8B /* CkSignUpViewController.xib */,
+				E5ABD65421CC8CA10017D93E /* CkAuthorizer.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -3188,6 +3191,7 @@
 				B1B557DE20EF5FBB00210D55 /* FilesSearchTableViewCell.m in Sources */,
 				B1B5574020EE6C4D00210D55 /* SegmentedViewController.m in Sources */,
 				B1B5599320EFC5E400210D55 /* DecryptionFailure.m in Sources */,
+				E5ABD65521CC8CA10017D93E /* CkAuthorizer.swift in Sources */,
 				B1B558BE20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				F083BDED1E7009ED00A9B29C /* MXKRoomBubbleTableViewCell+Riot.m in Sources */,
 				E5C0B9A421CA381800910D8B /* CkForgotPasswordViewController.swift in Sources */,

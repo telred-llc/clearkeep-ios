@@ -22,35 +22,9 @@ public class CkAuthenticationViewController: MXKViewController {
     weak var delegate: CkAuthenticationViewControllerDelegate?
     
     /**
-     The matrix REST client used to make matrix API requests.
+     Authorizer.
      */
-    private var mxRestClient: MXRestClient!
-    
-    /**
-     Current request in progress.
-     */
-    private var mxCurrentOperation: MXHTTPOperation!
-    
-    /**
-     The current authentication type (MXKAuthenticationTypeLogin by default).
-     */
-    internal var authType: MXKAuthenticationType = MXKAuthenticationTypeLogin
-    
-    /**
-     The default home server url (nil by default).
-     */
-    internal var defaultHomeServerUrl: String! = nil
-    
-    /**
-     The default identity server url (nil by default).
-     */
-    internal var defaultIdentityServerUrl: String! = nil
-    
-    /**
-     The device name used to display it in the user's devices list (nil by default).
-     If nil, the device display name field is filled with a default string: "Mobile", "Tablet"...
-     */
-    internal var deviceDisplayName: String! = nil
+    internal var authorizer: CkAuthorizer!
     
     /**
      Force a registration process based on a predefined set of parameters.
