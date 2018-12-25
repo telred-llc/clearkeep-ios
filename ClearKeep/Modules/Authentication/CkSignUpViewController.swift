@@ -61,12 +61,13 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
         view.endEditing(true)
     }
     
+   
+    
     @IBAction func actionRegister(_ sender: UIButton) {
     }
     
     @IBAction func actionSignIn(_ sender: UIButton) {
     }
-    
     
 }
 

@@ -86,6 +86,9 @@ public class CkAuthenticationViewController: MXKViewController {
     }
     
     @IBAction func onSignUp() {
-        self.delegate?.authentication(self, requestAction: "register")
+        self.delegate?.authentication(self, requestAction: "indicator")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.delegate?.authentication(self, requestAction: "register")
+        }
     }
 }

@@ -19,6 +19,8 @@
 		92726A471F58737A004AD26F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 92726A461F58737A004AD26F /* IntentHandler.m */; };
 		92726A4B1F58737A004AD26F /* SiriIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 92726A431F58737A004AD26F /* SiriIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		92726A511F587410004AD26F /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92726A501F587410004AD26F /* Intents.framework */; };
+		A0B35FE621D1DC17000C12C7 /* CkAuthIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B35FE421D1DC17000C12C7 /* CkAuthIndicatorViewController.swift */; };
+		A0B35FE721D1DC17000C12C7 /* CkAuthIndicatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0B35FE521D1DC17000C12C7 /* CkAuthIndicatorViewController.xib */; };
 		A0D996B421CB417E00AD8135 /* DesignableUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D996B321CB417E00AD8135 /* DesignableUI.swift */; };
 		A0D996B621CB42E900AD8135 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D996B521CB42E800AD8135 /* Checkbox.swift */; };
 		B1664BC520F4E67600808783 /* FallbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1664BAD20F4E67500808783 /* FallbackViewController.xib */; };
@@ -422,6 +424,8 @@
 		92726A481F58737A004AD26F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92726A4F1F587393004AD26F /* SiriIntents.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SiriIntents.entitlements; sourceTree = "<group>"; };
 		92726A501F587410004AD26F /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		A0B35FE421D1DC17000C12C7 /* CkAuthIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAuthIndicatorViewController.swift; sourceTree = "<group>"; };
+		A0B35FE521D1DC17000C12C7 /* CkAuthIndicatorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CkAuthIndicatorViewController.xib; sourceTree = "<group>"; };
 		A0D996B321CB417E00AD8135 /* DesignableUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableUI.swift; sourceTree = "<group>"; };
 		A0D996B521CB42E800AD8135 /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		B1664BAD20F4E67500808783 /* FallbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FallbackViewController.xib; sourceTree = "<group>"; };
@@ -2453,6 +2457,8 @@
 				E5C0B9A521CA717F00910D8B /* CkForgotPasswordViewController.xib */,
 				E5C0B9A721CA76A400910D8B /* CkSignUpViewController.swift */,
 				E5C0B9A921CA76B300910D8B /* CkSignUpViewController.xib */,
+				A0B35FE421D1DC17000C12C7 /* CkAuthIndicatorViewController.swift */,
+				A0B35FE521D1DC17000C12C7 /* CkAuthIndicatorViewController.xib */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -2877,6 +2883,7 @@
 				B1B5573320EE6C4D00210D55 /* GroupHomeViewController.xib in Resources */,
 				B1B5593920EF7BAC00210D55 /* TableViewCellWithCheckBoxes.xib in Resources */,
 				B1B557C120EF5B4500210D55 /* DisabledRoomInputToolbarView.xib in Resources */,
+				A0B35FE721D1DC17000C12C7 /* CkAuthIndicatorViewController.xib in Resources */,
 				B1664DA320F4F96200808783 /* Vector.strings in Resources */,
 				B1B557C720EF5CD400210D55 /* DirectoryServerDetailTableViewCell.xib in Resources */,
 				B1B5582620EF638A00210D55 /* RoomMemberTitleView.xib in Resources */,
@@ -3110,6 +3117,7 @@
 				B1B5574820EE6C4D00210D55 /* PeopleViewController.m in Sources */,
 				B1B5598720EFC3E000210D55 /* Widget.m in Sources */,
 				B1B557E320EF60B900210D55 /* MessagesSearchResultAttachmentBubbleCell.m in Sources */,
+				A0B35FE621D1DC17000C12C7 /* CkAuthIndicatorViewController.swift in Sources */,
 				B1B5574420EE6C4D00210D55 /* CallViewController.m in Sources */,
 				B1B5572220EE6C4D00210D55 /* RoomSettingsViewController.m in Sources */,
 				B1B5577320EE702800210D55 /* JitsiViewController.m in Sources */,
