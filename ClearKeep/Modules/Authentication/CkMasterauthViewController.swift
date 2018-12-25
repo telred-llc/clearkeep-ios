@@ -17,6 +17,8 @@ public enum DisplayAuthenticationStyle {
 
 final public class CkMasterauthViewController: MXKViewController, CkAuthenticationViewControllerDelegate {
     
+    private let authorizer = CkAuthorizer(userName: "", password: "")
+    
     @objc public var externalRegistrationParameters: NSDictionary!
     
     public var displayStyle: DisplayAuthenticationStyle = .login
@@ -24,6 +26,7 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
     private lazy var loginViewController: CkLoginViewController = {
         var viewController = CkLoginViewController(nibName: "CkLoginViewController", bundle: nil)
         viewController.delegate = self
+        viewController.attach(newAuthorizer: authorizer)
         self.add(asChildViewController: viewController)
         return viewController
     }()
@@ -31,6 +34,7 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
     private lazy var registerViewController: CkSignUpViewController = {
         var viewController = CkSignUpViewController(nibName: "CkSignUpViewController", bundle: nil)
         viewController.delegate = self
+        viewController.attach(newAuthorizer: authorizer)
         self.add(asChildViewController: viewController)
         return viewController
     }()
@@ -38,6 +42,7 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
     private lazy var forgotPwdViewController: CkForgotPasswordViewController = {
         var viewController = CkForgotPasswordViewController(nibName: "CkForgotPasswordViewController", bundle: nil)
         viewController.delegate = self
+        viewController.attach(newAuthorizer: authorizer)
         self.add(asChildViewController: viewController)
         return viewController
     }()
@@ -95,6 +100,7 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
 }
 
 extension CkMasterauthViewController {
+    
     func authentication(_ authentication: CkAuthenticationViewController, requestAction action: String) {
         if action == "login" {
             self.displayStyle = .login
@@ -106,5 +112,12 @@ extension CkMasterauthViewController {
             self.displayStyle = .register
             self.updateView()
         }
+    }
+    
+    func authenticationWillStartSigningUp() {        
+    }
+    
+    func authenticationWillStartSigningIn() {
+        
     }
 }

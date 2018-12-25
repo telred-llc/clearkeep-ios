@@ -80,7 +80,7 @@ DEPENDENCIES:
   - cmark
   - DTCoreText
   - GBDeviceInfo (~> 5.2.0)
-  - IQKeyboardManagerSwift
+  - IQKeyboardManagerSwift (~> 6.2.0)
   - MatrixKit/AppExtension (from `https://github.com/sinbadflyce/matrix-ios-kit.git`, branch `o365`)
   - MatrixSDK/JingleCallStack
   - MatrixSDK/SwiftSupport
@@ -136,6 +136,6 @@ SPEC CHECKSUMS:
   Realm: 037c5919b9ceb59d6beed5d3b031096856b119b3
   WebRTC: f2a6203584745fe53532633397557876b5d71640
 
-PODFILE CHECKSUM: e2190c3dc58c72c2a2058930a3bf4c88309f4b33
+PODFILE CHECKSUM: 46dfa5fb5da048ed6d07373be52bcec8f6c981a6
 
 COCOAPODS: 1.5.3

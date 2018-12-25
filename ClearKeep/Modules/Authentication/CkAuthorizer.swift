@@ -9,7 +9,12 @@
 import Foundation
 import MatrixKit
 
+protocol CkAuthorizerDelegate: class {
+    
+}
+
 public class CkAuthorizer {
+
     /**
      The matrix REST client used to make matrix API requests.
      */
@@ -24,6 +29,16 @@ public class CkAuthorizer {
      Customized block used to handle unrecognized certificate (nil by default).
      */
     private var onUnrecognizedCertificateCustomBlock: MXHTTPClientOnUnrecognizedCertificate!;
+    
+    /**
+     Current Session
+    */
+    private var currentSession: MXAuthenticationSession! = nil
+
+    /**
+     Delegates
+    */
+    internal let delegates = MulticastDelegate<CkAuthorizerDelegate>()
     
     /**
      The current authentication type (MXKAuthenticationTypeLogin by default).
@@ -53,19 +68,19 @@ public class CkAuthorizer {
     /**
      The default home server url (nil by default).
      */
-    internal var defaultHomeServer: String! = nil
+    internal var defaultHomeServer: String? = nil
     
     /**
      The default identity server url (nil by default).
      */
-    internal var defaultIdentityServer: String! = nil
+    internal var defaultIdentityServer: String? = nil
     
     /**
      The device name used to display it in the user's devices list (nil by default).
      If nil, the device display name field is filled with a default string: "Mobile", "Tablet"...
      */
     internal var deviceDisplayName: String! = nil
-    
+        
     /**
      Initilaze
      */
@@ -76,6 +91,15 @@ public class CkAuthorizer {
         self.homeServer = homeServer
         self.identityServer = identityServer
         self.deviceDisplayName = displayName
+        
+        // Default values
+        self.defaultHomeServer = UserDefaults.standard.object(forKey: "homeserverurl") as? String
+        self.defaultIdentityServer = UserDefaults.standard.object(forKey: "identityserverurl") as? String
+        
+        if let dhs = self.defaultHomeServer, let dis = self.defaultIdentityServer {
+            if self.homeServer == nil { self.homeServer = dhs}
+            if self.identityServer == nil {self.identityServer = dis}
+        }
     }
     
     /**
@@ -133,7 +157,7 @@ public class CkAuthorizer {
                         } else {
                             credentials.homeServer = self.homeServer
                             credentials.allowedCertificate = self.mxRestClient.allowedCertificate
-                            self.onSuccessfulLogin(withCredentials: credentials)
+                            self.onSuccessfulAuthRequest(withCredentials: credentials)
                         }
                     }
                 } else {
@@ -161,7 +185,7 @@ public class CkAuthorizer {
                         } else {
                             credentials.homeServer = self.homeServer
                             credentials.allowedCertificate = self.mxRestClient.allowedCertificate
-                            self.onSuccessfulLogin(withCredentials: credentials)
+                            self.onSuccessfulAuthRequest(withCredentials: credentials)
                         }
                     }
                 } else {
@@ -218,6 +242,30 @@ public class CkAuthorizer {
 
 extension CkAuthorizer {
     
+    public func startSigningIn() {
+        self.prepareParameters { (parameters: [String : Any]) in
+            if parameters.keys.count > 0 {
+                self.login(withParameters: parameters)
+            }
+        }
+    }
+    
+    public func startSigningUp() {
+        self.prepareParameters { (parameters: [String : Any]) in
+            if parameters.keys.count > 0 {
+                self.register(withParameters: parameters)
+            }
+        }
+    }
+    
+    public func update(withUsername username: String, password: String) {
+        self.userName = username
+        self.password = password
+    }
+}
+
+extension CkAuthorizer {
+    
     private func error(withMessage message: String) -> Error {
         return NSError(
             domain: MXKAuthErrorDomain,
@@ -225,7 +273,7 @@ extension CkAuthorizer {
             userInfo: [NSLocalizedDescriptionKey: message]) as Error
     }
     
-    private func prepareParameters(completion: ([String: Any]) -> Void) {
+    private func prepareParameters(completion: @escaping ([String: Any]) -> Void) {
         
         var parameters: [String: Any]! = nil
         
@@ -246,8 +294,48 @@ extension CkAuthorizer {
                               "password": self.password,
                               "user": self.userName ]
             }
-        } else if self.authType == MXKAuthenticationTypeRegister {
             
+            completion(parameters)
+
+        } else if self.authType == MXKAuthenticationTypeRegister {
+            if MXTools.isEmailAddress(self.userName) {
+                
+                if let submittedEmail = MXK3PID(medium: kMX3PIDMediumEmail, andAddress: self.userName) {
+                    
+                    let nextLink = self.generateNextLink(withClientSecret: submittedEmail.clientSecret)
+                    
+                    submittedEmail.requestValidationToken(withMatrixRestClient: mxRestClient, isDuringRegistration: true, nextLink: nextLink, success: {
+                        
+                        if let identServerURL = NSURL(string: self.identityServer) {
+
+                            parameters = ["auth": ["session": self.currentSession.session,
+                                                   "threepid_creds": ["client_secret": submittedEmail.clientSecret,
+                                                                      "id_server": identServerURL.host,
+                                                                      "sid": submittedEmail.sid],
+                                                   "type": kMXLoginFlowTypeEmailIdentity],
+                                          "username": self.userName,
+                                          "password": self.password,
+                                          "bind_email": true,
+                                          "bind_msisdn": self.isMSISDNFlowCompleted(),
+                                          "initial_device_display_name": self.deviceDisplayName]
+                            
+                            completion(parameters)
+
+                        }
+                    }) { (error) in
+                        completion([:])
+                    }
+                }
+            } else {
+                parameters = ["auth": [:],
+                              "username": self.userName,
+                              "password": self.password,
+                              "bind_email": false,
+                              "initial_device_display_name": self.deviceDisplayName]
+                
+                completion(parameters)
+
+            }
         }
     }
 }
@@ -258,15 +346,29 @@ extension CkAuthorizer {
         
     }
     
-    private func onSuccessfulLogin(withCredentials credentials: MXCredentials) {
+    private func onSuccessfulAuthRequest(withCredentials credentials: MXCredentials) {
         
     }
     
     private func handleAuthentication(withSession session: MXAuthenticationSession?) {
-        
+        self.currentSession = session
     }
     
     private func onFailureDuringMXOperation(withError: Error?) {
         
+    }
+    
+    private func generateNextLink(withClientSecret clientSecret: String) -> String {
+        let nextLink: String = "\(String(describing: Tools.webAppUrl()))/#/register?client_secret=\(clientSecret)&hs_url=\(String(describing: mxRestClient.homeserver))&is_url=\(String(describing: mxRestClient.identityServer))&session_id=\(String(describing: self.currentSession.session))"
+        return nextLink
+    }
+    
+    private func isMSISDNFlowCompleted() -> Bool {
+        if currentSession != nil && currentSession.completed != nil {
+            if currentSession.completed.index(of: kMXLoginFlowTypeMSISDN) != NSNotFound {
+                return true
+            }
+        }
+        return false
     }
 }
