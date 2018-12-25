@@ -29,9 +29,6 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
         self.welcomeImageView.image = UIImage(named: "logo")
-        nameTextField.delegate = self
-        passwordTextField.delegate = self
-        repassTextField.delegate = self
     }
    
     public override func viewDidLayoutSubviews() {
@@ -69,6 +66,7 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
     
     @IBAction func actionSignIn(_ sender: UIButton) {
     }
+    
     
 }
 
