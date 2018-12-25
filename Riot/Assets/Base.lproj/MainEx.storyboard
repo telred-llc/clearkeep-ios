@@ -637,7 +637,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="apps-icon" width="24" height="24"/>
+        <image name="apps-icon" width="38.400001525878906" height="38.400001525878906"/>
         <image name="logo" width="114" height="82"/>
         <image name="search_icon" width="22" height="22"/>
         <image name="tab_favourites" width="25" height="25"/>
@@ -648,11 +648,11 @@
         <image name="tab_home_selected" width="25" height="25"/>
         <image name="tab_people" width="25" height="25"/>
         <image name="tab_people_selected" width="25" height="25"/>
-        <image name="tab_rooms" width="25" height="25"/>
+        <image name="tab_rooms" width="40" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mhb-l9-pM3"/>
-        <segue reference="0ws-cL-0tk"/>
+        <segue reference="p4M-yR-DLA"/>
         <segue reference="f5u-Y1-7nt"/>
         <segue reference="vCz-dl-6xQ"/>
         <segue reference="cUw-vU-gJq"/>

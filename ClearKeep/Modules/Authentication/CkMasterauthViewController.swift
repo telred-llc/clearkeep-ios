@@ -13,6 +13,7 @@ public enum DisplayAuthenticationStyle {
     case login
     case register
     case forgot
+    case indicator
 }
 
 final public class CkMasterauthViewController: MXKViewController, CkAuthenticationViewControllerDelegate {
@@ -35,6 +36,13 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
         var viewController = CkSignUpViewController(nibName: "CkSignUpViewController", bundle: nil)
         viewController.delegate = self
         viewController.attach(newAuthorizer: authorizer)
+        self.add(asChildViewController: viewController)
+        return viewController
+    }()
+    
+    private lazy var indicatorViewController: CkAuthIndicatorViewController = {
+        var viewController = CkAuthIndicatorViewController(nibName: "CkAuthIndicatorViewController", bundle: nil)
+        viewController.delegate = self
         self.add(asChildViewController: viewController)
         return viewController
     }()
@@ -86,7 +94,13 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
             remove(asChildViewController: loginViewController)
             remove(asChildViewController: forgotPwdViewController)
             add(asChildViewController: registerViewController)
+        } else if displayStyle == .indicator {
+            remove(asChildViewController: loginViewController)
+            remove(asChildViewController: forgotPwdViewController)
+            remove(asChildViewController: registerViewController)
+            add(asChildViewController: indicatorViewController)
         }
+        
     }
 
     public func updateView() {
@@ -110,6 +124,9 @@ extension CkMasterauthViewController {
             self.updateView()
         } else if action == "register" {
             self.displayStyle = .register
+            self.updateView()
+        } else if action == "indicator" {
+            self.displayStyle = . indicator
             self.updateView()
         }
     }
