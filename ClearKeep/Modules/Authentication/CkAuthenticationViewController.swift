@@ -11,46 +11,31 @@ import MatrixKit
 
 protocol CkAuthenticationViewControllerDelegate: class {
     func authentication(_ authentication: CkAuthenticationViewController, requestAction action: String)
+    func authentication(_ authentication: CkAuthenticationViewController, onSuccessfulAuthCredentials credentials: MXCredentials)
+    func authentication(_ authentication: CkAuthenticationViewController, onFailureDuringAuthError error: Error)
+    
+    func authenticationFailStartSigningIn(withMessage message: String)
+    func authenticationFailStartSigningUp(withMessage message: String)
+    
+    func authenticationWillStartSigningIn()
+    func authenticationWillStartSigningUp()
 }
 
-public class CkAuthenticationViewController: MXKViewController {
+public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDelegate {
     
     @IBOutlet weak var authenticationScrollView: UIScrollView!
     @IBOutlet weak var welcomeImageView: UIImageView!
     @IBOutlet weak var signupButton: UIButton!
     
+    /**
+     Delegate
+     */
     weak var delegate: CkAuthenticationViewControllerDelegate?
     
     /**
-     The matrix REST client used to make matrix API requests.
+     Authorizer.
      */
-    private var mxRestClient: MXRestClient!
-    
-    /**
-     Current request in progress.
-     */
-    private var mxCurrentOperation: MXHTTPOperation!
-    
-    /**
-     The current authentication type (MXKAuthenticationTypeLogin by default).
-     */
-    internal var authType: MXKAuthenticationType = MXKAuthenticationTypeLogin
-    
-    /**
-     The default home server url (nil by default).
-     */
-    internal var defaultHomeServerUrl: String! = nil
-    
-    /**
-     The default identity server url (nil by default).
-     */
-    internal var defaultIdentityServerUrl: String! = nil
-    
-    /**
-     The device name used to display it in the user's devices list (nil by default).
-     If nil, the device display name field is filled with a default string: "Mobile", "Tablet"...
-     */
-    internal var deviceDisplayName: String! = nil
+    private var authorizer: CkAuthorizer?
     
     /**
      Force a registration process based on a predefined set of parameters.
@@ -58,12 +43,15 @@ public class CkAuthenticationViewController: MXKViewController {
      */
     @objc public var externalRegistrationParameters: NSDictionary!
     
+    /**
+     finalize initial
+     */
     public override func finalizeInit() {
         super.finalizeInit()
     }
     
     public override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()        
         
         if self.signupButton != nil {
             self.signupButton.layer.borderWidth = 1
@@ -71,24 +59,83 @@ public class CkAuthenticationViewController: MXKViewController {
         }
     }
     
-    // MARK: - Actions
-
-    @IBAction func onEmailPress() {
-    
-    }
-
-    @IBAction func onUsernamePress() {
-    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+        
     @IBAction func onSignIn() {
         self.delegate?.authentication(self, requestAction: "login")
+        
+        if self.isKind(of: CkLoginViewController.self) {
+            
+            if let message = self.validateParameters() {
+                self.delegate?.authenticationFailStartSigningIn(withMessage: message)
+                return
+            }
+            
+            self.askForUpdating { (parameters: [String : Any]) in
+                if let userid = parameters["userid"] as? String, let password = parameters["password"] as? String {
+                    self.authorizer?.update(withUserId: userid, password: password)
+                }
+                self.delegate?.authenticationWillStartSigningIn()                
+                self.authorizer?.startSigningIn()
+            }
+        }
     }
     
     @IBAction func onSignUp() {
-        self.delegate?.authentication(self, requestAction: "indicator")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.delegate?.authentication(self, requestAction: "register")
+        self.delegate?.authentication(self, requestAction: "register")
+        
+        if self.isKind(of: CkSignUpViewController.self) {
+            
+            if let message = self.validateParameters() {
+                self.delegate?.authenticationFailStartSigningUp(withMessage: message)
+                return
+            }
+
+            self.askForUpdating { (parameters: [String : Any]) in
+                if let userid = parameters["userid"] as? String, let password = parameters["password"] as? String {
+                    self.authorizer?.update(withUserId: userid, password: password)
+                }
+                self.delegate?.authenticationWillStartSigningUp()
+                self.authorizer?.startSigningUp()
+            }
+        }
+    }
+    
+    // MARK: - PROBABLY OVERIDE
+    public func askForUpdating(completion: ([String: Any]) -> Void) {}
+    
+    public func validateParameters() -> String? { return nil }
+}
+
+extension CkAuthenticationViewController {
+    
+    public func attach(newAuthorizer authorizer: CkAuthorizer) {
+        authorizer.delegates.add(delegate: self)
+        self.authorizer = authorizer
+    }
+    
+    public func isVisible() -> Bool {
+        return (self.isViewLoaded && self.view.window != nil)
+    }
+}
+
+extension CkAuthenticationViewController {
+    
+    internal func authorizer(_ authorizer: CkAuthorizer, onFailureDuringAuthError error: Error) {
+        if self.isVisible() {
+            self.delegate?.authentication(self, onFailureDuringAuthError: error)
+        }
+    }
+    
+    internal func authorizer(_ authorizer: CkAuthorizer, onSuccessfulAuthCredentials credentials: MXCredentials) {
+        if self.isVisible() {
+            self.delegate?.authentication(self, onSuccessfulAuthCredentials: credentials)
         }
     }
 }

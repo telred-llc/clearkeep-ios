@@ -14,9 +14,9 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
     @IBOutlet weak var registerView: UIView!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var signinButton: UIButton!
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var userIdTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var repassTextField: UITextField!
+    @IBOutlet weak var repasswordTextField: UITextField!
     
     public override func finalizeInit() {
         super.finalizeInit()
@@ -24,11 +24,17 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.welcomeImageView.image = UIImage(named: "logo")
+
         IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 100
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
-        self.welcomeImageView.image = UIImage(named: "logo")
+        
+        self.userIdTextField.text = "test"
+        self.passwordTextField.text = "111111"
+        self.repasswordTextField.text = "111111"
     }
    
     public override func viewDidLayoutSubviews() {
@@ -39,20 +45,20 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
     }
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == nameTextField {
+        if textField == userIdTextField {
             passwordTextField.becomeFirstResponder()
         } else {
             passwordTextField.resignFirstResponder()
         }
         
         if textField == passwordTextField {
-            repassTextField.becomeFirstResponder()
+            repasswordTextField.becomeFirstResponder()
         } else {
-            repassTextField.resignFirstResponder()
+            repasswordTextField.resignFirstResponder()
         }
         
-        if textField == repassTextField {
-            repassTextField.resignFirstResponder()
+        if textField == repasswordTextField {
+            repasswordTextField.resignFirstResponder()
         }
         return true
     }
@@ -61,7 +67,7 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
         view.endEditing(true)
     }
     
-   
+    // MARK: - Actions
     
     @IBAction func actionRegister(_ sender: UIButton) {
     }
@@ -69,8 +75,35 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
     @IBAction func actionSignIn(_ sender: UIButton) {
     }
     
+    //MARK: - Overrided
+    
+    public override func askForUpdating(completion: ([String : Any]) -> Void) {
+        if let userid = self.userIdTextField?.text, let password = self.passwordTextField?.text {
+            let parameters = ["userid": userid,
+                              "password": password]
+            completion(parameters)
+        } else {
+            completion([:])
+        }
+    }
+    
+    public override func validateParameters() -> String? {
+        
+        var errorMsg: String? = nil
+        
+        if userIdTextField.text?.count == 0 {
+            errorMsg = NSLocalizedString("auth_invalid_user_name", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        } else if passwordTextField.text?.count == 0 {
+            errorMsg = NSLocalizedString("auth_missing_password", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        } else if let pw = passwordTextField.text, pw.count < 6 {
+            errorMsg = NSLocalizedString("auth_invalid_password", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        } else if let pw = passwordTextField.text, let rpw = repasswordTextField.text, pw != rpw {
+            errorMsg = NSLocalizedString("auth_password_dont_match", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        }
+        
+        return errorMsg
+    }
 }
-
 
 extension UIView {
     func applyGradient(colours: [UIColor]) -> Void {

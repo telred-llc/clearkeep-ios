@@ -18,13 +18,18 @@ public enum DisplayAuthenticationStyle {
 
 final public class CkMasterauthViewController: MXKViewController, CkAuthenticationViewControllerDelegate {
     
+    private let authorizer = CkAuthorizer(userId: "", password: "")
+    
     @objc public var externalRegistrationParameters: NSDictionary!
     
     public var displayStyle: DisplayAuthenticationStyle = .login
     
+    private var lastStyle: DisplayAuthenticationStyle = .login
+    
     private lazy var loginViewController: CkLoginViewController = {
         var viewController = CkLoginViewController(nibName: "CkLoginViewController", bundle: nil)
-        viewController.delegate = self
+        viewController.delegate = self        
+        viewController.attach(newAuthorizer: authorizer)
         self.add(asChildViewController: viewController)
         return viewController
     }()
@@ -32,6 +37,7 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
     private lazy var registerViewController: CkSignUpViewController = {
         var viewController = CkSignUpViewController(nibName: "CkSignUpViewController", bundle: nil)
         viewController.delegate = self
+        viewController.attach(newAuthorizer: authorizer)
         self.add(asChildViewController: viewController)
         return viewController
     }()
@@ -39,6 +45,7 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
     private lazy var indicatorViewController: CkAuthIndicatorViewController = {
         var viewController = CkAuthIndicatorViewController(nibName: "CkAuthIndicatorViewController", bundle: nil)
         viewController.delegate = self
+        viewController.attach(newAuthorizer: authorizer)
         self.add(asChildViewController: viewController)
         return viewController
     }()
@@ -46,10 +53,13 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
     private lazy var forgotPwdViewController: CkForgotPasswordViewController = {
         var viewController = CkForgotPasswordViewController(nibName: "CkForgotPasswordViewController", bundle: nil)
         viewController.delegate = self
+        viewController.attach(newAuthorizer: authorizer)
         self.add(asChildViewController: viewController)
         return viewController
     }()
 
+    // MARK: - Private
+    
     private func add(asChildViewController viewController: UIViewController) {
         // Add Child View Controller
         addChildViewController(viewController)
@@ -95,9 +105,29 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
             remove(asChildViewController: registerViewController)
             add(asChildViewController: indicatorViewController)
         }
-        
     }
 
+    private func finalAuthentication(withUserId userId: String) {
+        if let nc = self.navigationController {
+            nc.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    private func alert(withMessage message: String) {
+        let alert: UIAlertController = UIAlertController(
+            title: nil,
+            message: message, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Close", style: .default) { (action: UIAlertAction) in
+        }
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Public
+    
     public func updateView() {
         self.setupView()
     }
@@ -109,19 +139,60 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
 }
 
 extension CkMasterauthViewController {
+    
     func authentication(_ authentication: CkAuthenticationViewController, requestAction action: String) {
         if action == "login" {
             self.displayStyle = .login
+            self.lastStyle = .login
             self.updateView()
         } else if action == "forgot" {
             self.displayStyle = .forgot
+            self.lastStyle = .forgot
             self.updateView()
         } else if action == "register" {
             self.displayStyle = .register
+            self.lastStyle = .register
             self.updateView()
         } else if action == "indicator" {
             self.displayStyle = . indicator
             self.updateView()
         }
+    }
+    
+    func authenticationWillStartSigningUp() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
+            self.displayStyle = . indicator
+            self.updateView()
+        }
+    }
+    
+    func authenticationWillStartSigningIn() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
+            self.displayStyle = . indicator
+            self.updateView()
+        }
+    }
+    
+    func authenticationFailStartSigningIn(withMessage message: String) {
+        self.alert(withMessage: message)
+    }
+    
+    func authenticationFailStartSigningUp(withMessage message: String) {
+        self.alert(withMessage: message)
+    }
+    
+    func authentication(_ authentication: CkAuthenticationViewController, onFailureDuringAuthError error: Error) {
+        
+        self.alert(withMessage: error.localizedDescription)
+        
+        if self.lastStyle == .login {
+            self.authentication(authentication, requestAction: "login")
+        } else if self.lastStyle == .register {
+            self.authentication(authentication, requestAction: "register")
+        }
+    }
+    
+    func authentication(_ authentication: CkAuthenticationViewController, onSuccessfulAuthCredentials credentials: MXCredentials) {
+        self.finalAuthentication(withUserId: credentials.userId)
     }
 }
