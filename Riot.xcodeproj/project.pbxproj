@@ -2455,9 +2455,9 @@
 			isa = PBXGroup;
 			children = (
 				E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */,
+				E5C0B9A121CA37E500910D8B /* CkLoginViewController.swift */,
 				E5720EE321AD1B7D0093D99A /* CkLoginViewController.xib */,
 				E5C0B99F21CA353700910D8B /* CkMasterauthViewController.swift */,
-				E5C0B9A121CA37E500910D8B /* CkLoginViewController.swift */,
 				E5C0B9A321CA381800910D8B /* CkForgotPasswordViewController.swift */,
 				E5C0B9A521CA717F00910D8B /* CkForgotPasswordViewController.xib */,
 				E5C0B9A721CA76A400910D8B /* CkSignUpViewController.swift */,

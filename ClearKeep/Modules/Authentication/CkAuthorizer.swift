@@ -9,8 +9,9 @@
 import Foundation
 import MatrixKit
 
-protocol CkAuthorizerDelegate: class {
-    
+protocol CkAuthorizerDelegate: class {        
+    func authorizer(_ authorizer: CkAuthorizer, onSuccessfulAuthCredentials credentials: MXCredentials)
+    func authorizer(_ authorizer: CkAuthorizer, onFailureDuringAuthError error: Error)
 }
 
 public class CkAuthorizer {
@@ -36,6 +37,11 @@ public class CkAuthorizer {
     private var currentSession: MXAuthenticationSession! = nil
 
     /**
+     Registration Timer
+     */
+    private var registrationTimer: Timer! = nil
+    
+    /**
      Delegates
     */
     internal let delegates = MulticastDelegate<CkAuthorizerDelegate>()
@@ -46,9 +52,9 @@ public class CkAuthorizer {
     internal var authType: MXKAuthenticationType = MXKAuthenticationTypeLogin
 
     /**
-     Username
+     Username/Email
      */
-    internal var userName: String
+    internal var userId: String
 
     /**
      Password
@@ -84,9 +90,9 @@ public class CkAuthorizer {
     /**
      Initilaze
      */
-    init(userName: String, password: String, homeServer: String! = nil,
+    init(userId: String, password: String, homeServer: String! = nil,
          identityServer: String! = nil, displayName: String! = nil) {
-        self.userName = userName
+        self.userId = userId
         self.password = password
         self.homeServer = homeServer
         self.identityServer = identityServer
@@ -100,6 +106,8 @@ public class CkAuthorizer {
             if self.homeServer == nil { self.homeServer = dhs}
             if self.identityServer == nil {self.identityServer = dis}
         }
+        
+        self.updateRESTClient()
     }
     
     /**
@@ -171,6 +179,11 @@ public class CkAuthorizer {
     
     internal func register(withParameters parameters: [String : Any]) {
         
+        if self.registrationTimer != nil {
+            self.registrationTimer.invalidate()
+            self.registrationTimer = nil
+        }
+        
         self.mxCurrentOperation = self.mxRestClient.register(
             parameters: parameters,
             completion: { (jsonResponse: MXResponse<[String : Any]>) in
@@ -191,13 +204,27 @@ public class CkAuthorizer {
                 } else {
                     
                     if let error = jsonResponse.error, jsonResponse.isFailure == true {
+                        
+                        if let mxError = MXError(nsError: error) {
+                            
+                            if mxError.errcode == kMXErrCodeStringUnauthorized {
+                                self.registrationTimer = Timer.scheduledTimer(
+                                    timeInterval: 10,
+                                    target: self,
+                                    selector: #selector(self.registrationTimerFireMethod(timer:)),
+                                    userInfo: parameters,
+                                    repeats: false)
+                                return
+                            }
+                        }
+                        
                         self.onFailureDuringAuthRequest(withError: error as NSError)
                     }
                 }
         })
     }
     
-    internal func refreshAuthenticationSession() {
+    internal func refreshAuthenticationSession(completion: @escaping (MXAuthenticationSession?) -> Void) {
 
         if self.mxCurrentOperation != nil {
             self.mxCurrentOperation.cancel()
@@ -213,6 +240,7 @@ public class CkAuthorizer {
                         
                         if response.isSuccess {
                             self.handleAuthentication(withSession: response.value)
+                            completion(response.value)
                         } else {
                             self.onFailureDuringMXOperation(withError: response.error)
                         }
@@ -223,6 +251,7 @@ public class CkAuthorizer {
 
                         if response.isSuccess {
                             self.handleAuthentication(withSession: response.value)
+                            completion(response.value)
                         } else {
                             self.onFailureDuringMXOperation(withError: response.error)
                         }
@@ -238,28 +267,42 @@ public class CkAuthorizer {
             completion(isInUsed)
         })
     }
+    
+    @objc internal func registrationTimerFireMethod(timer: Timer) {
+        if timer == self.registrationTimer && timer.isValid {
+            if let parameters = timer.userInfo as? [String: Any] {
+                self.register(withParameters: parameters)
+            }
+        }
+    }
 }
 
 extension CkAuthorizer {
     
     public func startSigningIn() {
-        self.prepareParameters { (parameters: [String : Any]) in
-            if parameters.keys.count > 0 {
-                self.login(withParameters: parameters)
+        self.authType = MXKAuthenticationTypeLogin
+        self.refreshAuthenticationSession { (_) in
+            self.prepareParameters { (parameters: [String : Any]) in
+                if parameters.keys.count > 0 {
+                    self.login(withParameters: parameters)
+                }
             }
         }
     }
     
     public func startSigningUp() {
-        self.prepareParameters { (parameters: [String : Any]) in
-            if parameters.keys.count > 0 {
-                self.register(withParameters: parameters)
+        self.authType = MXKAuthenticationTypeRegister
+        self.refreshAuthenticationSession { (_) in
+            self.prepareParameters { (parameters: [String : Any]) in
+                if parameters.keys.count > 0 {
+                    self.register(withParameters: parameters)
+                }
             }
         }
     }
     
-    public func update(withUsername username: String, password: String) {
-        self.userName = username
+    public func update(withUserId userId: String, password: String) {
+        self.userId = userId
         self.password = password
     }
 }
@@ -279,28 +322,28 @@ extension CkAuthorizer {
         
         if self.authType == MXKAuthenticationTypeLogin {
             
-            if MXTools.isEmailAddress(self.userName) {
+            if MXTools.isEmailAddress(self.userId) {
                 parameters = ["type": kMXLoginFlowTypePassword,
                               "identifier": ["type": kMXLoginIdentifierTypeThirdParty,
                                              "medium": kMX3PIDMediumEmail,
-                                             "address": self.userName],
+                                             "address": self.userId],
                               "password": self.password,
                               "medium": kMX3PIDMediumEmail,
-                              "address": self.userName ]
+                              "address": self.userId ]
             } else {
                 parameters = ["type": kMXLoginFlowTypePassword,
                               "identifier": ["type": kMXLoginIdentifierTypeUser,
-                                             "user": self.userName],
+                                             "user": self.userId],
                               "password": self.password,
-                              "user": self.userName ]
+                              "user": self.userId ]
             }
             
             completion(parameters)
 
         } else if self.authType == MXKAuthenticationTypeRegister {
-            if MXTools.isEmailAddress(self.userName) {
+            if MXTools.isEmailAddress(self.userId) {
                 
-                if let submittedEmail = MXK3PID(medium: kMX3PIDMediumEmail, andAddress: self.userName) {
+                if let submittedEmail = MXK3PID(medium: kMX3PIDMediumEmail, andAddress: self.userId) {
                     
                     let nextLink = self.generateNextLink(withClientSecret: submittedEmail.clientSecret)
                     
@@ -313,7 +356,7 @@ extension CkAuthorizer {
                                                                       "id_server": identServerURL.host,
                                                                       "sid": submittedEmail.sid],
                                                    "type": kMXLoginFlowTypeEmailIdentity],
-                                          "username": self.userName,
+                                          "username": self.userId,
                                           "password": self.password,
                                           "bind_email": true,
                                           "bind_msisdn": self.isMSISDNFlowCompleted(),
@@ -327,10 +370,12 @@ extension CkAuthorizer {
                     }
                 }
             } else {
-                parameters = ["auth": [:],
-                              "username": self.userName,
+                parameters = ["auth": ["session": self.currentSession.session,
+                                       "type": kMXLoginFlowTypeDummy],
+                              "username": self.userId,
                               "password": self.password,
                               "bind_email": false,
+                              "bind_msisdn": false,
                               "initial_device_display_name": self.deviceDisplayName]
                 
                 completion(parameters)
@@ -343,11 +388,25 @@ extension CkAuthorizer {
 extension CkAuthorizer {
 
     private func onFailureDuringAuthRequest(withError error: Error) {
-        
+        self.delegates.invoke { (agent: CkAuthorizerDelegate) in
+            agent.authorizer(self, onFailureDuringAuthError: error)
+        }
     }
     
     private func onSuccessfulAuthRequest(withCredentials credentials: MXCredentials) {
         
+        self.mxCurrentOperation = nil
+        
+        if let accm = MXKAccountManager.shared(), let _ = accm.account(forUserId: credentials.userId) {
+        } else {
+            let account = MXKAccount(credentials: credentials)
+            account?.identityServerURL = self.identityServer
+            MXKAccountManager.shared()?.addAccount(account, andOpenSession: true)
+        }
+        
+        self.delegates.invoke { (agent: CkAuthorizerDelegate) in
+            agent.authorizer(self, onSuccessfulAuthCredentials: credentials)
+        }
     }
     
     private func handleAuthentication(withSession session: MXAuthenticationSession?) {
@@ -355,7 +414,11 @@ extension CkAuthorizer {
     }
     
     private func onFailureDuringMXOperation(withError: Error?) {
-        
+        if let error = withError {
+            self.delegates.invoke { (agent: CkAuthorizerDelegate) in
+                agent.authorizer(self, onFailureDuringAuthError: error)
+            }
+        }
     }
     
     private func generateNextLink(withClientSecret clientSecret: String) -> String {

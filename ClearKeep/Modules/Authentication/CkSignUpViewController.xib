@@ -13,12 +13,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CkSignUpViewController" customModule="Riot" customModuleProvider="target">
             <connections>
                 <outlet property="authenticationScrollView" destination="U1x-pt-9Py" id="Cuo-sm-ihT"/>
-                <outlet property="nameTextField" destination="Jvm-4v-EUa" id="Umo-up-sdK"/>
                 <outlet property="passwordTextField" destination="Dnk-kF-49G" id="KeA-63-rWV"/>
                 <outlet property="registerButton" destination="BZR-fj-NpF" id="VTM-NQ-FkW"/>
                 <outlet property="registerView" destination="jyT-PU-GTN" id="sHI-6c-FpI"/>
-                <outlet property="repassTextField" destination="X2F-hQ-R71" id="GzJ-4u-nlg"/>
+                <outlet property="repasswordTextField" destination="X2F-hQ-R71" id="QQZ-uh-Qid"/>
                 <outlet property="signinButton" destination="iVk-bB-BVZ" id="OQH-SK-eBH"/>
+                <outlet property="userIdTextField" destination="Jvm-4v-EUa" id="O63-oH-w5t"/>
                 <outlet property="view" destination="oSS-Jp-7vN" id="FpT-zY-A8I"/>
                 <outlet property="welcomeImageView" destination="jIY-MD-8MD" id="qHy-Xr-4bN"/>
             </connections>
@@ -143,6 +143,9 @@
                                                             <color key="value" red="0.45085787770000002" green="0.98829740290000001" blue="0.83763033149999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="onSignUp" destination="-1" eventType="touchUpInside" id="JWL-eA-9Oa"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
