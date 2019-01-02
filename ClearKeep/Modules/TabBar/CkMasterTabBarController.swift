@@ -10,19 +10,6 @@ import Foundation
 
 final public class CkMasterTabBarController: MasterTabBarController {
     public override func showAuthenticationScreen() {
-        
-        /*
-         if (!self.authViewController && !isAuthViewControllerPreparing)
-         {
-         isAuthViewControllerPreparing = YES;
-         
-         [[AppDelegate theDelegate] restoreInitialDisplay:^{
-         
-         [self performSegueWithIdentifier:@"showAuth" sender:self];
-         
-         }];
-         }
- */
 
         if self.authViewController == nil && self.isCkAuthViewControllerPreparing == false {
             self.isCkAuthViewControllerPreparing = true
