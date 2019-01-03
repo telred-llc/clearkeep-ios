@@ -34,12 +34,12 @@ class CkAvatarTopView: MXKView {
         imgStatus.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
     
-    func setAvatarImageUrl(urlString: String, previewImage: UIImage)  {
+    func setAvatarImageUrl(urlString: String, previewImage: UIImage?)  {
         imgAvatar.enableInMemoryCache = true
         imgAvatar.setImageURL(urlString, withType: nil, andImageOrientation: UIImageOrientation.up, previewImage: previewImage)
     }
     
-    func setImage(image: UIImage)  {
+    func setImage(image: UIImage?)  {
         imgAvatar.image = image
     }
     
@@ -47,9 +47,11 @@ class CkAvatarTopView: MXKView {
         if online == true {
             imgStatus.backgroundColor = #colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)
             statusLabel.text = "Online"
+            statusLabel.textColor = UIColor.darkText
         } else {
             imgStatus.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
             statusLabel.text = "Offline"
+            statusLabel.textColor = UIColor.lightGray
         }
     }
     

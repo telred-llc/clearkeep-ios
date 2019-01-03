@@ -17,18 +17,18 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8RY-Ai-dLL" userLabel="AviView">
-                    <rect key="frame" x="4.5" y="2.5" width="38" height="38"/>
+                    <rect key="frame" x="0.0" y="6.5" width="30" height="30"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oN3-kK-HUe" userLabel="Img Avatar" customClass="MXKImageView">
-                            <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
+                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="oN3-kK-HUe" secondAttribute="height" id="IAd-77-eCs"/>
-                                <constraint firstAttribute="height" constant="38" id="lYX-Nj-boh"/>
+                                <constraint firstAttribute="height" constant="30" id="lYX-Nj-boh"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D1p-Ve-HSQ" userLabel="Img Status">
-                            <rect key="frame" x="28" y="28" width="10" height="10"/>
+                            <rect key="frame" x="20" y="20" width="10" height="10"/>
                             <color key="backgroundColor" red="0.45009386540000001" green="0.98132258650000004" blue="0.4743030667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="10" id="GRm-Ig-Ib5"/>
@@ -47,20 +47,20 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zZd-b0-G9a" userLabel="InfoView">
-                    <rect key="frame" x="42.5" y="0.0" width="112.5" height="43"/>
+                    <rect key="frame" x="30" y="0.0" width="125" height="43"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="BCs-7W-PAy">
-                            <rect key="frame" x="10" y="0.0" width="102.5" height="43"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="BCs-7W-PAy">
+                            <rect key="frame" x="10" y="0.0" width="115" height="43"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2i0-Wo-qEb" userLabel="MemberDisplayName Label">
-                                    <rect key="frame" x="0.0" y="0.0" width="102.5" height="21.5"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="115" height="18"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="416-2l-ccl" userLabel="Status Information Label">
-                                    <rect key="frame" x="0.0" y="21.5" width="102.5" height="21.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <rect key="frame" x="0.0" y="27" width="115" height="16"/>
+                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="13"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -69,18 +69,18 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="BCs-7W-PAy" secondAttribute="bottom" id="5pl-Fh-yvX"/>
                         <constraint firstItem="BCs-7W-PAy" firstAttribute="leading" secondItem="zZd-b0-G9a" secondAttribute="leading" constant="10" id="igF-Q3-qXT"/>
                         <constraint firstItem="BCs-7W-PAy" firstAttribute="top" secondItem="zZd-b0-G9a" secondAttribute="top" id="oYn-JE-cMR"/>
                         <constraint firstAttribute="trailing" secondItem="BCs-7W-PAy" secondAttribute="trailing" id="pG7-lz-x3d"/>
+                        <constraint firstItem="BCs-7W-PAy" firstAttribute="centerY" secondItem="zZd-b0-G9a" secondAttribute="centerY" id="weZ-wQ-PtA"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="zZd-b0-G9a" firstAttribute="leading" secondItem="8RY-Ai-dLL" secondAttribute="trailing" id="D1F-YJ-gIm"/>
+                <constraint firstItem="8RY-Ai-dLL" firstAttribute="leading" secondItem="vln-nN-yr6" secondAttribute="leading" id="VkX-cs-dFj"/>
                 <constraint firstItem="8RY-Ai-dLL" firstAttribute="centerY" secondItem="ZSO-jU-3Ky" secondAttribute="centerY" id="YD9-Bv-qh4"/>
-                <constraint firstItem="8RY-Ai-dLL" firstAttribute="centerX" secondItem="ZSO-jU-3Ky" secondAttribute="centerX" multiplier="0.3" id="iD3-ZR-a1e"/>
                 <constraint firstAttribute="bottom" secondItem="zZd-b0-G9a" secondAttribute="bottom" id="uPw-8H-Dmc"/>
                 <constraint firstItem="zZd-b0-G9a" firstAttribute="top" secondItem="ZSO-jU-3Ky" secondAttribute="top" id="ueW-pU-y08"/>
                 <constraint firstAttribute="trailing" secondItem="zZd-b0-G9a" secondAttribute="trailing" id="uyx-Fg-psB"/>
