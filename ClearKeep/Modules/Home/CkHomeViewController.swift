@@ -46,8 +46,11 @@ final class CkHomeViewController: MXKViewController {
         pagingViewController.dataSource = self
         
         // setup UI
-        pagingViewController.indicatorOptions = PagingIndicatorOptions.visible(height: 2, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
-        pagingViewController.indicatorColor = CKColor.Misc.tintedGreenColor
+        pagingViewController.indicatorOptions    = PagingIndicatorOptions.visible(height: 2, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
+        pagingViewController.indicatorColor      = CKColor.Misc.primaryGreenColor
+        pagingViewController.menuBackgroundColor = CKColor.Background.navigationBar
+        pagingViewController.textColor           = CKColor.Text.lightGray
+        pagingViewController.selectedTextColor   = CKColor.Misc.primaryGreenColor
         
         // Make sure you add the PagingViewController as a child view controller
         addChildViewController(pagingViewController)
@@ -166,18 +169,19 @@ final class CkHomeViewController: MXKViewController {
     }
 }
 
+// MARK: - PagingViewControllerDataSource
+
 extension CkHomeViewController: PagingViewControllerDataSource {
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T where T : PagingItem, T : Comparable, T : Hashable {
         switch index {
         case 0:
-            return PagingIndexItem(index: index, title: "Direct Message") as! T
+            return PagingIndexItem(index: index, title: "Direct Message(1)") as! T
         case 1:
-            return PagingIndexItem(index: index, title: "Room") as! T
+            return PagingIndexItem(index: index, title: "Room(2)") as! T
         default:
             return PagingIndexItem(index: index, title: "") as! T
         }
     }
-    
     
     func numberOfViewControllers<T>(in pagingViewController: PagingViewController<T>) -> Int {
         return 2

@@ -20,7 +20,12 @@ final public class CkMasterTabBarController: MasterTabBarController {
         placeholderSearchBar.delegate = self
         self.navigationController?.navigationBar.topItem?.titleView = placeholderSearchBar
     }
-        
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.changeNavigationBar(color: CKColor.Background.navigationBar)
+    }
+    
     public override func showAuthenticationScreen() {
 
         if self.authViewController == nil && self.isCkAuthViewControllerPreparing == false {

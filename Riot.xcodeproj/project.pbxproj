@@ -14,6 +14,8 @@
 		3233F7471F3497E2006ACA81 /* JitsiMeet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3233F7441F3497DA006ACA81 /* JitsiMeet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3284A35120A07C210044F922 /* postMessageAPI.js in Resources */ = {isa = PBXBuildFile; fileRef = 3284A35020A07C210044F922 /* postMessageAPI.js */; };
 		358DB9429359F97520545D35 /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5856BA7A55E53C0AEAFC084 /* Pods_RiotPods_RiotShareExtension.framework */; };
+		8519E71321DF0C26006C055F /* CKImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71221DF0C26006C055F /* CKImage+Extension.swift */; };
+		8519E71521DF0CA2006C055F /* CKViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */; };
 		85CA7C9F21DDF5C7000331AC /* CK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7C9E21DDF5C7000331AC /* CK.xcassets */; };
 		85CA7CA621DE1385000331AC /* CKRoomPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */; };
 		85CA7CA721DE1385000331AC /* CKRoomPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */; };
@@ -428,6 +430,8 @@
 		32D715A02146CC8800DF59C9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3998C51E0196D42B366E0900 /* Pods-RiotPods-RiotShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension/Pods-RiotPods-RiotShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		78CD06F14060998545642330 /* Pods-RiotPods-Riot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-Riot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot.debug.xcconfig"; sourceTree = "<group>"; };
+		8519E71221DF0C26006C055F /* CKImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKImage+Extension.swift"; sourceTree = "<group>"; };
+		8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKViewController+Extension.swift"; sourceTree = "<group>"; };
 		85CA7C9E21DDF5C7000331AC /* CK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CK.xcassets; sourceTree = "<group>"; };
 		85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomPageViewController.swift; sourceTree = "<group>"; };
 		85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomPageViewController.xib; sourceTree = "<group>"; };
@@ -1059,6 +1063,15 @@
 				BC0B9DB497F579AB1084E3DC /* Pods_RiotPods_SiriIntents.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8519E71121DF0C0D006C055F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8519E71221DF0C26006C055F /* CKImage+Extension.swift */,
+				8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		85CA7C9D21DDF5A7000331AC /* Assets */ = {
@@ -2502,6 +2515,7 @@
 		E57814F921A7B582001BF40D /* ClearKeep */ = {
 			isa = PBXGroup;
 			children = (
+				8519E71121DF0C0D006C055F /* Extensions */,
 				85CA7C9D21DDF5A7000331AC /* Assets */,
 				A0D996B221CB415600AD8135 /* Ultils */,
 				E5720EDF21ACFB5F0093D99A /* Modules */,
@@ -3313,6 +3327,7 @@
 				B1B558FA20EF768F00210D55 /* RoomMembershipBubbleCell.m in Sources */,
 				B1B557BF20EF5B4500210D55 /* DisabledRoomInputToolbarView.m in Sources */,
 				B1B5578620EF564900210D55 /* GroupTableViewCellWithSwitch.m in Sources */,
+				8519E71521DF0CA2006C055F /* CKViewController+Extension.swift in Sources */,
 				B1B557E920EF60F500210D55 /* MessagesSearchResultTextMsgBubbleCell.m in Sources */,
 				B169330320F3C98900746532 /* RoomBubbleCellData.m in Sources */,
 				B1B557CC20EF5D8000210D55 /* DirectoryServerTableViewCell.m in Sources */,
@@ -3325,6 +3340,7 @@
 				B1B557AC20EF5A6D00210D55 /* DeviceView.m in Sources */,
 				B16932EE20F3C3C900746532 /* FilesSearchCellData.m in Sources */,
 				B1B558E520EF768F00210D55 /* RoomMembershipExpandedBubbleCell.m in Sources */,
+				8519E71321DF0C26006C055F /* CKImage+Extension.swift in Sources */,
 				B1B5599420EFC5E400210D55 /* DecryptionFailureTracker.m in Sources */,
 				F083BDF01E7009ED00A9B29C /* UIViewController+RiotSearch.m in Sources */,
 				F083BDF91E7009ED00A9B29C /* RoomEmailInvitation.m in Sources */,

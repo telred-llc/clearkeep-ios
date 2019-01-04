@@ -10,14 +10,15 @@ import Foundation
 
 class CKColor {
     struct Text {
-        
+        static let lightText: UIColor = UIColor.lightText
+        static let lightGray: UIColor = UIColor.lightGray
     }
     
     struct Background {
-        
+        static let navigationBar: UIColor = UIColor.init(red: 247/255, green: 247/255, blue: 247/255, alpha: 1)
     }
     
     struct Misc {
-        static let tintedGreenColor: UIColor = UIColor.init(red: 102/255, green: 204/255, blue: 150/255, alpha: 1)
+        static let primaryGreenColor: UIColor = UIColor.init(red: 99/255, green: 205/255, blue: 156/255, alpha: 1)
     }
 }

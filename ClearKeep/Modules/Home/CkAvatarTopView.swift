@@ -43,7 +43,7 @@ class CkAvatarTopView: MXKView {
     
     func setStatus(online: Bool)  {
         if online == true {
-            imgStatus.backgroundColor = #colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)
+            imgStatus.backgroundColor = CKColor.Misc.primaryGreenColor
         } else {
             imgStatus.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         }
