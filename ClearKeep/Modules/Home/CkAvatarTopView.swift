@@ -12,8 +12,6 @@ class CkAvatarTopView: MXKView {
 
     @IBOutlet weak var imgAvatar: MXKImageView!
     @IBOutlet weak var imgStatus: UIView!
-    @IBOutlet weak var membernameLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
 
     class func instance() -> CkAvatarTopView? {
         return UINib.init(
@@ -46,17 +44,8 @@ class CkAvatarTopView: MXKView {
     func setStatus(online: Bool)  {
         if online == true {
             imgStatus.backgroundColor = #colorLiteral(red: 0.4500938654, green: 0.9813225865, blue: 0.4743030667, alpha: 1)
-            statusLabel.text = "Online"
-            statusLabel.textColor = UIColor.darkText
         } else {
             imgStatus.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-            statusLabel.text = "Offline"
-            statusLabel.textColor = UIColor.lightGray
         }
     }
-    
-    func set(displayName name: String)  {
-        membernameLabel.text = name
-    }
-
 }

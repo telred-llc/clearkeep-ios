@@ -22,7 +22,8 @@ $matrixKitVersion = '0.8.6'
 # Method to import the right MatrixKit flavour
 def import_MatrixKit
     pod 'IQKeyboardManagerSwift','~> 6.2.0'
-
+    pod 'Parchment', '~> 1.5.0'
+    
     if $matrixKitVersion == 'local'
         pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
         pod 'MatrixSDK/SwiftSupport', :path => '../matrix-ios-sdk/MatrixSDK.podspec'

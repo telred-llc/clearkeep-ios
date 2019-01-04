@@ -8,10 +8,18 @@
 
 import Foundation
 import MatrixKit
+import Parchment
 
 final class CkHomeViewController: MXKViewController {
     
+    // MARK: Properties
+    
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
+    let directMessageVC = CKDirectMessagePageViewController.init(nibName: "CKDirectMessagePageViewController", bundle: nil)
+    let roomVC = CKRoomPageViewController.init(nibName: "CKRoomPageViewController", bundle: nil)
+    let pagingViewController = PagingViewController<PagingIndexItem>.init()
+
+    // MARK: LifeCycle
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -19,6 +27,7 @@ final class CkHomeViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupPageViewController()
         
         // Listen to the direct rooms list
         NotificationCenter.default.addObserver(self, selector: #selector(didDirectRoomsChange(_:)), name: NSNotification.Name.mxSessionDirectRoomsDidChange, object: nil)
@@ -29,24 +38,54 @@ final class CkHomeViewController: MXKViewController {
         setupNavigationBar()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    func setupPageViewController() {
+        pagingViewController.dataSource = self
+        
+        // setup UI
+        pagingViewController.indicatorOptions = PagingIndicatorOptions.visible(height: 2, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
+        pagingViewController.indicatorColor = CKColor.Misc.tintedGreenColor
+        
+        // Make sure you add the PagingViewController as a child view controller
+        addChildViewController(pagingViewController)
+        view.addSubview(pagingViewController.view)
+        
+        // constrain pagingViewController.view to the edges of the view.
+        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        view.safeAreaLayoutGuide.leftAnchor.constraint(equalTo: pagingViewController.view.leftAnchor).isActive = true
+        view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: pagingViewController.view.topAnchor).isActive = true
+        view.safeAreaLayoutGuide.rightAnchor.constraint(equalTo: pagingViewController.view.rightAnchor).isActive = true
+        view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: pagingViewController.view.bottomAnchor).isActive = true
+
+        pagingViewController.didMove(toParentViewController: self)
+    }
+    
     func setupNavigationBar() {
         guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
         // setup title
         masterTabbar.navigationItem.title = nil
         
         // setup left menu
-        setupLeftMenu()
+        setupLeftMenu(navigationItem: masterTabbar.navigationItem)
+        
+        // setup right menu
+        setupRightMenu(navigationItem: masterTabbar.navigationItem)
+        
+        // hide navigation bar shadow
+        masterTabbar.navigationController?.navigationBar.shadowImage = UIImage()        
     }
     
-    func setupLeftMenu() {
-        guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
+    func setupLeftMenu(navigationItem: UINavigationItem) {
 
         guard let session = AppDelegate.the()?.mxSessions.first as? MXSession else {
-            masterTabbar.navigationItem.leftBarButtonItem = nil
+            navigationItem.leftBarButtonItem = nil
             return
         }
         
-        var leftMenuView: CkAvatarTopView! = masterTabbar.navigationItem.leftBarButtonItem?.customView as? CkAvatarTopView
+        var leftMenuView: CkAvatarTopView! = navigationItem.leftBarButtonItem?.customView as? CkAvatarTopView
         if leftMenuView == nil {
             leftMenuView = CkAvatarTopView.instance()
             
@@ -57,9 +96,6 @@ final class CkHomeViewController: MXKViewController {
         }
         
         if let myUser = session.myUser {
-            // display name
-            leftMenuView.membernameLabel.text = myUser.displayname
-            
             // avatar
             let defaultAvatar = AvatarGenerator.generateAvatar(forMatrixItem: myUser.userId, withDisplayName: myUser.displayname)
             if let avatarUrl = myUser.avatarUrl,
@@ -77,18 +113,28 @@ final class CkHomeViewController: MXKViewController {
                 leftMenuView.setStatus(online: false)
             }
             
-            masterTabbar.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: leftMenuView)
+            navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: leftMenuView)
         } else {
-            masterTabbar.navigationItem.leftBarButtonItem = nil
+            navigationItem.leftBarButtonItem = nil
         }
     }
     
+    func setupRightMenu(navigationItem: UINavigationItem) {
+        let newChatItem = UIBarButtonItem.init(image: UIImage.init(named: "ic_new_chat"), style: .plain, target: self, action: #selector(clickedOnRightMenuItem))
+        navigationItem.rightBarButtonItem = newChatItem
+    }
+    
     @objc func didDirectRoomsChange(_ noti: NSNotification) {
-        setupLeftMenu()
+        guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
+        setupLeftMenu(navigationItem: masterTabbar.navigationItem)
     }
     
     @objc func clickedOnLeftMenuItem() {
         showSettingViewController()
+    }
+    
+    @objc func clickedOnRightMenuItem() {
+        print("\nclickedOnRightMenuItem")
     }
     
     func showSettingViewController() {
@@ -117,5 +163,34 @@ final class CkHomeViewController: MXKViewController {
         }
         
         return MXKRecentTableViewCell.self
+    }
+}
+
+extension CkHomeViewController: PagingViewControllerDataSource {
+    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T where T : PagingItem, T : Comparable, T : Hashable {
+        switch index {
+        case 0:
+            return PagingIndexItem(index: index, title: "Direct Message") as! T
+        case 1:
+            return PagingIndexItem(index: index, title: "Room") as! T
+        default:
+            return PagingIndexItem(index: index, title: "") as! T
+        }
+    }
+    
+    
+    func numberOfViewControllers<T>(in pagingViewController: PagingViewController<T>) -> Int {
+        return 2
+    }
+    
+    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, viewControllerForIndex index: Int) -> UIViewController {
+        switch index {
+        case 0:
+            return directMessageVC
+        case 1:
+            return roomVC
+        default:
+            return UIViewController()
+        }
     }
 }
