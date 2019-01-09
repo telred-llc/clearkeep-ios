@@ -92,5 +92,17 @@
 	<true/>
 	<key>UserDefaults</key>
 	<string>${PRODUCT_NAME}-Defaults</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SFCompactDisplay-Black.ttf</string>
+		<string>SFCompactDisplay-Bold.ttf</string>
+		<string>SFCompactDisplay-Heavy.ttf</string>
+		<string>SFCompactDisplay-Light.ttf</string>
+		<string>SFCompactDisplay-Medium.ttf</string>
+		<string>SFCompactDisplay-Regular.ttf</string>
+		<string>SFCompactDisplay-SemiBold.ttf</string>
+		<string>SFCompactDisplay-Thin.ttf</string>
+		<string>SFCompactDisplay-UltraLight.ttf</string>
+	</array>
 </dict>
 </plist>

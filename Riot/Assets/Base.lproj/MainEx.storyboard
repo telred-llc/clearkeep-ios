@@ -215,7 +215,7 @@
         <!--Unified Search View Controller-->
         <scene sceneID="ijO-nb-yi4">
             <objects>
-                <viewController id="nJt-uq-tV9" customClass="UnifiedSearchViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UnifiedSearchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nJt-uq-tV9" customClass="UnifiedSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="V3l-gx-WNN"/>
                         <viewControllerLayoutGuide type="bottom" id="fYW-Kr-Hqf"/>
@@ -233,10 +233,10 @@
             </objects>
             <point key="canvasLocation" x="476" y="-3899"/>
         </scene>
-        <!--Home View Controller-->
+        <!--Ck Home View Controller-->
         <scene sceneID="SZi-Ac-WJp">
             <objects>
-                <viewController id="pBa-To-3YT" customClass="HomeViewController" sceneMemberID="viewController">
+                <viewController id="pBa-To-3YT" customClass="CkHomeViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="m3s-18-JgR"/>
                         <viewControllerLayoutGuide type="bottom" id="2lp-r9-RR5"/>
@@ -273,14 +273,6 @@
                                 <segue destination="taU-5Q-sdv" kind="show" identifier="showSettings" id="3jh-kY-vVn"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="search_icon" id="pud-Fh-Usd">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="MasterTabBarControllerSearchBarButton"/>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <segue destination="nJt-uq-tV9" kind="show" identifier="showUnifiedSearch" id="5no-rS-zX7"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="7jP-3G-C0b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -288,7 +280,6 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <outlet property="searchBarButtonIem" destination="pud-Fh-Usd" id="DiH-Re-nZE"/>
                         <outlet property="settingsBarButtonItem" destination="QSE-cg-V2m" id="N6b-Ju-w9g"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showRoomDetails" id="tk8-vF-K4T"/>
                         <segue destination="ZlD-EU-ncw" kind="presentation" identifier="showAuth" id="fpJ-zM-Qpo"/>
