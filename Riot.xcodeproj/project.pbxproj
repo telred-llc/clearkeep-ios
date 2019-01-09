@@ -16,6 +16,19 @@
 		358DB9429359F97520545D35 /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5856BA7A55E53C0AEAFC084 /* Pods_RiotPods_RiotShareExtension.framework */; };
 		8519E71321DF0C26006C055F /* CKImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71221DF0C26006C055F /* CKImage+Extension.swift */; };
 		8519E71521DF0CA2006C055F /* CKViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */; };
+		853E996121E4986100D005F4 /* SFCompactDisplay-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */; };
+		853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */; };
+		853E996321E4986100D005F4 /* SFCompactDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */; };
+		853E996421E4986100D005F4 /* SFCompactDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995B21E4985F00D005F4 /* SFCompactDisplay-Regular.ttf */; };
+		853E996521E4986100D005F4 /* SFCompactDisplay-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995C21E4986000D005F4 /* SFCompactDisplay-Black.ttf */; };
+		853E996621E4986100D005F4 /* SFCompactDisplay-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995D21E4986000D005F4 /* SFCompactDisplay-Light.ttf */; };
+		853E996721E4986100D005F4 /* SFCompactDisplay-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995E21E4986000D005F4 /* SFCompactDisplay-Thin.ttf */; };
+		853E996821E4986100D005F4 /* SFCompactDisplay-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995F21E4986000D005F4 /* SFCompactDisplay-Heavy.ttf */; };
+		853E996921E4986100D005F4 /* SFCompactDisplay-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E996021E4986000D005F4 /* SFCompactDisplay-UltraLight.ttf */; };
+		853E996B21E4A73600D005F4 /* CKAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853E996A21E4A73600D005F4 /* CKAppTheme.swift */; };
+		85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */; };
+		85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */; };
+		858A7D7821E43E3100BB9737 /* CKRecentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */; };
 		85CA7C9F21DDF5C7000331AC /* CK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7C9E21DDF5C7000331AC /* CK.xcassets */; };
 		85CA7CA621DE1385000331AC /* CKRoomPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */; };
 		85CA7CA721DE1385000331AC /* CKRoomPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */; };
@@ -432,6 +445,19 @@
 		78CD06F14060998545642330 /* Pods-RiotPods-Riot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-Riot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot.debug.xcconfig"; sourceTree = "<group>"; };
 		8519E71221DF0C26006C055F /* CKImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKImage+Extension.swift"; sourceTree = "<group>"; };
 		8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKViewController+Extension.swift"; sourceTree = "<group>"; };
+		853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-SemiBold.ttf"; sourceTree = "<group>"; };
+		853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Bold.ttf"; sourceTree = "<group>"; };
+		853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		853E995B21E4985F00D005F4 /* SFCompactDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		853E995C21E4986000D005F4 /* SFCompactDisplay-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Black.ttf"; sourceTree = "<group>"; };
+		853E995D21E4986000D005F4 /* SFCompactDisplay-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Light.ttf"; sourceTree = "<group>"; };
+		853E995E21E4986000D005F4 /* SFCompactDisplay-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Thin.ttf"; sourceTree = "<group>"; };
+		853E995F21E4986000D005F4 /* SFCompactDisplay-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Heavy.ttf"; sourceTree = "<group>"; };
+		853E996021E4986000D005F4 /* SFCompactDisplay-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-UltraLight.ttf"; sourceTree = "<group>"; };
+		853E996A21E4A73600D005F4 /* CKAppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAppTheme.swift; sourceTree = "<group>"; };
+		85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemTableViewCell.swift; sourceTree = "<group>"; };
+		85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRecentItemTableViewCell.xib; sourceTree = "<group>"; };
+		858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentListViewController.swift; sourceTree = "<group>"; };
 		85CA7C9E21DDF5C7000331AC /* CK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CK.xcassets; sourceTree = "<group>"; };
 		85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomPageViewController.swift; sourceTree = "<group>"; };
 		85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomPageViewController.xib; sourceTree = "<group>"; };
@@ -1074,9 +1100,37 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		853E995721E4982600D005F4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				853E995C21E4986000D005F4 /* SFCompactDisplay-Black.ttf */,
+				853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */,
+				853E995F21E4986000D005F4 /* SFCompactDisplay-Heavy.ttf */,
+				853E995D21E4986000D005F4 /* SFCompactDisplay-Light.ttf */,
+				853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */,
+				853E995B21E4985F00D005F4 /* SFCompactDisplay-Regular.ttf */,
+				853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */,
+				853E995E21E4986000D005F4 /* SFCompactDisplay-Thin.ttf */,
+				853E996021E4986000D005F4 /* SFCompactDisplay-UltraLight.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		85548F4821E33276008221AD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E520894021DC730400591830 /* CkAvatarTopView.swift */,
+				E520893F21DC730300591830 /* CkAvatarTopView.xib */,
+				85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */,
+				85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		85CA7C9D21DDF5A7000331AC /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				853E995721E4982600D005F4 /* Fonts */,
 				85CA7C9E21DDF5C7000331AC /* CK.xcassets */,
 			);
 			path = Assets;
@@ -1100,6 +1154,7 @@
 				A0D996B521CB42E800AD8135 /* Checkbox.swift */,
 				A0D996B321CB417E00AD8135 /* DesignableUI.swift */,
 				E5ABD65621D1C98C0017D93E /* MulticastDelegate.swift */,
+				853E996A21E4A73600D005F4 /* CKAppTheme.swift */,
 			);
 			path = Ultils;
 			sourceTree = "<group>";
@@ -2528,14 +2583,14 @@
 		E5ABD65821D616380017D93E /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				E520894021DC730400591830 /* CkAvatarTopView.swift */,
-				E520893F21DC730300591830 /* CkAvatarTopView.xib */,
+				85548F4821E33276008221AD /* Views */,
 				E5ABD65921D616520017D93E /* CkHomeViewController.swift */,
 				E520894321DC783300591830 /* CkHomeViewController.xib */,
 				85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */,
 				85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */,
 				85CA7CA821DE13A2000331AC /* CKDirectMessagePageViewController.swift */,
 				85CA7CA921DE13A2000331AC /* CKDirectMessagePageViewController.xib */,
+				858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -2894,6 +2949,8 @@
 				F083BDE91E7009ED00A9B29C /* ring.mp3 in Resources */,
 				E5C0B9AA21CA76B300910D8B /* CkSignUpViewController.xib in Resources */,
 				B1B558F720EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
+				853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */,
+				853E996821E4986100D005F4 /* SFCompactDisplay-Heavy.ttf in Resources */,
 				B1B5592B20EF7A5D00210D55 /* TableViewCellWithButton.xib in Resources */,
 				B1B5574620EE6C4D00210D55 /* StartChatViewController.xib in Resources */,
 				B1B5590A20EF768F00210D55 /* RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -2902,8 +2959,10 @@
 				B1B5590020EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				B1B5597020EFA85D00210D55 /* EncryptionInfoView.xib in Resources */,
 				B1B558BC20EF768F00210D55 /* RoomMembershipBubbleCell.xib in Resources */,
+				853E996921E4986100D005F4 /* SFCompactDisplay-UltraLight.ttf in Resources */,
 				B1B5571F20EE6C4D00210D55 /* ContactDetailsViewController.xib in Resources */,
 				B1B558E220EF768F00210D55 /* RoomIncomingTextMsgBubbleCell.xib in Resources */,
+				85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */,
 				B1664DA220F4F95800808783 /* Localizable.strings in Resources */,
 				B169328720F3954A00746532 /* SharedImages.xcassets in Resources */,
 				B1664DA120F4F94F00808783 /* InfoPlist.strings in Resources */,
@@ -2916,6 +2975,7 @@
 				B1B557E420EF60B900210D55 /* MessagesSearchResultAttachmentBubbleCell.xib in Resources */,
 				B1B558F220EF768F00210D55 /* RoomIncomingTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				B1B558EA20EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleBubbleCell.xib in Resources */,
+				853E996421E4986100D005F4 /* SFCompactDisplay-Regular.ttf in Resources */,
 				B1B558CD20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
 				85CA7CA721DE1385000331AC /* CKRoomPageViewController.xib in Resources */,
 				E5720EE421AD1B7D0093D99A /* CkLoginViewController.xib in Resources */,
@@ -2927,6 +2987,8 @@
 				B1B558D620EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				B1B5593720EF7BAC00210D55 /* TableViewCellWithCheckBoxAndLabel.xib in Resources */,
 				B1B5579020EF568D00210D55 /* GroupTableViewCell.xib in Resources */,
+				853E996621E4986100D005F4 /* SFCompactDisplay-Light.ttf in Resources */,
+				853E996321E4986100D005F4 /* SFCompactDisplay-Medium.ttf in Resources */,
 				B1B5581B20EF625800210D55 /* ExpandedRoomTitleView.xib in Resources */,
 				B1B558C220EF768F00210D55 /* RoomIncomingEncryptedTextMsgBubbleCell.xib in Resources */,
 				B1B558F620EF768F00210D55 /* RoomOutgoingTextMsgBubbleCell.xib in Resources */,
@@ -2950,6 +3012,7 @@
 				F083BE011E7009ED00A9B29C /* third_party_licenses.html in Resources */,
 				B1B5573720EE6C4D00210D55 /* GroupParticipantsViewController.xib in Resources */,
 				B1B5573320EE6C4D00210D55 /* GroupHomeViewController.xib in Resources */,
+				853E996121E4986100D005F4 /* SFCompactDisplay-SemiBold.ttf in Resources */,
 				B1B5593920EF7BAC00210D55 /* TableViewCellWithCheckBoxes.xib in Resources */,
 				B1B557C120EF5B4500210D55 /* DisabledRoomInputToolbarView.xib in Resources */,
 				A0B35FE721D1DC17000C12C7 /* CkAuthIndicatorViewController.xib in Resources */,
@@ -2988,6 +3051,7 @@
 				B1B5595320EF9A8700210D55 /* RecentTableViewCell.xib in Resources */,
 				B1B557AD20EF5A6D00210D55 /* DeviceView.xib in Resources */,
 				B1B5573920EE6C4D00210D55 /* GroupRoomsViewController.xib in Resources */,
+				853E996721E4986100D005F4 /* SFCompactDisplay-Thin.ttf in Resources */,
 				B1B5597620EFB02A00210D55 /* InviteRecentTableViewCell.xib in Resources */,
 				B1B558FB20EF768F00210D55 /* RoomIncomingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				B1B558BB20EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -3003,6 +3067,7 @@
 				B1B5573F20EE6C4D00210D55 /* SegmentedViewController.xib in Resources */,
 				B1B5581E20EF625800210D55 /* RoomTitleView.xib in Resources */,
 				B1B558C020EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
+				853E996521E4986100D005F4 /* SFCompactDisplay-Black.ttf in Resources */,
 				B1B5572420EE6C4D00210D55 /* RoomViewController.xib in Resources */,
 				B169331520F3CAFC00746532 /* PublicRoomTableViewCell.xib in Resources */,
 				3284A35120A07C210044F922 /* postMessageAPI.js in Resources */,
@@ -3068,6 +3133,7 @@
 				"${BUILT_PRODUCTS_DIR}/PiwikTracker/PiwikTracker.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${PODS_ROOT}/WebRTC/WebRTC.framework",
+				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
 				"${BUILT_PRODUCTS_DIR}/cmark/cmark.framework",
 				"${BUILT_PRODUCTS_DIR}/libPhoneNumber-iOS/libPhoneNumber_iOS.framework",
 			);
@@ -3087,6 +3153,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PiwikTracker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libPhoneNumber_iOS.framework",
 			);
@@ -3193,6 +3260,7 @@
 				B1B5598720EFC3E000210D55 /* Widget.m in Sources */,
 				B1B557E320EF60B900210D55 /* MessagesSearchResultAttachmentBubbleCell.m in Sources */,
 				A0B35FE621D1DC17000C12C7 /* CkAuthIndicatorViewController.swift in Sources */,
+				853E996B21E4A73600D005F4 /* CKAppTheme.swift in Sources */,
 				B1B5574420EE6C4D00210D55 /* CallViewController.m in Sources */,
 				B1B5572220EE6C4D00210D55 /* RoomSettingsViewController.m in Sources */,
 				B1B5577320EE702800210D55 /* JitsiViewController.m in Sources */,
@@ -3201,6 +3269,7 @@
 				B1B558E820EF768F00210D55 /* RoomIncomingAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				B1B558F320EF768F00210D55 /* RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.m in Sources */,
 				B1B557BD20EF5B4500210D55 /* KeyboardGrowingTextView.m in Sources */,
+				858A7D7821E43E3100BB9737 /* CKRecentListViewController.swift in Sources */,
 				B1B558F420EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				B1B5572320EE6C4D00210D55 /* AttachmentsViewController.m in Sources */,
 				F083BDEE1E7009ED00A9B29C /* MXRoom+Riot.m in Sources */,
@@ -3315,6 +3384,7 @@
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
 				B1B5575A20EE6C4D00210D55 /* UnifiedSearchViewController.m in Sources */,
 				B1B5572820EE6C4D00210D55 /* RoomViewController.m in Sources */,
+				85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */,
 				B1B558C720EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				B1B558F020EF768F00210D55 /* RoomOutgoingAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				926FA53F1F4C132000F826C2 /* MXSession+Riot.m in Sources */,

@@ -23,6 +23,8 @@ $matrixKitVersion = '0.8.6'
 def import_MatrixKit
     pod 'IQKeyboardManagerSwift','~> 6.2.0'
     pod 'Parchment', '~> 1.5.0'
+    pod 'XLActionController', '4.0.1'
+    pod 'XLActionController/Youtube'
     
     if $matrixKitVersion == 'local'
         pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'

@@ -14,11 +14,17 @@ final class CkHomeViewController: MXKViewController {
     
     // MARK: Properties
     
+    lazy var directMessageVC = {
+        Bundle.main.loadNibNamed("CKDirectMessagePageViewController", owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
+    }()
+    lazy var roomVC = {
+        Bundle.main.loadNibNamed("CKRoomPageViewController", owner: nil, options: nil)?.first as! CKRoomPageViewController
+    }()
+    
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
-    let directMessageVC = CKDirectMessagePageViewController.init(nibName: "CKDirectMessagePageViewController", bundle: nil)
-    let roomVC = CKRoomPageViewController.init(nibName: "CKRoomPageViewController", bundle: nil)
     let pagingViewController = PagingViewController<PagingIndexItem>.init()
-
+    var recentsDataSource: RecentsDataSource?
+    
     // MARK: LifeCycle
     
     deinit {
@@ -36,10 +42,20 @@ final class CkHomeViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
+        
+        if let recentsDataSource = self.recentsDataSource {
+            recentsDataSource.areSectionsShrinkable = false
+            recentsDataSource.setDelegate(self, andRecentsDataSourceMode: RecentsDataSourceModeHome)
+        }
+
+        // Observe server sync at room data source level too
+        NotificationCenter.default.addObserver(self, selector: #selector(onMatrixSessionChange), name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
     }
     
     func setupPageViewController() {
@@ -146,26 +162,25 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
-        
-    }
-    
-    @objc public func dataSource(_ dataSource: MXKDataSource?, didCellChange changes: Any?) {
-    }
-    
-    @objc public func cellViewClass(forCellData cellData: MXKCellData?) -> AnyClass {
-        if let cellDataStoring = cellData as? MXKRecentCellDataStoring {
-            if let roomSummary = cellDataStoring.roomSummary {
-                if let room = roomSummary.room {
-                    if let summary = room.summary {
-                        if summary.membership != MXMembership.invite {
-                            return MXKRecentTableViewCell.self
-                        }
-                    }
-                }
-            }
+        // Cancel registration on existing dataSource if any
+        if self.recentsDataSource != nil {
+            self.recentsDataSource!.delegate = nil
+            
+            // Remove associated matrix sessions
+            let mxSessions = self.mxSessions as? [MXSession]
+            mxSessions.flatMap({ return $0 })?.forEach({ (mxSession) in
+                self.removeMatrixSession(mxSession)
+            })
         }
+     
+        self.recentsDataSource = recentsDataSource as? RecentsDataSource
+        self.recentsDataSource?.delegate = self
         
-        return MXKRecentTableViewCell.self
+        // Report all matrix sessions at view controller level to update UI according to sessions state
+        let mxSessions = recentsDataSource.mxSessions as? [MXSession]
+        mxSessions.flatMap({ return $0 })?.forEach({ (mxSession) in
+            self.addMatrixSession(mxSession)
+        })
     }
 }
 
@@ -175,9 +190,11 @@ extension CkHomeViewController: PagingViewControllerDataSource {
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T where T : PagingItem, T : Comparable, T : Hashable {
         switch index {
         case 0:
-            return PagingIndexItem(index: index, title: "Direct Message(1)") as! T
+            let peopleArray = self.recentsDataSource?.peopleCellDataArray
+            return PagingIndexItem(index: index, title: "Direct Message(\(peopleArray?.count ?? 0))") as! T
         case 1:
-            return PagingIndexItem(index: index, title: "Room(2)") as! T
+            let roomsArray = self.recentsDataSource?.conversationCellDataArray
+            return PagingIndexItem(index: index, title: "Room(\(roomsArray?.count ?? 0))") as! T
         default:
             return PagingIndexItem(index: index, title: "") as! T
         }
@@ -195,6 +212,64 @@ extension CkHomeViewController: PagingViewControllerDataSource {
             return roomVC
         default:
             return UIViewController()
+        }
+    }
+}
+
+extension CkHomeViewController {
+    @objc override func onMatrixSessionChange() {
+        super.onMatrixSessionChange()
+        
+        let mxSessions = self.mxSessions as? [MXSession]
+        mxSessions.flatMap({ return $0 })?.forEach({ (mxSession) in
+            if MXKRoomDataSourceManager.sharedManager(forMatrixSession: mxSession)?.isServerSyncInProgress == true {
+                // sync is in progress for at least one data source, keep running the loading wheel
+                self.activityIndicator.startAnimating()
+                return
+            }
+        })
+    }
+}
+
+extension CkHomeViewController: MXKDataSourceDelegate {
+    
+    func cellViewClass(for cellData: MXKCellData!) -> MXKCellRendering.Type! {
+        return CKRecentItemTableViewCell.self
+    }
+    
+    func cellReuseIdentifier(for cellData: MXKCellData!) -> String! {
+        return CKRecentItemTableViewCell.defaultReuseIdentifier()
+    }
+    
+    @objc public func dataSource(_ dataSource: MXKDataSource?, didCellChange changes: Any?) {
+        // reload pager
+        self.pagingViewController.reloadData()
+
+        self.reloadDirectMessagePage()
+        self.reloadRoomPage()
+    }
+    
+    func dataSource(_ dataSource: MXKDataSource!, didAddMatrixSession mxSession: MXSession!) {
+        self.addMatrixSession(mxSession)
+    }
+    
+    func dataSource(_ dataSource: MXKDataSource!, didRemoveMatrixSession mxSession: MXSession!) {
+        self.removeMatrixSession(mxSession)
+    }
+    
+    private func reloadRoomPage() {
+        if let roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
+            roomVC.reloadData(rooms: roomsArray)
+        } else {
+            roomVC.reloadData(rooms: [])
+        }
+    }
+    
+    private func reloadDirectMessagePage() {
+        if let peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
+            directMessageVC.reloadData(rooms: peopleArray)
+        } else {
+            directMessageVC.reloadData(rooms: [])
         }
     }
 }

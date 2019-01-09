@@ -8,9 +8,8 @@
 
 import UIKit
 
-class CKDirectMessagePageViewController: UIViewController {
+class CKDirectMessagePageViewController: CKRecentListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.green
     }
 }

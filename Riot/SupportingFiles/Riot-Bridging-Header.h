@@ -10,3 +10,6 @@
 #import "RiotSplitViewController.h"
 #import "Tools.h"
 #import "AvatarGenerator.h"
+#import "RecentsDataSource.h"
+#import "MXRoom+Riot.h"
+#import "RoomSettingsViewController.h"
