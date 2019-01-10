@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="cuA-6C-6KS" customClass="CKFilesCell" customModule="Riot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="456" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cuA-6C-6KS" id="pPW-Oa-zNf">
+                <rect key="frame" x="0.0" y="0.0" width="456" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D65-XO-nvb">
+                        <rect key="frame" x="70.5" y="0.0" width="385.5" height="43.5"/>
+                        <inset key="imageEdgeInsets" minX="310" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="Files" image="Arrow Right">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5L-gq-A5E">
+                        <rect key="frame" x="30.5" y="7" width="30" height="30"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Files" translatesAutoresizingMaskIntoConstraints="NO" id="FID-6n-pM6">
+                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="FID-6n-pM6" secondAttribute="height" id="EKm-ZP-gLY"/>
+                                    <constraint firstAttribute="height" constant="30" id="XfR-NY-uh0"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="FID-6n-pM6" secondAttribute="trailing" id="PD5-QM-Fcf"/>
+                            <constraint firstItem="FID-6n-pM6" firstAttribute="leading" secondItem="i5L-gq-A5E" secondAttribute="leading" id="cKW-u6-5aI"/>
+                            <constraint firstAttribute="bottom" secondItem="FID-6n-pM6" secondAttribute="bottom" id="fyg-qh-5Dm"/>
+                            <constraint firstItem="FID-6n-pM6" firstAttribute="top" secondItem="i5L-gq-A5E" secondAttribute="top" id="god-ne-PAp"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="D65-XO-nvb" secondAttribute="trailing" id="EdR-SD-bQ2"/>
+                    <constraint firstItem="i5L-gq-A5E" firstAttribute="centerX" secondItem="pPW-Oa-zNf" secondAttribute="centerX" multiplier="0.2" id="O4I-3f-7P7"/>
+                    <constraint firstItem="i5L-gq-A5E" firstAttribute="centerY" secondItem="pPW-Oa-zNf" secondAttribute="centerY" id="SAM-b4-WA7"/>
+                    <constraint firstItem="D65-XO-nvb" firstAttribute="top" secondItem="pPW-Oa-zNf" secondAttribute="top" id="bac-aJ-QiX"/>
+                    <constraint firstAttribute="bottom" secondItem="D65-XO-nvb" secondAttribute="bottom" id="oO7-FO-RUj"/>
+                    <constraint firstItem="D65-XO-nvb" firstAttribute="leading" secondItem="i5L-gq-A5E" secondAttribute="trailing" constant="10" id="owh-aJ-N8Q"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="APg-lJ-xtV"/>
+            <connections>
+                <outlet property="btnFile" destination="D65-XO-nvb" id="6if-Yq-FHM"/>
+                <outlet property="imageFiles" destination="FID-6n-pM6" id="boo-KN-9v0"/>
+            </connections>
+            <point key="canvasLocation" x="52.799999999999997" y="48.575712143928037"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Arrow Right" width="25" height="25"/>
+        <image name="Files" width="25" height="25"/>
+    </resources>
+</document>

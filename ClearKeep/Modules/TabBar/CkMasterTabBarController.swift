@@ -37,8 +37,10 @@ final public class CkMasterTabBarController: MasterTabBarController {
     }
     
     public override func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        let searchVC = UIStoryboard.init(name: "MainEx", bundle: nil).instantiateViewController(withIdentifier: "UnifiedSearchViewController")
-        self.navigationController?.pushViewController(searchVC, animated: false)
+        if let searchVC = UIStoryboard.init(name: "MainEx", bundle: nil).instantiateViewController(withIdentifier: "UnifiedSearchViewController") as? UnifiedSearchViewController {
+            searchVC.importSession(self.mxSessions)
+            self.navigationController?.pushViewController(searchVC, animated: false)
+        }
         return false
     }
 }

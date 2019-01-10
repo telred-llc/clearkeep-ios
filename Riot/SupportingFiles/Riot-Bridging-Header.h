@@ -13,3 +13,4 @@
 #import "RecentsDataSource.h"
 #import "MXRoom+Riot.h"
 #import "RoomSettingsViewController.h"
+#import "UnifiedSearchViewController.h"

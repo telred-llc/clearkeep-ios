@@ -191,10 +191,10 @@ extension CkHomeViewController: PagingViewControllerDataSource {
         switch index {
         case 0:
             let peopleArray = self.recentsDataSource?.peopleCellDataArray
-            return PagingIndexItem(index: index, title: "Direct Message(\(peopleArray?.count ?? 0))") as! T
+            return PagingIndexItem(index: index, title: "\(String.ck_LocalizedString(key: "Direct Message"))(\(peopleArray?.count ?? 0))") as! T
         case 1:
             let roomsArray = self.recentsDataSource?.conversationCellDataArray
-            return PagingIndexItem(index: index, title: "Room(\(roomsArray?.count ?? 0))") as! T
+            return PagingIndexItem(index: index, title: "\(String.ck_LocalizedString(key: "Room"))(\(roomsArray?.count ?? 0))") as! T
         default:
             return PagingIndexItem(index: index, title: "") as! T
         }

@@ -92,30 +92,64 @@ private extension CKRecentListViewController {
         
         // Mute option
         if roomData.roomSummary.room.isMute || roomData.roomSummary.room.isMentionsOnly {
-            actionController.addAction(Action.init(ActionData.init(title: "UnMute", image: UIImage.init(named: "notifications")!), style: ActionStyle.default, executeImmediatelyOnTouch: false, handler: { [weak self] (action) in
-                self?.muteEditedRoomNotifications(roomData: roomData, mute: false)
+            actionController.addAction(
+                Action.init(
+                    ActionData.init(
+                        title: String.ck_LocalizedString(key: "UnMute"),
+                        image: UIImage.init(named: "notifications")!),
+                    style: ActionStyle.default,
+                    executeImmediatelyOnTouch: false,
+                    handler: { [weak self] (action) in
+                        self?.muteEditedRoomNotifications(roomData: roomData, mute: false)
             }))
         } else {
-            actionController.addAction(Action.init(ActionData.init(title: "Mute", image: UIImage.init(named: "notificationsOff")!), style: ActionStyle.default, executeImmediatelyOnTouch: false, handler: { [weak self] (action) in
-                self?.muteEditedRoomNotifications(roomData: roomData, mute: true)
+            actionController.addAction(
+                Action.init(
+                    ActionData.init(
+                        title: String.ck_LocalizedString(key: "UnMute"),
+                        image: UIImage.init(named: "notificationsOff")!),
+                    style: ActionStyle.default,
+                    executeImmediatelyOnTouch: false,
+                    handler: { [weak self] (action) in
+                        self?.muteEditedRoomNotifications(roomData: roomData, mute: true)
             }))
         }
         
         // Favourite option
         let currentTag = roomData.roomSummary.room.accountData.tags?.first?.value
         if kMXRoomTagFavourite == currentTag?.name {
-            actionController.addAction(Action.init(ActionData.init(title: "Remove from favourite", image: UIImage.init(named: "favouriteOff")!), style: ActionStyle.default, executeImmediatelyOnTouch: false, handler: { [weak self] (action) in
+            actionController.addAction(
+                Action.init(
+                    ActionData.init(
+                        title: String.ck_LocalizedString(key: "Remove from favourite"),
+                        image: UIImage.init(named: "favouriteOff")!),
+                    style: ActionStyle.default,
+                    executeImmediatelyOnTouch: false,
+                    handler: { [weak self] (action) in
                 self?.updateEditedRoomTag(roomData: roomData, tag: nil)
             }))
         } else {
-            actionController.addAction(Action.init(ActionData.init(title: "Add to favourite", image: UIImage.init(named: "favourite")!), style: ActionStyle.default, executeImmediatelyOnTouch: false, handler: { [weak self] (action) in
-                self?.updateEditedRoomTag(roomData: roomData, tag: kMXRoomTagFavourite)
+            actionController.addAction(
+                Action.init(
+                    ActionData.init(
+                        title: String.ck_LocalizedString(key: "Add to favourite"),
+                        image: UIImage.init(named: "favourite")!),
+                    style: ActionStyle.default,
+                    executeImmediatelyOnTouch: false, handler: { [weak self] (action) in
+                        self?.updateEditedRoomTag(roomData: roomData, tag: kMXRoomTagFavourite)
             }))
         }
 
         // Setting option
-        actionController.addAction(Action.init(ActionData.init(title: "Setting", image: UIImage.init(named: "settings_icon")!), style: ActionStyle.default, executeImmediatelyOnTouch: false, handler: { [weak self] (action) in
-            self?.openRoomSetting(roomData: roomData)
+        actionController.addAction(
+            Action.init(
+                ActionData.init(
+                    title: String.ck_LocalizedString(key: "Setting"),
+                    image: UIImage.init(named: "settings_icon")!),
+                style: ActionStyle.default,
+                executeImmediatelyOnTouch: false,
+                handler: { [weak self] (action) in
+                    self?.openRoomSetting(roomData: roomData)
         }))
         
         // settings

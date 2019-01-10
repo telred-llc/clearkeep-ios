@@ -17,3 +17,15 @@ extension UIViewController {
         self.navigationController?.navigationBar.isTranslucent = alphaValue < 1
     }
 }
+
+extension MXKViewController {
+    public func importSession(_ mxSessions: [Any]!) {
+        if let sessions = mxSessions {
+            for session in sessions {
+                if let s = session as? MXSession {
+                    self.addMatrixSession(s)
+                }
+            }
+        }
+    }
+}

@@ -3497,6 +3497,13 @@
 
 - (void)roomTitleView:(RoomTitleView*)titleView recognizeTapGesture:(UITapGestureRecognizer*)tapGestureRecognizer
 {
+    //-- CK
+    if ([self rewriteWithMethod:@"roomTitleView:recognizeTapGesture"
+                     parameters:@{@"titleView": titleView,
+                                  @"recognizeTapGesture": tapGestureRecognizer}]) {
+        return;
+    }
+    
     UIView *tappedView = tapGestureRecognizer.view;
     
     if (tappedView == titleView.titleMask)

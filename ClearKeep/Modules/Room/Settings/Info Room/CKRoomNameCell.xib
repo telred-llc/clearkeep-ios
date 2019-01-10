@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="CZL-qT-LRj" customClass="CKRoomNameCell" customModule="Riot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CZL-qT-LRj" id="Ut5-ce-ryv">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wKR-bL-l5I">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#emoji" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTU-eG-bgE">
+                                <rect key="frame" x="20" y="0.0" width="355" height="54.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="uTU-eG-bgE" secondAttribute="bottom" multiplier="0.8" id="Nml-Cw-h7v"/>
+                            <constraint firstItem="uTU-eG-bgE" firstAttribute="top" secondItem="wKR-bL-l5I" secondAttribute="top" id="SJZ-ny-0Nb"/>
+                            <constraint firstItem="uTU-eG-bgE" firstAttribute="leading" secondItem="wKR-bL-l5I" secondAttribute="leading" constant="20" id="fY8-IQ-bNT"/>
+                            <constraint firstAttribute="trailing" secondItem="uTU-eG-bgE" secondAttribute="trailing" id="s5N-cD-Ayq"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="wKR-bL-l5I" secondAttribute="bottom" id="7el-V0-ujy"/>
+                    <constraint firstItem="wKR-bL-l5I" firstAttribute="leading" secondItem="Ut5-ce-ryv" secondAttribute="leading" id="OJH-0R-9QY"/>
+                    <constraint firstItem="wKR-bL-l5I" firstAttribute="width" secondItem="Ut5-ce-ryv" secondAttribute="width" id="ein-c6-41a"/>
+                    <constraint firstItem="wKR-bL-l5I" firstAttribute="top" secondItem="Ut5-ce-ryv" secondAttribute="top" id="w8U-oN-dOL"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="roomnameLabel" destination="uTU-eG-bgE" id="jNO-7d-nAN"/>
+            </connections>
+            <point key="canvasLocation" x="95.200000000000003" y="38.680659670164921"/>
+        </tableViewCell>
+    </objects>
+</document>

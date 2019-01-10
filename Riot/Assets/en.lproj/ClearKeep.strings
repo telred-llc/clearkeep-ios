@@ -1,0 +1,15 @@
+/* 
+  ClearKeep.strings
+  Riot
+
+  Created by Sinbad Flyce on 1/10/19.
+  Copyright © 2019 matrix.org. All rights reserved.
+*/
+
+"Mute" = "Mute";
+"UnMute" = "UnMute";
+"Add to favourite" = "Add to favourite";
+"Setting" = "Setting";
+"Direct Message" = "Direct Message";
+"Room" = "Room";
+"Info" = "Info";
