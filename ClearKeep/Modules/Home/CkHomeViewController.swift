@@ -14,11 +14,16 @@ final class CkHomeViewController: MXKViewController {
     
     // MARK: Properties
     
-    lazy var directMessageVC = {
-        Bundle.main.loadNibNamed("CKDirectMessagePageViewController", owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
+    lazy var directMessageVC: CKDirectMessagePageViewController = {
+        let vc = Bundle.main.loadNibNamed("CKDirectMessagePageViewController", owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
+        vc.delegate = self
+        return vc
     }()
-    lazy var roomVC = {
-        Bundle.main.loadNibNamed("CKRoomPageViewController", owner: nil, options: nil)?.first as! CKRoomPageViewController
+
+    lazy var roomVC: CKRoomPageViewController = {
+        let vc = Bundle.main.loadNibNamed("CKRoomPageViewController", owner: nil, options: nil)?.first as! CKRoomPageViewController
+        vc.delegate = self
+        return vc
     }()
     
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
@@ -271,5 +276,18 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         } else {
             directMessageVC.reloadData(rooms: [])
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let roomSettingsVC = segue.destination as? CKRoomSettingsViewController, let roomCellData = sender as? MXKRecentCellData {
+            roomSettingsVC.initWith(roomCellData.roomSummary.mxSession, andRoomId: roomCellData.roomSummary.roomId)
+        }
+    }
+}
+
+extension CkHomeViewController: CKRecentListViewControllerDelegate {
+    
+    func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData) {        
+        self.performSegue(withIdentifier: "showRoomDetails", sender: roomCellData)
     }
 }

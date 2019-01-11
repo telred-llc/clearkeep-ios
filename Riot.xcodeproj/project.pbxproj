@@ -2618,6 +2618,25 @@
 			path = ClearKeep;
 			sourceTree = "<group>";
 		};
+		E57F0BBA21E89D9700DE36E5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E5ABA73D21E73CBC005EFE0C /* CKAddPeopleCell.swift */,
+				E5ABA73E21E73CBC005EFE0C /* CKAddPeopleCell.xib */,
+				E5ABA73F21E73CBC005EFE0C /* CKFilesCell.swift */,
+				E5ABA74021E73CBC005EFE0C /* CKFilesCell.xib */,
+				E5ABA74121E73CBC005EFE0C /* CKMembersCell.swift */,
+				E5ABA74221E73CBC005EFE0C /* CKMembersCell.xib */,
+				E5ABA74321E73CBC005EFE0C /* CKMoreSettingsCell.swift */,
+				E5ABA74421E73CBC005EFE0C /* CKMoreSettingsCell.xib */,
+				E5ABA74621E73CBC005EFE0C /* CKRoomNameCell.swift */,
+				E5ABA74721E73CBC005EFE0C /* CKRoomNameCell.xib */,
+				E5ABA74821E73CBC005EFE0C /* CKTopicCell.swift */,
+				E5ABA74921E73CBC005EFE0C /* CKTopicCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E5ABA73721E73CBC005EFE0C /* Room */ = {
 			isa = PBXGroup;
 			children = (
@@ -2630,38 +2649,11 @@
 		E5ABA73921E73CBC005EFE0C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				E57F0BBA21E89D9700DE36E5 /* Views */,
 				E5ABA73A21E73CBC005EFE0C /* CKRoomSettingsViewController.swift */,
 				E5ABA73B21E73CBC005EFE0C /* CKRoomSettingsViewController.xib */,
-				E5ABA73C21E73CBC005EFE0C /* Data Settings */,
-				E5ABA74521E73CBC005EFE0C /* Info Room */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		E5ABA73C21E73CBC005EFE0C /* Data Settings */ = {
-			isa = PBXGroup;
-			children = (
-				E5ABA73D21E73CBC005EFE0C /* CKAddPeopleCell.swift */,
-				E5ABA73E21E73CBC005EFE0C /* CKAddPeopleCell.xib */,
-				E5ABA73F21E73CBC005EFE0C /* CKFilesCell.swift */,
-				E5ABA74021E73CBC005EFE0C /* CKFilesCell.xib */,
-				E5ABA74121E73CBC005EFE0C /* CKMembersCell.swift */,
-				E5ABA74221E73CBC005EFE0C /* CKMembersCell.xib */,
-				E5ABA74321E73CBC005EFE0C /* CKMoreSettingsCell.swift */,
-				E5ABA74421E73CBC005EFE0C /* CKMoreSettingsCell.xib */,
-			);
-			path = "Data Settings";
-			sourceTree = "<group>";
-		};
-		E5ABA74521E73CBC005EFE0C /* Info Room */ = {
-			isa = PBXGroup;
-			children = (
-				E5ABA74621E73CBC005EFE0C /* CKRoomNameCell.swift */,
-				E5ABA74721E73CBC005EFE0C /* CKRoomNameCell.xib */,
-				E5ABA74821E73CBC005EFE0C /* CKTopicCell.swift */,
-				E5ABA74921E73CBC005EFE0C /* CKTopicCell.xib */,
-			);
-			path = "Info Room";
 			sourceTree = "<group>";
 		};
 		E5ABD65821D616380017D93E /* Home */ = {

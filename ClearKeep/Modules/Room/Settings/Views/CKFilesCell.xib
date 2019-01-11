@@ -20,20 +20,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D65-XO-nvb">
-                        <rect key="frame" x="70.5" y="0.0" width="385.5" height="43.5"/>
+                        <rect key="frame" x="65.5" y="0.0" width="390.5" height="43.5"/>
                         <inset key="imageEdgeInsets" minX="310" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <state key="normal" title="Files" image="Arrow Right">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5L-gq-A5E">
-                        <rect key="frame" x="30.5" y="7" width="30" height="30"/>
+                        <rect key="frame" x="35.5" y="12" width="20" height="20"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Files" translatesAutoresizingMaskIntoConstraints="NO" id="FID-6n-pM6">
-                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_file" translatesAutoresizingMaskIntoConstraints="NO" id="FID-6n-pM6">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="FID-6n-pM6" secondAttribute="height" id="EKm-ZP-gLY"/>
-                                    <constraint firstAttribute="height" constant="30" id="XfR-NY-uh0"/>
+                                    <constraint firstAttribute="height" constant="20" id="XfR-NY-uh0"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -65,6 +65,6 @@
     </objects>
     <resources>
         <image name="Arrow Right" width="25" height="25"/>
-        <image name="Files" width="25" height="25"/>
+        <image name="ic_room_file" width="300" height="301"/>
     </resources>
 </document>

@@ -23,26 +23,53 @@ extension RoomViewController {
             bundle: Bundle(for: self))
     }
     
+    private func execute(execute: @escaping () -> Void) {
+        DispatchQueue.main.async {
+            execute()
+        }
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     public override func rewrite(method: String, parameters: [String : Any]) -> Bool {
-        
-        if method == "roomTitleView:recognizeTapGesture" {            
-            DispatchQueue.main.async {
-                self.roomTitleView(parameters["titleView"] as? RoomTitleView,
-                                   recognizeTapGesture: parameters["recognizeTapGesture"] as? UITapGestureRecognizer)
+        switch method {
+
+        // recognizeTapGesture
+        case "roomTitleView:recognizeTapGesture":
+            self.execute {
+                self.override_roomTitleView(
+                    parameters["titleView"] as? RoomTitleView,
+                    recognizeTapGesture: parameters["recognizeTapGesture"] as? UITapGestureRecognizer)
             }
-            return true
+        
+        // prepareForSegue
+        case "prepareForSegue:sender":
+            self.execute {
+                self.override_prepare(
+                    for: parameters["segue"] as! UIStoryboardSegue,
+                    sender: parameters["sender"])
+            }
+        default:
+            return false
         }
-        return false
+        return true
     }
 }
 
 extension CKRoomViewController {
     
-    private func roomTitleView(_ titleView: RoomTitleView!, recognizeTapGesture tapGestureRecognizer: UITapGestureRecognizer!) {
+    private func override_roomTitleView(_ titleView: RoomTitleView!, recognizeTapGesture tapGestureRecognizer: UITapGestureRecognizer!) {
         self.performSegue(withIdentifier: "showRoomDetails", sender: self)
+    }
+    
+    private func override_prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let roomSettingsVC = segue.destination as? CKRoomSettingsViewController {
+            self.dismissKeyboard()
+            roomSettingsVC.initWith(
+                self.roomDataSource.mxSession,
+                andRoomId: self.roomDataSource.roomId)
+        }
     }
 }

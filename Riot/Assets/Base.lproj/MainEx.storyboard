@@ -163,7 +163,7 @@
             </objects>
             <point key="canvasLocation" x="3326" y="-442"/>
         </scene>
-        <!--People View Controller-->
+        <!--Contacts-->
         <scene sceneID="Qba-PP-lco">
             <objects>
                 <viewController id="IGB-jr-yFz" customClass="PeopleViewController" sceneMemberID="viewController">
@@ -176,7 +176,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="2" image="tab_people" selectedImage="tab_people_selected" id="edr-fK-bgM">
+                    <tabBarItem key="tabBarItem" tag="2" title="Contacts" image="tab_people" selectedImage="tab_people_selected" id="edr-fK-bgM">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemPeople"/>
                         </userDefinedRuntimeAttributes>
@@ -189,7 +189,7 @@
             </objects>
             <point key="canvasLocation" x="1929" y="-2817"/>
         </scene>
-        <!--Favourites View Controller-->
+        <!--Favourites-->
         <scene sceneID="z6B-k5-ano">
             <objects>
                 <viewController id="HnD-LA-psC" customClass="FavouritesViewController" sceneMemberID="viewController">
@@ -202,7 +202,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="1" image="tab_favourites" selectedImage="tab_favourites_selected" id="UVh-Xd-zDZ">
+                    <tabBarItem key="tabBarItem" tag="1" title="Favourites" image="tab_favourites" selectedImage="tab_favourites_selected" id="UVh-Xd-zDZ">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemFavourites"/>
                         </userDefinedRuntimeAttributes>
@@ -233,7 +233,7 @@
             </objects>
             <point key="canvasLocation" x="476" y="-3899"/>
         </scene>
-        <!--Ck Home View Controller-->
+        <!--Home-->
         <scene sceneID="SZi-Ac-WJp">
             <objects>
                 <viewController id="pBa-To-3YT" customClass="CkHomeViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
@@ -246,7 +246,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_home" selectedImage="tab_home_selected" id="hNI-yH-EXj">
+                    <tabBarItem key="tabBarItem" title="Home" image="tab_home" selectedImage="tab_home_selected" id="hNI-yH-EXj">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemHome"/>
                         </userDefinedRuntimeAttributes>
@@ -254,6 +254,7 @@
                     <navigationItem key="navigationItem" id="rA5-PM-GBU"/>
                     <connections>
                         <segue destination="WDS-Ip-RQ9" kind="presentation" identifier="presentStartChat" id="mhb-l9-pM3"/>
+                        <segue destination="e7G-NU-7ck" kind="show" identifier="showRoomDetails" id="HSg-jN-pbo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pEk-LO-Ij0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -461,7 +462,7 @@
             </objects>
             <point key="canvasLocation" x="942" y="-1299"/>
         </scene>
-        <!--Rooms View Controller-->
+        <!--Rooms-->
         <scene sceneID="SDg-Pp-8Uj">
             <objects>
                 <viewController id="HPQ-zg-lZR" customClass="RoomsViewController" sceneMemberID="viewController">
@@ -474,7 +475,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="3" image="tab_rooms" selectedImage="tab_rooms" id="7eS-Ei-00V">
+                    <tabBarItem key="tabBarItem" tag="3" title="Rooms" image="tab_rooms" selectedImage="tab_rooms" id="7eS-Ei-00V">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemRooms"/>
                         </userDefinedRuntimeAttributes>
@@ -642,10 +643,10 @@
         <image name="tab_rooms" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mhb-l9-pM3"/>
+        <segue reference="bwO-oZ-2vj"/>
         <segue reference="p4M-yR-DLA"/>
         <segue reference="f5u-Y1-7nt"/>
-        <segue reference="vCz-dl-6xQ"/>
+        <segue reference="HSg-jN-pbo"/>
         <segue reference="cUw-vU-gJq"/>
     </inferredMetricsTieBreakers>
 </document>
