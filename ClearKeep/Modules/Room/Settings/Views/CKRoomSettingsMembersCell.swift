@@ -8,22 +8,12 @@
 
 import UIKit
 
-class CKRoomSettingsMembersCell: UITableViewCell {
+class CKRoomSettingsMembersCell: CKRoomSettingsBaseCell {
 
     // MARK: - OUTLET
     
     @IBOutlet weak var imageMember: UIImageView!
-    @IBOutlet weak var btnMembers: UIButton!
-    
-    // MARK: - VAR CLASS
-    
-    public class var identifier: String {
-        return self.nibName
-    }
-    
-    public class var nibName: String {
-        return "CKRoomSettingsMembersCell"
-    }
+    @IBOutlet weak var btnMembers: UIButton!    
 
     // MARK: - OVERRIDE
     

@@ -22,6 +22,12 @@ import Foundation
     }
 
     /**
+     Cells heigh
+     */
+    private let kInfoCellHeigh: CGFloat     = 80.0
+    private let kDefaultCellHeigh: CGFloat  = 60.0
+    
+    /**
      tblSections
      */
     private var tblSections: [TableViewSectionType] = [.infos, .settings, .actions]
@@ -57,12 +63,12 @@ import Foundation
     
     private func setupTableView()  {
         
-        self.tableView.register(UINib.init(nibName: CKRoomSettingsRoomNameCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsRoomNameCell.identifier)
-        self.tableView.register(UINib.init(nibName: CKRoomSettingsTopicCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsTopicCell.identifier)
-        self.tableView.register(UINib.init(nibName: CKRoomSettingsMembersCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsMembersCell.identifier)
-        self.tableView.register(UINib.init(nibName: CKRoomSettingsFilesCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsFilesCell.identifier)
-        self.tableView.register(UINib.init(nibName: CKRoomSettingsMoreSettingsCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsMoreSettingsCell.identifier)
-        self.tableView.register(UINib.init(nibName: CKRoomSettingsAddPeopleCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsAddPeopleCell.identifier)
+        self.tableView.register(CKRoomSettingsRoomNameCell.nib, forCellReuseIdentifier: CKRoomSettingsRoomNameCell.identifier)
+        self.tableView.register(CKRoomSettingsTopicCell.nib, forCellReuseIdentifier: CKRoomSettingsTopicCell.identifier)
+        self.tableView.register(CKRoomSettingsMembersCell.nib, forCellReuseIdentifier: CKRoomSettingsMembersCell.identifier)
+        self.tableView.register(CKRoomSettingsFilesCell.nib, forCellReuseIdentifier: CKRoomSettingsFilesCell.identifier)
+        self.tableView.register(CKRoomSettingsMoreSettingsCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreSettingsCell.identifier)
+        self.tableView.register(CKRoomSettingsAddPeopleCell.nib, forCellReuseIdentifier: CKRoomSettingsAddPeopleCell.identifier)
 
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -152,7 +158,31 @@ import Foundation
         let navi = UINavigationController.init(rootViewController: vc)
         self.present(navi, animated: true, completion: nil)
     }
+    
+    private func showParticiants() {
         
+        // initialize vc from xib
+        let vc = CKRoomSettingsParticipantViewController(
+            nibName: "CKRoomSettingsParticipantViewController",
+            bundle: nil)
+        
+        // import mx session and room id
+        vc.importSession(self.mxSessions)
+        vc.mxRoom = self.mxRoom
+
+        // present vc
+        let navi = UINavigationController.init(rootViewController: vc)
+        self.present(navi, animated: true, completion: nil)
+    }
+    
+    private func isInfosAvailableData() -> Bool {
+        guard let room = self.mxRoom, let roomSummary = room.summary else {
+            return false
+        }
+        
+        return roomSummary.topic != nil
+    }
+    
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -174,7 +204,7 @@ import Foundation
 
         switch sectionType {
         case .infos:
-            return 2
+            return self.isInfosAvailableData() ? 3 : 2
         case .settings:
             return 3
         case .actions:
@@ -192,7 +222,11 @@ import Foundation
             } else if indexPath.row == 1 {
                 return self.dequeueReusableRoomTopicCell(indexPath)
             } else {
-                return UITableViewCell()
+                let cell = UITableViewCell()
+                cell.textLabel?.text = "Edit"
+                cell.textLabel?.textAlignment = NSTextAlignment.center
+                cell.textLabel?.textColor = CKColor.Text.lightBlueText
+                return cell
             }
         case .settings:
             if indexPath.row == 0 {
@@ -234,14 +268,14 @@ import Foundation
         case .infos:
             if indexPath.row == 1 {
                 if (self.mxRoom != nil && mxRoom.summary.topic == nil) {
-                    return 80
+                    return kInfoCellHeigh
                 }
                 return UITableViewAutomaticDimension
             }
         default:
-            return 60
+            return kDefaultCellHeigh
         }
-        return 60
+        return kDefaultCellHeigh
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -256,8 +290,9 @@ import Foundation
         
         switch sectionType {
         case .infos:
-            if indexPath.row == 1 { self.showsSettingsEdit() }
+            if indexPath.row == 1 || indexPath.row == 2 { self.showsSettingsEdit() }
         case .settings:
+            if indexPath.row == 0 { self.showParticiants() }
             break
         case .actions:
             break

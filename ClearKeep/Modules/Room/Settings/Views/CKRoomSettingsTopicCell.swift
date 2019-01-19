@@ -8,22 +8,12 @@
 
 import UIKit
 
-class CKRoomSettingsTopicCell: UITableViewCell {
+class CKRoomSettingsTopicCell: CKRoomSettingsBaseCell {
     
     // MARK: - OUTLET
     
     @IBOutlet weak var topicTextLabel: UILabel!
     @IBOutlet weak var topicLabel: UILabel!
-    
-    // MARK: - CLASS VAR
-    
-    public class var identifier: String {
-        return self.nibName
-    }
-    
-    public class var nibName: String {
-        return "CKRoomSettingsTopicCell"
-    }
     
     // MARK: - OVERIDDE
     
@@ -43,7 +33,7 @@ class CKRoomSettingsTopicCell: UITableViewCell {
         if isEnable {
             self.isUserInteractionEnabled = true
             topicTextLabel.text = "Set a topic"
-            topicTextLabel.textColor = #colorLiteral(red: 0.1411764706, green: 0.5215686275, blue: 0.6705882353, alpha: 1)
+            topicTextLabel.textColor = CKColor.Text.lightBlueText
         } else {
             self.isUserInteractionEnabled = false
             topicTextLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)

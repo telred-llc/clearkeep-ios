@@ -8,22 +8,12 @@
 
 import UIKit
 
-class CKRoomSettingsAddPeopleCell: UITableViewCell {
+class CKRoomSettingsAddPeopleCell: CKRoomSettingsBaseCell {
 
     // MARK: - Outlet
     
     @IBOutlet weak var btnAddUser: UIButton!
-    @IBOutlet weak var imageAdd: UIImageView!
-    
-    // MARK: - CLASS VAR
-    
-    public class var identifier: String {
-        return self.nibName
-    }
-    
-    public class var nibName: String {
-        return "CKRoomSettingsAddPeopleCell"
-    }
+    @IBOutlet weak var imageAdd: UIImageView!    
     
     // MARK: - OVERRIDE
     

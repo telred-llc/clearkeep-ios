@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class CKRoomSettingsEditableCell: UITableViewCell {
+final class CKRoomSettingsEditableCell: CKRoomSettingsBaseCell {
     
     // MARK: - PROPERTY
     @IBOutlet weak var textField: UITextField!

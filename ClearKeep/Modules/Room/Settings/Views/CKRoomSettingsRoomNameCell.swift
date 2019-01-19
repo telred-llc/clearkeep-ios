@@ -8,21 +8,11 @@
 
 import UIKit
 
-class CKRoomSettingsRoomNameCell: UITableViewCell {
+class CKRoomSettingsRoomNameCell: CKRoomSettingsBaseCell {
     
     // MARK: - OUTLET
     
     @IBOutlet weak var roomnameLabel: UILabel!
-    
-    // MARK: - CLASS VAR
-    
-    public class var identifier: String {
-        return self.nibName
-    }
-    
-    public class var nibName: String {
-        return "CKRoomSettingsRoomNameCell"
-    }
     
     // MARK: - OVERRIDE
     

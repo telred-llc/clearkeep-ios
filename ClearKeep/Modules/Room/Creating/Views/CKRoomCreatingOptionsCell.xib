@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="jjF-TQ-9De" customClass="CKRoomCreatingOptionsCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jjF-TQ-9De" id="4PF-E0-YGo">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dfa-c2-r97">
+                        <rect key="frame" x="310" y="14.5" width="51" height="31"/>
+                    </switch>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVO-nz-pW1">
+                        <rect key="frame" x="20" y="0.0" width="286" height="59.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Short title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eb6-ZV-SY1">
+                                <rect key="frame" x="0.0" y="0.0" width="286" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is short description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKh-xX-40k">
+                                <rect key="frame" x="0.0" y="24.5" width="286" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="eb6-ZV-SY1" firstAttribute="leading" secondItem="tVO-nz-pW1" secondAttribute="leading" id="LSq-V8-nlo"/>
+                            <constraint firstItem="jKh-xX-40k" firstAttribute="leading" secondItem="tVO-nz-pW1" secondAttribute="leading" id="Xj1-dP-kBh"/>
+                            <constraint firstItem="eb6-ZV-SY1" firstAttribute="top" secondItem="tVO-nz-pW1" secondAttribute="top" id="YEH-OQ-a0T"/>
+                            <constraint firstItem="jKh-xX-40k" firstAttribute="top" secondItem="eb6-ZV-SY1" secondAttribute="bottom" constant="4" id="oDz-E2-58i"/>
+                            <constraint firstAttribute="trailing" secondItem="eb6-ZV-SY1" secondAttribute="trailing" id="uQp-Zl-Zoe"/>
+                            <constraint firstAttribute="trailing" secondItem="jKh-xX-40k" secondAttribute="trailing" id="yvc-IE-zfM"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="tVO-nz-pW1" secondAttribute="bottom" id="9HU-5z-IO8"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Dfa-c2-r97" secondAttribute="trailing" id="Bzx-UK-gme"/>
+                    <constraint firstItem="tVO-nz-pW1" firstAttribute="centerY" secondItem="4PF-E0-YGo" secondAttribute="centerY" id="Fwh-v0-0a5"/>
+                    <constraint firstItem="Dfa-c2-r97" firstAttribute="leading" secondItem="tVO-nz-pW1" secondAttribute="trailing" constant="4" id="ZjS-wC-eUt"/>
+                    <constraint firstItem="Dfa-c2-r97" firstAttribute="centerY" secondItem="4PF-E0-YGo" secondAttribute="centerY" id="cw0-GA-96C"/>
+                    <constraint firstItem="tVO-nz-pW1" firstAttribute="leading" secondItem="4PF-E0-YGo" secondAttribute="leading" constant="20" id="sSa-qe-icD"/>
+                    <constraint firstItem="tVO-nz-pW1" firstAttribute="top" secondItem="4PF-E0-YGo" secondAttribute="top" id="x8K-yG-sq7"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="138.40000000000001" y="112.44377811094454"/>
+        </tableViewCell>
+    </objects>
+</document>

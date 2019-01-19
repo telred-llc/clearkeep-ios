@@ -158,7 +158,10 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc func clickedOnRightMenuItem() {
-        print("\nclickedOnRightMenuItem")
+        let nvc = CKRoomCreatingViewController.instanceForNavigationController { (vc: CKRoomCreatingViewController) in
+            print("[CK] Just created - \(CKRoomCreatingViewController.nibName)")
+        }
+        self.present(nvc, animated: true, completion: nil)
     }
     
     func showSettingViewController() {

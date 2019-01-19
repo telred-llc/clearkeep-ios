@@ -11,8 +11,8 @@ import Foundation
 final class CKRoomSettingsEditViewController: MXKViewController {
     
     // MARK: - CONST
-    private let kEditableCellId     = "kEditableCellId"
-    private let kPhotoCellId        = "kPhotoCellId"
+    private let kEditableCellId     = CKRoomSettingsEditableCell.identifier
+    private let kPhotoCellId        = CKRoomSettingsEditablePhotoCell.identifier
     
     // MARK: - ENUM
     
@@ -85,9 +85,10 @@ final class CKRoomSettingsEditViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.backgroundColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
+        self.tableView.backgroundColor = CKColor.Background.tableView
         self.registerCells()
         self.resgisterNotifications()
+        self.navigationItem.title = "Edit Room"                
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,15 +127,9 @@ final class CKRoomSettingsEditViewController: MXKViewController {
     
     private func registerCells() {
         
-        // Editable cell
-        self.tableView.register(
-            UINib.init(nibName: "CKRoomSettingsEditableCell", bundle: nil),
-            forCellReuseIdentifier: kEditableCellId)
-        
-        // Photo cell
-        self.tableView.register(
-            UINib.init(nibName: "CKRoomSettingsPhotoCell", bundle: nil),
-            forCellReuseIdentifier: kPhotoCellId)
+        // register cells
+        self.tableView.register(CKRoomSettingsEditableCell.nib, forCellReuseIdentifier: kEditableCellId)
+        self.tableView.register(CKRoomSettingsEditablePhotoCell.nib, forCellReuseIdentifier: kPhotoCellId)
     }
     
     private func resgisterNotifications() {
@@ -224,6 +219,10 @@ extension CKRoomSettingsEditViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -264,8 +263,12 @@ extension CKRoomSettingsEditViewController: UITableViewDataSource {
         case .image:
             if let cell = tableView.dequeueReusableCell(
                 withIdentifier: kPhotoCellId,
-                for: indexPath) as? CKRoomSettingsPhotoCell {
-                cell.textLabel?.text = room.summary.avatar
+                for: indexPath) as? CKRoomSettingsEditablePhotoCell {
+                
+                if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxRoom.summary.avatar) {
+                    cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
+                }
+                
                 return cell
             }
         case .topic:
@@ -315,7 +318,11 @@ fileprivate class CKLabelInternal: UILabel {
     
     // draw text with inset
     override func drawText(in rect: CGRect) {
+        
+        // make an inset rect
         let insets = UIEdgeInsetsMake(0, 20, 0, 5)
+        
+        // invoke your change to super
         super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
     }
 }

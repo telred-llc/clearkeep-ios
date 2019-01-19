@@ -29,7 +29,6 @@ extension MXKViewController {
     public class var nibName: String {
         return String(describing: self)
     }
-
     
     // MARK: - PUBLIC
     

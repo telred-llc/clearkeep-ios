@@ -8,22 +8,12 @@
 
 import UIKit
 
-class CKRoomSettingsFilesCell: UITableViewCell {
+class CKRoomSettingsFilesCell: CKRoomSettingsBaseCell {
 
     // MARK: - OUTLET
     
     @IBOutlet weak var btnFile: UIButton!
     @IBOutlet weak var imageFiles: UIImageView!
-    
-    // MARK: - VAR CLASS
-    
-    public class var identifier: String {
-        return self.nibName
-    }
-    
-    public class var nibName: String {
-        return "CKRoomSettingsFilesCell"
-    }
     
     // MARK: - OVERRIDE
     
