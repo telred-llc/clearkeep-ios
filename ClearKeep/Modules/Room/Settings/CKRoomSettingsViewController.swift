@@ -43,7 +43,7 @@ import Foundation
      */
     private var mxRoomState: MXRoomState! {
         return self.value(forKey: "mxRoomState") as? MXRoomState
-    }
+    }    
     
     // MARK: - CLASS
     
@@ -57,12 +57,13 @@ import Foundation
     
     private func setupTableView()  {
         
-        self.tableView.register(UINib.init(nibName: "CKRoomNameCell", bundle: nil), forCellReuseIdentifier: "CKRoomNameCell")
-        self.tableView.register(UINib.init(nibName: "CKTopicCell", bundle: nil), forCellReuseIdentifier: "CKTopicCell")
-        self.tableView.register(UINib.init(nibName: "CKMembersCell", bundle: nil), forCellReuseIdentifier: "CKMembersCell")
-        self.tableView.register(UINib.init(nibName: "CKFilesCell", bundle: nil), forCellReuseIdentifier: "CKFilesCell")
-        self.tableView.register(UINib.init(nibName: "CKMoreSettingsCell", bundle: nil), forCellReuseIdentifier: "CKMoreSettingsCell")
-        self.tableView.register(UINib.init(nibName: "CKAddPeopleCell", bundle: nil), forCellReuseIdentifier: "CKAddPeopleCell")
+        self.tableView.register(UINib.init(nibName: CKRoomSettingsRoomNameCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsRoomNameCell.identifier)
+        self.tableView.register(UINib.init(nibName: CKRoomSettingsTopicCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsTopicCell.identifier)
+        self.tableView.register(UINib.init(nibName: CKRoomSettingsMembersCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsMembersCell.identifier)
+        self.tableView.register(UINib.init(nibName: CKRoomSettingsFilesCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsFilesCell.identifier)
+        self.tableView.register(UINib.init(nibName: CKRoomSettingsMoreSettingsCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsMoreSettingsCell.identifier)
+        self.tableView.register(UINib.init(nibName: CKRoomSettingsAddPeopleCell.nibName, bundle: nil), forCellReuseIdentifier: CKRoomSettingsAddPeopleCell.identifier)
+
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.backgroundColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
@@ -80,19 +81,19 @@ import Foundation
         self.tableView.reloadData()
     }
     
-    private func dequeueReusableRoomNameCell(_ indexPath: IndexPath) -> CKRoomNameCell! {
+    private func dequeueReusableRoomNameCell(_ indexPath: IndexPath) -> CKRoomSettingsRoomNameCell! {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "CKRoomNameCell" ,
-            for: indexPath) as! CKRoomNameCell
+            withIdentifier: CKRoomSettingsRoomNameCell.identifier ,
+            for: indexPath) as! CKRoomSettingsRoomNameCell
         
         cell.roomnameLabel.text = (self.mxRoom != nil) ? "#\(self.mxRoom.summary.displayname!)" : "Set a name"
         return cell
     }
     
-    private func dequeueReusableRoomTopicCell(_ indexPath: IndexPath) -> CKTopicCell! {
+    private func dequeueReusableRoomTopicCell(_ indexPath: IndexPath) -> CKRoomSettingsTopicCell! {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "CKTopicCell" ,
-            for: indexPath) as! CKTopicCell
+            withIdentifier: CKRoomSettingsTopicCell.identifier ,
+            for: indexPath) as! CKRoomSettingsTopicCell
         
         if self.mxRoom != nil &&  self.mxRoom.summary.topic != nil {
             cell.enableEditTopic(false)
@@ -104,38 +105,54 @@ import Foundation
         return cell
     }
 
-    private func dequeueReusableRoomMembersCell(_ indexPath: IndexPath) -> CKMembersCell! {
+    private func dequeueReusableRoomMembersCell(_ indexPath: IndexPath) -> CKRoomSettingsMembersCell! {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "CKMembersCell" ,
-            for: indexPath) as! CKMembersCell
+            withIdentifier: CKRoomSettingsMembersCell.identifier ,
+            for: indexPath) as! CKRoomSettingsMembersCell
         
         return cell
     }
 
-    private func dequeueReusableRoomFilesCell(_ indexPath: IndexPath) -> CKFilesCell! {
+    private func dequeueReusableRoomFilesCell(_ indexPath: IndexPath) -> CKRoomSettingsFilesCell! {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "CKFilesCell" ,
-            for: indexPath) as! CKFilesCell
+            withIdentifier: CKRoomSettingsFilesCell.identifier ,
+            for: indexPath) as! CKRoomSettingsFilesCell
         
         return cell
     }
 
-    private func dequeueReusableRoomMoreSettingsCell(_ indexPath: IndexPath) -> CKMoreSettingsCell! {
+    private func dequeueReusableRoomMoreSettingsCell(_ indexPath: IndexPath) -> CKRoomSettingsMoreSettingsCell! {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "CKMoreSettingsCell" ,
-            for: indexPath) as! CKMoreSettingsCell
+            withIdentifier: CKRoomSettingsMoreSettingsCell.identifier ,
+            for: indexPath) as! CKRoomSettingsMoreSettingsCell
         
         return cell
     }
 
-    private func dequeueReusableRoomAddPeopleCell(_ indexPath: IndexPath) -> CKAddPeopleCell! {
+    private func dequeueReusableRoomAddPeopleCell(_ indexPath: IndexPath) -> CKRoomSettingsAddPeopleCell! {
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "CKAddPeopleCell" ,
-            for: indexPath) as! CKAddPeopleCell
+            withIdentifier: CKRoomSettingsAddPeopleCell.identifier ,
+            for: indexPath) as! CKRoomSettingsAddPeopleCell
         
         return cell
     }
 
+    private func showsSettingsEdit() {
+
+        // initialize vc from xib
+        let vc = CKRoomSettingsEditViewController(
+            nibName: "CKRoomSettingsEditViewController",
+            bundle: nil)
+        
+        // import mx session and room id
+        vc.importSession(self.mxSessions)
+        vc.mxRoom = self.mxRoom
+        
+        // present vc
+        let navi = UINavigationController.init(rootViewController: vc)
+        self.present(navi, animated: true, completion: nil)
+    }
+        
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -231,6 +248,20 @@ import Foundation
         let view = UIView.init()
         view.backgroundColor = UIColor.clear
         return view
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let sectionType = tblSections[indexPath.section]
+        
+        switch sectionType {
+        case .infos:
+            if indexPath.row == 1 { self.showsSettingsEdit() }
+        case .settings:
+            break
+        case .actions:
+            break
+        }
     }
     
     override func initWith(_ session: MXSession!, andRoomId roomId: String!) {

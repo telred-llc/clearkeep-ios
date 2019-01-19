@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RoomViewController">
             <connections>
                 <outlet property="bubblesTableView" destination="BGD-sd-SQR" id="OG4-Tw-Ovt"/>
-                <outlet property="bubblesTableViewBottomConstraint" destination="Ksk-39-kfi" id="CTo-Ux-4NP"/>
-                <outlet property="bubblesTableViewTopConstraint" destination="X14-4s-uGM" id="Hic-6h-N05"/>
                 <outlet property="expandedHeaderContainer" destination="uK2-9a-rZj" id="0lY-NB-cR1"/>
                 <outlet property="expandedHeaderContainerHeightConstraint" destination="w9z-HS-7wJ" id="6uK-Bn-TcU"/>
                 <outlet property="jumpToLastUnreadBannerContainer" destination="S6r-bo-jxw" id="Ady-Eh-4E0"/>
-                <outlet property="jumpToLastUnreadBannerContainerTopConstraint" destination="xYa-gT-4x0" id="jnh-3C-bQB"/>
                 <outlet property="jumpToLastUnreadButton" destination="ISb-UT-u0O" id="fs0-sQ-lRe"/>
                 <outlet property="jumpToLastUnreadLabel" destination="S1q-B4-Df3" id="McV-gv-bUa"/>
                 <outlet property="previewHeaderContainer" destination="54r-18-K1g" id="Klt-RV-V1E"/>
@@ -38,14 +35,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BGD-sd-SQR">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="626"/>
+                    <rect key="frame" x="0.0" y="64" width="375" height="562"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="RoomVCBubblesTableView"/>
                     </userDefinedRuntimeAttributes>
                 </tableView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uK2-9a-rZj" userLabel="Expanded Header Container" customClass="ExpandedRoomTitleView">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="215"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="215"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="RoomVCExpandedHeaderContainer"/>
                     <constraints>
@@ -53,7 +50,7 @@
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="54r-18-K1g">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="368"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="368"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="RoomVCPreviewHeaderContainer"/>
                     <constraints>
@@ -61,7 +58,7 @@
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S6r-bo-jxw">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISb-UT-u0O">
                             <rect key="frame" x="5" y="0.0" width="51" height="44"/>
@@ -80,7 +77,7 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S1q-B4-Df3">
-                            <rect key="frame" x="56" y="22.5" width="0.0" height="0.0"/>
+                            <rect key="frame" x="56" y="22" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -155,22 +152,24 @@
                 <constraint firstItem="nLd-BP-JAE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4Q7-hr-rqi"/>
                 <constraint firstAttribute="trailing" secondItem="54r-18-K1g" secondAttribute="trailing" id="6NN-Vs-ci8"/>
                 <constraint firstItem="54r-18-K1g" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BC8-KU-Pus"/>
+                <constraint firstItem="BGD-sd-SQR" firstAttribute="top" secondItem="S6r-bo-jxw" secondAttribute="bottom" id="CS1-fC-vcF"/>
+                <constraint firstItem="54r-18-K1g" firstAttribute="top" secondItem="WYi-eO-0ee" secondAttribute="top" id="CSv-bM-BmO"/>
                 <constraint firstAttribute="trailing" secondItem="uK2-9a-rZj" secondAttribute="trailing" id="HbF-85-ctI"/>
-                <constraint firstAttribute="bottom" secondItem="BGD-sd-SQR" secondAttribute="bottom" constant="41" id="Ksk-39-kfi"/>
+                <constraint firstItem="S6r-bo-jxw" firstAttribute="top" secondItem="WYi-eO-0ee" secondAttribute="top" id="Ls5-PJ-9Mi"/>
                 <constraint firstItem="XX4-n6-hCm" firstAttribute="bottom" secondItem="nLd-BP-JAE" secondAttribute="top" id="QO8-nF-xys"/>
                 <constraint firstItem="XX4-n6-hCm" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="WhE-lH-ZtR"/>
-                <constraint firstItem="BGD-sd-SQR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="X14-4s-uGM"/>
                 <constraint firstAttribute="trailing" secondItem="nLd-BP-JAE" secondAttribute="trailing" id="YAu-gd-ItG"/>
                 <constraint firstItem="S6r-bo-jxw" firstAttribute="centerX" secondItem="BGD-sd-SQR" secondAttribute="centerX" id="a2s-5o-q2d"/>
                 <constraint firstItem="XX4-n6-hCm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="csl-KT-4s9"/>
-                <constraint firstItem="54r-18-K1g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ghf-co-a4t"/>
+                <constraint firstItem="uK2-9a-rZj" firstAttribute="top" secondItem="WYi-eO-0ee" secondAttribute="top" id="g4K-py-dFh"/>
                 <constraint firstItem="BGD-sd-SQR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="haP-Kv-OLI"/>
-                <constraint firstAttribute="bottom" secondItem="nLd-BP-JAE" secondAttribute="bottom" id="kQ6-Cg-FMi"/>
+                <constraint firstItem="WYi-eO-0ee" firstAttribute="bottom" secondItem="nLd-BP-JAE" secondAttribute="bottom" id="kQ6-Cg-FMi"/>
                 <constraint firstItem="uK2-9a-rZj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="u8r-eN-1g8"/>
-                <constraint firstItem="S6r-bo-jxw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xYa-gT-4x0"/>
-                <constraint firstItem="uK2-9a-rZj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y6b-JK-CF5"/>
+                <constraint firstItem="nLd-BP-JAE" firstAttribute="top" secondItem="BGD-sd-SQR" secondAttribute="bottom" id="z5M-PZ-JzC"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="WYi-eO-0ee"/>
+            <point key="canvasLocation" x="140" y="112.89355322338831"/>
         </view>
     </objects>
     <resources>

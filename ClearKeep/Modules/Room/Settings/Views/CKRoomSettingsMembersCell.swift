@@ -8,10 +8,24 @@
 
 import UIKit
 
-class CKMembersCell: UITableViewCell {
+class CKRoomSettingsMembersCell: UITableViewCell {
 
+    // MARK: - OUTLET
+    
     @IBOutlet weak var imageMember: UIImageView!
     @IBOutlet weak var btnMembers: UIButton!
+    
+    // MARK: - VAR CLASS
+    
+    public class var identifier: String {
+        return self.nibName
+    }
+    
+    public class var nibName: String {
+        return "CKRoomSettingsMembersCell"
+    }
+
+    // MARK: - OVERRIDE
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -14,3 +14,7 @@
 #import "MXRoom+Riot.h"
 #import "RoomSettingsViewController.h"
 #import "UnifiedSearchViewController.h"
+#import "PreviewRoomTitleView.h"
+#import "RoomDataSource.h"
+#import "RoomInputToolbarView.h"
+#import "RoomActivitiesView.h"

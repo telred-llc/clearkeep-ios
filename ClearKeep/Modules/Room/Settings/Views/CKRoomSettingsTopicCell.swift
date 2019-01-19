@@ -8,22 +8,38 @@
 
 import UIKit
 
-class CKTopicCell: UITableViewCell {
+class CKRoomSettingsTopicCell: UITableViewCell {
+    
+    // MARK: - OUTLET
     
     @IBOutlet weak var topicTextLabel: UILabel!
     @IBOutlet weak var topicLabel: UILabel!
+    
+    // MARK: - CLASS VAR
+    
+    public class var identifier: String {
+        return self.nibName
+    }
+    
+    public class var nibName: String {
+        return "CKRoomSettingsTopicCell"
+    }
+    
+    // MARK: - OVERIDDE
     
     override func awakeFromNib() {
         super.awakeFromNib()
         topicLabel.text = "Topic"
         topicTextLabel.text = "A SARE Topic Room is an organized collection of mostly SARE-based"
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    func enableEditTopic(_ isEnable: Bool) {
+    // MARK: - PUBLIC
+    
+    public func enableEditTopic(_ isEnable: Bool) {
         if isEnable {
             self.isUserInteractionEnabled = true
             topicTextLabel.text = "Set a topic"

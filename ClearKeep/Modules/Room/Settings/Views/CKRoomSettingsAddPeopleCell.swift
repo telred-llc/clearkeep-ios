@@ -8,10 +8,24 @@
 
 import UIKit
 
-class CKAddPeopleCell: UITableViewCell {
+class CKRoomSettingsAddPeopleCell: UITableViewCell {
 
+    // MARK: - Outlet
+    
     @IBOutlet weak var btnAddUser: UIButton!
     @IBOutlet weak var imageAdd: UIImageView!
+    
+    // MARK: - CLASS VAR
+    
+    public class var identifier: String {
+        return self.nibName
+    }
+    
+    public class var nibName: String {
+        return "CKRoomSettingsAddPeopleCell"
+    }
+    
+    // MARK: - OVERRIDE
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,5 +36,7 @@ class CKAddPeopleCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    // MARK: - PRIVATE
     
 }

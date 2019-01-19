@@ -8,10 +8,25 @@
 
 import UIKit
 
-class CKFilesCell: UITableViewCell {
+class CKRoomSettingsFilesCell: UITableViewCell {
 
+    // MARK: - OUTLET
+    
     @IBOutlet weak var btnFile: UIButton!
     @IBOutlet weak var imageFiles: UIImageView!
+    
+    // MARK: - VAR CLASS
+    
+    public class var identifier: String {
+        return self.nibName
+    }
+    
+    public class var nibName: String {
+        return "CKRoomSettingsFilesCell"
+    }
+    
+    // MARK: - OVERRIDE
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         imageFiles.image = UIImage(named: "ic_room_file")
@@ -21,5 +36,5 @@ class CKFilesCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
 }
