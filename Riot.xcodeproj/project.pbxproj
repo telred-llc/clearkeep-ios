@@ -16,6 +16,9 @@
 		358DB9429359F97520545D35 /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5856BA7A55E53C0AEAFC084 /* Pods_RiotPods_RiotShareExtension.framework */; };
 		8519E71321DF0C26006C055F /* CKImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71221DF0C26006C055F /* CKImage+Extension.swift */; };
 		8519E71521DF0CA2006C055F /* CKViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */; };
+		85335BE121F1816900DFA15E /* CKRoomInputToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85335BE021F1816900DFA15E /* CKRoomInputToolbarView.swift */; };
+		85335BE321F18E4500DFA15E /* CKRoomInputToolbarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85335BE221F18E4500DFA15E /* CKRoomInputToolbarView.xib */; };
+		85335BE521F1C59400DFA15E /* CKRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85335BE421F1C59300DFA15E /* CKRoomViewController.xib */; };
 		853E996121E4986100D005F4 /* SFCompactDisplay-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */; };
 		853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */; };
 		853E996321E4986100D005F4 /* SFCompactDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */; };
@@ -28,6 +31,7 @@
 		853E996B21E4A73600D005F4 /* CKAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853E996A21E4A73600D005F4 /* CKAppTheme.swift */; };
 		85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */; };
 		85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */; };
+		858A532121F58AB200570D83 /* CKRoomDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A532021F58AB200570D83 /* CKRoomDataSource.swift */; };
 		858A7D7821E43E3100BB9737 /* CKRecentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */; };
 		85CA7C9F21DDF5C7000331AC /* CK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7C9E21DDF5C7000331AC /* CK.xcassets */; };
 		85CA7CA621DE1385000331AC /* CKRoomPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */; };
@@ -462,6 +466,9 @@
 		78CD06F14060998545642330 /* Pods-RiotPods-Riot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-Riot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot.debug.xcconfig"; sourceTree = "<group>"; };
 		8519E71221DF0C26006C055F /* CKImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKImage+Extension.swift"; sourceTree = "<group>"; };
 		8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKViewController+Extension.swift"; sourceTree = "<group>"; };
+		85335BE021F1816900DFA15E /* CKRoomInputToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomInputToolbarView.swift; sourceTree = "<group>"; };
+		85335BE221F18E4500DFA15E /* CKRoomInputToolbarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomInputToolbarView.xib; sourceTree = "<group>"; };
+		85335BE421F1C59300DFA15E /* CKRoomViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomViewController.xib; sourceTree = "<group>"; };
 		853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-SemiBold.ttf"; sourceTree = "<group>"; };
 		853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.ttf"; sourceTree = "<group>"; };
@@ -474,6 +481,7 @@
 		853E996A21E4A73600D005F4 /* CKAppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAppTheme.swift; sourceTree = "<group>"; };
 		85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemTableViewCell.swift; sourceTree = "<group>"; };
 		85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRecentItemTableViewCell.xib; sourceTree = "<group>"; };
+		858A532021F58AB200570D83 /* CKRoomDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomDataSource.swift; sourceTree = "<group>"; };
 		858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentListViewController.swift; sourceTree = "<group>"; };
 		85CA7C9E21DDF5C7000331AC /* CK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CK.xcassets; sourceTree = "<group>"; };
 		85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomPageViewController.swift; sourceTree = "<group>"; };
@@ -1135,6 +1143,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		85335BDF21F1815000DFA15E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				85335BE021F1816900DFA15E /* CKRoomInputToolbarView.swift */,
+				85335BE221F18E4500DFA15E /* CKRoomInputToolbarView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		853E995721E4982600D005F4 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1160,6 +1177,21 @@
 				85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		858A531E21F58A8F00570D83 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		858A531F21F58A9F00570D83 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				858A532021F58AB200570D83 /* CKRoomDataSource.swift */,
+			);
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 		85CA7C9D21DDF5A7000331AC /* Assets */ = {
@@ -2562,6 +2594,7 @@
 		E5720EDF21ACFB5F0093D99A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				858A531E21F58A8F00570D83 /* New Group */,
 				E5ABA73721E73CBC005EFE0C /* Room */,
 				E5ABD65821D616380017D93E /* Home */,
 				E5720EE221ACFC0A0093D99A /* Authentication */,
@@ -2621,7 +2654,10 @@
 		E5ABA73721E73CBC005EFE0C /* Room */ = {
 			isa = PBXGroup;
 			children = (
+				858A531F21F58A9F00570D83 /* DataSource */,
+				85335BDF21F1815000DFA15E /* Views */,
 				E5ABA73821E73CBC005EFE0C /* CKRoomViewController.swift */,
+				85335BE421F1C59300DFA15E /* CKRoomViewController.xib */,
 				E5ABA73921E73CBC005EFE0C /* Settings */,
 			);
 			path = Room;
@@ -3107,7 +3143,9 @@
 				F083BDE61E7009ED00A9B29C /* busy.mp3 in Resources */,
 				B1B5574C20EE6C4D00210D55 /* MediaAlbumContentViewController.xib in Resources */,
 				B1B557E820EF60F500210D55 /* MessagesSearchResultTextMsgBubbleCell.xib in Resources */,
+				85335BE521F1C59400DFA15E /* CKRoomViewController.xib in Resources */,
 				B1B558D920EF768F00210D55 /* RoomOutgoingEncryptedAttachmentBubbleCell.xib in Resources */,
+				85335BE321F18E4500DFA15E /* CKRoomInputToolbarView.xib in Resources */,
 				B1B5573020EE6C4D00210D55 /* BugReportViewController.xib in Resources */,
 				B169329B20F39E6300746532 /* Main.storyboard in Resources */,
 				B1B5578E20EF568D00210D55 /* GroupInviteTableViewCell.xib in Resources */,
@@ -3409,6 +3447,7 @@
 				B1B558DD20EF768F00210D55 /* RoomIncomingEncryptedTextMsgBubbleCell.m in Sources */,
 				B1B5573C20EE6C4D00210D55 /* MasterTabBarController.m in Sources */,
 				B1B5592C20EF7A5D00210D55 /* TableViewCellWithButton.m in Sources */,
+				85335BE121F1816900DFA15E /* CKRoomInputToolbarView.swift in Sources */,
 				B1B5582520EF638A00210D55 /* RoomMemberTitleView.m in Sources */,
 				B1B5582C20EF666100210D55 /* DirectoryRecentTableViewCell.m in Sources */,
 				B1B558E420EF768F00210D55 /* RoomMembershipWithPaginationTitleBubbleCell.m in Sources */,
@@ -3468,6 +3507,7 @@
 				B1B5597520EFB02A00210D55 /* InviteRecentTableViewCell.m in Sources */,
 				E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */,
 				B1B5571E20EE6C4D00210D55 /* ContactDetailsViewController.m in Sources */,
+				858A532121F58AB200570D83 /* CKRoomDataSource.swift in Sources */,
 				E5720EDC21ACFA1F0093D99A /* CkMasterTabBarController.swift in Sources */,
 				B1798302211B13B3001FD722 /* OnBoardingManager.swift in Sources */,
 				B1B5573520EE6C4D00210D55 /* GroupDetailsViewController.m in Sources */,

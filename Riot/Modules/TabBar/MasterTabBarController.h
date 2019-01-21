@@ -30,6 +30,7 @@
 
 @class CkMasterauthViewController;
 @class CkHomeViewController;
+@class CKRoomViewController;
 
 #define TABBAR_HOME_INDEX         0
 #define TABBAR_FAVOURITES_INDEX   1
@@ -143,7 +144,7 @@
 @property (nonatomic, readonly) GroupsViewController *groupsViewController;
 
 // References on the currently selected room and its view controller
-@property (nonatomic, readonly) RoomViewController *currentRoomViewController;
+@property (nonatomic, readonly) CKRoomViewController *currentRoomViewController;
 @property (nonatomic, readonly) NSString  *selectedRoomId;
 @property (nonatomic, readonly) NSString  *selectedEventId;
 @property (nonatomic, readonly) MXSession *selectedRoomSession;

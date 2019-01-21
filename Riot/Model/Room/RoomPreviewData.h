@@ -20,6 +20,8 @@
 #import "RoomEmailInvitation.h"
 #import "RoomDataSource.h"
 
+@class CKRoomDataSource;
+
 /**
  The `RoomEmailInvitation` gathers information for displaying the preview of a
  room that is unknown for the user.
@@ -63,7 +65,7 @@
  The RoomDataSource to peek into the room. 
  Note: this object is created when [self peekInRoom:] succeeds.
  */
-@property (nonatomic, readonly) RoomDataSource *roomDataSource;
+@property (nonatomic, readonly) CKRoomDataSource *roomDataSource;
 
 /**
  Contructors.
