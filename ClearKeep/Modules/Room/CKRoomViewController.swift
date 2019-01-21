@@ -61,6 +61,56 @@ extension CKRoomViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Register first customized cell view classes used to render bubbles
+        bubblesTableView.register(RoomIncomingTextMsgBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingTextMsgWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingTextMsgWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingAttachmentBubbleCell.self, forCellReuseIdentifier: RoomIncomingAttachmentBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingAttachmentWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomIncomingAttachmentWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingAttachmentWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomIncomingAttachmentWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingTextMsgWithoutSenderNameBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgWithoutSenderNameBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.defaultReuseIdentifier())
+        
+        bubblesTableView.register(RoomIncomingEncryptedTextMsgBubbleCell.self, forCellReuseIdentifier: RoomIncomingEncryptedTextMsgBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingEncryptedAttachmentBubbleCell.self, forCellReuseIdentifier: RoomIncomingEncryptedAttachmentBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.self, forCellReuseIdentifier: RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.self, forCellReuseIdentifier: RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.defaultReuseIdentifier())
+        
+        bubblesTableView.register(RoomOutgoingAttachmentBubbleCell.self, forCellReuseIdentifier: RoomOutgoingAttachmentBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingAttachmentWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomOutgoingAttachmentWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingTextMsgBubbleCell.self, forCellReuseIdentifier: RoomOutgoingTextMsgBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingTextMsgWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomOutgoingTextMsgWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingTextMsgWithoutSenderNameBubbleCell.self, forCellReuseIdentifier: RoomOutgoingTextMsgWithoutSenderNameBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.self, forCellReuseIdentifier: RoomOutgoingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.defaultReuseIdentifier())
+        
+        bubblesTableView.register(RoomOutgoingEncryptedAttachmentBubbleCell.self, forCellReuseIdentifier: RoomOutgoingEncryptedAttachmentBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingEncryptedTextMsgBubbleCell.self, forCellReuseIdentifier: RoomOutgoingEncryptedTextMsgBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.self, forCellReuseIdentifier: RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.self, forCellReuseIdentifier: RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.defaultReuseIdentifier())
+        
+        bubblesTableView.register(RoomEmptyBubbleCell.self, forCellReuseIdentifier: RoomEmptyBubbleCell.defaultReuseIdentifier())
+        
+        bubblesTableView.register(RoomMembershipBubbleCell.self, forCellReuseIdentifier: RoomMembershipBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomMembershipWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomMembershipWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomMembershipCollapsedBubbleCell.self, forCellReuseIdentifier: RoomMembershipCollapsedBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomMembershipCollapsedWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomMembershipCollapsedWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomMembershipExpandedBubbleCell.self, forCellReuseIdentifier: RoomMembershipExpandedBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomMembershipExpandedWithPaginationTitleBubbleCell.self, forCellReuseIdentifier: RoomMembershipExpandedWithPaginationTitleBubbleCell.defaultReuseIdentifier())
+        
+        bubblesTableView.register(RoomSelectedStickerBubbleCell.self, forCellReuseIdentifier: RoomSelectedStickerBubbleCell.defaultReuseIdentifier())
+        bubblesTableView.register(RoomPredecessorBubbleCell.self, forCellReuseIdentifier: RoomPredecessorBubbleCell.defaultReuseIdentifier())
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,7 +157,7 @@ extension CKRoomViewController {
         let outgoingMsgs = roomDataSource.room.outgoingMessages() ?? []
         var failedEventIds = [AnyHashable](repeating: 0, count: outgoingMsgs.count)
 
-        for event: MXEvent in outgoingMsgs {
+        for event in outgoingMsgs {
             if event.sentState == MXEventSentStateFailed {
                 failedEventIds.append(event.eventId)
             }
@@ -175,6 +225,25 @@ extension CKRoomViewController {
         }
     }
     
+    // MARK: - Override MXKRoomViewController
+    override func onMatrixSessionChange() {
+        super.onMatrixSessionChange()
+
+        // Re-enable the read marker display, and disable its update.
+        roomDataSource.showReadMarker = true
+        updateRoomReadMarker = false
+    }
+    
+    override func onRoomDataSourceReady() {
+        // Handle here invitation
+        if roomDataSource.room.summary.membership == MXMembership.invite {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            super.onRoomDataSourceReady()
+        }
+    }
+
+
     override func displayRoom(_ dataSource: MXKRoomDataSource?) {
         // Remove potential preview Data
         if roomPreviewData != nil {

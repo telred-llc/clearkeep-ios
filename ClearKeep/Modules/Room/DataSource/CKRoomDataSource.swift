@@ -149,8 +149,8 @@ class CKRoomDataSource: MXKRoomDataSource {
             let lockQueue = DispatchQueue(label: "bubbles")
             lockQueue.sync {
                 // Reset first all cell data
-                for cellData: RoomBubbleCellData? in bubbles {
-                    cellData?.containsLastMessage = false
+                for cellData in bubbles {
+                    cellData.containsLastMessage = false
                 }
                 
                 // The cell containing the last message is the last one with an actual display.
