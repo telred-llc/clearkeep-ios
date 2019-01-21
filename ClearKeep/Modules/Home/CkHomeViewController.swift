@@ -159,7 +159,7 @@ final class CkHomeViewController: MXKViewController {
     
     @objc func clickedOnRightMenuItem() {
         let nvc = CKRoomCreatingViewController.instanceForNavigationController { (vc: CKRoomCreatingViewController) in
-            print("[CK] Just created - \(CKRoomCreatingViewController.nibName)")
+            vc.importSession(self.mxSessions)
         }
         self.present(nvc, animated: true, completion: nil)
     }
@@ -170,6 +170,7 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
+
         // Cancel registration on existing dataSource if any
         if self.recentsDataSource != nil {
             self.recentsDataSource!.delegate = nil

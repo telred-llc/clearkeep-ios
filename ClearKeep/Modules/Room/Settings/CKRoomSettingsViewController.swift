@@ -246,7 +246,7 @@ import Foundation
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
+        view.backgroundColor = CKColor.Background.tableView
         return view
     }
     

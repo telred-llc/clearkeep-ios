@@ -267,6 +267,8 @@ extension CKRoomSettingsEditViewController: UITableViewDataSource {
                 
                 if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxRoom.summary.avatar) {
                     cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
+                } else {
+                    cell.photoView.image = AvatarGenerator.generateAvatar(forText: mxRoom.summary.roomId)
                 }
                 
                 return cell

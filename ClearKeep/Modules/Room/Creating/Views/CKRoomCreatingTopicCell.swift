@@ -7,3 +7,29 @@
 //
 
 import Foundation
+
+final class CKRoomCreatingTopicCell: CKRoomCreatingBaseCell {
+    
+    // MARK: - OUTLET
+    
+    @IBOutlet weak var topicTextField: UITextField!
+    
+    // MARK: - OVERRIDE
+    
+    /**
+     edittingChangedHandler
+     */
+    internal var edittingChangedHandler: ((String?) -> Void)?
+    
+    // MARK: - OVERRIDE
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.topicTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
+    }
+    
+    // MARK: - ACTION
+    
+    @objc func edittingChanged(textField: UITextField) {
+        edittingChangedHandler?(textField.text)
+    }
+}
