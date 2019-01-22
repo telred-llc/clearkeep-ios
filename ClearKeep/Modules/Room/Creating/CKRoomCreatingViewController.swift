@@ -271,13 +271,16 @@ final class CKRoomCreatingViewController: MXKViewController {
     // MARK: - ACTION
     
     @objc func clickedOnBackButton(_ sender: Any?) {
-        self.dismiss(animated: true, completion: nil)
+        if self.navigationController != nil {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func clickedOnCreateButton(_ sender: Any?) {
         self.createRoom()
     }
-
 }
 
 // MARK: - UITableViewDelegate

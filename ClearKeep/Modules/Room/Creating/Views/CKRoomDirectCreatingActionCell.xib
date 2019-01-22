@@ -40,6 +40,10 @@
                     </button>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="newCallButton" destination="Ujs-NO-p43" id="gBP-7a-kSU"/>
+                <outlet property="newGroupButton" destination="vN2-vg-win" id="hhI-59-KAt"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

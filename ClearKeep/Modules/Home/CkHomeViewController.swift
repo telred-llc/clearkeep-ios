@@ -158,9 +158,14 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc func clickedOnRightMenuItem() {
-        let nvc = CKRoomCreatingViewController.instanceForNavigationController { (vc: CKRoomCreatingViewController) in
+//        let nvc = CKRoomCreatingViewController.instanceForNavigationController { (vc: CKRoomCreatingViewController) in
+//            vc.importSession(self.mxSessions)
+//        }
+        
+        let nvc = CKRoomDirectCreatingViewController.instanceForNavigationController { (vc: CKRoomDirectCreatingViewController) in
             vc.importSession(self.mxSessions)
         }
+        
         self.present(nvc, animated: true, completion: nil)
     }
     
