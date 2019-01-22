@@ -14,11 +14,16 @@ final class CkHomeViewController: MXKViewController {
     
     // MARK: Properties
     
-    lazy var directMessageVC = {
-        Bundle.main.loadNibNamed("CKDirectMessagePageViewController", owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
+    lazy var directMessageVC: CKDirectMessagePageViewController = {
+        let vc = Bundle.main.loadNibNamed("CKDirectMessagePageViewController", owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
+        vc.delegate = self
+        return vc
     }()
-    lazy var roomVC = {
-        Bundle.main.loadNibNamed("CKRoomPageViewController", owner: nil, options: nil)?.first as! CKRoomPageViewController
+
+    lazy var roomVC: CKRoomPageViewController = {
+        let vc = Bundle.main.loadNibNamed("CKRoomPageViewController", owner: nil, options: nil)?.first as! CKRoomPageViewController
+        vc.delegate = self
+        return vc
     }()
     
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
@@ -153,7 +158,15 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc func clickedOnRightMenuItem() {
-        print("\nclickedOnRightMenuItem")
+//        let nvc = CKRoomCreatingViewController.instanceForNavigationController { (vc: CKRoomCreatingViewController) in
+//            vc.importSession(self.mxSessions)
+//        }
+        
+        let nvc = CKRoomDirectCreatingViewController.instanceForNavigationController { (vc: CKRoomDirectCreatingViewController) in
+            vc.importSession(self.mxSessions)
+        }
+        
+        self.present(nvc, animated: true, completion: nil)
     }
     
     func showSettingViewController() {
@@ -162,6 +175,7 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
+
         // Cancel registration on existing dataSource if any
         if self.recentsDataSource != nil {
             self.recentsDataSource!.delegate = nil
@@ -271,5 +285,18 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         } else {
             directMessageVC.reloadData(rooms: [])
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let roomSettingsVC = segue.destination as? CKRoomSettingsViewController, let roomCellData = sender as? MXKRecentCellData {
+            roomSettingsVC.initWith(roomCellData.roomSummary.mxSession, andRoomId: roomCellData.roomSummary.roomId)
+        }
+    }
+}
+
+extension CkHomeViewController: CKRecentListViewControllerDelegate {
+    
+    func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData) {        
+        self.performSegue(withIdentifier: "showRoomDetails", sender: roomCellData)
     }
 }

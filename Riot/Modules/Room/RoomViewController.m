@@ -2846,6 +2846,9 @@
     // Keep ref on destinationViewController
     [super prepareForSegue:segue sender:sender];
     
+    //-- CK
+    if ([self rewriteWithMethod:@"prepareForSegue:sender" parameters:@{@"segue": segue, @"sender": sender}]) return;
+
     id pushedViewController = [segue destinationViewController];
     
     if ([[segue identifier] isEqualToString:@"showRoomDetails"])

@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - UIViewController extension
+
 extension UIViewController {
     func changeNavigationBar(color: UIColor) {
         var alphaValue: CGFloat = 1.0
@@ -18,10 +20,27 @@ extension UIViewController {
     }
 }
 
+// MARK: - MXKViewController extension
+
 extension MXKViewController {
+    
+    // MARK: - CLASS VAR
+    
+    public class var nibName: String {
+        return String(describing: self)
+    }
+    
+    // MARK: - PUBLIC
+    
     public func importSession(_ mxSessions: [Any]!) {
+        
+        // sure session is available
         if let sessions = mxSessions {
+            
+            // loop through all sessions
             for session in sessions {
+                
+                // if available then add them
                 if let s = session as? MXSession {
                     self.addMatrixSession(s)
                 }

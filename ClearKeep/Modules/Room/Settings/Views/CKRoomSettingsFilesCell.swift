@@ -1,5 +1,5 @@
 //
-//  MoreSettingsCell.swift
+//  FilesCell.swift
 //  FileXib
 //
 //  Created by Hiếu Nguyễn on 1/9/19.
@@ -8,19 +8,23 @@
 
 import UIKit
 
-class CKMoreSettingsCell: UITableViewCell {
+class CKRoomSettingsFilesCell: CKRoomSettingsBaseCell {
 
-    @IBOutlet weak var btnSetting: UIButton!
-    @IBOutlet weak var imageSettings: UIImageView!
+    // MARK: - OUTLET
+    
+    @IBOutlet weak var btnFile: UIButton!
+    @IBOutlet weak var imageFiles: UIImageView!
+    
+    // MARK: - OVERRIDE
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        imageSettings.image = UIImage(named: "ic_room_settings")
+        imageFiles.image = UIImage(named: "ic_room_file")
         self.accessoryType = .disclosureIndicator
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
 }

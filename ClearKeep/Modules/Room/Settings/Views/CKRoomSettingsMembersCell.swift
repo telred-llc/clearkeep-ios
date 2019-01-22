@@ -1,5 +1,5 @@
 //
-//  RoomName.swift
+//  MembersCell.swift
 //  FileXib
 //
 //  Created by Hiếu Nguyễn on 1/9/19.
@@ -8,18 +8,24 @@
 
 import UIKit
 
-class CKRoomNameCell: UITableViewCell {
+class CKRoomSettingsMembersCell: CKRoomSettingsBaseCell {
+
+    // MARK: - OUTLET
     
-    @IBOutlet weak var roomnameLabel: UILabel!
+    @IBOutlet weak var imageMember: UIImageView!
+    @IBOutlet weak var btnMembers: UIButton!    
+
+    // MARK: - OVERRIDE
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        roomnameLabel.text = "#room-name"                
+        imageMember.image = UIImage(named: "ic_room_members")
+        self.accessoryType = .disclosureIndicator
+        
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
     }
     
 }
