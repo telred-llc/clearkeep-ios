@@ -69,3 +69,5 @@
 
 #import "RoomBubbleCellData.h"
 #import "EventFormatter.h"
+
+#import "DisabledRoomInputToolbarView.h"

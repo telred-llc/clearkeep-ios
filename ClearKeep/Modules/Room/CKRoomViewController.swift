@@ -110,7 +110,15 @@ extension CKRoomViewController {
         
         bubblesTableView.register(RoomSelectedStickerBubbleCell.self, forCellReuseIdentifier: RoomSelectedStickerBubbleCell.defaultReuseIdentifier())
         bubblesTableView.register(RoomPredecessorBubbleCell.self, forCellReuseIdentifier: RoomPredecessorBubbleCell.defaultReuseIdentifier())
-
+        
+        // Replace the default input toolbar view.
+        // Note: this operation will force the layout of subviews. That is why cell view classes must be registered before.
+        updateRoomInputToolbarViewClassIfNeeded()
+        
+        // Refresh tool bar if the room data source is set.
+        if roomDataSource != nil {
+            refreshRoomInputToolbar()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -190,34 +198,137 @@ extension CKRoomViewController {
         refreshActivitiesViewDisplay()
     }
 
-    // MARK: - Unreachable Network Handling
-
-    func refreshActivitiesViewDisplay() {
-        // TODO: implement
-    }
-    
     func listenToServerNotices() {
         if serverNotices == nil {
             serverNotices = MXServerNotices(matrixSession: roomDataSource.mxSession)
             serverNotices?.delegate = self
         }
     }
+
+    func isRoomPreview() -> Bool {
+        // Check first whether some preview data are defined.
+        if roomPreviewData != nil {
+            return true
+        }
+
+        if roomDataSource != nil && roomDataSource.state == MXKDataSourceStateReady && roomDataSource.room.summary.membership == MXMembership.invite {
+            return true
+        }
+
+        return false
+    }
+
+    // MARK: Input Tool Bar
     
+    // Set the input toolbar according to the current display
+    func updateRoomInputToolbarViewClassIfNeeded() {
+        var roomInputToolbarViewClass: AnyClass? = CKRoomInputToolbarView.self
+
+        // Check the user has enough power to post message
+        if roomDataSource?.roomState != nil {
+            let powerLevels: MXRoomPowerLevels? = roomDataSource.roomState.powerLevels
+            let userPowerLevel: Int? = powerLevels?.powerLevelOfUser(withUserID: mainSession.myUser.userId)
+
+            let canSend: Bool = (userPowerLevel ?? 0) >= powerLevels?.__minimumPowerLevelForSendingEvent(asMessage: kMXEventTypeStringRoomMessage) ?? 0
+            let isRoomObsolete: Bool = roomDataSource.roomState.isObsolete
+            let isResourceLimitExceeded: Bool = roomDataSource.mxSession?.syncError?.errcode == kMXErrCodeStringResourceLimitExceeded
+
+            if isRoomObsolete || isResourceLimitExceeded {
+                roomInputToolbarViewClass = nil
+            } else if !canSend {
+                roomInputToolbarViewClass = DisabledRoomInputToolbarView.self
+            }
+        }
+        
+        // Do not show toolbar in case of preview
+        if isRoomPreview() {
+            roomInputToolbarViewClass = nil
+        }
+
+        // Change inputToolbarView class only if given class is different from current one
+        if inputToolbarView == nil {
+            super.setRoomInputToolbarViewClass(roomInputToolbarViewClass)
+            updateInputToolBarViewHeight()
+        } else {
+            if roomInputToolbarViewClass == nil {
+                super.setRoomInputToolbarViewClass(nil)
+                updateInputToolBarViewHeight()
+            } else {
+                if !inputToolbarView.isMember(of: roomInputToolbarViewClass!) {
+                    super.setRoomInputToolbarViewClass(roomInputToolbarViewClass!)
+                    updateInputToolBarViewHeight()
+                }
+            }
+        }
+    }
+    
+    func updateInputToolBarViewHeight() {
+        // Update the inputToolBar height.
+        let height = inputToolbarHeight()
+        // Disable animation during the update
+        UIView.setAnimationsEnabled(false)
+        roomInputToolbarView(inputToolbarView, heightDidChanged: height) { (_) in
+            //
+        }
+        UIView.setAnimationsEnabled(true)
+    }
+
+    // Get the height of the current room input toolbar
+    func inputToolbarHeight() -> CGFloat {
+        var height: CGFloat = 0
+
+        if (inputToolbarView is CKRoomInputToolbarView) {
+            height = (inputToolbarView as? CKRoomInputToolbarView)?.mainToolbarMinHeightConstraint.constant ?? 0.0
+        } else if (inputToolbarView is DisabledRoomInputToolbarView) {
+            height = (inputToolbarView as? DisabledRoomInputToolbarView)?.mainToolbarMinHeightConstraint.constant ?? 0.0
+        }
+
+        return height
+    }
+    
+    func refreshRoomInputToolbar() {
+        let userPictureView: MXKImageView?
+
+        if inputToolbarView != nil && (inputToolbarView is CKRoomInputToolbarView) {
+            let roomInputToolbarView = inputToolbarView as! CKRoomInputToolbarView
+                        
+        } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
+            let roomInputToolbarView = inputToolbarView as! DisabledRoomInputToolbarView
+
+            // Get user picture view in input toolbar
+            userPictureView = roomInputToolbarView.pictureView
+
+            // For the moment, there is only one reason to use `DisabledRoomInputToolbarView`
+            roomInputToolbarView.setDisabledReason(NSLocalizedString("room_do_not_have_permission_to_post", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""))
+        }
+
+    }
+    
+    func refreshRoomTitle() {
+        // TODO: implement
+    }
+    
+    // MARK: - Unreachable Network Handling
+    
+    func refreshActivitiesViewDisplay() {
+        // TODO: implement
+    }
+
     // MARK: - Preview
-     @objc func displayRoomPreview(_ previewData: RoomPreviewData?) {
+    @objc func displayRoomPreview(_ previewData: RoomPreviewData?) {
         // Release existing room data source or preview
 
         // Release existing room data source or preview
         displayRoom(nil)
 
         if previewData != nil {
-//            eventsAcknowledgementEnabled = false
+            self.isEventsAcknowledgementEnabled = false
 
             addMatrixSession(previewData!.mxSession)
 
             roomPreviewData = previewData
 
-//            refreshRoomTitle()
+            refreshRoomTitle()
 
             if let roomDataSource = roomPreviewData?.roomDataSource {
                 super.displayRoom(roomDataSource)
@@ -279,61 +390,56 @@ extension CKRoomViewController {
         }
     }
     
-    func refreshRoomTitle() {
-        // TODO: implement
-    }
-    
     // MARK: - MXKDataSourceDelegate
     override func cellViewClass(for cellData: MXKCellData!) -> MXKCellRendering.Type! {
         var cellViewClass: MXKCellRendering.Type!
         let isEncryptedRoom = roomDataSource.room.summary.isEncrypted
         
         // Sanity check
-        if cellData is MXKRoomBubbleCellDataStoring {
-            let bubbleData = cellData as? MXKRoomBubbleCellDataStoring
+        if let bubbleData = cellData as? MXKRoomBubbleCellDataStoring {
             
             // Select the suitable table view cell class, by considering first the empty bubble cell.
-            if bubbleData?.hasNoDisplay != nil {
+            if bubbleData.hasNoDisplay {
                 cellViewClass = RoomEmptyBubbleCell.self
-            } else if bubbleData?.tag == RoomBubbleCellDataTag.roomCreateWithPredecessor.rawValue {
+            } else if bubbleData.tag == RoomBubbleCellDataTag.roomCreateWithPredecessor.rawValue {
                 cellViewClass = RoomPredecessorBubbleCell.self
-            } else if bubbleData?.tag == RoomBubbleCellDataTag.membership.rawValue {
-                if bubbleData?.collapsed != nil {
-                    if bubbleData?.nextCollapsableCellData != nil {
-                        cellViewClass = bubbleData?.isPaginationFirstBubble != nil ? RoomMembershipCollapsedWithPaginationTitleBubbleCell.self : RoomMembershipCollapsedBubbleCell.self
+            } else if bubbleData.tag == RoomBubbleCellDataTag.membership.rawValue {
+                if bubbleData.collapsed {
+                    if bubbleData.nextCollapsableCellData != nil {
+                        cellViewClass = bubbleData.isPaginationFirstBubble ? RoomMembershipCollapsedWithPaginationTitleBubbleCell.self : RoomMembershipCollapsedBubbleCell.self
                     } else {
                         // Use a normal membership cell for a single membership event
-                        cellViewClass = bubbleData?.isPaginationFirstBubble != nil ? RoomMembershipWithPaginationTitleBubbleCell.self : RoomMembershipBubbleCell.self
+                        cellViewClass = bubbleData.isPaginationFirstBubble ? RoomMembershipWithPaginationTitleBubbleCell.self : RoomMembershipBubbleCell.self
                     }
-                } else if bubbleData?.collapsedAttributedTextMessage != nil {
+                } else if bubbleData.collapsedAttributedTextMessage != nil {
                     // The cell (and its series) is not collapsed but this cell is the first
                     // of the series. So, use the cell with the "collapse" button.
-                    cellViewClass = bubbleData?.isPaginationFirstBubble != nil ? RoomMembershipExpandedWithPaginationTitleBubbleCell.self : RoomMembershipExpandedBubbleCell.self
+                    cellViewClass = bubbleData.isPaginationFirstBubble ? RoomMembershipExpandedWithPaginationTitleBubbleCell.self : RoomMembershipExpandedBubbleCell.self
                 } else {
-                    cellViewClass = bubbleData?.isPaginationFirstBubble != nil ? RoomMembershipWithPaginationTitleBubbleCell.self : RoomMembershipBubbleCell.self
+                    cellViewClass = bubbleData.isPaginationFirstBubble ? RoomMembershipWithPaginationTitleBubbleCell.self : RoomMembershipBubbleCell.self
                 }
-            } else if bubbleData?.isIncoming != nil {
-                if bubbleData?.isAttachmentWithThumbnail != nil {
+            } else if bubbleData.isIncoming {
+                if bubbleData.isAttachmentWithThumbnail {
                     // Check whether the provided celldata corresponds to a selected sticker
-                    if customizedRoomDataSource?.selectedEventId != nil && (bubbleData?.attachment.type == MXKAttachmentTypeSticker) && (bubbleData?.attachment.eventId == customizedRoomDataSource?.selectedEventId) {
+                    if customizedRoomDataSource?.selectedEventId != nil && (bubbleData.attachment.type == MXKAttachmentTypeSticker) && (bubbleData.attachment.eventId == customizedRoomDataSource?.selectedEventId) {
                         cellViewClass = RoomSelectedStickerBubbleCell.self
-                    } else if bubbleData?.isPaginationFirstBubble != nil {
+                    } else if bubbleData.isPaginationFirstBubble {
                         cellViewClass = isEncryptedRoom ? RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.self : RoomIncomingAttachmentWithPaginationTitleBubbleCell.self
-                    } else if bubbleData?.shouldHideSenderInformation != nil {
+                    } else if bubbleData.shouldHideSenderInformation {
                         cellViewClass = isEncryptedRoom ? RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.self : RoomIncomingAttachmentWithoutSenderInfoBubbleCell.self
                     } else {
                         cellViewClass = isEncryptedRoom ? RoomIncomingEncryptedAttachmentBubbleCell.self : RoomIncomingAttachmentBubbleCell.self
                     }
                 } else {
-                    if bubbleData?.isPaginationFirstBubble != nil {
-                        if bubbleData?.shouldHideSenderName != nil {
+                    if bubbleData.isPaginationFirstBubble {
+                        if bubbleData.shouldHideSenderName {
                             cellViewClass = isEncryptedRoom ? RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.self : RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.self
                         } else {
                             cellViewClass = isEncryptedRoom ? RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.self : RoomIncomingTextMsgWithPaginationTitleBubbleCell.self
                         }
-                    } else if bubbleData?.shouldHideSenderInformation != nil {
+                    } else if bubbleData.shouldHideSenderInformation {
                         cellViewClass = isEncryptedRoom ? RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.self : RoomIncomingTextMsgWithoutSenderInfoBubbleCell.self
-                    } else if bubbleData?.shouldHideSenderName != nil {
+                    } else if bubbleData.shouldHideSenderName {
                         cellViewClass = isEncryptedRoom ? RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.self : RoomIncomingTextMsgWithoutSenderNameBubbleCell.self
                     } else {
                         cellViewClass = isEncryptedRoom ? RoomIncomingEncryptedTextMsgBubbleCell.self : RoomIncomingTextMsgBubbleCell.self
@@ -341,27 +447,27 @@ extension CKRoomViewController {
                 }
             } else {
                 // Handle here outgoing bubbles
-                if bubbleData?.isAttachmentWithThumbnail != nil {
+                if bubbleData.isAttachmentWithThumbnail {
                     // Check whether the provided celldata corresponds to a selected sticker
-                    if customizedRoomDataSource?.selectedEventId != nil && (bubbleData?.attachment.type == MXKAttachmentTypeSticker) && (bubbleData?.attachment.eventId == customizedRoomDataSource?.selectedEventId) {
+                    if customizedRoomDataSource?.selectedEventId != nil && (bubbleData.attachment.type == MXKAttachmentTypeSticker) && (bubbleData.attachment.eventId == customizedRoomDataSource?.selectedEventId) {
                         cellViewClass = RoomSelectedStickerBubbleCell.self
-                    } else if bubbleData?.isPaginationFirstBubble != nil {
+                    } else if bubbleData.isPaginationFirstBubble {
                         cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.self : RoomOutgoingAttachmentWithPaginationTitleBubbleCell.self
-                    } else if bubbleData?.shouldHideSenderInformation != nil {
+                    } else if bubbleData.shouldHideSenderInformation {
                         cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.self : RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.self
                     } else {
                         cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedAttachmentBubbleCell.self : RoomOutgoingAttachmentBubbleCell.self
                     }
                 } else {
-                    if bubbleData?.isPaginationFirstBubble != nil {
-                        if bubbleData?.shouldHideSenderName != nil {
+                    if bubbleData.isPaginationFirstBubble {
+                        if bubbleData.shouldHideSenderName {
                             cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.self : RoomOutgoingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.self
                         } else {
                             cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.self : RoomOutgoingTextMsgWithPaginationTitleBubbleCell.self
                         }
-                    } else if bubbleData?.shouldHideSenderInformation != nil {
+                    } else if bubbleData.shouldHideSenderInformation {
                         cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.self : RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.self
-                    } else if bubbleData?.shouldHideSenderName != nil {
+                    } else if bubbleData.shouldHideSenderName {
                         cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.self : RoomOutgoingTextMsgWithoutSenderNameBubbleCell.self
                     } else {
                         cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedTextMsgBubbleCell.self : RoomOutgoingTextMsgBubbleCell.self
