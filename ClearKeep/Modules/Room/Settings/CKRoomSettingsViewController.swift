@@ -19,6 +19,10 @@ import Foundation
         case infos
         case settings
         case actions
+        
+        static func count() -> Int {
+            return 3
+        }
     }
 
     /**
@@ -171,8 +175,19 @@ import Foundation
         vc.mxRoom = self.mxRoom
 
         // present vc
-        let navi = UINavigationController.init(rootViewController: vc)
-        self.present(navi, animated: true, completion: nil)
+        if let nvc = self.navigationController {
+            nvc.pushViewController(vc, animated: true)
+        } else {
+            let navi = UINavigationController.init(rootViewController: vc)
+            self.present(navi, animated: true, completion: nil)
+        }
+    }
+    
+    private func showAddingMembers() {
+        let vc = CKRoomAddingMembersViewController.instance()
+        vc.importSession(self.mxSessions)
+        vc.mxRoom = self.mxRoom
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func isInfosAvailableData() -> Bool {
@@ -208,7 +223,7 @@ import Foundation
         case .settings:
             return 3
         case .actions:
-            return 1
+            return self.mxRoom == nil ? 0 : (self.mxRoom.isDirect ? 0: 1)
         }
     }
     
@@ -295,6 +310,7 @@ import Foundation
             if indexPath.row == 0 { self.showParticiants() }
             break
         case .actions:
+            if indexPath.row == 0 { self.showAddingMembers() }
             break
         }
     }

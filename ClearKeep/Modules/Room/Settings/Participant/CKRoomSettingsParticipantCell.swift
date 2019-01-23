@@ -27,7 +27,6 @@ final class CKRoomSettingsParticipantCell: CKRoomSettingsBaseCell {
         self.photoView.clipsToBounds = true
         self.photoView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
-
     }
     
     // MARK: - PUBLIC

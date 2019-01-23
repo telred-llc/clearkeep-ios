@@ -34,6 +34,24 @@ final class CKRoomDirectCreatingActionCell: CKRoomCreatingBaseCell {
         
         self.newGroupButton.addTarget(self, action: #selector(onClickedNewGroupButton(_:)), for: .touchUpInside)
         self.newCallButton.addTarget(self, action: #selector(onClickedNewCallButton(_:)), for: .touchUpInside)
+        
+        self.newGroupButton.backgroundColor = CKColor.Background.tableView
+        self.newCallButton.backgroundColor = CKColor.Background.tableView
+        
+        self.newGroupButton.layer.cornerRadius = (self.newGroupButton.bounds.height) / 2
+        self.newGroupButton.layer.borderColor = UIColor.black.cgColor
+        self.newGroupButton.layer.borderWidth = 1
+        self.newGroupButton.clipsToBounds = true
+        self.newGroupButton.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
+        self.newGroupButton.contentMode = UIView.ContentMode.scaleAspectFill
+        
+        self.newCallButton.layer.cornerRadius = (self.newCallButton.bounds.height) / 2
+        self.newCallButton.layer.borderColor = UIColor.black.cgColor
+        self.newCallButton.layer.borderWidth = 1
+        self.newCallButton.clipsToBounds = true
+        self.newCallButton.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
+        self.newCallButton.contentMode = UIView.ContentMode.scaleAspectFill
+
     }
     
     // MARK: - ACTION

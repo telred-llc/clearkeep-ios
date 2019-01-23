@@ -18,27 +18,33 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vN2-vg-win">
-                        <rect key="frame" x="20" y="10" width="80" height="60"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="New Group"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vN2-vg-win">
+                        <rect key="frame" x="20" y="10" width="60" height="60"/>
+                        <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="4Zs-Qe-opS"/>
+                            <constraint firstAttribute="height" constant="60" id="ewc-eT-tgX"/>
+                        </constraints>
+                        <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
+                        <state key="normal" image="ic_new_group"/>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ujs-NO-p43">
-                        <rect key="frame" x="121" y="9" width="80" height="60"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="Call"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
+                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ujs-NO-p43">
+                        <rect key="frame" x="110" y="10" width="60" height="60"/>
+                        <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="0zU-Pu-YiS"/>
+                            <constraint firstAttribute="height" constant="60" id="A4C-yp-elx"/>
+                        </constraints>
+                        <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
+                        <state key="normal" image="ic_new_call"/>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="vN2-vg-win" firstAttribute="centerY" secondItem="1dh-GO-0sL" secondAttribute="centerY" id="Bdo-7p-XEa"/>
+                    <constraint firstItem="vN2-vg-win" firstAttribute="leading" secondItem="1dh-GO-0sL" secondAttribute="leading" constant="20" id="Eoe-qi-M1y"/>
+                    <constraint firstItem="Ujs-NO-p43" firstAttribute="centerY" secondItem="1dh-GO-0sL" secondAttribute="centerY" id="Oyp-ZU-wSq"/>
+                    <constraint firstItem="Ujs-NO-p43" firstAttribute="leading" secondItem="vN2-vg-win" secondAttribute="trailing" constant="30" id="lMv-ii-5yb"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="newCallButton" destination="Ujs-NO-p43" id="gBP-7a-kSU"/>
@@ -46,4 +52,8 @@
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_new_call" width="40" height="40"/>
+        <image name="ic_new_group" width="40" height="40"/>
+    </resources>
 </document>

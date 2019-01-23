@@ -158,11 +158,8 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc func clickedOnRightMenuItem() {
-//        let nvc = CKRoomCreatingViewController.instanceForNavigationController { (vc: CKRoomCreatingViewController) in
-//            vc.importSession(self.mxSessions)
-//        }
-        
         let nvc = CKRoomDirectCreatingViewController.instanceForNavigationController { (vc: CKRoomDirectCreatingViewController) in
+            vc.delegate = self
             vc.importSession(self.mxSessions)
         }
         
@@ -298,5 +295,21 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
     
     func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData) {        
         self.performSegue(withIdentifier: "showRoomDetails", sender: roomCellData)
+    }
+}
+
+extension CkHomeViewController: CKRoomDirectCreatingViewControllerDelegate {
+    func roomDirectCreating(_ controller: CKRoomDirectCreatingViewController, didDirectChatWithUserId userId: String) -> Bool {
+        
+        if let acc = MXKAccountManager.shared()?.activeAccounts.first {
+            if let mxSession = acc.mxSession {
+                if let room =  mxSession.directJoinedRoom(withUserId: userId) {
+                    AppDelegate.the().masterTabBarController.selectRoom(withId: room.roomId, andEventId: nil, inMatrixSession: mxSession) {
+                    }
+                    return true
+                }
+            }
+        }        
+        return false
     }
 }
