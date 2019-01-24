@@ -154,6 +154,8 @@ extension CKRoomViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.refreshRoomTitle()
     }
     
     @objc func eventDidChangeSentState(_ notif: Notification?) {
@@ -336,7 +338,8 @@ extension CKRoomViewController {
     }
     
     func refreshRoomTitle() {
-        // TODO: implement
+        self.setRoomTitleViewClass(RoomTitleView.self)
+        (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
     }
     
     // MARK: - Unreachable Network Handling
@@ -519,6 +522,17 @@ extension CKRoomViewController {
             inputToolbarView.pasteText("\(memberName ?? "") ")
         }
     }
+    
+    private func showRoomSettings() {
+        let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
+            if let vc = vc as? CKRoomSettingsViewController {
+                vc.initWith(self.roomDataSource.mxSession, andRoomId: self.roomDataSource.roomId)
+            }
+        }
+        
+        // present nvc
+        self.present(nvc, animated: true, completion: nil)
+    }
 }
 
 // MARK: - MXServerNoticesDelegate
@@ -557,5 +571,13 @@ extension CKRoomViewController: CKMentionDataSourceDelegate {
     func mentionDataSource(_ dataSource: CKMentionDataSource, didSelect member: MXRoomMember) {
         self.mention(member)
         mentionDataSource = nil
+    }
+}
+
+// MARK: - RoomTitleViewTapGestureDelegate
+
+extension CKRoomViewController: RoomTitleViewTapGestureDelegate {
+    func roomTitleView(_ titleView: RoomTitleView?, recognizeTapGesture tapGestureRecognizer: UITapGestureRecognizer?) {
+        self.showRoomSettings()
     }
 }
