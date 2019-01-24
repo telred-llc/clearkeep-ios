@@ -28,7 +28,7 @@
         <!--Room-->
         <scene sceneID="UrN-g2-oG1">
             <objects>
-                <viewController storyboardIdentifier="RoomViewControllerStoryboardId" title="Room" hidesBottomBarWhenPushed="YES" id="msb-ol-2LB" customClass="CKRoomViewController" customModule="Riot" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RoomViewControllerStoryboardId" title="Room" hidesBottomBarWhenPushed="YES" id="msb-ol-2LB" customClass="CKRoomViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="3Zt-Wl-J6o">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="aas-th-FW1" userLabel="Room title view container">
@@ -64,8 +64,8 @@
             <objects>
                 <viewController id="nDS-pp-sWM" customClass="RoomMemberDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="AgI-3V-llt"/>
-                        <viewControllerLayoutGuide type="bottom" id="6ie-9b-cBo"/>
+                        <viewControllerLayoutGuide type="top" id="Q8W-x7-EqN"/>
+                        <viewControllerLayoutGuide type="bottom" id="mzK-6g-ntt"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="N8z-LO-417">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -105,8 +105,8 @@
             <objects>
                 <viewController id="KDg-aD-xlK" customClass="RoomSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="F5n-wr-hGG"/>
-                        <viewControllerLayoutGuide type="bottom" id="BxE-Q4-YjP"/>
+                        <viewControllerLayoutGuide type="top" id="GOz-LL-Yqg"/>
+                        <viewControllerLayoutGuide type="bottom" id="p11-CM-LYT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Kg1-rX-y7X">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -126,8 +126,8 @@
             <objects>
                 <viewController storyboardIdentifier="UsersDevicesViewControllerStoryboardId" id="z83-KC-trJ" customClass="UsersDevicesViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="KBN-JV-gSS"/>
-                        <viewControllerLayoutGuide type="bottom" id="lAN-yJ-zNI"/>
+                        <viewControllerLayoutGuide type="top" id="hlh-pR-jJp"/>
+                        <viewControllerLayoutGuide type="bottom" id="97O-LE-Sky"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="b5v-sy-iSu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -141,7 +141,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="43F-4t-lHi" secondAttribute="trailing" id="6FJ-ku-UE3"/>
-                            <constraint firstItem="43F-4t-lHi" firstAttribute="bottom" secondItem="lAN-yJ-zNI" secondAttribute="top" id="GK2-7h-FE0"/>
+                            <constraint firstItem="43F-4t-lHi" firstAttribute="bottom" secondItem="97O-LE-Sky" secondAttribute="top" id="GK2-7h-FE0"/>
                             <constraint firstItem="43F-4t-lHi" firstAttribute="leading" secondItem="b5v-sy-iSu" secondAttribute="leading" id="Qda-BV-cf8"/>
                             <constraint firstItem="43F-4t-lHi" firstAttribute="top" secondItem="b5v-sy-iSu" secondAttribute="top" id="uhO-a4-0iq"/>
                         </constraints>
@@ -163,20 +163,20 @@
             </objects>
             <point key="canvasLocation" x="3326" y="-442"/>
         </scene>
-        <!--People View Controller-->
+        <!--Contacts-->
         <scene sceneID="Qba-PP-lco">
             <objects>
                 <viewController id="IGB-jr-yFz" customClass="PeopleViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Mhy-d3-Jh6"/>
-                        <viewControllerLayoutGuide type="bottom" id="Hkk-qB-8tq"/>
+                        <viewControllerLayoutGuide type="top" id="SEK-7g-1jM"/>
+                        <viewControllerLayoutGuide type="bottom" id="THV-gz-13H"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="zXV-CY-rLP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="2" image="tab_people" selectedImage="tab_people_selected" id="edr-fK-bgM">
+                    <tabBarItem key="tabBarItem" tag="2" title="Contacts" image="tab_people" selectedImage="tab_people_selected" id="edr-fK-bgM">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemPeople"/>
                         </userDefinedRuntimeAttributes>
@@ -189,20 +189,20 @@
             </objects>
             <point key="canvasLocation" x="1929" y="-2817"/>
         </scene>
-        <!--Favourites View Controller-->
+        <!--Favourites-->
         <scene sceneID="z6B-k5-ano">
             <objects>
                 <viewController id="HnD-LA-psC" customClass="FavouritesViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="pOc-AC-QkD"/>
-                        <viewControllerLayoutGuide type="bottom" id="W6L-Au-CaZ"/>
+                        <viewControllerLayoutGuide type="top" id="J4U-xc-9bQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="SQF-h4-gZj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Caq-TK-JOm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="1" image="tab_favourites" selectedImage="tab_favourites_selected" id="UVh-Xd-zDZ">
+                    <tabBarItem key="tabBarItem" tag="1" title="Favourites" image="tab_favourites" selectedImage="tab_favourites_selected" id="UVh-Xd-zDZ">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemFavourites"/>
                         </userDefinedRuntimeAttributes>
@@ -217,8 +217,8 @@
             <objects>
                 <viewController storyboardIdentifier="UnifiedSearchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nJt-uq-tV9" customClass="UnifiedSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="V3l-gx-WNN"/>
-                        <viewControllerLayoutGuide type="bottom" id="fYW-Kr-Hqf"/>
+                        <viewControllerLayoutGuide type="top" id="e8d-Vc-OA3"/>
+                        <viewControllerLayoutGuide type="bottom" id="gZJ-Na-XBk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="laS-bb-xrK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -233,20 +233,20 @@
             </objects>
             <point key="canvasLocation" x="476" y="-3899"/>
         </scene>
-        <!--Ck Home View Controller-->
+        <!--Home-->
         <scene sceneID="SZi-Ac-WJp">
             <objects>
                 <viewController id="pBa-To-3YT" customClass="CkHomeViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="m3s-18-JgR"/>
-                        <viewControllerLayoutGuide type="bottom" id="2lp-r9-RR5"/>
+                        <viewControllerLayoutGuide type="top" id="MeI-Cb-toO"/>
+                        <viewControllerLayoutGuide type="bottom" id="AwN-9W-dDJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hxX-1O-zT8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_home" selectedImage="tab_home_selected" id="hNI-yH-EXj">
+                    <tabBarItem key="tabBarItem" title="Home" image="tab_home" selectedImage="tab_home_selected" id="hNI-yH-EXj">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemHome"/>
                         </userDefinedRuntimeAttributes>
@@ -254,6 +254,7 @@
                     <navigationItem key="navigationItem" id="rA5-PM-GBU"/>
                     <connections>
                         <segue destination="WDS-Ip-RQ9" kind="presentation" identifier="presentStartChat" id="mhb-l9-pM3"/>
+                        <segue destination="e7G-NU-7ck" kind="show" identifier="showRoomDetails" id="HSg-jN-pbo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pEk-LO-Ij0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -300,8 +301,8 @@
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="ZlD-EU-ncw" customClass="CkMasterauthViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="crg-iM-twR"/>
-                        <viewControllerLayoutGuide type="bottom" id="gbK-Nm-HUT"/>
+                        <viewControllerLayoutGuide type="top" id="xcQ-CT-FNF"/>
+                        <viewControllerLayoutGuide type="bottom" id="wKy-3N-dsc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wIi-Yi-2pi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -385,8 +386,8 @@
             <objects>
                 <viewController id="gkO-rP-nGK" customClass="ContactDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="0f8-Tg-Zlw"/>
-                        <viewControllerLayoutGuide type="bottom" id="GF2-be-Jca"/>
+                        <viewControllerLayoutGuide type="top" id="ODc-Fu-nt5"/>
+                        <viewControllerLayoutGuide type="bottom" id="SbS-0v-k2U"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eRR-tG-G8a">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -419,8 +420,8 @@
             <objects>
                 <viewController storyboardIdentifier="EmptyDetailsViewControllerStoryboardId" id="Cpr-Tz-Az0" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="yS4-RU-AsN"/>
-                        <viewControllerLayoutGuide type="bottom" id="VKG-pW-vMU"/>
+                        <viewControllerLayoutGuide type="top" id="LVu-gB-S4D"/>
+                        <viewControllerLayoutGuide type="bottom" id="6Qb-EF-xEL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FdE-yP-vzj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -447,8 +448,8 @@
             <objects>
                 <viewController storyboardIdentifier="GroupsViewController" id="SLx-Wj-p7E" customClass="GroupsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="N1j-ye-uQa"/>
-                        <viewControllerLayoutGuide type="bottom" id="FYD-2t-u4k"/>
+                        <viewControllerLayoutGuide type="top" id="kF7-Xi-E3n"/>
+                        <viewControllerLayoutGuide type="bottom" id="LKc-Su-jxI"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Sl8-9u-7yE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -461,20 +462,20 @@
             </objects>
             <point key="canvasLocation" x="942" y="-1299"/>
         </scene>
-        <!--Rooms View Controller-->
+        <!--Rooms-->
         <scene sceneID="SDg-Pp-8Uj">
             <objects>
                 <viewController id="HPQ-zg-lZR" customClass="RoomsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Hkg-kw-ioH"/>
-                        <viewControllerLayoutGuide type="bottom" id="UI8-oQ-9M9"/>
+                        <viewControllerLayoutGuide type="top" id="3P1-bh-Wau"/>
+                        <viewControllerLayoutGuide type="bottom" id="0sS-Gq-kr5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rNJ-Yf-mVB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="3" image="tab_rooms" selectedImage="tab_rooms" id="7eS-Ei-00V">
+                    <tabBarItem key="tabBarItem" tag="3" title="Rooms" image="tab_rooms" selectedImage="tab_rooms" id="7eS-Ei-00V">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemRooms"/>
                         </userDefinedRuntimeAttributes>
@@ -511,8 +512,8 @@
             <objects>
                 <viewController id="NCJ-FV-8di" customClass="StartChatViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ybc-ex-KQ3"/>
-                        <viewControllerLayoutGuide type="bottom" id="0pc-6H-UO9"/>
+                        <viewControllerLayoutGuide type="top" id="aoo-3P-xaG"/>
+                        <viewControllerLayoutGuide type="bottom" id="vD3-ax-bUO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rVj-X8-v0f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -548,8 +549,8 @@
             <objects>
                 <viewController id="udm-55-AMb" customClass="ContactsTableViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Jch-ZS-1Mm"/>
-                        <viewControllerLayoutGuide type="bottom" id="7q1-ig-sPp"/>
+                        <viewControllerLayoutGuide type="top" id="39O-q8-BDV"/>
+                        <viewControllerLayoutGuide type="bottom" id="Jf3-eP-d1w"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6G9-nj-ktC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -585,8 +586,8 @@
             <objects>
                 <viewController storyboardIdentifier="AuthWebViewController" id="1kr-mR-qi8" userLabel="AuthWebViewController" customClass="AuthWebViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Qga-SN-mBM"/>
-                        <viewControllerLayoutGuide type="bottom" id="xBl-Uj-sPD"/>
+                        <viewControllerLayoutGuide type="top" id="JcZ-sq-H7a"/>
+                        <viewControllerLayoutGuide type="bottom" id="fSS-3t-xf6"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8b2-Z0-fv4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -608,13 +609,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7QT-AZ-zkq" firstAttribute="leading" secondItem="8b2-Z0-fv4" secondAttribute="leadingMargin" constant="161" id="1cW-kW-5fW"/>
-                            <constraint firstItem="xBl-Uj-sPD" firstAttribute="top" secondItem="7QT-AZ-zkq" secondAttribute="bottom" constant="324" id="ABt-pV-tpZ"/>
+                            <constraint firstItem="fSS-3t-xf6" firstAttribute="top" secondItem="7QT-AZ-zkq" secondAttribute="bottom" constant="324" id="ABt-pV-tpZ"/>
                             <constraint firstItem="aIQ-kC-pH5" firstAttribute="top" secondItem="8b2-Z0-fv4" secondAttribute="top" id="BM8-mh-fgT"/>
                             <constraint firstAttribute="trailing" secondItem="aIQ-kC-pH5" secondAttribute="trailing" id="Raa-md-Yov"/>
                             <constraint firstItem="aIQ-kC-pH5" firstAttribute="leading" secondItem="8b2-Z0-fv4" secondAttribute="leading" id="X5d-So-0aX"/>
-                            <constraint firstItem="xBl-Uj-sPD" firstAttribute="top" secondItem="aIQ-kC-pH5" secondAttribute="bottom" id="hSF-OW-bPp"/>
+                            <constraint firstItem="fSS-3t-xf6" firstAttribute="top" secondItem="aIQ-kC-pH5" secondAttribute="bottom" id="hSF-OW-bPp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7QT-AZ-zkq" secondAttribute="trailing" constant="162" id="hjF-4n-90M"/>
-                            <constraint firstItem="7QT-AZ-zkq" firstAttribute="top" secondItem="Qga-SN-mBM" secondAttribute="bottom" constant="303" id="vAI-5W-cFo"/>
+                            <constraint firstItem="7QT-AZ-zkq" firstAttribute="top" secondItem="JcZ-sq-H7a" secondAttribute="bottom" constant="303" id="vAI-5W-cFo"/>
                         </constraints>
                     </view>
                     <connections>
@@ -628,7 +629,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="apps-icon" width="38.400001525878906" height="38.400001525878906"/>
+        <image name="apps-icon" width="24" height="24"/>
         <image name="logo" width="114" height="82"/>
         <image name="search_icon" width="22" height="22"/>
         <image name="tab_favourites" width="25" height="25"/>
@@ -639,11 +640,11 @@
         <image name="tab_home_selected" width="25" height="25"/>
         <image name="tab_people" width="25" height="25"/>
         <image name="tab_people_selected" width="25" height="25"/>
-        <image name="tab_rooms" width="40" height="40"/>
+        <image name="tab_rooms" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mhb-l9-pM3"/>
-        <segue reference="0ws-cL-0tk"/>
+        <segue reference="bwO-oZ-2vj"/>
+        <segue reference="p4M-yR-DLA"/>
         <segue reference="f5u-Y1-7nt"/>
         <segue reference="vCz-dl-6xQ"/>
         <segue reference="cUw-vU-gJq"/>

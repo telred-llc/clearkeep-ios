@@ -1,5 +1,5 @@
 //
-//  AddPeopleCell.swift
+//  RoomName.swift
 //  FileXib
 //
 //  Created by Hiếu Nguyễn on 1/9/19.
@@ -8,19 +8,22 @@
 
 import UIKit
 
-class CKAddPeopleCell: UITableViewCell {
-
-    @IBOutlet weak var btnAddUser: UIButton!
-    @IBOutlet weak var imageAdd: UIImageView!
+class CKRoomSettingsRoomNameCell: CKRoomSettingsBaseCell {
+    
+    // MARK: - OUTLET
+    
+    @IBOutlet weak var roomnameLabel: UILabel!
+    
+    // MARK: - OVERRIDE
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        imageAdd.image = UIImage(named: "ic_room_add_user")
-        self.accessoryType = .disclosureIndicator
+        roomnameLabel.text = "#room-name"                
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
     }
     
 }

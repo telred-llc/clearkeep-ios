@@ -9,6 +9,10 @@
 import UIKit
 import XLActionController
 
+protocol CKRecentListViewControllerDelegate: class {
+    func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData)
+}
+
 class CKRecentListViewController: MXKViewController {
 
     @IBOutlet weak var recentTableView: UITableView! {
@@ -17,6 +21,8 @@ class CKRecentListViewController: MXKViewController {
         }
     }
     
+    weak var delegate: CKRecentListViewControllerDelegate?
+
     var dataSource: [MXKRecentCellData] = []
     let kCellNibName = "CKRecentItemTableViewCell"
 
@@ -72,9 +78,9 @@ class CKRecentListViewController: MXKViewController {
     }
     
     func openRoomSetting(roomData: MXKRecentCellData) {
-        let roomSettingsVC = RoomSettingsViewController.init()
-        roomSettingsVC.initWith(roomData.roomSummary.room.mxSession, andRoomId: roomData.roomSummary.roomId)
-        AppDelegate.the()?.masterTabBarController.show(roomSettingsVC, sender: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            self.delegate?.recentListView(self, didOpenRoomSettingWithRoomCellData: roomData)
+        }
     }
 }
 

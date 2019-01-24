@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="bCp-GS-Pwf" customClass="CKRoomAddingMembersCell" customModule="Riot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bCp-GS-Pwf" id="TAQ-GQ-J5E">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uu7-Ad-JmF" customClass="MXKImageView">
+                        <rect key="frame" x="20" y="10" width="39.5" height="39.5"/>
+                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="uu7-Ad-JmF" secondAttribute="height" multiplier="1:1" id="Jlt-2m-mk9"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="-1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Member Display Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FID-wd-t0z">
+                        <rect key="frame" x="67.5" y="0.0" width="250" height="59.5"/>
+                        <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.2274509804" green="0.28627450980000002" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="0M8-Oo-rRq">
+                        <rect key="frame" x="325.5" y="10" width="39.5" height="39.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="0M8-Oo-rRq" secondAttribute="height" multiplier="1:1" id="YIz-l0-bxD"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="0M8-Oo-rRq" secondAttribute="trailing" constant="10" id="3BA-Zj-rdW"/>
+                    <constraint firstItem="0M8-Oo-rRq" firstAttribute="leading" secondItem="FID-wd-t0z" secondAttribute="trailing" constant="8" id="6lN-X4-Olf"/>
+                    <constraint firstItem="FID-wd-t0z" firstAttribute="leading" secondItem="uu7-Ad-JmF" secondAttribute="trailing" constant="8" id="L42-dc-7ig"/>
+                    <constraint firstItem="FID-wd-t0z" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" id="RRv-am-ru0"/>
+                    <constraint firstAttribute="bottom" secondItem="uu7-Ad-JmF" secondAttribute="bottom" constant="10" id="RxM-Ao-B98"/>
+                    <constraint firstAttribute="bottom" secondItem="FID-wd-t0z" secondAttribute="bottom" id="WHE-lt-drZ"/>
+                    <constraint firstItem="uu7-Ad-JmF" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" constant="10" id="ecv-1O-So1"/>
+                    <constraint firstAttribute="bottom" secondItem="0M8-Oo-rRq" secondAttribute="bottom" constant="10" id="gNp-c4-Akt"/>
+                    <constraint firstItem="uu7-Ad-JmF" firstAttribute="leading" secondItem="TAQ-GQ-J5E" secondAttribute="leading" constant="20" id="nK6-2w-I65"/>
+                    <constraint firstItem="0M8-Oo-rRq" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" constant="10" id="xLy-zR-Qtt"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="checkmarkImageView" destination="0M8-Oo-rRq" id="ULy-Jg-ndI"/>
+                <outlet property="displayNameLabel" destination="FID-wd-t0z" id="0on-z3-7p0"/>
+                <outlet property="photoView" destination="uu7-Ad-JmF" id="MZN-qx-Ag5"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_checkmark" width="48" height="48"/>
+    </resources>
+</document>

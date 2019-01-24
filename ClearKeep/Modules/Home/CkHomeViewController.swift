@@ -14,11 +14,16 @@ final class CkHomeViewController: MXKViewController {
     
     // MARK: Properties
     
-    lazy var directMessageVC = {
-        Bundle.main.loadNibNamed("CKDirectMessagePageViewController", owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
+    lazy var directMessageVC: CKDirectMessagePageViewController = {
+        let vc = Bundle.main.loadNibNamed(CKDirectMessagePageViewController.nibName, owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
+        vc.delegate = self
+        return vc
     }()
-    lazy var roomVC = {
-        Bundle.main.loadNibNamed("CKRoomPageViewController", owner: nil, options: nil)?.first as! CKRoomPageViewController
+
+    lazy var roomVC: CKRoomPageViewController = {
+        let vc = Bundle.main.loadNibNamed(CKRoomPageViewController.nibName, owner: nil, options: nil)?.first as! CKRoomPageViewController
+        vc.delegate = self
+        return vc
     }()
     
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
@@ -62,7 +67,7 @@ final class CkHomeViewController: MXKViewController {
         pagingViewController.dataSource = self
         
         // setup UI
-        pagingViewController.indicatorOptions    = PagingIndicatorOptions.visible(height: 2, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
+        pagingViewController.indicatorOptions    = PagingIndicatorOptions.visible(height: 0.75, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
         pagingViewController.indicatorColor      = CKColor.Misc.primaryGreenColor
         pagingViewController.menuBackgroundColor = CKColor.Background.navigationBar
         pagingViewController.textColor           = CKColor.Text.lightGray
@@ -153,7 +158,20 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc func clickedOnRightMenuItem() {
-        print("\nclickedOnRightMenuItem")
+        
+        // init
+        let nvc = CKRoomDirectCreatingViewController.instanceNavigation { (vc: MXKViewController) in
+            
+            // is class?
+            if let vc = vc as? CKRoomDirectCreatingViewController {
+                
+                // setup vc
+                vc.delegate = self
+                vc.importSession(self.mxSessions)
+            }
+        }
+        
+        self.present(nvc, animated: true, completion: nil)
     }
     
     func showSettingViewController() {
@@ -162,6 +180,7 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
+
         // Cancel registration on existing dataSource if any
         if self.recentsDataSource != nil {
             self.recentsDataSource!.delegate = nil
@@ -272,4 +291,91 @@ extension CkHomeViewController: MXKDataSourceDelegate {
             directMessageVC.reloadData(rooms: [])
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let roomSettingsVC = segue.destination as? CKRoomSettingsViewController, let roomCellData = sender as? MXKRecentCellData {
+            roomSettingsVC.initWith(roomCellData.roomSummary.mxSession, andRoomId: roomCellData.roomSummary.roomId)
+        }
+    }
+}
+
+extension CkHomeViewController: CKRecentListViewControllerDelegate {
+    
+    func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData) {
+        
+        // init nvc
+        let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
+            
+            // completed vc
+            if let vc = vc as? CKRoomSettingsViewController {
+                
+                // init
+                vc.initWith(roomCellData.roomSummary.mxSession, andRoomId: roomCellData.roomSummary.roomId)
+            }
+        }
+        
+        // present
+        self.present(nvc, animated: true, completion: nil)
+    }
+}
+
+// MARK: - CKRoomDirectCreatingViewControllerDelegate
+
+extension CkHomeViewController: CKRoomDirectCreatingViewControllerDelegate {
+    
+    /**
+     In the CKRoomDirectCreatingViewController, if you select a contact to direct chat.
+     Then, it should be callback this function
+     */
+    func roomDirectCreating(withUserId userId: String, completion: ((Bool) -> Void)?) {
+        
+        // account is ok
+        if let acc = MXKAccountManager.shared()?.activeAccounts.first {
+            
+            // session is ok
+            if let mxSession = acc.mxSession {
+                
+                // closure creating a room
+                let finallyCreatedRoom = { (room: MXRoom?) -> Void in
+                    
+                    // room was created
+                    if let room = room {
+                        
+                        // callback in main thread
+                        DispatchQueue.main.async {
+                            completion?(true)
+                            AppDelegate.the().masterTabBarController.selectRoom(withId: room.roomId, andEventId: nil, inMatrixSession: mxSession) {}
+                        }
+                    } else { // failing to create the room
+                        DispatchQueue.main.async { completion?(false) }
+                    }
+                }
+                
+                // Aha, there is an existing direct room
+                if let room =  mxSession.directJoinedRoom(withUserId: userId) {
+                    
+                    // forward to this closure
+                    finallyCreatedRoom(room)
+                } else {
+                    
+                    // build invitees
+                    let invitees = [userId]
+                    
+                    // create a direct room
+                    mxSession.createRoom(
+                        name: nil,
+                        visibility: MXRoomDirectoryVisibility.private,
+                        alias: nil,
+                        topic: nil,
+                        invite: invitees,
+                        invite3PID: nil,
+                        isDirect: true, preset: nil) { (response: MXResponse<MXRoom>) in
+                            
+                            // forward to this closure
+                            finallyCreatedRoom(response.value)
+                    }
+                }
+            }
+        }
+    }        
 }

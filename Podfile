@@ -25,6 +25,7 @@ def import_MatrixKit
     pod 'Parchment', '~> 1.5.0'
     pod 'XLActionController', '4.0.1'
     pod 'XLActionController/Youtube'
+    pod 'PromiseKit'
     
     if $matrixKitVersion == 'local'
         pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'

@@ -36,7 +36,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
             }
             
             lastMessageLabel!.text = lastMessage
-            lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 20)
+            lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 14)
         } else {
             if let lastMessageLabel = lastMessageLabel {
                 contentStackView.removeArrangedSubview(lastMessageLabel)
