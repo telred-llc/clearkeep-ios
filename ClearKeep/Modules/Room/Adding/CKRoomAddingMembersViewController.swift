@@ -26,20 +26,6 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         }
     }
     
-    // MARK: - CLASS M
-    
-    class func instance() -> CKRoomAddingMembersViewController {
-        let instance = CKRoomAddingMembersViewController(nibName: self.nibName, bundle: nil)
-        return instance
-    }
-    
-    class func instanceForNavigationController(
-        completion: ((_ instance: CKRoomAddingMembersViewController) -> Void)?) -> UINavigationController {
-        let vc = self.instance()
-        completion?(vc)
-        return UINavigationController.init(rootViewController: vc)
-    }
-    
     // MARK: - PROPERTY
     
     /**

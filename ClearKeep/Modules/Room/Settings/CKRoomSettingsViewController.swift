@@ -166,27 +166,28 @@ import Foundation
     private func showParticiants() {
         
         // initialize vc from xib
-        let vc = CKRoomSettingsParticipantViewController(
-            nibName: "CKRoomSettingsParticipantViewController",
-            bundle: nil)
+        let vc = CKRoomSettingsParticipantViewController.instance()
         
         // import mx session and room id
         vc.importSession(self.mxSessions)
         vc.mxRoom = self.mxRoom
 
-        // present vc
-        if let nvc = self.navigationController {
-            nvc.pushViewController(vc, animated: true)
-        } else {
-            let navi = UINavigationController.init(rootViewController: vc)
-            self.present(navi, animated: true, completion: nil)
-        }
+        // push vc
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func showAddingMembers() {
+        
+        // init
         let vc = CKRoomAddingMembersViewController.instance()
+        
+        // import session
         vc.importSession(self.mxSessions)
+        
+        // use mx room
         vc.mxRoom = self.mxRoom
+        
+        // pus vc
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -198,11 +199,27 @@ import Foundation
         return roomSummary.topic != nil
     }
     
+    // MARK: - ACTION
+    
+    @objc func clickedOnBackButton(_ sender: Any?) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        
+        // Setup back button item
+        let backItemButton = UIBarButtonItem.init(
+            title: "Close",
+            style: .plain, target: self,
+            action: #selector(clickedOnBackButton(_:)))
+        
+        // set nv items
+        self.navigationItem.leftBarButtonItem = backItemButton
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

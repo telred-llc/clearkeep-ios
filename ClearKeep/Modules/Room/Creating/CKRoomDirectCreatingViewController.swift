@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CKRoomDirectCreatingViewControllerDelegate: class {
-    func roomDirectCreating(_ controller: CKRoomDirectCreatingViewController, didDirectChatWithUserId userId: String) -> Bool
+    func roomDirectCreating(withUserId userId: String, completion: ((_ success: Bool) -> Void)? )
 }
 
 final class CKRoomDirectCreatingViewController: MXKViewController {
@@ -28,20 +28,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         static func count() -> Int {
             return 3
         }
-    }
-    
-    // MARK: - CLASS M
-    
-    class func instance() -> CKRoomDirectCreatingViewController {
-        let instance = CKRoomDirectCreatingViewController(nibName: self.nibName, bundle: nil)
-        return instance
-    }
-    
-    class func instanceForNavigationController(completion: ((_ instance: CKRoomDirectCreatingViewController) -> Void)?) -> UINavigationController {
-        let vc = self.instance()
-        completion?(vc)
-        return UINavigationController.init(rootViewController: vc)
-    }
+    }    
     
     // MARK: - PROPERTY
     
@@ -59,6 +46,8 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // selection is enable
         self.tableView.allowsSelection = true
         
         // register cells
@@ -72,8 +61,11 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
             style: .plain, target: self,
             action: #selector(clickedOnBackButton(_:)))
         
+        // set nv items
         self.navigationItem.leftBarButtonItem = backItemButton
         self.navigationItem.title = "New a conversation"
+        
+        // first reload ds
         self.reloadDataSource()
     }
     
@@ -95,36 +87,60 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         
         // load them from ...
         if let ds = MXKContactManager.shared()?.directMatrixContacts {
+            
+            // loop in each
             for c in ds {
+                
+                // catch op
                 if let c = c as? MXKContact {
+                    
+                    // add
                     self.suggestedDataSource.append(c)
                 }
             }
         }
         
-        // relod
+        // reload
         if suggestedDataSource.count > 0 { self.tableView.reloadData() }
     }
     
+    /**
+     Action cell view
+     */
     private func cellForAction(atIndexPath indexPath: IndexPath) -> CKRoomDirectCreatingActionCell {
+        
+        // dequeue
         if let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomDirectCreatingActionCell.identifier,
             for: indexPath) as? CKRoomDirectCreatingActionCell {
             
+            // none style selection
             cell.selectionStyle = .none
             
             // action
             cell.newGroupHandler = {
                 
+                // is navigation ?
                 if let nvc = self.navigationController {
-                    let vc = CKRoomCreatingViewController.instance()
-                    vc.importSession(self.mxSessions)
-                    nvc.pushViewController(vc, animated: true)
                     
+                    // init
+                    let vc = CKRoomCreatingViewController.instance()
+                    
+                    // import
+                    vc.importSession(self.mxSessions)
+                    
+                    // push vc
+                    nvc.pushViewController(vc, animated: true)
                 } else {
-                    let nvc = CKRoomCreatingViewController.instanceForNavigationController(completion: { (vc: CKRoomCreatingViewController) in
+                    
+                    // init nvc
+                    let nvc = CKRoomCreatingViewController.instanceNavigation(completion: { (vc: MXKViewController) in
+                        
+                        // import
                         vc.importSession(self.mxSessions)
                     })
+                    
+                    // present
                     self.present(nvc, animated: true, completion: nil)
                 }
             }
@@ -134,12 +150,17 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         return CKRoomDirectCreatingActionCell()
     }
 
+    /**
+     Suggested cell view
+     */
     private func cellForSuggested(atIndexPath indexPath: IndexPath) -> CKRoomDirectCreatingSuggestedCell {
         
+        // dequeue & confirm
         if let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomDirectCreatingSuggestedCell.identifier,
             for: indexPath) as? CKRoomDirectCreatingSuggestedCell {
             
+            // index of
             let contact = self.suggestedDataSource[indexPath.row]
                 
             // display name
@@ -157,6 +178,9 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         return CKRoomDirectCreatingSuggestedCell()
     }
     
+    /**
+     Searching - cell view
+     */
     private func cellForSeaching(atIndexPath indexPath: IndexPath) -> CKRoomDirectCreatingSearchCell {
         
         // sure to make cell
@@ -202,6 +226,9 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         return cell
     }
     
+    /**
+     Title for header
+     */
     private func titleForHeader(atSection section: Int) -> String {
         guard let s = Section(rawValue: section) else { return ""}
         
@@ -219,12 +246,28 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
      Make a direct chat
      */
     private func directChat(atIndexPath indexPath: IndexPath) {
+        
+        // in range
         if suggestedDataSource.count > indexPath.row {
+            
+            // index of
             let c = suggestedDataSource[indexPath.row]
+            
+            // first
             if let userId = c.matrixIdentifiers.first as? String {
-                if self.delegate?.roomDirectCreating(self, didDirectChatWithUserId: userId) == true {
-                    self.clickedOnBackButton(nil)
-                }
+                
+                // progress start
+                self.startActivityIndicator()
+                
+                // invoke delegate
+                self.delegate?.roomDirectCreating(withUserId: userId, completion: { (success: Bool) in
+                    
+                    // progress stop
+                    self.stopActivityIndicator()
+                    
+                    // dismiss
+                    if success == true { self.clickedOnBackButton(nil)}
+                })
             }
         }
     }
