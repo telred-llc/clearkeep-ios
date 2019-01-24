@@ -9,7 +9,11 @@
 import UIKit
 import HPGrowingTextView
 
-class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
+@objc protocol CKRoomInputToolbarViewDelegate: MXKRoomInputToolbarViewDelegate {
+    @objc optional func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
+}
+
+final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     
     // MARK: - IBOutlets
     
@@ -20,6 +24,7 @@ class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     
     // MARK: - Constants
     
+    private let mentionTriggerCharacter: Character = "@"
     
     // MARK: - Properties
     
@@ -29,6 +34,15 @@ class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         }
         set {
             self.setValue(growingTextView, forKey: "growingTextView")
+        }
+    }
+    
+    private weak var ckDelegate: CKRoomInputToolbarViewDelegate? {
+        get {
+            return self.delegate as? CKRoomInputToolbarViewDelegate
+        }
+        set {
+            self.delegate = newValue
         }
     }
     
@@ -77,12 +91,32 @@ class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     // MARK: - IBActions
     
     @IBAction func clickedOnMentionButton(_ sender: Any) {
+        if growingTextView?.isFirstResponder() != true {
+            growingTextView?.becomeFirstResponder()
+        }
+        
+        if var selectedRange = growingTextView?.selectedRange {
+            let firstHalfString = (growingTextView?.text as NSString?)?.substring(to: selectedRange.location)
+            let secondHalfString = (growingTextView?.text as NSString?)?.substring(from: selectedRange.location)
+
+            let insertingString = String.init(mentionTriggerCharacter)
+
+            growingTextView?.text = "\(firstHalfString ?? "")\(insertingString)\(secondHalfString ?? "")"
+            selectedRange.location += insertingString.count
+            growingTextView?.selectedRange = selectedRange
+        }
     }
     
     @IBAction func clickedOnShareFileButton(_ sender: Any) {
     }
     
     @IBAction func clickedOnShareImageButton(_ sender: Any) {
+    }
+}
+
+private extension CKRoomInputToolbarView {
+    func triggerMentionUser(_ flag: Bool, text: String?) {
+        ckDelegate?.roomInputToolbarView?(self, triggerMention: flag, mentionText: text)
     }
 }
 
@@ -104,6 +138,22 @@ extension CKRoomInputToolbarView {
         }
         
         super.growingTextViewDidChange(growingTextView)
+        
+        let firstHalfString = (growingTextView.text as NSString?)?.substring(to: growingTextView.selectedRange.location)
+        
+        if firstHalfString?.contains(String.init(mentionTriggerCharacter)) == true {
+            let mentionComponents = firstHalfString?.components(separatedBy: String.init(mentionTriggerCharacter))
+            let currentMentionComponent = mentionComponents?.last
+            
+            if let currentMentionComponent = currentMentionComponent,
+                !currentMentionComponent.contains(" ") {
+                triggerMentionUser(true, text: currentMentionComponent)
+            } else {
+                triggerMentionUser(false, text: nil)
+            }
+        } else {
+            triggerMentionUser(false, text: nil)
+        }
     }
     
     override func growingTextView(_ growingTextView: HPGrowingTextView!, willChangeHeight height: Float) {
@@ -119,5 +169,9 @@ extension CKRoomInputToolbarView {
         self.delegate?.roomInputToolbarView?(self, heightDidChanged: updatedHeight, completion: { (_) in
             //
         })
+    }
+    
+    override func growingTextView(_ growingTextView: HPGrowingTextView!, shouldChangeTextIn range: NSRange, replacementText text: String!) -> Bool {
+        return true
     }
 }

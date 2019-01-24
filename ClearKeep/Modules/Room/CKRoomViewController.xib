@@ -14,6 +14,8 @@
                 <outlet property="bubblesTableView" destination="BGD-sd-SQR" id="OG4-Tw-Ovt"/>
                 <outlet property="bubblesTableViewBottomConstraint" destination="Ksk-39-kfi" id="CTo-Ux-4NP"/>
                 <outlet property="bubblesTableViewTopConstraint" destination="X14-4s-uGM" id="Hic-6h-N05"/>
+                <outlet property="mentionListTableView" destination="6XV-L3-jht" id="2ub-2C-XY2"/>
+                <outlet property="mentionListTableViewHeightConstraint" destination="hrx-ds-4j0" id="1Xb-Ls-4YV"/>
                 <outlet property="previewHeaderContainer" destination="54r-18-K1g" id="wXd-xh-gad"/>
                 <outlet property="previewHeaderContainerHeightConstraint" destination="goj-GZ-IkD" id="a69-Va-1U0"/>
                 <outlet property="roomActivitiesContainer" destination="XX4-n6-hCm" id="uD0-ab-8s8"/>
@@ -60,6 +62,13 @@
                         <constraint firstAttribute="height" constant="20" id="E8v-l2-8eV"/>
                     </constraints>
                 </view>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6XV-L3-jht">
+                    <rect key="frame" x="0.0" y="491" width="375" height="135"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="135" id="hrx-ds-4j0"/>
+                    </constraints>
+                </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nLd-BP-JAE" userLabel="Room Input Toolbar Container">
                     <rect key="frame" x="0.0" y="626" width="375" height="41"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -73,8 +82,10 @@
             <accessibility key="accessibilityConfiguration" identifier="RoomVCView"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="BGD-sd-SQR" secondAttribute="trailing" id="0la-ok-MBr"/>
+                <constraint firstItem="nLd-BP-JAE" firstAttribute="top" secondItem="6XV-L3-jht" secondAttribute="bottom" id="40W-hY-P7A"/>
                 <constraint firstItem="nLd-BP-JAE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4Q7-hr-rqi"/>
                 <constraint firstAttribute="trailing" secondItem="54r-18-K1g" secondAttribute="trailing" id="6NN-Vs-ci8"/>
+                <constraint firstAttribute="trailing" secondItem="6XV-L3-jht" secondAttribute="trailing" id="AxQ-LE-vpV"/>
                 <constraint firstItem="54r-18-K1g" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BC8-KU-Pus"/>
                 <constraint firstAttribute="trailing" secondItem="uK2-9a-rZj" secondAttribute="trailing" id="HbF-85-ctI"/>
                 <constraint firstAttribute="bottom" secondItem="BGD-sd-SQR" secondAttribute="bottom" constant="41" id="Ksk-39-kfi"/>
@@ -86,10 +97,12 @@
                 <constraint firstItem="54r-18-K1g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ghf-co-a4t"/>
                 <constraint firstItem="BGD-sd-SQR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="haP-Kv-OLI"/>
                 <constraint firstAttribute="bottom" secondItem="nLd-BP-JAE" secondAttribute="bottom" id="kQ6-Cg-FMi"/>
+                <constraint firstItem="6XV-L3-jht" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="o6F-gA-kbd"/>
                 <constraint firstItem="uK2-9a-rZj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="u8r-eN-1g8"/>
                 <constraint firstItem="uK2-9a-rZj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y6b-JK-CF5"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <point key="canvasLocation" x="152.80000000000001" y="151.57421289355324"/>
         </view>
     </objects>
 </document>

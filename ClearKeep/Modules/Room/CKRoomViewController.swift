@@ -11,8 +11,14 @@ import MatrixKit
 
 @objc final class CKRoomViewController: MXKRoomViewController {
     
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var previewHeaderContainer: UIView!
     @IBOutlet weak var previewHeaderContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var mentionListTableView: UITableView!
+    @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
+    
+    // MARK: - Override
     
     public override class func nib() -> UINib? {
         return UINib.init(
@@ -20,6 +26,8 @@ import MatrixKit
             bundle: Bundle(for: self))
     }
 
+    // MARK: - Properties
+    
     /**
      Force the display of the expanded header.
      The default value is NO: this expanded header is hidden on new instantiated RoomViewController object.
@@ -43,9 +51,29 @@ import MatrixKit
     // Homeserver notices
     
     var serverNotices: MXServerNotices?
+    
+    // mentionDataSource
+    
+    var mentionDataSource: CKMentionDataSource? {
+        didSet {
+            self.mentionListTableView?.dataSource = mentionDataSource
+            self.mentionListTableView?.delegate = mentionDataSource
+            
+            if mentionDataSource != nil {
+                self.mentionListTableView.isHidden = false
+                self.mentionListTableView?.reloadData()
+                self.mentionListTableViewHeightConstraint.constant = self.mentionListTableView.contentSize.height
+                self.mentionListTableView.layoutIfNeeded()
+            } else {
+                self.mentionListTableView.isHidden = true
+            }
+        }
+    }
 }
 
 extension CKRoomViewController {
+    
+    // MARK: - LifeCycle
     
     override func destroy() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
@@ -110,6 +138,9 @@ extension CKRoomViewController {
         
         bubblesTableView.register(RoomSelectedStickerBubbleCell.self, forCellReuseIdentifier: RoomSelectedStickerBubbleCell.defaultReuseIdentifier())
         bubblesTableView.register(RoomPredecessorBubbleCell.self, forCellReuseIdentifier: RoomPredecessorBubbleCell.defaultReuseIdentifier())
+        
+        // Mention tableview
+        mentionListTableView.register(CKMentionUserTableViewCell.nib(), forCellReuseIdentifier: CKMentionUserTableViewCell.defaultReuseIdentifier())
         
         // Replace the default input toolbar view.
         // Note: this operation will force the layout of subviews. That is why cell view classes must be registered before.
@@ -478,10 +509,53 @@ extension CKRoomViewController {
         
         return cellViewClass
     }
+    
+    override func mention(_ roomMember: MXRoomMember!) {
+        let memberName = roomMember.displayname.count > 0 ? roomMember.displayname : roomMember.userId
+
+        if (roomMember.userId == mainSession.myUser.userId) {
+            inputToolbarView.pasteText("me ")
+        } else {
+            inputToolbarView.pasteText("\(memberName ?? "") ")
+        }
+    }
 }
+
+// MARK: - MXServerNoticesDelegate
 
 extension CKRoomViewController: MXServerNoticesDelegate {
     func serverNoticesDidChangeState(_ serverNotices: MXServerNotices?) {
         refreshActivitiesViewDisplay()
+    }
+}
+
+// MARK: - CKRoomInputToolbarViewDelegate
+
+extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
+    func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?) {
+        if triggerMention {
+            
+            var roomMembers: [MXRoomMember] = self.roomDataSource?.roomState.members.members ?? []
+            if let mentionText = mentionText,
+                mentionText.count > 0 {
+                roomMembers = self.roomDataSource?.roomState.members.members.filter({ $0.displayname.contains(mentionText) == true }) ?? []
+            }
+            
+            if roomMembers.count > 0 {
+                mentionDataSource = CKMentionDataSource.init(roomMembers, matrixSession: self.mainSession, delegate: self)
+                return
+            }
+        }
+        
+        if mentionDataSource != nil {
+            mentionDataSource = nil
+        }
+    }
+}
+
+extension CKRoomViewController: CKMentionDataSourceDelegate {
+    func mentionDataSource(_ dataSource: CKMentionDataSource, didSelect member: MXRoomMember) {
+        self.mention(member)
+        mentionDataSource = nil
     }
 }
