@@ -19,6 +19,10 @@ import Foundation
         case infos
         case settings
         case actions
+        
+        static func count() -> Int {
+            return 3
+        }
     }
 
     /**
@@ -162,17 +166,29 @@ import Foundation
     private func showParticiants() {
         
         // initialize vc from xib
-        let vc = CKRoomSettingsParticipantViewController(
-            nibName: "CKRoomSettingsParticipantViewController",
-            bundle: nil)
+        let vc = CKRoomSettingsParticipantViewController.instance()
         
         // import mx session and room id
         vc.importSession(self.mxSessions)
         vc.mxRoom = self.mxRoom
 
-        // present vc
-        let navi = UINavigationController.init(rootViewController: vc)
-        self.present(navi, animated: true, completion: nil)
+        // push vc
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func showAddingMembers() {
+        
+        // init
+        let vc = CKRoomAddingMembersViewController.instance()
+        
+        // import session
+        vc.importSession(self.mxSessions)
+        
+        // use mx room
+        vc.mxRoom = self.mxRoom
+        
+        // pus vc
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func isInfosAvailableData() -> Bool {
@@ -183,11 +199,27 @@ import Foundation
         return roomSummary.topic != nil
     }
     
+    // MARK: - ACTION
+    
+    @objc func clickedOnBackButton(_ sender: Any?) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        
+        // Setup back button item
+        let backItemButton = UIBarButtonItem.init(
+            title: "Close",
+            style: .plain, target: self,
+            action: #selector(clickedOnBackButton(_:)))
+        
+        // set nv items
+        self.navigationItem.leftBarButtonItem = backItemButton
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -208,7 +240,7 @@ import Foundation
         case .settings:
             return 3
         case .actions:
-            return 1
+            return self.mxRoom == nil ? 0 : (self.mxRoom.isDirect ? 0: 1)
         }
     }
     
@@ -295,6 +327,7 @@ import Foundation
             if indexPath.row == 0 { self.showParticiants() }
             break
         case .actions:
+            if indexPath.row == 0 { self.showAddingMembers() }
             break
         }
     }

@@ -13,8 +13,16 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     // MARK: - OUTLET
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchingBar: UISearchBar!
     
+    private enum Section: Int {
+        case search = 0
+        case participants = 1
+        
+        static func count() -> Int {
+            return 2
+        }
+    }
+
     // MARK: - PROPERTY
     
     /**
@@ -50,6 +58,9 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.tableView.register(
             CKRoomSettingsParticipantCell.nib,
             forCellReuseIdentifier: CKRoomSettingsParticipantCell.identifier)
+        self.tableView.register(
+            CKRoomSettingsParticipantSearchCell.nib,
+            forCellReuseIdentifier: CKRoomSettingsParticipantSearchCell.identifier)
         
         // bar button items
         let backItemButton = UIBarButtonItem.init(
@@ -151,12 +162,58 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.filteredParticipants.append(member)
     }
     
+    private func titleForHeader(atSection section: Int) -> String {
+        guard let s = Section(rawValue: section) else { return ""}
+        switch s {
+        case .search:
+            return ""
+        case .participants:
+            return "PARTICIPANTS"
+        }
+    }
+
     // MARK: - ACTION
     
     @objc private func clickedOnBackButton(_ sender: Any?) {
-        self.dismiss(animated: true, completion: nil)
+        if let nvc = self.navigationController {
+            nvc.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
+    private func cellForParticipant(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantCell {
+        
+        // de-cell
+        if let cell = self.tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsParticipantCell.identifier,
+            for: indexPath) as? CKRoomSettingsParticipantCell {
+            
+            // pick index of member
+            let mxMember = self.filteredParticipants[indexPath.row]
+            
+            // fill fields to cell
+            cell.participantLabel.text = mxMember.displayname
+            cell.participantLabel.backgroundColor = UIColor.clear
+            cell.accessoryType = .disclosureIndicator
+            
+            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl) {
+                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
+            } else {
+                cell.photoView.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
+            }
+            
+            return cell
+        }
+        
+        return CKRoomSettingsParticipantCell()
+    }
+    
+    private func cellForParticipantSearch(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantSearchCell{
+        return (tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsParticipantSearchCell.identifier,
+            for: indexPath) as? CKRoomSettingsParticipantSearchCell) ?? CKRoomSettingsParticipantSearchCell()
+    }
     
     // MARK: - PUBLIC
 }
@@ -171,41 +228,64 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if let view = CKRoomHeaderInSectionView.instance() {
+            view.backgroundColor = CKColor.Background.tableView
+            view.title = self.titleForHeader(atSection: section)
+            return view
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UILabel()
+        view.backgroundColor = CKColor.Background.tableView
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard let s = Section(rawValue: section) else { return 1}
+        switch s {
+        case .search:
+            return 1
+        default:
+            return 40
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 1
+    }
 }
 
 // MARK: - UITableViewDataSource
 
 extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return Section.count()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredParticipants != nil ? filteredParticipants.count : 0
+        guard let s = Section(rawValue: section) else { return 60}
+        switch s {
+        case .search:
+            return 1
+        case .participants:
+            return filteredParticipants != nil ? filteredParticipants.count : 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let s = Section(rawValue: indexPath.section) else { return CKRoomSettingsBaseCell()}
         
-        // de-cell
-        if let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsParticipantCell.identifier,
-            for: indexPath) as? CKRoomSettingsParticipantCell {
-
-            // pick index of member
-            let mxMember = self.filteredParticipants[indexPath.row]
-
-            // fill fields to cell
-            cell.participantLabel.text = mxMember.displayname
-            cell.participantLabel.backgroundColor = UIColor.clear
-            cell.accessoryType = .disclosureIndicator
-            
-            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl) {
-                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
-            } else {
-                cell.photoView.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
-            }
-
-            return cell
+        switch s {
+        case .search:
+            return cellForParticipantSearch(atIndexPath: indexPath)
+        case .participants:
+            return cellForParticipant(atIndexPath: indexPath)
         }
-        
-        // default cell
-        return UITableViewCell()
     }
     
     

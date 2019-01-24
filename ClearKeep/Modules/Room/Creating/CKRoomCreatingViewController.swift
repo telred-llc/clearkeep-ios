@@ -47,19 +47,6 @@ final class CKRoomCreatingViewController: MXKViewController {
         static var count: Int { return 3}
     }
     
-    // MARK: - CLASS
-    
-    class func instance() -> CKRoomCreatingViewController {
-        let instance = CKRoomCreatingViewController(nibName: self.nibName, bundle: nil)
-        return instance
-    }
-    
-    class func instanceForNavigationController(completion: ((_ instance: CKRoomCreatingViewController) -> Void)?) -> UINavigationController {
-        let vc = self.instance()
-        completion?(vc)
-        return UINavigationController.init(rootViewController: vc)
-    }
-    
     // MARK: - PROPERTY        
     
     /**

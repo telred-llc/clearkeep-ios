@@ -162,6 +162,17 @@ extension RoomViewController {
         }
     }
     
+    private func showRoomSettings() {                
+        let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
+            if let vc = vc as? CKRoomSettingsViewController {
+                vc.initWith(self.roomDataSource.mxSession, andRoomId: self.roomDataSource.roomId)
+            }
+        }
+        
+        // present nvc
+        self.present(nvc, animated: true, completion: nil)
+    }
+    
     // MARK: - OVERRIDE
     
     public override class func nib() -> UINib? {
@@ -207,25 +218,33 @@ extension RoomViewController {
 extension CKRoomViewController {
     
     private func override_roomTitleView(_ titleView: RoomTitleView!, recognizeTapGesture tapGestureRecognizer: UITapGestureRecognizer!) {
+        
+        // tapped view
         if let tappedView = tapGestureRecognizer.view {
+            
+            // is preview title view?
             if let prvh = self.previewHeader as? PreviewRoomTitleView {
+                
+                // is click on right button
                 if tappedView == prvh.rightButton {
+                    
+                    // then join
                     self.acceptJoiningRoom()
-                } else if tappedView == prvh.leftButton {
+                } else if tappedView == prvh.leftButton { // is click on left button
+                    
+                    // then accep
                     self.rejectJoiningRoom()
                 }
             } else {
-                self.performSegue(withIdentifier: "showRoomDetails", sender: self)
+                
+                // otherwise, show room's settings
+                self.showRoomSettings()
             }
         }
     }
     
     private func override_prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let roomSettingsVC = segue.destination as? CKRoomSettingsViewController {
-            self.dismissKeyboard()
-            roomSettingsVC.initWith(
-                self.roomDataSource.mxSession,
-                andRoomId: self.roomDataSource.roomId)
-        }
+
+        // do nothing
     }
 }

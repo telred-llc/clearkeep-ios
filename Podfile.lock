@@ -72,6 +72,15 @@ PODS:
   - PiwikTracker (4.4.2):
     - PiwikTracker/Core (= 4.4.2)
   - PiwikTracker/Core (4.4.2)
+  - PromiseKit (6.7.1):
+    - PromiseKit/CorePromise (= 6.7.1)
+    - PromiseKit/Foundation (= 6.7.1)
+    - PromiseKit/UIKit (= 6.7.1)
+  - PromiseKit/CorePromise (6.7.1)
+  - PromiseKit/Foundation (6.7.1):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.7.1):
+    - PromiseKit/CorePromise
   - Realm (3.11.1):
     - Realm/Headers (= 3.11.1)
   - Realm/Headers (3.11.1)
@@ -93,6 +102,7 @@ DEPENDENCIES:
   - OLMKit
   - Parchment (~> 1.5.0)
   - PiwikTracker (from `https://github.com/manuroe/matomo-sdk-ios.git`, branch `feature/CustomVariables`)
+  - PromiseKit
   - XLActionController (= 4.0.1)
   - XLActionController/Youtube
 
@@ -110,6 +120,7 @@ SPEC REPOS:
     - MatrixSDK
     - OLMKit
     - Parchment
+    - PromiseKit
     - Realm
     - WebRTC
     - XLActionController
@@ -145,10 +156,11 @@ SPEC CHECKSUMS:
   OLMKit: 88eda69110489f817d59bcb4353b7c247570aa4f
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   PiwikTracker: 42862c7b13028065c3dfd36b4dc38db8a5765acf
+  PromiseKit: ef376fb8b4e92edfeb66bd403b983eaa07fbde0c
   Realm: 037c5919b9ceb59d6beed5d3b031096856b119b3
   WebRTC: f2a6203584745fe53532633397557876b5d71640
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: 36512f005e2f90ef607362c2c0e6b0bb60856aa4
+PODFILE CHECKSUM: d79765622395e30b9e4d6fe669754799b27e8b81
 
 COCOAPODS: 1.5.3

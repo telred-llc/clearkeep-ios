@@ -392,6 +392,16 @@
 		E5C0B9A621CA717F00910D8B /* CkForgotPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5C0B9A521CA717F00910D8B /* CkForgotPasswordViewController.xib */; };
 		E5C0B9A821CA76A400910D8B /* CkSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C0B9A721CA76A400910D8B /* CkSignUpViewController.swift */; };
 		E5C0B9AA21CA76B300910D8B /* CkSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5C0B9A921CA76B300910D8B /* CkSignUpViewController.xib */; };
+		E5E27FD321F6C7E700532610 /* CKRoomAddingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E27FD221F6C7E700532610 /* CKRoomAddingMembersViewController.swift */; };
+		E5E27FD521F6C80C00532610 /* CKRoomAddingMembersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E27FD421F6C80C00532610 /* CKRoomAddingMembersViewController.xib */; };
+		E5E27FD721F6CA5700532610 /* CKRoomAddingMembersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E27FD621F6CA5700532610 /* CKRoomAddingMembersCell.swift */; };
+		E5E27FD921F6CAE100532610 /* CKRoomAddingSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E27FD821F6CAE100532610 /* CKRoomAddingSearchCell.swift */; };
+		E5E27FDB21F6CB3000532610 /* CKRoomAddingMembersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E27FDA21F6CB3000532610 /* CKRoomAddingMembersCell.xib */; };
+		E5E27FDD21F6CB5E00532610 /* CKRoomAddingSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E27FDC21F6CB5E00532610 /* CKRoomAddingSearchCell.xib */; };
+		E5E27FE021F8713B00532610 /* CKRoomSettingsParticipantSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E27FDE21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.swift */; };
+		E5E27FE121F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E27FDF21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib */; };
+		E5E27FE421F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E27FE221F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift */; };
+		E5E27FE521F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E27FE321F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib */; };
 		E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E9062A21523EDC00155DD5 /* AuthWebViewController.m */; };
 		F05927C91FDED836009F2A68 /* MXGroup+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = F05927C71FDED835009F2A68 /* MXGroup+Riot.m */; };
 		F083BD1E1E7009ED00A9B29C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BB0D1E7009EC00A9B29C /* AppDelegate.m */; };
@@ -1059,6 +1069,16 @@
 		E5C0B9A521CA717F00910D8B /* CkForgotPasswordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CkForgotPasswordViewController.xib; sourceTree = "<group>"; };
 		E5C0B9A721CA76A400910D8B /* CkSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkSignUpViewController.swift; sourceTree = "<group>"; };
 		E5C0B9A921CA76B300910D8B /* CkSignUpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CkSignUpViewController.xib; sourceTree = "<group>"; };
+		E5E27FD221F6C7E700532610 /* CKRoomAddingMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomAddingMembersViewController.swift; sourceTree = "<group>"; };
+		E5E27FD421F6C80C00532610 /* CKRoomAddingMembersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomAddingMembersViewController.xib; sourceTree = "<group>"; };
+		E5E27FD621F6CA5700532610 /* CKRoomAddingMembersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomAddingMembersCell.swift; sourceTree = "<group>"; };
+		E5E27FD821F6CAE100532610 /* CKRoomAddingSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomAddingSearchCell.swift; sourceTree = "<group>"; };
+		E5E27FDA21F6CB3000532610 /* CKRoomAddingMembersCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomAddingMembersCell.xib; sourceTree = "<group>"; };
+		E5E27FDC21F6CB5E00532610 /* CKRoomAddingSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomAddingSearchCell.xib; sourceTree = "<group>"; };
+		E5E27FDE21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsParticipantSearchCell.swift; sourceTree = "<group>"; };
+		E5E27FDF21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomSettingsParticipantSearchCell.xib; sourceTree = "<group>"; };
+		E5E27FE221F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomDirectCreatingSearchCell.swift; sourceTree = "<group>"; };
+		E5E27FE321F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomDirectCreatingSearchCell.xib; sourceTree = "<group>"; };
 		E5E9062921523EDC00155DD5 /* AuthWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthWebViewController.h; sourceTree = "<group>"; };
 		E5E9062A21523EDC00155DD5 /* AuthWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthWebViewController.m; sourceTree = "<group>"; };
 		EE8AD7EF51758CA3EFD23BE1 /* Pods-RiotPods-SiriIntents.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-SiriIntents.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-SiriIntents/Pods-RiotPods-SiriIntents.release.xcconfig"; sourceTree = "<group>"; };
@@ -2683,6 +2703,8 @@
 				E574335821F32A1600989FF3 /* CKRoomSettingsParticipantViewController.xib */,
 				E574335A21F32B9A00989FF3 /* CKRoomSettingsParticipantCell.swift */,
 				E574335C21F32BAA00989FF3 /* CKRoomSettingsParticipantCell.xib */,
+				E5E27FDE21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.swift */,
+				E5E27FDF21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib */,
 			);
 			path = Participant;
 			sourceTree = "<group>";
@@ -2723,6 +2745,8 @@
 				E5026CAB21F5E14E009D1B86 /* CKRoomDirectCreatingActionCell.xib */,
 				E5026CAD21F5E25D009D1B86 /* CKRoomDirectCreatingSuggestedCell.swift */,
 				E5026CAF21F5E26B009D1B86 /* CKRoomDirectCreatingSuggestedCell.xib */,
+				E5E27FE221F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift */,
+				E5E27FE321F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2763,6 +2787,7 @@
 		E5ABA73721E73CBC005EFE0C /* Room */ = {
 			isa = PBXGroup;
 			children = (
+				E5E27FD121F6C7B600532610 /* Adding */,
 				E574336F21F3711800989FF3 /* Creating */,
 				E574336421F3681000989FF3 /* Views */,
 				E5ABA73921E73CBC005EFE0C /* Settings */,
@@ -2796,6 +2821,19 @@
 				858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		E5E27FD121F6C7B600532610 /* Adding */ = {
+			isa = PBXGroup;
+			children = (
+				E5E27FD221F6C7E700532610 /* CKRoomAddingMembersViewController.swift */,
+				E5E27FD421F6C80C00532610 /* CKRoomAddingMembersViewController.xib */,
+				E5E27FD621F6CA5700532610 /* CKRoomAddingMembersCell.swift */,
+				E5E27FDA21F6CB3000532610 /* CKRoomAddingMembersCell.xib */,
+				E5E27FD821F6CAE100532610 /* CKRoomAddingSearchCell.swift */,
+				E5E27FDC21F6CB5E00532610 /* CKRoomAddingSearchCell.xib */,
+			);
+			path = Adding;
 			sourceTree = "<group>";
 		};
 		E5E9062721523EDC00155DD5 /* Socials */ = {
@@ -3150,6 +3188,7 @@
 				B1B5590220EF768F00210D55 /* RoomOutgoingAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
 				B1B558CA20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				F083BDE91E7009ED00A9B29C /* ring.mp3 in Resources */,
+				E5E27FD521F6C80C00532610 /* CKRoomAddingMembersViewController.xib in Resources */,
 				E5C0B9AA21CA76B300910D8B /* CkSignUpViewController.xib in Resources */,
 				B1B558F720EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */,
@@ -3187,6 +3226,7 @@
 				B1B558CD20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
 				85CA7CA721DE1385000331AC /* CKRoomPageViewController.xib in Resources */,
 				E5720EE421AD1B7D0093D99A /* CkLoginViewController.xib in Resources */,
+				E5E27FE121F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib in Resources */,
 				B1B9194C2118984300FE25B5 /* RoomPredecessorBubbleCell.xib in Resources */,
 				B1B5572120EE6C4D00210D55 /* ContactsTableViewController.xib in Resources */,
 				B1B5593A20EF7BAC00210D55 /* TableViewCellWithLabelAndLargeTextView.xib in Resources */,
@@ -3268,7 +3308,9 @@
 				E574337221F3715400989FF3 /* CKRoomCreatingOptionsCell.xib in Resources */,
 				B1B5590720EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				B169329920F39E6300746532 /* LaunchScreen.storyboard in Resources */,
+				E5E27FE521F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib in Resources */,
 				B1B5595320EF9A8700210D55 /* RecentTableViewCell.xib in Resources */,
+				E5E27FDD21F6CB5E00532610 /* CKRoomAddingSearchCell.xib in Resources */,
 				B1B557AD20EF5A6D00210D55 /* DeviceView.xib in Resources */,
 				B1B5573920EE6C4D00210D55 /* GroupRoomsViewController.xib in Resources */,
 				853E996721E4986100D005F4 /* SFCompactDisplay-Thin.ttf in Resources */,
@@ -3283,6 +3325,7 @@
 				E574337821F581B100989FF3 /* CKRoomCreatingTopicCell.xib in Resources */,
 				B1B5590F20EF782800210D55 /* TableViewCellWithPhoneNumberTextField.xib in Resources */,
 				B1B5578520EF564900210D55 /* GroupTableViewCellWithSwitch.xib in Resources */,
+				E5E27FDB21F6CB3000532610 /* CKRoomAddingMembersCell.xib in Resources */,
 				B1B557B320EF5AEF00210D55 /* EventDetailsView.xib in Resources */,
 				B1B557DD20EF5FBB00210D55 /* FilesSearchTableViewCell.xib in Resources */,
 				B1B5590320EF768F00210D55 /* RoomSelectedStickerBubbleCell.xib in Resources */,
@@ -3355,6 +3398,7 @@
 				"${BUILT_PRODUCTS_DIR}/OLMKit/OLMKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
 				"${BUILT_PRODUCTS_DIR}/PiwikTracker/PiwikTracker.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${PODS_ROOT}/WebRTC/WebRTC.framework",
 				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
@@ -3375,6 +3419,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OLMKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PiwikTracker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
@@ -3538,6 +3583,7 @@
 				B1B5594520EF7BD000210D55 /* TableViewCellWithCollectionView.m in Sources */,
 				F083BDEF1E7009ED00A9B29C /* UINavigationController+Riot.m in Sources */,
 				B1B5581F20EF625800210D55 /* SimpleRoomTitleView.m in Sources */,
+				E5E27FD921F6CAE100532610 /* CKRoomAddingSearchCell.swift in Sources */,
 				B169330020F3C97D00746532 /* RoomDataSource.m in Sources */,
 				B1B558ED20EF768F00210D55 /* RoomIncomingTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5ABA75321E73CBC005EFE0C /* CKRoomSettingsMoreSettingsCell.swift in Sources */,
@@ -3567,6 +3613,7 @@
 				F0D2ADA11F6AA5FD00A7097D /* MXRoomSummary+Riot.m in Sources */,
 				B1B5596F20EFA85D00210D55 /* EncryptionInfoView.m in Sources */,
 				A0D996B621CB42E900AD8135 /* Checkbox.swift in Sources */,
+				E5E27FD321F6C7E700532610 /* CKRoomAddingMembersViewController.swift in Sources */,
 				B1B5573820EE6C4D00210D55 /* GroupParticipantsViewController.m in Sources */,
 				B1B5583E20EF6E7F00210D55 /* GroupRoomTableViewCell.m in Sources */,
 				B1B5574F20EE6C4D00210D55 /* RoomsViewController.m in Sources */,
@@ -3592,6 +3639,7 @@
 				E5026CA621F5DE96009D1B86 /* CKRoomDirectCreatingViewController.swift in Sources */,
 				B1B5577E20EE84BF00210D55 /* IncomingCallView.m in Sources */,
 				E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */,
+				E5E27FD721F6CA5700532610 /* CKRoomAddingMembersCell.swift in Sources */,
 				B1B5578F20EF568D00210D55 /* GroupTableViewCell.m in Sources */,
 				E5720EDE21ACFB390093D99A /* CkAuthenticationViewController.swift in Sources */,
 				B1B5573220EE6C4D00210D55 /* GroupHomeViewController.m in Sources */,
@@ -3655,6 +3703,7 @@
 				B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				B1B5576F20EE702800210D55 /* IntegrationManagerViewController.m in Sources */,
 				B1B557AC20EF5A6D00210D55 /* DeviceView.m in Sources */,
+				E5E27FE421F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift in Sources */,
 				B16932EE20F3C3C900746532 /* FilesSearchCellData.m in Sources */,
 				B1B558E520EF768F00210D55 /* RoomMembershipExpandedBubbleCell.m in Sources */,
 				8519E71321DF0C26006C055F /* CKImage+Extension.swift in Sources */,
@@ -3668,6 +3717,7 @@
 				B1B5574920EE6C4D00210D55 /* RiotSplitViewController.m in Sources */,
 				B1B5574E20EE6C4D00210D55 /* DirectoryServerPickerViewController.m in Sources */,
 				B1B5575B20EE6C4D00210D55 /* HomeFilesSearchViewController.m in Sources */,
+				E5E27FE021F8713B00532610 /* CKRoomSettingsParticipantSearchCell.swift in Sources */,
 				B1B558F520EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				B1B558F820EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */,
