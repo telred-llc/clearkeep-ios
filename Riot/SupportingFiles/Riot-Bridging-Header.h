@@ -75,3 +75,5 @@
 #import "EventFormatter.h"
 
 #import "DisabledRoomInputToolbarView.h"
+
+#import "UIImageEffects.h"

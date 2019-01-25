@@ -90,6 +90,8 @@ extension CKRoomViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        bubblesTableView.keyboardDismissMode = .interactive
+        
         // Register first customized cell view classes used to render bubbles
         bubblesTableView.register(RoomIncomingTextMsgBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgBubbleCell.defaultReuseIdentifier())
         bubblesTableView.register(RoomIncomingTextMsgWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
@@ -565,7 +567,12 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             mentionDataSource = nil
         }
     }
+    
+    func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, pickerImage show: Bool) {
+    }
 }
+
+// MARK: - CKMentionDataSourceDelegate
 
 extension CKRoomViewController: CKMentionDataSourceDelegate {
     func mentionDataSource(_ dataSource: CKMentionDataSource, didSelect member: MXRoomMember) {
