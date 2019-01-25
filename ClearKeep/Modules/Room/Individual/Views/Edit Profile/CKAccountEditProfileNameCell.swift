@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CKAccountEditProfileNameCell: CKAccountEditProfileBaseCell {
+class CKAccountEditProfileNameCell: CKAccountEditProfileBaseCell, UITextFieldDelegate {
 
     // MARK: - OUTLET
     
@@ -24,11 +24,23 @@ class CKAccountEditProfileNameCell: CKAccountEditProfileBaseCell {
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
+        nameTextField.delegate = self
         self.nameTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
     }
     
-    // MARK: - ACTION
+    // MARK: - PUBLIC
     
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == nameTextField {
+            nameTextField.resignFirstResponder()
+        }
+        return true
+    }
+
+    
+    
+    // MARK: - ACTION
+
     @objc func edittingChanged(textField: UITextField) {
         edittingChangedHandler?(textField.text)
     }

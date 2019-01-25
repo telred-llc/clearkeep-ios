@@ -61,6 +61,14 @@ class CKAccountEditProfileAvatarCell: CKAccountEditProfileBaseCell, UITextFieldD
             andImageOrientation: UIImageOrientation.up,
             previewImage: previewImage)
     }
+    
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == nameTextField {
+            nameTextField.resignFirstResponder()
+        }
+        return true
+    }
+
 
     
     // MARK: - ACTION

@@ -75,7 +75,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
      filtered out participants
      */
     private var filteredParticipants: [MXRoomMember]! = [MXRoomMember]()
-
+    
     
     /**
      VAR room creating data
@@ -285,28 +285,30 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 }
             }
             
+            let mxMember = self.mxroomMember[indexPath.row]
             
-                     let mxMember = self.mxroomMember[indexPath.row]
+            cell.nameTextField.text = mxMember.displayname
+            
+            // avatar
+            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl) {
+                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
+            } else {
+                cell.avaImage.image = AvatarGenerator.generateAvatar(forText: mxMember.displayname)
+            }
+            
+            cell.tapHandler = {
                 
-                    // avatar
-                    if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl) {
-                        cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
-                    } else {
-                        cell.avaImage.image = AvatarGenerator.generateAvatar(forText: mxMember.displayname)
-                    }
-            
-                    cell.tapHandler = {
-                        cell.nameTextField.resignFirstResponder()
-                        
-                        let imagePickerController = UIImagePickerController()
-                        
-                        // Only allow photos to be picked, not taken.
-                        imagePickerController.sourceType = .photoLibrary
-                        
-                        // Make sure ViewController is notified when the user picks an image.
-                        imagePickerController.delegate = self
-                        self.present(imagePickerController, animated: true, completion: nil)
-                    }
+                cell.nameTextField.resignFirstResponder()
+                
+                let imagePickerController = UIImagePickerController()
+                
+                // Only allow photos to be picked, not taken.
+                imagePickerController.sourceType = .photoLibrary
+                
+                // Make sure ViewController is notified when the user picks an image.
+                imagePickerController.delegate = self
+                self.present(imagePickerController, animated: true, completion: nil)
+            }
             
             
             self.imagePickedBlock = { (image) in
