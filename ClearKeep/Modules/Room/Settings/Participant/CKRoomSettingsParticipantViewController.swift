@@ -60,16 +60,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
             forCellReuseIdentifier: CKRoomSettingsParticipantCell.identifier)
         self.tableView.register(
             CKRoomSettingsParticipantSearchCell.nib,
-            forCellReuseIdentifier: CKRoomSettingsParticipantSearchCell.identifier)
-        
-        // bar button items
-        let backItemButton = UIBarButtonItem.init(
-            title: "Back",
-            style: .plain, target: self,
-            action: #selector(clickedOnBackButton(_:)))
-        
-        // assign left bar button item
-        self.navigationItem.leftBarButtonItem = backItemButton
+            forCellReuseIdentifier: CKRoomSettingsParticipantSearchCell.identifier)        
         
         // invoke timeline event
         self.liveTimelineEvents()
@@ -222,7 +213,13 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
 
 extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        guard let s = Section(rawValue: indexPath.section) else { return 1}
+        switch s {
+        case .search:
+            return CKLayoutSize.Table.row44px
+        default:
+            return CKLayoutSize.Table.row60px
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -248,14 +245,14 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
         guard let s = Section(rawValue: section) else { return 1}
         switch s {
         case .search:
-            return 1
+            return CKLayoutSize.Table.header1px
         default:
-            return 40
+            return CKLayoutSize.Table.header40px
         }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return CKLayoutSize.Table.footer1px
     }
 }
 
@@ -268,7 +265,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let s = Section(rawValue: section) else { return 60}
+        guard let s = Section(rawValue: section) else { return 0}
         switch s {
         case .search:
             return 1

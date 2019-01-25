@@ -24,6 +24,7 @@
                     </searchBar>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="zVz-ML-vSW" firstAttribute="centerY" secondItem="KDk-oF-0he" secondAttribute="centerY" id="4m1-uT-z3I"/>
                     <constraint firstItem="zVz-ML-vSW" firstAttribute="top" secondItem="KDk-oF-0he" secondAttribute="top" id="8XY-ZZ-jfg"/>
                     <constraint firstItem="zVz-ML-vSW" firstAttribute="leading" secondItem="KDk-oF-0he" secondAttribute="leading" id="f9K-6r-SrB"/>
                     <constraint firstAttribute="bottom" secondItem="zVz-ML-vSW" secondAttribute="bottom" id="rbP-N5-FHG"/>

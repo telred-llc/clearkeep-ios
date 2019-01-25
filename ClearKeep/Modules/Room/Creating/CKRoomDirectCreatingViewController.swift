@@ -57,7 +57,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         
         // Setup back button item
         let backItemButton = UIBarButtonItem.init(
-            title: "Back",
+            title: "Close",
             style: .plain, target: self,
             action: #selector(clickedOnBackButton(_:)))
         
@@ -301,11 +301,11 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         
         switch s {
         case .search:
-            return 44
+            return CKLayoutSize.Table.row44px
         case .action:
-            return 80
+            return CKLayoutSize.Table.row80px
         case .suggested:
-            return 60
+            return CKLayoutSize.Table.row60px
         }
     }
     
@@ -322,11 +322,11 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         guard let s = Section(rawValue: section) else { return 0}
         switch s {
         case .search:
-            return 1
+            return CKLayoutSize.Table.header1px
         case .action:
-            return 40
+            return CKLayoutSize.Table.header40px
         case .suggested:
-            return 40
+            return CKLayoutSize.Table.header40px
         }
     }
     

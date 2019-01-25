@@ -48,11 +48,6 @@ final class CKRoomSettingsEditViewController: MXKViewController {
     private var status: Status = .display
     
     /**
-     backItemButton
-     */
-    private var backItemButton: UIBarButtonItem!
-
-    /**
      doneItemButton
      */
     private var doneItemButton: UIBarButtonItem!
@@ -97,19 +92,11 @@ final class CKRoomSettingsEditViewController: MXKViewController {
         // Hide default back button
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
-        // Setup back button item
-        self.backItemButton = UIBarButtonItem.init(
-            title: "Back",
-            style: .plain, target: self,
-            action: #selector(clickedOnBackButton(_:)))
-        
         // Setup done button items
         self.doneItemButton = UIBarButtonItem.init(
             title: "Done",
             style: .plain, target: self,
             action: #selector(clickedOnDoneButton(_:)))
-
-        self.navigationItem.leftBarButtonItem = backItemButton
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -147,10 +134,8 @@ final class CKRoomSettingsEditViewController: MXKViewController {
     
     private func firedChangeStatus(_ status: Status) {
         if status == .display {
-            self.backItemButton.title = "Back"
             self.navigationItem.rightBarButtonItem = nil
-        } else if status == .editting {
-            self.backItemButton.title = "Cancel"
+        } else if status == .editting {            
             self.navigationItem.rightBarButtonItem = doneItemButton
         }
     }
@@ -183,7 +168,7 @@ final class CKRoomSettingsEditViewController: MXKViewController {
 extension CKRoomSettingsEditViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        return CKLayoutSize.Table.row60px
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -217,7 +202,11 @@ extension CKRoomSettingsEditViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return CKLayoutSize.Table.header40px
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CKLayoutSize.Table.footer1px
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
