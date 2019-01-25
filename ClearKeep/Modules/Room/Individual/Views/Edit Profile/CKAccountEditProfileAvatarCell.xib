@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="102" id="Yk4-oN-Fid" customClass="CKAccountEditProfileAvatarCell" customModule="Riot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="379" height="102"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Yk4-oN-Fid" id="asI-g9-DkY">
+                <rect key="frame" x="0.0" y="0.0" width="379" height="101.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oh7-mi-sQX">
+                        <rect key="frame" x="126.5" y="70.5" width="91" height="21"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                    </textField>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7z-YN-oUj">
+                        <rect key="frame" x="126.5" y="10" width="73.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kLI-0f-Qtv" customClass="MXKImageView">
+                        <rect key="frame" x="10" y="0.0" width="101.5" height="101.5"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNQ-zn-Qni">
+                                <rect key="frame" x="2" y="5" width="30.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="AzU-br-iUq"/>
+                                </constraints>
+                                <state key="normal" image="ic_account_editprofile_camera"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="kLI-0f-Qtv" secondAttribute="height" id="Uga-ia-gFt"/>
+                            <constraint firstItem="yNQ-zn-Qni" firstAttribute="width" secondItem="kLI-0f-Qtv" secondAttribute="width" multiplier="0.3" id="Yex-z8-TlG"/>
+                            <constraint firstItem="yNQ-zn-Qni" firstAttribute="leading" secondItem="kLI-0f-Qtv" secondAttribute="leading" constant="2" id="eUh-qu-OuI"/>
+                            <constraint firstItem="yNQ-zn-Qni" firstAttribute="top" secondItem="kLI-0f-Qtv" secondAttribute="top" constant="5" id="iCD-Cf-qMJ"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="g7z-YN-oUj" firstAttribute="top" secondItem="asI-g9-DkY" secondAttribute="top" constant="10" id="1jY-ln-e3F"/>
+                    <constraint firstAttribute="bottom" secondItem="Oh7-mi-sQX" secondAttribute="bottom" constant="10" id="1w2-zn-f5B"/>
+                    <constraint firstItem="kLI-0f-Qtv" firstAttribute="top" secondItem="asI-g9-DkY" secondAttribute="top" id="BBm-UF-c8Z"/>
+                    <constraint firstItem="kLI-0f-Qtv" firstAttribute="leading" secondItem="asI-g9-DkY" secondAttribute="leading" constant="10" id="KVp-Md-FbQ"/>
+                    <constraint firstAttribute="bottom" secondItem="kLI-0f-Qtv" secondAttribute="bottom" id="KsP-o2-ofE"/>
+                    <constraint firstItem="Oh7-mi-sQX" firstAttribute="leading" secondItem="g7z-YN-oUj" secondAttribute="leading" id="XwX-Zh-C0o"/>
+                    <constraint firstItem="g7z-YN-oUj" firstAttribute="leading" secondItem="kLI-0f-Qtv" secondAttribute="trailing" constant="15" id="gQm-4r-znV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <gestureRecognizers/>
+            <connections>
+                <outlet property="avaImage" destination="kLI-0f-Qtv" id="AEI-wj-Gbr"/>
+                <outlet property="cameraButton" destination="yNQ-zn-Qni" id="4lv-v8-1U8"/>
+                <outlet property="nameTextField" destination="Oh7-mi-sQX" id="zkD-z0-XMU"/>
+            </connections>
+            <point key="canvasLocation" x="207.19999999999999" y="-73.763118440779621"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_account_editprofile_camera" width="25" height="25"/>
+    </resources>
+</document>

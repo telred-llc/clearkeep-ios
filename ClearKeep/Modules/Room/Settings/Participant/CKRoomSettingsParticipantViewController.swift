@@ -21,7 +21,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
      MX Room
      */
     public var mxRoom: MXRoom!
-
+    
     /**
      filtered out participants
      */
@@ -65,7 +65,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         
         // reload
         self.reloadParticipantsInRoom()
-
+        
     }
     
     private func liveTimelineEvents() {
@@ -106,10 +106,10 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
                             // finalize room member state
                             self.finalizeReloadingParticipants(state)
                         }
-                    
+                        
                     case __MXEventTypeRoomPowerLevels:
                         self.reloadParticipantsInRoom()
-
+                        
                     default:
                         break
                     }
@@ -120,7 +120,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     }
     
     private func reloadParticipantsInRoom() {
-     
+        
         // reset
         self.filteredParticipants.removeAll()
         
@@ -151,6 +151,23 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.filteredParticipants.append(member)
     }
     
+    private func showPersonalAccountProfile() {
+        
+        // initialize vc from xib
+        let vc = CKAccountProfileViewController(
+            nibName: "CKAccountProfileViewController",
+            bundle: nil)
+        
+        // import mx session and room id
+        vc.importSession(self.mxSessions)
+        vc.mxRoom = self.mxRoom
+        vc.mxNumber = self.filteredParticipants
+        
+        // present vc
+        let navi = UINavigationController.init(rootViewController: vc)
+        self.present(navi, animated: true, completion: nil)
+    }
+    
     // MARK: - ACTION
     
     @objc private func clickedOnBackButton(_ sender: Any?) {
@@ -170,6 +187,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.row == 0 {self.showPersonalAccountProfile()}
     }
 }
 
@@ -186,10 +204,10 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
         if let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsParticipantCell.identifier,
             for: indexPath) as? CKRoomSettingsParticipantCell {
-
+            
             // pick index of member
             let mxMember = self.filteredParticipants[indexPath.row]
-
+            
             // fill fields to cell
             cell.participantLabel.text = mxMember.displayname
             cell.participantLabel.backgroundColor = UIColor.clear
@@ -200,7 +218,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             } else {
                 cell.photoView.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
             }
-
+            
             return cell
         }
         

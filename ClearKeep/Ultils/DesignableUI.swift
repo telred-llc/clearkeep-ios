@@ -109,6 +109,16 @@ class Button: UIButton {
     }
 }
 
+@IBDesignable class ImageViewBorder: UIImageView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if cornerRadius == -1 {
+            self.layer.cornerRadius = self.bounds.width < self.bounds.height ? self.bounds.width * 0.5 : self.bounds.height * 0.5
+        }
+    }
+}
+
+
 fileprivate class Keys {
     static let TOP_BORDER = "top-border"
     static let TOP_BORDER_VIEW = "top-border-view"

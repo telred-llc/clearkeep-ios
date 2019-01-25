@@ -40,6 +40,32 @@
 		92726A471F58737A004AD26F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 92726A461F58737A004AD26F /* IntentHandler.m */; };
 		92726A4B1F58737A004AD26F /* SiriIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 92726A431F58737A004AD26F /* SiriIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		92726A511F587410004AD26F /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92726A501F587410004AD26F /* Intents.framework */; };
+		A000B6E821F8732F0002EBB3 /* CKAccountEditProfileBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A000B6E721F8732F0002EBB3 /* CKAccountEditProfileBaseCell.swift */; };
+		A000B6EA21F876740002EBB3 /* CKAccountEditProfileAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A000B6E921F876740002EBB3 /* CKAccountEditProfileAvatarCell.xib */; };
+		A0043FB221F847780051AAE1 /* CKAccountProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FB021F847780051AAE1 /* CKAccountProfileViewController.swift */; };
+		A0043FB321F847780051AAE1 /* CKAccountProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0043FB121F847780051AAE1 /* CKAccountProfileViewController.xib */; };
+		A0043FB621F848520051AAE1 /* CKAccountProfileBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FB521F848520051AAE1 /* CKAccountProfileBaseCell.swift */; };
+		A0043FB921F8489F0051AAE1 /* CKAccountProfileAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FB721F8489F0051AAE1 /* CKAccountProfileAvatarCell.swift */; };
+		A0043FBA21F8489F0051AAE1 /* CKAccountProfileAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0043FB821F8489F0051AAE1 /* CKAccountProfileAvatarCell.xib */; };
+		A0043FBD21F849240051AAE1 /* CKAccountProfileActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FBB21F849240051AAE1 /* CKAccountProfileActionCell.swift */; };
+		A0043FBE21F849240051AAE1 /* CKAccountProfileActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0043FBC21F849240051AAE1 /* CKAccountProfileActionCell.xib */; };
+		A0043FC121F84A610051AAE1 /* CKAccountProfileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FBF21F84A610051AAE1 /* CKAccountProfileInfoCell.swift */; };
+		A0043FC221F84A610051AAE1 /* CKAccountProfileInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0043FC021F84A610051AAE1 /* CKAccountProfileInfoCell.xib */; };
+		A0043FC521F84C750051AAE1 /* CKAccountProfileJobCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FC321F84C750051AAE1 /* CKAccountProfileJobCell.swift */; };
+		A0043FC621F84C750051AAE1 /* CKAccountProfileJobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0043FC421F84C750051AAE1 /* CKAccountProfileJobCell.xib */; };
+		A0043FC921F84C980051AAE1 /* CKAccountProfileTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FC721F84C980051AAE1 /* CKAccountProfileTimeCell.swift */; };
+		A0043FCA21F84C980051AAE1 /* CKAccountProfileTimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0043FC821F84C980051AAE1 /* CKAccountProfileTimeCell.xib */; };
+		A0043FCD21F84CB10051AAE1 /* CKAccountProfileEmailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FCB21F84CB10051AAE1 /* CKAccountProfileEmailCell.swift */; };
+		A0043FCE21F84CB10051AAE1 /* CKAccountProfileEmailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0043FCC21F84CB10051AAE1 /* CKAccountProfileEmailCell.xib */; };
+		A06949A521F85B8A002ABA27 /* CKAccountProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06949A321F85B8A002ABA27 /* CKAccountProfileEditViewController.swift */; };
+		A06949A621F85B8A002ABA27 /* CKAccountProfileEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A06949A421F85B8A002ABA27 /* CKAccountProfileEditViewController.xib */; };
+		A06949AB21F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06949A921F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift */; };
+		A0B13A2421F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift */; };
+		A0B13A2521F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib */; };
+		A0B13A2821F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B13A2621F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift */; };
+		A0B13A2921F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0B13A2721F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib */; };
+		A0B13A2C21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B13A2A21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift */; };
+		A0B13A2D21F94BBF008FDBAE /* CKAccountEditProfileContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0B13A2B21F94BBF008FDBAE /* CKAccountEditProfileContactCell.xib */; };
 		A0B35FE621D1DC17000C12C7 /* CkAuthIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B35FE421D1DC17000C12C7 /* CkAuthIndicatorViewController.swift */; };
 		A0B35FE721D1DC17000C12C7 /* CkAuthIndicatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0B35FE521D1DC17000C12C7 /* CkAuthIndicatorViewController.xib */; };
 		A0D996B421CB417E00AD8135 /* DesignableUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D996B321CB417E00AD8135 /* DesignableUI.swift */; };
@@ -518,6 +544,32 @@
 		92726A481F58737A004AD26F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92726A4F1F587393004AD26F /* SiriIntents.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SiriIntents.entitlements; sourceTree = "<group>"; };
 		92726A501F587410004AD26F /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		A000B6E721F8732F0002EBB3 /* CKAccountEditProfileBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileBaseCell.swift; sourceTree = "<group>"; };
+		A000B6E921F876740002EBB3 /* CKAccountEditProfileAvatarCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountEditProfileAvatarCell.xib; sourceTree = "<group>"; };
+		A0043FB021F847780051AAE1 /* CKAccountProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileViewController.swift; sourceTree = "<group>"; };
+		A0043FB121F847780051AAE1 /* CKAccountProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileViewController.xib; sourceTree = "<group>"; };
+		A0043FB521F848520051AAE1 /* CKAccountProfileBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileBaseCell.swift; sourceTree = "<group>"; };
+		A0043FB721F8489F0051AAE1 /* CKAccountProfileAvatarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileAvatarCell.swift; sourceTree = "<group>"; };
+		A0043FB821F8489F0051AAE1 /* CKAccountProfileAvatarCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileAvatarCell.xib; sourceTree = "<group>"; };
+		A0043FBB21F849240051AAE1 /* CKAccountProfileActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileActionCell.swift; sourceTree = "<group>"; };
+		A0043FBC21F849240051AAE1 /* CKAccountProfileActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileActionCell.xib; sourceTree = "<group>"; };
+		A0043FBF21F84A610051AAE1 /* CKAccountProfileInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileInfoCell.swift; sourceTree = "<group>"; };
+		A0043FC021F84A610051AAE1 /* CKAccountProfileInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileInfoCell.xib; sourceTree = "<group>"; };
+		A0043FC321F84C750051AAE1 /* CKAccountProfileJobCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileJobCell.swift; sourceTree = "<group>"; };
+		A0043FC421F84C750051AAE1 /* CKAccountProfileJobCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileJobCell.xib; sourceTree = "<group>"; };
+		A0043FC721F84C980051AAE1 /* CKAccountProfileTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileTimeCell.swift; sourceTree = "<group>"; };
+		A0043FC821F84C980051AAE1 /* CKAccountProfileTimeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileTimeCell.xib; sourceTree = "<group>"; };
+		A0043FCB21F84CB10051AAE1 /* CKAccountProfileEmailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileEmailCell.swift; sourceTree = "<group>"; };
+		A0043FCC21F84CB10051AAE1 /* CKAccountProfileEmailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileEmailCell.xib; sourceTree = "<group>"; };
+		A06949A321F85B8A002ABA27 /* CKAccountProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileEditViewController.swift; sourceTree = "<group>"; };
+		A06949A421F85B8A002ABA27 /* CKAccountProfileEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileEditViewController.xib; sourceTree = "<group>"; };
+		A06949A921F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileAvatarCell.swift; sourceTree = "<group>"; };
+		A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileNameCell.swift; sourceTree = "<group>"; };
+		A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountEditProfileNameCell.xib; sourceTree = "<group>"; };
+		A0B13A2621F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileCareerCell.swift; sourceTree = "<group>"; };
+		A0B13A2721F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountEditProfileCareerCell.xib; sourceTree = "<group>"; };
+		A0B13A2A21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileContactCell.swift; sourceTree = "<group>"; };
+		A0B13A2B21F94BBF008FDBAE /* CKAccountEditProfileContactCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountEditProfileContactCell.xib; sourceTree = "<group>"; };
 		A0B35FE421D1DC17000C12C7 /* CkAuthIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAuthIndicatorViewController.swift; sourceTree = "<group>"; };
 		A0B35FE521D1DC17000C12C7 /* CkAuthIndicatorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CkAuthIndicatorViewController.xib; sourceTree = "<group>"; };
 		A0D996B321CB417E00AD8135 /* DesignableUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableUI.swift; sourceTree = "<group>"; };
@@ -1238,6 +1290,63 @@
 				92726A481F58737A004AD26F /* Info.plist */,
 			);
 			path = SiriIntents;
+			sourceTree = "<group>";
+		};
+		A0043FAF21F846970051AAE1 /* Individual */ = {
+			isa = PBXGroup;
+			children = (
+				A0043FB421F848260051AAE1 /* Views */,
+				A0043FB021F847780051AAE1 /* CKAccountProfileViewController.swift */,
+				A0043FB121F847780051AAE1 /* CKAccountProfileViewController.xib */,
+				A06949A321F85B8A002ABA27 /* CKAccountProfileEditViewController.swift */,
+				A06949A421F85B8A002ABA27 /* CKAccountProfileEditViewController.xib */,
+			);
+			path = Individual;
+			sourceTree = "<group>";
+		};
+		A0043FB421F848260051AAE1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A06949A821F86289002ABA27 /* Edit Profile */,
+				A06949A721F8623B002ABA27 /* Account Profile */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A06949A721F8623B002ABA27 /* Account Profile */ = {
+			isa = PBXGroup;
+			children = (
+				A0043FB521F848520051AAE1 /* CKAccountProfileBaseCell.swift */,
+				A0043FB721F8489F0051AAE1 /* CKAccountProfileAvatarCell.swift */,
+				A0043FB821F8489F0051AAE1 /* CKAccountProfileAvatarCell.xib */,
+				A0043FBB21F849240051AAE1 /* CKAccountProfileActionCell.swift */,
+				A0043FBC21F849240051AAE1 /* CKAccountProfileActionCell.xib */,
+				A0043FBF21F84A610051AAE1 /* CKAccountProfileInfoCell.swift */,
+				A0043FC021F84A610051AAE1 /* CKAccountProfileInfoCell.xib */,
+				A0043FC321F84C750051AAE1 /* CKAccountProfileJobCell.swift */,
+				A0043FC421F84C750051AAE1 /* CKAccountProfileJobCell.xib */,
+				A0043FC721F84C980051AAE1 /* CKAccountProfileTimeCell.swift */,
+				A0043FC821F84C980051AAE1 /* CKAccountProfileTimeCell.xib */,
+				A0043FCB21F84CB10051AAE1 /* CKAccountProfileEmailCell.swift */,
+				A0043FCC21F84CB10051AAE1 /* CKAccountProfileEmailCell.xib */,
+			);
+			path = "Account Profile";
+			sourceTree = "<group>";
+		};
+		A06949A821F86289002ABA27 /* Edit Profile */ = {
+			isa = PBXGroup;
+			children = (
+				A000B6E721F8732F0002EBB3 /* CKAccountEditProfileBaseCell.swift */,
+				A06949A921F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift */,
+				A000B6E921F876740002EBB3 /* CKAccountEditProfileAvatarCell.xib */,
+				A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift */,
+				A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib */,
+				A0B13A2621F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift */,
+				A0B13A2721F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib */,
+				A0B13A2A21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift */,
+				A0B13A2B21F94BBF008FDBAE /* CKAccountEditProfileContactCell.xib */,
+			);
+			path = "Edit Profile";
 			sourceTree = "<group>";
 		};
 		A0D996B221CB415600AD8135 /* Ultils */ = {
@@ -2763,6 +2872,7 @@
 		E5ABA73721E73CBC005EFE0C /* Room */ = {
 			isa = PBXGroup;
 			children = (
+				A0043FAF21F846970051AAE1 /* Individual */,
 				E574336F21F3711800989FF3 /* Creating */,
 				E574336421F3681000989FF3 /* Views */,
 				E5ABA73921E73CBC005EFE0C /* Settings */,
@@ -3147,6 +3257,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0043FCE21F84CB10051AAE1 /* CKAccountProfileEmailCell.xib in Resources */,
 				B1B5590220EF768F00210D55 /* RoomOutgoingAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
 				B1B558CA20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				F083BDE91E7009ED00A9B29C /* ring.mp3 in Resources */,
@@ -3157,6 +3268,7 @@
 				B1B5592B20EF7A5D00210D55 /* TableViewCellWithButton.xib in Resources */,
 				B1B5574620EE6C4D00210D55 /* StartChatViewController.xib in Resources */,
 				B1B5590A20EF768F00210D55 /* RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
+				A000B6EA21F876740002EBB3 /* CKAccountEditProfileAvatarCell.xib in Resources */,
 				B1B5594420EF7BD000210D55 /* TableViewCellWithCollectionView.xib in Resources */,
 				B1B558D520EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				B1B5590020EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
@@ -3173,11 +3285,13 @@
 				B169328720F3954A00746532 /* SharedImages.xcassets in Resources */,
 				B1664DA120F4F94F00808783 /* InfoPlist.strings in Resources */,
 				B1B5579B20EF575B00210D55 /* AuthInputsView.xib in Resources */,
+				A0043FBA21F8489F0051AAE1 /* CKAccountProfileAvatarCell.xib in Resources */,
 				E5026CA821F5DEA6009D1B86 /* CKRoomDirectCreatingViewController.xib in Resources */,
 				E5AC22C62163775D00AA76B1 /* NavigationItemImage.xib in Resources */,
 				B1B5594620EF7BD000210D55 /* RoomCollectionViewCell.xib in Resources */,
 				F083BDE71E7009ED00A9B29C /* callend.mp3 in Resources */,
 				B1B558EF20EF768F00210D55 /* RoomMembershipCollapsedWithPaginationTitleBubbleCell.xib in Resources */,
+				A0043FCA21F84C980051AAE1 /* CKAccountProfileTimeCell.xib in Resources */,
 				B1B5573420EE6C4D00210D55 /* GroupDetailsViewController.xib in Resources */,
 				B1B557E420EF60B900210D55 /* MessagesSearchResultAttachmentBubbleCell.xib in Resources */,
 				B1B558F220EF768F00210D55 /* RoomIncomingTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
@@ -3189,6 +3303,7 @@
 				E5720EE421AD1B7D0093D99A /* CkLoginViewController.xib in Resources */,
 				B1B9194C2118984300FE25B5 /* RoomPredecessorBubbleCell.xib in Resources */,
 				B1B5572120EE6C4D00210D55 /* ContactsTableViewController.xib in Resources */,
+				A0043FC221F84A610051AAE1 /* CKAccountProfileInfoCell.xib in Resources */,
 				B1B5593A20EF7BAC00210D55 /* TableViewCellWithLabelAndLargeTextView.xib in Resources */,
 				B1B558D820EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
 				B1B558DA20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -3216,6 +3331,7 @@
 				B1B558EC20EF768F00210D55 /* RoomMembershipCollapsedBubbleCell.xib in Resources */,
 				E520894421DC783300591830 /* CkHomeViewController.xib in Resources */,
 				B1B558D720EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.xib in Resources */,
+				A0B13A2921F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib in Resources */,
 				B1B5590820EF768F00210D55 /* RoomMembershipWithPaginationTitleBubbleCell.xib in Resources */,
 				F083BDE81E7009ED00A9B29C /* message.mp3 in Resources */,
 				B1B5579C20EF575B00210D55 /* ForgotPasswordInputsView.xib in Resources */,
@@ -3227,6 +3343,7 @@
 				B1B557C120EF5B4500210D55 /* DisabledRoomInputToolbarView.xib in Resources */,
 				A0B35FE721D1DC17000C12C7 /* CkAuthIndicatorViewController.xib in Resources */,
 				B1664DA320F4F96200808783 /* Vector.strings in Resources */,
+				A0043FB321F847780051AAE1 /* CKAccountProfileViewController.xib in Resources */,
 				B1B557C720EF5CD400210D55 /* DirectoryServerDetailTableViewCell.xib in Resources */,
 				B1B5582620EF638A00210D55 /* RoomMemberTitleView.xib in Resources */,
 				F083BDE61E7009ED00A9B29C /* busy.mp3 in Resources */,
@@ -3240,6 +3357,7 @@
 				B1B5582020EF625800210D55 /* SimpleRoomTitleView.xib in Resources */,
 				F083BE061E7009ED00A9B29C /* Riot-Defaults.plist in Resources */,
 				E520894121DC730400591830 /* CkAvatarTopView.xib in Resources */,
+				A0B13A2D21F94BBF008FDBAE /* CKAccountEditProfileContactCell.xib in Resources */,
 				B1B558D120EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				B1B558FE20EF768F00210D55 /* RoomMembershipExpandedWithPaginationTitleBubbleCell.xib in Resources */,
 				B1B5581D20EF625800210D55 /* RoomAvatarTitleView.xib in Resources */,
@@ -3269,6 +3387,7 @@
 				B1B5590720EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				B169329920F39E6300746532 /* LaunchScreen.storyboard in Resources */,
 				B1B5595320EF9A8700210D55 /* RecentTableViewCell.xib in Resources */,
+				A0B13A2521F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib in Resources */,
 				B1B557AD20EF5A6D00210D55 /* DeviceView.xib in Resources */,
 				B1B5573920EE6C4D00210D55 /* GroupRoomsViewController.xib in Resources */,
 				853E996721E4986100D005F4 /* SFCompactDisplay-Thin.ttf in Resources */,
@@ -3285,7 +3404,9 @@
 				B1B5578520EF564900210D55 /* GroupTableViewCellWithSwitch.xib in Resources */,
 				B1B557B320EF5AEF00210D55 /* EventDetailsView.xib in Resources */,
 				B1B557DD20EF5FBB00210D55 /* FilesSearchTableViewCell.xib in Resources */,
+				A0043FC621F84C750051AAE1 /* CKAccountProfileJobCell.xib in Resources */,
 				B1B5590320EF768F00210D55 /* RoomSelectedStickerBubbleCell.xib in Resources */,
+				A0043FBE21F849240051AAE1 /* CKAccountProfileActionCell.xib in Resources */,
 				B1B5573F20EE6C4D00210D55 /* SegmentedViewController.xib in Resources */,
 				B1B5581E20EF625800210D55 /* RoomTitleView.xib in Resources */,
 				B1B558C020EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -3300,6 +3421,7 @@
 				B1B558BF20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				E574335921F32A1600989FF3 /* CKRoomSettingsParticipantViewController.xib in Resources */,
 				85CA7CAB21DE13A2000331AC /* CKDirectMessagePageViewController.xib in Resources */,
+				A06949A621F85B8A002ABA27 /* CKAccountProfileEditViewController.xib in Resources */,
 				E5ABA75221E73CBC005EFE0C /* CKRoomSettingsMembersCell.xib in Resources */,
 				B1B558FD20EF768F00210D55 /* RoomIncomingAttachmentBubbleCell.xib in Resources */,
 				B1B558DB20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
@@ -3462,6 +3584,7 @@
 				B1B557D120EF5E3500210D55 /* MediaAlbumTableCell.m in Sources */,
 				B16932AC20F3A7B100746532 /* RiotDesignValues.m in Sources */,
 				B1B557A120EF58AD00210D55 /* ContactTableViewCell.m in Sources */,
+				A06949AB21F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift in Sources */,
 				F083BE021E7009ED00A9B29C /* AvatarGenerator.m in Sources */,
 				E520894221DC730400591830 /* CkAvatarTopView.swift in Sources */,
 				B1B5573A20EE6C4D00210D55 /* GroupRoomsViewController.m in Sources */,
@@ -3481,6 +3604,7 @@
 				B1B558DE20EF768F00210D55 /* RoomIncomingAttachmentBubbleCell.m in Sources */,
 				B1B5574820EE6C4D00210D55 /* PeopleViewController.m in Sources */,
 				E5ABD65A21D616520017D93E /* CkHomeViewController.swift in Sources */,
+				A0043FB921F8489F0051AAE1 /* CKAccountProfileAvatarCell.swift in Sources */,
 				B1B5598720EFC3E000210D55 /* Widget.m in Sources */,
 				B1B557E320EF60B900210D55 /* MessagesSearchResultAttachmentBubbleCell.m in Sources */,
 				A0B35FE621D1DC17000C12C7 /* CkAuthIndicatorViewController.swift in Sources */,
@@ -3502,10 +3626,12 @@
 				B1B5581720EF625800210D55 /* PreviewRoomTitleView.m in Sources */,
 				E574335721F328B600989FF3 /* CKRoomSettingsParticipantViewController.swift in Sources */,
 				E5026CA221F5D601009D1B86 /* CKRoomHeaderInSectionView.swift in Sources */,
+				A0B13A2C21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift in Sources */,
 				B1B558C420EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				B1B5572F20EE6C4D00210D55 /* ReadReceiptsViewController.m in Sources */,
 				E5ABA74A21E73CBC005EFE0C /* CKRoomViewController.swift in Sources */,
 				E5ABA74F21E73CBC005EFE0C /* CKRoomSettingsFilesCell.swift in Sources */,
+				A06949A521F85B8A002ABA27 /* CKAccountProfileEditViewController.swift in Sources */,
 				85CA7CAA21DE13A2000331AC /* CKDirectMessagePageViewController.swift in Sources */,
 				B1B558CB20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
 				B169330B20F3CA3A00746532 /* Contact.m in Sources */,
@@ -3532,6 +3658,7 @@
 				F083BE041E7009ED00A9B29C /* Tools.m in Sources */,
 				B1B5573D20EE6C4D00210D55 /* WebViewViewController.m in Sources */,
 				E5C0B9A821CA76A400910D8B /* CkSignUpViewController.swift in Sources */,
+				A0043FB621F848520051AAE1 /* CKAccountProfileBaseCell.swift in Sources */,
 				B1B5572720EE6C4D00210D55 /* RoomSearchViewController.m in Sources */,
 				F05927C91FDED836009F2A68 /* MXGroup+Riot.m in Sources */,
 				E5ABA74D21E73CBC005EFE0C /* CKRoomSettingsAddPeopleCell.swift in Sources */,
@@ -3541,6 +3668,7 @@
 				B169330020F3C97D00746532 /* RoomDataSource.m in Sources */,
 				B1B558ED20EF768F00210D55 /* RoomIncomingTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5ABA75321E73CBC005EFE0C /* CKRoomSettingsMoreSettingsCell.swift in Sources */,
+				A0043FC121F84A610051AAE1 /* CKAccountProfileInfoCell.swift in Sources */,
 				B1B5571920EE6C4D00210D55 /* LanguagePickerViewController.m in Sources */,
 				B1B5590520EF768F00210D55 /* RoomIncomingTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
 				B1B558DD20EF768F00210D55 /* RoomIncomingEncryptedTextMsgBubbleCell.m in Sources */,
@@ -3562,9 +3690,11 @@
 				B16932F720F3C50E00746532 /* RecentsDataSource.m in Sources */,
 				B1B558FC20EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				B1B5572920EE6C4D00210D55 /* RoomFilesViewController.m in Sources */,
+				A0043FBD21F849240051AAE1 /* CKAccountProfileActionCell.swift in Sources */,
 				B1B558E020EF768F00210D55 /* RoomOutgoingTextMsgBubbleCell.m in Sources */,
 				B1B5593C20EF7BAC00210D55 /* TableViewCellWithCheckBoxes.m in Sources */,
 				F0D2ADA11F6AA5FD00A7097D /* MXRoomSummary+Riot.m in Sources */,
+				A0043FC521F84C750051AAE1 /* CKAccountProfileJobCell.swift in Sources */,
 				B1B5596F20EFA85D00210D55 /* EncryptionInfoView.m in Sources */,
 				A0D996B621CB42E900AD8135 /* Checkbox.swift in Sources */,
 				B1B5573820EE6C4D00210D55 /* GroupParticipantsViewController.m in Sources */,
@@ -3577,8 +3707,10 @@
 				B1B5571D20EE6C4D00210D55 /* HomeViewController.m in Sources */,
 				B16932EA20F3C39000746532 /* UnifiedSearchRecentsDataSource.m in Sources */,
 				B1B557DE20EF5FBB00210D55 /* FilesSearchTableViewCell.m in Sources */,
+				A0043FB221F847780051AAE1 /* CKAccountProfileViewController.swift in Sources */,
 				B1B5574020EE6C4D00210D55 /* SegmentedViewController.m in Sources */,
 				B1B5599320EFC5E400210D55 /* DecryptionFailure.m in Sources */,
+				A0B13A2821F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift in Sources */,
 				E5ABD65521CC8CA10017D93E /* CkAuthorizer.swift in Sources */,
 				B1B558BE20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				F083BDED1E7009ED00A9B29C /* MXKRoomBubbleTableViewCell+Riot.m in Sources */,
@@ -3592,6 +3724,7 @@
 				E5026CA621F5DE96009D1B86 /* CKRoomDirectCreatingViewController.swift in Sources */,
 				B1B5577E20EE84BF00210D55 /* IncomingCallView.m in Sources */,
 				E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */,
+				A0043FC921F84C980051AAE1 /* CKAccountProfileTimeCell.swift in Sources */,
 				B1B5578F20EF568D00210D55 /* GroupTableViewCell.m in Sources */,
 				E5720EDE21ACFB390093D99A /* CkAuthenticationViewController.swift in Sources */,
 				B1B5573220EE6C4D00210D55 /* GroupHomeViewController.m in Sources */,
@@ -3605,6 +3738,7 @@
 				B1B5581920EF625800210D55 /* RoomTitleView.m in Sources */,
 				B1B557BE20EF5B4500210D55 /* RoomInputToolbarView.m in Sources */,
 				E574336621F3682A00989FF3 /* CKRoomBaseCell.swift in Sources */,
+				A000B6E821F8732F0002EBB3 /* CKAccountEditProfileBaseCell.swift in Sources */,
 				B1B5573B20EE6C4D00210D55 /* FavouritesViewController.m in Sources */,
 				E5ABA75721E73CBC005EFE0C /* CKRoomSettingsTopicCell.swift in Sources */,
 				E574336C21F370DD00989FF3 /* CKRoomCreatingNameCell.swift in Sources */,
@@ -3624,6 +3758,7 @@
 				B1B558D020EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				B1B558CF20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				B1B5575120EE6C4D00210D55 /* AuthenticationViewController.m in Sources */,
+				A0B13A2421F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift in Sources */,
 				B1B5571820EE6C4D00210D55 /* CountryPickerViewController.m in Sources */,
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
 				B1B5575A20EE6C4D00210D55 /* UnifiedSearchViewController.m in Sources */,
@@ -3673,6 +3808,7 @@
 				85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */,
 				B16932E720F3C37100746532 /* HomeMessagesSearchDataSource.m in Sources */,
 				B1B558CE20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentBubbleCell.m in Sources */,
+				A0043FCD21F84CB10051AAE1 /* CKAccountProfileEmailCell.swift in Sources */,
 				B1B5577D20EE84BF00210D55 /* CircleButton.m in Sources */,
 				B1B558FF20EF768F00210D55 /* RoomIncomingTextMsgBubbleCell.m in Sources */,
 				B1B5591020EF782800210D55 /* TableViewCellWithPhoneNumberTextField.m in Sources */,
