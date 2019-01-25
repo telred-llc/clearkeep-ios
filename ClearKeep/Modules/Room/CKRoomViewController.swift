@@ -90,6 +90,8 @@ extension CKRoomViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        bubblesTableView.keyboardDismissMode = .interactive
+        
         // Register first customized cell view classes used to render bubbles
         bubblesTableView.register(RoomIncomingTextMsgBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgBubbleCell.defaultReuseIdentifier())
         bubblesTableView.register(RoomIncomingTextMsgWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
@@ -154,6 +156,8 @@ extension CKRoomViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.refreshRoomTitle()
     }
     
     @objc func eventDidChangeSentState(_ notif: Notification?) {
@@ -336,7 +340,8 @@ extension CKRoomViewController {
     }
     
     func refreshRoomTitle() {
-        // TODO: implement
+        self.setRoomTitleViewClass(RoomTitleView.self)
+        (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
     }
     
     // MARK: - Unreachable Network Handling
@@ -519,6 +524,17 @@ extension CKRoomViewController {
             inputToolbarView.pasteText("\(memberName ?? "") ")
         }
     }
+    
+    private func showRoomSettings() {
+        let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
+            if let vc = vc as? CKRoomSettingsViewController {
+                vc.initWith(self.roomDataSource.mxSession, andRoomId: self.roomDataSource.roomId)
+            }
+        }
+        
+        // present nvc
+        self.present(nvc, animated: true, completion: nil)
+    }
 }
 
 // MARK: - MXServerNoticesDelegate
@@ -551,11 +567,24 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             mentionDataSource = nil
         }
     }
+    
+    func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, pickerImage show: Bool) {
+    }
 }
+
+// MARK: - CKMentionDataSourceDelegate
 
 extension CKRoomViewController: CKMentionDataSourceDelegate {
     func mentionDataSource(_ dataSource: CKMentionDataSource, didSelect member: MXRoomMember) {
         self.mention(member)
         mentionDataSource = nil
+    }
+}
+
+// MARK: - RoomTitleViewTapGestureDelegate
+
+extension CKRoomViewController: RoomTitleViewTapGestureDelegate {
+    func roomTitleView(_ titleView: RoomTitleView?, recognizeTapGesture tapGestureRecognizer: UITapGestureRecognizer?) {
+        self.showRoomSettings()
     }
 }
