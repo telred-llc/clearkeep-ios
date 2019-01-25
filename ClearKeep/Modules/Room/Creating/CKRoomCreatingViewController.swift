@@ -87,12 +87,6 @@ final class CKRoomCreatingViewController: MXKViewController {
         self.tableView.register(CKRoomCreatingNameCell.nib, forCellReuseIdentifier: CKRoomCreatingNameCell.identifier)
         self.tableView.allowsSelection = false
         
-        // Setup back button item
-        let backItemButton = UIBarButtonItem.init(
-            title: "Back",
-            style: .plain, target: self,
-            action: #selector(clickedOnBackButton(_:)))
-
         // Setup right button item
         let rightItemButton = UIBarButtonItem.init(
             title: "Create",
@@ -102,7 +96,6 @@ final class CKRoomCreatingViewController: MXKViewController {
         rightItemButton.isEnabled = false
 
         // assign back button
-        self.navigationItem.leftBarButtonItem = backItemButton
         self.navigationItem.rightBarButtonItem = rightItemButton
     }
     
@@ -133,7 +126,7 @@ final class CKRoomCreatingViewController: MXKViewController {
             preset: nil) { (response: MXResponse<MXRoom>) in
 
                 // a closure finishing room
-                let finalizeCreatingRoom = { () -> Void in
+                let finalizeCreatingRoom = { (_ room: MXRoom?) -> Void in
                     
                     // reset request
                     self.request = nil
@@ -141,7 +134,11 @@ final class CKRoomCreatingViewController: MXKViewController {
                     
                     // dismiss
                     DispatchQueue.main.async {
-                        self.dismiss(animated: true, completion: nil)
+                        let vc = CKRoomAddingMembersViewController.instance()
+                        vc.importSession(self.mxSessions)
+                        vc.mxRoom = room
+                        vc.isNewStarting = true
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
                 
@@ -152,11 +149,11 @@ final class CKRoomCreatingViewController: MXKViewController {
                         completion: { (response2: MXResponse<Void>) in
                             
                             // finish creating room
-                            finalizeCreatingRoom()
+                            finalizeCreatingRoom(room)
                     })
                 } else {
                     // finish creating room
-                    finalizeCreatingRoom()
+                    finalizeCreatingRoom(response.value)
                 }
         }
     }
@@ -274,7 +271,7 @@ final class CKRoomCreatingViewController: MXKViewController {
 
 extension CKRoomCreatingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return CKLayoutSize.Table.row60px
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -293,7 +290,11 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return CKLayoutSize.Table.header40px
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CKLayoutSize.Table.footer1px
     }
 }
 

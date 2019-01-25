@@ -17,11 +17,13 @@ final class CkHomeViewController: MXKViewController {
     lazy var directMessageVC: CKDirectMessagePageViewController = {
         let vc = Bundle.main.loadNibNamed(CKDirectMessagePageViewController.nibName, owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
         vc.delegate = self
+        vc.importSession(self.mxSessions)
         return vc
     }()
 
     lazy var roomVC: CKRoomPageViewController = {
         let vc = Bundle.main.loadNibNamed(CKRoomPageViewController.nibName, owner: nil, options: nil)?.first as! CKRoomPageViewController
+        vc.importSession(self.mxSessions)
         vc.delegate = self
         return vc
     }()
@@ -277,7 +279,14 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     }
     
     private func reloadRoomPage() {
-        if let roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
+        if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
+            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+                for invite in invitesArray {
+                    if invite.roomSummary.isDirect == false {
+                        roomsArray.insert(invite, at: 0)
+                    }
+                }
+            }
             roomVC.reloadData(rooms: roomsArray)
         } else {
             roomVC.reloadData(rooms: [])
@@ -285,7 +294,16 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     }
     
     private func reloadDirectMessagePage() {
-        if let peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
+        if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
+            
+            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+                for invite in invitesArray {
+                    if invite.roomSummary.isDirect == true {
+                        peopleArray.insert(invite, at: 0)
+                    }
+                }
+            }
+            
             directMessageVC.reloadData(rooms: peopleArray)
         } else {
             directMessageVC.reloadData(rooms: [])
@@ -349,7 +367,7 @@ extension CkHomeViewController: CKRoomDirectCreatingViewControllerDelegate {
                     } else { // failing to create the room
                         DispatchQueue.main.async { completion?(false) }
                     }
-                }
+                }                                
                 
                 // Aha, there is an existing direct room
                 if let room =  mxSession.directJoinedRoom(withUserId: userId) {

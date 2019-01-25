@@ -23,8 +23,8 @@ import Foundation
         static func count() -> Int {
             return 3
         }
-    }
-
+    }    
+    
     /**
      Cells heigh
      */
@@ -76,8 +76,8 @@ import Foundation
 
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.backgroundColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
-        self.view.backgroundColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
+        self.tableView.backgroundColor = CKColor.Background.tableView
+        self.view.backgroundColor = CKColor.Background.tableView
         self.navigationItem.title = String.ck_LocalizedString(key: "Info")
         self.reloadTableView()
     }
@@ -148,19 +148,10 @@ import Foundation
     }
 
     private func showsSettingsEdit() {
-
-        // initialize vc from xib
-        let vc = CKRoomSettingsEditViewController(
-            nibName: "CKRoomSettingsEditViewController",
-            bundle: nil)
-        
-        // import mx session and room id
+        let vc = CKRoomSettingsEditViewController.instance()
         vc.importSession(self.mxSessions)
         vc.mxRoom = self.mxRoom
-        
-        // present vc
-        let navi = UINavigationController.init(rootViewController: vc)
-        self.present(navi, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func showParticiants() {
@@ -283,37 +274,45 @@ import Foundation
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let sectionType = tblSections[section]
-        switch sectionType {
-        case .infos:
-            return 40
-        case .settings:
-            return 10
-        case .actions:
-            return 10
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let sectionType = tblSections[indexPath.section]
-        switch sectionType {
-        case .infos:
-            if indexPath.row == 1 {
-                if (self.mxRoom != nil && mxRoom.summary.topic == nil) {
-                    return kInfoCellHeigh
-                }
-                return UITableViewAutomaticDimension
-            }
-        default:
-            return kDefaultCellHeigh
-        }
-        return kDefaultCellHeigh
+        return CKLayoutSize.Table.header40px
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
         view.backgroundColor = UIColor.clear
         return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CKLayoutSize.Table.footer1px
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let sectionType = tblSections[indexPath.section]
+        
+        // case-in
+        switch sectionType {
+        case .infos:
+            
+            // is 2nd row?
+            if indexPath.row == 1 {
+                
+                // fix heigh
+                if (self.mxRoom != nil && mxRoom.summary.topic == nil) {
+                    return CKLayoutSize.Table.row60px
+                }
+
+                // dynamic heigh
+                return UITableViewAutomaticDimension
+            }
+        default:
+            
+            // default
+            return CKLayoutSize.Table.row60px
+        }
+        
+        // default
+        return CKLayoutSize.Table.row60px
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

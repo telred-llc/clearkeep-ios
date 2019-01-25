@@ -38,6 +38,11 @@ final class CKRoomAddingMembersViewController: MXKViewController {
      */
     public var mxRoom: MXRoom!
     
+    /**
+     This controller probably displayed while you create new a room or add people to an existing room
+     */
+    public var isNewStarting: Bool = false
+    
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -93,11 +98,45 @@ final class CKRoomAddingMembersViewController: MXKViewController {
     }
     
     private func cellForSearching(atIndexPath indexPath: IndexPath) -> CKRoomAddingSearchCell {
-        if let cell = self.tableView.dequeueReusableCell(
-            withIdentifier: CKRoomAddingSearchCell.identifier, for: indexPath) as? CKRoomAddingSearchCell {
-            return cell
+        let cell = (self.tableView.dequeueReusableCell(
+            withIdentifier: CKRoomAddingSearchCell.identifier, for: indexPath) as? CKRoomAddingSearchCell) ?? CKRoomAddingSearchCell()
+
+        // handl serching
+        cell.beginSearchingHandler = { text in
+            
+            // indicator
+            self.startActivityIndicator()
+            
+            // try to seach text in hs
+            self.mainSession.matrixRestClient.searchUsers(text, limit: 50, success: { (response: MXUserSearchResponse?) in
+                
+                // main asyn
+                DispatchQueue.main.async {
+                    
+                    // text lenght
+                    if text.count > 0 {
+                        
+                        // seach
+                        self.finallySearchDirectoryUsers(byResponse: response)
+                    } else {
+                        
+                        // reload
+                        self.reloadDataSource()
+                    }
+                    
+                    self.stopActivityIndicator()
+                }
+            }, failure: { (_) in
+                
+                // main async
+                DispatchQueue.main.async {
+                    self.reloadDataSource()
+                    self.stopActivityIndicator()
+                }
+            })
         }
-        return CKRoomAddingSearchCell()
+        
+        return cell
     }
     
     private func cellForAddingMember(atIndexPath indexPath: IndexPath) -> CKRoomAddingMembersCell {
@@ -176,10 +215,44 @@ final class CKRoomAddingMembersViewController: MXKViewController {
                 
             }.ensure {
                 self.stopActivityIndicator()
+                
+                // dismiss
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: {
+                        
+                        // in new room?
+                        if self.isNewStarting {
+                            AppDelegate.the().masterTabBarController.selectRoom(withId: self.mxRoom.roomId, andEventId: nil, inMatrixSession: self.mxRoom.summary.mxSession) {}
+                        }
+                    })
+                }
             }.catch { (error) in
         }
     }
     
+    private func finallySearchDirectoryUsers(byResponse response: MXUserSearchResponse?) {
+        
+        // sure is value response
+        if let results = response?.results, results.count > 0 {
+            
+            // reset
+            self.filteredDataSource.removeAll()
+            self.tableView.reloadData()
+            
+            // re-update
+            for u in results {
+                if let c = MXKContact(matrixContactWithDisplayName: u.displayname, andMatrixID: u.userId) {
+                    let ci = CKContactInternal(mxContact: c, isSelected: false)
+                    self.filteredDataSource.append(ci)
+                }
+            }
+            
+            // re-load
+            self.tableView.reloadData()
+            self.view.endEditing(true)
+        }
+    }
+
     // MARK: - ACTION
     @objc func clickedOnInviteButton(_ sender: Any?) {
         self.invite()                
@@ -195,12 +268,12 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let s = Section(rawValue: indexPath.section) else { return 60}
+        guard let s = Section(rawValue: indexPath.section) else { return 1 }
         switch s {
         case .search:
-            return 44
+            return CKLayoutSize.Table.row44px
         default:
-            return 60
+            return CKLayoutSize.Table.row60px
         }
     }
     
@@ -223,14 +296,14 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         guard let s = Section(rawValue: section) else { return 1}
         switch s {
         case .search:
-            return 1
+            return CKLayoutSize.Table.header1px
         default:
-            return 40
+            return CKLayoutSize.Table.header40px
         }
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return CKLayoutSize.Table.footer1px
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
