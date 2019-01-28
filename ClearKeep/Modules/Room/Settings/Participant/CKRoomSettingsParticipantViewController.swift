@@ -31,6 +31,11 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     public var mxRoom: MXRoom!
 
     /**
+     Original data source
+     */
+    private var originalDataSource: [MXRoomMember]! = nil
+    
+    /**
      filtered out participants
      */
     private var filteredParticipants: [MXRoomMember]! = [MXRoomMember]()
@@ -145,6 +150,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     
     private func finalizeReloadingParticipants(_ state: MXRoomState) {
         DispatchQueue.main.async {
+            self.originalDataSource = self.filteredParticipants
             self.tableView.reloadData()
         }
     }
@@ -201,9 +207,28 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     }
     
     private func cellForParticipantSearch(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantSearchCell{
-        return (tableView.dequeueReusableCell(
+        
+        // deque cell
+        let cell = self.tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsParticipantSearchCell.identifier,
-            for: indexPath) as? CKRoomSettingsParticipantSearchCell) ?? CKRoomSettingsParticipantSearchCell()
+            for: indexPath) as! CKRoomSettingsParticipantSearchCell
+        
+        // handle searching
+        cell.beginSearchingHandler = { text in
+            
+            if text.count > 0 {
+                self.filteredParticipants = self.originalDataSource.filter({ (member: MXRoomMember) -> Bool in
+                    return member.displayname.lowercased().contains(text.lowercased())
+                })
+            } else {
+                self.filteredParticipants = self.originalDataSource
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+            })
+        }
+        return cell
     }
     
     // MARK: - PUBLIC
