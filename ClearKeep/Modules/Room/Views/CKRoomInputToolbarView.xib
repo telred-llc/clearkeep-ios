@@ -29,63 +29,67 @@
                             <rect key="frame" x="0.0" y="1" width="409" height="45"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mev-Nz-c1s" customClass="HPGrowingTextView">
-                                    <rect key="frame" x="0.0" y="0.0" width="409" height="45"/>
+                                    <rect key="frame" x="6" y="4" width="397" height="41"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="GrowingTextView"/>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="Mev-Nz-c1s" firstAttribute="leading" secondItem="8Re-dA-XD0" secondAttribute="leading" id="Sjv-bQ-zIw"/>
-                                <constraint firstItem="Mev-Nz-c1s" firstAttribute="top" secondItem="8Re-dA-XD0" secondAttribute="top" id="Sys-Pv-4Be"/>
-                                <constraint firstAttribute="trailing" secondItem="Mev-Nz-c1s" secondAttribute="trailing" id="jHV-di-fK5"/>
+                                <constraint firstItem="Mev-Nz-c1s" firstAttribute="leading" secondItem="8Re-dA-XD0" secondAttribute="leading" constant="6" id="Sjv-bQ-zIw"/>
+                                <constraint firstItem="Mev-Nz-c1s" firstAttribute="top" secondItem="8Re-dA-XD0" secondAttribute="top" constant="4" id="Sys-Pv-4Be"/>
+                                <constraint firstAttribute="trailing" secondItem="Mev-Nz-c1s" secondAttribute="trailing" constant="6" id="jHV-di-fK5"/>
                                 <constraint firstAttribute="bottom" secondItem="Mev-Nz-c1s" secondAttribute="bottom" id="kic-cE-Lhs"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oL1-AL-sDn">
-                            <rect key="frame" x="0.0" y="46" width="409" height="44"/>
+                            <rect key="frame" x="0.0" y="46" width="409" height="36"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dbl-Hp-MrJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="90" height="44"/>
+                                    <rect key="frame" x="10" y="7" width="14" height="22"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="854-Uj-lZg">
-                                            <rect key="frame" x="0.0" y="0.0" width="40" height="44"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="40" id="p7P-lF-fRB"/>
-                                            </constraints>
-                                            <state key="normal" title="@"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="854-Uj-lZg">
+                                            <rect key="frame" x="0.0" y="0.0" width="14" height="22"/>
+                                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <state key="normal" image="ic_tagging"/>
                                             <connections>
                                                 <action selector="clickedOnMentionButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="nXZ-1U-dp5"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyw-o1-3gx">
-                                            <rect key="frame" x="50" y="0.0" width="40" height="44"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="40" id="oRx-dp-Pa5"/>
-                                            </constraints>
-                                            <state key="normal" title="file"/>
-                                            <connections>
-                                                <action selector="clickedOnShareFileButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="fQO-bD-q33"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
                                 </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fYB-Ed-fG0">
-                                    <rect key="frame" x="313" y="0.0" width="86" height="44"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="fYB-Ed-fG0">
+                                    <rect key="frame" x="306" y="2" width="88" height="32"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXz-33-8LG">
-                                            <rect key="frame" x="0.0" y="0.0" width="40" height="44"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="40" id="Iab-CU-pzB"/>
-                                            </constraints>
-                                            <state key="normal" title="img"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXz-33-8LG">
+                                            <rect key="frame" x="0.0" y="0.0" width="14" height="32"/>
+                                            <state key="normal" image="ic_send_image_disabled"/>
                                             <connections>
                                                 <action selector="clickedOnShareImageButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="nWA-2Z-xrp"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Itw-6f-HNS">
-                                            <rect key="frame" x="50" y="0.0" width="36" height="44"/>
-                                            <state key="normal" title="Send"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Itw-6f-HNS">
+                                            <rect key="frame" x="34" y="0.0" width="54" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="Jh3-iG-RnF"/>
+                                                <constraint firstAttribute="width" constant="54" id="XZr-Q9-B9a"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <color key="tintColor" red="1" green="0.40000000000000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <state key="normal" title="Send">
+                                                <color key="titleColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="1"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                    <color key="value" white="0.5" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                             <connections>
                                                 <action selector="onTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="UQc-EE-yQF"/>
                                             </connections>
@@ -95,12 +99,10 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="fYB-Ed-fG0" secondAttribute="trailing" constant="10" id="1o9-E4-rge"/>
-                                <constraint firstItem="Dbl-Hp-MrJ" firstAttribute="top" secondItem="oL1-AL-sDn" secondAttribute="top" id="K2o-Za-dIO"/>
-                                <constraint firstItem="fYB-Ed-fG0" firstAttribute="top" secondItem="oL1-AL-sDn" secondAttribute="top" id="PMT-Gd-jkQ"/>
-                                <constraint firstAttribute="bottom" secondItem="Dbl-Hp-MrJ" secondAttribute="bottom" id="ehY-uA-7ad"/>
-                                <constraint firstItem="Dbl-Hp-MrJ" firstAttribute="leading" secondItem="oL1-AL-sDn" secondAttribute="leading" id="gNQ-1s-h9X"/>
-                                <constraint firstAttribute="bottom" secondItem="fYB-Ed-fG0" secondAttribute="bottom" id="sEA-9i-LXa"/>
+                                <constraint firstAttribute="trailing" secondItem="fYB-Ed-fG0" secondAttribute="trailing" constant="15" id="1o9-E4-rge"/>
+                                <constraint firstItem="Dbl-Hp-MrJ" firstAttribute="centerY" secondItem="oL1-AL-sDn" secondAttribute="centerY" id="4gM-F9-DbP"/>
+                                <constraint firstItem="fYB-Ed-fG0" firstAttribute="centerY" secondItem="oL1-AL-sDn" secondAttribute="centerY" id="V5F-DC-hu9"/>
+                                <constraint firstItem="Dbl-Hp-MrJ" firstAttribute="leading" secondItem="oL1-AL-sDn" secondAttribute="leading" constant="10" id="gNQ-1s-h9X"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -114,7 +116,7 @@
                         <constraint firstAttribute="trailing" secondItem="jU2-ci-Yac" secondAttribute="trailing" id="O39-4K-TCc"/>
                         <constraint firstAttribute="bottom" secondItem="8Re-dA-XD0" secondAttribute="bottom" constant="44" id="RDH-Z6-F87"/>
                         <constraint firstItem="oL1-AL-sDn" firstAttribute="leading" secondItem="g3d-as-ewc" secondAttribute="leading" id="TMf-Ez-FIa"/>
-                        <constraint firstAttribute="bottom" secondItem="oL1-AL-sDn" secondAttribute="bottom" id="ZTk-zU-P23"/>
+                        <constraint firstAttribute="bottom" secondItem="oL1-AL-sDn" secondAttribute="bottom" constant="8" id="ZTk-zU-P23"/>
                         <constraint firstAttribute="trailing" secondItem="8Re-dA-XD0" secondAttribute="trailing" id="ZuV-P8-Vci"/>
                         <constraint firstItem="8Re-dA-XD0" firstAttribute="leading" secondItem="g3d-as-ewc" secondAttribute="leading" id="oRO-HR-K4y"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="90" id="r16-oX-c59"/>
@@ -139,9 +141,14 @@
                 <outlet property="messageComposerContainerBottomConstraint" destination="RDH-Z6-F87" id="izQ-dm-aoF"/>
                 <outlet property="messageComposerContainerTopConstraint" destination="rpB-BT-6lP" id="S4l-BE-2HM"/>
                 <outlet property="rightInputToolbarButton" destination="Itw-6f-HNS" id="UYV-mR-J9F"/>
+                <outlet property="sendImageButton" destination="AXz-33-8LG" id="fhJ-Jg-741"/>
                 <outlet property="separatorView" destination="jU2-ci-Yac" id="6VX-oD-4BS"/>
             </connections>
-            <point key="canvasLocation" x="490.39999999999998" y="-209.59520239880061"/>
+            <point key="canvasLocation" x="505" y="-281"/>
         </view>
     </objects>
+    <resources>
+        <image name="ic_send_image_disabled" width="14.399999618530273" height="14.399999618530273"/>
+        <image name="ic_tagging" width="14.399999618530273" height="14.399999618530273"/>
+    </resources>
 </document>

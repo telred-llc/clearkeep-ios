@@ -77,3 +77,6 @@
 #import "DisabledRoomInputToolbarView.h"
 
 #import "UIImageEffects.h"
+
+#import "RoomSearchViewController.h"
+#import "SimpleRoomTitleView.h"

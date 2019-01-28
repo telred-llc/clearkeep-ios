@@ -187,7 +187,6 @@ class CKRoomDataSource: MXKRoomDataSource {
         
         let cell: UITableViewCell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        /*
         // Finalize cell view customization here
         if let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
             
@@ -370,9 +369,11 @@ class CKRoomDataSource: MXKRoomDataSource {
 
             // Auto animate the sticker in case of animated gif
             bubbleCell.isAutoAnimatedGif = cellData?.attachment != nil && cellData?.attachment.type == MXKAttachmentTypeSticker
+            
+            // Disable textview selecting
+            bubbleCell.messageTextView?.isSelectable = false
         }
-        */
-        
+ 
         return cell
     }
 }

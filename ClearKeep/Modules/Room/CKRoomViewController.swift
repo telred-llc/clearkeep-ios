@@ -13,20 +13,19 @@ import MatrixKit
     
     // MARK: - IBOutlets
     
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var previewHeaderContainer: UIView!
     @IBOutlet weak var previewHeaderContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mentionListTableView: UITableView!
     @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
     
-    // MARK: - Override
+    // MARK: - Constants
     
-    public override class func nib() -> UINib? {
-        return UINib.init(
-            nibName: String(describing: CKRoomViewController.self),
-            bundle: Bundle(for: self))
-    }
-
+    private let kShowRoomSearchSegue = "showRoomSearch"
+    
     // MARK: - Properties
+    
+    // MARK: Public
     
     /**
      Force the display of the expanded header.
@@ -56,27 +55,64 @@ import MatrixKit
     
     var mentionDataSource: CKMentionDataSource? {
         didSet {
-            self.mentionListTableView?.dataSource = mentionDataSource
-            self.mentionListTableView?.delegate = mentionDataSource
-            
-            if mentionDataSource != nil {
-                self.mentionListTableView.isHidden = false
-                self.mentionListTableView?.reloadData()
-                self.mentionListTableViewHeightConstraint.constant = self.mentionListTableView.contentSize.height
-                self.mentionListTableView.layoutIfNeeded()
-            } else {
-                self.mentionListTableView.isHidden = true
+            self.updateMentionTableView(mentionDataSource: self.mentionDataSource)
+        }
+    }
+    
+    override var keyboardHeight: CGFloat {
+        didSet {
+            if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
+                inputToolBarView.maxNumberOfLines = 3
             }
         }
     }
+
+    // MARK: Private
+    
+    /**
+     Current alert (if any).
+     */
+    private var currentAlert: UIAlertController? {
+        get {
+            return self.value(forKey: "currentAlert") as? UIAlertController
+        }
+        set {
+            self.setValue(currentAlert, forKey: "currentAlert")
+        }
+    }
+    
+    // The right bar button items back up.
+    private var rightBarButtonItems: [UIBarButtonItem]?
 }
 
 extension CKRoomViewController {
     
-    // MARK: - LifeCycle
+    // MARK: - Override MXKRoomViewController
     
+    public override class func nib() -> UINib? {
+        return UINib.init(
+            nibName: CKRoomViewController.nibName,
+            bundle: Bundle(for: self))
+    }
+
     override func destroy() {
+        rightBarButtonItems = nil;
+        for barButtonItem in navigationItem.rightBarButtonItems ?? [] {
+            barButtonItem.isEnabled = false
+        }
+
+        if currentAlert != nil {
+            currentAlert?.dismiss(animated: false)
+            currentAlert = nil
+        }
+
+        if customizedRoomDataSource != nil {
+            customizedRoomDataSource?.selectedEventId = nil;
+            customizedRoomDataSource = nil;
+        }
+        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
+        
         super.destroy()
     }
     
@@ -89,9 +125,35 @@ extension CKRoomViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupBubblesTableView()
+        self.setupMentionTableView()
         
-        bubblesTableView.keyboardDismissMode = .interactive
+        // Replace the default input toolbar view.
+        // Note: this operation will force the layout of subviews. That is why cell view classes must be registered before.
+        updateRoomInputToolbarViewClassIfNeeded()
         
+        // Update navigation bar items
+        for barButtonItem in self.navigationItem.rightBarButtonItems ?? [] {
+            barButtonItem.target = self
+            barButtonItem.action = #selector(self.navigationBarButtonPressed(_:))
+        }
+
+        // Set up the room title view according to the data source (if any)
+        self.refreshRoomTitle()
+        
+        // Refresh tool bar if the room data source is set.
+        if roomDataSource != nil {
+            refreshRoomInputToolbar()
+        }
+}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.refreshRoomTitle()
+    }
+    
+    private func setupBubblesTableView() {
         // Register first customized cell view classes used to render bubbles
         bubblesTableView.register(RoomIncomingTextMsgBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgBubbleCell.defaultReuseIdentifier())
         bubblesTableView.register(RoomIncomingTextMsgWithoutSenderInfoBubbleCell.self, forCellReuseIdentifier: RoomIncomingTextMsgWithoutSenderInfoBubbleCell.defaultReuseIdentifier())
@@ -141,23 +203,19 @@ extension CKRoomViewController {
         bubblesTableView.register(RoomSelectedStickerBubbleCell.self, forCellReuseIdentifier: RoomSelectedStickerBubbleCell.defaultReuseIdentifier())
         bubblesTableView.register(RoomPredecessorBubbleCell.self, forCellReuseIdentifier: RoomPredecessorBubbleCell.defaultReuseIdentifier())
         
-        // Mention tableview
-        mentionListTableView.register(CKMentionUserTableViewCell.nib(), forCellReuseIdentifier: CKMentionUserTableViewCell.defaultReuseIdentifier())
-        
-        // Replace the default input toolbar view.
-        // Note: this operation will force the layout of subviews. That is why cell view classes must be registered before.
-        updateRoomInputToolbarViewClassIfNeeded()
-        
-        // Refresh tool bar if the room data source is set.
-        if roomDataSource != nil {
-            refreshRoomInputToolbar()
-        }
+        // style
+        bubblesTableView.keyboardDismissMode = .interactive
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.refreshRoomTitle()
+    private func setupMentionTableView() {
+        // register cell
+        mentionListTableView.register(CKMentionUserTableViewCell.nib(), forCellReuseIdentifier: CKMentionUserTableViewCell.defaultReuseIdentifier())
+
+        // add border
+        let border = CALayer()
+        border.frame = CGRect(x: 0, y: 0, width: self.mentionListTableView.frame.width, height: 1.0)
+        border.backgroundColor = CKColor.Misc.borderColor.cgColor
+        mentionListTableView.layer.addSublayer(border)
     }
     
     @objc func eventDidChangeSentState(_ notif: Notification?) {
@@ -252,7 +310,54 @@ extension CKRoomViewController {
 
         return false
     }
+    
+    func updateMentionTableView(mentionDataSource: CKMentionDataSource?) {
+        self.mentionListTableView?.dataSource = mentionDataSource
+        self.mentionListTableView?.delegate = mentionDataSource
+        
+        if mentionDataSource != nil {
+            self.mentionListTableView.isHidden = false
+            self.mentionListTableView?.reloadData()
+            
+            let inputToolbarViewHeight: CGFloat = self.inputToolbarHeight()
+            var visibleAreaHeight = view.frame.size.height - keyboardHeight - inputToolbarViewHeight
+            
+            // Hardcode to fix layout bug
+            visibleAreaHeight -= 100
+            
+            if self.mentionListTableView.contentSize.height > visibleAreaHeight {
+                self.mentionListTableViewHeightConstraint.constant = visibleAreaHeight
+            } else {
+                self.mentionListTableViewHeightConstraint.constant = self.mentionListTableView.contentSize.height
+            }
+            self.mentionListTableView.layoutIfNeeded()
+        } else {
+            self.mentionListTableView.isHidden = true
+        }
+    }
+    
+    @objc func navigationBarButtonPressed(_ sender: UIBarButtonItem) {
+        // Search button
+        if sender == navigationItem.rightBarButtonItem {
+            performSegue(withIdentifier: kShowRoomSearchSegue, sender: self)
+        }
+    }
+    
+    // MARK: Prepare for segue
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == kShowRoomSearchSegue {
+            // Dismiss keyboard
+            dismissKeyboard()
 
+            let roomSearchViewController = segue.destination as? RoomSearchViewController
+            // Add the current data source to be able to search messages.
+            roomSearchViewController?.roomDataSource = roomDataSource
+        }
+    }
+    
     // MARK: Input Tool Bar
     
     // Set the input toolbar according to the current display
@@ -313,7 +418,7 @@ extension CKRoomViewController {
         var height: CGFloat = 0
 
         if (inputToolbarView is CKRoomInputToolbarView) {
-            height = (inputToolbarView as? CKRoomInputToolbarView)?.mainToolbarMinHeightConstraint.constant ?? 0.0
+            height = (inputToolbarView as? CKRoomInputToolbarView)?.mainToolbarHeightConstraint.constant ?? 0.0
         } else if (inputToolbarView is DisabledRoomInputToolbarView) {
             height = (inputToolbarView as? DisabledRoomInputToolbarView)?.mainToolbarMinHeightConstraint.constant ?? 0.0
         }
@@ -322,17 +427,12 @@ extension CKRoomViewController {
     }
     
     func refreshRoomInputToolbar() {
-        let userPictureView: MXKImageView?
-
         if inputToolbarView != nil && (inputToolbarView is CKRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! CKRoomInputToolbarView
-                        
+            
         } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! DisabledRoomInputToolbarView
-
-            // Get user picture view in input toolbar
-            userPictureView = roomInputToolbarView.pictureView
-
+            
             // For the moment, there is only one reason to use `DisabledRoomInputToolbarView`
             roomInputToolbarView.setDisabledReason(NSLocalizedString("room_do_not_have_permission_to_post", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""))
         }
@@ -340,10 +440,58 @@ extension CKRoomViewController {
     }
     
     func refreshRoomTitle() {
-        self.setRoomTitleViewClass(RoomTitleView.self)
-        (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+        if rightBarButtonItems != nil && navigationItem.rightBarButtonItems == nil {
+            // Restore by default the search bar button.
+            navigationItem.rightBarButtonItems = rightBarButtonItems
+        }
+
+        // Set the right room title view
+        if self.isRoomPreview() {
+            // Do not show the right buttons
+            navigationItem.rightBarButtonItems = nil
+        }
+        else if self.roomDataSource != nil {
+            
+            if self.roomDataSource.isLive {
+                // Enable the right buttons (Search and Integrations)
+                for barButtonItem in navigationItem.rightBarButtonItems ?? [] {
+                    barButtonItem.isEnabled = true
+                }
+
+                if self.navigationItem.rightBarButtonItems?.count == 2
+                {
+                    // CK: Show Only search bar button
+                    navigationItem.rightBarButtonItems = [navigationItem.rightBarButtonItem].compactMap({ return $0 })
+                }
+                
+                self.setRoomTitleViewClass(RoomTitleView.self)
+                (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+            } else {
+
+                // Remove the search button temporarily
+                rightBarButtonItems = navigationItem.rightBarButtonItems
+                navigationItem.rightBarButtonItems = nil
+
+                self.setRoomTitleViewClass(SimpleRoomTitleView.self)
+                titleView?.editable = false
+            }
+        } else {
+            self.setRoomTitleViewClass(RoomTitleView.self)
+            (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+            
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        }
     }
     
+    func widgetsCount(_ includeUserWidgets: Bool) -> Int {
+        var widgetsCount = WidgetManager.shared().widgetsNot(ofTypes: [kWidgetTypeJitsi], in: roomDataSource.room, with: roomDataSource.roomState).count
+        if includeUserWidgets {
+            widgetsCount += WidgetManager.shared().userWidgets(roomDataSource.room.mxSession).count
+        }
+
+        return widgetsCount
+    }
+
     // MARK: - Unreachable Network Handling
     
     func refreshActivitiesViewDisplay() {
@@ -423,6 +571,28 @@ extension CKRoomViewController {
         else
         {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
+        }
+        
+        self.refreshRoomInputToolbar()
+    }
+    
+    override func updateAppearanceOnRoomDataSourceState() {
+        super.updateAppearanceOnRoomDataSourceState()
+        
+        if self.isRoomPreview() {
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+
+            // Remove input tool bar if any
+            if self.inputToolbarView != nil {
+                super.setRoomInputToolbarViewClass(nil)
+            }
+        } else {
+            if self.inputToolbarView == nil {
+                self.updateRoomInputToolbarViewClassIfNeeded()
+                self.refreshRoomInputToolbar()
+                
+                self.inputToolbarView?.isHidden = self.roomDataSource?.state != MXKDataSourceStateReady
+            }
         }
     }
     
@@ -525,6 +695,25 @@ extension CKRoomViewController {
         }
     }
     
+    override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
+        super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+        
+        if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
+            if let currentAlert = self.currentAlert {
+                // delay for presenting action sheet completed
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
+                    currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+                    currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
+                }
+            }
+        }
+    }
+    
+    @objc private func dismissCurrentAlert(_ gesture: UITapGestureRecognizer) {
+        self.currentAlert?.dismiss(animated: true, completion: nil)
+    }
+    
     private func showRoomSettings() {
         let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
             if let vc = vc as? CKRoomSettingsViewController {
@@ -566,9 +755,6 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
         if mentionDataSource != nil {
             mentionDataSource = nil
         }
-    }
-    
-    func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, pickerImage show: Bool) {
     }
 }
 
