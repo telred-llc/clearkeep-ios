@@ -12,7 +12,6 @@ import MobileCoreServices
 
 @objc protocol CKRoomInputToolbarViewDelegate: MXKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
-    func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, pickerImage show: Bool)
 }
 
 final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
@@ -23,6 +22,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     @IBOutlet weak var mainToolbarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainToolbarView: UIView!
     @IBOutlet weak var separatorView: UIView!
+    @IBOutlet weak var sendImageButton: UIButton!
     
     // MARK: - Enums
     
@@ -46,6 +46,8 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         return formatter
     }()
     
+    // MARK: Public
+    
     var growingTextView: HPGrowingTextView? {
         get {
             return self.value(forKey: "growingTextView") as? HPGrowingTextView
@@ -54,6 +56,15 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
             self.setValue(growingTextView, forKey: "growingTextView")
         }
     }
+    
+    var maxNumberOfLines: Int32 = 3 {
+        didSet {
+            self.growingTextView?.maxNumberOfLines = maxNumberOfLines
+            self.growingTextView?.refreshHeight()
+        }
+    }
+    
+    // MARK: Private
     
     private var shadowTextView: UITextView = UITextView.init()
     
@@ -70,11 +81,14 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         didSet {
             switch typingMessage {
             case .text(msg: let msg):
-                self.rightInputToolbarButton.isEnabled = (msg?.count ?? 0) > 0
+                self.updateSendButton(enable: (msg?.count ?? 0) > 0)
+                self.updateSendImageButton(highlight: false)
             case .photo(asset: let asset):
-                self.rightInputToolbarButton.isEnabled = asset != nil
+                self.updateSendButton(enable: asset != nil)
+                self.updateSendImageButton(highlight: true)
             case .file(url: let url):
-                self.rightInputToolbarButton.isEnabled = url != nil
+                self.updateSendButton(enable: url != nil)
+                self.updateSendImageButton(highlight: false)
             }
         }
     }
@@ -90,6 +104,8 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         super.awakeFromNib()
         self.addSubview(shadowTextView)
         shadowTextView.delegate = self
+        maxNumberOfLines = 3
+        typingMessage = .text(msg: nil)
     }
     
     override class func nib() -> UINib? {
@@ -122,7 +138,6 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         growingTextView?.font = UIFont.systemFont(ofSize: 15)
         growingTextView?.textColor = kRiotPrimaryTextColor
         growingTextView?.tintColor = kRiotColorGreen
-        growingTextView?.maxNumberOfLines = 2
         
         growingTextView?.internalTextView?.keyboardAppearance = kRiotKeyboard
         growingTextView?.placeholder = "Type a Message"
@@ -166,10 +181,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
             growingTextView?.selectedRange = selectedRange
         }
     }
-    
-    @IBAction func clickedOnShareFileButton(_ sender: Any) {
-    }
-    
+        
     @IBAction func clickedOnShareImageButton(_ sender: Any) {
         if self.growingTextView?.isFirstResponder() != true && self.shadowTextView.isFirstResponder != true {
             shadowTextView.becomeFirstResponder()
@@ -276,6 +288,29 @@ private extension CKRoomInputToolbarView {
         // Send button has been pressed
         if message.count > 0 {
             ckDelegate?.roomInputToolbarView?(self, sendTextMessage: message)
+        }
+    }
+    
+    func updateSendButton(enable: Bool) {
+        self.rightInputToolbarButton.isEnabled = enable
+        
+        if enable {
+            self.rightInputToolbarButton.backgroundColor = CKColor.Misc.primaryGreenColor
+            self.rightInputToolbarButton.borderWidth = 0
+            self.rightInputToolbarButton.setTitleColor(UIColor.white, for: .normal)
+        } else {
+            self.rightInputToolbarButton.backgroundColor = UIColor.clear
+            self.rightInputToolbarButton.borderWidth = 1
+            self.rightInputToolbarButton.borderColor = CKColor.Misc.borderColor
+            self.rightInputToolbarButton.setTitleColor(CKColor.Text.darkGray, for: .normal)
+        }
+    }
+    
+    func updateSendImageButton(highlight: Bool) {
+        if highlight {
+            sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_enabled"), for: .normal)
+        } else {
+            sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_disabled"), for: .normal)
         }
     }
 }

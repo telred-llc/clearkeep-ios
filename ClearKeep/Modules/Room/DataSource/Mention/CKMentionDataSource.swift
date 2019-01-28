@@ -43,6 +43,9 @@ final class CKMentionDataSource: MXKDataSource {
         super.init(matrixSession: mxSession)
         self.ckDelegate = delegate
         self.roomMembers = roomMembers
+        self.roomMembers.append(contentsOf: roomMembers)
+        self.roomMembers.append(contentsOf: roomMembers)
+        self.roomMembers.append(contentsOf: roomMembers)
     }
 }
 
