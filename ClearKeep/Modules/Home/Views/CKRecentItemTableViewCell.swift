@@ -24,7 +24,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
      
         roomNameLabel.text = roomCellData?.roomSummary.displayname
         timeLabel.text = roomCellData?.lastEventDate
-
+        
         // last message
         if let lastMessage = roomCellData?.roomSummary.lastMessageString {
             if lastMessageLabel == nil {
