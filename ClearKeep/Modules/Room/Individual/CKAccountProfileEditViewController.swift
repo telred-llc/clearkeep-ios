@@ -182,7 +182,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         
         if (newDisplayName != nil) && !(myUser?.displayname == newDisplayName) {
             account?.setUserDisplayName(newDisplayName, success: { [weak self] in
-                self?.newDisplayName = ""
+                self?.newDisplayName = nil
                 self?.saveData()
                 }, failure: { (error) in
                     print("Failed to set displayName")
