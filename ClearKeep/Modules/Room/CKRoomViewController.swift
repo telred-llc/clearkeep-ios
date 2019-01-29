@@ -83,6 +83,22 @@ import MatrixKit
     
     // The right bar button items back up.
     private var rightBarButtonItems: [UIBarButtonItem]?
+    
+    // The intermediate action sheet
+
+    private var actionSheet: UIAlertController?
+    
+    // Observers
+
+    // Observers to manage MXSession state (and sync errors)
+
+    private var kMXSessionStateDidChangeObserver: Any?
+    
+    // Observers to manage ongoing conference call banner
+
+    private var kMXCallStateDidChangeObserver: Any?
+    private var kMXCallManagerConferenceStartedObserver: Any?
+    private var kMXCallManagerConferenceFinishedObserver: Any?
 }
 
 extension CKRoomViewController {
@@ -113,6 +129,8 @@ extension CKRoomViewController {
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
         
+        self.removeCallNotificationsListeners()
+
         super.destroy()
     }
     
@@ -132,14 +150,8 @@ extension CKRoomViewController {
         // Note: this operation will force the layout of subviews. That is why cell view classes must be registered before.
         updateRoomInputToolbarViewClassIfNeeded()
         
-        // Update navigation bar items
-        for barButtonItem in self.navigationItem.rightBarButtonItems ?? [] {
-            barButtonItem.target = self
-            barButtonItem.action = #selector(self.navigationBarButtonPressed(_:))
-        }
-
         // Set up the room title view according to the data source (if any)
-        self.refreshRoomTitle()
+        self.refreshRoomNavigationBar()
         
         // Refresh tool bar if the room data source is set.
         if roomDataSource != nil {
@@ -150,7 +162,17 @@ extension CKRoomViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.refreshRoomTitle()
+        self.refreshRoomNavigationBar()
+        
+        // listen notifications
+        self.listenCallNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // remove notifications
+        self.removeCallNotificationsListeners()
     }
     
     private func setupBubblesTableView() {
@@ -336,10 +358,15 @@ extension CKRoomViewController {
         }
     }
     
-    @objc func navigationBarButtonPressed(_ sender: UIBarButtonItem) {
-        // Search button
-        if sender == navigationItem.rightBarButtonItem {
-            performSegue(withIdentifier: kShowRoomSearchSegue, sender: self)
+    @objc func navigationSearchBarButtonPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: kShowRoomSearchSegue, sender: self)
+    }
+    
+    @objc func navigationCallBarButtonPressed(_ sender: UIBarButtonItem) {
+        if isCalling() {
+            self.hangupCall()
+        } else {
+            self.hanleCallToRoom(sender)
         }
     }
     
@@ -439,47 +466,68 @@ extension CKRoomViewController {
 
     }
     
-    func refreshRoomTitle() {
+    func refreshRoomNavigationBar() {
+        
+        if rightBarButtonItems == nil {
+            let searchBarButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "search_icon"), style: .plain, target: self, action: #selector(self.navigationSearchBarButtonPressed(_:)))
+            let callBarButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "voice_call_icon"), style: .plain, target: self, action: #selector(self.navigationCallBarButtonPressed(_:)))
+            rightBarButtonItems = [searchBarButton, callBarButton]
+        }
+        
         if rightBarButtonItems != nil && navigationItem.rightBarButtonItems == nil {
             // Restore by default the search bar button.
             navigationItem.rightBarButtonItems = rightBarButtonItems
         }
-
+        
         // Set the right room title view
         if self.isRoomPreview() {
             // Do not show the right buttons
             navigationItem.rightBarButtonItems = nil
-        }
-        else if self.roomDataSource != nil {
+        } else {
             
-            if self.roomDataSource.isLive {
-                // Enable the right buttons (Search and Integrations)
-                for barButtonItem in navigationItem.rightBarButtonItems ?? [] {
-                    barButtonItem.isEnabled = true
+            // Prepare rightBarButtonItems
+            let searchBarButton = rightBarButtonItems![0]
+            let callBarButton = rightBarButtonItems![1]
+            
+            if isSupportCallOption() {
+                if isCalling() {
+                    callBarButton.image = #imageLiteral(resourceName: "call_hangup_icon").withRenderingMode(.alwaysOriginal)
+                } else {
+                    callBarButton.image = #imageLiteral(resourceName: "voice_call_icon").withRenderingMode(.alwaysOriginal)
                 }
-
-                if self.navigationItem.rightBarButtonItems?.count == 2
-                {
-                    // CK: Show Only search bar button
-                    navigationItem.rightBarButtonItems = [navigationItem.rightBarButtonItem].compactMap({ return $0 })
+                navigationItem.rightBarButtonItems = [searchBarButton, callBarButton]
+            } else {
+                navigationItem.rightBarButtonItems = [searchBarButton]
+            }
+            
+            // Validate rightBarButtonItems
+            if self.roomDataSource != nil {
+                
+                if self.roomDataSource.isLive {
+                    // Enable the right buttons (Search and Call)
+                    for barButtonItem in navigationItem.rightBarButtonItems ?? [] {
+                        barButtonItem.isEnabled = true
+                    }
+                    
+                    self.setRoomTitleViewClass(RoomTitleView.self)
+                    (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+                } else {
+                    
+                    // Remove the search button temporarily
+                    navigationItem.rightBarButtonItems = nil
+                    
+                    self.setRoomTitleViewClass(SimpleRoomTitleView.self)
+                    titleView?.editable = false
+                }
+            } else {
+                // Disbale the right buttons (Search and Call)
+                for barButtonItem in navigationItem.rightBarButtonItems ?? [] {
+                    barButtonItem.isEnabled = false
                 }
                 
                 self.setRoomTitleViewClass(RoomTitleView.self)
                 (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
-            } else {
-
-                // Remove the search button temporarily
-                rightBarButtonItems = navigationItem.rightBarButtonItems
-                navigationItem.rightBarButtonItems = nil
-
-                self.setRoomTitleViewClass(SimpleRoomTitleView.self)
-                titleView?.editable = false
             }
-        } else {
-            self.setRoomTitleViewClass(RoomTitleView.self)
-            (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
-            
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
         }
     }
     
@@ -492,7 +540,170 @@ extension CKRoomViewController {
         return widgetsCount
     }
 
-    // MARK: - Unreachable Network Handling
+    // MARK: Setup Call feature
+    
+    func isCalling() -> Bool {
+        if self.roomDataSource != nil && self.roomDataSource?.mxSession?.callManager != nil && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2 {
+            if let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId) {
+                if (callInRoom.state != MXCallState.ended)
+                    || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource.roomId) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    func isSupportCallOption() -> Bool {
+        if self.roomDataSource != nil && self.roomDataSource?.mxSession?.callManager != nil && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2 {
+            if let _ = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId) {
+                if (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource.roomId) {
+                    return true
+                } else {
+                    // Hide the call button if there is an active call in another room
+                    if AppDelegate.the()?.callStatusBarWindow == nil {
+                        return true
+                    }
+                }
+            } else {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    func hanleCallToRoom(_ sender: UIBarButtonItem) {
+        
+        func call(video: Bool) {
+            let appDisplayName = (Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String) ?? ""
+            
+            // Check app permissions first
+            
+            let messageForAudio = String(format: Bundle.mxk_localizedString(forKey: "microphone_access_not_granted_for_call"), appDisplayName)
+            let messageForVideo = String(format: Bundle.mxk_localizedString(forKey: "camera_access_not_granted_for_call"), appDisplayName)
+            
+            MXKTools.checkAccess(forCall: video, manualChangeMessageForAudio: messageForAudio, manualChangeMessageForVideo: messageForVideo, showPopUpIn: self) { [weak self] (granted) in
+                if granted {
+                    self?.performCalling(video: video)
+                } else {
+                    print("RoomViewController: Warning: The application does not have the perssion to place the call")
+                }
+            }
+        }
+        
+        // Ask the user the kind of the call: voice or video?
+        actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        actionSheet!.addAction(UIAlertAction(title: NSLocalizedString("voice", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] action in
+            self?.actionSheet = nil
+            call(video: false)
+        }))
+
+        actionSheet!.addAction(UIAlertAction(title: NSLocalizedString("video", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] action in
+            self?.actionSheet = nil
+            call(video: true)
+        }))
+        
+        actionSheet!.addAction(UIAlertAction(title: NSLocalizedString("cancel", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .cancel, handler: { [weak self] action in
+            self?.actionSheet = nil
+        }))
+
+        if let view = sender.customView {
+            actionSheet?.popoverPresentationController?.sourceView = view
+            actionSheet?.popoverPresentationController?.sourceRect = view.bounds
+        }
+        
+        self.present(actionSheet!, animated: true, completion: nil)
+    }
+    
+    func performCalling(video: Bool) {
+
+        // If there is already a jitsi widget, join it
+        if let jitsiWidget = customizedRoomDataSource?.jitsiWidget()
+        {
+            AppDelegate.the().displayJitsiViewController(with: jitsiWidget, andVideo: video)
+        }
+        // If enabled, create the conf using jitsi widget and open it directly
+        else if RiotSettings.shared.createConferenceCallsWithJitsi && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) > 2
+        {
+            self.startActivityIndicator()
+            
+            WidgetManager.shared()?.createJitsiWidget(in: self.roomDataSource.room, withVideo: video, success: { [weak self] (jitsiWidget) in
+                self?.stopActivityIndicator()
+                AppDelegate.the().displayJitsiViewController(with: jitsiWidget, andVideo: video)
+            }, failure: { [weak self] (error) in
+                self?.stopActivityIndicator()
+                if let error = error {
+                    self?.showJitsiError(error)
+                }
+            })
+            
+        }
+        // Classic conference call is not supported in encrypted rooms
+        else if self.roomDataSource?.room?.summary?.isEncrypted == true && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) > 2
+        {
+            currentAlert?.dismiss(animated: false, completion: nil)
+            
+            currentAlert = UIAlertController(title: Bundle.mxk_localizedString(forKey: "room_no_conference_call_in_encrypted_rooms"), message: nil, preferredStyle: .alert)
+            
+            currentAlert?.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: .default, handler: { [weak self] _ in
+                self?.currentAlert = nil
+            }))
+
+            currentAlert!.mxk_setAccessibilityIdentifier("RoomVCCallAlert")
+            present(currentAlert!, animated: true)
+        }
+        // In case of conference call, check that the user has enough power level
+        else if (roomDataSource?.room?.summary?.membersCount?.joined ?? 0) > 2 && !MXCallManager.canPlaceConferenceCall(in: roomDataSource.room, roomState: roomDataSource.roomState)
+        {
+            currentAlert?.dismiss(animated: false, completion: nil)
+            
+            currentAlert = UIAlertController(title: Bundle.mxk_localizedString(forKey: "room_no_power_to_create_conference_call"), message: nil, preferredStyle: .alert)
+            
+            currentAlert?.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: .default, handler: { [weak self] _ in
+                self?.currentAlert = nil
+            }))
+            
+            currentAlert!.mxk_setAccessibilityIdentifier("RoomVCCallAlert")
+            present(currentAlert!, animated: true)
+        }
+        // Classic 1:1 or group call can be done
+        else
+        {
+            self.roomDataSource?.room?.placeCall(withVideo: video) { _ in
+                
+            }
+        }
+    }
+    
+    func showJitsiError(_ error: Error) {
+        // Customise the error for permission issues
+        var nsError = error as NSError
+        if nsError.domain == WidgetManagerErrorDomain && nsError.code == WidgetManagerErrorCodeNotEnoughPower.rawValue {
+            nsError = NSError.init(domain: nsError.domain, code: nsError.code, userInfo: [
+                NSLocalizedDescriptionKey: NSLocalizedString("room_conference_call_no_power", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+                ])
+        }
+
+        // Alert user
+        AppDelegate.the().showError(asAlert: nsError)
+    }
+
+    func hangupCall() {
+        if let roomId = roomDataSource?.roomId, let callInRoom = roomDataSource?.mxSession?.callManager?.call(inRoom: roomId) {
+            callInRoom.hangup()
+        } else if (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource?.roomId) {
+            AppDelegate.the().jitsiViewController?.hangup()
+        }
+
+        refreshActivitiesViewDisplay()
+        
+        // refresh call button
+        refreshRoomNavigationBar()
+    }
+    
+    // MARK: Unreachable Network Handling
     
     func refreshActivitiesViewDisplay() {
         // TODO: implement
@@ -512,7 +723,7 @@ extension CKRoomViewController {
 
             roomPreviewData = previewData
 
-            refreshRoomTitle()
+            refreshRoomNavigationBar()
 
             if let roomDataSource = roomPreviewData?.roomDataSource {
                 super.displayRoom(roomDataSource)
@@ -559,9 +770,6 @@ extension CKRoomViewController {
             self.listenToServerNotices()
             
             self.isEventsAcknowledgementEnabled = true
-
-            // Set room title view
-            self.refreshRoomTitle()
             
             // Store ref on customized room data source
             if dataSource?.isKind(of: CKRoomDataSource.self) == true {
@@ -573,6 +781,7 @@ extension CKRoomViewController {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
         }
         
+        self.refreshRoomNavigationBar()
         self.refreshRoomInputToolbar()
     }
     
@@ -809,5 +1018,75 @@ extension CKRoomViewController: CKMentionDataSourceDelegate {
 extension CKRoomViewController: RoomTitleViewTapGestureDelegate {
     func roomTitleView(_ titleView: RoomTitleView?, recognizeTapGesture tapGestureRecognizer: UITapGestureRecognizer?) {
         self.showRoomSettings()
+    }
+}
+
+// MARK: - MXSession state change
+
+extension CKRoomViewController {
+    func listenMXSessionStateChangeNotifications() {
+        kMXSessionStateDidChangeObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxSessionStateDidChange, object: roomDataSource.mxSession, queue: OperationQueue.main, using: { notif in
+
+            if self.roomDataSource.mxSession.state == MXSessionStateSyncError || self.roomDataSource.mxSession.state == MXSessionStateRunning {
+                self.refreshActivitiesViewDisplay()
+
+                // update inputToolbarView
+                self.updateRoomInputToolbarViewClassIfNeeded()
+                
+                self.refreshRoomNavigationBar()
+            }
+        })
+    }
+    
+    func removeMXSessionStateChangeNotificationsListener() {
+        if kMXSessionStateDidChangeObserver != nil {
+            NotificationCenter.default.removeObserver(kMXSessionStateDidChangeObserver!)
+            kMXSessionStateDidChangeObserver = nil
+        }
+    }
+}
+
+// MARK: - Call notifications management
+
+extension CKRoomViewController {
+    func removeCallNotificationsListeners() {
+        if kMXCallStateDidChangeObserver != nil {
+            NotificationCenter.default.removeObserver(kMXCallStateDidChangeObserver!)
+            kMXCallStateDidChangeObserver = nil
+        }
+        if kMXCallManagerConferenceStartedObserver != nil {
+            NotificationCenter.default.removeObserver(kMXCallManagerConferenceStartedObserver!)
+            kMXCallManagerConferenceStartedObserver = nil
+        }
+        if kMXCallManagerConferenceFinishedObserver != nil {
+            NotificationCenter.default.removeObserver(kMXCallManagerConferenceFinishedObserver!)
+            kMXCallManagerConferenceFinishedObserver = nil
+        }
+    }
+
+    func listenCallNotifications() {
+        kMXCallStateDidChangeObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kMXCallStateDidChange), object: nil, queue: OperationQueue.main, using: { notif in
+
+            let call = notif.object as? MXCall
+            if (call?.room.roomId == self.customizedRoomDataSource?.roomId) {
+                self.refreshActivitiesViewDisplay()
+                self.refreshRoomInputToolbar()
+            }
+        })
+        kMXCallManagerConferenceStartedObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kMXCallManagerConferenceStarted), object: nil, queue: OperationQueue.main, using: { notif in
+
+            let roomId = notif.object as? String
+            if (roomId == self.customizedRoomDataSource?.roomId) {
+                self.refreshActivitiesViewDisplay()
+            }
+        })
+        kMXCallManagerConferenceFinishedObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kMXCallManagerConferenceFinished), object: nil, queue: OperationQueue.main, using: { notif in
+
+            let roomId = notif.object as? String
+            if (roomId == self.customizedRoomDataSource?.roomId) {
+                self.refreshActivitiesViewDisplay()
+                self.refreshRoomInputToolbar()
+            }
+        })
     }
 }
