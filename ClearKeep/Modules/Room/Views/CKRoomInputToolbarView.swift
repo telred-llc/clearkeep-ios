@@ -34,10 +34,11 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     
     // MARK: - Constants
     
-    private let mentionTriggerCharacter: Character = "@"
     
     // MARK: - Properties
     
+    static let mentionTriggerCharacter: Character = "@"
+
     static let durationFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional
@@ -174,7 +175,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
             let firstHalfString = (growingTextView?.text as NSString?)?.substring(to: selectedRange.location)
             let secondHalfString = (growingTextView?.text as NSString?)?.substring(from: selectedRange.location)
 
-            let insertingString = String.init(mentionTriggerCharacter)
+            let insertingString = String.init(CKRoomInputToolbarView.mentionTriggerCharacter)
 
             growingTextView?.text = "\(firstHalfString ?? "")\(insertingString)\(secondHalfString ?? "")"
             selectedRange.location += insertingString.count
@@ -313,6 +314,24 @@ private extension CKRoomInputToolbarView {
             sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_disabled"), for: .normal)
         }
     }
+    
+    func detectTagging(_ growingTextView: HPGrowingTextView!) {
+        let firstHalfString = (growingTextView.text as NSString?)?.substring(to: growingTextView.selectedRange.location)
+        
+        if firstHalfString?.contains(String.init(CKRoomInputToolbarView.mentionTriggerCharacter)) == true {
+            let mentionComponents = firstHalfString?.components(separatedBy: String.init(CKRoomInputToolbarView.mentionTriggerCharacter))
+            let currentMentionComponent = mentionComponents?.last
+            
+            if let currentMentionComponent = currentMentionComponent,
+                !currentMentionComponent.contains(" ") {
+                triggerMentionUser(true, text: currentMentionComponent)
+            } else {
+                triggerMentionUser(false, text: nil)
+            }
+        } else {
+            triggerMentionUser(false, text: nil)
+        }
+    }
 }
 
 // MARK: - UITextViewDelegate
@@ -328,7 +347,7 @@ extension CKRoomInputToolbarView: UITextViewDelegate {
     }
 }
 
-// MARK: - UITextViewDelegate
+// MARK: - HPGrowingTextView Delegate
 
 extension CKRoomInputToolbarView {
     
@@ -346,22 +365,8 @@ extension CKRoomInputToolbarView {
         
         super.growingTextViewDidChange(growingTextView)
         self.typingMessage = .text(msg: textMessage)
-        
-        let firstHalfString = (growingTextView.text as NSString?)?.substring(to: growingTextView.selectedRange.location)
-        
-        if firstHalfString?.contains(String.init(mentionTriggerCharacter)) == true {
-            let mentionComponents = firstHalfString?.components(separatedBy: String.init(mentionTriggerCharacter))
-            let currentMentionComponent = mentionComponents?.last
-            
-            if let currentMentionComponent = currentMentionComponent,
-                !currentMentionComponent.contains(" ") {
-                triggerMentionUser(true, text: currentMentionComponent)
-            } else {
-                triggerMentionUser(false, text: nil)
-            }
-        } else {
-            triggerMentionUser(false, text: nil)
-        }
+
+        self.detectTagging(growingTextView)
     }
     
     override func growingTextView(_ growingTextView: HPGrowingTextView!, willChangeHeight height: Float) {
@@ -381,6 +386,10 @@ extension CKRoomInputToolbarView {
     
     override func growingTextView(_ growingTextView: HPGrowingTextView!, shouldChangeTextIn range: NSRange, replacementText text: String!) -> Bool {
         return true
+    }
+    
+    override func growingTextViewDidChangeSelection(_ growingTextView: HPGrowingTextView!) {
+        self.detectTagging(growingTextView)
     }
 }
 

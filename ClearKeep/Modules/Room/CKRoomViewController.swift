@@ -686,12 +686,49 @@ extension CKRoomViewController {
     }
     
     override func mention(_ roomMember: MXRoomMember!) {
+        
         let memberName = roomMember.displayname.count > 0 ? roomMember.displayname : roomMember.userId
-
+        var taggingText = ""
+        
         if (roomMember.userId == mainSession.myUser.userId) {
-            inputToolbarView.pasteText("me ")
+            taggingText = String.init(CKRoomInputToolbarView.mentionTriggerCharacter) + "me "
         } else {
-            inputToolbarView.pasteText("\(memberName ?? "") ")
+            taggingText = "\(String.init(CKRoomInputToolbarView.mentionTriggerCharacter))\(memberName ?? "") "
+        }
+
+        if let inputToolbarView = inputToolbarView as? CKRoomInputToolbarView,
+            let growingTextView = inputToolbarView.growingTextView {
+            
+            let selectedRange = growingTextView.selectedRange
+            var firstHalfString = (growingTextView.text as NSString?)?.substring(to: selectedRange.location)
+            let lastHalfString = (growingTextView.text as NSString?)?.substring(from: selectedRange.location)
+
+            if firstHalfString?.contains(String.init(CKRoomInputToolbarView.mentionTriggerCharacter)) == true {
+                let mentionComponents = firstHalfString?.components(separatedBy: String.init(CKRoomInputToolbarView.mentionTriggerCharacter))
+                let currentMentionComponent = mentionComponents?.last
+
+                if let currentMentionComponent = currentMentionComponent,
+                    !currentMentionComponent.contains(" ") {  // case: "@xyz..."
+                    for _ in 0..<(firstHalfString?.count ?? 0) {
+                        let removedChar = firstHalfString?.removeLast()
+                        
+                        if removedChar == CKRoomInputToolbarView.mentionTriggerCharacter {
+                            break
+                        }
+                    }
+                    
+                    firstHalfString = (firstHalfString ?? "") + taggingText
+                    growingTextView.text = (firstHalfString ?? "") + (lastHalfString ?? "")
+                    
+                    if let newSelectedLocation = firstHalfString?.count {
+                        growingTextView.selectedRange = NSRange.init(location: newSelectedLocation, length: 0)
+                    }
+                } else { // case: just only "@"
+                    inputToolbarView.pasteText(taggingText)
+                }
+            } else { // programmatically mention
+                inputToolbarView.pasteText(taggingText)
+            }
         }
     }
     
