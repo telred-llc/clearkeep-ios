@@ -13,14 +13,27 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     // MARK: - OUTLET
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchingBar: UISearchBar!
     
+    private enum Section: Int {
+        case search = 0
+        case participants = 1
+        
+        static func count() -> Int {
+            return 2
+        }
+    }
+
     // MARK: - PROPERTY
     
     /**
      MX Room
      */
     public var mxRoom: MXRoom!
+    
+    /**
+     Original data source
+     */
+    private var originalDataSource: [MXRoomMember]! = nil
     
     /**
      filtered out participants
@@ -50,15 +63,9 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.tableView.register(
             CKRoomSettingsParticipantCell.nib,
             forCellReuseIdentifier: CKRoomSettingsParticipantCell.identifier)
-        
-        // bar button items
-        let backItemButton = UIBarButtonItem.init(
-            title: "Back",
-            style: .plain, target: self,
-            action: #selector(clickedOnBackButton(_:)))
-        
-        // assign left bar button item
-        self.navigationItem.leftBarButtonItem = backItemButton
+        self.tableView.register(
+            CKRoomSettingsParticipantSearchCell.nib,
+            forCellReuseIdentifier: CKRoomSettingsParticipantSearchCell.identifier)        
         
         // invoke timeline event
         self.liveTimelineEvents()
@@ -143,6 +150,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     
     private func finalizeReloadingParticipants(_ state: MXRoomState) {
         DispatchQueue.main.async {
+            self.originalDataSource = self.filteredParticipants
             self.tableView.reloadData()
         }
     }
@@ -185,13 +193,27 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.present(navi, animated: true, completion: nil)
     }
     
+    private func titleForHeader(atSection section: Int) -> String {
+        guard let s = Section(rawValue: section) else { return ""}
+        switch s {
+        case .search:
+            return ""
+        case .participants:
+            return "PARTICIPANTS"
+        }
+    }
+
     // MARK: - ACTION
     
     @objc private func clickedOnBackButton(_ sender: Any?) {
-        self.dismiss(animated: true, completion: nil)
+        if let nvc = self.navigationController {
+            nvc.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
-    
-    
+
+
     // MARK: - PUBLIC
 }
 
@@ -199,7 +221,13 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
 
 extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        guard let s = Section(rawValue: indexPath.section) else { return 1}
+        switch s {
+        case .search:
+            return CKLayoutSize.Table.row44px
+        default:
+            return CKLayoutSize.Table.row60px
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -236,19 +264,69 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
             self.present(navi, animated: true, completion: nil)
         }
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if let view = CKRoomHeaderInSectionView.instance() {
+            view.backgroundColor = CKColor.Background.tableView
+            view.title = self.titleForHeader(atSection: section)
+            return view
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UILabel()
+        view.backgroundColor = CKColor.Background.tableView
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard let s = Section(rawValue: section) else { return 1}
+        switch s {
+        case .search:
+            return CKLayoutSize.Table.header1px
+        default:
+            return CKLayoutSize.Table.header40px
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CKLayoutSize.Table.footer1px
+    }
 }
 
 // MARK: - UITableViewDataSource
 
 extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return Section.count()
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredParticipants != nil ? filteredParticipants.count : 0
+        guard let s = Section(rawValue: section) else { return 0}
+        switch s {
+        case .search:
+            return 1
+        case .participants:
+            return filteredParticipants != nil ? filteredParticipants.count : 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let s = Section(rawValue: indexPath.section) else { return CKRoomSettingsBaseCell()}
         
+        switch s {
+        case .search:
+            return cellForParticipantSearch(atIndexPath: indexPath)
+        case .participants:
+            return cellForParticipant(atIndexPath: indexPath)
+        }
+    }
+    
+    private func cellForParticipant(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantCell {
         // de-cell
-        if let cell = tableView.dequeueReusableCell(
+        if let cell = self.tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsParticipantCell.identifier,
             for: indexPath) as? CKRoomSettingsParticipantCell {
             
@@ -269,9 +347,33 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             return cell
         }
         
-        // default cell
-        return UITableViewCell()
+        return CKRoomSettingsParticipantCell()
     }
     
+    private func cellForParticipantSearch(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantSearchCell{
+        
+        // deque cell
+        let cell = self.tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsParticipantSearchCell.identifier,
+            for: indexPath) as! CKRoomSettingsParticipantSearchCell
+        
+        // handle searching
+        cell.beginSearchingHandler = { text in
+            
+            if text.count > 0 {
+                self.filteredParticipants = self.originalDataSource.filter({ (member: MXRoomMember) -> Bool in
+                    return member.displayname.lowercased().contains(text.lowercased())
+                })
+            } else {
+                self.filteredParticipants = self.originalDataSource
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+            })
+        }
+        return cell
+    }
     
+    // MARK: - PUBLIC
 }

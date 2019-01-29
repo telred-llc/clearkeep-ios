@@ -19,8 +19,12 @@ import Foundation
         case infos
         case settings
         case actions
-    }
-
+        
+        static func count() -> Int {
+            return 3
+        }
+    }    
+    
     /**
      Cells heigh
      */
@@ -72,8 +76,8 @@ import Foundation
 
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.backgroundColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
-        self.view.backgroundColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
+        self.tableView.backgroundColor = CKColor.Background.tableView
+        self.view.backgroundColor = CKColor.Background.tableView
         self.navigationItem.title = String.ck_LocalizedString(key: "Info")
         self.reloadTableView()
     }
@@ -144,35 +148,38 @@ import Foundation
     }
 
     private func showsSettingsEdit() {
-
-        // initialize vc from xib
-        let vc = CKRoomSettingsEditViewController(
-            nibName: "CKRoomSettingsEditViewController",
-            bundle: nil)
-        
-        // import mx session and room id
+        let vc = CKRoomSettingsEditViewController.instance()
         vc.importSession(self.mxSessions)
         vc.mxRoom = self.mxRoom
-        
-        // present vc
-        let navi = UINavigationController.init(rootViewController: vc)
-        self.present(navi, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func showParticiants() {
         
         // initialize vc from xib
-        let vc = CKRoomSettingsParticipantViewController(
-            nibName: "CKRoomSettingsParticipantViewController",
-            bundle: nil)
+        let vc = CKRoomSettingsParticipantViewController.instance()
         
         // import mx session and room id
         vc.importSession(self.mxSessions)
         vc.mxRoom = self.mxRoom
 
-        // present vc
-        let navi = UINavigationController.init(rootViewController: vc)
-        self.present(navi, animated: true, completion: nil)
+        // push vc
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func showAddingMembers() {
+        
+        // init
+        let vc = CKRoomAddingMembersViewController.instance()
+        
+        // import session
+        vc.importSession(self.mxSessions)
+        
+        // use mx room
+        vc.mxRoom = self.mxRoom
+        
+        // pus vc
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func isInfosAvailableData() -> Bool {
@@ -183,11 +190,27 @@ import Foundation
         return roomSummary.topic != nil
     }
     
+    // MARK: - ACTION
+    
+    @objc func clickedOnBackButton(_ sender: Any?) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        
+        // Setup back button item
+        let backItemButton = UIBarButtonItem.init(
+            title: "Close",
+            style: .plain, target: self,
+            action: #selector(clickedOnBackButton(_:)))
+        
+        // set nv items
+        self.navigationItem.leftBarButtonItem = backItemButton
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -208,7 +231,7 @@ import Foundation
         case .settings:
             return 3
         case .actions:
-            return 1
+            return self.mxRoom == nil ? 0 : (self.mxRoom.isDirect ? 0: 1)
         }
     }
     
@@ -251,37 +274,45 @@ import Foundation
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let sectionType = tblSections[section]
-        switch sectionType {
-        case .infos:
-            return 40
-        case .settings:
-            return 10
-        case .actions:
-            return 10
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let sectionType = tblSections[indexPath.section]
-        switch sectionType {
-        case .infos:
-            if indexPath.row == 1 {
-                if (self.mxRoom != nil && mxRoom.summary.topic == nil) {
-                    return kInfoCellHeigh
-                }
-                return UITableViewAutomaticDimension
-            }
-        default:
-            return kDefaultCellHeigh
-        }
-        return kDefaultCellHeigh
+        return CKLayoutSize.Table.header40px
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
         view.backgroundColor = UIColor.clear
         return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CKLayoutSize.Table.footer1px
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let sectionType = tblSections[indexPath.section]
+        
+        // case-in
+        switch sectionType {
+        case .infos:
+            
+            // is 2nd row?
+            if indexPath.row == 1 {
+                
+                // fix heigh
+                if (self.mxRoom != nil && mxRoom.summary.topic == nil) {
+                    return CKLayoutSize.Table.row60px
+                }
+
+                // dynamic heigh
+                return UITableViewAutomaticDimension
+            }
+        default:
+            
+            // default
+            return CKLayoutSize.Table.row60px
+        }
+        
+        // default
+        return CKLayoutSize.Table.row60px
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -295,6 +326,7 @@ import Foundation
             if indexPath.row == 0 { self.showParticiants() }
             break
         case .actions:
+            if indexPath.row == 0 { self.showAddingMembers() }
             break
         }
     }

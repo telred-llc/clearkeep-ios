@@ -52,18 +52,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     }
     
     // MARK: - CLASS
-    
-    class func instance() -> CKAccountProfileEditViewController {
-        let instance = CKAccountProfileEditViewController(nibName: self.nibName, bundle: nil)
-        return instance
-    }
-    
-    class func instanceForNavigationController(completion: ((_ instance: CKAccountProfileEditViewController) -> Void)?) -> UINavigationController {
-        let vc = self.instance()
-        completion?(vc)
-        return UINavigationController.init(rootViewController: vc)
-    }
-    
+        
     // MARK: - PROPERTY
     
     /**

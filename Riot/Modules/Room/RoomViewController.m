@@ -2846,9 +2846,6 @@
     // Keep ref on destinationViewController
     [super prepareForSegue:segue sender:sender];
     
-    //-- CK
-    if ([self rewriteWithMethod:@"prepareForSegue:sender" parameters:@{@"segue": segue, @"sender": sender}]) return;
-
     id pushedViewController = [segue destinationViewController];
     
     if ([[segue identifier] isEqualToString:@"showRoomDetails"])
@@ -3500,13 +3497,6 @@
 
 - (void)roomTitleView:(RoomTitleView*)titleView recognizeTapGesture:(UITapGestureRecognizer*)tapGestureRecognizer
 {
-    //-- CK
-    if ([self rewriteWithMethod:@"roomTitleView:recognizeTapGesture"
-                     parameters:@{@"titleView": titleView,
-                                  @"recognizeTapGesture": tapGestureRecognizer}]) {
-        return;
-    }
-    
     UIView *tappedView = tapGestureRecognizer.view;
     
     if (tappedView == titleView.titleMask)

@@ -2197,10 +2197,11 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     [[MXKAppSettings standardAppSettings] addSupportedEventTypes:@[kWidgetMatrixEventTypeString, kWidgetModularEventTypeString]];
     
     // Disable long press on event in bubble cells
-    [MXKRoomBubbleTableViewCell disableLongPressGestureOnEvent:YES];
+    // CK: Set to "NO" value
+    [MXKRoomBubbleTableViewCell disableLongPressGestureOnEvent:NO];
     
-    // Set first RoomDataSource class used in Vector
-    [MXKRoomDataSourceManager registerRoomDataSourceClass:RoomDataSource.class];
+    // Set first CKRoomDataSource class used in Vector
+    [MXKRoomDataSourceManager registerRoomDataSourceClass:CKRoomDataSource.class];
     
     // Register matrix session state observer in order to handle multi-sessions.
     matrixSessionStateObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kMXSessionStateDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif) {

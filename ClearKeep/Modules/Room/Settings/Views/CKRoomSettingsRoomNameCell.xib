@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#emoji" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTU-eG-bgE">
-                                <rect key="frame" x="20" y="0.0" width="355" height="54.5"/>
+                                <rect key="frame" x="20" y="0.0" width="345" height="43.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -30,10 +30,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="uTU-eG-bgE" secondAttribute="bottom" multiplier="0.8" id="Nml-Cw-h7v"/>
-                            <constraint firstItem="uTU-eG-bgE" firstAttribute="top" secondItem="wKR-bL-l5I" secondAttribute="top" id="SJZ-ny-0Nb"/>
+                            <constraint firstItem="uTU-eG-bgE" firstAttribute="centerY" secondItem="wKR-bL-l5I" secondAttribute="centerY" id="JEw-lI-tx8"/>
                             <constraint firstItem="uTU-eG-bgE" firstAttribute="leading" secondItem="wKR-bL-l5I" secondAttribute="leading" constant="20" id="fY8-IQ-bNT"/>
-                            <constraint firstAttribute="trailing" secondItem="uTU-eG-bgE" secondAttribute="trailing" id="s5N-cD-Ayq"/>
+                            <constraint firstItem="uTU-eG-bgE" firstAttribute="top" secondItem="wKR-bL-l5I" secondAttribute="top" id="iHd-xT-wiA"/>
+                            <constraint firstAttribute="bottom" secondItem="uTU-eG-bgE" secondAttribute="bottom" id="pcn-Ac-yKw"/>
+                            <constraint firstAttribute="trailing" secondItem="uTU-eG-bgE" secondAttribute="trailing" constant="10" id="s5N-cD-Ayq"/>
                         </constraints>
                     </view>
                 </subviews>

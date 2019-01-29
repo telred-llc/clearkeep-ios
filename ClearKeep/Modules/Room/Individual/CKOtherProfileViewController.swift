@@ -24,15 +24,9 @@ class CKOtherProfileViewController: MXKViewController {
     
     // MARK: - CLASS
     
-    class func instance() -> CKOtherProfileViewController {
+    public class func instance() -> CKOtherProfileViewController? {
         let instance = CKOtherProfileViewController(nibName: self.nibName, bundle: nil)
         return instance
-    }
-    
-    class func instanceForNavigationController(completion: ((_ instance: CKOtherProfileViewController) -> Void)?) -> UINavigationController {
-        let vc = self.instance()
-        completion?(vc)
-        return UINavigationController.init(rootViewController: vc)
     }
     
     // MARK: - PROPERTY

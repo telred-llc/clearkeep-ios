@@ -16,6 +16,7 @@
  */
 
 #import "RoomPreviewData.h"
+#import "Riot-Swift.h"
 
 @implementation RoomPreviewData
 

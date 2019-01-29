@@ -24,15 +24,9 @@ class CKAccountProfileViewController: MXKViewController {
     
     // MARK: - CLASS
     
-    class func instance() -> CKAccountProfileViewController {
+    public class func instance() -> CKAccountProfileViewController? {
         let instance = CKAccountProfileViewController(nibName: self.nibName, bundle: nil)
         return instance
-    }
-    
-    class func instanceForNavigationController(completion: ((_ instance: CKAccountProfileViewController) -> Void)?) -> UINavigationController {
-        let vc = self.instance()
-        completion?(vc)
-        return UINavigationController.init(rootViewController: vc)
     }
     
     // MARK: - PROPERTY
@@ -119,7 +113,8 @@ class CKAccountProfileViewController: MXKViewController {
                     nvc.pushViewController(vc, animated: true)
                     
                 } else {
-                    let nvc = CKAccountProfileEditViewController.instanceForNavigationController(completion: { (vc: CKAccountProfileEditViewController) in
+                
+                    let nvc = CKAccountProfileEditViewController.instanceNavigation(completion: { (vc) in
                         vc.importSession(self.mxSessions)
                     })
                     self.present(nvc, animated: true, completion: nil)

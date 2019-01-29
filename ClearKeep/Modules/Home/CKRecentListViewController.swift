@@ -24,7 +24,6 @@ class CKRecentListViewController: MXKViewController {
     weak var delegate: CKRecentListViewControllerDelegate?
 
     var dataSource: [MXKRecentCellData] = []
-    let kCellNibName = "CKRecentItemTableViewCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,13 +84,21 @@ class CKRecentListViewController: MXKViewController {
 }
 
 private extension CKRecentListViewController {
+    
+    /**
+     Setup table view
+     */
     func setupTableView() {
-        recentTableView.register(UINib.init(nibName: kCellNibName, bundle: nil), forCellReuseIdentifier: kCellNibName)
+        recentTableView.register(CKRecentItemTableViewCell.nib, forCellReuseIdentifier: CKRecentItemTableViewCell.identifier)
+        recentTableView.register(CKRecentItemInvitationCell.nib, forCellReuseIdentifier: CKRecentItemInvitationCell.identifier)
         recentTableView.allowsSelection = false
         recentTableView.dataSource = self
         recentTableView.delegate = self
     }
     
+    /**
+     Show menu options
+     */
     func showMenuOptions(roomData: MXKRecentCellData) {
         
         let actionController = YoutubeActionController.init()
@@ -183,20 +190,66 @@ private extension CKRecentListViewController {
             dispayRoom(withRoomId: selectedRoomData.roomSummary.roomId, inMatrixSession: selectedRoomData.roomSummary.room.mxSession)
         }
     }
-}
-
-extension CKRecentListViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: kCellNibName, for: indexPath) as! CKRecentItemTableViewCell
+    /**
+     Cell instance for invitation
+     */
+    func cellForInvitationRoom(_ indexPath: IndexPath, cellData: MXKCellData) -> CKRecentItemInvitationCell {
+        
+        // cell data
         let cellData = dataSource[indexPath.row]
+        
+        // init cell
+        let cell = self.recentTableView.dequeueReusableCell(
+            withIdentifier: CKRecentItemInvitationCell.identifier,
+            for: indexPath) as! CKRecentItemInvitationCell
+        
+        // render
+        cell.render(cellData)
+        
+        // join
+        cell.joinOnPressHandler = {
+            self.mainSession.joinRoom(cellData.roomSummary.roomId, completion: { (response: MXResponse<MXRoom>) in
+                
+                // main thread
+                DispatchQueue.main.async {
+                    
+                    // got error
+                    if let error = response.error {
+                        self.showAlert(error.localizedDescription)
+                    } else {
+                        
+                        // select room
+                        AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary.mxSession)
+                    }
+                }
+            })
+        }
+        
+        // decline
+        cell.declineOnPressHandler = {
+            let invitedRoom = cellData.roomSummary.room
+            invitedRoom?.leave(completion: { (response: MXResponse<Void>) in
+                if let error = response.error {
+                    self.showAlert(error.localizedDescription)
+                }
+            })
+        }
+        
+        return cell
+    }
+    
+    /**
+     Cell for room which NOT inviation
+     */
+    func cellForNormalRoom(_ indexPath: IndexPath, cellData: MXKCellData) -> CKRecentItemTableViewCell {
+        
+        // init cell
+        let cell = self.recentTableView.dequeueReusableCell(
+            withIdentifier: CKRecentItemTableViewCell.identifier,
+            for: indexPath) as! CKRecentItemTableViewCell
+        
+        // update cell
         cell.render(cellData)
         cell.selectionStyle = .none
         
@@ -209,9 +262,28 @@ extension CKRecentListViewController: UITableViewDataSource {
         // add tap gesture to cell
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(onTableViewCellTap))
         tap.cancelsTouchesInView = false
-        cell.addGestureRecognizer(tap)
-        
+        cell.addGestureRecognizer(tap)        
         return cell
+    }
+    
+}
+
+extension CKRecentListViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellData = dataSource[indexPath.row]
+        if cellData.roomSummary.membership == MXMembership.invite{
+            return self.cellForInvitationRoom(indexPath, cellData: cellData)
+        } else {
+            return self.cellForNormalRoom(indexPath, cellData: cellData)
+        }
     }
 }
 
