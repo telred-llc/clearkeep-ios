@@ -12,7 +12,7 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
 
     // MARK: - OUTLET
     
-    @IBOutlet weak var avaImage: MXKImageView!
+    @IBOutlet weak var avaImage: CKImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
     
@@ -22,7 +22,6 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
         super.awakeFromNib()
         // Initialization code
         nameLabel.backgroundColor = UIColor.clear
-        nameLabel.textColor = UIColor.black
         avaImage.defaultBackgroundColor = UIColor.clear
         avaImage.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
         avaImage.contentMode = UIView.ContentMode.scaleAspectFill

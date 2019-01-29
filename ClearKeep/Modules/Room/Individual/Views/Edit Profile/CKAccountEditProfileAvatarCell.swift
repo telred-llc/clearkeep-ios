@@ -13,7 +13,7 @@ class CKAccountEditProfileAvatarCell: CKAccountEditProfileBaseCell, UITextFieldD
     
     // MARK: - OUTLET
 
-    @IBOutlet weak var avaImage: MXKImageView!
+    @IBOutlet weak var avaImage: CKImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var cameraButton: UIButton!
     
@@ -41,6 +41,7 @@ class CKAccountEditProfileAvatarCell: CKAccountEditProfileBaseCell, UITextFieldD
 //        avaImage.defaultBackgroundColor = UIColor.clear
         avaImage.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
         avaImage.contentMode = UIView.ContentMode.scaleAspectFill
+        avaImage.clipsToBounds = true
         avaImage.layer.cornerRadius = 9
         avaImage.layer.borderWidth = 2
         avaImage.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)

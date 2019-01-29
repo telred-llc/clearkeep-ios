@@ -1,5 +1,5 @@
 //
-//  CKAccountProfileViewController.swift
+//  CKOtherProfileViewController.swift
 //  Riot
 //
 //  Created by Hiếu Nguyễn on 1/23/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CKAccountProfileViewController: MXKViewController {
+class CKOtherProfileViewController: MXKViewController {
     // MARK: - OUTLET
     @IBOutlet weak var tableView: UITableView!
     
@@ -24,12 +24,12 @@ class CKAccountProfileViewController: MXKViewController {
     
     // MARK: - CLASS
     
-    class func instance() -> CKAccountProfileViewController {
-        let instance = CKAccountProfileViewController(nibName: self.nibName, bundle: nil)
+    class func instance() -> CKOtherProfileViewController {
+        let instance = CKOtherProfileViewController(nibName: self.nibName, bundle: nil)
         return instance
     }
     
-    class func instanceForNavigationController(completion: ((_ instance: CKAccountProfileViewController) -> Void)?) -> UINavigationController {
+    class func instanceForNavigationController(completion: ((_ instance: CKOtherProfileViewController) -> Void)?) -> UINavigationController {
         let vc = self.instance()
         completion?(vc)
         return UINavigationController.init(rootViewController: vc)
@@ -41,7 +41,7 @@ class CKAccountProfileViewController: MXKViewController {
      MX Room
      */
     public var mxRoom: MXRoom!
-    public var mxMember: MXRoomMember!
+    public var mxNumber: [MXRoomMember]! = [MXRoomMember]()
     private var request: MXHTTPOperation!
     
     
@@ -62,7 +62,7 @@ class CKAccountProfileViewController: MXKViewController {
         
         // register cells
         self.tableView.register(CKAccountProfileAvatarCell.nib, forCellReuseIdentifier: CKAccountProfileAvatarCell.identifier)
-        self.tableView.register(CKAccountProfileActionCell.nib, forCellReuseIdentifier: CKAccountProfileActionCell.identifier)
+        self.tableView.register(CKOtherProfileActionCell.nib, forCellReuseIdentifier: CKOtherProfileActionCell.identifier)
         self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
         self.tableView.register(CKAccountProfileJobCell.nib, forCellReuseIdentifier: CKAccountProfileJobCell.identifier)
         self.tableView.register(CKAccountProfileTimeCell.nib, forCellReuseIdentifier: CKAccountProfileTimeCell.identifier)
@@ -80,13 +80,16 @@ class CKAccountProfileViewController: MXKViewController {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountProfileAvatarCell.identifier, for: indexPath) as? CKAccountProfileAvatarCell {
             
+            let mxMember = self.mxNumber[indexPath.row]
+            
             cell.nameLabel.text = mxMember.displayname
+            
             if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl ) {
                 cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
             } else {
                 cell.avaImage.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
             }
-    
+            
             //status
             let session = AppDelegate.the()?.mxSessions.first as? MXSession
             if let myUser = session?.myUser {
@@ -102,32 +105,16 @@ class CKAccountProfileViewController: MXKViewController {
         return CKAccountProfileAvatarCell()
     }
     
-    private func cellForAction(atIndexPath indexPath: IndexPath) -> CKAccountProfileActionCell {
+    private func cellForAction(atIndexPath indexPath: IndexPath) -> CKOtherProfileActionCell {
         
         // dequeue cell
         if let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKAccountProfileActionCell.identifier,
-            for: indexPath) as? CKAccountProfileActionCell {
+            withIdentifier: CKOtherProfileActionCell.identifier,
+            for: indexPath) as? CKOtherProfileActionCell {
             
-            // action
-            cell.EditHandler = {
-                
-                if let nvc = self.navigationController {
-                    let vc = CKAccountProfileEditViewController.instance()
-                    vc.importSession(self.mxSessions)
-                    vc.mxRoomMember = self.mxMember
-                    nvc.pushViewController(vc, animated: true)
-                    
-                } else {
-                    let nvc = CKAccountProfileEditViewController.instanceForNavigationController(completion: { (vc: CKAccountProfileEditViewController) in
-                        vc.importSession(self.mxSessions)
-                    })
-                    self.present(nvc, animated: true, completion: nil)
-                }
-            }
             return cell
         }
-        return CKAccountProfileActionCell()
+        return CKOtherProfileActionCell()
     }
     
     private func cellForInfoPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileInfoCell {
@@ -136,17 +123,18 @@ class CKAccountProfileViewController: MXKViewController {
             withIdentifier: CKAccountProfileInfoCell.identifier,
             for: indexPath) as? CKAccountProfileInfoCell {
             
+            
             // Title
             cell.titleLabel.font = CKAppTheme.mainLightAppFont(size: 17)
             cell.titleLabel.textColor = #colorLiteral(red: 0.4352941176, green: 0.431372549, blue: 0.4509803922, alpha: 1)
             cell.titleLabel.text = "Display name"
-                
+            
             // display name
+            let mxMember = self.mxNumber[indexPath.row]
             cell.contentLabel.text = mxMember.displayname
-
+            
             return cell
         }
-        
         return CKAccountProfileInfoCell()
     }
     
@@ -212,7 +200,7 @@ class CKAccountProfileViewController: MXKViewController {
 
 // MARK: - UITableViewDelegate
 
-extension CKAccountProfileViewController: UITableViewDelegate {
+extension CKOtherProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = Section(rawValue: indexPath.section) else { return 0}
         switch section {
@@ -248,7 +236,7 @@ extension CKAccountProfileViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 
-extension CKAccountProfileViewController: UITableViewDataSource {
+extension CKOtherProfileViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return Section.count
@@ -305,4 +293,5 @@ extension CKAccountProfileViewController: UITableViewDataSource {
         return UITableViewCell()
     }
 }
+
 

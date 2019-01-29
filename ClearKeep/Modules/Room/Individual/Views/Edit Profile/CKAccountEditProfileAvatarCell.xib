@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oh7-mi-sQX">
-                        <rect key="frame" x="126.5" y="70.5" width="91" height="21"/>
+                        <rect key="frame" x="126.5" y="70.5" width="252.5" height="21"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -30,34 +30,32 @@
                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kLI-0f-Qtv" customClass="MXKImageView">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kLI-0f-Qtv" customClass="CKImageView" customModule="Riot" customModuleProvider="target">
                         <rect key="frame" x="10" y="0.0" width="101.5" height="101.5"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNQ-zn-Qni">
-                                <rect key="frame" x="2" y="5" width="30.5" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="AzU-br-iUq"/>
-                                </constraints>
-                                <state key="normal" image="ic_account_editprofile_camera"/>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="kLI-0f-Qtv" secondAttribute="height" id="Uga-ia-gFt"/>
-                            <constraint firstItem="yNQ-zn-Qni" firstAttribute="width" secondItem="kLI-0f-Qtv" secondAttribute="width" multiplier="0.3" id="Yex-z8-TlG"/>
-                            <constraint firstItem="yNQ-zn-Qni" firstAttribute="leading" secondItem="kLI-0f-Qtv" secondAttribute="leading" constant="2" id="eUh-qu-OuI"/>
-                            <constraint firstItem="yNQ-zn-Qni" firstAttribute="top" secondItem="kLI-0f-Qtv" secondAttribute="top" constant="5" id="iCD-Cf-qMJ"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNQ-zn-Qni">
+                        <rect key="frame" x="15" y="10" width="25" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="A4u-Y5-RTm"/>
+                        </constraints>
+                        <state key="normal" image="ic_account_editprofile_camera"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="g7z-YN-oUj" firstAttribute="top" secondItem="asI-g9-DkY" secondAttribute="top" constant="10" id="1jY-ln-e3F"/>
                     <constraint firstAttribute="bottom" secondItem="Oh7-mi-sQX" secondAttribute="bottom" constant="10" id="1w2-zn-f5B"/>
                     <constraint firstItem="kLI-0f-Qtv" firstAttribute="top" secondItem="asI-g9-DkY" secondAttribute="top" id="BBm-UF-c8Z"/>
+                    <constraint firstItem="yNQ-zn-Qni" firstAttribute="leading" secondItem="kLI-0f-Qtv" secondAttribute="leading" constant="5" id="ECa-SB-4pr"/>
                     <constraint firstItem="kLI-0f-Qtv" firstAttribute="leading" secondItem="asI-g9-DkY" secondAttribute="leading" constant="10" id="KVp-Md-FbQ"/>
                     <constraint firstAttribute="bottom" secondItem="kLI-0f-Qtv" secondAttribute="bottom" id="KsP-o2-ofE"/>
+                    <constraint firstItem="yNQ-zn-Qni" firstAttribute="top" secondItem="kLI-0f-Qtv" secondAttribute="top" constant="10" id="O9A-ag-c7B"/>
                     <constraint firstItem="Oh7-mi-sQX" firstAttribute="leading" secondItem="g7z-YN-oUj" secondAttribute="leading" id="XwX-Zh-C0o"/>
                     <constraint firstItem="g7z-YN-oUj" firstAttribute="leading" secondItem="kLI-0f-Qtv" secondAttribute="trailing" constant="15" id="gQm-4r-znV"/>
+                    <constraint firstItem="Oh7-mi-sQX" firstAttribute="width" secondItem="asI-g9-DkY" secondAttribute="width" multiplier="2/3" id="n9D-iP-m0r"/>
                 </constraints>
             </tableViewCellContentView>
             <gestureRecognizers/>

@@ -19,41 +19,37 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="173.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wIa-d0-gF1" customClass="MXKImageView">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wIa-d0-gF1" customClass="CKImageView" customModule="Riot" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="173.5"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ISO-LC-gHy">
-                                <rect key="frame" x="84" y="141.5" width="10" height="10"/>
-                                <color key="backgroundColor" red="0.4957979918" green="0.79455882310000003" blue="0.63135290150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="ISO-LC-gHy" secondAttribute="height" multiplier="1:1" id="U4h-8A-23q"/>
-                                    <constraint firstAttribute="height" constant="10" id="UYz-fQ-39l"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kqb-AA-b7U">
-                                <rect key="frame" x="20" y="113.5" width="59" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="NoV-5J-tGS"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kqb-AA-b7U">
+                        <rect key="frame" x="20" y="113.5" width="59" height="60"/>
                         <constraints>
-                            <constraint firstItem="ISO-LC-gHy" firstAttribute="trailing" secondItem="Kqb-AA-b7U" secondAttribute="trailing" constant="15" id="2NX-AC-l5K"/>
-                            <constraint firstAttribute="bottom" secondItem="Kqb-AA-b7U" secondAttribute="bottom" id="JQ0-mM-oFH"/>
-                            <constraint firstItem="Kqb-AA-b7U" firstAttribute="leading" secondItem="wIa-d0-gF1" secondAttribute="leading" constant="20" id="LDd-9b-WYC"/>
-                            <constraint firstItem="ISO-LC-gHy" firstAttribute="centerY" secondItem="Kqb-AA-b7U" secondAttribute="centerY" constant="3" id="sQ5-pQ-lg5"/>
+                            <constraint firstAttribute="height" constant="60" id="TXZ-Gq-lkO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="22"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ISO-LC-gHy">
+                        <rect key="frame" x="84" y="141.5" width="10" height="10"/>
+                        <color key="backgroundColor" red="0.4957979918" green="0.79455882310000003" blue="0.63135290150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="10" id="oPb-nz-rVh"/>
+                            <constraint firstAttribute="height" constant="10" id="ubL-Tw-pd5"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="ISO-LC-gHy" firstAttribute="centerY" secondItem="Kqb-AA-b7U" secondAttribute="centerY" constant="3" id="7QD-Iv-Bvx"/>
                     <constraint firstAttribute="bottom" secondItem="wIa-d0-gF1" secondAttribute="bottom" id="C9A-Ir-qTG"/>
+                    <constraint firstItem="Kqb-AA-b7U" firstAttribute="leading" secondItem="AO5-Pd-WGP" secondAttribute="leading" constant="20" id="GZf-mU-EpR"/>
                     <constraint firstItem="wIa-d0-gF1" firstAttribute="leading" secondItem="AO5-Pd-WGP" secondAttribute="leading" id="Hi9-1h-AGk"/>
                     <constraint firstAttribute="trailing" secondItem="wIa-d0-gF1" secondAttribute="trailing" id="jPO-Dl-XV2"/>
+                    <constraint firstItem="ISO-LC-gHy" firstAttribute="leading" secondItem="Kqb-AA-b7U" secondAttribute="trailing" constant="5" id="kbH-fk-70V"/>
                     <constraint firstItem="wIa-d0-gF1" firstAttribute="top" secondItem="AO5-Pd-WGP" secondAttribute="top" id="lnd-b9-pcE"/>
+                    <constraint firstAttribute="bottom" secondItem="Kqb-AA-b7U" secondAttribute="bottom" id="sNU-gG-vQC"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="7c9-Yd-DVF"/>

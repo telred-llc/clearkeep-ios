@@ -21,7 +21,7 @@ class CKAccountProfileInfoCell: CKAccountProfileBaseCell {
         super.awakeFromNib()
         // Initialization code
         titleLabel.text = "Display name"
-        contentLabel.text = "Eval"
+        contentLabel.text = ""
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

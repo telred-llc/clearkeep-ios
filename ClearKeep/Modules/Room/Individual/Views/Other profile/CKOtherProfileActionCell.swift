@@ -8,12 +8,12 @@
 
 import UIKit
 
-class CKAccountProfileActionCell: CKAccountProfileBaseCell {
-
+class CKOtherProfileActionCell: CKAccountProfileBaseCell {
+    
     // MARK: - OUTLET
     
     @IBOutlet weak var messageButton: UIButton!
-    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var callButton: UIButton!
     
     
     // MARK: - PROPERTY
@@ -26,7 +26,7 @@ class CKAccountProfileActionCell: CKAccountProfileBaseCell {
     /**
      CallHandler
      */
-    internal var EditHandler: (() -> Void)?
+    internal var CallHandler: (() -> Void)?
     
     
     // MARK: - OVERRIDE
@@ -36,7 +36,7 @@ class CKAccountProfileActionCell: CKAccountProfileBaseCell {
         // Initialization code
         
         self.messageButton.addTarget(self, action: #selector(onClickedMessageButton(_:)), for: .touchUpInside)
-        self.editButton.addTarget(self, action: #selector(onClickedEditButton(_:)), for: .touchUpInside)
+        self.callButton.addTarget(self, action: #selector(onClickedCallButton(_:)), for: .touchUpInside)
     }
     
     // MARK: - ACTION
@@ -45,8 +45,8 @@ class CKAccountProfileActionCell: CKAccountProfileBaseCell {
         MessageHandler?()
     }
     
-    @objc func onClickedEditButton(_ sender: Any) {
-        EditHandler?()
+    @objc func onClickedCallButton(_ sender: Any) {
+        CallHandler?()
     }
     
     

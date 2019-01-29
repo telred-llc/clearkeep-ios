@@ -13,18 +13,18 @@ import UIKit
  */
 private struct AccountProfileSavingData {
     var fullname: String
-    var displayname: String
+    var newDisplayName: String?
     var career: String
     var contact: String
     static func == (lhs: inout AccountProfileSavingData, rhs: AccountProfileSavingData) -> Bool {
         return (lhs.fullname == rhs.fullname
-            && lhs.displayname == rhs.displayname
+            && lhs.newDisplayName == rhs.newDisplayName
             && lhs.career == rhs.career
             && lhs.contact == rhs.contact)
     }
     
     func isValidated() -> Bool {
-        return self.fullname.count > 0
+        return self.newDisplayName!.count > 0
     }
 }
 
@@ -72,21 +72,15 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     public var mxRoom: MXRoom!
     
     /**
-     filtered out participants
+     VAR saving data
      */
-    private var filteredParticipants: [MXRoomMember]! = [MXRoomMember]()
-    
-    
-    /**
-     VAR room creating data
-     */
-    private var savingData = AccountProfileSavingData(fullname: "", displayname: "", career: "", contact: "")
+    private var savingData = AccountProfileSavingData(fullname: "", newDisplayName: "", career: "", contact: "")
     
     private var request: MXHTTPOperation!
     typealias blockSettingsViewController_onReadyToDestroy = () -> Void
     
-    public var mxroomMember: [MXRoomMember]! = [MXRoomMember]()
-    private var newDisplayName :String?
+    public var mxRoomMember: MXRoomMember!
+//    private var newDisplayName: String?
     private var currentAlert: UIAlertController?
     private var newAvatarImage: UIImage?
     private var uploadedAvatarURL : String?
@@ -168,11 +162,29 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     }
     
     
-    private func saveData() {
+    func updateSaveButtonStatus() {
+        if AppDelegate.the().mxSessions.count > 0 {
+            let session = AppDelegate.the().mxSessions[0] as? MXSession
+            let myUser: MXMyUser? = session?.myUser
+
+            var saveButtonEnabled: Bool = nil != newAvatarImage
+
+            if !saveButtonEnabled {
+                if (savingData.newDisplayName != nil) {
+                    saveButtonEnabled = !(myUser?.displayname == savingData.newDisplayName)
+                }
+            }
+            navigationItem.rightBarButtonItem?.isEnabled = saveButtonEnabled
+        }
+    }
+
+    
+    
+    private func saveData(_ sender: Any?)  {
         if MXKAccountManager.shared().activeAccounts.count == 0 {
             return
         }
-        
+    
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         self.startActivityIndicator()
         isSavingInProgress = true
@@ -180,10 +192,11 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         let account = MXKAccountManager.shared().activeAccounts.first
         let myUser = account?.mxSession.myUser
         
-        if (newDisplayName != nil) && !(myUser?.displayname == newDisplayName) {
-            account?.setUserDisplayName(newDisplayName, success: { [weak self] in
-                self?.newDisplayName = nil
-                self?.saveData()
+        if (savingData.newDisplayName != nil) && !(myUser?.displayname == savingData.newDisplayName) {
+            account?.setUserDisplayName(savingData.newDisplayName,
+                                        success: { [weak self] in
+                                            self?.savingData.newDisplayName = nil
+                                            self?.tableView.reloadData()
                 }, failure: { (error) in
                     print("Failed to set displayName")
                     self.handleErrorDuringProfileChangeSaving(error: error! as NSError)
@@ -195,7 +208,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             let updatedPicture: UIImage? = MXKTools.forceImageOrientationUp(newAvatarImage)
             // Upload picture
             let uploader: MXMediaLoader? = MXMediaManager.prepareUploader(withMatrixSession: account?.mxSession, initialRange: 0, andRange: 1.0)
-            
+
             uploader?.uploadData(UIImageJPEGRepresentation(updatedPicture!, 0.5), filename: nil, mimeType: "image/jpeg", success: { (url) in
                 self.uploadedAvatarURL = url
                 self.newAvatarImage = nil
@@ -205,19 +218,20 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             })
             return
         } else if uploadedAvatarURL != nil {
-            account?.setUserAvatarUrl(uploadedAvatarURL, success: {[weak self] in
+            account?.setUserAvatarUrl(uploadedAvatarURL, success: { [weak self] in
                 self?.uploadedAvatarURL = nil
-                self?.saveData()
+                self?.saveData(nil)
                 }, failure: { (error) in
                     print("Failed to set avatar url")
                     self.handleErrorDuringProfileChangeSaving(error: error! as NSError)
             })
             return
         }
+        
         // Backup is complete
         isSavingInProgress = false
         self.stopActivityIndicator()
-        
+
         // Check whether destroy has been called durign saving
         if onReadyToDestroyHandler != nil {
             onReadyToDestroyHandler!()
@@ -247,14 +261,14 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 self.currentAlert = nil
                 
                 // Reset the updated displayname
-                self.newDisplayName = ""
+                self.savingData.newDisplayName = ""
                 
                 // Discard picture change
                 self.uploadedAvatarURL = nil
                 self.newAvatarImage = nil
                 
                 // Loop to end saving
-                self.saveData()
+                self.saveData(nil)
             }))
             
             currentAlert?.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "retry"), style: .default, handler: { (action) in
@@ -270,9 +284,6 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountEditProfileAvatarCell.identifier, for: indexPath) as? CKAccountEditProfileAvatarCell {
             
-            cell.nameTextField.text = savingData.fullname
-            
-            
             // Take Snap shoot
             cell.cameraHandler = {
                 cell.nameTextField.resignFirstResponder()
@@ -285,17 +296,16 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 }
             }
             
-            let mxMember = self.mxroomMember[indexPath.row]
-            
-            cell.nameTextField.text = mxMember.displayname
-            
-            // avatar
-            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl) {
+            cell.nameTextField.text = mxRoomMember.displayname
+
+            // Display Avatar
+            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxRoomMember.avatarUrl) {
                 cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
             } else {
-                cell.avaImage.image = AvatarGenerator.generateAvatar(forText: mxMember.displayname)
+                newAvatarImage = AvatarGenerator.generateAvatar(forText: mxRoomMember.displayname)
+                cell.avaImage.image = newAvatarImage
             }
-            
+
             cell.tapHandler = {
                 
                 cell.nameTextField.resignFirstResponder()
@@ -310,15 +320,18 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 self.present(imagePickerController, animated: true, completion: nil)
             }
             
-            
             self.imagePickedBlock = { (image) in
+                DispatchQueue.main.async {
                 cell.avaImage.image = image
+                self.newAvatarImage = cell.avaImage.image
+                }
             }
             
             // Text value
             cell.edittingChangedHandler = { text in
                 if let text = text {
-                    self.savingData.fullname = text
+                    self.savingData.newDisplayName = text
+                    self.updateSaveButtonStatus()
                     self.updateControls()
                 }
             }
@@ -350,20 +363,17 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             withIdentifier: CKAccountEditProfileNameCell.identifier,
             for: indexPath) as? CKAccountEditProfileNameCell {
             
-            
-            if let contact = MXKContactManager.shared()?.matrixContacts[indexPath.row] as? MXKContact {
-                
                 // display name
-                cell.nameTextField.text = contact.displayName
+            cell.nameTextField.text = mxRoomMember.displayname
                 
-                // text value
-                cell.edittingChangedHandler = { text in
-                    if let text = text {
-                        self.savingData.displayname = text
-                        self.updateControls()
-                    }
+            // text value
+            cell.edittingChangedHandler = { text in
+                if let text = text {
+                    self.savingData.newDisplayName = text
+                    self.updateControls()
                 }
             }
+            
             return cell
         }
         return CKAccountEditProfileNameCell()
@@ -442,10 +452,9 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     }
     
     @objc func clickedOnSaveButton(_ sender: Any?) {
-        self.saveData()
+        self.saveData(self)
     }
 }
-
 // MARK: - UITableViewDelegate
 
 extension CKAccountProfileEditViewController: UITableViewDelegate {
@@ -484,6 +493,7 @@ extension CKAccountProfileEditViewController: UITableViewDelegate {
 extension CKAccountProfileEditViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        self.updateSaveButtonStatus()
         return Section.count
     }
     

@@ -151,11 +151,28 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.filteredParticipants.append(member)
     }
     
-    private func showPersonalAccountProfile() {
+//    private func showPersonalAccountProfile() {
+//
+//        // initialize vc from xib
+//        let vc = CKAccountProfileViewController(
+//            nibName: "CKAccountProfileViewController",
+//            bundle: nil)
+//
+//        // import mx session and room id
+//        vc.importSession(self.mxSessions)
+//        vc.mxRoom = self.mxRoom
+//        vc.mxNumber = self.filteredParticipants
+//
+//        // present vc
+//        let navi = UINavigationController.init(rootViewController: vc)
+//        self.present(navi, animated: true, completion: nil)
+//    }
+    
+    private func showOthersAccountProfile() {
         
         // initialize vc from xib
-        let vc = CKAccountProfileViewController(
-            nibName: "CKAccountProfileViewController",
+        let vc = CKOtherProfileViewController(
+            nibName: "CKOtherProfileViewController",
             bundle: nil)
         
         // import mx session and room id
@@ -187,7 +204,37 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 0 {self.showPersonalAccountProfile()}
+        let mxMember = filteredParticipants[indexPath.row]
+        if mxMember.userId == mainSession.myUser.userId {
+            // initialize vc from xib
+            let vc = CKAccountProfileViewController(
+                nibName: "CKAccountProfileViewController",
+                bundle: nil)
+            
+            // import mx session and room id
+            vc.importSession(self.mxSessions)
+            vc.mxRoom = self.mxRoom
+            vc.mxMember = mxMember
+            
+            // present vc
+            let navi = UINavigationController.init(rootViewController: vc)
+            self.present(navi, animated: true, completion: nil)
+
+        } else {
+            // initialize vc from xib
+            let vc = CKOtherProfileViewController(
+                nibName: "CKOtherProfileViewController",
+                bundle: nil)
+            
+            // import mx session and room id
+            vc.importSession(self.mxSessions)
+            vc.mxRoom = self.mxRoom
+            vc.mxNumber = [mxMember]
+            
+            // present vc
+            let navi = UINavigationController.init(rootViewController: vc)
+            self.present(navi, animated: true, completion: nil)
+        }
     }
 }
 
