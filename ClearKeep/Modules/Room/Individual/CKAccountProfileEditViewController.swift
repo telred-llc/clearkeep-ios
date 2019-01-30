@@ -69,7 +69,9 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     typealias blockSettingsViewController_onReadyToDestroy = () -> Void
     
     public var mxRoomMember: MXRoomMember!
-//    private var newDisplayName: String?
+    var accountUserInfoObserver: Any?
+    var pushInfoUpdateObserver: Any?
+
     private var currentAlert: UIAlertController?
     private var newAvatarImage: UIImage?
     private var uploadedAvatarURL : String?
@@ -80,6 +82,26 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     override func viewDidLoad() {
         super.viewDidLoad()
         self.finalizeLoadView()
+        
+        // Add observer to handle accounts update
+
+        accountUserInfoObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            
+            self.stopActivityIndicator()
+        })
+        
+        // Add observer to push settings
+        pushInfoUpdateObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountPushKitActivityDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            
+            self.stopActivityIndicator()
+            
+        })
+        
+        let sessions = AppDelegate.the().mxSessions
+        for mxSession: MXSession in sessions as? [MXSession] ?? [] {
+            addMatrixSession(mxSession)
+        }
+
     }
     
     override func finalizeInit() {
@@ -117,6 +139,10 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         }
     }
     
+
+   
+
+    
     // MARK: - PRIVATE
     
     private func finalizeLoadView() {
@@ -126,7 +152,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         
         // register cells
         self.tableView.register(CKAccountEditProfileAvatarCell.nib, forCellReuseIdentifier: CKAccountEditProfileAvatarCell.identifier)
-        self.tableView.register(CKAccountEditProfileNameCell.nib, forCellReuseIdentifier: CKAccountEditProfileNameCell.identifier)
+        self.tableView.register(CKAccountEditProfileStatusCell.nib, forCellReuseIdentifier: CKAccountEditProfileStatusCell.identifier)
         self.tableView.register(CKAccountEditProfileCareerCell.nib, forCellReuseIdentifier: CKAccountEditProfileCareerCell.identifier)
         self.tableView.register(CKAccountEditProfileContactCell.nib, forCellReuseIdentifier: CKAccountEditProfileContactCell.identifier)
         self.tableView.allowsSelection = false
@@ -169,7 +195,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
 
     
     
-    private func saveData(_ sender: Any?)  {
+    private func saveData()  {
         if MXKAccountManager.shared().activeAccounts.count == 0 {
             return
         }
@@ -185,7 +211,8 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             account?.setUserDisplayName(savingData.newDisplayName,
                                         success: { [weak self] in
                                             self?.savingData.newDisplayName = nil
-                                            self?.tableView.reloadData()
+//                                            self?.tableView.reloadData()
+                                            self?.saveData()
                 }, failure: { (error) in
                     print("Failed to set displayName")
                     self.handleErrorDuringProfileChangeSaving(error: error! as NSError)
@@ -209,7 +236,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         } else if uploadedAvatarURL != nil {
             account?.setUserAvatarUrl(uploadedAvatarURL, success: { [weak self] in
                 self?.uploadedAvatarURL = nil
-                self?.saveData(nil)
+                self?.saveData()
                 }, failure: { (error) in
                     print("Failed to set avatar url")
                     self.handleErrorDuringProfileChangeSaving(error: error! as NSError)
@@ -257,7 +284,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 self.newAvatarImage = nil
                 
                 // Loop to end saving
-                self.saveData(nil)
+                self.saveData()
             }))
             
             currentAlert?.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "retry"), style: .default, handler: { (action) in
@@ -285,7 +312,11 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 }
             }
             
-            cell.nameTextField.text = mxRoomMember.displayname
+            if cell.nameTextField.text == savingData.newDisplayName {
+                cell.nameTextField.text = mxRoomMember.displayname
+            } else {
+                cell.nameTextField.text = cell.nameTextField.text
+            }
 
             // Display Avatar
             if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxRoomMember.avatarUrl) {
@@ -320,6 +351,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             cell.edittingChangedHandler = { text in
                 if let text = text {
                     self.savingData.newDisplayName = text
+                    cell.nameTextField.text = self.savingData.newDisplayName
                     self.updateSaveButtonStatus()
                     self.updateControls()
                 }
@@ -345,16 +377,14 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     }
     
     
-    private func cellForDisplayName(atIndexPath indexPath: IndexPath) -> CKAccountEditProfileNameCell {
+    private func cellForStatus(atIndexPath indexPath: IndexPath) -> CKAccountEditProfileStatusCell {
         
         // dequeue account display name cell
         if let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKAccountEditProfileNameCell.identifier,
-            for: indexPath) as? CKAccountEditProfileNameCell {
+            withIdentifier: CKAccountEditProfileStatusCell.identifier,
+            for: indexPath) as? CKAccountEditProfileStatusCell {
             
-                // display name
-            cell.nameTextField.text = mxRoomMember.displayname
-                
+            
             // text value
             cell.edittingChangedHandler = { text in
                 if let text = text {
@@ -365,7 +395,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             
             return cell
         }
-        return CKAccountEditProfileNameCell()
+        return CKAccountEditProfileStatusCell()
     }
     
     
@@ -423,7 +453,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         case .avatarname:
             return ""
         case .displayname:
-            return "Display name"
+            return "Status"
         case .career:
             return "What I do"
         case.contact:
@@ -441,7 +471,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     }
     
     @objc func clickedOnSaveButton(_ sender: Any?) {
-        self.saveData(self)
+        self.saveData()
     }
 }
 // MARK: - UITableViewDelegate
@@ -511,7 +541,7 @@ extension CKAccountProfileEditViewController: UITableViewDataSource {
         case .displayname:
             
             // account profile display name cell
-            return cellForDisplayName(atIndexPath: indexPath)
+            return cellForStatus(atIndexPath: indexPath)
         case .career:
             
             // account profile career cell
@@ -520,8 +550,7 @@ extension CKAccountProfileEditViewController: UITableViewDataSource {
         case .contact:
             // account profile contact cell
             return cellForContact(atIndexPath: indexPath)
-        }
-    }
+        }    }
 }
 
 

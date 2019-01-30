@@ -8,11 +8,11 @@
 
 import UIKit
 
-class CKAccountEditProfileNameCell: CKAccountEditProfileBaseCell, UITextFieldDelegate {
+class CKAccountEditProfileStatusCell: CKAccountEditProfileBaseCell, UITextFieldDelegate {
 
     // MARK: - OUTLET
     
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var statusTextField: UITextField!
     
     // MARK: - OVERRIDE
     
@@ -24,15 +24,15 @@ class CKAccountEditProfileNameCell: CKAccountEditProfileBaseCell, UITextFieldDel
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
-        nameTextField.delegate = self
-        self.nameTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
+        statusTextField.delegate = self
+        self.statusTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
     }
     
     // MARK: - PUBLIC
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == nameTextField {
-            nameTextField.resignFirstResponder()
+        if textField == statusTextField {
+            statusTextField.resignFirstResponder()
         }
         return true
     }

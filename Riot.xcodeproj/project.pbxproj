@@ -115,8 +115,8 @@
 		A06949A521F85B8A002ABA27 /* CKAccountProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06949A321F85B8A002ABA27 /* CKAccountProfileEditViewController.swift */; };
 		A06949A621F85B8A002ABA27 /* CKAccountProfileEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A06949A421F85B8A002ABA27 /* CKAccountProfileEditViewController.xib */; };
 		A06949AB21F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06949A921F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift */; };
-		A0B13A2421F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift */; };
-		A0B13A2521F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib */; };
+		A0B13A2421F94A7F008FDBAE /* CKAccountEditProfileStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileStatusCell.swift */; };
+		A0B13A2521F94A7F008FDBAE /* CKAccountEditProfileStatusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileStatusCell.xib */; };
 		A0B13A2821F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B13A2621F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift */; };
 		A0B13A2921F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0B13A2721F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib */; };
 		A0B13A2C21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B13A2A21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift */; };
@@ -690,8 +690,8 @@
 		A06949A321F85B8A002ABA27 /* CKAccountProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountProfileEditViewController.swift; sourceTree = "<group>"; };
 		A06949A421F85B8A002ABA27 /* CKAccountProfileEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountProfileEditViewController.xib; sourceTree = "<group>"; };
 		A06949A921F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileAvatarCell.swift; sourceTree = "<group>"; };
-		A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileNameCell.swift; sourceTree = "<group>"; };
-		A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountEditProfileNameCell.xib; sourceTree = "<group>"; };
+		A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileStatusCell.swift; sourceTree = "<group>"; };
+		A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileStatusCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountEditProfileStatusCell.xib; sourceTree = "<group>"; };
 		A0B13A2621F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileCareerCell.swift; sourceTree = "<group>"; };
 		A0B13A2721F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAccountEditProfileCareerCell.xib; sourceTree = "<group>"; };
 		A0B13A2A21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAccountEditProfileContactCell.swift; sourceTree = "<group>"; };
@@ -1581,8 +1581,8 @@
 				A000B6E721F8732F0002EBB3 /* CKAccountEditProfileBaseCell.swift */,
 				A06949A921F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift */,
 				A000B6E921F876740002EBB3 /* CKAccountEditProfileAvatarCell.xib */,
-				A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift */,
-				A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib */,
+				A0B13A2221F94A7F008FDBAE /* CKAccountEditProfileStatusCell.swift */,
+				A0B13A2321F94A7F008FDBAE /* CKAccountEditProfileStatusCell.xib */,
 				A0B13A2621F94AE1008FDBAE /* CKAccountEditProfileCareerCell.swift */,
 				A0B13A2721F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib */,
 				A0B13A2A21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift */,
@@ -3670,7 +3670,7 @@
 				851C8AD021FAAE49008FD696 /* ImagePickerView.xib in Resources */,
 				851C8ADE21FAAE49008FD696 /* VideoCameraCell.xib in Resources */,
 				B1B5595320EF9A8700210D55 /* RecentTableViewCell.xib in Resources */,
-				A0B13A2521F94A7F008FDBAE /* CKAccountEditProfileNameCell.xib in Resources */,
+				A0B13A2521F94A7F008FDBAE /* CKAccountEditProfileStatusCell.xib in Resources */,
 				E5E27FDD21F6CB5E00532610 /* CKRoomAddingSearchCell.xib in Resources */,
 				B1B557AD20EF5A6D00210D55 /* DeviceView.xib in Resources */,
 				851C8AEB21FAB762008FD696 /* CustomVideoCell.xib in Resources */,
@@ -4083,7 +4083,7 @@
 				B1B558CF20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				851C8ABD21FAAE49008FD696 /* Appearance.swift in Sources */,
 				B1B5575120EE6C4D00210D55 /* AuthenticationViewController.m in Sources */,
-				A0B13A2421F94A7F008FDBAE /* CKAccountEditProfileNameCell.swift in Sources */,
+				A0B13A2421F94A7F008FDBAE /* CKAccountEditProfileStatusCell.swift in Sources */,
 				B1B5571820EE6C4D00210D55 /* CountryPickerViewController.m in Sources */,
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
 				851C8AC321FAAE49008FD696 /* CaptureSession.swift in Sources */,

@@ -11,14 +11,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Hcc-Ne-fdr" customClass="CKAccountEditProfileNameCell" customModule="Riot" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Hcc-Ne-fdr" customClass="CKAccountEditProfileStatusCell" customModule="Riot" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hcc-Ne-fdr" id="vI2-lw-hbH">
                 <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aru-9s-xPE">
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What do you think?" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aru-9s-xPE">
                         <rect key="frame" x="20" y="0.0" width="345" height="59.5"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -33,7 +33,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="nameTextField" destination="Aru-9s-xPE" id="NlH-70-jzd"/>
+                <outlet property="statusTextField" destination="Aru-9s-xPE" id="VYG-kE-c9O"/>
             </connections>
         </tableViewCell>
     </objects>

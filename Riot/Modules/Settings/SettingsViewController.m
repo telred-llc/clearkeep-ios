@@ -3627,8 +3627,7 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
 }
 
 - (void)updateSaveButtonStatus
-{
-    if ([AppDelegate theDelegate].mxSessions.count > 0)
+{    if ([AppDelegate theDelegate].mxSessions.count > 0)
     {
         MXSession* session = [[AppDelegate theDelegate].mxSessions objectAtIndex:0];
         MXMyUser* myUser = session.myUser;
