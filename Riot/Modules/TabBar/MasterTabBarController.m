@@ -77,9 +77,9 @@
     _homeViewController = [self.viewControllers objectAtIndex:TABBAR_HOME_INDEX];
     _favouritesViewController = [self.viewControllers objectAtIndex:TABBAR_FAVOURITES_INDEX];
     _peopleViewController = [self.viewControllers objectAtIndex:TABBAR_PEOPLE_INDEX];
-    _roomsViewController = [self.viewControllers objectAtIndex:TABBAR_ROOMS_INDEX];
     
     //-- CK: removed
+    // _roomsViewController = [self.viewControllers objectAtIndex:TABBAR_ROOMS_INDEX];
     //_groupsViewController = [self.viewControllers objectAtIndex:TABBAR_GROUPS_INDEX];
     
     // Set the accessibility labels for all buttons #1842
@@ -93,7 +93,7 @@
         
     // Sanity check
     //-- CK: unused _groupsViewController
-    NSAssert(_homeViewController && _favouritesViewController && _peopleViewController && _roomsViewController /*&& _groupsViewController*/, @"Something wrong in Main.storyboard");
+    NSAssert(_homeViewController && _favouritesViewController && _peopleViewController /*&& _roomsViewController /*&& _groupsViewController*/, @"Something wrong in Main.storyboard");
 
     // Adjust the display of the icons in the tabbar.
     for (UITabBarItem *tabBarItem in self.tabBar.items)
@@ -113,6 +113,9 @@
         
     }];
     [self userInterfaceThemeDidChange];
+    
+    // CK- modified this line code
+    [_peopleViewController setDelegate: _homeViewController];
 }
 
 - (void)userInterfaceThemeDidChange
@@ -267,8 +270,9 @@
                 recentsDataSourceMode = RecentsDataSourceModePeople;
                 break;
             case TABBAR_ROOMS_INDEX:
-                recentsDataSourceDelegate = _roomsViewController;
-                recentsDataSourceMode = RecentsDataSourceModeRooms;
+                //-- CK removed
+                // recentsDataSourceDelegate = _roomsViewController;
+                // recentsDataSourceMode = RecentsDataSourceModeRooms;
                 break;
                 
             default:
@@ -801,7 +805,9 @@
     
     // Update the badge on People and Rooms tabs
     [self setMissedDiscussionsCount:recentsDataSource.missedDirectDiscussionsCount onTabBarItem:TABBAR_PEOPLE_INDEX withBadgeColor:(recentsDataSource.missedHighlightDirectDiscussionsCount ? kRiotColorPinkRed : kRiotColorGreen)];
-    [self setMissedDiscussionsCount:recentsDataSource.missedGroupDiscussionsCount onTabBarItem:TABBAR_ROOMS_INDEX withBadgeColor:(recentsDataSource.missedHighlightGroupDiscussionsCount ? kRiotColorPinkRed : kRiotColorGreen)];
+    
+    //-- CK Removed
+    //[self setMissedDiscussionsCount:recentsDataSource.missedGroupDiscussionsCount onTabBarItem:TABBAR_ROOMS_INDEX withBadgeColor:(recentsDataSource.missedHighlightGroupDiscussionsCount ? kRiotColorPinkRed : kRiotColorGreen)];
 }
 
 - (void)setMissedDiscussionsCount:(NSUInteger)count onTabBarItem:(NSUInteger)index withBadgeColor:(UIColor*)badgeColor

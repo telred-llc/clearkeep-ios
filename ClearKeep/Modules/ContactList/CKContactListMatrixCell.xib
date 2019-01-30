@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uu7-Ad-JmF">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uu7-Ad-JmF" customClass="MXKImageView">
                         <rect key="frame" x="20" y="10" width="39.5" height="39.5"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>

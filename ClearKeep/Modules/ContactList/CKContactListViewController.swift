@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol CKContactListViewControllerDelegate: class {
+    func contactListCreating(withUserId userId: String, completion: ((_ success: Bool) -> Void)? )
+}
+
 final class CKContactListViewController: MXKViewController {
     
     // MARK: - OUTLET
@@ -28,6 +32,8 @@ final class CKContactListViewController: MXKViewController {
     
     // MARK: - PROPERTY
     
+    internal weak var delegate: CKContactListViewControllerDelegate?
+    
     /**
      Original data sources
      */
@@ -37,8 +43,8 @@ final class CKContactListViewController: MXKViewController {
     /**
      Filtered data sources
      */
-    private var filteredLocalSource = [MXKContact]()
-    private var filteredMatrixSource = [MXKContact]()
+    private var filteredLocalSource: [MXKContact]!
+    private var filteredMatrixSource: [MXKContact]!
     
     // MARK: - CLASS
     
@@ -58,6 +64,7 @@ final class CKContactListViewController: MXKViewController {
             nib.instantiate(withOwner: self, options: nil)
             self.tableView.reloadData()
             self.registerCells()
+            self.reloadData()
         }
     }
     
@@ -68,11 +75,15 @@ final class CKContactListViewController: MXKViewController {
     // MARK: - OBJC
     
     @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
-        // TODO
+        self.importSession(recentsDataSource.mxSessions)
     }
     
     @objc public func scrollToNextRoomWithMissedNotifications() {
         // TODO
+    }
+    
+    @objc public func setDelegate(_ controller: UIViewController) {
+        self.delegate = controller as? CKContactListViewControllerDelegate
     }
 }
 
@@ -90,9 +101,9 @@ extension CKContactListViewController {
         case .search:
             return ""
         case .matrix:
-            return "MATRIX"
+            return "MATRIX CONTACTS"
         case .local:
-            return "LOCAL"
+            return "INVITE FROM CONTACTS"
         }
     }
     
@@ -118,6 +129,16 @@ extension CKContactListViewController {
      */
     private func cellForMatrix(_ indexPath: IndexPath) -> CKContactListMatrixCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListMatrixCell.identifier, for: indexPath) as! CKContactListMatrixCell
+        
+        if let ds = self.filteredMatrixSource {
+            cell.displayNameLabel.text = ds[indexPath.row].displayName
+            
+            if let matUrl = ds[indexPath.row].matrixAvatarURL {
+                cell.setMxAvatarUrl(matUrl, inSession: self.mainSession)
+            } else {
+                cell.photoView.image = AvatarGenerator.generateAvatar(forText: ds[indexPath.row].displayName)
+            }
+        }
         return cell
     }
     
@@ -125,8 +146,100 @@ extension CKContactListViewController {
      Cell for local contact
      */
     private func cellForLocal(_ indexPath: IndexPath) -> CKContactListLocalCell {
+        
+        // deque
         let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListLocalCell.identifier, for: indexPath) as! CKContactListLocalCell
+        
+        // ds
+        if let ds = self.filteredLocalSource {
+            
+            // setup cell
+            cell.setup(ds[indexPath.row])
+
+        }
+        
+        // return
         return cell
+    }
+    
+    /**
+     Reload data
+     */
+    private func reloadData() {
+        self.reloadLocalContacts()
+        self.reloadMatrixContacts()
+    }
+    
+    /**
+     Reload local contact
+     */
+    private func reloadLocalContacts() {
+        
+        // shared locals
+        if let localcs = MXKContactManager.shared()?.localContactsSplitByContactMethod as? [MXKContact] {
+            
+            // reset
+            self.originalLocalSource.removeAll()
+            
+            // loop
+            for c in localcs {
+                
+                // pick one, and it has email
+                if let eas = c.emailAddresses, eas.count > 0 {
+                    
+                    // append
+                    self.originalLocalSource.append(c)
+                }
+            }
+            
+            // assign fls to ols
+            self.filteredLocalSource = self.originalLocalSource
+        }
+    }
+    
+    /**
+     Reload matrix contact
+     */
+    private func reloadMatrixContacts() {
+        
+        // matrix contacts
+        if let matrixcs = MXKContactManager.shared()?.directMatrixContacts as? [MXKContact] {
+            
+            // pick one, and add to original source
+            for c in matrixcs {
+                self.originalMatrixSource.append(c)
+            }
+            
+            // assign fms to oms
+            self.filteredMatrixSource = self.originalMatrixSource
+        }
+    }
+    
+    /**
+     Make a direct chat
+     */
+    private func directChat(atIndexPath indexPath: IndexPath) {
+        
+        // in range
+        if self.filteredMatrixSource.count > indexPath.row {
+            
+            // index of
+            let c = self.filteredMatrixSource[indexPath.row]
+            
+            // first
+            if let userId = c.matrixIdentifiers.first as? String {
+                
+                // progress start
+                if self.delegate != nil { self.startActivityIndicator() }
+                
+                // invoke delegate
+                self.delegate?.contactListCreating(withUserId: userId, completion: { (success: Bool) in
+                    
+                    // progress stop
+                    self.stopActivityIndicator()
+                })
+            }
+        }
     }
 }
 
@@ -171,6 +284,28 @@ extension CKContactListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CKLayoutSize.Table.footer1px
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let s = Section(rawValue: indexPath.section) else { return}
+        switch s {
+        case .local:
+            (cell as? CKContactListLocalCell)?.updateDisplay()
+        default:
+            return
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let s = Section(rawValue: indexPath.section) else { return}
+        switch s {
+        case .matrix:
+            self.directChat(atIndexPath: indexPath)
+        default:
+            return
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -188,14 +323,14 @@ extension CKContactListViewController: UITableViewDataSource {
         case .search:
             return 1
         case .matrix:
-            return self.filteredMatrixSource.count
+            return self.filteredMatrixSource != nil ? filteredMatrixSource.count : 0
         case .local:
-            return self.filteredLocalSource.count
+            return self.filteredLocalSource != nil ? self.filteredLocalSource.count : 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let s = Section(rawValue: section) else { return 0}
+        guard let s = Section(rawValue: indexPath.section) else { return UITableViewCell()}
         
         switch s {
         case .search:

@@ -18,5 +18,27 @@ final class CKContactListMatrixCell: CKContactListBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.displayNameLabel.backgroundColor = UIColor.clear
+        
+        self.photoView.defaultBackgroundColor = UIColor.clear
+        self.photoView.layer.cornerRadius = (self.photoView.bounds.height) / 2
+        self.photoView.clipsToBounds = true
+        self.photoView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
+        self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
+    }
+    
+    // MARK: - PUBLIC
+    func setMxAvatarUrl(_ url: String, inSession session: MXSession!) {
+        if let avtURL = session.matrixRestClient.url(ofContent: url) {
+            self.photoView.enableInMemoryCache = true
+            self.photoView.setImageURL(
+                avtURL, withType: nil,
+                andImageOrientation: UIImageOrientation.up,
+                previewImage: nil)
+            
+        } else {
+            self.photoView.image = AvatarGenerator.generateAvatar(forText: self.displayNameLabel.text)
+        }
     }
 }

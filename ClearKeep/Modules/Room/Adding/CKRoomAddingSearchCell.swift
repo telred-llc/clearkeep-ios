@@ -22,7 +22,7 @@ final class CKRoomAddingSearchCell: CKRoomBaseCell {
         super.awakeFromNib()
         self.searchBar.placeholder = "Find people"
         self.searchBar.delegate = self
-    }
+    }    
 }
 
 extension CKRoomAddingSearchCell: UISearchBarDelegate {
