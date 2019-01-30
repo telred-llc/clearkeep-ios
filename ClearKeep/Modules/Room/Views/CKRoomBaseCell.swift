@@ -8,25 +8,5 @@
 
 import Foundation
 
-class CKRoomBaseCell: UITableViewCell {
-    
-    // MARK: - CLASS VAR
-    class var className: String {
-        return String(describing: self)
-    }
-    
-    // MARK: - CLASS OVERRIDEABLE
-    
-    open class var identifier: String {
-        return self.nibName
-    }
-    
-    open class var nibName: String {
-        return self.className
-    }
-    
-    class var nib: UINib {
-        return UINib.init(nibName: self.nibName, bundle: nil)
-    }
-
+class CKRoomBaseCell: CKBaseCell {    
 }

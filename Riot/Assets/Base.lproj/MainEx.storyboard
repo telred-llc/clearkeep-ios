@@ -166,7 +166,7 @@
         <!--Contacts-->
         <scene sceneID="Qba-PP-lco">
             <objects>
-                <viewController id="IGB-jr-yFz" customClass="PeopleViewController" sceneMemberID="viewController">
+                <viewController id="IGB-jr-yFz" customClass="CKContactListViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SEK-7g-1jM"/>
                         <viewControllerLayoutGuide type="bottom" id="THV-gz-13H"/>
@@ -646,7 +646,7 @@
         <segue reference="bwO-oZ-2vj"/>
         <segue reference="p4M-yR-DLA"/>
         <segue reference="f5u-Y1-7nt"/>
-        <segue reference="vCz-dl-6xQ"/>
+        <segue reference="HSg-jN-pbo"/>
         <segue reference="cUw-vU-gJq"/>
     </inferredMetricsTieBreakers>
 </document>
