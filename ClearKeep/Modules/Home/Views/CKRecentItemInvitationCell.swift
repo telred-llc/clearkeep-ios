@@ -86,6 +86,26 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
         self.avatarImage.cornerRadius = avatarImage.frame.size.width / 2
         self.avatarImage.clipsToBounds = true
     }
+    
+    /**
+     Add gradient to view
+     */
+    func addGradient(to view: UIView) {
+        let gradientLayer = CAGradientLayer()
+        
+        let startColor = UIColor.init(red: 22/255, green: 168/255, blue: 197/255, alpha: 1)
+        let endColor = UIColor.init(red: 46/255, green: 176/255, blue: 164/255, alpha: 1)
+        
+        gradientLayer.colors = [startColor.cgColor, endColor.cgColor]
+        gradientLayer.startPoint = CGPoint.zero
+        gradientLayer.endPoint = CGPoint.init(x: 0, y: 1)
+        gradientLayer.frame = view.bounds
+        if let topLayer = view.layer.sublayers?.first, topLayer is CAGradientLayer
+        {
+            topLayer.removeFromSuperlayer()
+        }
+        view.layer.insertSublayer(gradientLayer, at: 0)
+    }
 }
 
 extension CKRecentItemInvitationCell: MXKCellRendering {
@@ -112,6 +132,22 @@ extension CKRecentItemInvitationCell: MXKCellRendering {
                 contentStackView.removeArrangedSubview(lastMessageLabel)
             }
         }
+    }
+    
+    func updateUI() {
+        // setup decline button
+        declineButton.borderWidth = 0.5
+        declineButton.borderColor = UIColor.lightGray.withAlphaComponent(0.7)
+        declineButton.cornerRadius = 2
+        declineButton.setTitleColor(CKColor.Text.darkGray, for: .normal)
+        declineButton.backgroundColor = UIColor.white
+        
+        // setup join button
+        joinButton.setTitleColor(UIColor.white, for: .normal)
+        joinButton.cornerRadius = 2
+        
+        // add gradient to joint button
+        self.addGradient(to: joinButton)
         
         // setup avatar
         self.setupAvatar()
