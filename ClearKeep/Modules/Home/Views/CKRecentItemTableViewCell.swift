@@ -80,6 +80,9 @@ private extension CKRecentItemTableViewCell {
             avatarImage.setImageURL("", withType: nil, andImageOrientation: UIImageOrientation.up, previewImage: nil)
         }
         
+        // hideActivityIndicator
+        avatarImage.hideActivityIndicator = true
+
         // style
         avatarImage.cornerRadius = avatarImage.frame.size.width / 2
         avatarImage.clipsToBounds = true

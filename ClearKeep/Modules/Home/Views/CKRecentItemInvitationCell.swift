@@ -79,6 +79,9 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
             avatarImage.setImageURL("", withType: nil, andImageOrientation: UIImageOrientation.up, previewImage: nil)
         }
         
+        // hideActivityIndicator
+        avatarImage.hideActivityIndicator = true
+
         // style
         self.avatarImage.cornerRadius = avatarImage.frame.size.width / 2
         self.avatarImage.clipsToBounds = true
