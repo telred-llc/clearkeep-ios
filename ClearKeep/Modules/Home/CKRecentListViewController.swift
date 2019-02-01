@@ -34,7 +34,7 @@ class CKRecentListViewController: MXKViewController {
         self.recentTableView?.reloadData()
     }
     
-    func dispayRoom(withRoomId roomId: String?, inMatrixSession matrixSession: MXSession?) {
+    func displayRoom(withRoomId roomId: String?, inMatrixSession matrixSession: MXSession?) {
         // Avoid multiple openings of rooms
         self.view.isUserInteractionEnabled = false
 
@@ -187,7 +187,7 @@ private extension CKRecentListViewController {
     @objc func onTableViewCellTap(_ gesture: UIGestureRecognizer) {
         if let selectedIndexPath = getIndexPath(gesture: gesture) {
             let selectedRoomData = dataSource[selectedIndexPath.row]
-            dispayRoom(withRoomId: selectedRoomData.roomSummary.roomId, inMatrixSession: selectedRoomData.roomSummary.room.mxSession)
+            displayRoom(withRoomId: selectedRoomData.roomSummary.roomId, inMatrixSession: selectedRoomData.roomSummary.room.mxSession)
         }
     }
     

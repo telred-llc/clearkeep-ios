@@ -225,7 +225,6 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         
         // import mx session and room id
         vc.importSession(self.mxSessions)
-        vc.mxRoom = self.mxRoom
         vc.mxMember = mxMember
         
         self.navigationController?.pushViewController(vc, animated: true)

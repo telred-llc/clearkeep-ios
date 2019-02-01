@@ -65,6 +65,11 @@ class CKAccountProfileViewController: MXKViewController {
         })
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title = "Profile"
+    }
+    
     deinit {
         if request != nil {
             request.cancel()
@@ -165,7 +170,7 @@ class CKAccountProfileViewController: MXKViewController {
             for: indexPath) as? CKAccountProfileActionCell {
             
             // action
-            cell.EditHandler = {
+            cell.editHandler = {
                 
                 if let nvc = self.navigationController {
                     let vc = CKAccountProfileEditViewController.instance()
@@ -180,6 +185,12 @@ class CKAccountProfileViewController: MXKViewController {
                     self.present(nvc, animated: true, completion: nil)
                 }
             }
+            
+            cell.settingHandler = {
+                let settingVC = UIStoryboard.init(name: "MainEx", bundle: nil).instantiateViewController(withIdentifier: "SettingsViewController")
+                self.navigationController?.pushViewController(settingVC, animated: true)
+            }
+            
             return cell
         }
         return CKAccountProfileActionCell()
@@ -223,7 +234,7 @@ class CKAccountProfileViewController: MXKViewController {
         case .detail:
             return ""
         }
-    }
+    }    
 }
 
 // MARK: - UITableViewDelegate

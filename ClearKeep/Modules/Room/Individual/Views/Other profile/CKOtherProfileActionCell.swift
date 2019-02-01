@@ -21,12 +21,12 @@ class CKOtherProfileActionCell: CKAccountProfileBaseCell {
     /**
      MessageHandler
      */
-    internal var MessageHandler: (() -> Void)?
+    internal var messageHandler: (() -> Void)?
     
     /**
      CallHandler
      */
-    internal var CallHandler: (() -> Void)?
+    internal var callHandler: (() -> Void)?
     
     
     // MARK: - OVERRIDE
@@ -42,11 +42,11 @@ class CKOtherProfileActionCell: CKAccountProfileBaseCell {
     // MARK: - ACTION
     
     @objc func onClickedMessageButton(_ sender: Any) {
-        MessageHandler?()
+        messageHandler?()
     }
     
     @objc func onClickedCallButton(_ sender: Any) {
-        CallHandler?()
+        callHandler?()
     }
     
     

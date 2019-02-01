@@ -34,10 +34,13 @@ class CKOtherProfileViewController: MXKViewController {
     /**
      MX Room
      */
-    public var mxRoom: MXRoom!
     public var mxMember: MXRoomMember!
     private var request: MXHTTPOperation!
     
+    // Observers to manage ongoing conference call banner
+    private var kMXCallStateDidChangeObserver: Any?
+    private var kMXCallManagerConferenceStartedObserver: Any?
+    private var kMXCallManagerConferenceFinishedObserver: Any?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +51,11 @@ class CKOtherProfileViewController: MXKViewController {
             request.cancel()
             request = nil
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title = "Profile"
     }
     
     // MARK: - PRIVATE
@@ -95,6 +103,18 @@ class CKOtherProfileViewController: MXKViewController {
             withIdentifier: CKOtherProfileActionCell.identifier,
             for: indexPath) as? CKOtherProfileActionCell {
             
+            cell.messageHandler = {
+                if let userId = self.mxMember.userId {
+                    self.displayDirectRoom(userId: userId)
+                }
+            }
+            
+            cell.callHandler = {
+                if let userId = self.mxMember.userId {
+                    self.callToRoom(userId: userId)
+                }
+            }
+            
             return cell
         }
         return CKOtherProfileActionCell()
@@ -138,6 +158,44 @@ class CKOtherProfileViewController: MXKViewController {
         case .detail:
             return ""
         }
+    }
+    
+    private func displayDirectRoom(userId: String) {
+        // progress stop
+        self.startActivityIndicator()
+
+        // Avoid multiple openings of rooms
+        self.view.isUserInteractionEnabled = false
+        AppDelegate.the().masterTabBarController?.homeViewController.processDirectChat(userId, completion: { (success) in
+            self.view.isUserInteractionEnabled = true
+            
+            // progress stop
+            self.stopActivityIndicator()
+            
+            if success {
+                self.dismiss(animated: false, completion: nil)
+                AppDelegate.the().masterTabBarController?.navigationController?.popToRootViewController(animated: false)
+            }
+        })
+    }
+    
+    private func callToRoom(userId: String) {
+        // progress stop
+        self.startActivityIndicator()
+        
+        // Avoid multiple openings of rooms
+        self.view.isUserInteractionEnabled = false
+        AppDelegate.the().masterTabBarController?.homeViewController.processDirectCall(userId, completion: { (success) in
+            self.view.isUserInteractionEnabled = true
+            
+            // progress stop
+            self.stopActivityIndicator()
+            
+            if success {
+                self.dismiss(animated: false, completion: nil)
+                AppDelegate.the().masterTabBarController?.navigationController?.popToRootViewController(animated: false)
+            }
+        })
     }
 }
 
@@ -217,5 +275,3 @@ extension CKOtherProfileViewController: UITableViewDataSource {
         }
     }
 }
-
-

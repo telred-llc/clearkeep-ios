@@ -12,7 +12,7 @@ class CKAccountProfileActionCell: CKAccountProfileBaseCell {
 
     // MARK: - OUTLET
     
-    @IBOutlet weak var messageButton: UIButton!
+    @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
     
     
@@ -21,12 +21,12 @@ class CKAccountProfileActionCell: CKAccountProfileBaseCell {
     /**
      MessageHandler
      */
-    internal var MessageHandler: (() -> Void)?
+    internal var settingHandler: (() -> Void)?
     
     /**
      CallHandler
      */
-    internal var EditHandler: (() -> Void)?
+    internal var editHandler: (() -> Void)?
     
     
     // MARK: - OVERRIDE
@@ -35,21 +35,17 @@ class CKAccountProfileActionCell: CKAccountProfileBaseCell {
         super.awakeFromNib()
         // Initialization code
         
-        self.messageButton.addTarget(self, action: #selector(onClickedMessageButton(_:)), for: .touchUpInside)
+        self.settingButton.addTarget(self, action: #selector(onClickedSettingButton(_:)), for: .touchUpInside)
         self.editButton.addTarget(self, action: #selector(onClickedEditButton(_:)), for: .touchUpInside)
     }
     
     // MARK: - ACTION
     
-    @objc func onClickedMessageButton(_ sender: Any) {
-        MessageHandler?()
+    @objc func onClickedSettingButton(_ sender: Any) {
+        settingHandler?()
     }
     
     @objc func onClickedEditButton(_ sender: Any) {
-        EditHandler?()
+        editHandler?()
     }
-    
-    
-    
-    
 }

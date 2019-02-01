@@ -59,6 +59,7 @@
 		851C8AEB21FAB762008FD696 /* CustomVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 851C8AE521FAB762008FD696 /* CustomVideoCell.xib */; };
 		851C8AEC21FAB762008FD696 /* IconWithTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851C8AE621FAB762008FD696 /* IconWithTextCell.swift */; };
 		851C8AED21FAB762008FD696 /* IconWithTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 851C8AE721FAB762008FD696 /* IconWithTextCell.xib */; };
+		851F40182204555400326BBE /* CKSearchBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F40172204555400326BBE /* CKSearchBarContainerView.swift */; };
 		85335BE521F1C59400DFA15E /* CKRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85335BE421F1C59300DFA15E /* CKRoomViewController.xib */; };
 		853C92582203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */; };
 		853C92592203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */; };
@@ -635,6 +636,7 @@
 		851C8AE521FAB762008FD696 /* CustomVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomVideoCell.xib; sourceTree = "<group>"; };
 		851C8AE621FAB762008FD696 /* IconWithTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconWithTextCell.swift; sourceTree = "<group>"; };
 		851C8AE721FAB762008FD696 /* IconWithTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconWithTextCell.xib; sourceTree = "<group>"; };
+		851F40172204555400326BBE /* CKSearchBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSearchBarContainerView.swift; sourceTree = "<group>"; };
 		85335BE421F1C59300DFA15E /* CKRoomViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomViewController.xib; sourceTree = "<group>"; };
 		853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditProfileWithTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKEditProfileWithTextFieldTableViewCell.xib; sourceTree = "<group>"; };
@@ -1600,6 +1602,7 @@
 				853E996A21E4A73600D005F4 /* CKAppTheme.swift */,
 				E5ABA73521E6FD49005EFE0C /* CKLocalization.swift */,
 				E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */,
+				851F40172204555400326BBE /* CKSearchBarContainerView.swift */,
 			);
 			path = Ultils;
 			sourceTree = "<group>";
@@ -4169,6 +4172,7 @@
 				B1B5574920EE6C4D00210D55 /* RiotSplitViewController.m in Sources */,
 				851C8ABE21FAAE49008FD696 /* AssetCell.swift in Sources */,
 				B1B5574E20EE6C4D00210D55 /* DirectoryServerPickerViewController.m in Sources */,
+				851F40182204555400326BBE /* CKSearchBarContainerView.swift in Sources */,
 				B1B5575B20EE6C4D00210D55 /* HomeFilesSearchViewController.m in Sources */,
 				E5E27FE021F8713B00532610 /* CKRoomSettingsParticipantSearchCell.swift in Sources */,
 				B1B558F520EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleBubbleCell.m in Sources */,

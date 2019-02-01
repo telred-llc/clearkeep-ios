@@ -46,7 +46,7 @@
                             <constraint firstAttribute="height" constant="40" id="Tfz-OA-K4o"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                        <state key="normal" title="Message">
+                        <state key="normal" title="Setting">
                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                         </state>
                         <userDefinedRuntimeAttributes>
@@ -75,7 +75,7 @@
             <viewLayoutGuide key="safeArea" id="kqe-G0-Scn"/>
             <connections>
                 <outlet property="editButton" destination="cze-2L-A0O" id="WYs-tZ-5ce"/>
-                <outlet property="messageButton" destination="2gQ-lQ-2fY" id="rYi-7t-3re"/>
+                <outlet property="settingButton" destination="2gQ-lQ-2fY" id="kkL-eo-bQc"/>
             </connections>
             <point key="canvasLocation" x="204.80000000000001" y="160.56971514242881"/>
         </tableViewCell>
