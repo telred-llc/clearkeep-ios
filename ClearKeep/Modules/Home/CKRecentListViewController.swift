@@ -209,7 +209,13 @@ private extension CKRecentListViewController {
         
         // join
         cell.joinOnPressHandler = {
-            self.mainSession.joinRoom(cellData.roomSummary.roomId, completion: { (response: MXResponse<MXRoom>) in
+            
+            guard let ms = self.mainSession else {
+                self.showAlert("Got an error. Please try one more.")
+                return
+            }
+            
+            ms.joinRoom(cellData.roomSummary.roomId, completion: { (response: MXResponse<MXRoom>) in
                 
                 // main thread
                 DispatchQueue.main.async {

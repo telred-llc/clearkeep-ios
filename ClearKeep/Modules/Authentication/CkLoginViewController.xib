@@ -30,10 +30,10 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t2r-xA-63j" userLabel="Content View">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Og-BL-HB5">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Og-BL-HB5" userLabel="LogoView">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="260"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rbR-57-LZN">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="rbR-57-LZN">
                                             <rect key="frame" x="130.5" y="138" width="114" height="82"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="82" id="bWh-jK-yHa"/>
@@ -48,7 +48,7 @@
                                         <constraint firstAttribute="bottom" secondItem="rbR-57-LZN" secondAttribute="bottom" constant="40" id="nvd-lr-KCb"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="end-4Q-b9Q">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="end-4Q-b9Q" userLabel="InputView">
                                     <rect key="frame" x="30" y="260" width="315" height="290.5"/>
                                     <subviews>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lyn-86-dRO">
@@ -98,14 +98,14 @@
                                                                                 <constraint firstAttribute="height" constant="1" id="20D-Je-SxP"/>
                                                                             </constraints>
                                                                         </view>
-                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email or Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QG0-CC-y0B">
+                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username or Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QG0-CC-y0B">
                                                                             <rect key="frame" x="0.0" y="25" width="315" height="17"/>
                                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                                             <userDefinedRuntimeAttributes>
                                                                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
-                                                                                    <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                    <color key="value" white="1" alpha="0.65000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                         </textField>
@@ -137,7 +137,7 @@
                                                                             <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                                                             <userDefinedRuntimeAttributes>
                                                                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
-                                                                                    <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                    <color key="value" white="0.65000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                         </textField>
@@ -406,5 +406,6 @@
     <resources>
         <image name="icon_audio_mute.png" width="70" height="68"/>
         <image name="icon_minus.png" width="25" height="25"/>
+        <image name="logo" width="114" height="82"/>
     </resources>
 </document>

@@ -20,8 +20,8 @@ final public class CkLoginViewController: CkAuthenticationViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()        
         self.welcomeImageView.image = UIImage(named: "logo")
-        //self.userIdTextField.text = "test"
-        //self.passwordTextField.text = "111111"        
+        self.userIdTextField.delegate = self
+        self.passwordTextField.delegate = self
     }
 
     public override func askForUpdating(completion: ([String : Any]) -> Void) {
@@ -35,5 +35,13 @@ final public class CkLoginViewController: CkAuthenticationViewController {
     }
 }
 
-extension CkLoginViewController {
+extension CkLoginViewController: UITextFieldDelegate {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == userIdTextField {
+            passwordTextField.becomeFirstResponder()
+        } else {
+            passwordTextField.resignFirstResponder()
+        }
+        return true
+    }
 }
