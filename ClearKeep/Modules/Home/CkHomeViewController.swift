@@ -147,8 +147,11 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc func userInfoDidChanged(_ noti: NSNotification) {
-        guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
-        setupLeftMenu(navigationItem: masterTabbar.navigationItem)
+        let account = MXKAccountManager.shared()?.accounts.first
+        if let account = account, let accountUserId = noti.object as? String, account.mxCredentials.userId == accountUserId {
+            guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
+            setupLeftMenu(navigationItem: masterTabbar.navigationItem)
+        }
     }
     
     @objc func clickedOnLeftMenuItem() {

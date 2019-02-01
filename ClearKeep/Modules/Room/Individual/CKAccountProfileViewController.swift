@@ -51,10 +51,13 @@ class CKAccountProfileViewController: MXKViewController {
         })
         
         // Add observer to handle accounts update
-        accountUserInfoObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+        accountUserInfoObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil, queue: OperationQueue.main, using: { noti in
             
-            self.stopActivityIndicator()
-            self.refreshData()
+            let account = MXKAccountManager.shared()?.accounts.first
+            if let account = account, let accountUserId = noti.object as? String, account.mxCredentials.userId == accountUserId {
+                self.stopActivityIndicator()
+                self.refreshData()
+            }
         })
         
         // Add observer to push settings
