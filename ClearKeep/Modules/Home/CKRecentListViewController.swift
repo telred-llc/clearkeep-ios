@@ -210,12 +210,22 @@ private extension CKRecentListViewController {
         // join
         cell.joinOnPressHandler = {
             
-            guard let ms = self.mainSession else {
-                self.showAlert("Got an error. Please try one more.")
+            // session
+            var ms: MXSession! = self.mainSession
+            
+            // is nil?
+            if ms == nil {
+                
+                // Get the first session of AppDelegate
+                ms = AppDelegate.the()?.mxSessions.first as? MXSession
+            }
+            
+            guard let session = ms else {
+                self.showAlert("Occur an error. Please try to join chat later.")
                 return
             }
             
-            ms.joinRoom(cellData.roomSummary.roomId, completion: { (response: MXResponse<MXRoom>) in
+            session.joinRoom(cellData.roomSummary.roomId, completion: { (response: MXResponse<MXRoom>) in
                 
                 // main thread
                 DispatchQueue.main.async {
