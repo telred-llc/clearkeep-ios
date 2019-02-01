@@ -962,6 +962,17 @@ extension CKRoomViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if let bubbleData = self.roomDataSource.cellData(at: indexPath.row) as? RoomBubbleCellData {
+            if let component = bubbleData.bubbleComponents.first, component.event?.decryptionError != nil {
+                return 0
+            }
+        }
+
+        return super.tableView(tableView, heightForRowAt:indexPath)
+    }
+    
     @objc private func dismissCurrentAlert(_ gesture: UITapGestureRecognizer) {
         self.currentAlert?.dismiss(animated: true, completion: nil)
     }
