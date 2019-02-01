@@ -42,8 +42,8 @@ final class CkHomeViewController: MXKViewController {
         super.viewDidLoad()
         setupPageViewController()
         
-        // Listen to the direct rooms list
-        NotificationCenter.default.addObserver(self, selector: #selector(didDirectRoomsChange(_:)), name: NSNotification.Name.mxSessionDirectRoomsDidChange, object: nil)
+        // Listen to the user info did changed
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -146,7 +146,7 @@ final class CkHomeViewController: MXKViewController {
         navigationItem.rightBarButtonItem = newChatItem
     }
     
-    @objc func didDirectRoomsChange(_ noti: NSNotification) {
+    @objc func userInfoDidChanged(_ noti: NSNotification) {
         guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
         setupLeftMenu(navigationItem: masterTabbar.navigationItem)
     }
@@ -173,8 +173,15 @@ final class CkHomeViewController: MXKViewController {
     }
     
     func showSettingViewController() {
-        let settingVC = UIStoryboard.init(name: "MainEx", bundle: nil).instantiateViewController(withIdentifier: "SettingsViewController")
-        self.navigationController?.pushViewController(settingVC, animated: true)
+        // initialize vc from xib
+        let vc = CKAccountProfileViewController(
+            nibName: CKAccountProfileViewController.nibName,
+            bundle: nil)
+        
+        // import mx session and room id
+        vc.importSession(self.mxSessions)
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
