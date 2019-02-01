@@ -31,23 +31,72 @@ class CKAccountProfileViewController: MXKViewController {
     
     // MARK: - PROPERTY
     
-    /**
-     MX Room
-     */
-    public var mxRoom: MXRoom!
-    public var mxMember: MXRoomMember!
     private var request: MXHTTPOperation!
-    
-    
+    private var myUser: MXMyUser?
+
+    // Observers
+    private var removedAccountObserver: Any?
+    private var accountUserInfoObserver: Any?
+    private var pushInfoUpdateObserver: Any?
+
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()        
         self.finalizeLoadView()
+        
+        // Add observer to handle removed accounts
+        removedAccountObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountManagerDidRemoveAccount, object: nil, queue: OperationQueue.main, using: { notif in
+            // Refresh table to remove this account
+            self.refreshData()
+        })
+        
+        // Add observer to handle accounts update
+        accountUserInfoObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            
+            self.stopActivityIndicator()
+            self.refreshData()
+        })
+        
+        // Add observer to push settings
+        pushInfoUpdateObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountPushKitActivityDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            
+            self.stopActivityIndicator()
+            self.refreshData()
+        })
     }
+    
     deinit {
         if request != nil {
             request.cancel()
             request = nil
         }
+        
+        if pushInfoUpdateObserver != nil {
+            NotificationCenter.default.removeObserver(pushInfoUpdateObserver!)
+            pushInfoUpdateObserver = nil
+        }
+        
+        if accountUserInfoObserver != nil {
+            NotificationCenter.default.removeObserver(accountUserInfoObserver!)
+            accountUserInfoObserver = nil
+        }
+        
+        if removedAccountObserver != nil {
+            NotificationCenter.default.removeObserver(removedAccountObserver!)
+            removedAccountObserver = nil
+        }
+    }
+    
+    override func onMatrixSessionStateDidChange(_ notif: Notification?) {
+        // Check whether the concerned session is a new one which is not already associated with this view controller.
+        if let mxSession = notif?.object as? MXSession {
+            if mxSession.state == MXSessionStateInitialised && self.mxSessions.contains(where: { ($0 as? MXSession) == mxSession }) == true {
+                // Store this new session
+                addMatrixSession(mxSession)
+            } else {
+                super.onMatrixSessionStateDidChange(notif)
+            }
+        }
+        self.refreshData()
     }
     
     // MARK: - PRIVATE
@@ -70,27 +119,47 @@ class CKAccountProfileViewController: MXKViewController {
         self.navigationItem.leftBarButtonItem = backItemButton
     }
     
+    private func getMyUser() -> MXMyUser? {
+        let session = AppDelegate.the()?.mxSessions.first as? MXSession
+        if let myUser = session?.myUser {
+            return myUser
+        }
+        return nil
+    }
+
+    private func refreshData() {
+        self.myUser = self.getMyUser()
+        self.tableView.reloadData()
+    }
+    
     private func cellForAvatarPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileAvatarCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountProfileAvatarCell.identifier, for: indexPath) as? CKAccountProfileAvatarCell {
             
-            cell.nameLabel.text = mxMember.displayname
-            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl ) {
-                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
-            } else {
-                cell.avaImage.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
-            }
-    
-            //status
-            let session = AppDelegate.the()?.mxSessions.first as? MXSession
-            if let myUser = session?.myUser {
+            cell.nameLabel.text = myUser?.displayname
+            
+            if let myUser = self.myUser {
+                
+                //status
                 switch myUser.presence {
                 case MXPresenceOnline:
                     cell.settingStatus(online: true)
                 default:
                     cell.settingStatus(online: false)
                 }
+                
+                // Display Avatar
+                let defaultAvatar = AvatarGenerator.generateAvatar(forMatrixItem: myUser.userId, withDisplayName: myUser.displayname)
+                if let avatarUrl = self.mainSession.matrixRestClient.url(ofContent: myUser.avatarUrl) {
+                    cell.setAvatarImageUrl(urlString: avatarUrl, previewImage: defaultAvatar)
+                } else {
+                    cell.avaImage.image = defaultAvatar
+                }
+            } else {
+                cell.settingStatus(online: false)
+                cell.avaImage.image = nil
             }
+
             return cell
         }
         return CKAccountProfileAvatarCell()
@@ -109,7 +178,6 @@ class CKAccountProfileViewController: MXKViewController {
                 if let nvc = self.navigationController {
                     let vc = CKAccountProfileEditViewController.instance()
                     vc.importSession(self.mxSessions)
-                    vc.mxRoomMember = self.mxMember
                     nvc.pushViewController(vc, animated: true)
                     
                 } else {
@@ -137,7 +205,7 @@ class CKAccountProfileViewController: MXKViewController {
             cell.titleLabel.text = "Display name"
                 
             // display name
-            cell.contentLabel.text = mxMember.displayname
+            cell.contentLabel.text = myUser?.displayname
 
             return cell
         }

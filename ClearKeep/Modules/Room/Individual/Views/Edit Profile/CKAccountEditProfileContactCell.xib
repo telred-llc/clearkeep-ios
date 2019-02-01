@@ -24,11 +24,31 @@
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     </textField>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEF-rH-h0g">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.5"/>
+                        <color key="backgroundColor" white="0.67000000000000004" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="73g-AN-2KI"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IuK-p6-eLZ">
+                        <rect key="frame" x="0.0" y="59" width="375" height="0.5"/>
+                        <color key="backgroundColor" white="0.67000000000000004" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="Iz9-du-c4e"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="zqR-3S-lTw" secondAttribute="trailing" constant="10" id="5sJ-jZ-Dxq"/>
                     <constraint firstItem="zqR-3S-lTw" firstAttribute="top" secondItem="iU4-fX-Peu" secondAttribute="top" id="7a6-Lg-l2B"/>
+                    <constraint firstItem="IuK-p6-eLZ" firstAttribute="leading" secondItem="iU4-fX-Peu" secondAttribute="leading" id="Aum-dc-VMk"/>
+                    <constraint firstItem="pEF-rH-h0g" firstAttribute="top" secondItem="iU4-fX-Peu" secondAttribute="top" id="Otp-rO-Ps0"/>
                     <constraint firstAttribute="bottom" secondItem="zqR-3S-lTw" secondAttribute="bottom" id="SFw-RA-2ee"/>
+                    <constraint firstAttribute="trailing" secondItem="IuK-p6-eLZ" secondAttribute="trailing" id="T6e-g9-wJ3"/>
+                    <constraint firstAttribute="bottom" secondItem="IuK-p6-eLZ" secondAttribute="bottom" id="mqT-GN-unO"/>
+                    <constraint firstItem="pEF-rH-h0g" firstAttribute="leading" secondItem="iU4-fX-Peu" secondAttribute="leading" id="rui-h6-yIO"/>
+                    <constraint firstAttribute="trailing" secondItem="pEF-rH-h0g" secondAttribute="trailing" id="sQT-PU-kpw"/>
                     <constraint firstItem="zqR-3S-lTw" firstAttribute="leading" secondItem="iU4-fX-Peu" secondAttribute="leading" constant="20" id="vin-68-qnl"/>
                 </constraints>
             </tableViewCellContentView>

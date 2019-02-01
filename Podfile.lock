@@ -72,14 +72,14 @@ PODS:
   - PiwikTracker (4.4.2):
     - PiwikTracker/Core (= 4.4.2)
   - PiwikTracker/Core (4.4.2)
-  - PromiseKit (6.7.0):
-    - PromiseKit/CorePromise (= 6.7.0)
-    - PromiseKit/Foundation (= 6.7.0)
-    - PromiseKit/UIKit (= 6.7.0)
-  - PromiseKit/CorePromise (6.7.0)
-  - PromiseKit/Foundation (6.7.0):
+  - PromiseKit (6.7.1):
+    - PromiseKit/CorePromise (= 6.7.1)
+    - PromiseKit/Foundation (= 6.7.1)
+    - PromiseKit/UIKit (= 6.7.1)
+  - PromiseKit/CorePromise (6.7.1)
+  - PromiseKit/Foundation (6.7.1):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.7.0):
+  - PromiseKit/UIKit (6.7.1):
     - PromiseKit/CorePromise
   - Realm (3.11.2):
     - Realm/Headers (= 3.11.2)
@@ -156,7 +156,7 @@ SPEC CHECKSUMS:
   OLMKit: 88eda69110489f817d59bcb4353b7c247570aa4f
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   PiwikTracker: 42862c7b13028065c3dfd36b4dc38db8a5765acf
-  PromiseKit: 453ddcc947fe7b302f3ef41882b81d31c554df7f
+  PromiseKit: ef376fb8b4e92edfeb66bd403b983eaa07fbde0c
   Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
   WebRTC: f2a6203584745fe53532633397557876b5d71640
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600

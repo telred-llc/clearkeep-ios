@@ -16,16 +16,15 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upC-lg-elQ">
-                    <rect key="frame" x="20" y="0.0" width="345" height="40"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <rect key="frame" x="20" y="15" width="345" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.32941176470588235" green="0.32941176470588235" blue="0.32941176470588235" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="upC-lg-elQ" firstAttribute="top" secondItem="KAy-ZZ-Bag" secondAttribute="top" id="G5d-tY-9x4"/>
-                <constraint firstAttribute="bottom" secondItem="upC-lg-elQ" secondAttribute="bottom" id="VB8-0f-YRj"/>
+                <constraint firstAttribute="bottom" secondItem="upC-lg-elQ" secondAttribute="bottom" constant="8" id="VB8-0f-YRj"/>
                 <constraint firstAttribute="trailing" secondItem="upC-lg-elQ" secondAttribute="trailing" constant="10" id="pE4-bW-n9Z"/>
                 <constraint firstItem="upC-lg-elQ" firstAttribute="leading" secondItem="KAy-ZZ-Bag" secondAttribute="leading" constant="20" id="vyp-Up-Ftr"/>
             </constraints>

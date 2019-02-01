@@ -45,11 +45,55 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
      */
     private var membersListener: Any!
     
+    // Observers
+    private var removedAccountObserver: Any?
+    private var accountUserInfoObserver: Any?
+    private var pushInfoUpdateObserver: Any?
+    
     // MARK: - OVERRIDE
+    
+    override func destroy() {
+        if pushInfoUpdateObserver != nil {
+            NotificationCenter.default.removeObserver(pushInfoUpdateObserver!)
+            pushInfoUpdateObserver = nil
+        }
+        
+        if accountUserInfoObserver != nil {
+            NotificationCenter.default.removeObserver(accountUserInfoObserver!)
+            accountUserInfoObserver = nil
+        }
+        
+        if removedAccountObserver != nil {
+            NotificationCenter.default.removeObserver(removedAccountObserver!)
+            removedAccountObserver = nil
+        }
+        
+        super.destroy()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.finalizeLoadView()
+        
+        // Add observer to handle removed accounts
+        removedAccountObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountManagerDidRemoveAccount, object: nil, queue: OperationQueue.main, using: { notif in
+            // Refresh table to remove this account
+            self.reloadParticipantsInRoom()
+        })
+        
+        // Add observer to handle accounts update
+        accountUserInfoObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            
+            self.stopActivityIndicator()
+            self.reloadParticipantsInRoom()
+        })
+        
+        // Add observer to push settings
+        pushInfoUpdateObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountPushKitActivityDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            
+            self.stopActivityIndicator()
+            self.reloadParticipantsInRoom()
+        })
     }
     
     // MARK: - PRIVATE
@@ -241,8 +285,6 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
             
             // import mx session and room id
             vc.importSession(self.mxSessions)
-            vc.mxRoom = self.mxRoom
-            vc.mxMember = mxMember
             
             // present vc
             let navi = UINavigationController.init(rootViewController: vc)
@@ -268,7 +310,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.backgroundColor = CKColor.Background.tableView
-            view.title = self.titleForHeader(atSection: section)
+            view.descriptionLabel?.text = self.titleForHeader(atSection: section)
             return view
         }
         return nil

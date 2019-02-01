@@ -60,6 +60,8 @@
 		851C8AEC21FAB762008FD696 /* IconWithTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851C8AE621FAB762008FD696 /* IconWithTextCell.swift */; };
 		851C8AED21FAB762008FD696 /* IconWithTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 851C8AE721FAB762008FD696 /* IconWithTextCell.xib */; };
 		85335BE521F1C59400DFA15E /* CKRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85335BE421F1C59300DFA15E /* CKRoomViewController.xib */; };
+		853C92582203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */; };
+		853C92592203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */; };
 		853E996121E4986100D005F4 /* SFCompactDisplay-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */; };
 		853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */; };
 		853E996321E4986100D005F4 /* SFCompactDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */; };
@@ -632,6 +634,8 @@
 		851C8AE621FAB762008FD696 /* IconWithTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconWithTextCell.swift; sourceTree = "<group>"; };
 		851C8AE721FAB762008FD696 /* IconWithTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconWithTextCell.xib; sourceTree = "<group>"; };
 		85335BE421F1C59300DFA15E /* CKRoomViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomViewController.xib; sourceTree = "<group>"; };
+		853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditProfileWithTextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKEditProfileWithTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-SemiBold.ttf"; sourceTree = "<group>"; };
 		853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.ttf"; sourceTree = "<group>"; };
@@ -1587,6 +1591,8 @@
 				A0B13A2721F94AE1008FDBAE /* CKAccountEditProfileCareerCell.xib */,
 				A0B13A2A21F94BBF008FDBAE /* CKAccountEditProfileContactCell.swift */,
 				A0B13A2B21F94BBF008FDBAE /* CKAccountEditProfileContactCell.xib */,
+				853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */,
+				853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */,
 			);
 			path = "Edit Profile";
 			sourceTree = "<group>";
@@ -3683,6 +3689,7 @@
 				B1B557A720EF5A1B00210D55 /* DeviceTableViewCell.xib in Resources */,
 				B1B557D220EF5E3500210D55 /* MediaAlbumTableCell.xib in Resources */,
 				B1B558C520EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib in Resources */,
+				853C92592203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib in Resources */,
 				B1B5582B20EF666100210D55 /* DirectoryRecentTableViewCell.xib in Resources */,
 				E574337821F581B100989FF3 /* CKRoomCreatingTopicCell.xib in Resources */,
 				B1B5590F20EF782800210D55 /* TableViewCellWithPhoneNumberTextField.xib in Resources */,
@@ -4004,6 +4011,7 @@
 				A0043FBD21F849240051AAE1 /* CKAccountProfileActionCell.swift in Sources */,
 				851C8ACB21FAAE49008FD696 /* ImagePickerDataSource.swift in Sources */,
 				B1B558E020EF768F00210D55 /* RoomOutgoingTextMsgBubbleCell.m in Sources */,
+				853C92582203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift in Sources */,
 				B1B5593C20EF7BAC00210D55 /* TableViewCellWithCheckBoxes.m in Sources */,
 				F0D2ADA11F6AA5FD00A7097D /* MXRoomSummary+Riot.m in Sources */,
 				A0043FC521F84C750051AAE1 /* CKAccountProfileJobCell.swift in Sources */,

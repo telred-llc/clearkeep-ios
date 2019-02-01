@@ -24,11 +24,31 @@
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     </textField>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Byg-HO-mG7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.5"/>
+                        <color key="backgroundColor" white="0.67000000000000004" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="qQO-zb-kLI"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JFV-ER-mD7">
+                        <rect key="frame" x="0.0" y="59" width="375" height="0.5"/>
+                        <color key="backgroundColor" white="0.67000000000000004" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="Zpe-gx-1eB"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="JIN-g7-hpO" firstAttribute="leading" secondItem="Y7J-w3-dNw" secondAttribute="leading" constant="20" id="BpL-tz-e0Z"/>
                     <constraint firstAttribute="bottom" secondItem="JIN-g7-hpO" secondAttribute="bottom" id="EyD-dU-dfk"/>
+                    <constraint firstAttribute="bottom" secondItem="JFV-ER-mD7" secondAttribute="bottom" id="Ive-7a-7ld"/>
+                    <constraint firstItem="JFV-ER-mD7" firstAttribute="leading" secondItem="Y7J-w3-dNw" secondAttribute="leading" id="LIw-AB-l2h"/>
                     <constraint firstAttribute="trailing" secondItem="JIN-g7-hpO" secondAttribute="trailing" constant="10" id="UqH-PQ-YK6"/>
+                    <constraint firstAttribute="trailing" secondItem="Byg-HO-mG7" secondAttribute="trailing" id="X8j-eh-twr"/>
+                    <constraint firstItem="Byg-HO-mG7" firstAttribute="top" secondItem="Y7J-w3-dNw" secondAttribute="top" id="cTT-hk-Wl2"/>
+                    <constraint firstAttribute="trailing" secondItem="JFV-ER-mD7" secondAttribute="trailing" id="eAb-7C-Y8d"/>
+                    <constraint firstItem="Byg-HO-mG7" firstAttribute="leading" secondItem="Y7J-w3-dNw" secondAttribute="leading" id="orF-SI-q07"/>
                     <constraint firstItem="JIN-g7-hpO" firstAttribute="top" secondItem="Y7J-w3-dNw" secondAttribute="top" id="yXe-HC-S1u"/>
                 </constraints>
             </tableViewCellContentView>

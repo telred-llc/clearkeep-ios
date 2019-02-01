@@ -312,7 +312,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.backgroundColor = CKColor.Background.tableView
-            view.title = self.titleForHeader(atSection: section)
+            view.descriptionLabel?.text = self.titleForHeader(atSection: section)
             return view
         }
         return UIView()
