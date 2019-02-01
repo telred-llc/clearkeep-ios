@@ -29,7 +29,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
      MX Room
      */
     public var mxRoom: MXRoom!
-    
+
     /**
      Original data source
      */
@@ -45,55 +45,11 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
      */
     private var membersListener: Any!
     
-    // Observers
-    private var removedAccountObserver: Any?
-    private var accountUserInfoObserver: Any?
-    private var pushInfoUpdateObserver: Any?
-    
     // MARK: - OVERRIDE
-    
-    override func destroy() {
-        if pushInfoUpdateObserver != nil {
-            NotificationCenter.default.removeObserver(pushInfoUpdateObserver!)
-            pushInfoUpdateObserver = nil
-        }
-        
-        if accountUserInfoObserver != nil {
-            NotificationCenter.default.removeObserver(accountUserInfoObserver!)
-            accountUserInfoObserver = nil
-        }
-        
-        if removedAccountObserver != nil {
-            NotificationCenter.default.removeObserver(removedAccountObserver!)
-            removedAccountObserver = nil
-        }
-        
-        super.destroy()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.finalizeLoadView()
-        
-        // Add observer to handle removed accounts
-        removedAccountObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountManagerDidRemoveAccount, object: nil, queue: OperationQueue.main, using: { notif in
-            // Refresh table to remove this account
-            self.reloadParticipantsInRoom()
-        })
-        
-        // Add observer to handle accounts update
-        accountUserInfoObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil, queue: OperationQueue.main, using: { notif in
-            
-            self.stopActivityIndicator()
-            self.reloadParticipantsInRoom()
-        })
-        
-        // Add observer to push settings
-        pushInfoUpdateObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountPushKitActivityDidChange, object: nil, queue: OperationQueue.main, using: { notif in
-            
-            self.stopActivityIndicator()
-            self.reloadParticipantsInRoom()
-        })
     }
     
     // MARK: - PRIVATE
@@ -116,7 +72,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         
         // reload
         self.reloadParticipantsInRoom()
-        
+
     }
     
     private func liveTimelineEvents() {
@@ -157,10 +113,10 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
                             // finalize room member state
                             self.finalizeReloadingParticipants(state)
                         }
-                        
+                    
                     case __MXEventTypeRoomPowerLevels:
                         self.reloadParticipantsInRoom()
-                        
+
                     default:
                         break
                     }
@@ -171,7 +127,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     }
     
     private func reloadParticipantsInRoom() {
-        
+     
         // reset
         self.filteredParticipants.removeAll()
         
@@ -203,40 +159,6 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.filteredParticipants.append(member)
     }
     
-//    private func showPersonalAccountProfile() {
-//
-//        // initialize vc from xib
-//        let vc = CKAccountProfileViewController(
-//            nibName: "CKAccountProfileViewController",
-//            bundle: nil)
-//
-//        // import mx session and room id
-//        vc.importSession(self.mxSessions)
-//        vc.mxRoom = self.mxRoom
-//        vc.mxNumber = self.filteredParticipants
-//
-//        // present vc
-//        let navi = UINavigationController.init(rootViewController: vc)
-//        self.present(navi, animated: true, completion: nil)
-//    }
-    
-    private func showOthersAccountProfile() {
-        
-        // initialize vc from xib
-        let vc = CKOtherProfileViewController(
-            nibName: "CKOtherProfileViewController",
-            bundle: nil)
-        
-        // import mx session and room id
-        vc.importSession(self.mxSessions)
-        vc.mxRoom = self.mxRoom
-        vc.mxNumber = self.filteredParticipants
-        
-        // present vc
-        let navi = UINavigationController.init(rootViewController: vc)
-        self.present(navi, animated: true, completion: nil)
-    }
-    
     private func titleForHeader(atSection section: Int) -> String {
         guard let s = Section(rawValue: section) else { return ""}
         switch s {
@@ -256,8 +178,64 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-
-
+    
+    private func cellForParticipant(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantCell {
+        
+        // de-cell
+        if let cell = self.tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsParticipantCell.identifier,
+            for: indexPath) as? CKRoomSettingsParticipantCell {
+            
+            // pick index of member
+            let mxMember = self.filteredParticipants[indexPath.row]
+            
+            // fill fields to cell
+            cell.participantLabel.text = mxMember.displayname ?? mxMember.userId
+            cell.participantLabel.backgroundColor = UIColor.clear
+            cell.accessoryType = .disclosureIndicator
+            
+            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl) {
+                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
+            } else {
+                cell.photoView.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
+            }
+            
+            return cell
+        }
+        
+        return CKRoomSettingsParticipantCell()
+    }
+    
+    private func cellForParticipantSearch(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantSearchCell{
+        
+        // deque cell
+        let cell = self.tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsParticipantSearchCell.identifier,
+            for: indexPath) as! CKRoomSettingsParticipantSearchCell
+        
+        // handle searching
+        cell.beginSearchingHandler = { text in
+            
+            if text.count > 0 {
+                self.filteredParticipants = self.originalDataSource.filter({ (member: MXRoomMember) -> Bool in
+                    if let displayname = member.displayname {
+                        return displayname.lowercased().contains(text.lowercased())
+                    } else {
+                        return member.userId.lowercased().contains(text.lowercased())
+                    }
+                })
+            } else {
+                self.filteredParticipants = self.originalDataSource
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadSections(
+                    IndexSet([Section.participants.rawValue]), with: .none)
+            })
+        }
+        return cell
+    }
+    
     // MARK: - PUBLIC
 }
 
@@ -276,41 +254,12 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let mxMember = filteredParticipants[indexPath.row]
-        if mxMember.userId == mainSession.myUser.userId {
-            // initialize vc from xib
-            let vc = CKAccountProfileViewController(
-                nibName: "CKAccountProfileViewController",
-                bundle: nil)
-            
-            // import mx session and room id
-            vc.importSession(self.mxSessions)
-            
-            // present vc
-            let navi = UINavigationController.init(rootViewController: vc)
-            self.present(navi, animated: true, completion: nil)
-
-        } else {
-            // initialize vc from xib
-            let vc = CKOtherProfileViewController(
-                nibName: "CKOtherProfileViewController",
-                bundle: nil)
-            
-            // import mx session and room id
-            vc.importSession(self.mxSessions)
-            vc.mxRoom = self.mxRoom
-            vc.mxNumber = [mxMember]
-            
-            // present vc
-            let navi = UINavigationController.init(rootViewController: vc)
-            self.present(navi, animated: true, completion: nil)
-        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.backgroundColor = CKColor.Background.tableView
-            view.descriptionLabel?.text = self.titleForHeader(atSection: section)
+            view.descriptionLabel.text = self.titleForHeader(atSection: section)
             return view
         }
         return nil
@@ -344,7 +293,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return Section.count()
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let s = Section(rawValue: section) else { return 0}
         switch s {
@@ -365,57 +314,4 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             return cellForParticipant(atIndexPath: indexPath)
         }
     }
-    
-    private func cellForParticipant(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantCell {
-        // de-cell
-        if let cell = self.tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsParticipantCell.identifier,
-            for: indexPath) as? CKRoomSettingsParticipantCell {
-            
-            // pick index of member
-            let mxMember = self.filteredParticipants[indexPath.row]
-            
-            // fill fields to cell
-            cell.participantLabel.text = mxMember.displayname
-            cell.participantLabel.backgroundColor = UIColor.clear
-            cell.accessoryType = .disclosureIndicator
-            
-            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl) {
-                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
-            } else {
-                cell.photoView.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
-            }
-            
-            return cell
-        }
-        
-        return CKRoomSettingsParticipantCell()
-    }
-    
-    private func cellForParticipantSearch(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantSearchCell{
-        
-        // deque cell
-        let cell = self.tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsParticipantSearchCell.identifier,
-            for: indexPath) as! CKRoomSettingsParticipantSearchCell
-        
-        // handle searching
-        cell.beginSearchingHandler = { text in
-            
-            if text.count > 0 {
-                self.filteredParticipants = self.originalDataSource.filter({ (member: MXRoomMember) -> Bool in
-                    return member.displayname.lowercased().contains(text.lowercased())
-                })
-            } else {
-                self.filteredParticipants = self.originalDataSource
-            }
-            
-            DispatchQueue.main.async(execute: {
-                self.tableView.reloadData()
-            })
-        }
-        return cell
-    }
-    
-    // MARK: - PUBLIC
 }

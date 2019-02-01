@@ -1,14 +1,14 @@
 //
-//  Misc+Extension.swift
+//  CKBaseCell.swift
 //  Riot
 //
-//  Created by Sinbad Flyce on 1/25/19.
+//  Created by Sinbad Flyce on 1/28/19.
 //  Copyright © 2019 matrix.org. All rights reserved.
 //
 
 import Foundation
 
-extension MXKTableViewCell {
+class CKBaseCell: UITableViewCell {
 
     // MARK: - CLASS VAR
     class var className: String {
@@ -27,12 +27,5 @@ extension MXKTableViewCell {
     
     class var nib: UINib {
         return UINib.init(nibName: self.nibName, bundle: nil)
-    }
-}
-
-extension String {
-    func deletingPrefix(_ prefix: String) -> String {
-        guard self.hasPrefix(prefix) else { return self }
-        return String(self.dropFirst(prefix.count))
     }
 }

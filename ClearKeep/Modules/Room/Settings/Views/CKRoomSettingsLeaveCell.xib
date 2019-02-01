@@ -12,45 +12,44 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="g1V-ZA-awd" customClass="CKRoomSettingsAddPeopleCell" customModule="Riot" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="g1V-ZA-awd" customClass="CKRoomSettingsLeaveCell" customModule="Riot" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="456" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g1V-ZA-awd" id="2QW-NR-nmy">
                 <rect key="frame" x="0.0" y="0.0" width="456" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_leave_room" translatesAutoresizingMaskIntoConstraints="NO" id="BWi-xN-8G3">
+                        <rect key="frame" x="20" y="12" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="1xw-FM-Qgk"/>
+                            <constraint firstAttribute="width" constant="20" id="7mR-9f-b7b"/>
+                        </constraints>
+                    </imageView>
                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a35-1e-f5S">
                         <rect key="frame" x="48" y="0.0" width="408" height="43.5"/>
-                        <state key="normal" title="Add People">
+                        <state key="normal" title="Leave Room">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_add_user" translatesAutoresizingMaskIntoConstraints="NO" id="BWi-xN-8G3">
-                        <rect key="frame" x="20" y="12" width="20" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="LRK-C5-cXI"/>
-                            <constraint firstAttribute="width" constant="20" id="Uxv-Rz-Gyz"/>
-                        </constraints>
-                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="a35-1e-f5S" secondAttribute="trailing" id="34x-Xs-ZwC"/>
-                    <constraint firstAttribute="bottom" secondItem="a35-1e-f5S" secondAttribute="bottom" id="5HM-MX-xJL"/>
-                    <constraint firstItem="BWi-xN-8G3" firstAttribute="leading" secondItem="2QW-NR-nmy" secondAttribute="leading" constant="20" id="BNU-3y-PR9"/>
-                    <constraint firstItem="a35-1e-f5S" firstAttribute="top" secondItem="2QW-NR-nmy" secondAttribute="top" id="E9f-NA-D35"/>
-                    <constraint firstItem="BWi-xN-8G3" firstAttribute="centerY" secondItem="2QW-NR-nmy" secondAttribute="centerY" id="X54-ge-XPI"/>
-                    <constraint firstItem="a35-1e-f5S" firstAttribute="leading" secondItem="BWi-xN-8G3" secondAttribute="trailing" constant="8" id="dfK-Vk-wmG"/>
+                    <constraint firstItem="a35-1e-f5S" firstAttribute="top" secondItem="2QW-NR-nmy" secondAttribute="top" id="QlO-O8-Poh"/>
+                    <constraint firstItem="BWi-xN-8G3" firstAttribute="leading" secondItem="2QW-NR-nmy" secondAttribute="leading" constant="20" id="RiE-p6-MEk"/>
+                    <constraint firstItem="a35-1e-f5S" firstAttribute="leading" secondItem="BWi-xN-8G3" secondAttribute="trailing" constant="8" id="dMA-ls-gQh"/>
+                    <constraint firstItem="BWi-xN-8G3" firstAttribute="centerY" secondItem="2QW-NR-nmy" secondAttribute="centerY" id="n2T-Vh-O8I"/>
+                    <constraint firstAttribute="bottom" secondItem="a35-1e-f5S" secondAttribute="bottom" id="pHT-Xm-FoQ"/>
+                    <constraint firstAttribute="trailing" secondItem="a35-1e-f5S" secondAttribute="trailing" id="pZn-TW-f3l"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="Pjy-gK-j57"/>
             <connections>
-                <outlet property="btnAddUser" destination="a35-1e-f5S" id="np1-Yw-cix"/>
-                <outlet property="imageAdd" destination="BWi-xN-8G3" id="81T-nB-cFi"/>
+                <outlet property="leaveButton" destination="a35-1e-f5S" id="WC6-11-lTd"/>
             </connections>
             <point key="canvasLocation" x="52.799999999999997" y="48.575712143928037"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_room_add_user" width="314" height="313"/>
+        <image name="ic_leave_room" width="60" height="70"/>
     </resources>
 </document>

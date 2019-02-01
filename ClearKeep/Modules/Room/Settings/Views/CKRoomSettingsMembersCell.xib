@@ -19,40 +19,28 @@
                 <rect key="frame" x="0.0" y="0.0" width="456" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_members" translatesAutoresizingMaskIntoConstraints="NO" id="pLf-fh-yzQ">
+                        <rect key="frame" x="20" y="12" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="EcT-Xq-ic4"/>
+                            <constraint firstAttribute="width" constant="20" id="HhF-kI-PFS"/>
+                        </constraints>
+                    </imageView>
                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gZs-G7-PnO">
-                        <rect key="frame" x="65.5" y="0.0" width="390.5" height="43.5"/>
+                        <rect key="frame" x="48" y="11" width="388" height="22"/>
                         <inset key="imageEdgeInsets" minX="310" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="Members" image="Arrow Right">
+                        <state key="normal" title="Members">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8vX-t0-Sm2">
-                        <rect key="frame" x="35.5" y="12" width="20" height="20"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_members" translatesAutoresizingMaskIntoConstraints="NO" id="pLf-fh-yzQ">
-                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="FC2-Yo-8ZK"/>
-                                    <constraint firstAttribute="width" secondItem="pLf-fh-yzQ" secondAttribute="height" id="aYY-No-Cgh"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="pLf-fh-yzQ" firstAttribute="leading" secondItem="8vX-t0-Sm2" secondAttribute="leading" id="An3-wx-f1F"/>
-                            <constraint firstAttribute="trailing" secondItem="pLf-fh-yzQ" secondAttribute="trailing" id="Y9c-pw-28I"/>
-                            <constraint firstAttribute="bottom" secondItem="pLf-fh-yzQ" secondAttribute="bottom" id="pqa-dz-syJ"/>
-                            <constraint firstItem="pLf-fh-yzQ" firstAttribute="top" secondItem="8vX-t0-Sm2" secondAttribute="top" id="yO3-gW-V1A"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="gZs-G7-PnO" secondAttribute="bottom" id="7To-3i-55C"/>
-                    <constraint firstItem="8vX-t0-Sm2" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" multiplier="0.2" id="Brk-dx-bdd"/>
-                    <constraint firstItem="8vX-t0-Sm2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IKg-eY-y4d"/>
-                    <constraint firstItem="gZs-G7-PnO" firstAttribute="leading" secondItem="8vX-t0-Sm2" secondAttribute="trailing" constant="10" id="fP5-jd-tnv"/>
-                    <constraint firstItem="gZs-G7-PnO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="kKr-8L-Ohj"/>
-                    <constraint firstAttribute="trailing" secondItem="gZs-G7-PnO" secondAttribute="trailing" id="kSW-gq-Krw"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="gZs-G7-PnO" secondAttribute="bottom" id="3v8-lD-BR1"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="gZs-G7-PnO" secondAttribute="trailing" id="BNf-Ce-StJ"/>
+                    <constraint firstItem="pLf-fh-yzQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Fgx-14-p4E"/>
+                    <constraint firstItem="gZs-G7-PnO" firstAttribute="leading" secondItem="pLf-fh-yzQ" secondAttribute="trailing" constant="8" id="cJT-fC-1kk"/>
+                    <constraint firstItem="gZs-G7-PnO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="gNK-ze-371"/>
+                    <constraint firstItem="pLf-fh-yzQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jEH-ZG-hww"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -64,7 +52,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Arrow Right" width="25" height="25"/>
         <image name="ic_room_members" width="314" height="314"/>
     </resources>
 </document>
