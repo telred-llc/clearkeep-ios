@@ -27,16 +27,21 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         
         // last message
         if let lastMessage = roomCellData?.roomSummary.lastMessageString {
-            if lastMessageLabel == nil {
-                lastMessageLabel = UILabel.init()
-            }
             
-            if !contentStackView.arrangedSubviews.contains(where: { $0 == lastMessageLabel }) {
-                contentStackView.addArrangedSubview(lastMessageLabel!)
+            // ignore unable to decrypt message
+            if lastMessage.hasPrefix("** Unable to decrypt:") == false {
+                
+                if lastMessageLabel == nil {
+                    lastMessageLabel = UILabel.init()
+                }
+                
+                if !contentStackView.arrangedSubviews.contains(where: { $0 == lastMessageLabel }) {
+                    contentStackView.addArrangedSubview(lastMessageLabel!)
+                }
+                
+                lastMessageLabel!.text = lastMessage
+                lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 14)
             }
-            
-            lastMessageLabel!.text = lastMessage
-            lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 14)
         } else {
             if let lastMessageLabel = lastMessageLabel {
                 contentStackView.removeArrangedSubview(lastMessageLabel)
