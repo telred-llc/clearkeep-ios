@@ -309,3 +309,10 @@ extension CKRecentListViewController: UITableViewDelegate {
         }
     }
 }
+
+extension CKRecentListViewController {
+    
+    override func startActivityIndicator() {
+        // TODO: this is a temporary fix
+    }
+}
