@@ -896,10 +896,16 @@ extension CKRoomViewController {
     
     override func mention(_ roomMember: MXRoomMember!) {
         
-        let memberName = roomMember.displayname.count > 0 ? roomMember.displayname : roomMember.userId
+        var memberName = (roomMember.displayname ?? "").count > 0 ? roomMember.displayname : roomMember.userId
+        
+        // If the first character is mentionTriggerCharacter then need to remove it
+        if memberName?.first == CKRoomInputToolbarView.mentionTriggerCharacter {
+            memberName?.removeFirst()
+        }
+        
         var taggingText = ""
         
-        if (roomMember.userId == mainSession.myUser.userId) {
+        if (roomMember.userId == mainSession.myUser?.userId) {
             taggingText = String.init(CKRoomInputToolbarView.mentionTriggerCharacter) + "me "
         } else {
             taggingText = "\(String.init(CKRoomInputToolbarView.mentionTriggerCharacter))\(memberName ?? "") "
@@ -990,7 +996,7 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             var roomMembers: [MXRoomMember] = self.roomDataSource?.roomState.members.members ?? []
             if let mentionText = mentionText,
                 mentionText.count > 0 {
-                roomMembers = self.roomDataSource?.roomState.members.members.filter({ $0.displayname.contains(mentionText) == true }) ?? []
+                roomMembers = self.roomDataSource?.roomState.members.members.filter({ $0.displayname?.contains(mentionText) == true }) ?? []
             }
             
             if roomMembers.count > 0 {

@@ -333,7 +333,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     private func reloadRoomPage() {
         if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
-                for invite in invitesArray {
+                for invite in invitesArray.reversed() {
                     if invite.roomSummary.isDirect == false {
                         roomsArray.insert(invite, at: 0)
                     }
@@ -349,7 +349,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
             
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
-                for invite in invitesArray {
+                for invite in invitesArray.reversed() {
                     if invite.roomSummary.isDirect == true {
                         peopleArray.insert(invite, at: 0)
                     }

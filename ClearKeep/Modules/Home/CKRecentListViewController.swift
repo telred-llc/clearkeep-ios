@@ -265,7 +265,6 @@ private extension CKRecentListViewController {
         cell.addGestureRecognizer(tap)        
         return cell
     }
-    
 }
 
 extension CKRecentListViewController: UITableViewDataSource {
@@ -279,7 +278,7 @@ extension CKRecentListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = dataSource[indexPath.row]
-        if cellData.roomSummary.membership == MXMembership.invite{
+        if cellData.roomSummary.membership == MXMembership.invite {
             return self.cellForInvitationRoom(indexPath, cellData: cellData)
         } else {
             return self.cellForNormalRoom(indexPath, cellData: cellData)
@@ -288,5 +287,9 @@ extension CKRecentListViewController: UITableViewDataSource {
 }
 
 extension CKRecentListViewController: UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? CKRecentItemInvitationCell {
+            cell.updateUI()
+        }
+    }
 }
