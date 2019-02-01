@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="102" id="Yk4-oN-Fid" customClass="CKAccountEditProfileAvatarCell" customModule="Riot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="379" height="102"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Yk4-oN-Fid" id="asI-g9-DkY">
+                <rect key="frame" x="0.0" y="0.0" width="379" height="101.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="4" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SjL-7d-1re">
+                        <rect key="frame" x="-1" y="1" width="381" height="99.5"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R1n-Tg-Ouf">
+                                <rect key="frame" x="0.0" y="0.0" width="381" height="50.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Display name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7z-YN-oUj">
+                                        <rect key="frame" x="132.5" y="0.0" width="248.5" height="50.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.32941176470588235" green="0.32941176470588235" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="g7z-YN-oUj" firstAttribute="top" secondItem="R1n-Tg-Ouf" secondAttribute="top" id="Oda-yQ-1rE"/>
+                                    <constraint firstAttribute="trailing" secondItem="g7z-YN-oUj" secondAttribute="trailing" id="Z5T-lI-X7b"/>
+                                    <constraint firstAttribute="bottom" secondItem="g7z-YN-oUj" secondAttribute="bottom" id="uAV-DF-p1W"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="les-fw-ggp">
+                                <rect key="frame" x="0.0" y="54.5" width="381" height="45"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oh7-mi-sQX">
+                                        <rect key="frame" x="132.5" y="0.0" width="248.5" height="45"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Oh7-mi-sQX" secondAttribute="bottom" id="F2q-Qa-3Xv"/>
+                                    <constraint firstItem="Oh7-mi-sQX" firstAttribute="top" secondItem="les-fw-ggp" secondAttribute="top" id="FlF-Rz-cEK"/>
+                                    <constraint firstAttribute="trailing" secondItem="Oh7-mi-sQX" secondAttribute="trailing" id="THq-o4-aA6"/>
+                                    <constraint firstAttribute="height" constant="45" id="fYj-9R-Y6c"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="0.66666666666666663" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Oh7-mi-sQX" firstAttribute="leading" secondItem="g7z-YN-oUj" secondAttribute="leading" id="zvW-8k-4Fb"/>
+                        </constraints>
+                    </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kLI-0f-Qtv" customClass="CKImageView" customModule="Riot" customModuleProvider="target">
+                        <rect key="frame" x="10" y="0.0" width="101.5" height="101.5"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="kLI-0f-Qtv" secondAttribute="height" id="Uga-ia-gFt"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNQ-zn-Qni">
+                        <rect key="frame" x="15" y="0.0" width="25" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="35" id="A4u-Y5-RTm"/>
+                        </constraints>
+                        <state key="normal" image="ic_account_editprofile_camera"/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="SjL-7d-1re" firstAttribute="leading" secondItem="asI-g9-DkY" secondAttribute="leading" constant="-1" id="1E6-vq-Tav"/>
+                    <constraint firstItem="kLI-0f-Qtv" firstAttribute="top" secondItem="asI-g9-DkY" secondAttribute="top" id="BBm-UF-c8Z"/>
+                    <constraint firstItem="yNQ-zn-Qni" firstAttribute="leading" secondItem="kLI-0f-Qtv" secondAttribute="leading" constant="5" id="ECa-SB-4pr"/>
+                    <constraint firstItem="kLI-0f-Qtv" firstAttribute="leading" secondItem="asI-g9-DkY" secondAttribute="leading" constant="10" id="KVp-Md-FbQ"/>
+                    <constraint firstAttribute="bottom" secondItem="kLI-0f-Qtv" secondAttribute="bottom" id="KsP-o2-ofE"/>
+                    <constraint firstItem="yNQ-zn-Qni" firstAttribute="top" secondItem="kLI-0f-Qtv" secondAttribute="top" id="O9A-ag-c7B"/>
+                    <constraint firstItem="g7z-YN-oUj" firstAttribute="leading" secondItem="kLI-0f-Qtv" secondAttribute="trailing" constant="20" id="gRN-74-tFv"/>
+                    <constraint firstItem="SjL-7d-1re" firstAttribute="centerY" secondItem="asI-g9-DkY" secondAttribute="centerY" id="hZE-a2-dCg"/>
+                    <constraint firstAttribute="trailing" secondItem="SjL-7d-1re" secondAttribute="trailing" constant="-1" id="kdk-if-3hp"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <gestureRecognizers/>
+            <connections>
+                <outlet property="avaImage" destination="kLI-0f-Qtv" id="AEI-wj-Gbr"/>
+                <outlet property="cameraButton" destination="yNQ-zn-Qni" id="4lv-v8-1U8"/>
+                <outlet property="nameTextField" destination="Oh7-mi-sQX" id="zkD-z0-XMU"/>
+            </connections>
+            <point key="canvasLocation" x="207.19999999999999" y="-73.763118440779621"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_account_editprofile_camera" width="25" height="25"/>
+    </resources>
+</document>

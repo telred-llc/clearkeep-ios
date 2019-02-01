@@ -10,22 +10,20 @@ import Foundation
 
 final public class CkMasterTabBarController: MasterTabBarController {
     
-    lazy var placeholderSearchBar = UISearchBar.init(frame: CGRect.zero)
+    lazy var placeholderSearchBar = UISearchBar()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        placeholderSearchBar.sizeToFit()
-        placeholderSearchBar.placeholder = NSLocalizedString("search_default_placeholder", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-        placeholderSearchBar.setShowsCancelButton(false, animated: false)
-        placeholderSearchBar.delegate = self
-        self.navigationController?.navigationBar.topItem?.titleView = placeholderSearchBar
+        self.setupNavigationBar()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.changeNavigationBar(color: CKColor.Background.navigationBar)
+        navigationController?.view.setNeedsLayout() // force update layout
+        navigationController?.view.layoutIfNeeded() // to fix height of the navigation bar
     }
-    
+        
     public override func showAuthenticationScreen() {
 
         if self.authViewController == nil && self.isCkAuthViewControllerPreparing == false {
@@ -43,4 +41,17 @@ final public class CkMasterTabBarController: MasterTabBarController {
         }
         return false
     }
+    
+    private func setupNavigationBar() {
+        placeholderSearchBar.sizeToFit()
+        placeholderSearchBar.placeholder = NSLocalizedString("search_default_placeholder", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        placeholderSearchBar.setShowsCancelButton(false, animated: false)
+        placeholderSearchBar.delegate = self
+        
+        let searchBarContainer = CKSearchBarContainerView(customSearchBar: placeholderSearchBar)
+        searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
+        navigationItem.titleView = searchBarContainer
+    }
 }
+
+

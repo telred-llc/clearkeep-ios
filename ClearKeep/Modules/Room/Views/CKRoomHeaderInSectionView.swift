@@ -22,17 +22,7 @@ final class CKRoomHeaderInSectionView: UIView {
     }
     
     // MARK: - PROPERTY
-    
-    public var title: String? {
-        get {
-            return self.descriptionLabel.text
-        }
         
-        set {
-            self.descriptionLabel.text = newValue
-        }
-    }
-    
     // MARK: - OVERRIDE
     
     override func awakeFromNib() {
