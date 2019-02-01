@@ -55,14 +55,14 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         self.tableView.register(CKRoomDirectCreatingActionCell.nib, forCellReuseIdentifier: CKRoomDirectCreatingActionCell.identifier)
         self.tableView.register(CKRoomDirectCreatingSuggestedCell.nib, forCellReuseIdentifier: CKRoomDirectCreatingSuggestedCell.identifier)
         
-        // Setup back button item
-        let backItemButton = UIBarButtonItem.init(
-            title: "Close",
-            style: .plain, target: self,
-            action: #selector(clickedOnBackButton(_:)))
+        // Setup close button item
+        let closeItemButton = UIBarButtonItem.init(
+            image: UIImage(named: "ic_x_close"),
+            style: .plain,
+            target: self, action: #selector(clickedOnBackButton(_:)))
         
         // set nv items
-        self.navigationItem.leftBarButtonItem = backItemButton
+        self.navigationItem.leftBarButtonItem = closeItemButton
         self.navigationItem.title = "New a conversation"
         
         // first reload ds
@@ -143,6 +143,18 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                     // present
                     self.present(nvc, animated: true, completion: nil)
                 }
+            }
+            
+            // new a group calling
+            cell.newCallHandler = {
+                // init
+                let vc = CKRoomCallCreatingViewController.instance()
+                
+                // import
+                vc.importSession(self.mxSessions)
+                
+                // push vc
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             
             return cell

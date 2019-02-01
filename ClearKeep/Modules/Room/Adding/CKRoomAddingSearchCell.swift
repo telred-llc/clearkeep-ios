@@ -20,9 +20,9 @@ final class CKRoomAddingSearchCell: CKRoomBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.searchBar.placeholder = "Find people"
+        self.searchBar.placeholder = "Search people on Directory"
         self.searchBar.delegate = self
-    }
+    }    
 }
 
 extension CKRoomAddingSearchCell: UISearchBarDelegate {

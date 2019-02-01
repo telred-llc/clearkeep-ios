@@ -166,7 +166,7 @@
         <!--Contacts-->
         <scene sceneID="Qba-PP-lco">
             <objects>
-                <viewController id="IGB-jr-yFz" customClass="PeopleViewController" sceneMemberID="viewController">
+                <viewController id="IGB-jr-yFz" customClass="CKContactListViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SEK-7g-1jM"/>
                         <viewControllerLayoutGuide type="bottom" id="THV-gz-13H"/>
@@ -288,7 +288,6 @@
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showContactDetails" id="p4M-yR-DLA"/>
                         <segue destination="HnD-LA-psC" kind="relationship" relationship="viewControllers" id="zON-Qp-EVq"/>
                         <segue destination="IGB-jr-yFz" kind="relationship" relationship="viewControllers" id="CeF-yL-aO0"/>
-                        <segue destination="HPQ-zg-lZR" kind="relationship" relationship="viewControllers" id="y12-eg-vhO"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showGroupDetails" id="fIR-e3-ssz"/>
                     </connections>
                 </tabBarController>
@@ -462,33 +461,6 @@
             </objects>
             <point key="canvasLocation" x="942" y="-1299"/>
         </scene>
-        <!--Rooms-->
-        <scene sceneID="SDg-Pp-8Uj">
-            <objects>
-                <viewController id="HPQ-zg-lZR" customClass="RoomsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="3P1-bh-Wau"/>
-                        <viewControllerLayoutGuide type="bottom" id="0sS-Gq-kr5"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="rNJ-Yf-mVB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" tag="3" title="Rooms" image="tab_rooms" selectedImage="tab_rooms" id="7eS-Ei-00V">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemRooms"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
-                    <connections>
-                        <segue destination="qAW-wR-KyU" kind="presentation" identifier="presentDirectoryServerPicker" id="1mb-Wk-zpt"/>
-                        <segue destination="WDS-Ip-RQ9" kind="presentation" identifier="presentStartChat" id="Tfl-tq-LQp"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kb9-ek-2v5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1929" y="-2049"/>
-        </scene>
         <!--Riot Navigation Controller-->
         <scene sceneID="Fbq-8h-gyk">
             <objects>
@@ -640,13 +612,12 @@
         <image name="tab_home_selected" width="25" height="25"/>
         <image name="tab_people" width="25" height="25"/>
         <image name="tab_people_selected" width="25" height="25"/>
-        <image name="tab_rooms" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bwO-oZ-2vj"/>
+        <segue reference="mhb-l9-pM3"/>
         <segue reference="p4M-yR-DLA"/>
         <segue reference="f5u-Y1-7nt"/>
-        <segue reference="vCz-dl-6xQ"/>
+        <segue reference="HSg-jN-pbo"/>
         <segue reference="cUw-vU-gJq"/>
     </inferredMetricsTieBreakers>
 </document>

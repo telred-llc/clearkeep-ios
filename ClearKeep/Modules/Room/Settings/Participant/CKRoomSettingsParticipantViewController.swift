@@ -190,7 +190,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
             let mxMember = self.filteredParticipants[indexPath.row]
             
             // fill fields to cell
-            cell.participantLabel.text = mxMember.displayname
+            cell.participantLabel.text = mxMember.displayname ?? mxMember.userId
             cell.participantLabel.backgroundColor = UIColor.clear
             cell.accessoryType = .disclosureIndicator
             
@@ -218,14 +218,19 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
             
             if text.count > 0 {
                 self.filteredParticipants = self.originalDataSource.filter({ (member: MXRoomMember) -> Bool in
-                    return member.displayname.lowercased().contains(text.lowercased())
+                    if let displayname = member.displayname {
+                        return displayname.lowercased().contains(text.lowercased())
+                    } else {
+                        return member.userId.lowercased().contains(text.lowercased())
+                    }
                 })
             } else {
                 self.filteredParticipants = self.originalDataSource
             }
             
             DispatchQueue.main.async(execute: {
-                self.tableView.reloadData()
+                self.tableView.reloadSections(
+                    IndexSet([Section.participants.rawValue]), with: .none)
             })
         }
         return cell
@@ -309,6 +314,4 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             return cellForParticipant(atIndexPath: indexPath)
         }
     }
-    
-    
 }

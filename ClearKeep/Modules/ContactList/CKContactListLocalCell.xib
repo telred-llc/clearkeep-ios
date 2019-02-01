@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="95" id="bCp-GS-Pwf" customClass="CKContactListLocalCell" customModule="Riot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="95"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bCp-GS-Pwf" id="TAQ-GQ-J5E">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="94.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uu7-Ad-JmF">
+                        <rect key="frame" x="20" y="10" width="74.5" height="74.5"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xeI-iO-X9h">
+                                <rect key="frame" x="0.0" y="0.0" width="74.5" height="74.5"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="xeI-iO-X9h" secondAttribute="bottom" id="0Js-QS-7Mu"/>
+                            <constraint firstAttribute="trailing" secondItem="xeI-iO-X9h" secondAttribute="trailing" id="2ty-8j-Fwi"/>
+                            <constraint firstItem="xeI-iO-X9h" firstAttribute="top" secondItem="uu7-Ad-JmF" secondAttribute="top" id="7Vw-v5-8UH"/>
+                            <constraint firstAttribute="width" secondItem="uu7-Ad-JmF" secondAttribute="height" multiplier="1:1" id="Jlt-2m-mk9"/>
+                            <constraint firstItem="xeI-iO-X9h" firstAttribute="leading" secondItem="uu7-Ad-JmF" secondAttribute="leading" id="gaQ-q8-PkZ"/>
+                        </constraints>
+                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="YCd-vM-QKs">
+                        <rect key="frame" x="102.5" y="25.5" width="252.5" height="44"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" tag="-1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Member Display Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FID-wd-t0z">
+                                <rect key="frame" x="0.0" y="0.0" width="252.5" height="20.5"/>
+                                <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.2274509804" green="0.28627450980000002" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="ojY-4D-NkV">
+                                <rect key="frame" x="0.0" y="24.5" width="252.5" height="19.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eYI-6n-KdY">
+                                        <rect key="frame" x="0.0" y="0.0" width="39" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
+                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Invite " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIg-CX-cOk">
+                                        <rect key="frame" x="207.5" y="0.0" width="45" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="YCd-vM-QKs" secondAttribute="trailing" constant="20" id="8sF-mY-AII"/>
+                    <constraint firstItem="YCd-vM-QKs" firstAttribute="leading" secondItem="uu7-Ad-JmF" secondAttribute="trailing" constant="8" id="Qjb-vM-2p6"/>
+                    <constraint firstAttribute="bottom" secondItem="uu7-Ad-JmF" secondAttribute="bottom" constant="10" id="RxM-Ao-B98"/>
+                    <constraint firstItem="uu7-Ad-JmF" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" constant="10" id="ecv-1O-So1"/>
+                    <constraint firstItem="YCd-vM-QKs" firstAttribute="top" relation="greaterThanOrEqual" secondItem="TAQ-GQ-J5E" secondAttribute="top" constant="8" id="iSR-aY-Ahu"/>
+                    <constraint firstItem="uu7-Ad-JmF" firstAttribute="leading" secondItem="TAQ-GQ-J5E" secondAttribute="leading" constant="20" id="nK6-2w-I65"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YCd-vM-QKs" secondAttribute="bottom" constant="8" id="xEq-HM-oDn"/>
+                    <constraint firstItem="YCd-vM-QKs" firstAttribute="centerY" secondItem="TAQ-GQ-J5E" secondAttribute="centerY" id="xfK-AG-J6s"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="displayNameLabel" destination="FID-wd-t0z" id="0on-z3-7p0"/>
+                <outlet property="emailLabel" destination="eYI-6n-KdY" id="dot-9e-mcW"/>
+                <outlet property="inviteLabel" destination="IIg-CX-cOk" id="8wF-RP-Ira"/>
+                <outlet property="photoView" destination="xeI-iO-X9h" id="kC5-Js-exg"/>
+            </connections>
+            <point key="canvasLocation" x="140" y="170.46476761619192"/>
+        </tableViewCell>
+    </objects>
+</document>

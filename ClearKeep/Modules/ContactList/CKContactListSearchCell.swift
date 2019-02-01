@@ -1,36 +1,36 @@
 //
-//  CKRoomSettingsParticipantSearchCell.swift
+//  CKContactListSearchCell.swift
 //  Riot
 //
-//  Created by Sinbad Flyce on 1/22/19.
+//  Created by Sinbad Flyce on 1/28/19.
 //  Copyright © 2019 matrix.org. All rights reserved.
 //
 
 import Foundation
 
-final class CKRoomSettingsParticipantSearchCell: CKRoomSettingsBaseCell {
-
+final class CKContactListSearchCell: CKContactListBaseCell {
+    
     // MARK: - OUTLET
+    
     @IBOutlet weak var searchBar: UISearchBar!
     
     // MARK: - PROPERTY
-    internal var beginSearchingHandler: ((String) -> Void)?
 
+    internal var beginSearchingHandler: ((String) -> Void)?
+    
     // MARK: - OVERRIDE
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.searchBar.placeholder = "Filter participants"
         self.searchBar.delegate = self
+        self.searchBar.placeholder = "Filter contacts"
     }
 }
 
-extension CKRoomSettingsParticipantSearchCell: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    }
-    
+extension CKContactListSearchCell: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         beginSearchingHandler?(searchText)
     }
 }
+
 

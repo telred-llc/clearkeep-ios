@@ -19,41 +19,29 @@
                 <rect key="frame" x="0.0" y="0.0" width="456" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_settings" translatesAutoresizingMaskIntoConstraints="NO" id="bCF-m1-E7u">
+                        <rect key="frame" x="20" y="12" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="G9d-QQ-XeJ"/>
+                            <constraint firstAttribute="height" constant="20" id="X2R-k1-QMt"/>
+                        </constraints>
+                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BaY-D8-Xia">
-                        <rect key="frame" x="65.5" y="0.0" width="390.5" height="43.5"/>
+                        <rect key="frame" x="48" y="0.0" width="408" height="43.5"/>
                         <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="125" maxY="0.0"/>
                         <inset key="imageEdgeInsets" minX="310" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="More Settings" image="Arrow Right">
+                        <state key="normal" title="More settings">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BUV-h5-NEX">
-                        <rect key="frame" x="35.5" y="12" width="20" height="20"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_settings" translatesAutoresizingMaskIntoConstraints="NO" id="bCF-m1-E7u">
-                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="GGG-15-fGs"/>
-                                    <constraint firstAttribute="width" secondItem="bCF-m1-E7u" secondAttribute="height" id="URc-Da-YAS"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="bCF-m1-E7u" firstAttribute="leading" secondItem="BUV-h5-NEX" secondAttribute="leading" id="Fhd-A9-XY8"/>
-                            <constraint firstItem="bCF-m1-E7u" firstAttribute="top" secondItem="BUV-h5-NEX" secondAttribute="top" id="PeA-54-Cfo"/>
-                            <constraint firstAttribute="trailing" secondItem="bCF-m1-E7u" secondAttribute="trailing" id="b5a-Ww-1vA"/>
-                            <constraint firstAttribute="bottom" secondItem="bCF-m1-E7u" secondAttribute="bottom" id="uKc-Uq-shB"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="BaY-D8-Xia" firstAttribute="top" secondItem="FqY-el-gBY" secondAttribute="top" id="3iK-go-cNs"/>
-                    <constraint firstItem="BUV-h5-NEX" firstAttribute="centerX" secondItem="FqY-el-gBY" secondAttribute="centerX" multiplier="0.2" id="JXE-Fm-61D"/>
-                    <constraint firstAttribute="trailing" secondItem="BaY-D8-Xia" secondAttribute="trailing" id="LZA-a0-tpU"/>
-                    <constraint firstItem="BUV-h5-NEX" firstAttribute="centerY" secondItem="FqY-el-gBY" secondAttribute="centerY" id="Za1-Dp-zVY"/>
-                    <constraint firstItem="BaY-D8-Xia" firstAttribute="leading" secondItem="BUV-h5-NEX" secondAttribute="trailing" constant="10" id="pox-Lj-C33"/>
-                    <constraint firstAttribute="bottom" secondItem="BaY-D8-Xia" secondAttribute="bottom" id="zyX-Jn-A2h"/>
+                    <constraint firstItem="bCF-m1-E7u" firstAttribute="centerY" secondItem="FqY-el-gBY" secondAttribute="centerY" id="EUM-qu-YHa"/>
+                    <constraint firstItem="BaY-D8-Xia" firstAttribute="leading" secondItem="bCF-m1-E7u" secondAttribute="trailing" constant="8" id="L9x-0Y-OVm"/>
+                    <constraint firstAttribute="bottom" secondItem="BaY-D8-Xia" secondAttribute="bottom" id="ZM0-xh-HwW"/>
+                    <constraint firstItem="BaY-D8-Xia" firstAttribute="top" secondItem="FqY-el-gBY" secondAttribute="top" id="c2v-F3-7I7"/>
+                    <constraint firstItem="bCF-m1-E7u" firstAttribute="leading" secondItem="FqY-el-gBY" secondAttribute="leading" constant="20" id="g5b-yX-RVc"/>
+                    <constraint firstAttribute="trailing" secondItem="BaY-D8-Xia" secondAttribute="trailing" id="mTS-Jg-HqW"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="hIx-Qa-e88"/>
@@ -65,7 +53,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Arrow Right" width="25" height="25"/>
         <image name="ic_room_settings" width="314" height="314"/>
     </resources>
 </document>
