@@ -245,8 +245,6 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         }
     }
 
-    
-    
     private func saveData()  {
         
         // sanity check

@@ -59,12 +59,6 @@ class CKOtherProfileViewController: MXKViewController {
         self.tableView.register(CKOtherProfileActionCell.nib, forCellReuseIdentifier: CKOtherProfileActionCell.identifier)
         self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
         self.tableView.allowsSelection = false
-        
-        // Setup back button item
-        let backItemButton = UIBarButtonItem.init(image: UIImage(named: "ic_room_member_arrow"), style: .plain, target: self, action: #selector(clickedOnBackButton(_:)))
-        
-        // assign back button
-        self.navigationItem.leftBarButtonItem = backItemButton
     }
     
     private func cellForAvatarPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileAvatarCell {
@@ -131,12 +125,6 @@ class CKOtherProfileViewController: MXKViewController {
             return cell
         }
         return CKAccountProfileInfoCell()
-    }
-    
-    // MARK: - ACTION
-    
-    @objc func clickedOnBackButton(_ sender: Any?) {
-        self.dismiss(animated: true, completion: nil)
     }
     
     private func titleForHeader(atSection section: Int) -> String {

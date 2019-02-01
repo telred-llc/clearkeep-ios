@@ -29,7 +29,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
      MX Room
      */
     public var mxRoom: MXRoom!
-
+    
     /**
      Original data source
      */
@@ -45,11 +45,55 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
      */
     private var membersListener: Any!
     
+    // Observers
+    private var removedAccountObserver: Any?
+    private var accountUserInfoObserver: Any?
+    private var pushInfoUpdateObserver: Any?
+    
     // MARK: - OVERRIDE
+    
+    override func destroy() {
+        if pushInfoUpdateObserver != nil {
+            NotificationCenter.default.removeObserver(pushInfoUpdateObserver!)
+            pushInfoUpdateObserver = nil
+        }
+        
+        if accountUserInfoObserver != nil {
+            NotificationCenter.default.removeObserver(accountUserInfoObserver!)
+            accountUserInfoObserver = nil
+        }
+        
+        if removedAccountObserver != nil {
+            NotificationCenter.default.removeObserver(removedAccountObserver!)
+            removedAccountObserver = nil
+        }
+        
+        super.destroy()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.finalizeLoadView()
+        
+        // Add observer to handle removed accounts
+        removedAccountObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountManagerDidRemoveAccount, object: nil, queue: OperationQueue.main, using: { notif in
+            // Refresh table to remove this account
+            self.reloadParticipantsInRoom()
+        })
+        
+        // Add observer to handle accounts update
+        accountUserInfoObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            
+            self.stopActivityIndicator()
+            self.reloadParticipantsInRoom()
+        })
+        
+        // Add observer to push settings
+        pushInfoUpdateObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountPushKitActivityDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            
+            self.stopActivityIndicator()
+            self.reloadParticipantsInRoom()
+        })
     }
     
     // MARK: - PRIVATE
@@ -72,7 +116,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         
         // reload
         self.reloadParticipantsInRoom()
-
+        
     }
     
     private func liveTimelineEvents() {
@@ -113,10 +157,10 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
                             // finalize room member state
                             self.finalizeReloadingParticipants(state)
                         }
-                    
+                        
                     case __MXEventTypeRoomPowerLevels:
                         self.reloadParticipantsInRoom()
-
+                        
                     default:
                         break
                     }
@@ -127,7 +171,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     }
     
     private func reloadParticipantsInRoom() {
-     
+        
         // reset
         self.filteredParticipants.removeAll()
         
@@ -159,6 +203,34 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.filteredParticipants.append(member)
     }
     
+    private func showPersonalAccountProfile() {
+        
+        // initialize vc from xib
+        let vc = CKAccountProfileViewController(
+            nibName: CKAccountProfileViewController.nibName,
+            bundle: nil)
+        
+        // import mx session and room id
+        vc.importSession(self.mxSessions)
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func showOthersAccountProfile(mxMember: MXRoomMember) {
+        
+        // initialize vc from xib
+        let vc = CKOtherProfileViewController(
+            nibName: CKOtherProfileViewController.nibName,
+            bundle: nil)
+        
+        // import mx session and room id
+        vc.importSession(self.mxSessions)
+        vc.mxRoom = self.mxRoom
+        vc.mxMember = mxMember
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     private func titleForHeader(atSection section: Int) -> String {
         guard let s = Section(rawValue: section) else { return ""}
         switch s {
@@ -176,6 +248,92 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
             nvc.popViewController(animated: true)
         } else {
             self.dismiss(animated: true, completion: nil)
+        }
+    }
+
+
+    // MARK: - PUBLIC
+}
+
+// MARK: - UITableViewDelegate
+
+extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let s = Section(rawValue: indexPath.section) else { return 1}
+        switch s {
+        case .search:
+            return CKLayoutSize.Table.row44px
+        default:
+            return CKLayoutSize.Table.row60px
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let mxMember = filteredParticipants[indexPath.row]
+        if mxMember.userId == mainSession.myUser.userId {
+            self.showPersonalAccountProfile()
+        } else {
+            self.showOthersAccountProfile(mxMember: mxMember)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if let view = CKRoomHeaderInSectionView.instance() {
+            view.backgroundColor = CKColor.Background.tableView
+            view.descriptionLabel?.text = self.titleForHeader(atSection: section)
+            return view
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UILabel()
+        view.backgroundColor = CKColor.Background.tableView
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard let s = Section(rawValue: section) else { return 1}
+        switch s {
+        case .search:
+            return CKLayoutSize.Table.header1px
+        default:
+            return CKLayoutSize.Table.header40px
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CKLayoutSize.Table.footer1px
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return Section.count()
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let s = Section(rawValue: section) else { return 0}
+        switch s {
+        case .search:
+            return 1
+        case .participants:
+            return filteredParticipants != nil ? filteredParticipants.count : 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let s = Section(rawValue: indexPath.section) else { return CKRoomSettingsBaseCell()}
+        
+        switch s {
+        case .search:
+            return cellForParticipantSearch(atIndexPath: indexPath)
+        case .participants:
+            return cellForParticipant(atIndexPath: indexPath)
         }
     }
     
@@ -235,83 +393,6 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         }
         return cell
     }
-    
+
     // MARK: - PUBLIC
-}
-
-// MARK: - UITableViewDelegate
-
-extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let s = Section(rawValue: indexPath.section) else { return 1}
-        switch s {
-        case .search:
-            return CKLayoutSize.Table.row44px
-        default:
-            return CKLayoutSize.Table.row60px
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
-            view.descriptionLabel.text = self.titleForHeader(atSection: section)
-            return view
-        }
-        return nil
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UILabel()
-        view.backgroundColor = CKColor.Background.tableView
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let s = Section(rawValue: section) else { return 1}
-        switch s {
-        case .search:
-            return CKLayoutSize.Table.header1px
-        default:
-            return CKLayoutSize.Table.header40px
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.footer1px
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.count()
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let s = Section(rawValue: section) else { return 0}
-        switch s {
-        case .search:
-            return 1
-        case .participants:
-            return filteredParticipants != nil ? filteredParticipants.count : 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let s = Section(rawValue: indexPath.section) else { return CKRoomSettingsBaseCell()}
-        
-        switch s {
-        case .search:
-            return cellForParticipantSearch(atIndexPath: indexPath)
-        case .participants:
-            return cellForParticipant(atIndexPath: indexPath)
-        }
-    }
 }

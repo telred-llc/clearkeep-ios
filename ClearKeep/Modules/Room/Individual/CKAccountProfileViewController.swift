@@ -40,7 +40,8 @@ class CKAccountProfileViewController: MXKViewController {
     private var pushInfoUpdateObserver: Any?
 
     override func viewDidLoad() {
-        super.viewDidLoad()        
+        super.viewDidLoad()
+        self.myUser = self.getMyUser()
         self.finalizeLoadView()
         
         // Add observer to handle removed accounts
@@ -108,12 +109,6 @@ class CKAccountProfileViewController: MXKViewController {
         self.tableView.register(CKAccountProfileActionCell.nib, forCellReuseIdentifier: CKAccountProfileActionCell.identifier)
         self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
         self.tableView.allowsSelection = false
-        
-        // Setup back button item
-        let backItemButton = UIBarButtonItem.init(image: UIImage(named: "ic_room_member_arrow"), style: .plain, target: self, action: #selector(clickedOnBackButton(_:)))
-        
-        // assign back button
-        self.navigationItem.leftBarButtonItem = backItemButton
     }
     
     private func getMyUser() -> MXMyUser? {
@@ -215,12 +210,6 @@ class CKAccountProfileViewController: MXKViewController {
         }
         
         return CKAccountProfileInfoCell()
-    }
-    
-    // MARK: - ACTION
-    
-    @objc func clickedOnBackButton(_ sender: Any?) {
-        self.dismiss(animated: true, completion: nil)
     }
     
     private func titleForHeader(atSection section: Int) -> String {
