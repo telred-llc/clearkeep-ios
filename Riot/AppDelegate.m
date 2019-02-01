@@ -117,7 +117,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     /**
      The current call view controller (if any).
      */
-    CallViewController *currentCallViewController;
+    CKCallViewController *currentCallViewController;
 
     /**
      Incoming room key requests observers
@@ -2748,7 +2748,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             BOOL isCallKitEnabled = [MXCallKitAdapter callKitAvailable] && [MXKAppSettings standardAppSettings].isCallKitEnabled;
             
             // Prepare the call view controller
-            currentCallViewController = [CallViewController callViewController:nil];
+            currentCallViewController = [CKCallViewController callViewController:nil];
             currentCallViewController.playRingtone = !isCallKitEnabled;
             currentCallViewController.mxCall = mxCall;
             currentCallViewController.delegate = self;

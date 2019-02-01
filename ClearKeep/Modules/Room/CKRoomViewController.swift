@@ -671,8 +671,8 @@ extension CKRoomViewController {
         // Classic 1:1 or group call can be done
         else
         {
-            self.roomDataSource?.room?.placeCall(withVideo: video) { _ in
-                
+            self.roomDataSource?.room?.placeCall(withVideo: video) { call in
+                call.value?.answer()
             }
         }
     }
