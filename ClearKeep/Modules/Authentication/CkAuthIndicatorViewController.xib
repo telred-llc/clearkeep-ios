@@ -25,13 +25,13 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 </imageView>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="IaO-We-HMl">
-                    <rect key="frame" x="197" y="527.5" width="20" height="20"/>
+                    <rect key="frame" x="197" y="438" width="20" height="20"/>
                     <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="IaO-We-HMl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" multiplier="1.2" id="GYY-XS-AXl"/>
+                <constraint firstItem="IaO-We-HMl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="42B-ec-sUC"/>
                 <constraint firstItem="IaO-We-HMl" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="HA0-2W-OJc"/>
                 <constraint firstItem="yXH-hZ-3Oj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Mt4-ah-V5w"/>
                 <constraint firstAttribute="bottom" secondItem="yXH-hZ-3Oj" secondAttribute="bottom" id="bR0-8g-Abt"/>

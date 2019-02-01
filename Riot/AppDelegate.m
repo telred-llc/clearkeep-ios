@@ -2841,6 +2841,12 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             
             if (!launchAnimationContainerView && window)
             {
+                
+                // CK -- update
+                if( (launchAnimationContainerView = [self createLaunchAnimation]) != nil) {
+                    return;
+                }
+                
                 launchAnimationContainerView = [[UIView alloc] initWithFrame:window.bounds];
                 launchAnimationContainerView.backgroundColor = kRiotPrimaryBgColor;
                 launchAnimationContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

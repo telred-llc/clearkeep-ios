@@ -142,4 +142,37 @@ import Foundation
             completion?(false)
         }
     }
+    
+    public func createLaunchAnimation() -> UIView? {
+        
+        // key windows
+        if let kWindow = UIApplication.shared.keyWindow {
+            
+            // view
+            let view = UIView(frame: kWindow.bounds)
+            
+            // animated launching
+            let vc = CkAuthIndicatorViewController(nibName: "CkAuthIndicatorViewController", bundle: nil)
+            
+            // setup views
+            vc.view.frame = view.bounds
+            
+            view.autoresizingMask = UIViewAutoresizing(rawValue: UIViewAutoresizing.flexibleWidth.rawValue | UIViewAutoresizing.flexibleHeight.rawValue)
+            view.backgroundColor = UIColor.white
+            view.addSubview(vc.view)
+            
+            // align vc.view from the left and right
+            view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[view]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["view": vc.view]));
+            
+            // align vc.view from the top and bottom
+            view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[view]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["view": vc.view]));
+
+            // keyWindow add subview
+            kWindow.addSubview(view)
+            
+            // return
+            return view
+        }
+        return nil
+    }
 }
