@@ -157,6 +157,9 @@ extension CKRoomViewController {
         if roomDataSource != nil {
             refreshRoomInputToolbar()
         }
+        
+        // Dismiss ActivityView for now
+        self.setRoomActivitiesViewClass(nil)
 }
     
     override func viewWillAppear(_ animated: Bool) {
