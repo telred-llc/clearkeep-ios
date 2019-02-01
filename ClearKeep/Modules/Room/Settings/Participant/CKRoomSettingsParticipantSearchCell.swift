@@ -20,7 +20,7 @@ final class CKRoomSettingsParticipantSearchCell: CKRoomSettingsBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.searchBar.placeholder = "Find participant"
+        self.searchBar.placeholder = "Filter participants"
         self.searchBar.delegate = self
     }
 }

@@ -736,7 +736,7 @@ extension CKRoomViewController {
         super.onMatrixSessionChange()
 
         // Re-enable the read marker display, and disable its update.
-        roomDataSource.showReadMarker = true
+        roomDataSource?.showReadMarker = true
         updateRoomReadMarker = false
     }
     
@@ -963,6 +963,7 @@ extension CKRoomViewController {
     private func showRoomSettings() {
         let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
             if let vc = vc as? CKRoomSettingsViewController {
+                vc.delegate = self
                 vc.initWith(self.roomDataSource.mxSession, andRoomId: self.roomDataSource.roomId)
             }
         }
@@ -1088,5 +1089,11 @@ extension CKRoomViewController {
                 self.refreshRoomInputToolbar()
             }
         })
+    }
+}
+
+extension CKRoomViewController: CKRoomSettingsViewControllerDelegate {
+    func roomSettingsDidLeave() {
+        AppDelegate.the()?.masterTabBarController.navigationController?.popViewController(animated: false)
     }
 }

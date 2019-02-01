@@ -62,7 +62,6 @@ final class CKContactListViewController: MXKViewController {
         // load from xib
         if let nib = CKContactListViewController.nib() {
             nib.instantiate(withOwner: self, options: nil)
-            self.tableView.reloadData()
             self.registerCells()
             self.reloadData()
         }
@@ -121,6 +120,36 @@ extension CKContactListViewController {
      */
     private func cellForSearch(_ indexPath: IndexPath) -> CKContactListSearchCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListSearchCell.identifier, for: indexPath) as! CKContactListSearchCell
+        
+        // filtering
+        cell.beginSearchingHandler = { text in
+            
+            // reload
+            if text.count == 0 {
+                self.reloadData()
+            } else { // filtering
+                
+                // filter local source
+                self.filteredLocalSource?.removeAll()
+                self.filteredLocalSource = self.originalLocalSource.filter({ (contact: MXKContact) -> Bool in
+                    let displayName = contact.displayName ?? ""
+                    return displayName.lowercased().contains(text.lowercased())
+                })
+                
+                // filter matrix source
+                self.filteredMatrixSource?.removeAll()
+                self.filteredMatrixSource = self.originalMatrixSource.filter({ (contact: MXKContact) -> Bool in
+                    let displayName = contact.displayName ?? ""
+                    return displayName.lowercased().contains(text.lowercased())
+                })
+                
+                // reload table view
+                DispatchQueue.main.async {
+                    self.tableView.reloadSections(
+                        IndexSet([Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                }
+            }
+        }
         return cell
     }
     
@@ -155,7 +184,6 @@ extension CKContactListViewController {
             
             // setup cell
             cell.setup(ds[indexPath.row])
-
         }
         
         // return
@@ -168,6 +196,7 @@ extension CKContactListViewController {
     private func reloadData() {
         self.reloadLocalContacts()
         self.reloadMatrixContacts()
+        self.tableView.reloadData()
     }
     
     /**
@@ -205,6 +234,9 @@ extension CKContactListViewController {
         // matrix contacts
         if let matrixcs = MXKContactManager.shared()?.directMatrixContacts as? [MXKContact] {
             
+            // reset
+            self.originalMatrixSource.removeAll()
+            
             // pick one, and add to original source
             for c in matrixcs {
                 self.originalMatrixSource.append(c)
@@ -240,6 +272,58 @@ extension CKContactListViewController {
                 })
             }
         }
+    }
+    
+    /**
+     Invite chat
+     */
+    private func inviteChat(atIndexPath indexPath: IndexPath) {
+        
+        // in range
+        if self.filteredLocalSource.count > indexPath.row {
+            
+            // contact
+            let c = self.filteredLocalSource[indexPath.row]
+            
+            // spin
+            self.startActivityIndicator()
+            
+            // invite chat
+            AppDelegate.the()?.inviteChat(c, completion: { (_) in
+                self.stopActivityIndicator()
+            })
+        }
+    }
+
+    private func confirmInvitation(_ indexPath: IndexPath) {
+        
+        // do nothing if out range
+        if self.filteredLocalSource.count <= indexPath.row {
+          return
+        }
+        
+        // contact
+        let c = self.filteredLocalSource[indexPath.row]
+        
+        let name = c.displayName ?? (c.matrixIdentifiers.first as! MXKEmail).emailAddress
+        
+        // alert obj
+        let alert = UIAlertController(
+            title: "You want to invite \(name!) ?",
+            message: nil,
+            preferredStyle: .actionSheet)
+        
+        // leave room
+        alert.addAction(UIAlertAction(title: "Invite", style: .default , handler:{ (_) in
+            self.inviteChat(atIndexPath: indexPath)
+        }))
+        
+        // cancel
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (_) in
+        }))
+        
+        // present
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -297,11 +381,14 @@ extension CKContactListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        self.view.endEditing(true)
         
         guard let s = Section(rawValue: indexPath.section) else { return}
         switch s {
         case .matrix:
             self.directChat(atIndexPath: indexPath)
+        case .local:
+            self.confirmInvitation(indexPath)
         default:
             return
         }

@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol CKRoomSettingsViewControllerDelegate: class {
+    func roomSettingsDidLeave()
+}
+
 @objc class CKRoomSettingsViewController: MXKRoomSettingsViewController {
     
     // MARK: - PROPERTY
@@ -24,6 +28,11 @@ import Foundation
             return 3
         }
     }    
+    
+    /**
+     delegate
+     */
+    weak var delegate: CKRoomSettingsViewControllerDelegate?
     
     /**
      Cells heigh
@@ -73,6 +82,7 @@ import Foundation
         self.tableView.register(CKRoomSettingsFilesCell.nib, forCellReuseIdentifier: CKRoomSettingsFilesCell.identifier)
         self.tableView.register(CKRoomSettingsMoreSettingsCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreSettingsCell.identifier)
         self.tableView.register(CKRoomSettingsAddPeopleCell.nib, forCellReuseIdentifier: CKRoomSettingsAddPeopleCell.identifier)
+        self.tableView.register(CKRoomSettingsLeaveCell.nib, forCellReuseIdentifier: CKRoomSettingsLeaveCell.identifier)
 
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -91,23 +101,23 @@ import Foundation
         self.tableView.reloadData()
     }
     
-    private func dequeueReusableRoomNameCell(_ indexPath: IndexPath) -> CKRoomSettingsRoomNameCell! {
+    private func cellForRoomName(_ indexPath: IndexPath) -> CKRoomSettingsRoomNameCell! {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsRoomNameCell.identifier ,
             for: indexPath) as! CKRoomSettingsRoomNameCell
         
-        cell.roomnameLabel.text = (self.mxRoom != nil) ? "#\(self.mxRoom.summary.displayname!)" : "Set a name"
+        cell.roomnameLabel.text = self.mxRoom?.summary?.displayname
         return cell
     }
     
-    private func dequeueReusableRoomTopicCell(_ indexPath: IndexPath) -> CKRoomSettingsTopicCell! {
+    private func cellForRoomTopic(_ indexPath: IndexPath) -> CKRoomSettingsTopicCell! {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsTopicCell.identifier ,
             for: indexPath) as! CKRoomSettingsTopicCell
         
-        if self.mxRoom != nil &&  self.mxRoom.summary.topic != nil {
+        if self.mxRoom != nil && self.mxRoom?.summary?.topic != nil {
             cell.enableEditTopic(false)
-            cell.topicTextLabel.text = self.mxRoom.summary.topic
+            cell.topicTextLabel.text = self.mxRoom?.summary?.topic
         } else {
             cell.enableEditTopic(true)
         }
@@ -115,7 +125,7 @@ import Foundation
         return cell
     }
 
-    private func dequeueReusableRoomMembersCell(_ indexPath: IndexPath) -> CKRoomSettingsMembersCell! {
+    private func cellForRoomMembers(_ indexPath: IndexPath) -> CKRoomSettingsMembersCell! {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsMembersCell.identifier ,
             for: indexPath) as! CKRoomSettingsMembersCell
@@ -123,7 +133,7 @@ import Foundation
         return cell
     }
 
-    private func dequeueReusableRoomFilesCell(_ indexPath: IndexPath) -> CKRoomSettingsFilesCell! {
+    private func cellforRoomFiles(_ indexPath: IndexPath) -> CKRoomSettingsFilesCell! {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsFilesCell.identifier ,
             for: indexPath) as! CKRoomSettingsFilesCell
@@ -131,7 +141,7 @@ import Foundation
         return cell
     }
 
-    private func dequeueReusableRoomMoreSettingsCell(_ indexPath: IndexPath) -> CKRoomSettingsMoreSettingsCell! {
+    private func cellForRoomSettings(_ indexPath: IndexPath) -> CKRoomSettingsMoreSettingsCell! {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsMoreSettingsCell.identifier ,
             for: indexPath) as! CKRoomSettingsMoreSettingsCell
@@ -139,7 +149,7 @@ import Foundation
         return cell
     }
 
-    private func dequeueReusableRoomAddPeopleCell(_ indexPath: IndexPath) -> CKRoomSettingsAddPeopleCell! {
+    private func cellForRoomAddPeople(_ indexPath: IndexPath) -> CKRoomSettingsAddPeopleCell! {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsAddPeopleCell.identifier ,
             for: indexPath) as! CKRoomSettingsAddPeopleCell
@@ -147,6 +157,13 @@ import Foundation
         return cell
     }
 
+    private func cellForRoomLeave(_ indexPath: IndexPath) -> CKRoomSettingsLeaveCell! {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsLeaveCell.identifier ,
+            for: indexPath) as! CKRoomSettingsLeaveCell
+        return cell
+    }
+    
     private func showsSettingsEdit() {
         let vc = CKRoomSettingsEditViewController.instance()
         vc.importSession(self.mxSessions)
@@ -190,6 +207,54 @@ import Foundation
         return roomSummary.topic != nil
     }
     
+    private func showLeaveRoom() {
+        
+        // alert obj
+        let alert = UIAlertController(
+            title: "Are you sure to leave room?",
+            message: nil,
+            preferredStyle: .actionSheet)
+
+        // leave room
+        alert.addAction(UIAlertAction(title: "Leave", style: .default , handler:{ (_) in
+            
+            // spin
+            self.startActivityIndicator()
+            
+            // do leaving room
+            if let room = self.mxRoom {
+                
+                // leave
+                room.leave(completion: { (response: MXResponse<Void>) in
+                    
+                    // main thread
+                    DispatchQueue.main.async {
+                        
+                        // spin
+                        self.stopActivityIndicator()
+                        
+                        // error
+                        if let error = response.error {
+                            
+                            // alert
+                            self.showAlert(error.localizedDescription)
+                        } else { // ok
+                            self.dismiss(animated: false, completion: nil)
+                            self.delegate?.roomSettingsDidLeave()
+                        }
+                    }
+                })
+            }
+        }))
+        
+        // cancel
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (_) in
+        }))
+        
+        // present
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - ACTION
     
     @objc func clickedOnBackButton(_ sender: Any?) {
@@ -202,14 +267,14 @@ import Foundation
         super.viewDidLoad()
         setupTableView()
         
-        // Setup back button item
-        let backItemButton = UIBarButtonItem.init(
-            title: "Close",
-            style: .plain, target: self,
-            action: #selector(clickedOnBackButton(_:)))
-        
+        // Setup close button item
+        let closeItemButton = UIBarButtonItem.init(
+            image: UIImage(named: "ic_x_close"),
+            style: .plain,
+            target: self, action: #selector(clickedOnBackButton(_:)))
+
         // set nv items
-        self.navigationItem.leftBarButtonItem = backItemButton
+        self.navigationItem.leftBarButtonItem = closeItemButton
 
     }
     
@@ -219,7 +284,7 @@ import Foundation
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return tblSections.count
+        return mxRoom?.summary != nil ? tblSections.count : 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -231,7 +296,7 @@ import Foundation
         case .settings:
             return 3
         case .actions:
-            return self.mxRoom == nil ? 0 : (self.mxRoom.isDirect ? 0: 1)
+            return self.mxRoom == nil ? 0 : (self.mxRoom.isDirect ? 1: 2)
         }
     }
     
@@ -241,9 +306,9 @@ import Foundation
         switch sectionType {
         case .infos:
             if indexPath.row == 0 {
-                return self.dequeueReusableRoomNameCell(indexPath)
+                return self.cellForRoomName(indexPath)
             } else if indexPath.row == 1 {
-                return self.dequeueReusableRoomTopicCell(indexPath)
+                return self.cellForRoomTopic(indexPath)
             } else {
                 let cell = UITableViewCell()
                 cell.textLabel?.text = "Edit"
@@ -253,17 +318,24 @@ import Foundation
             }
         case .settings:
             if indexPath.row == 0 {
-                return self.dequeueReusableRoomMembersCell(indexPath)
+                return self.cellForRoomMembers(indexPath)
             } else if indexPath.row == 1 {
-                return self.dequeueReusableRoomFilesCell(indexPath)
+                return self.cellforRoomFiles(indexPath)
             } else if indexPath.row == 2 {
-                return self.dequeueReusableRoomMoreSettingsCell(indexPath)
+                return self.cellForRoomSettings(indexPath)
             }
             else {
                 return UITableViewCell()
             }
         case .actions:
-            return self.dequeueReusableRoomAddPeopleCell(indexPath)
+            if mxRoom.isDirect == true {
+                return self.cellForRoomLeave(indexPath)
+                
+            } else {
+                if indexPath.row == 0 { return self.cellForRoomAddPeople(indexPath) }
+                else if indexPath.row == 1 { return self.cellForRoomLeave(indexPath) }
+                else { return UITableViewCell() }
+            }
         }
     }
     
@@ -298,7 +370,7 @@ import Foundation
             if indexPath.row == 1 {
                 
                 // fix heigh
-                if (self.mxRoom != nil && mxRoom.summary.topic == nil) {
+                if (self.mxRoom != nil && mxRoom?.summary?.topic == nil) {
                     return CKLayoutSize.Table.row60px
                 }
 
@@ -326,8 +398,14 @@ import Foundation
             if indexPath.row == 0 { self.showParticiants() }
             break
         case .actions:
-            if indexPath.row == 0 { self.showAddingMembers() }
-            break
+            if let room = self.mxRoom {
+                if room.isDirect == true {
+                    if indexPath.row == 0 { self.showLeaveRoom() }
+                } else {
+                    if indexPath.row == 0 { self.showAddingMembers() }
+                    else if indexPath.row == 1 { self.showLeaveRoom() }
+                }
+            }
         }
     }
     

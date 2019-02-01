@@ -19,52 +19,39 @@
                 <rect key="frame" x="0.0" y="0.0" width="456" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D65-XO-nvb">
-                        <rect key="frame" x="65.5" y="0.0" width="390.5" height="43.5"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_file" translatesAutoresizingMaskIntoConstraints="NO" id="BBU-Sk-855">
+                        <rect key="frame" x="20" y="12" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="0bS-SC-VhO"/>
+                            <constraint firstAttribute="width" constant="20" id="D7H-It-A26"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D65-XO-nvb">
+                        <rect key="frame" x="48" y="0.0" width="408" height="43.5"/>
                         <inset key="imageEdgeInsets" minX="310" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="Files" image="Arrow Right">
+                        <state key="normal" title="Files">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5L-gq-A5E">
-                        <rect key="frame" x="35.5" y="12" width="20" height="20"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_file" translatesAutoresizingMaskIntoConstraints="NO" id="FID-6n-pM6">
-                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="FID-6n-pM6" secondAttribute="height" id="EKm-ZP-gLY"/>
-                                    <constraint firstAttribute="height" constant="20" id="XfR-NY-uh0"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="FID-6n-pM6" secondAttribute="trailing" id="PD5-QM-Fcf"/>
-                            <constraint firstItem="FID-6n-pM6" firstAttribute="leading" secondItem="i5L-gq-A5E" secondAttribute="leading" id="cKW-u6-5aI"/>
-                            <constraint firstAttribute="bottom" secondItem="FID-6n-pM6" secondAttribute="bottom" id="fyg-qh-5Dm"/>
-                            <constraint firstItem="FID-6n-pM6" firstAttribute="top" secondItem="i5L-gq-A5E" secondAttribute="top" id="god-ne-PAp"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="D65-XO-nvb" secondAttribute="trailing" id="EdR-SD-bQ2"/>
-                    <constraint firstItem="i5L-gq-A5E" firstAttribute="centerX" secondItem="pPW-Oa-zNf" secondAttribute="centerX" multiplier="0.2" id="O4I-3f-7P7"/>
-                    <constraint firstItem="i5L-gq-A5E" firstAttribute="centerY" secondItem="pPW-Oa-zNf" secondAttribute="centerY" id="SAM-b4-WA7"/>
-                    <constraint firstItem="D65-XO-nvb" firstAttribute="top" secondItem="pPW-Oa-zNf" secondAttribute="top" id="bac-aJ-QiX"/>
-                    <constraint firstAttribute="bottom" secondItem="D65-XO-nvb" secondAttribute="bottom" id="oO7-FO-RUj"/>
-                    <constraint firstItem="D65-XO-nvb" firstAttribute="leading" secondItem="i5L-gq-A5E" secondAttribute="trailing" constant="10" id="owh-aJ-N8Q"/>
+                    <constraint firstAttribute="trailing" secondItem="D65-XO-nvb" secondAttribute="trailing" id="62R-Je-nIO"/>
+                    <constraint firstItem="BBU-Sk-855" firstAttribute="centerY" secondItem="pPW-Oa-zNf" secondAttribute="centerY" id="90b-yD-sCv"/>
+                    <constraint firstAttribute="bottom" secondItem="D65-XO-nvb" secondAttribute="bottom" id="9m8-d7-qK4"/>
+                    <constraint firstItem="D65-XO-nvb" firstAttribute="top" secondItem="pPW-Oa-zNf" secondAttribute="top" id="Udx-oM-b93"/>
+                    <constraint firstItem="D65-XO-nvb" firstAttribute="leading" secondItem="BBU-Sk-855" secondAttribute="trailing" constant="8" id="VJM-KC-bcc"/>
+                    <constraint firstItem="BBU-Sk-855" firstAttribute="leading" secondItem="pPW-Oa-zNf" secondAttribute="leading" constant="20" id="dd6-kj-ylF"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="APg-lJ-xtV"/>
             <connections>
                 <outlet property="btnFile" destination="D65-XO-nvb" id="6if-Yq-FHM"/>
-                <outlet property="imageFiles" destination="FID-6n-pM6" id="boo-KN-9v0"/>
+                <outlet property="imageFiles" destination="BBU-Sk-855" id="caZ-Dn-Tob"/>
             </connections>
             <point key="canvasLocation" x="52.799999999999997" y="48.575712143928037"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Arrow Right" width="25" height="25"/>
         <image name="ic_room_file" width="314" height="314"/>
     </resources>
 </document>

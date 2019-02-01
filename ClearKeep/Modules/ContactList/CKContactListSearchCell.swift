@@ -14,9 +14,23 @@ final class CKContactListSearchCell: CKContactListBaseCell {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
+    // MARK: - PROPERTY
+
+    internal var beginSearchingHandler: ((String) -> Void)?
+    
     // MARK: - OVERRIDE
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.searchBar.delegate = self
+        self.searchBar.placeholder = "Filter contacts"
     }
 }
+
+extension CKContactListSearchCell: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        beginSearchingHandler?(searchText)
+    }
+}
+
+
