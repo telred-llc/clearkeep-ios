@@ -244,14 +244,21 @@ final class CkHomeViewController: MXKViewController {
                         invite3PID: nil,
                         isDirect: true, preset: nil) { (response: MXResponse<MXRoom>) in
                             
+                            // vars
                             let room = response.value
+                            var isFinallyEncryption = false
                             
                             room?.enableEncryption(
                                 withAlgorithm: kMXCryptoMegolmAlgorithm,
                                 completion: { (response2: MXResponse<Void>) in
                                     
                                     // finish creating room
-                                    finallyCreatedRoom(room)
+                                    if isFinallyEncryption == false {
+                                        finallyCreatedRoom(room)
+                                    }
+                                    
+                                    // set on this var
+                                    isFinallyEncryption = true
                             })
 
                     }

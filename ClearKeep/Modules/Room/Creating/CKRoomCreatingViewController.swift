@@ -142,6 +142,9 @@ final class CKRoomCreatingViewController: MXKViewController {
                     }
                 }
                 
+                // sure it finshed encryption
+                var isFinallyEncryption = false
+                
                 // enable e233
                 if let room = response.value, self.creatingData.isE2ee == true {
                     self.request = room.enableEncryption(
@@ -149,7 +152,12 @@ final class CKRoomCreatingViewController: MXKViewController {
                         completion: { (response2: MXResponse<Void>) in
                             
                             // finish creating room
-                            finalizeCreatingRoom(room)
+                            if isFinallyEncryption == false {
+                                finalizeCreatingRoom(room)
+                            }
+                            
+                            // finish
+                            isFinallyEncryption = true
                     })
                 } else {
                     // finish creating room

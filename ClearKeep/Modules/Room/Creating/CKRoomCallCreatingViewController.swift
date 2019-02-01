@@ -287,6 +287,9 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                 // saved room
                 self.mxRoom = room
                 
+                // sure it finshed encryption
+                var isFinallyEncryption = false
+
                 // 1 - 1 calling
                 if numberOfInvites <= 2 {
                     room.enableEncryption(
@@ -294,7 +297,13 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                         completion: { (_) in
                             
                             // finish creating room
-                            finalizeCreatingRoom(room)
+                            
+                            if isFinallyEncryption == false {
+                                finalizeCreatingRoom(room)
+                            }
+                            
+                            // finish
+                            isFinallyEncryption = true
                     })
                 } else { // video conferencing
                     finalizeCreatingRoom(room)
