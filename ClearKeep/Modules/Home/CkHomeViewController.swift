@@ -255,6 +255,68 @@ final class CkHomeViewController: MXKViewController {
             }
         }
     }
+    
+    func processDirectCall(_ userId: String, completion: ((Bool) -> Void)?) {
+        
+        // account is ok
+        if let acc = MXKAccountManager.shared()?.activeAccounts.first {
+            
+            // session is ok
+            if let mxSession = acc.mxSession {
+                
+                // closure creating a room
+                let finallyCreatedRoom = { (room: MXRoom?) -> Void in
+                    
+                    // room was created
+                    if let room = room {
+                        
+                        // callback in main thread
+                        DispatchQueue.main.async {
+                            completion?(true)
+                            AppDelegate.the().masterTabBarController.selectRoom(withId: room.roomId, andEventId: nil, inMatrixSession: mxSession) {
+                                let roomVC = AppDelegate.the().masterTabBarController.currentRoomViewController
+                                if roomVC?.isSupportCallOption() == true && roomVC?.isCalling() != true {
+                                    
+                                    // Delay for pushing completed
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        roomVC?.handleCallToRoom(nil)
+                                    })
+                                }
+                            }
+                        }
+                    } else { // failing to create the room
+                        DispatchQueue.main.async { completion?(false) }
+                    }
+                }
+                
+                // Aha, there is an existing direct room
+                if let room =  mxSession.directJoinedRoom(withUserId: userId) {
+                    
+                    // forward to this closure
+                    finallyCreatedRoom(room)
+                } else {
+                    
+                    // build invitees
+                    let invitees = [userId]
+                    
+                    // create a direct room
+                    mxSession.createRoom(
+                        name: nil,
+                        visibility: MXRoomDirectoryVisibility.private,
+                        alias: nil,
+                        topic: nil,
+                        invite: invitees,
+                        invite3PID: nil,
+                        isDirect: true, preset: nil) { (response: MXResponse<MXRoom>) in
+                            
+                            // forward to this closure
+                            finallyCreatedRoom(response.value)
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 // MARK: - PagingViewControllerDataSource

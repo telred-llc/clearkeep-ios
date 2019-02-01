@@ -366,7 +366,7 @@ extension CKRoomViewController {
         if isCalling() {
             self.hangupCall()
         } else {
-            self.hanleCallToRoom(sender)
+            self.handleCallToRoom(sender)
         }
     }
     
@@ -573,7 +573,7 @@ extension CKRoomViewController {
         return false
     }
     
-    func hanleCallToRoom(_ sender: UIBarButtonItem) {
+    func handleCallToRoom(_ sender: UIBarButtonItem?) {
         
         func call(video: Bool) {
             let appDisplayName = (Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String) ?? ""
@@ -609,7 +609,7 @@ extension CKRoomViewController {
             self?.actionSheet = nil
         }))
 
-        if let view = sender.customView {
+        if let view = sender?.customView {
             actionSheet?.popoverPresentationController?.sourceView = view
             actionSheet?.popoverPresentationController?.sourceRect = view.bounds
         }
@@ -967,15 +967,17 @@ extension CKRoomViewController {
     }
     
     private func showRoomSettings() {
-        let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
-            if let vc = vc as? CKRoomSettingsViewController {
-                vc.delegate = self
-                vc.initWith(self.roomDataSource.mxSession, andRoomId: self.roomDataSource.roomId)
+        if self.roomDataSource != nil {
+            let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
+                if let vc = vc as? CKRoomSettingsViewController {
+                    vc.delegate = self
+                    vc.initWith(self.roomDataSource.mxSession, andRoomId: self.roomDataSource.roomId)
+                }
             }
+            
+            // present nvc
+            self.present(nvc, animated: true, completion: nil)
         }
-        
-        // present nvc
-        self.present(nvc, animated: true, completion: nil)
     }
 }
 
