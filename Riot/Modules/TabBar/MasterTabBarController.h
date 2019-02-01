@@ -32,6 +32,7 @@
 @class CkHomeViewController;
 @class CKRoomViewController;
 @class CKContactListViewController;
+@class CKFavouriteViewController;
 
 #define TABBAR_HOME_INDEX         0
 #define TABBAR_FAVOURITES_INDEX   1
@@ -143,7 +144,7 @@
 @property (nonatomic, readonly) CkMasterauthViewController *authViewController;
 
 @property (nonatomic, readonly) CkHomeViewController *homeViewController;
-@property (nonatomic, readonly) FavouritesViewController *favouritesViewController;
+@property (nonatomic, readonly) CKFavouriteViewController *favouritesViewController;
 @property (nonatomic, readonly) CKContactListViewController *peopleViewController;
 @property (nonatomic, readonly) RoomsViewController *roomsViewController;
 @property (nonatomic, readonly) GroupsViewController *groupsViewController;

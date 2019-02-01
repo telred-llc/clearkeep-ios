@@ -192,7 +192,7 @@
         <!--Favourites-->
         <scene sceneID="z6B-k5-ano">
             <objects>
-                <viewController id="HnD-LA-psC" customClass="FavouritesViewController" sceneMemberID="viewController">
+                <viewController id="HnD-LA-psC" customClass="CKFavouriteViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="J4U-xc-9bQ"/>
                         <viewControllerLayoutGuide type="bottom" id="SQF-h4-gZj"/>
@@ -200,17 +200,32 @@
                     <view key="view" contentMode="scaleToFill" id="Caq-TK-JOm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1rS-hy-ED0">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1rS-hy-ED0" firstAttribute="leading" secondItem="Caq-TK-JOm" secondAttribute="leading" id="5hW-lq-JpP"/>
+                            <constraint firstAttribute="trailing" secondItem="1rS-hy-ED0" secondAttribute="trailing" id="LaC-z1-SXG"/>
+                            <constraint firstItem="1rS-hy-ED0" firstAttribute="top" secondItem="J4U-xc-9bQ" secondAttribute="bottom" id="m1G-fu-Nbz"/>
+                            <constraint firstAttribute="bottom" secondItem="1rS-hy-ED0" secondAttribute="bottom" id="vTo-fD-KBT"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" tag="1" title="Favourites" image="tab_favourites" selectedImage="tab_favourites_selected" id="UVh-Xd-zDZ">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemFavourites"/>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="recentTableView" destination="1rS-hy-ED0" id="7wR-Jh-fqQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4qY-qn-l6L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="942" y="-2049"/>
+            <point key="canvasLocation" x="941.60000000000002" y="-2049.6251874062968"/>
         </scene>
         <!--Unified Search View Controller-->
         <scene sceneID="ijO-nb-yi4">
@@ -601,7 +616,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="apps-icon" width="24" height="24"/>
+        <image name="apps-icon" width="38.400001525878906" height="38.400001525878906"/>
         <image name="logo" width="114" height="82"/>
         <image name="search_icon" width="22" height="22"/>
         <image name="tab_favourites" width="25" height="25"/>
