@@ -107,9 +107,6 @@ class CKAccountProfileViewController: MXKViewController {
         self.tableView.register(CKAccountProfileAvatarCell.nib, forCellReuseIdentifier: CKAccountProfileAvatarCell.identifier)
         self.tableView.register(CKAccountProfileActionCell.nib, forCellReuseIdentifier: CKAccountProfileActionCell.identifier)
         self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
-        self.tableView.register(CKAccountProfileJobCell.nib, forCellReuseIdentifier: CKAccountProfileJobCell.identifier)
-        self.tableView.register(CKAccountProfileTimeCell.nib, forCellReuseIdentifier: CKAccountProfileTimeCell.identifier)
-        self.tableView.register(CKAccountProfileEmailCell.nib, forCellReuseIdentifier: CKAccountProfileEmailCell.identifier)
         self.tableView.allowsSelection = false
         
         // Setup back button item
@@ -202,56 +199,23 @@ class CKAccountProfileViewController: MXKViewController {
             // Title
             cell.titleLabel.font = CKAppTheme.mainLightAppFont(size: 17)
             cell.titleLabel.textColor = #colorLiteral(red: 0.4352941176, green: 0.431372549, blue: 0.4509803922, alpha: 1)
-            cell.titleLabel.text = "Display name"
-                
-            // display name
-            cell.contentLabel.text = myUser?.displayname
+            
+            if indexPath.row == 0 {
+                cell.titleLabel.text = "Display name"
+                cell.contentLabel.text = myUser?.displayname
+            } else if indexPath.row == 1 {
+                cell.titleLabel.text = "User ID"
+                cell.contentLabel.text = myUser?.userId
+            } else {
+                cell.titleLabel.text = nil
+                cell.contentLabel.text = nil
+            }
 
             return cell
         }
         
         return CKAccountProfileInfoCell()
     }
-    
-    
-    private func cellForJobPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileJobCell {
-        
-        // dequeue cell
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKAccountProfileJobCell.identifier,
-            for: indexPath) as! CKAccountProfileJobCell
-        cell.titleLabel.font = CKAppTheme.mainLightAppFont(size: 17)
-        cell.titleLabel.textColor = #colorLiteral(red: 0.4352941176, green: 0.431372549, blue: 0.4509803922, alpha: 1)
-        return cell
-    }
-    
-    private func cellForTime(atIndexPath indexPath: IndexPath) -> CKAccountProfileTimeCell {
-        
-        // dequeue cell
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKAccountProfileTimeCell.identifier,
-            for: indexPath) as! CKAccountProfileTimeCell
-        
-        cell.titleLabel.font = CKAppTheme.mainLightAppFont(size: 17)
-        cell.titleLabel.textColor = #colorLiteral(red: 0.4352941176, green: 0.431372549, blue: 0.4509803922, alpha: 1)
-        return cell
-    }
-    
-    private func cellForEmailPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileEmailCell {
-        
-        // dequeue cell
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKAccountProfileEmailCell.identifier,
-            for: indexPath) as! CKAccountProfileEmailCell
-        
-        cell.titleLabel.font = CKAppTheme.mainLightAppFont(size: 17)
-        cell.titleLabel.textColor = #colorLiteral(red: 0.4352941176, green: 0.431372549, blue: 0.4509803922, alpha: 1)
-        cell.contentLabel.textColor = CKColor.Text.lightBlueText
-        return cell
-    }
-    
-    
-    
     
     // MARK: - ACTION
     
@@ -326,7 +290,7 @@ extension CKAccountProfileViewController: UITableViewDataSource {
         switch section {
         case .avatar: return 1
         case .action: return 1
-        case .detail: return 4
+        case .detail: return 2
         }
     }
     
@@ -345,27 +309,8 @@ extension CKAccountProfileViewController: UITableViewDataSource {
             // account profile action cell
             return cellForAction(atIndexPath: indexPath)
         case .detail:
-            if indexPath.row == 0 {
-                // account profile info cell
-                return cellForInfoPersonal(atIndexPath: indexPath)
-            }
-            
-            // account profile info cell
-            if indexPath.row == 1 {
-                return cellForJobPersonal(atIndexPath: indexPath)
-            }
-            
-            // account profile info cell
-            if indexPath.row == 2 {
-                return cellForTime(atIndexPath: indexPath)
-            }
-            
-            // account profile info cell
-            if indexPath.row == 3 {
-                return cellForEmailPersonal(atIndexPath: indexPath)
-            }
+            return cellForInfoPersonal(atIndexPath: indexPath)
         }
-        return UITableViewCell()
     }
 }
 

@@ -14,20 +14,5 @@ class CKAccountProfileInfoCell: CKAccountProfileBaseCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
-    
-    // MARK: - OVERRIDE
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        titleLabel.text = "Display name"
-        contentLabel.text = ""
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
 }
 

@@ -49,11 +49,8 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     private enum Section: Int {
         case avatarname  = 0
         case userId = 1
-        case status  = 2
-        case career  = 3
-        case contact = 4
         
-        static var count: Int { return 5}
+        static var count: Int { return 2}
     }
     
     // MARK: - CLASS
@@ -481,43 +478,6 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                     cell.titleLabel.text = "User ID"
                     cell.inputTextField.isEnabled = false
                     cell.inputTextField.text = savingData.userId
-                case .status:
-                    cell.titleLabel.text = "Status"
-                    cell.inputTextField.isEnabled = false
-                    cell.inputTextField.text = savingData.status
-                    
-                    // text value
-                    cell.edittingChangedHandler = { text in
-                        if let text = text {
-                            self.savingData.status = text
-                            self.updateSaveButtonStatus()
-                        }
-                    }
-                    
-                case .career:
-                    cell.titleLabel.text = "What I do"
-                    cell.inputTextField.isEnabled = true
-                    cell.inputTextField.text = savingData.career
-                    
-                    // text value
-                    cell.edittingChangedHandler = { text in
-                        if let text = text {
-                            self.savingData.career = text
-                            self.updateSaveButtonStatus()
-                        }
-                    }
-                case .contact:
-                    cell.titleLabel.text = "Contact"
-                    cell.inputTextField.isEnabled = true
-                    cell.inputTextField.text = savingData.contact
-                    
-                    // text value
-                    cell.edittingChangedHandler = { text in
-                        if let text = text {
-                            self.savingData.contact = text
-                            self.updateSaveButtonStatus()
-                        }
-                    }
                 default:
                     break
                 }
