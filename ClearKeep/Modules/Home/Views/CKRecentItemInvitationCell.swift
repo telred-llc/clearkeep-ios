@@ -131,7 +131,7 @@ extension CKRecentItemInvitationCell: MXKCellRendering {
             if let lastMessageLabel = lastMessageLabel {
                 contentStackView.removeArrangedSubview(lastMessageLabel)
             }
-        }
+        }        
     }
     
     func updateUI() {

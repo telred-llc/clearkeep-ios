@@ -20,8 +20,8 @@ final public class CkLoginViewController: CkAuthenticationViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()        
         self.welcomeImageView.image = UIImage(named: "logo")
-        self.userIdTextField.text = "test"
-        self.passwordTextField.text = "111111"        
+        //self.userIdTextField.text = "test"
+        //self.passwordTextField.text = "111111"        
     }
 
     public override func askForUpdating(completion: ([String : Any]) -> Void) {
