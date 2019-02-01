@@ -90,6 +90,7 @@
 		85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CAD21DE307F000331AC /* CKColor.swift */; };
 		85E57518220499DA0076FFAE /* CKFavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */; };
 		85E57519220499DA0076FFAE /* CKFavouriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */; };
+		85E5751B2204C6A30076FFAE /* CKCallingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E5751A2204C6A30076FFAE /* CKCallingViewController.swift */; };
 		89C94E649229EA68AE787E9E /* Pods_RiotPods_Riot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2510A69B4A681C1FEC36E848 /* Pods_RiotPods_Riot.framework */; };
 		926FA53F1F4C132000F826C2 /* MXSession+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = 926FA53E1F4C132000F826C2 /* MXSession+Riot.m */; };
 		92726A471F58737A004AD26F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 92726A461F58737A004AD26F /* IntentHandler.m */; };
@@ -669,6 +670,7 @@
 		85CA7CAD21DE307F000331AC /* CKColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKColor.swift; sourceTree = "<group>"; };
 		85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKFavouriteViewController.swift; sourceTree = "<group>"; };
 		85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKFavouriteViewController.xib; sourceTree = "<group>"; };
+		85E5751A2204C6A30076FFAE /* CKCallingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKCallingViewController.swift; sourceTree = "<group>"; };
 		926FA53D1F4C132000F826C2 /* MXSession+Riot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MXSession+Riot.h"; sourceTree = "<group>"; };
 		926FA53E1F4C132000F826C2 /* MXSession+Riot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MXSession+Riot.m"; sourceTree = "<group>"; };
 		92726A431F58737A004AD26F /* SiriIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SiriIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1616,6 +1618,7 @@
 				E5ABA73521E6FD49005EFE0C /* CKLocalization.swift */,
 				E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */,
 				851F40172204555400326BBE /* CKSearchBarContainerView.swift */,
+				85E5751A2204C6A30076FFAE /* CKCallingViewController.swift */,
 			);
 			path = Ultils;
 			sourceTree = "<group>";
@@ -4134,6 +4137,7 @@
 				B1B558D020EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				B1B558CF20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				851C8ABD21FAAE49008FD696 /* Appearance.swift in Sources */,
+				85E5751B2204C6A30076FFAE /* CKCallingViewController.swift in Sources */,
 				B1B5575120EE6C4D00210D55 /* AuthenticationViewController.m in Sources */,
 				B1B5571820EE6C4D00210D55 /* CountryPickerViewController.m in Sources */,
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,

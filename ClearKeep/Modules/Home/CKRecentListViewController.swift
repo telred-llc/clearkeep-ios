@@ -209,21 +209,26 @@ private extension CKRecentListViewController {
         
         // join
         cell.joinOnPressHandler = {
-            self.mainSession.joinRoom(cellData.roomSummary.roomId, completion: { (response: MXResponse<MXRoom>) in
-                
-                // main thread
-                DispatchQueue.main.async {
+            if let roomId = cellData.roomSummary?.roomId {
+                self.startActivityIndicator()
+                self.mainSession?.joinRoom(roomId, completion: { (response: MXResponse<MXRoom>) in
                     
-                    // got error
-                    if let error = response.error {
-                        self.showAlert(error.localizedDescription)
-                    } else {
+                    // main thread
+                    DispatchQueue.main.async {
                         
-                        // select room
-                        AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary.mxSession)
+                        self.stopActivityIndicator()
+                        
+                        // got error
+                        if let error = response.error {
+                            self.showAlert(error.localizedDescription)
+                        } else {
+                            
+                            // select room
+                            AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary.mxSession)
+                        }
                     }
-                }
-            })
+                })
+            }
         }
         
         // decline
