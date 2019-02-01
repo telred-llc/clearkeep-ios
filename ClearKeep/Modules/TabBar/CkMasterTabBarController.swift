@@ -27,11 +27,21 @@ final public class CkMasterTabBarController: MasterTabBarController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // hide navigation bar shadow
+        navigationController?.navigationBar.shadowImage = UIImage()
+
         self.changeNavigationBar(color: CKColor.Background.navigationBar)
         navigationController?.view.setNeedsLayout() // force update layout
         navigationController?.view.layoutIfNeeded() // to fix height of the navigation bar
     }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
+        // show navigation bar shadow
+        navigationController?.navigationBar.shadowImage = nil
+    }
+    
     public override func showAuthenticationScreen() {
 
         if self.authViewController == nil && self.isCkAuthViewControllerPreparing == false {

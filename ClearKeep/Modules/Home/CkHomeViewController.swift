@@ -61,7 +61,6 @@ final class CkHomeViewController: MXKViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
     }
     
@@ -98,10 +97,7 @@ final class CkHomeViewController: MXKViewController {
         setupLeftMenu(navigationItem: masterTabbar.navigationItem)
         
         // setup right menu
-        setupRightMenu(navigationItem: masterTabbar.navigationItem)
-        
-        // hide navigation bar shadow
-        masterTabbar.navigationController?.navigationBar.shadowImage = UIImage()        
+        setupRightMenu(navigationItem: masterTabbar.navigationItem)        
     }
     
     func setupLeftMenu(navigationItem: UINavigationItem) {
