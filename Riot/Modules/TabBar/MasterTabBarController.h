@@ -135,6 +135,10 @@
  */
 - (void)refreshTabBarBadges;
 
+/**
+ tabBarBadgeStringValue
+ */
+- (NSString*)tabBarBadgeStringValue:(NSUInteger)count;
 
 // Reference to the current auth VC. It is not nil only when the auth screen is displayed.
 @property (nonatomic, readonly) CkMasterauthViewController *authViewController;

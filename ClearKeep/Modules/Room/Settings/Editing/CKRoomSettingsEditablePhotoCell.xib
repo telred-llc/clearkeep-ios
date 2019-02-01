@@ -12,25 +12,25 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ntN-10-7mE" customClass="CKRoomSettingsEditablePhotoCell" customModule="Riot" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ntN-10-7mE" id="VpM-xI-aFW">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jlo-3Y-lKP" customClass="MXKImageView">
-                        <rect key="frame" x="20" y="0.0" width="43.5" height="43.5"/>
+                        <rect key="frame" x="20" y="4" width="43.5" height="43.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="43.5" id="6E0-gs-WdJ"/>
                             <constraint firstAttribute="width" constant="43.5" id="f3r-fE-9Cz"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Jlo-3Y-lKP" firstAttribute="leading" secondItem="VpM-xI-aFW" secondAttribute="leading" constant="20" id="dBm-yY-EYu"/>
-                    <constraint firstItem="Jlo-3Y-lKP" firstAttribute="top" secondItem="VpM-xI-aFW" secondAttribute="top" id="fPq-yg-1F9"/>
-                    <constraint firstAttribute="bottom" secondItem="Jlo-3Y-lKP" secondAttribute="bottom" id="qp3-8K-9iW"/>
-                    <constraint firstAttribute="trailing" secondItem="Jlo-3Y-lKP" secondAttribute="trailing" constant="331.5" id="uXA-Di-4do"/>
+                    <constraint firstItem="Jlo-3Y-lKP" firstAttribute="top" secondItem="VpM-xI-aFW" secondAttribute="top" constant="4" id="exB-tb-SiP"/>
+                    <constraint firstAttribute="bottom" secondItem="Jlo-3Y-lKP" secondAttribute="bottom" constant="4" id="h5w-mx-DmC"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

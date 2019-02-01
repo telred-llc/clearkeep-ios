@@ -8,9 +8,17 @@
 
 import Foundation
 
+extension MasterTabBarController {
+    @objc func reflectingBadges() {}
+}
+
 final public class CkMasterTabBarController: MasterTabBarController {
     
     lazy var placeholderSearchBar = UISearchBar()
+    
+    let kHomeTabIndex       = 0
+    let kHomeFavouriteIndex = 1
+    let kHomeContactIndex   = 2
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +58,23 @@ final public class CkMasterTabBarController: MasterTabBarController {
             self.navigationController?.pushViewController(searchVC, animated: false)
         }
         return false
+    }
+    
+    public override func reflectingBadges() {
+        
+        // missed count
+        let missedCount = self.missedDiscussionsCount()
+        
+        // is not zero
+        if missedCount > 0 {
+            
+            // update badge
+            self.tabBar.items?[kHomeTabIndex].badgeValue = self.tabBarBadgeStringValue(missedCount)
+        } else {
+            
+            // zero badge
+            self.tabBar.items?[kHomeTabIndex].badgeValue = nil
+        }
     }
     
     private func setupNavigationBar() {

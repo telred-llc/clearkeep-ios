@@ -209,26 +209,37 @@ private extension CKRecentListViewController {
         
         // join
         cell.joinOnPressHandler = {
-            if let roomId = cellData.roomSummary?.roomId {
-                self.startActivityIndicator()
-                self.mainSession?.joinRoom(roomId, completion: { (response: MXResponse<MXRoom>) in
-                    
-                    // main thread
-                    DispatchQueue.main.async {
-                        
-                        self.stopActivityIndicator()
-                        
-                        // got error
-                        if let error = response.error {
-                            self.showAlert(error.localizedDescription)
-                        } else {
-                            
-                            // select room
-                            AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary.mxSession)
-                        }
-                    }
-                })
+            
+            // session
+            var ms: MXSession! = self.mainSession
+            
+            // is nil?
+            if ms == nil {
+                
+                // Get the first session of AppDelegate
+                ms = AppDelegate.the()?.mxSessions.first as? MXSession
             }
+            
+            guard let session = ms else {
+                self.showAlert("Occur an error. Please try to join chat later.")
+                return
+            }
+            
+            session.joinRoom(cellData.roomSummary.roomId, completion: { (response: MXResponse<MXRoom>) in
+                
+                // main thread
+                DispatchQueue.main.async {
+                    
+                    // got error
+                    if let error = response.error {
+                        self.showAlert(error.localizedDescription)
+                    } else {
+                        
+                        // select room
+                        AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary.mxSession)
+                    }
+                }
+            })
         }
         
         // decline

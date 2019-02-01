@@ -19,6 +19,7 @@ final class CKRoomSettingsEditablePhotoCell: CKRoomSettingsBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.photoView.backgroundColor = UIColor.clear
+        self.photoView.defaultBackgroundColor = UIColor.clear
     }
     
     // MARK: - PUBLIC

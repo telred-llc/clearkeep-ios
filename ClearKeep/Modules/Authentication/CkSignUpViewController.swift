@@ -32,9 +32,9 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
         
-        self.userIdTextField.text = "test"
-        self.passwordTextField.text = "111111"
-        self.repasswordTextField.text = "111111"
+        //self.userIdTextField.text = "test"
+        //self.passwordTextField.text = "111111"
+        //self.repasswordTextField.text = "111111"
     }
    
     public override func viewDidLayoutSubviews() {

@@ -244,8 +244,16 @@ final class CkHomeViewController: MXKViewController {
                         invite3PID: nil,
                         isDirect: true, preset: nil) { (response: MXResponse<MXRoom>) in
                             
-                            // forward to this closure
-                            finallyCreatedRoom(response.value)
+                            let room = response.value
+                            
+                            room?.enableEncryption(
+                                withAlgorithm: kMXCryptoMegolmAlgorithm,
+                                completion: { (response2: MXResponse<Void>) in
+                                    
+                                    // finish creating room
+                                    finallyCreatedRoom(room)
+                            })
+
                     }
                 }
             }
@@ -378,6 +386,9 @@ extension CkHomeViewController: MXKDataSourceDelegate {
 
         self.reloadDirectMessagePage()
         self.reloadRoomPage()
+        
+        // ask to reflect tabbar
+        AppDelegate.the()?.masterTabBarController.reflectingBadges()
     }
     
     func dataSource(_ dataSource: MXKDataSource!, didAddMatrixSession mxSession: MXSession!) {

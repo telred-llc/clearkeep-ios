@@ -395,7 +395,9 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         case .infos:
             if indexPath.row == 1 || indexPath.row == 2 { self.showsSettingsEdit() }
         case .settings:
-            if indexPath.row == 0 { self.showParticiants() }
+            if indexPath.row == 0 { self.showParticiants() } else {
+                self.showAlert("Sorry. It will be comming soon!")
+            }
             break
         case .actions:
             if let room = self.mxRoom {
