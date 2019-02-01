@@ -82,14 +82,16 @@ class CKOtherProfileViewController: MXKViewController {
             }
             
             //status
-            let session = AppDelegate.the()?.mxSessions.first as? MXSession
-            if let myUser = session?.myUser {
-                switch myUser.presence {
+            if let mxMember = mxMember,
+                let presence = MXKAccountManager.shared()?.account(forUserId: mxMember.userId)?.userPresence {
+                switch presence {
                 case MXPresenceOnline:
                     cell.settingStatus(online: true)
                 default:
                     cell.settingStatus(online: false)
                 }
+            } else {
+                cell.settingStatus(online: false)
             }
             return cell
         }

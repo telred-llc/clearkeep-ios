@@ -88,6 +88,8 @@
 		85CA7CAA21DE13A2000331AC /* CKDirectMessagePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CA821DE13A2000331AC /* CKDirectMessagePageViewController.swift */; };
 		85CA7CAB21DE13A2000331AC /* CKDirectMessagePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7CA921DE13A2000331AC /* CKDirectMessagePageViewController.xib */; };
 		85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CAD21DE307F000331AC /* CKColor.swift */; };
+		85E57518220499DA0076FFAE /* CKFavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */; };
+		85E57519220499DA0076FFAE /* CKFavouriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */; };
 		89C94E649229EA68AE787E9E /* Pods_RiotPods_Riot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2510A69B4A681C1FEC36E848 /* Pods_RiotPods_Riot.framework */; };
 		926FA53F1F4C132000F826C2 /* MXSession+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = 926FA53E1F4C132000F826C2 /* MXSession+Riot.m */; };
 		92726A471F58737A004AD26F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 92726A461F58737A004AD26F /* IntentHandler.m */; };
@@ -665,6 +667,8 @@
 		85CA7CA821DE13A2000331AC /* CKDirectMessagePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKDirectMessagePageViewController.swift; sourceTree = "<group>"; };
 		85CA7CA921DE13A2000331AC /* CKDirectMessagePageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKDirectMessagePageViewController.xib; sourceTree = "<group>"; };
 		85CA7CAD21DE307F000331AC /* CKColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKColor.swift; sourceTree = "<group>"; };
+		85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKFavouriteViewController.swift; sourceTree = "<group>"; };
+		85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKFavouriteViewController.xib; sourceTree = "<group>"; };
 		926FA53D1F4C132000F826C2 /* MXSession+Riot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MXSession+Riot.h"; sourceTree = "<group>"; };
 		926FA53E1F4C132000F826C2 /* MXSession+Riot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MXSession+Riot.m"; sourceTree = "<group>"; };
 		92726A431F58737A004AD26F /* SiriIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SiriIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1518,6 +1522,15 @@
 				85CA7C9E21DDF5C7000331AC /* CK.xcassets */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		85E57515220499690076FFAE /* Favourite */ = {
+			isa = PBXGroup;
+			children = (
+				85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */,
+				85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */,
+			);
+			path = Favourite;
 			sourceTree = "<group>";
 		};
 		92726A441F58737A004AD26F /* SiriIntents */ = {
@@ -3011,6 +3024,7 @@
 		E5720EDF21ACFB5F0093D99A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				85E57515220499690076FFAE /* Favourite */,
 				E54A5AE221FEEB920094461E /* Common */,
 				E54A5ADB21FEE4EE0094461E /* ContactList */,
 				E5ABA73721E73CBC005EFE0C /* Room */,
@@ -3563,6 +3577,7 @@
 				E5C0B9AA21CA76B300910D8B /* CkSignUpViewController.xib in Resources */,
 				B1B558F720EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				851C8AE921FAB762008FD696 /* CustomImageCell.xib in Resources */,
+				85E57519220499DA0076FFAE /* CKFavouriteViewController.xib in Resources */,
 				853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */,
 				853E996821E4986100D005F4 /* SFCompactDisplay-Heavy.ttf in Resources */,
 				B1B5592B20EF7A5D00210D55 /* TableViewCellWithButton.xib in Resources */,
@@ -3979,6 +3994,7 @@
 				B1B5571A20EE6C4D00210D55 /* SettingsViewController.m in Sources */,
 				E5C0B9A221CA37E500910D8B /* CkLoginViewController.swift in Sources */,
 				E574336821F3709500989FF3 /* CKRoomCreatingBaseCell.swift in Sources */,
+				85E57518220499DA0076FFAE /* CKFavouriteViewController.swift in Sources */,
 				B1B5594720EF7BD000210D55 /* RoomCollectionViewCell.m in Sources */,
 				E574335F21F35F1400989FF3 /* CKRoomSettingsBaseCell.swift in Sources */,
 				B1B558C120EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.m in Sources */,
