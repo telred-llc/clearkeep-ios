@@ -22,16 +22,12 @@ final class CKRoomSettingsEditablePhotoCell: CKRoomSettingsBaseCell {
         self.photoView.defaultBackgroundColor = UIColor.clear
     }
     
-    // MARK: - PUBLIC
-    
-    public func setAvatarImageUrl(urlString: String, previewImage: UIImage?)  {
-        photoView.enableInMemoryCache = true
-        photoView.setImageURL(
-            urlString, withType: nil,
-            andImageOrientation: UIImageOrientation.up,
-            previewImage: previewImage)
+    override func getMXKImageView() -> MXKImageView! {
+        return self.photoView
     }
     
+    // MARK: - PUBLIC
+        
     public func setImage(image: UIImage?)  {
         photoView.image = image
     }

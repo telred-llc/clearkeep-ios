@@ -350,7 +350,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         return PromiseKit.Promise<Void> { resolver in
             let account = MXKAccountManager.shared().activeAccounts.first
             account?.setUserAvatarUrl(url, success: {
-                resolver.fulfill()
+                resolver.fulfill(())
             }, failure: { (error) in
                 print("Failed to set avatar url")
                 resolver.reject(error ?? NSError())
@@ -419,16 +419,12 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             if let newAvatarImage = newAvatarImage {
                 cell.avaImage.image = newAvatarImage
             } else if let myUser = self.getMyUser() {
-                let defaultAvatar = AvatarGenerator.generateAvatar(forMatrixItem: myUser.userId, withDisplayName: myUser.displayname)
-                if let avatarUrl = self.mainSession.matrixRestClient.url(ofContent: myUser.avatarUrl) {
-                    cell.setAvatarImageUrl(urlString: avatarUrl, previewImage: defaultAvatar)
-                } else {
-                    cell.avaImage.image = defaultAvatar
-                }
-            } else {
-                cell.avaImage.image = nil
+                cell.setAvatarUri(
+                    myUser.avatarUrl,
+                    identifyText: myUser.userId,
+                    session: self.mainSession)
             }
-
+            
             cell.tapHandler = {
                 
                 cell.nameTextField.resignFirstResponder()

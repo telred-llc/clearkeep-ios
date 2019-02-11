@@ -118,14 +118,9 @@ final class CkHomeViewController: MXKViewController {
         }
         
         if let myUser = session.myUser {
-            // avatar
-            let defaultAvatar = AvatarGenerator.generateAvatar(forMatrixItem: myUser.userId, withDisplayName: myUser.displayname)
-            if let avatarUrl = myUser.avatarUrl,
-                let urlString = session.matrixRestClient.url(ofContentThumbnail: avatarUrl, toFitViewSize: leftMenuView.imgAvatar.frame.size, with: MXThumbnailingMethodCrop) {
-                leftMenuView.setAvatarImageUrl(urlString: urlString, previewImage: defaultAvatar)
-            } else {
-                leftMenuView.setImage(image: defaultAvatar)
-            }
+            
+            // set uri avatar
+            leftMenuView.setAvatarUri(myUser.avatarUrl, userId: myUser.userId, session: self.mainSession)
             
             // status
             switch myUser.presence {

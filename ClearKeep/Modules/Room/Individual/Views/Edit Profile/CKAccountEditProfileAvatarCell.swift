@@ -54,15 +54,11 @@ class CKAccountEditProfileAvatarCell: CKAccountEditProfileBaseCell, UITextFieldD
         avaImage.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    // MARK: - PUBLIC
-    public func setAvatarImageUrl(urlString: String, previewImage: UIImage?)  {
-        avaImage.enableInMemoryCache = true
-        avaImage.setImageURL(
-            urlString, withType: nil,
-            andImageOrientation: UIImageOrientation.up,
-            previewImage: previewImage)
+    override func getMXKImageView() -> MXKImageView! {
+        return self.avaImage
     }
     
+    // MARK: - PUBLIC
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == nameTextField {
             nameTextField.resignFirstResponder()

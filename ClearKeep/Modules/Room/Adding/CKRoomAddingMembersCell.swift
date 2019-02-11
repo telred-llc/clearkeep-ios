@@ -38,16 +38,10 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
     }
     
     internal func changesBy(mxContact contact: MXKContact!, inSession session: MXSession!)  {
-        if let avtURL = session.matrixRestClient.url(ofContent: contact.matrixAvatarURL) {
-            self.photoView.enableInMemoryCache = true
-            self.photoView.setImageURL(
-                avtURL, withType: nil,
-                andImageOrientation: UIImageOrientation.up,
-                previewImage: nil)
-
-        } else {
-            self.photoView.image = AvatarGenerator.generateAvatar(forText: contact.displayName)
-        }
+        self.setAvatarUri(
+            contact.matrixAvatarURL,
+            identifyText: contact.displayName,
+            session: session)
     }
     
     // MARK: - OVERRIDE
@@ -63,5 +57,9 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
         self.photoView.clipsToBounds = true
         self.photoView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
+    }
+    
+    override func getMXKImageView() -> MXKImageView! {
+        return self.photoView
     }
 }

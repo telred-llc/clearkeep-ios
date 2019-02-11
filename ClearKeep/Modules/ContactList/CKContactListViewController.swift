@@ -160,13 +160,11 @@ extension CKContactListViewController {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListMatrixCell.identifier, for: indexPath) as! CKContactListMatrixCell
         
         if let ds = self.filteredMatrixSource {
-            cell.displayNameLabel.text = ds[indexPath.row].displayName
-            
-            if let matUrl = ds[indexPath.row].matrixAvatarURL {
-                cell.setMxAvatarUrl(matUrl, inSession: self.mainSession)
-            } else {
-                cell.photoView.image = AvatarGenerator.generateAvatar(forText: ds[indexPath.row].displayName)
-            }
+            cell.displayNameLabel.text = ds[indexPath.row].displayName                        
+            cell.setAvatarUri(
+                ds[indexPath.row].matrixAvatarURL,
+                identifyText: ds[indexPath.row].displayName,
+                session: self.mainSession)
         }
         return cell
     }

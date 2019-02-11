@@ -83,12 +83,18 @@ private extension CKRecentItemTableViewCell {
             let defaultAvatar = AvatarGenerator.generateAvatar(forMatrixItem: roomId, withDisplayName: displayname)
             if let avatarUrl = roomCellData?.roomSummary.avatar {
                 avatarImage.enableInMemoryCache = true
-                avatarImage.setImageURL(avatarUrl, withType: nil, andImageOrientation: UIImageOrientation.up, previewImage: defaultAvatar)
+                avatarImage.setImageURI(
+                    avatarUrl,
+                    withType: nil,
+                    andImageOrientation: UIImageOrientation.up,
+                    previewImage: defaultAvatar,
+                    mediaManager: roomCellData?.roomSummary?.mxSession?.mediaManager)
+
             } else {
-                avatarImage.setImageURL("", withType: nil, andImageOrientation: UIImageOrientation.up, previewImage: defaultAvatar)
+                avatarImage.image = defaultAvatar
             }
         } else {
-            avatarImage.setImageURL("", withType: nil, andImageOrientation: UIImageOrientation.up, previewImage: nil)
+            avatarImage.image = nil
         }
         
         // hideActivityIndicator

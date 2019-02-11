@@ -20,8 +20,7 @@
 }
 
 - (void)setImageWithUrl:(NSString *)urlString previewImage: (UIImage *)previewImage {
-    [self.imgAvatar setEnableInMemoryCache:YES];
-    [self.imgAvatar setImageURL:urlString withType:nil andImageOrientation:UIImageOrientationUp previewImage:previewImage];
+    [self.imgAvatar setEnableInMemoryCache:YES];    
 }
 
 - (void)setImage:(UIImage *)image {
