@@ -376,4 +376,38 @@ class CKRoomDataSource: MXKRoomDataSource {
  
         return cell
     }
+    
+    override func cellData(at index: Int) -> MXKRoomBubbleCellDataStoring! {
+        if index < bubbles.count {
+            
+            let bubbleData = self.bubbles[index]
+            let components = bubbleData.bubbleComponents ?? []
+            
+            // CK-34: Remove unnecessary chat content
+            components.forEach { (component) in
+                if let event = component.event {
+                    
+                    switch event.eventType {
+                    case __MXEventTypeRoomEncrypted:
+                        // CK: hide e2e_blocked message ("unable to decrypt message...")
+                        if event.decryptionError != nil {
+                            bubbleData.removeEvent(event.eventId)
+                        }
+                    case __MXEventTypeRoomHistoryVisibility:
+                        // CK: hide "e2ee enable room..."
+                        bubbleData.removeEvent(event.eventId)
+                    case __MXEventTypeRoomEncryption:
+                        // CK: hide "... turned on end-to-end encryption (algorithm ...)"
+                        bubbleData.removeEvent(event.eventId)
+                    default:
+                        break
+                    }
+                }
+            }
+            
+            return bubbleData
+        }
+
+        return nil
+    }
 }
