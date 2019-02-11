@@ -65,14 +65,13 @@ extension CKMentionDataSource: UITableViewDataSource {
             
             if let userId = member.userId, let displayname = member.displayname {
                 let preview: UIImage? = AvatarGenerator.generateAvatar(forMatrixItem: userId, withDisplayName: displayname)
-                var avatarThumbURL: String? = nil
-                if let avatarUrl = member.avatarUrl {
-                    // Suppose this url is a matrix content uri, we use SDK to get the well adapted thumbnail from server
-                    avatarThumbURL = mxSession.matrixRestClient.url(ofContentThumbnail: avatarUrl, toFitViewSize: cell.avatarImageView.frame.size, with: MXThumbnailingMethodCrop)
-                }
                 cell.avatarImageView.enableInMemoryCache = true
-                cell.avatarImageView.setImageURL(avatarThumbURL, withType: nil, andImageOrientation: UIImage.Orientation.up, previewImage: preview)
-
+                cell.avatarImageView.setImageURI(
+                    member.avatarUrl,
+                    withType: nil,
+                    andImageOrientation: UIImageOrientation.up,
+                    previewImage: preview,
+                    mediaManager: mxSession?.mediaManager)
             } else {
                 cell.avatarImageView.image = nil
             }

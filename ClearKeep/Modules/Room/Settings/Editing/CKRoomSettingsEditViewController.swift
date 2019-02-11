@@ -254,12 +254,11 @@ extension CKRoomSettingsEditViewController: UITableViewDataSource {
                 withIdentifier: kPhotoCellId,
                 for: indexPath) as? CKRoomSettingsEditablePhotoCell {
                 
-                if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxRoom.summary.avatar) {
-                    cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
-                } else {
-                    cell.photoView.image = AvatarGenerator.generateAvatar(forText: mxRoom.summary.roomId)
-                }
-                
+                // setup avatar
+                cell.setAvatarUri(
+                    mxRoom.summary.avatar,
+                    identifyText: mxRoom.summary.roomId,
+                    session: self.mainSession)
                 return cell
             }
         case .topic:

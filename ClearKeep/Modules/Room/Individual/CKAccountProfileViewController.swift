@@ -147,14 +147,12 @@ class CKAccountProfileViewController: MXKViewController {
                 default:
                     cell.settingStatus(online: false)
                 }
+                                
+                cell.setAvatarUri(
+                    myUser.avatarUrl,
+                    identifyText: myUser.userId,
+                    session: self.mainSession)
                 
-                // Display Avatar
-                let defaultAvatar = AvatarGenerator.generateAvatar(forMatrixItem: myUser.userId, withDisplayName: myUser.displayname)
-                if let avatarUrl = self.mainSession.matrixRestClient.url(ofContent: myUser.avatarUrl) {
-                    cell.setAvatarImageUrl(urlString: avatarUrl, previewImage: defaultAvatar)
-                } else {
-                    cell.avaImage.image = defaultAvatar
-                }
             } else {
                 cell.settingStatus(online: false)
                 cell.avaImage.image = nil

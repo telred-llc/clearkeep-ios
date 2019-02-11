@@ -32,9 +32,27 @@ class CkAvatarTopView: MXKView {
         imgStatus.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
     
-    func setAvatarImageUrl(urlString: String, previewImage: UIImage?)  {
+    func setAvatarImageUrl(urlString: String!, previewImage: UIImage?)  {
         imgAvatar.enableInMemoryCache = true
-        imgAvatar.setImageURL(urlString, withType: nil, andImageOrientation: UIImageOrientation.up, previewImage: previewImage)
+        imgAvatar.setImageURI(
+            urlString,
+            withType: nil,
+            andImageOrientation: UIImageOrientation.up,
+            previewImage: previewImage,
+            mediaManager: nil)
+    }
+    
+    func setAvatarUri(_ uri: String!, userId: String, session: MXSession!) {
+        
+        let previewImage = AvatarGenerator.generateAvatar(forText: userId)
+        
+        imgAvatar.enableInMemoryCache = true
+        imgAvatar.setImageURI(
+            uri,
+            withType: nil,
+            andImageOrientation: UIImageOrientation.up,
+            previewImage: previewImage,
+            mediaManager: session.mediaManager)
     }
     
     func setImage(image: UIImage?)  {

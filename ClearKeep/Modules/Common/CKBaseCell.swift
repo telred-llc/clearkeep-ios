@@ -28,4 +28,17 @@ class CKBaseCell: UITableViewCell {
     class var nib: UINib {
         return UINib.init(nibName: self.nibName, bundle: nil)
     }
+    
+    open func getMXKImageView() -> MXKImageView! {
+        return nil
+    }
+    
+    public func setAvatarUri(_ uri: String!, identifyText: String, session: MXSession!) {
+        self.getMXKImageView()?.enableInMemoryCache = true
+        self.getMXKImageView()?.setImageURI(uri,
+                                   withType: nil,
+                                   andImageOrientation: UIImageOrientation.up,
+                                   previewImage: AvatarGenerator.generateAvatar(forText: identifyText),
+                                   mediaManager: session.mediaManager)
+    }
 }

@@ -1430,14 +1430,16 @@
     if (userPictureView)
     {
         UIImage *preview = [AvatarGenerator generateAvatarForMatrixItem:self.mainSession.myUser.userId withDisplayName:self.mainSession.myUser.displayname];
-        NSString *avatarThumbURL = nil;
-        if (self.mainSession.myUser.avatarUrl)
-        {
-            // Suppose this url is a matrix content uri, we use SDK to get the well adapted thumbnail from server
-            avatarThumbURL = [self.mainSession.matrixRestClient urlOfContentThumbnail:self.mainSession.myUser.avatarUrl toFitViewSize:userPictureView.frame.size withMethod:MXThumbnailingMethodCrop];
-        }
+        
+        // Suppose the avatar is stored unencrypted on the Matrix media repository.
         userPictureView.enableInMemoryCache = YES;
-        [userPictureView setImageURL:avatarThumbURL withType:nil andImageOrientation:UIImageOrientationUp previewImage:preview];
+        [userPictureView setImageURI:self.mainSession.myUser.avatarUrl
+                            withType:nil
+                 andImageOrientation:UIImageOrientationUp
+                       toFitViewSize:userPictureView.frame.size
+                          withMethod:MXThumbnailingMethodCrop
+                        previewImage:preview
+                        mediaManager:self.mainSession.mediaManager];
         [userPictureView.layer setCornerRadius:userPictureView.frame.size.width / 2];
         userPictureView.clipsToBounds = YES;
     }
@@ -1735,9 +1737,7 @@
             // Set the avatar provided in preview data
             if (roomPreviewData.roomAvatarUrl)
             {
-                NSString *roomAvatarUrl = [self.mainSession.matrixRestClient urlOfContentThumbnail:roomPreviewData.roomAvatarUrl toFitViewSize:previewHeader.roomAvatar.frame.size withMethod:MXThumbnailingMethodCrop];
-                
-                previewHeader.roomAvatarURL = roomAvatarUrl;
+                previewHeader.roomAvatarURL = roomPreviewData.roomAvatarUrl;
             }
             else if (roomPreviewData.roomId && roomPreviewData.roomName)
             {
@@ -2337,7 +2337,7 @@
                 selectedEvent.sentState == MXEventSentStateSending)
             {
                 // Upload id is stored in attachment url (nasty trick)
-                NSString *uploadId = roomBubbleTableViewCell.bubbleData.attachment.actualURL;
+                NSString *uploadId = roomBubbleTableViewCell.bubbleData.attachment.contentURL;
                 if ([MXMediaManager existingUploaderWithId:uploadId])
                 {
                     [currentAlert addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"room_event_action_cancel_send", @"Vector", nil)
@@ -2361,7 +2361,7 @@
                                                                            
                                                                            // Remove the outgoing message and its related cached file.
                                                                            [[NSFileManager defaultManager] removeItemAtPath:roomBubbleTableViewCell.bubbleData.attachment.cacheFilePath error:nil];
-                                                                           [[NSFileManager defaultManager] removeItemAtPath:roomBubbleTableViewCell.bubbleData.attachment.cacheThumbnailPath error:nil];
+                                                                           [[NSFileManager defaultManager] removeItemAtPath:roomBubbleTableViewCell.bubbleData.attachment.thumbnailCachePath error:nil];
 
                                                                            // Cancel and remove the outgoing message
                                                                            [self.roomDataSource.room cancelSendingOperation:selectedEvent.eventId];
@@ -2422,8 +2422,8 @@
         // Check whether download is in progress
         if (level == 0 && selectedEvent.isMediaAttachment)
         {
-            NSString *cacheFilePath = roomBubbleTableViewCell.bubbleData.attachment.cacheFilePath;
-            if ([MXMediaManager existingDownloaderWithOutputFilePath:cacheFilePath])
+            NSString *downloadId = roomBubbleTableViewCell.bubbleData.attachment.downloadId;
+            if ([MXMediaManager existingDownloaderWithIdentifier:downloadId])
             {
                 [currentAlert addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"room_event_action_cancel_download", @"Vector", nil)
                                                                  style:UIAlertActionStyleDefault
@@ -2436,7 +2436,7 @@
                                                                        [self cancelEventSelection];
                                                                        
                                                                        // Get again the loader
-                                                                       MXMediaLoader *loader = [MXMediaManager existingDownloaderWithOutputFilePath:cacheFilePath];
+                                                                       MXMediaLoader *loader = [MXMediaManager existingDownloaderWithIdentifier:downloadId];
                                                                        if (loader)
                                                                        {
                                                                            [loader cancel];

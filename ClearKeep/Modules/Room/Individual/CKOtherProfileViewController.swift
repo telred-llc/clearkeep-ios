@@ -74,12 +74,10 @@ class CKOtherProfileViewController: MXKViewController {
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountProfileAvatarCell.identifier, for: indexPath) as? CKAccountProfileAvatarCell {
             
             cell.nameLabel.text = mxMember.displayname
-            
-            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl ) {
-                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
-            } else {
-                cell.avaImage.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
-            }
+            cell.setAvatarUri(
+                mxMember.avatarUrl,
+                identifyText: mxMember.displayname,
+                session: self.mainSession)
             
             //status
             if let mxMember = mxMember,

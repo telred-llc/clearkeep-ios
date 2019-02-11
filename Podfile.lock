@@ -43,25 +43,27 @@ PODS:
   - GZIP (1.2.2)
   - HPGrowingTextView (1.1)
   - IQKeyboardManagerSwift (6.2.0)
+  - libbase58 (0.1.4)
   - libPhoneNumber-iOS (0.9.13)
-  - MatrixKit/AppExtension (0.8.6):
+  - MatrixKit/AppExtension (0.9.3):
     - cmark (~> 0.24.1)
     - DTCoreText (~> 1.6.21)
     - DTCoreText/Extension
     - HPGrowingTextView (~> 1.1)
     - libPhoneNumber-iOS (~> 0.9.13)
-    - MatrixSDK (= 0.11.6)
-  - MatrixSDK (0.11.6):
-    - MatrixSDK/Core (= 0.11.6)
-  - MatrixSDK/Core (0.11.6):
+    - MatrixSDK (= 0.12.1)
+  - MatrixSDK (0.12.1):
+    - MatrixSDK/Core (= 0.12.1)
+  - MatrixSDK/Core (0.12.1):
     - AFNetworking (~> 3.2.0)
     - GZIP (~> 1.2.2)
+    - libbase58 (~> 0.1.4)
     - OLMKit (~> 3.0.0)
     - Realm (~> 3.11.1)
-  - MatrixSDK/JingleCallStack (0.11.6):
+  - MatrixSDK/JingleCallStack (0.12.1):
     - MatrixSDK/Core
     - WebRTC (= 63.11.20455)
-  - MatrixSDK/SwiftSupport (0.11.6):
+  - MatrixSDK/SwiftSupport (0.12.1):
     - MatrixSDK/Core
   - OLMKit (3.0.0):
     - OLMKit/olmc (= 3.0.0)
@@ -72,18 +74,23 @@ PODS:
   - PiwikTracker (4.4.2):
     - PiwikTracker/Core (= 4.4.2)
   - PiwikTracker/Core (4.4.2)
-  - PromiseKit (6.7.1):
-    - PromiseKit/CorePromise (= 6.7.1)
-    - PromiseKit/Foundation (= 6.7.1)
-    - PromiseKit/UIKit (= 6.7.1)
-  - PromiseKit/CorePromise (6.7.1)
-  - PromiseKit/Foundation (6.7.1):
+  - PromiseKit (6.8.3):
+    - PromiseKit/CorePromise (= 6.8.3)
+    - PromiseKit/Foundation (= 6.8.3)
+    - PromiseKit/UIKit (= 6.8.3)
+  - PromiseKit/CorePromise (6.8.3)
+  - PromiseKit/Foundation (6.8.3):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.7.1):
+  - PromiseKit/UIKit (6.8.3):
     - PromiseKit/CorePromise
   - Realm (3.11.2):
     - Realm/Headers (= 3.11.2)
   - Realm/Headers (3.11.2)
+  - Reusable (4.0.5):
+    - Reusable/Storyboard (= 4.0.5)
+    - Reusable/View (= 4.0.5)
+  - Reusable/Storyboard (4.0.5)
+  - Reusable/View (4.0.5)
   - WebRTC (63.11.20455)
   - XLActionController (4.0.1):
     - XLActionController/Core (= 4.0.1)
@@ -103,6 +110,7 @@ DEPENDENCIES:
   - Parchment (~> 1.5.0)
   - PiwikTracker (from `https://github.com/manuroe/matomo-sdk-ios.git`, branch `feature/CustomVariables`)
   - PromiseKit
+  - Reusable (~> 4.0)
   - XLActionController (= 4.0.1)
   - XLActionController/Youtube
 
@@ -116,12 +124,14 @@ SPEC REPOS:
     - GZIP
     - HPGrowingTextView
     - IQKeyboardManagerSwift
+    - libbase58
     - libPhoneNumber-iOS
     - MatrixSDK
     - OLMKit
     - Parchment
     - PromiseKit
     - Realm
+    - Reusable
     - WebRTC
     - XLActionController
 
@@ -135,7 +145,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MatrixKit:
-    :commit: df23c7b0ca6d67db8a50d3a6b22b2af2f6ac412c
+    :commit: 03ec9f28fab579471511d50ced682a4f0c131640
     :git: https://github.com/sinbadflyce/matrix-ios-kit.git
   PiwikTracker:
     :commit: dfb048f25f4eefbe13ff7515c3c1c2cad5d94491
@@ -150,17 +160,19 @@ SPEC CHECKSUMS:
   GZIP: 12374d285e3b5d46cfcd480700fcfc7e16caf4f1
   HPGrowingTextView: 88a716d97fb853bcb08a4a08e4727da17efc9b19
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
   libPhoneNumber-iOS: e444379ac18bbfbdefad571da735b2cd7e096caa
-  MatrixKit: d9caa711e67070e5fb348d4237f6c81ea274e17a
-  MatrixSDK: c167aeef005954ab0c15267f00694259070182e2
+  MatrixKit: af9f94f36644bc21b63b114413f7bb510506b7d1
+  MatrixSDK: f1f510d467d127a5f7afafaafa1554ac5d602132
   OLMKit: 88eda69110489f817d59bcb4353b7c247570aa4f
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   PiwikTracker: 42862c7b13028065c3dfd36b4dc38db8a5765acf
-  PromiseKit: ef376fb8b4e92edfeb66bd403b983eaa07fbde0c
+  PromiseKit: 94c6e781838c5bf4717677d0d882b0e7250c80fc
   Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
+  Reusable: 188be1a54ac0691bc66e5bb24ec6eb91971b315b
   WebRTC: f2a6203584745fe53532633397557876b5d71640
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: d79765622395e30b9e4d6fe669754799b27e8b81
+PODFILE CHECKSUM: f1cd9b470a4b9608422c023bd54ab336dd34c9cf
 
 COCOAPODS: 1.5.3

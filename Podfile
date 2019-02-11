@@ -9,7 +9,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 # Different flavours of pods to MatrixKit
 # The current MatrixKit pod version
-$matrixKitVersion = '0.8.6'
+$matrixKitVersion = '0.9.3'
 
 # The develop branch version
 #$matrixKitVersion = 'develop'
@@ -39,7 +39,7 @@ def import_MatrixKit
             pod 'MatrixSDK/JingleCallStack', :git => 'https://github.com/matrix-org/matrix-ios-sdk.git', :branch => 'develop'
             pod 'MatrixKit', :git => 'https://github.com/matrix-org/matrix-ios-kit.git', :branch => 'develop'
         else
-            # pod 'MatrixKit', $matrixKitVersion
+            #pod 'MatrixKit', $matrixKitVersion
             pod 'MatrixKit/AppExtension', :git => 'https://github.com/sinbadflyce/matrix-ios-kit.git', :branch => 'o365'
             pod 'MatrixSDK/SwiftSupport'
             pod 'MatrixSDK/JingleCallStack'
@@ -61,7 +61,7 @@ def import_MatrixKitAppExtension
             pod 'MatrixSDK/JingleCallStack', :git => 'https://github.com/matrix-org/matrix-ios-sdk.git', :branch => 'develop'
             pod 'MatrixKit/AppExtension', :git => 'https://github.com/matrix-org/matrix-ios-kit.git', :branch => 'develop'
         else
-            # pod 'MatrixKit/AppExtension', $matrixKitVersion
+            #pod 'MatrixKit/AppExtension', $matrixKitVersion
             pod 'MatrixKit/AppExtension', :git => 'https://github.com/sinbadflyce/matrix-ios-kit.git', :branch => 'o365'
             pod 'MatrixSDK/SwiftSupport'
             pod 'MatrixSDK/JingleCallStack'
@@ -73,6 +73,7 @@ end
 abstract_target 'RiotPods' do
 
     pod 'GBDeviceInfo', '~> 5.2.0'
+    pod 'Reusable', '~> 4.0'
 
     # Piwik for analytics
     # While https://github.com/matomo-org/matomo-sdk-ios/pull/223 is not released, use the PR branch
