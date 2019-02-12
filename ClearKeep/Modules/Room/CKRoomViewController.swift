@@ -127,6 +127,13 @@ import MatrixKit
         }
     }
     
+    // The table view cell in which the read marker is displayed (nil by default).
+
+    var readMarkerTableViewCell: MXKRoomBubbleTableViewCell?
+    
+    // Tell whether the view controller is appeared or not.
+    var isAppeared = false
+    
     // Observers
 
     // Observers to manage MXSession state (and sync errors)
@@ -142,6 +149,13 @@ import MatrixKit
     // Observers to manage widgets
 
     private var kMXKWidgetManagerDidUpdateWidgetObserver: Any?
+    
+    // Observe kAppDelegateNetworkStatusDidChangeNotification to handle network status change.
+
+    private var kAppDelegateNetworkStatusDidChangeNotificationObserver: Any?
+    
+    // Observe kAppDelegateDidTapStatusBarNotification to handle tap on clock status bar.
+    private var kAppDelegateDidTapStatusBarNotificationObserver: Any?
     
     // Typing notifications listener.
 
@@ -174,6 +188,16 @@ extension CKRoomViewController {
             customizedRoomDataSource = nil;
         }
         
+        if kAppDelegateDidTapStatusBarNotificationObserver != nil {
+            NotificationCenter.default.removeObserver(kAppDelegateDidTapStatusBarNotificationObserver!)
+            kAppDelegateDidTapStatusBarNotificationObserver = nil
+        }
+
+        if kAppDelegateNetworkStatusDidChangeNotificationObserver != nil {
+            NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
+            kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
+        }
+        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
         
         self.removeTypingNotificationsListener()
@@ -199,6 +223,9 @@ extension CKRoomViewController {
         // Note: this operation will force the layout of subviews. That is why cell view classes must be registered before.
         updateRoomInputToolbarViewClassIfNeeded()
         
+        // set extra area
+        self.setRoomActivitiesViewClass(RoomActivitiesView.self)
+
         // Set up the room title view according to the data source (if any)
         self.refreshRoomNavigationBar()
         
@@ -217,6 +244,38 @@ extension CKRoomViewController {
         self.listenTypingNotifications()
         self.listenCallNotifications()
         self.listenWidgetNotifications()
+        
+        // Observe kAppDelegateDidTapStatusBarNotification.
+        kAppDelegateDidTapStatusBarNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.appDelegateDidTapStatusBar, object: nil, queue: OperationQueue.main, using: { notif in
+
+            self.bubblesTableView.setContentOffset(CGPoint(x: -self.bubblesTableView.mxk_adjustedContentInset.left, y: -self.bubblesTableView.mxk_adjustedContentInset.top), animated: true)
+
+        })
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        isAppeared = true
+        self.checkReadMarkerVisibility()
+        
+        if self.roomDataSource != nil {
+            // Set visible room id
+            AppDelegate.the().visibleRoomId = roomDataSource.roomId
+        }
+        
+        // Observe network reachability
+        kAppDelegateNetworkStatusDidChangeNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.appDelegateNetworkStatusDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+            self.refreshActivitiesViewDisplay()
+
+        })
+        refreshActivitiesViewDisplay()
+
+        // Warn about the beta state of e2e encryption when entering the first time in an encrypted room
+        let account: MXKAccount? = MXKAccountManager.shared().account(forUserId: roomDataSource.mxSession?.myUser?.userId)
+        if account != nil && account?.isWarnedAboutEncryption == nil && roomDataSource.room.summary.isEncrypted {
+            account?.isWarnedAboutEncryption = true
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -228,19 +287,38 @@ extension CKRoomViewController {
             currentAlert = nil
         }
         
-        // remove notifications
-        self.removeTypingNotificationsListener()
-
         // Cancel potential selected event (to leave edition mode)
         if customizedRoomDataSource?.selectedEventId != nil
         {
             self.cancelEventSelection()
         }
         
+        if kAppDelegateDidTapStatusBarNotificationObserver != nil {
+            NotificationCenter.default.removeObserver(kAppDelegateDidTapStatusBarNotificationObserver!)
+            kAppDelegateDidTapStatusBarNotificationObserver = nil
+        }
+        
         // remove notifications
         self.removeTypingNotificationsListener()
         self.removeCallNotificationsListeners()
         self.removeWidgetNotificationsListeners()
+        
+        // Re-enable the read marker display, and disable its update.
+        roomDataSource.showReadMarker = true
+        updateRoomReadMarker = false
+        isAppeared = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // Reset visible room id
+        AppDelegate.the().visibleRoomId = nil
+
+        if kAppDelegateNetworkStatusDidChangeNotificationObserver != nil {
+            NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
+            kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
+        }
     }
     
     private func setupBubblesTableView() {
@@ -537,6 +615,8 @@ extension CKRoomViewController {
         if inputToolbarView != nil && (inputToolbarView is CKRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! CKRoomInputToolbarView
             
+            // TODO: Customize roomInputToolbarView if needed
+            
         } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! DisabledRoomInputToolbarView
             
@@ -544,6 +624,15 @@ extension CKRoomViewController {
             roomInputToolbarView.setDisabledReason(NSLocalizedString("room_do_not_have_permission_to_post", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""))
         }
 
+    }
+    
+    override func setRoomActivitiesViewClass(_ roomActivitiesViewClass: AnyClass!) {
+        // Do not show room activities in case of preview (FIXME: show it when live events will be supported during peeking)
+        if isRoomPreview() {
+            super.setRoomActivitiesViewClass(nil)
+        } else {
+            super.setRoomActivitiesViewClass(roomActivitiesViewClass)
+        }
     }
     
     func sendTextMessage(_ msgTxt: String?) {
@@ -861,7 +950,7 @@ extension CKRoomViewController {
     func listenTypingNotifications() {
         if let roomDataSource = self.roomDataSource {
             // Add typing notification listener
-            typingNotifListener = roomDataSource.room?.listen(toEventsOfTypes: ["kMXEventTypeStringTypingNotification"], onEvent: { [weak self] (event, direction, roomState) in
+            typingNotifListener = roomDataSource.room?.listen(toEventsOfTypes: [NSNotification.Name.mxEventTypeStringTyping.rawValue], onEvent: { [weak self] (event, direction, roomState) in
                 if let strongSelf = self {
                     // Handle only live events
                     if direction == __MXTimelineDirectionForwards {
@@ -1204,11 +1293,24 @@ extension CKRoomViewController {
                 super.setRoomInputToolbarViewClass(nil)
             }
         } else {
-            if self.inputToolbarView == nil {
-                self.updateRoomInputToolbarViewClassIfNeeded()
-                self.refreshRoomInputToolbar()
+            
+            navigationItem.rightBarButtonItem?.isEnabled = roomDataSource != nil
+            titleView?.editable = false
+            
+            if self.roomDataSource != nil {
                 
-                self.inputToolbarView?.isHidden = self.roomDataSource?.state != MXKDataSourceStateReady
+                // Restore tool bar view and room activities view if none
+                if self.inputToolbarView == nil {
+                    self.updateRoomInputToolbarViewClassIfNeeded()
+                    self.refreshRoomInputToolbar()
+                    
+                    self.inputToolbarView?.isHidden = self.roomDataSource?.state != MXKDataSourceStateReady
+                }
+
+                if self.activitiesView == nil {
+                    // And the extra area
+                    self.setRoomActivitiesViewClass(RoomActivitiesView.self)
+                }
             }
         }
     }
@@ -1368,6 +1470,13 @@ extension CKRoomViewController {
                 }
             }
         }
+    }
+    
+    override func dataSource(_ dataSource: MXKDataSource!, didCellChange changes: Any!) {
+        super.dataSource(dataSource, didCellChange: changes)
+        
+        // refresh if did receive new message,...
+        self.refreshActivitiesViewDisplay()
     }
     
     @objc private func dismissCurrentAlert(_ gesture: UITapGestureRecognizer) {
@@ -1630,8 +1739,173 @@ extension CKRoomViewController {
     }
 }
 
+// MARK: - CKRoomSettingsViewControllerDelegate
+
 extension CKRoomViewController: CKRoomSettingsViewControllerDelegate {
     func roomSettingsDidLeave() {
         AppDelegate.the()?.masterTabBarController.navigationController?.popViewController(animated: false)
+    }
+}
+
+// MARK: - Override UIScrollViewDelegate
+
+extension CKRoomViewController {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+
+        // TODO: Implement this function if needed
+        // checkReadMarkerVisibility()
+
+        // Switch back to the live mode when the user scrolls to the bottom of the non live timeline.
+        if !roomDataSource.isLive && !isRoomPreview() {
+            let contentBottomPosY: CGFloat = bubblesTableView.contentOffset.y + bubblesTableView.frame.size.height - bubblesTableView.mxk_adjustedContentInset.bottom
+            if contentBottomPosY >= bubblesTableView.contentSize.height && !roomDataSource.timeline.canPaginate(MXTimelineDirection.forwards) {
+                goBackToLive()
+            }
+        }
+    }
+    
+    @objc override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if MXKRoomViewController.instancesRespond(to: #selector(self.scrollViewWillBeginDragging(_:))) {
+            super.scrollViewWillBeginDragging(scrollView)
+        }
+    }
+
+    @objc override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if MXKRoomViewController.instancesRespond(to: #selector(self.scrollViewDidEndDragging(_:willDecelerate:))) {
+            super.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
+        }
+
+        if decelerate == false {
+
+            refreshActivitiesViewDisplay()
+        }
+    }
+    
+    @objc override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if MXKRoomViewController.instancesRespond(to: #selector(self.scrollViewDidEndDecelerating(_:))) {
+            super.scrollViewDidEndDecelerating(scrollView)
+        }
+
+        refreshActivitiesViewDisplay()
+    }
+
+    @objc override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        if MXKRoomViewController.instancesRespond(to: #selector(self.scrollViewDidEndScrollingAnimation(_:))) {
+            super.scrollViewDidEndScrollingAnimation(scrollView)
+        }
+
+        refreshActivitiesViewDisplay()
+    }
+}
+
+// MARK: - Read marker handling
+
+extension CKRoomViewController {
+    func checkReadMarkerVisibility() {
+        if let readMarkerTableViewCell = readMarkerTableViewCell, isAppeared, !isBubbleTableViewDisplayInTransition {
+            // Check whether the read marker is visible
+            let contentTopPosY: CGFloat = bubblesTableView.contentOffset.y + bubblesTableView.mxk_adjustedContentInset.top
+            let readMarkerViewPosY: CGFloat = readMarkerTableViewCell.frame.origin.y + readMarkerTableViewCell.readMarkerView.frame.origin.y
+            if contentTopPosY <= readMarkerViewPosY {
+                // Compute the max vertical position visible according to contentOffset
+                let contentBottomPosY: CGFloat = bubblesTableView.contentOffset.y + bubblesTableView.frame.size.height - bubblesTableView.mxk_adjustedContentInset.bottom
+                if readMarkerViewPosY <= contentBottomPosY {
+                    // Launch animation
+                    animateReadMarkerView()
+
+                    // Disable the read marker display when it has been rendered once.
+                    roomDataSource.showReadMarker = false
+
+                    // Update the read marker position according the events acknowledgement in this view controller.
+                    updateRoomReadMarker = true
+
+                    if roomDataSource.isLive {
+                        // Move the read marker to the current read receipt position.
+                        roomDataSource.room.forgetReadMarker()
+                    }
+                }
+            }
+        }
+    }
+    
+    func animateReadMarkerView() {
+        // Check whether the cell with the read marker is known and if the marker is not animated yet.
+        if readMarkerTableViewCell != nil,
+            readMarkerTableViewCell?.readMarkerView?.isHidden == true,
+            let cellData = readMarkerTableViewCell?.bubbleData as? RoomBubbleCellData {
+
+            // Do not display the marker if this is the last message.
+            if cellData.containsLastMessage && readMarkerTableViewCell?.readMarkerView?.tag == cellData.mostRecentComponentIndex {
+                readMarkerTableViewCell!.readMarkerView.isHidden = true
+                readMarkerTableViewCell = nil
+            } else {
+                readMarkerTableViewCell!.readMarkerView.isHidden = false
+
+                // Animate the layout to hide the read marker
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
+
+                    UIView.animate(withDuration: 1.5, delay: 0, options: [.beginFromCurrentState, .curveEaseIn], animations: {
+
+                        self.readMarkerTableViewCell!.readMarkerViewTrailingConstraint.constant = self.readMarkerTableViewCell!.bubbleOverlayContainer.frame.size.width / 2
+                        self.readMarkerTableViewCell!.readMarkerViewLeadingConstraint.constant = self.readMarkerTableViewCell!.readMarkerViewTrailingConstraint.constant
+                        self.readMarkerTableViewCell!.readMarkerView.alpha = 0
+
+                        // Force to render the view
+                        self.readMarkerTableViewCell!.bubbleOverlayContainer.layoutIfNeeded()
+
+                    }) { finished in
+
+                        self.readMarkerTableViewCell!.readMarkerView.isHidden = true
+                        self.readMarkerTableViewCell!.readMarkerView.alpha = 1
+
+                        self.readMarkerTableViewCell = nil
+                    }
+                })
+
+            }
+        }
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension CKRoomViewController {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if MXKRoomViewController.instancesRespond(to: #selector(self.tableView(_:willDisplay:forRowAt:))) {
+            super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
+        }
+        
+        cell.backgroundColor = kRiotPrimaryBgColor
+
+        // Update the selected background view
+        if kRiotSelectedBgColor != nil {
+            cell.selectedBackgroundView = UIView()
+            cell.selectedBackgroundView?.backgroundColor = kRiotSelectedBgColor
+        } else {
+            if tableView.style == .plain {
+                cell.selectedBackgroundView = nil
+            } else {
+                cell.selectedBackgroundView?.backgroundColor = nil
+            }
+        }
+        
+        if cell.isKind(of: MXKRoomBubbleTableViewCell.self),
+            let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
+            if roomBubbleTableViewCell.readMarkerView != nil {
+                readMarkerTableViewCell = roomBubbleTableViewCell
+                checkReadMarkerVisibility()
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if cell == readMarkerTableViewCell {
+            readMarkerTableViewCell = nil
+        }
+
+        if MXKRoomViewController.instancesRespond(to: #selector(self.tableView(_:didEndDisplaying:forRowAt:))) {
+            super.tableView(tableView, didEndDisplaying: cell, forRowAt: indexPath)
+        }
     }
 }
