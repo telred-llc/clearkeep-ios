@@ -59,6 +59,19 @@ import MatrixKit
         }
     }
     
+    // List (id) of members who are typing in the room.
+
+    var currentTypingUsers: [String]?
+    
+    // Tell whether the input text field is in send reply mode. If true typed message will be sent to highlighted event.
+
+    var isInReplyMode = false
+    
+    /**
+     The potential text input placeholder is saved when it is replaced temporarily
+     */
+    var savedInputToolbarPlaceholder: String?
+    
     override var keyboardHeight: CGFloat {
         didSet {
             if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
@@ -88,6 +101,32 @@ import MatrixKit
 
     private var actionSheet: UIAlertController?
     
+    /**
+     The identifier of the current event displayed at the bottom of the table (just above the toolbar).
+     Use to anchor the message displayed at the bottom during table refresh.
+     */
+    private var currentEventIdAtTableBottom: String? {
+        get {
+            return self.value(forKey: "currentEventIdAtTableBottom") as? String
+        }
+        set {
+            self.setValue(currentEventIdAtTableBottom, forKey: "currentEventIdAtTableBottom")
+        }
+    }
+    
+    /**
+     Boolean value used to scroll to bottom the bubble history after refresh.
+     */
+    private var shouldScrollToBottomOnTableRefresh: Bool {
+        get {
+            let value = self.value(forKey: "shouldScrollToBottomOnTableRefresh") as? Bool
+            return value ?? false
+        }
+        set {
+            self.setValue(shouldScrollToBottomOnTableRefresh, forKey: "shouldScrollToBottomOnTableRefresh")
+        }
+    }
+    
     // Observers
 
     // Observers to manage MXSession state (and sync errors)
@@ -99,6 +138,14 @@ import MatrixKit
     private var kMXCallStateDidChangeObserver: Any?
     private var kMXCallManagerConferenceStartedObserver: Any?
     private var kMXCallManagerConferenceFinishedObserver: Any?
+    
+    // Observers to manage widgets
+
+    private var kMXKWidgetManagerDidUpdateWidgetObserver: Any?
+    
+    // Typing notifications listener.
+
+    private var typingNotifListener: Any?
 }
 
 extension CKRoomViewController {
@@ -129,8 +176,10 @@ extension CKRoomViewController {
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
         
+        self.removeTypingNotificationsListener()
         self.removeCallNotificationsListeners()
-
+        self.removeWidgetNotificationsListeners()
+        
         super.destroy()
     }
     
@@ -141,7 +190,7 @@ extension CKRoomViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.eventDidChangeSentState(_:)), name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.setupBubblesTableView()
         self.setupMentionTableView()
@@ -157,10 +206,7 @@ extension CKRoomViewController {
         if roomDataSource != nil {
             refreshRoomInputToolbar()
         }
-        
-        // Dismiss ActivityView for now
-        self.setRoomActivitiesViewClass(nil)
-}
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -168,14 +214,33 @@ extension CKRoomViewController {
         self.refreshRoomNavigationBar()
         
         // listen notifications
+        self.listenTypingNotifications()
         self.listenCallNotifications()
+        self.listenWidgetNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        // hide action
+        if currentAlert != nil {
+            currentAlert?.dismiss(animated: false)
+            currentAlert = nil
+        }
+        
         // remove notifications
+        self.removeTypingNotificationsListener()
+
+        // Cancel potential selected event (to leave edition mode)
+        if customizedRoomDataSource?.selectedEventId != nil
+        {
+            self.cancelEventSelection()
+        }
+        
+        // remove notifications
+        self.removeTypingNotificationsListener()
         self.removeCallNotificationsListeners()
+        self.removeWidgetNotificationsListeners()
     }
     
     private func setupBubblesTableView() {
@@ -314,6 +379,18 @@ extension CKRoomViewController {
 
         // Refresh activities view
         refreshActivitiesViewDisplay()
+    }
+    
+    func cancelAllUnsentMessages() {
+        // Remove unsent event ids
+        
+        let outgoingMsgs = roomDataSource?.room?.outgoingMessages() ?? []
+        
+        for event in outgoingMsgs {
+            if event.sentState == MXEventSentStateFailed {
+                roomDataSource.removeEvent(withEventId: event.eventId)
+            }
+        }
     }
 
     func listenToServerNotices() {
@@ -469,6 +546,23 @@ extension CKRoomViewController {
 
     }
     
+    func sendTextMessage(_ msgTxt: String?) {
+        if isInReplyMode, let selectedEventId = customizedRoomDataSource?.selectedEventId {
+            roomDataSource?.sendReplyToEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil, failure: { error in
+                // Just log the error. The message will be displayed in red in the room history
+                print("[MXKRoomViewController] sendTextMessage failed.")
+            })
+        } else {
+            // Let the datasource send it and manage the local echo
+            roomDataSource.sendTextMessage(msgTxt, success: nil, failure: { error in
+                // Just log the error. The message will be displayed in red in the room history
+                print("[MXKRoomViewController] sendTextMessage failed.")
+            })
+        }
+
+        cancelEventSelection()
+    }
+    
     func refreshRoomNavigationBar() {
         
         if rightBarButtonItems == nil {
@@ -534,15 +628,23 @@ extension CKRoomViewController {
         }
     }
     
-    func widgetsCount(_ includeUserWidgets: Bool) -> Int {
-        var widgetsCount = WidgetManager.shared().widgetsNot(ofTypes: [kWidgetTypeJitsi], in: roomDataSource.room, with: roomDataSource.roomState).count
-        if includeUserWidgets {
-            widgetsCount += WidgetManager.shared().userWidgets(roomDataSource.room.mxSession).count
+    func enableReplyMode(_ enable: Bool) {
+        isInReplyMode = enable
+
+        if inputToolbarView != nil && inputToolbarView?.isKind(of: RoomInputToolbarView.self) == true {
+            (inputToolbarView as? RoomInputToolbarView)?.isReplyToEnabled = enable
         }
-
-        return widgetsCount
     }
+    
+    @objc func onSwipeGesture(_ swipeGestureRecognizer: UISwipeGestureRecognizer?) {
+        let view: UIView? = swipeGestureRecognizer?.view
 
+        if view == activitiesView {
+            // Dismiss the keyboard when user swipes down on activities view.
+            inputToolbarView.dismissKeyboard()
+        }
+    }
+    
     // MARK: Setup Call feature
     
     func isCalling() -> Bool {
@@ -680,19 +782,6 @@ extension CKRoomViewController {
         }
     }
     
-    func showJitsiError(_ error: Error) {
-        // Customise the error for permission issues
-        var nsError = error as NSError
-        if nsError.domain == WidgetManagerErrorDomain && nsError.code == WidgetManagerErrorCodeNotEnoughPower.rawValue {
-            nsError = NSError.init(domain: nsError.domain, code: nsError.code, userInfo: [
-                NSLocalizedDescriptionKey: NSLocalizedString("room_conference_call_no_power", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-                ])
-        }
-
-        // Alert user
-        AppDelegate.the().showError(asAlert: nsError)
-    }
-
     func hangupCall() {
         if let roomId = roomDataSource?.roomId, let callInRoom = roomDataSource?.mxSession?.callManager?.call(inRoom: roomId) {
             callInRoom.hangup()
@@ -706,13 +795,329 @@ extension CKRoomViewController {
         refreshRoomNavigationBar()
     }
     
+    // MARK: - Widget notifications management
+    
+    func removeWidgetNotificationsListeners() {
+        if kMXKWidgetManagerDidUpdateWidgetObserver != nil {
+            NotificationCenter.default.removeObserver(kMXKWidgetManagerDidUpdateWidgetObserver!)
+            kMXKWidgetManagerDidUpdateWidgetObserver = nil
+        }
+    }
+
+    func listenWidgetNotifications() {
+        kMXKWidgetManagerDidUpdateWidgetObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.widgetManagerDidUpdateWidget, object: nil, queue: OperationQueue.main, using: { notif in
+
+            let widget = notif.object as? Widget
+            if widget?.mxSession == self.roomDataSource?.mxSession && (widget?.roomId == self.customizedRoomDataSource?.roomId) {
+                // Jitsi conference widget existence is shown in the bottom bar
+                // Update the bar
+                self.refreshActivitiesViewDisplay()
+                self.refreshRoomInputToolbar()
+                self.refreshRoomNavigationBar()
+            }
+        })
+    }
+
+    func showJitsiError(_ error: Error) {
+        // Customise the error for permission issues
+        var nsError = error as NSError
+        if nsError.domain == WidgetManagerErrorDomain && nsError.code == WidgetManagerErrorCodeNotEnoughPower.rawValue {
+            nsError = NSError.init(domain: nsError.domain, code: nsError.code, userInfo: [
+                NSLocalizedDescriptionKey: NSLocalizedString("room_conference_call_no_power", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+                ])
+        }
+        
+        // Alert user
+        AppDelegate.the().showError(asAlert: nsError)
+    }
+    
+    func widgetsCount(_ includeUserWidgets: Bool) -> Int {
+        var widgetsCount = WidgetManager.shared().widgetsNot(ofTypes: [kWidgetTypeJitsi], in: roomDataSource.room, with: roomDataSource.roomState).count
+        if includeUserWidgets {
+            widgetsCount += WidgetManager.shared().userWidgets(roomDataSource.room.mxSession).count
+        }
+        
+        return widgetsCount
+    }
+    
+    // MARK: - Typing management
+
+    func removeTypingNotificationsListener() {
+        if let roomDataSource = self.roomDataSource {
+            // Remove the previous live listener
+            if typingNotifListener != nil {
+                roomDataSource.room.liveTimeline({ [weak self] liveTimeline in
+                    if let strongSelf = self {
+                        liveTimeline?.removeListener(strongSelf.typingNotifListener)
+                        strongSelf.typingNotifListener = nil
+                    }
+                })
+            }
+        }
+
+        self.currentTypingUsers = nil
+    }
+    
+    func listenTypingNotifications() {
+        if let roomDataSource = self.roomDataSource {
+            // Add typing notification listener
+            typingNotifListener = roomDataSource.room?.listen(toEventsOfTypes: ["kMXEventTypeStringTypingNotification"], onEvent: { [weak self] (event, direction, roomState) in
+                if let strongSelf = self {
+                    // Handle only live events
+                    if direction == __MXTimelineDirectionForwards {
+                        // Retrieve typing users list
+                        var typingUsers = strongSelf.roomDataSource?.room?.typingUsers ?? []
+                        
+                        // Remove typing info for the current user
+                        if let index = typingUsers.firstIndex(where: { $0 == strongSelf.mainSession?.myUser?.userId }) {
+                            typingUsers.remove(at: index)
+                        }
+                        
+                        // Ignore this notification if both arrays are empty
+                        if (strongSelf.currentTypingUsers?.count ?? 0) > 0 || typingUsers.count > 0 {
+                            strongSelf.currentTypingUsers = typingUsers
+                            strongSelf.refreshActivitiesViewDisplay()
+                        }
+                    }
+                }
+            })
+
+            // Retrieve the current typing users list
+            var typingUsers = self.roomDataSource?.room?.typingUsers ?? []
+            // Remove typing info for the current user
+            if let index = typingUsers.firstIndex(where: { $0 == self.mainSession?.myUser?.userId }) {
+                typingUsers.remove(at: index)
+            }
+            currentTypingUsers = typingUsers
+            refreshActivitiesViewDisplay()
+        }
+    }
+    
+    func refreshTypingNotification() {
+        if self.activitiesView.isKind(of: RoomActivitiesView.self) {
+            // Prepare here typing notification
+            var text: String? = nil
+            let count = self.currentTypingUsers?.count ?? 0
+
+            // get the room member names
+            var names: [String] = []
+
+            // keeps the only the first two users
+            for i in 0..<min(count, 2) {
+                var name = currentTypingUsers?[i]
+
+                let member: MXRoomMember? = roomDataSource?.roomState?.members?.member(withUserId: name)
+
+                if member != nil && (member?.displayname?.count ?? 0) > 0 {
+                    name = member?.displayname
+                }
+
+                // sanity check
+                if let name = name {
+                    names.append(name)
+                }
+            }
+
+            if 0 == names.count {
+                // something to do ?
+            } else if 1 == names.count {
+                text = String(format: NSLocalizedString("room_one_user_is_typing", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), names[0])
+            } else if 2 == names.count {
+                text = String(format: NSLocalizedString("room_two_users_are_typing", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), names[0], names[1])
+            } else {
+                text = String(format: NSLocalizedString("room_many_users_are_typing", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), names[0], names[1])
+            }
+
+            (activitiesView as? RoomActivitiesView)?.displayTypingNotification(text)
+        }
+    }
+    
     // MARK: Unreachable Network Handling
     
     func refreshActivitiesViewDisplay() {
         // TODO: implement
+        
+        if self.activitiesView.isKind(of: RoomActivitiesView.self) {
+            
+            let roomActivitiesView = self.activitiesView as! RoomActivitiesView
+            
+            // Reset gesture recognizers
+            while (roomActivitiesView.gestureRecognizers?.count ?? 0) > 0 {
+                if let gestureRecognizers = roomActivitiesView.gestureRecognizers?.first {
+                    roomActivitiesView.removeGestureRecognizer(gestureRecognizers)
+                }
+            }
+
+            let jitsiWidget = customizedRoomDataSource?.jitsiWidget()
+
+            if (roomDataSource?.mxSession?.syncError?.errcode == kMXErrCodeStringResourceLimitExceeded) {
+                roomActivitiesView.showResourceLimitExceededError(roomDataSource?.mxSession?.syncError?.userInfo, onAdminContactTapped: { adminContact in
+                    if let adminContact = adminContact {
+                        if UIApplication.shared.canOpenURL(adminContact) {
+                            UIApplication.shared.open(adminContact, options: [:], completionHandler: nil)
+                        } else {
+                            print("[RoomVC] refreshActivitiesViewDisplay: adminContact(\(adminContact)) cannot be opened")
+                        }
+                    }
+                })
+            }
+            else if AppDelegate.the()?.isOffline == true {
+                roomActivitiesView.displayNetworkErrorNotification(NSLocalizedString("room_offline_notification", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""))
+            } else if customizedRoomDataSource?.roomState?.isObsolete == true {
+                if let replacementRoomId = customizedRoomDataSource?.roomState.tombStoneContent.replacementRoomId {
+                    let roomLinkFragment = "/room/\((replacementRoomId as NSString).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
+                    
+                    roomActivitiesView.displayRoomReplacement(roomLinkTappedHandler: {
+                        AppDelegate.the().handleUniversalLinkFragment(roomLinkFragment)
+                    })
+                }
+            }
+            else if customizedRoomDataSource?.roomState?.isOngoingConferenceCall == true {
+                // Show the "Ongoing conference call" banner only if the user is not in the conference
+                let callInRoom: MXCall? = roomDataSource?.mxSession?.callManager?.call(inRoom: roomDataSource.roomId)
+                if callInRoom != nil, let state = callInRoom?.state, state != MXCallState.ended {
+                    if checkUnsentMessages() == false {
+                         refreshTypingNotification()
+                    }
+                } else {
+                    roomActivitiesView.displayOngoingConferenceCall({ video in
+
+                        print("[RoomVC] onOngoingConferenceCallPressed")
+
+                        // Make sure there is not yet a call
+                        if self.customizedRoomDataSource?.mxSession?.callManager?.call(inRoom: self.customizedRoomDataSource?.roomId ?? "") == nil {
+                            self.customizedRoomDataSource?.room?.placeCall(withVideo: video, completion: { (_) in
+                                
+                            })
+                        }
+                    }, onClosePressed: nil)
+                }
+            }
+            else if let jitsiWidget = jitsiWidget {
+                // The room has an active jitsi widget
+                // Show it in the banner if the user is not already in
+                if AppDelegate.the().jitsiViewController?.widget?.widgetId == jitsiWidget.widgetId {
+                    if checkUnsentMessages() == false {
+                         refreshTypingNotification()
+                    }
+                } else {
+                    roomActivitiesView.displayOngoingConferenceCall({ (video) in
+                        print("[RoomVC] onOngoingConferenceCallPressed (jitsi)")
+
+                        let appDisplayName = (Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String) ?? ""
+
+                        // Check app permissions first
+
+                        let messageForAudio = String(format: Bundle.mxk_localizedString(forKey: "microphone_access_not_granted_for_call"), appDisplayName)
+                        let messageForVideo = String(format: Bundle.mxk_localizedString(forKey: "camera_access_not_granted_for_call"), appDisplayName)
+
+                        MXKTools.checkAccess(forCall: video, manualChangeMessageForAudio: messageForAudio, manualChangeMessageForVideo: messageForVideo, showPopUpIn: self) { (granted) in
+                            if granted {
+                                // Present the Jitsi view controller
+                                AppDelegate.the()?.displayJitsiViewController(with: jitsiWidget, andVideo: video)
+                            } else {
+                                print("[RoomVC] onOngoingConferenceCallPressed: Warning: The application does not have the perssion to join the call")
+                            }
+                        }
+                    }) { [weak self] in
+
+                        if let strongSelf = self {
+                            strongSelf.startActivityIndicator()
+                            
+                            WidgetManager.shared().closeWidget(jitsiWidget.widgetId, in: strongSelf.roomDataSource.room, success: {
+                                strongSelf.stopActivityIndicator()
+                                
+                                // The banner will automatically leave thanks to kWidgetManagerDidUpdateWidgetNotification
+                            }, failure: { error in
+                                if let error = error {
+                                    strongSelf.showJitsiError(error)
+                                }
+                                strongSelf.stopActivityIndicator()
+                            })
+
+                        }
+                    }
+                }
+            }
+            else if !self.checkUnsentMessages() {
+                // Show "scroll to bottom" icon when the most recent message is not visible,
+                // or when the timelime is not live (this icon is used to go back to live).
+                // Note: we check if `currentEventIdAtTableBottom` is set to know whether the table has been rendered at least once.
+                if roomDataSource?.isLive != true || (currentEventIdAtTableBottom != nil && isBubblesTableScrollViewAtTheBottom() == false) {
+
+                    // Retrieve the unread messages count
+                    let unreadCount = roomDataSource.room.summary?.localUnreadEventCount ?? 0
+
+                    if unreadCount == 0 {
+                        // Refresh the typing notification here
+                        // We will keep visible this notification (if any) beside the "scroll to bottom" icon.
+                        
+                         refreshTypingNotification()
+                    }
+
+                    roomActivitiesView.displayScroll(toBottomIcon: unreadCount, onIconTapGesture: {
+                        self.goBackToLive()
+                    })
+                }
+                else if let usageLimit = serverNotices?.usageLimit, usageLimit.isServerNoticeUsageLimit {
+                    roomActivitiesView.showResourceUsageLimitNotice(usageLimit, onAdminContactTapped: { adminContact in
+
+                        if let adminContact = adminContact {
+                            if UIApplication.shared.canOpenURL(adminContact) {
+                                UIApplication.shared.open(adminContact, options: [:], completionHandler: nil)
+                            } else {
+                                print("[RoomVC] refreshActivitiesViewDisplay: adminContact(\(adminContact)) cannot be opened")
+                            }
+                        }
+                    })
+                }
+                else
+                {
+                     refreshTypingNotification()
+                }
+            }
+            
+            // Recognize swipe downward to dismiss keyboard if any
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(self.onSwipeGesture(_:)))
+            swipe.numberOfTouchesRequired = 1
+            swipe.direction = .down
+            roomActivitiesView.addGestureRecognizer(swipe)
+        }
+    }
+    
+    func goBackToLive() {
+        if roomDataSource?.isLive == true {
+            // Enable the read marker display, and disable its update (in order to not mark as read all the new messages by default).
+            roomDataSource.showReadMarker = true
+            updateRoomReadMarker = false
+
+            scrollBubblesTableViewToBottom(animated: true)
+        } else {
+            // Switch back to the room live timeline managed by MXKRoomDataSourceManager
+            let roomDataSourceManager = MXKRoomDataSourceManager.sharedManager(forMatrixSession: mainSession)
+
+            roomDataSourceManager?.roomDataSource(forRoom: roomDataSource.roomId, create: true, onComplete: { [weak self] roomDataSource in
+
+                // Scroll to bottom the bubble history on the display refresh.
+                self?.shouldScrollToBottomOnTableRefresh = true
+
+                self?.displayRoom(roomDataSource)
+
+                // The room view controller do not have here the data source ownership.
+                self?.hasRoomDataSourceOwnership = false
+
+                self?.refreshActivitiesViewDisplay()
+
+                if self?.saveProgressTextInput == true {
+                    // Restore the potential message partially typed before jump to last unread messages.
+                    self?.inputToolbarView.textMessage = roomDataSource?.partialTextMessage
+                }
+            })
+        }
     }
 
     // MARK: - Preview
+    
     @objc func displayRoomPreview(_ previewData: RoomPreviewData?) {
         // Release existing room data source or preview
 
@@ -982,6 +1387,91 @@ extension CKRoomViewController {
             self.present(nvc, animated: true, completion: nil)
         }
     }
+    
+    func selectEvent(withId eventId: String?) {
+        let shouldEnableReplyMode = roomDataSource.canReplyToEvent(withId: eventId)
+
+        enableReplyMode(shouldEnableReplyMode)
+
+        customizedRoomDataSource?.selectedEventId = eventId
+    }
+    
+    func cancelEventSelection() {
+        enableReplyMode(false)
+
+        if currentAlert != nil {
+            currentAlert?.dismiss(animated: false)
+            currentAlert = nil
+        }
+
+        customizedRoomDataSource?.selectedEventId = nil
+
+        // Force table refresh
+        dataSource(roomDataSource, didCellChange: nil)
+    }
+    
+    // MARK: - Unsent Messages Handling
+
+    func checkUnsentMessages() -> Bool {
+        var hasUnsent = false
+        var hasUnsentDueToUnknownDevices = false
+     
+        if self.containerView.isKind(of: RoomActivitiesView.self) {
+            let outgoingMsgs = roomDataSource?.room?.outgoingMessages() ?? []
+            
+            for event in outgoingMsgs {
+                if event.sentState == MXEventSentStateFailed {
+                    hasUnsent = true
+
+                    // Check if the error is due to unknown devices
+                    if (event.sentError._domain == MXEncryptingErrorDomain) && event.sentError._code == Int(Float(MXEncryptingErrorUnknownDeviceCode.rawValue)) {
+                        hasUnsentDueToUnknownDevices = true
+                        break
+                    }
+                }
+            }
+
+            if hasUnsent {
+                let notification = hasUnsentDueToUnknownDevices ? NSLocalizedString("room_unsent_messages_unknown_devices_notification", tableName: "Vector", bundle: Bundle.main, value: "", comment: "") : NSLocalizedString("room_unsent_messages_notification", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+                let roomActivitiesView = activitiesView as! RoomActivitiesView
+                
+                roomActivitiesView.displayUnsentMessagesNotification(notification, withResendLink: {
+                    self.resendAllUnsentMessages()
+                }, andCancelLink: {
+                    self.cancelAllUnsentMessages()
+                }) { [weak self] in
+                    
+                    self?.currentAlert?.dismiss(animated: false, completion: nil)
+                    
+                    self?.currentAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+                    self?.currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_resend_unsent_messages", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { action in
+                        self?.resendAllUnsentMessages()
+                        self?.currentAlert = nil
+                    }))
+
+                    self?.currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_delete_unsent_messages", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { action in
+                        self?.cancelAllUnsentMessages()
+                        self?.currentAlert = nil
+                    }))
+
+                    self?.currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("cancel", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .cancel, handler: { action in
+                        self?.currentAlert = nil
+                    }))
+
+                    self?.currentAlert?.mxk_setAccessibilityIdentifier("RoomVCUnsentMessagesMenuAlert")
+                    self?.currentAlert?.popoverPresentationController?.sourceView = roomActivitiesView
+                    self?.currentAlert?.popoverPresentationController?.sourceRect = roomActivitiesView.bounds
+                    
+                    if let currentAlert = self?.currentAlert {
+                        self?.present(currentAlert, animated: true)
+                    }
+                }
+            }
+        }
+        
+        return hasUnsent
+    }
 }
 
 // MARK: - MXServerNoticesDelegate
@@ -992,7 +1482,7 @@ extension CKRoomViewController: MXServerNoticesDelegate {
     }
 }
 
-// MARK: - CKRoomInputToolbarViewDelegate
+// MARK: - RoomInputToolbarViewDelegate
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?) {
@@ -1014,6 +1504,43 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             mentionDataSource = nil
         }
     }
+    
+    override func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, isTyping typing: Bool) {
+        super.roomInputToolbarView(toolbarView, isTyping: typing)
+
+        // Cancel potential selected event (to leave edition mode)
+        if typing, let selectedEventId = customizedRoomDataSource?.selectedEventId, !roomDataSource.canReplyToEvent(withId: selectedEventId) {
+            cancelEventSelection()
+        }
+    }
+
+    override func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, heightDidChanged height: CGFloat, completion: @escaping (_ finished: Bool) -> Void) {
+        if let placeholder = toolbarView?.placeholder, placeholder.count > 0, roomInputToolbarContainerHeightConstraint?.constant != height {
+            // Hide temporarily the placeholder to prevent its distorsion during height animation
+            if savedInputToolbarPlaceholder == nil{
+                savedInputToolbarPlaceholder = toolbarView?.placeholder ?? ""
+            }
+            toolbarView?.placeholder = nil
+
+            super.roomInputToolbarView(toolbarView, heightDidChanged: height) { finished in
+
+                //if completion
+                completion(finished)
+
+                // Consider here the saved placeholder only if no new placeholder has been defined during the height animation.
+                if toolbarView?.placeholder == nil {
+                    // Restore the placeholder if any
+                    toolbarView?.placeholder = self.savedInputToolbarPlaceholder
+                }
+                self.savedInputToolbarPlaceholder = nil
+            }
+        } else {
+            super.roomInputToolbarView(toolbarView, heightDidChanged: height) { finished in
+                completion(finished)
+            }
+        }
+    }
+
 }
 
 // MARK: - CKMentionDataSourceDelegate
