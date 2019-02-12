@@ -130,7 +130,71 @@ class CKRoomDataSource: MXKRoomDataSource {
     }
     
     override func didReceiveReceiptEvent(_ receiptEvent: MXEvent?, roomState: MXRoomState?) {
-        super.didReceiveReceiptEvent(receiptEvent, roomState: roomState)
+        
+        // Do the processing on the same processing queue as MXKRoomDataSource
+        MXKRoomDataSource.processingQueue()?.async {
+            // Remove the previous displayed read receipt for each user who sent a
+            // new read receipt.
+            // To implement it, we need to find the sender id of each new read receipt
+            // among the read receipts array of all events in all bubbles.
+
+            let readReceiptSenders = receiptEvent?.readReceiptSenders() as? [String]
+            let lockQueue = DispatchQueue(label: "bubbles")
+            lockQueue.sync {
+                for cellData in self.bubbles {
+                    var updatedCellDataReadReceipts: [String /* eventId */ : [MXReceiptData]] = [:]
+                    let eventIds = cellData.readReceipts.allKeys as? [String]
+                    
+                    for eventId in (eventIds ?? []) {
+                        let receiptDatas = cellData.readReceipts?[eventId] as? [MXReceiptData]
+                        
+                        for receiptData in (receiptDatas ?? []) {
+                            for senderId in (readReceiptSenders ?? []) {
+                                if (receiptData.userId == senderId) {
+                                    if updatedCellDataReadReceipts[eventId] != nil {
+                                        if let readReceipts = cellData.readReceipts[eventId] {
+                                            updatedCellDataReadReceipts[eventId] = readReceipts as? [MXReceiptData]
+                                        }
+                                    }
+
+                                    updatedCellDataReadReceipts[eventId] = updatedCellDataReadReceipts[eventId]?.filter({ $0.userId != receiptData.userId })
+                                    break
+                                }
+                            }
+                        }
+                    }
+
+                    // Flush found changed to the cell data
+                    for eventId in (eventIds ?? []) {
+                        if (updatedCellDataReadReceipts[eventId] ?? []).count != 0 {
+                            cellData.readReceipts[eventId] = updatedCellDataReadReceipts[eventId]
+                        } else {
+                            cellData.readReceipts[eventId] = nil
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Update cell data we have received a read receipt for
+        let readEventIds = receiptEvent?.readReceiptEventIds() as? [String]
+        for eventId in (readEventIds ?? []) {
+            if let cellData = cellDataOfEvent(withEventId: eventId) as? RoomBubbleCellData {
+                let lockQueue = DispatchQueue(label: "bubbles")
+                lockQueue.sync {
+                    if !cellData.hasNoDisplay {
+                        cellData.readReceipts[eventId] = room.getEventReceipts(eventId, sorted: true)
+                    } else {
+                        // Ignore the read receipts on the events without an actual display.
+                        cellData.readReceipts[eventId] = nil
+                    }
+                }
+            }
+        }
+
+        DispatchQueue.main.async {
+            super.didReceiveReceiptEvent(receiptEvent, roomState: roomState)
+        }
     }
 
     
