@@ -351,11 +351,11 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             cell.participantLabel.backgroundColor = UIColor.clear
             cell.accessoryType = .disclosureIndicator
             
-            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: mxMember.avatarUrl) {
-                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
-            } else {
-                cell.photoView.image = AvatarGenerator.generateAvatar(forText: mxMember.userId)
-            }
+            // avt
+            cell.setAvatarUri(
+                mxMember.avatarUrl,
+                identifyText: mxMember.userId,
+                session: self.mainSession)
             
             return cell
         }

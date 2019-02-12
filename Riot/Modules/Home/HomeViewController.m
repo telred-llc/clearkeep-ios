@@ -115,11 +115,7 @@
         if (myUser.avatarUrl == nil) {
             [navigationItem setImage:avatarImage];
         } else {
-            NSString *urlString = [session.matrixRestClient
-                                   urlOfContentThumbnail:myUser.avatarUrl
-                                   toFitViewSize:navigationItem.imgAvatar.frame.size
-                                   withMethod:MXThumbnailingMethodCrop];
-            [navigationItem setImageWithUrl:urlString previewImage:avatarImage];
+            [navigationItem setImageWithUrl:myUser.avatarUrl previewImage:avatarImage];
         }
     } else {
         [navigationItem setHidden:YES];

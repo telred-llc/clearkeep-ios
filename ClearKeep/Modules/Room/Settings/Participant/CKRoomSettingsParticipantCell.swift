@@ -29,12 +29,7 @@ final class CKRoomSettingsParticipantCell: CKRoomSettingsBaseCell {
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
     }
     
-    // MARK: - PUBLIC
-    public func setAvatarImageUrl(urlString: String, previewImage: UIImage?)  {
-        photoView.enableInMemoryCache = true
-        photoView.setImageURL(
-            urlString, withType: nil,
-            andImageOrientation: UIImageOrientation.up,
-            previewImage: previewImage)
-    }
+    override func getMXKImageView() -> MXKImageView! {
+        return self.photoView
+    }    
 }

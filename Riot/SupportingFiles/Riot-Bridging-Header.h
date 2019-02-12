@@ -3,6 +3,8 @@
 //
 
 @import MatrixSDK;
+@import MatrixKit;
+
 #import "WebViewViewController.h"
 
 //-- ClearKeep
@@ -82,3 +84,6 @@
 #import "SimpleRoomTitleView.h"
 
 #import "CallViewController.h"
+#import "RiotNavigationController.h"
+#import "RiotDesignValues.h"
+#import "TableViewCellWithCheckBoxAndLabel.h"

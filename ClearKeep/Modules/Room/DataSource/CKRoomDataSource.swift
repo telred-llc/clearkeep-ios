@@ -242,7 +242,7 @@ class CKRoomDataSource: MXKRoomDataSource {
                             // Check whether some receipts are found
                             if roomMembers.count > 0 {
                                 // Define the read receipts container, positioned on the right border of the bubble cell (Note the right margin 6 pts).
-                                let avatarsContainer = MXKReceiptSendersContainer(frame: CGRect(x: bubbleCell.frame.size.width - 156, y: bottomPositionY - 13, width: 150, height: 12), andRestClient: mxSession.matrixRestClient)
+                                let avatarsContainer = MXKReceiptSendersContainer(frame: CGRect(x: bubbleCell.frame.size.width - 156, y: bottomPositionY - 13, width: 150, height: 12), andMediaManager: mxSession.mediaManager)
 
                                 // Custom avatar display
                                 avatarsContainer?.maxDisplayedAvatars = 5

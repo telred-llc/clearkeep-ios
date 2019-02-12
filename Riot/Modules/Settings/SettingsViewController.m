@@ -132,7 +132,7 @@ enum {
 
 #define SECTION_TITLE_PADDING_WHEN_HIDDEN 0.01f
 
-typedef void (^blockSettingsViewController_onReadyToDestroy)();
+typedef void (^blockSettingsViewController_onReadyToDestroy)(void);
 
 
 @interface SettingsViewController () <DeactivateAccountViewControllerDelegate>
@@ -1452,7 +1452,13 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)();
                 {
                     profileCell.mxkImageView.enableInMemoryCache = YES;
                     
-                    [profileCell.mxkImageView setImageURL:[session.matrixRestClient urlOfContentThumbnail:myUser.avatarUrl toFitViewSize:profileCell.mxkImageView.frame.size withMethod:MXThumbnailingMethodCrop] withType:nil andImageOrientation:UIImageOrientationUp previewImage:avatarImage];
+                    [profileCell.mxkImageView setImageURI:myUser.avatarUrl
+                                                 withType:nil
+                                      andImageOrientation:UIImageOrientationUp
+                                            toFitViewSize:profileCell.mxkImageView.frame.size
+                                               withMethod:MXThumbnailingMethodCrop
+                                             previewImage:avatarImage
+                                             mediaManager:session.mediaManager];
                 }
                 else
                 {

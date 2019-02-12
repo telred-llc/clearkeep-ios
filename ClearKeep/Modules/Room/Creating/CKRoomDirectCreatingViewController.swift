@@ -177,13 +177,10 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                 
             // display name
             cell.suggesteeLabel.text = contact.displayName
-            
-            // avatar
-            if let avtURL = self.mainSession.matrixRestClient.url(ofContent: contact.matrixAvatarURL) {
-                cell.setAvatarImageUrl(urlString: avtURL, previewImage: nil)
-            } else {
-                cell.photoView.image = AvatarGenerator.generateAvatar(forText: contact.displayName)
-            }
+            cell.setAvatarUri(
+                contact.matrixAvatarURL,
+                identifyText: contact.displayName,
+                session: self.mainSession)
             
             return cell
         }

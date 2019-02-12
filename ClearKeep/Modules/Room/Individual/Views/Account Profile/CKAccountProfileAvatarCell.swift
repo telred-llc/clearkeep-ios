@@ -30,14 +30,11 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
         statusView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
-    // MARK: - PUBLIC
-    public func setAvatarImageUrl(urlString: String, previewImage: UIImage?)  {
-        avaImage.enableInMemoryCache = true
-        avaImage.setImageURL(
-            urlString, withType: nil,
-            andImageOrientation: UIImageOrientation.up,
-            previewImage: previewImage)
+    override func getMXKImageView() -> MXKImageView! {
+        return self.avaImage
     }
+    
+    // MARK: - PUBLIC
     
     public func settingStatus(online: Bool)  {
         if online == true {
