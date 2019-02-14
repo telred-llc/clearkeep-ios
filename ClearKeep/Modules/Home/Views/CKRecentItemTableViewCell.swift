@@ -26,11 +26,12 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         timeLabel.text = roomCellData?.lastEventDate
         
         // last message
-        if let lastMessage = roomCellData?.roomSummary.lastMessageString {
-            
-            // ignore unable to decrypt message
-            if lastMessage.hasPrefix("** Unable to decrypt:") == false {
-                
+        if let lastEvent = roomCellData?.roomSummary.lastMessageEvent, CKMessageContentManagement.shouldHideMessage(from: lastEvent) { // CK-34: Remove unnecessary chat content
+            if let lastMessageLabel = lastMessageLabel {
+                contentStackView.removeArrangedSubview(lastMessageLabel)
+            }
+        } else {
+            if let lastMessage = roomCellData?.roomSummary.lastMessageString {
                 if lastMessageLabel == nil {
                     lastMessageLabel = UILabel.init()
                 }
@@ -41,10 +42,10 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
                 
                 lastMessageLabel!.text = lastMessage
                 lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 14)
-            }
-        } else {
-            if let lastMessageLabel = lastMessageLabel {
-                contentStackView.removeArrangedSubview(lastMessageLabel)
+            } else {
+                if let lastMessageLabel = lastMessageLabel {
+                    contentStackView.removeArrangedSubview(lastMessageLabel)
+                }
             }
         }
         

@@ -451,20 +451,8 @@ class CKRoomDataSource: MXKRoomDataSource {
             components.forEach { (component) in
                 if let event = component.event {
                     
-                    switch event.eventType {
-                    case __MXEventTypeRoomEncrypted:
-                        // CK: hide e2e_blocked message ("unable to decrypt message...")
-                        if event.decryptionError != nil {
-                            bubbleData.removeEvent(event.eventId)
-                        }
-                    case __MXEventTypeRoomHistoryVisibility:
-                        // CK: hide "e2ee enable room..."
+                    if CKMessageContentManagement.shouldHideMessage(from: event) {
                         bubbleData.removeEvent(event.eventId)
-                    case __MXEventTypeRoomEncryption:
-                        // CK: hide "... turned on end-to-end encryption (algorithm ...)"
-                        bubbleData.removeEvent(event.eventId)
-                    default:
-                        break
                     }
                 }
             }

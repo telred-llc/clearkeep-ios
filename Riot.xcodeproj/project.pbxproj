@@ -77,6 +77,7 @@
 		853E996B21E4A73600D005F4 /* CKAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853E996A21E4A73600D005F4 /* CKAppTheme.swift */; };
 		85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */; };
 		85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */; };
+		85743492221566B10009E618 /* CKMessageContentManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85743491221566B10009E618 /* CKMessageContentManagement.swift */; };
 		858A532121F58AB200570D83 /* CKRoomDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A532021F58AB200570D83 /* CKRoomDataSource.swift */; };
 		858A7D7821E43E3100BB9737 /* CKRecentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */; };
 		85B6ED2221F959A4000D99CE /* CKMentionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B6ED2121F959A4000D99CE /* CKMentionDataSource.swift */; };
@@ -665,6 +666,7 @@
 		853E996A21E4A73600D005F4 /* CKAppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAppTheme.swift; sourceTree = "<group>"; };
 		85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemTableViewCell.swift; sourceTree = "<group>"; };
 		85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRecentItemTableViewCell.xib; sourceTree = "<group>"; };
+		85743491221566B10009E618 /* CKMessageContentManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKMessageContentManagement.swift; sourceTree = "<group>"; };
 		858A532021F58AB200570D83 /* CKRoomDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomDataSource.swift; sourceTree = "<group>"; };
 		858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentListViewController.swift; sourceTree = "<group>"; };
 		85B6ED2121F959A4000D99CE /* CKMentionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKMentionDataSource.swift; sourceTree = "<group>"; };
@@ -1630,6 +1632,7 @@
 				E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */,
 				851F40172204555400326BBE /* CKSearchBarContainerView.swift */,
 				85E5751A2204C6A30076FFAE /* CKCallingViewController.swift */,
+				85743491221566B10009E618 /* CKMessageContentManagement.swift */,
 			);
 			path = Ultils;
 			sourceTree = "<group>";
@@ -4147,6 +4150,7 @@
 				858A532121F58AB200570D83 /* CKRoomDataSource.swift in Sources */,
 				E5720EDC21ACFA1F0093D99A /* CkMasterTabBarController.swift in Sources */,
 				B1798302211B13B3001FD722 /* OnBoardingManager.swift in Sources */,
+				85743492221566B10009E618 /* CKMessageContentManagement.swift in Sources */,
 				E5C701BD2202A83F00843843 /* CKRoomCallCreatingViewController.swift in Sources */,
 				B1B5573520EE6C4D00210D55 /* GroupDetailsViewController.m in Sources */,
 				E54A5AE121FEEAE60094461E /* CKContactListBaseCell.swift in Sources */,
