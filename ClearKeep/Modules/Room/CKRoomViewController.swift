@@ -1529,7 +1529,7 @@ extension CKRoomViewController {
         var hasUnsent = false
         var hasUnsentDueToUnknownDevices = false
      
-        if self.containerView.isKind(of: RoomActivitiesView.self) {
+        if self.activitiesView?.isKind(of: RoomActivitiesView.self) == true {
             let outgoingMsgs = roomDataSource?.room?.outgoingMessages() ?? []
             
             for event in outgoingMsgs {
