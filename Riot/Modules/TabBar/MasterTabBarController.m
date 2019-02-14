@@ -93,7 +93,7 @@
         
     // Sanity check
     //-- CK: unused _groupsViewController
-    NSAssert(_homeViewController && _favouritesViewController && _peopleViewController /*&& _roomsViewController /*&& _groupsViewController*/, @"Something wrong in Main.storyboard");
+    NSAssert(_homeViewController && _favouritesViewController && _peopleViewController /*&& _roomsViewController && _groupsViewController*/, @"Something wrong in Main.storyboard");
 
     // Adjust the display of the icons in the tabbar.
     for (UITabBarItem *tabBarItem in self.tabBar.items)

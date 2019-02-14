@@ -18,6 +18,12 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var repasswordTextField: UITextField!
     
+    // MARK: - PROPERTY
+    
+    private var __isRegisteringWithEmail = false
+    
+    // MARK: - PUBLIC
+    
     public override func finalizeInit() {
         super.finalizeInit()
     }
@@ -31,10 +37,6 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
-        
-        //self.userIdTextField.text = "test"
-        //self.passwordTextField.text = "111111"
-        //self.repasswordTextField.text = "111111"
     }
    
     public override func viewDidLayoutSubviews() {
@@ -81,6 +83,11 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
         if let userid = self.userIdTextField?.text, let password = self.passwordTextField?.text {
             let parameters = ["userid": userid,
                               "password": password]
+            
+            // register with an email ?
+            __isRegisteringWithEmail = MXTools.isEmailAddress(userid)
+            
+            // fallback
             completion(parameters)
         } else {
             completion([:])
@@ -102,6 +109,10 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
         }
         
         return errorMsg
+    }
+    
+    public override func isRegisteringWithEmail() -> Bool {
+        return __isRegisteringWithEmail
     }
 }
 

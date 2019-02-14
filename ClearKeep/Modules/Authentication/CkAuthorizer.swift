@@ -282,9 +282,11 @@ extension CkAuthorizer {
     public func startSigningIn() {
         self.authType = MXKAuthenticationTypeLogin
         self.refreshAuthenticationSession { (_) in
-            self.prepareParameters { (parameters: [String : Any]) in
+            self.prepareParameters { (parameters: [String : Any], error: Error?) in
                 if parameters.keys.count > 0 {
                     self.login(withParameters: parameters)
+                } else if let err = error {
+                    self.onFailureDuringAuthRequest(withError: err)
                 }
             }
         }
@@ -293,9 +295,11 @@ extension CkAuthorizer {
     public func startSigningUp() {
         self.authType = MXKAuthenticationTypeRegister
         self.refreshAuthenticationSession { (_) in
-            self.prepareParameters { (parameters: [String : Any]) in
+            self.prepareParameters { (parameters: [String : Any], error: Error?) in
                 if parameters.keys.count > 0 {
                     self.register(withParameters: parameters)
+                } else if let err = error {
+                    self.onFailureDuringAuthRequest(withError: err)
                 }
             }
         }
@@ -316,13 +320,15 @@ extension CkAuthorizer {
             userInfo: [NSLocalizedDescriptionKey: message]) as Error
     }
     
-    private func prepareParameters(completion: @escaping ([String: Any]) -> Void) {
+    private func prepareParameters(completion: @escaping ([String: Any], Error?) -> Void) {
         
         var parameters: [String: Any]! = nil
         
         if self.authType == MXKAuthenticationTypeLogin {
             
             if MXTools.isEmailAddress(self.userId) {
+
+                // parms
                 parameters = ["type": kMXLoginFlowTypePassword,
                               "identifier": ["type": kMXLoginIdentifierTypeThirdParty,
                                              "medium": kMX3PIDMediumEmail,
@@ -338,7 +344,7 @@ extension CkAuthorizer {
                               "user": self.userId ]
             }
             
-            completion(parameters)
+            completion(parameters, nil)
 
         } else if self.authType == MXKAuthenticationTypeRegister {
             if MXTools.isEmailAddress(self.userId) {
@@ -351,22 +357,26 @@ extension CkAuthorizer {
                         
                         if let identServerURL = NSURL(string: self.identityServer) {
 
+                            // get username from email
+                            let strs = self.userId.components(separatedBy: "@")
+                            let username = strs.count == 2 ? strs.first! : self.userId
+
                             parameters = ["auth": ["session": self.currentSession.session,
                                                    "threepid_creds": ["client_secret": submittedEmail.clientSecret,
                                                                       "id_server": identServerURL.host,
                                                                       "sid": submittedEmail.sid],
                                                    "type": kMXLoginFlowTypeEmailIdentity],
-                                          "username": self.userId,
+                                          "username": username,
                                           "password": self.password,
                                           "bind_email": true,
                                           "bind_msisdn": self.isMSISDNFlowCompleted(),
                                           "initial_device_display_name": self.deviceDisplayName]
                             
-                            completion(parameters)
+                            completion(parameters, nil)
 
                         }
                     }) { (error) in
-                        completion([:])
+                        completion([:], error)
                     }
                 }
             } else {
@@ -378,7 +388,7 @@ extension CkAuthorizer {
                               "bind_msisdn": false,
                               "initial_device_display_name": self.deviceDisplayName]
                 
-                completion(parameters)
+                completion(parameters, nil)
 
             }
         }
@@ -422,7 +432,26 @@ extension CkAuthorizer {
     }
     
     private func generateNextLink(withClientSecret clientSecret: String) -> String {
-        let nextLink: String = "\(String(describing: Tools.webAppUrl()))/#/register?client_secret=\(clientSecret)&hs_url=\(String(describing: mxRestClient.homeserver))&is_url=\(String(describing: mxRestClient.identityServer))&session_id=\(String(describing: self.currentSession.session))"
+        
+        let empty = ""
+        
+        guard let appUrl =  Tools.webAppUrl() else {
+            return empty
+        }
+        
+        guard let homeserver = mxRestClient.homeserver else {
+            return empty
+        }
+        
+        guard let identifyServer = mxRestClient.identityServer else {
+            return empty
+        }
+        
+        guard let sessionString = self.currentSession.session else {
+            return empty
+        }
+        
+        let nextLink: String = "\(appUrl)/#/register?client_secret=\(clientSecret)&hs_url=\(homeserver)&is_url=\(identifyServer))&session_id=\(sessionString))"
         return nextLink
     }
     

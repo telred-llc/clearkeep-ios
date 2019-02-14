@@ -111,6 +111,8 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     public func askForUpdating(completion: ([String: Any]) -> Void) {}
     
     public func validateParameters() -> String? { return nil }
+    
+    public func isRegisteringWithEmail() -> Bool { return false }
 }
 
 extension CkAuthenticationViewController {

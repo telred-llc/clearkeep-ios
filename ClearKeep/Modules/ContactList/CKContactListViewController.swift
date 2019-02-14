@@ -73,7 +73,13 @@ final class CKContactListViewController: MXKViewController {
     
     // MARK: - OBJC
     
-    @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
+    @objc public func displayList(_ aRecentsDataSource: MXKRecentsDataSource!) {
+        
+        // sure this one
+        guard let recentsDataSource = aRecentsDataSource else {
+            return
+        }
+
         self.importSession(recentsDataSource.mxSessions)
     }
     

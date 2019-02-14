@@ -90,10 +90,16 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
         if displayStyle == .login {
             remove(asChildViewController: forgotPwdViewController)
             remove(asChildViewController: registerViewController)
+            
+            // reset verification
+            indicatorViewController.isVerification = false
             add(asChildViewController: loginViewController)
         } else if displayStyle == .forgot {
             remove(asChildViewController: loginViewController)
             remove(asChildViewController: registerViewController)
+            
+            // reset verification
+            indicatorViewController.isVerification = false
             add(asChildViewController: forgotPwdViewController)
         } else if displayStyle == .register {
             remove(asChildViewController: loginViewController)
@@ -103,6 +109,9 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
             remove(asChildViewController: loginViewController)
             remove(asChildViewController: forgotPwdViewController)
             remove(asChildViewController: registerViewController)
+            
+            // maybe the registration of user email
+            indicatorViewController.isVerification = registerViewController.isRegisteringWithEmail()
             add(asChildViewController: indicatorViewController)
         }
     }

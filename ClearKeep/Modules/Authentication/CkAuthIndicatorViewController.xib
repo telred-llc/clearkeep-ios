@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CkAuthIndicatorViewController" customModule="Riot" customModuleProvider="target">
             <connections>
                 <outlet property="refreshUI" destination="IaO-We-HMl" id="iaX-Q0-ZlV"/>
+                <outlet property="verificationLabel" destination="t5Y-Ls-shW" id="GXr-OE-zxM"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="welcomeImageView" destination="yXH-hZ-3Oj" id="w8k-rv-dqn"/>
             </connections>
@@ -28,12 +29,21 @@
                     <rect key="frame" x="197" y="438" width="20" height="20"/>
                     <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </activityIndicatorView>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We sent you an email verification. Please verify it to complete the registration." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t5Y-Ls-shW" userLabel="Verification Label">
+                    <rect key="frame" x="10" y="538" width="394" height="33.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="IaO-We-HMl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="42B-ec-sUC"/>
                 <constraint firstItem="IaO-We-HMl" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="HA0-2W-OJc"/>
+                <constraint firstItem="t5Y-Ls-shW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="HJK-BX-rgx"/>
+                <constraint firstItem="t5Y-Ls-shW" firstAttribute="top" secondItem="IaO-We-HMl" secondAttribute="top" constant="100" id="IGY-OV-2yy"/>
                 <constraint firstItem="yXH-hZ-3Oj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Mt4-ah-V5w"/>
+                <constraint firstAttribute="trailing" secondItem="t5Y-Ls-shW" secondAttribute="trailing" constant="10" id="VLo-NB-edy"/>
                 <constraint firstAttribute="bottom" secondItem="yXH-hZ-3Oj" secondAttribute="bottom" id="bR0-8g-Abt"/>
                 <constraint firstAttribute="trailing" secondItem="yXH-hZ-3Oj" secondAttribute="trailing" id="fUu-Nj-bxu"/>
                 <constraint firstItem="yXH-hZ-3Oj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="n2E-X6-BYY"/>

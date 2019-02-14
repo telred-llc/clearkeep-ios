@@ -1026,6 +1026,10 @@ extension CKRoomViewController {
     func refreshActivitiesViewDisplay() {
         // TODO: implement
         
+        if self.activitiesView == nil {
+            return
+        }
+        
         if self.activitiesView.isKind(of: RoomActivitiesView.self) {
             
             let roomActivitiesView = self.activitiesView as! RoomActivitiesView

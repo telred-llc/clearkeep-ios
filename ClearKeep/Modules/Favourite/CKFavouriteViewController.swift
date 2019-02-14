@@ -41,8 +41,13 @@ class CKFavouriteViewController: CKRecentListViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
     }
 
-    @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
+    @objc public func displayList(_ aRecentsDataSource: MXKRecentsDataSource!) {
         
+        // sure this one
+        guard let recentsDataSource = aRecentsDataSource else {
+            return
+        }
+
         // Cancel registration on existing dataSource if any
         if self.recentsDataSource != nil {
             self.recentsDataSource!.delegate = nil

@@ -40,9 +40,9 @@ def import_MatrixKit
             pod 'MatrixKit', :git => 'https://github.com/matrix-org/matrix-ios-kit.git', :branch => 'develop'
         else
             #pod 'MatrixKit', $matrixKitVersion
-            pod 'MatrixKit/AppExtension', :git => 'https://github.com/sinbadflyce/matrix-ios-kit.git', :branch => 'o365'
-            pod 'MatrixSDK/SwiftSupport'
-            pod 'MatrixSDK/JingleCallStack'
+            pod 'MatrixKit/AppExtension', :git => 'https://github.com/sinbadflyce/matrix-ios-kit.git', :branch => 'o365', :inhibit_warnings => true
+            pod 'MatrixSDK/SwiftSupport', :inhibit_warnings => true
+            pod 'MatrixSDK/JingleCallStack', :inhibit_warnings => true
         end
     end 
 end
@@ -62,9 +62,9 @@ def import_MatrixKitAppExtension
             pod 'MatrixKit/AppExtension', :git => 'https://github.com/matrix-org/matrix-ios-kit.git', :branch => 'develop'
         else
             #pod 'MatrixKit/AppExtension', $matrixKitVersion
-            pod 'MatrixKit/AppExtension', :git => 'https://github.com/sinbadflyce/matrix-ios-kit.git', :branch => 'o365'
-            pod 'MatrixSDK/SwiftSupport'
-            pod 'MatrixSDK/JingleCallStack'
+            pod 'MatrixKit/AppExtension', :git => 'https://github.com/sinbadflyce/matrix-ios-kit.git', :branch => 'o365', :inhibit_warnings => true
+            pod 'MatrixSDK/SwiftSupport', :inhibit_warnings => true
+            pod 'MatrixSDK/JingleCallStack', :inhibit_warnings => true
         end
     end 
 end

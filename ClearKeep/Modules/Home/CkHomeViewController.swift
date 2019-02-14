@@ -182,8 +182,13 @@ final class CkHomeViewController: MXKViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc public func displayList(_ recentsDataSource: MXKRecentsDataSource) {
+    @objc public func displayList(_ aRecentsDataSource: MXKRecentsDataSource!) {
 
+        // sure this one
+        guard let recentsDataSource = aRecentsDataSource else {
+            return
+        }
+        
         // Cancel registration on existing dataSource if any
         if self.recentsDataSource != nil {
             self.recentsDataSource!.delegate = nil

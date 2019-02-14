@@ -1212,6 +1212,7 @@
 		E54A5AEB21FF0D5E0094461E /* CKContactListLocalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKContactListLocalCell.xib; sourceTree = "<group>"; };
 		E54A5AEC21FF0D5E0094461E /* CKContactListSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKContactListSearchCell.xib; sourceTree = "<group>"; };
 		E54A5AED21FF0D5E0094461E /* CKContactListMatrixCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKContactListMatrixCell.xib; sourceTree = "<group>"; };
+		E569BCC122154AE4004F71F1 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAppDelegate.swift; sourceTree = "<group>"; };
 		E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkMasterTabBarController.swift; sourceTree = "<group>"; };
 		E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAuthenticationViewController.swift; sourceTree = "<group>"; };
@@ -3153,6 +3154,7 @@
 				E5720EDF21ACFB5F0093D99A /* Modules */,
 				E57814FA21A7B6A8001BF40D /* MainEx.storyboard */,
 				E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */,
+				E569BCC122154AE4004F71F1 /* Playground.playground */,
 			);
 			path = ClearKeep;
 			sourceTree = "<group>";
