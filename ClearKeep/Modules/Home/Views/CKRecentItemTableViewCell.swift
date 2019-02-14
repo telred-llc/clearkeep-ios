@@ -26,12 +26,12 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         timeLabel.text = roomCellData?.lastEventDate
         
         // last message
-        if let lastEvent = roomCellData?.roomSummary.lastMessageEvent, CKMessageContentManagement.shouldHideMessage(from: lastEvent) { // CK-34: Remove unnecessary chat content
+        if let lastEvent = roomCellData?.lastEvent, CKMessageContentManagement.shouldHideMessage(from: lastEvent) { // CK-34: Remove unnecessary chat content
             if let lastMessageLabel = lastMessageLabel {
                 contentStackView.removeArrangedSubview(lastMessageLabel)
             }
         } else {
-            if let lastMessage = roomCellData?.roomSummary.lastMessageString {
+            if let lastMessage = roomCellData?.lastEventTextMessage {
                 if lastMessageLabel == nil {
                     lastMessageLabel = UILabel.init()
                 }
