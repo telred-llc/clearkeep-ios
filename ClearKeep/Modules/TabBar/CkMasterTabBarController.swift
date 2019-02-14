@@ -30,7 +30,6 @@ final public class CkMasterTabBarController: MasterTabBarController {
         // hide navigation bar shadow
         navigationController?.navigationBar.shadowImage = UIImage()
 
-        self.changeNavigationBar(color: CKColor.Background.navigationBar)
         navigationController?.view.setNeedsLayout() // force update layout
         navigationController?.view.layoutIfNeeded() // to fix height of the navigation bar
     }
