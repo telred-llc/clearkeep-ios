@@ -188,7 +188,7 @@ private extension CKRecentListViewController {
     }
     
     func getIndexPath(gesture: UIGestureRecognizer) -> IndexPath? {
-        let touchPoint = gesture.location(in: self.view)
+        let touchPoint = gesture.location(in: self.recentTableView)
         return recentTableView.indexPathForRow(at: touchPoint)
     }
     
@@ -295,7 +295,7 @@ private extension CKRecentListViewController {
             for: indexPath) as! CKRecentItemTableViewCell
         
         // update cell
-        cell.render(cellData)
+        // cell.render(cellData)
         cell.selectionStyle = .none
         
         // add long press gesture to cell
@@ -364,11 +364,6 @@ extension CKRecentListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-//        // normally doing with favourite
-//        if self.isKind(of: CKFavouriteViewController.self) {
-//            return dataSource.count
-//        }
-        
         // direct or room
         return dataSource.count == 0 ? 1 : dataSource.count
     }
@@ -402,6 +397,10 @@ extension CKRecentListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? CKRecentItemInvitationCell {
             cell.updateUI()
+        }
+        else if let cell = cell as? CKRecentItemTableViewCell {
+            let cellData = dataSource[indexPath.row]
+            cell.render(cellData)
         }
     }
 }

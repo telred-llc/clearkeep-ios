@@ -105,6 +105,13 @@ extension MXKViewController {
         // it was pushed
         return false
     }
+    
+    /**
+     Check view of controller is visible
+     */
+    public func isViewVisible() -> Bool {
+        return (self.isViewLoaded && self.view?.window != nil)
+    }
 }
 
 

@@ -51,11 +51,17 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         
         // lastMessageEncrypted
         
-        if let rcd = roomCellData, (rcd.notificationCount > 0 || rcd.hasUnread) {
+        guard let rcd = roomCellData else {
+            encryptedIconImage.isHidden = true
+            return
+        }
+        
+        if rcd.notificationCount > 0 || rcd.hasUnread {
             encryptedIconImage.image = UIImage(named: "ic_cell_badge")
+            encryptedIconImage.isHidden = false
         } else {
             encryptedIconImage.image = UIImage(named: "ic_key_encrypted")
-            encryptedIconImage.isHidden = roomCellData?.roomSummary.isEncrypted != true
+            encryptedIconImage.isHidden = (rcd.roomSummary.isEncrypted != true)
         }
         
         setupAvatar()

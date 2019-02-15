@@ -304,7 +304,7 @@ extension CKRoomViewController {
         self.removeWidgetNotificationsListeners()
         
         // Re-enable the read marker display, and disable its update.
-        roomDataSource.showReadMarker = true
+        roomDataSource?.showReadMarker = true
         updateRoomReadMarker = false
         isAppeared = false
     }
@@ -1477,6 +1477,13 @@ extension CKRoomViewController {
     }
     
     override func dataSource(_ dataSource: MXKDataSource!, didCellChange changes: Any!) {
+        
+        // invisible
+        if self.isViewVisible() == false {
+            return
+        }
+        
+        // data source update to super
         super.dataSource(dataSource, didCellChange: changes)
         
         // refresh if did receive new message,...
