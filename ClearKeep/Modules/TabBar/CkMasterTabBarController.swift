@@ -20,6 +20,8 @@ final public class CkMasterTabBarController: MasterTabBarController {
     let kHomeFavouriteIndex = 1
     let kHomeContactIndex   = 2
     
+    var missedCount: UInt = 0
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupNavigationBar()
@@ -64,13 +66,13 @@ final public class CkMasterTabBarController: MasterTabBarController {
     public override func reflectingBadges() {
         
         // missed count
-        let missedCount = self.missedDiscussionsCount()
+        let missedCount = self.homeViewController.missedDiscussionsCount
         
         // is not zero
         if missedCount > 0 {
             
             // update badge
-            self.tabBar.items?[kHomeTabIndex].badgeValue = self.tabBarBadgeStringValue(missedCount)
+            self.tabBar.items?[kHomeTabIndex].badgeValue = self.tabBarBadgeStringValue(UInt(missedCount))
         } else {
             
             // zero badge

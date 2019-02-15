@@ -29,6 +29,7 @@ class CKRecentListViewController: MXKViewController {
     var isEmpty: Bool {
         return (self.dataSource.count == 0)
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +45,7 @@ class CKRecentListViewController: MXKViewController {
         else { self.recentTableView.separatorStyle = .singleLine }
         
         // reload tb
-        self.recentTableView?.reloadData()
+        self.recentTableView?.reloadData()        
     }
     
     func displayRoom(withRoomId roomId: String?, inMatrixSession matrixSession: MXSession?) {

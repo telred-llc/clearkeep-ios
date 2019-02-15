@@ -29,8 +29,9 @@ final class CkHomeViewController: MXKViewController {
     }()
     
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
-    let pagingViewController = PagingViewController<PagingIndexItem>.init()
+    let pagingViewController = PagingViewController<CKPagingIndexItem>.init()
     var recentsDataSource: RecentsDataSource?
+    var missedDiscussionsCount: Int = 0
     
     // MARK: LifeCycle
     
@@ -66,7 +67,9 @@ final class CkHomeViewController: MXKViewController {
     
     func setupPageViewController() {
         pagingViewController.dataSource = self
-        
+        pagingViewController.indicatorClass = PagingIndicatorView.self
+        pagingViewController.menuItemSource = PagingMenuItemSource.nib(nib: UINib.init(nibName: "CKHomePagingWithBubbleCell", bundle: Bundle.init(for: CKHomePagingWithBubbleCell.self)))
+
         // setup UI
         pagingViewController.indicatorOptions    = PagingIndicatorOptions.visible(height: 0.75, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
         pagingViewController.indicatorColor      = CKColor.Misc.primaryGreenColor
@@ -375,16 +378,22 @@ final class CkHomeViewController: MXKViewController {
 
 extension CkHomeViewController: PagingViewControllerDataSource {
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T where T : PagingItem, T : Comparable, T : Hashable {
+        
+        var title: String = ""
+        var bubbleTitle: String? = nil
+        
         switch index {
         case 0:
-            _ = self.recentsDataSource?.peopleCellDataArray
-            return PagingIndexItem(index: index, title: "Direct Message") as! T
+            title = "\(String.ck_LocalizedString(key: "Direct Message"))"
+            bubbleTitle = directMessageVC.missedItemCount > 0 ? "\(directMessageVC.missedItemCount)" : nil
         case 1:
-            _ = self.recentsDataSource?.conversationCellDataArray
-            return PagingIndexItem(index: index, title: "Room") as! T
+            title = "\(String.ck_LocalizedString(key: "Room"))"
+            bubbleTitle = roomVC.missedItemCount > 0 ? "\(roomVC.missedItemCount)" : nil
         default:
-            return PagingIndexItem(index: index, title: "") as! T
+            break
         }
+        
+        return CKPagingIndexItem.init(index: index, title: title, bubbleTitle: bubbleTitle) as! T
     }
     
     func numberOfViewControllers<T>(in pagingViewController: PagingViewController<T>) -> Int {
@@ -429,13 +438,14 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     }
     
     @objc public func dataSource(_ dataSource: MXKDataSource?, didCellChange changes: Any?) {
-        // reload pager
-        self.pagingViewController.reloadData()
-
         self.reloadDirectMessagePage()
         self.reloadRoomPage()
         
-        // ask to reflect tabbar
+        // reload pager
+        self.pagingViewController.reloadData()
+        
+        // reflect tabbar
+        self.missedDiscussionsCount = directMessageVC.missedItemCount + roomVC.missedItemCount
         AppDelegate.the()?.masterTabBarController.reflectingBadges()
     }
     
@@ -473,7 +483,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
                 }
             }
             
-            directMessageVC.reloadData(rooms: peopleArray)
+            directMessageVC.reloadData(rooms: peopleArray)            
         } else {
             directMessageVC.reloadData(rooms: [])
         }
