@@ -50,7 +50,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         self.tableView.register(CKRoomAddingSearchCell.nib, forCellReuseIdentifier: CKRoomAddingSearchCell.identifier)
         self.tableView.register(CKRoomAddingMembersCell.nib, forCellReuseIdentifier: CKRoomAddingMembersCell.identifier)
         self.reloadDataSource()
-        self.navigationItem.title = "Room Members"
+        self.navigationItem.title = "Add Members"
         
         // Setup right button item
         let rightItemButton = UIBarButtonItem.init(
@@ -62,6 +62,18 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         
         // assign right button
         self.navigationItem.rightBarButtonItem = rightItemButton
+        
+        // on new creating a room, may cancel inviting the members
+        if self.isNewStarting {
+            
+            // Setup close button item
+            let closeItemButton = UIBarButtonItem.init(
+                image: UIImage(named: "ic_x_close"),
+                style: .plain,
+                target: self, action: #selector(clickedOnBackButton(_:)))
+
+            self.navigationItem.leftBarButtonItem = closeItemButton
+        }
     }
     
     // MARK: - PRIVATE
@@ -230,6 +242,12 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         }
     }
     
+    private func closeWithoutInvite() {
+        self.dismiss(animated: true) {
+            AppDelegate.the().masterTabBarController.selectRoom(withId: self.mxRoom.roomId, andEventId: nil, inMatrixSession: self.mxRoom.summary.mxSession) {}
+        }
+    }
+    
     private func finallySearchDirectoryUsers(byResponse response: MXUserSearchResponse?) {
         
         // sure is value response
@@ -258,6 +276,9 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         self.invite()                
     }
     
+    @objc func clickedOnBackButton(_ sender: Any?) {
+        self.closeWithoutInvite()
+    }
 }
 
 // MARK: - Delegate

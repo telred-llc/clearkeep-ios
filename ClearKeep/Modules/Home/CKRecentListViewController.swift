@@ -11,6 +11,7 @@ import XLActionController
 
 protocol CKRecentListViewControllerDelegate: class {
     func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData)
+    func recentListViewDidTapStartChat(_ class: AnyClass)
 }
 
 class CKRecentListViewController: MXKViewController {
@@ -25,12 +26,24 @@ class CKRecentListViewController: MXKViewController {
 
     var dataSource: [MXKRecentCellData] = []
 
+    var isEmpty: Bool {
+        return (self.dataSource.count == 0)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     func reloadData(rooms: [MXKRecentCellData]) {
+        
+        // update source
         self.dataSource = rooms
+        
+        // separator
+        if self.isEmpty { self.recentTableView.separatorStyle = .none }
+        else { self.recentTableView.separatorStyle = .singleLine }
+        
+        // reload tb
         self.recentTableView?.reloadData()
     }
     
@@ -91,6 +104,8 @@ private extension CKRecentListViewController {
     func setupTableView() {
         recentTableView.register(CKRecentItemTableViewCell.nib, forCellReuseIdentifier: CKRecentItemTableViewCell.identifier)
         recentTableView.register(CKRecentItemInvitationCell.nib, forCellReuseIdentifier: CKRecentItemInvitationCell.identifier)
+        recentTableView.register(CKRecentItemFirstChatCell.nib, forCellReuseIdentifier: CKRecentItemFirstChatCell.identifier)
+        recentTableView.register(CKRecentItemFirstFavouriteCell.nib, forCellReuseIdentifier: CKRecentItemFirstFavouriteCell.identifier)
         recentTableView.allowsSelection = false
         recentTableView.dataSource = self
         recentTableView.delegate = self
@@ -178,6 +193,13 @@ private extension CKRecentListViewController {
     }
     
     @objc func onTableViewCellLongPress(_ gesture: UIGestureRecognizer) {
+        
+        // do nothing
+        if self.isEmpty {
+            return
+        }
+
+        // try to do more
         if let selectedIndexPath = getIndexPath(gesture: gesture) {
             let selectedRoomData = dataSource[selectedIndexPath.row]
             showMenuOptions(roomData: selectedRoomData)
@@ -185,6 +207,13 @@ private extension CKRecentListViewController {
     }
     
     @objc func onTableViewCellTap(_ gesture: UIGestureRecognizer) {
+        
+        // do nothing
+        if self.isEmpty {
+            return
+        }
+        
+        // try to do more
         if let selectedIndexPath = getIndexPath(gesture: gesture) {
             let selectedRoomData = dataSource[selectedIndexPath.row]
             displayRoom(withRoomId: selectedRoomData.roomSummary.roomId, inMatrixSession: selectedRoomData.roomSummary.room.mxSession)
@@ -281,23 +310,90 @@ private extension CKRecentListViewController {
         cell.addGestureRecognizer(tap)        
         return cell
     }
+    
+    /**
+     Cell for first chatting
+     */
+    func cellForStartChat(_ indexPath: IndexPath) -> CKRecentItemFirstChatCell {
+        
+        // init cell
+        let cell = self.recentTableView.dequeueReusableCell(
+            withIdentifier: CKRecentItemFirstChatCell.identifier,
+            for: indexPath) as! CKRecentItemFirstChatCell
+
+        // style
+        cell.selectionStyle = .none
+
+        // action
+        cell.startChattingHanlder = {
+            self.delegate?.recentListViewDidTapStartChat(self.classForCoder)
+        }
+        
+        // change text        
+        if self.isKind(of: CKDirectMessagePageViewController.self) {
+            cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
+        } else if self.isKind(of: CKRoomPageViewController.self) {
+            cell.startChatButton.setTitle("Start Room Chat", for: .normal)
+        }
+        
+        return cell
+    }
+    
+    /**
+     Cell for first chatting
+     */
+    func cellForFirstFavourite(_ indexPath: IndexPath) -> CKRecentItemFirstFavouriteCell {
+        
+        // init cell
+        let cell = self.recentTableView.dequeueReusableCell(
+            withIdentifier: CKRecentItemFirstFavouriteCell.identifier,
+            for: indexPath) as! CKRecentItemFirstFavouriteCell
+        
+        // style
+        cell.selectionStyle = .none
+        
+        return cell
+    }
 }
 
 extension CKRecentListViewController: UITableViewDataSource {
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        
+//        // normally doing with favourite
+//        if self.isKind(of: CKFavouriteViewController.self) {
+//            return dataSource.count
+//        }
+        
+        // direct or room
+        return dataSource.count == 0 ? 1 : dataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellData = dataSource[indexPath.row]
-        if cellData.roomSummary.membership == MXMembership.invite {
-            return self.cellForInvitationRoom(indexPath, cellData: cellData)
+        
+        // empty? and not favourite?
+        if self.isEmpty {
+            
+            // fav
+            if self.isKind(of: CKFavouriteViewController.self) {
+                return self.cellForFirstFavourite(indexPath)
+            }
+            
+            // s-chat
+            return self.cellForStartChat(indexPath)
         } else {
-            return self.cellForNormalRoom(indexPath, cellData: cellData)
+            
+            // direct & room?
+            let cellData = dataSource[indexPath.row]
+            if cellData.roomSummary.membership == MXMembership.invite {
+                return self.cellForInvitationRoom(indexPath, cellData: cellData)
+            } else {
+                return self.cellForNormalRoom(indexPath, cellData: cellData)
+            }
         }
     }
 }

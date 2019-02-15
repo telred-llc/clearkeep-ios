@@ -1851,6 +1851,11 @@ extension CKRoomViewController {
 
                     UIView.animate(withDuration: 1.5, delay: 0, options: [.beginFromCurrentState, .curveEaseIn], animations: {
 
+                        // sure rmtc is live
+                        if self.readMarkerTableViewCell == nil {
+                            return
+                        }
+                        
                         self.readMarkerTableViewCell!.readMarkerViewTrailingConstraint.constant = self.readMarkerTableViewCell!.bubbleOverlayContainer.frame.size.width / 2
                         self.readMarkerTableViewCell!.readMarkerViewLeadingConstraint.constant = self.readMarkerTableViewCell!.readMarkerViewTrailingConstraint.constant
                         self.readMarkerTableViewCell!.readMarkerView.alpha = 0
@@ -1859,6 +1864,11 @@ extension CKRoomViewController {
                         self.readMarkerTableViewCell!.bubbleOverlayContainer.layoutIfNeeded()
 
                     }) { finished in
+
+                        // sure rmtc is live
+                        if self.readMarkerTableViewCell == nil {
+                            return
+                        }
 
                         self.readMarkerTableViewCell!.readMarkerView.isHidden = true
                         self.readMarkerTableViewCell!.readMarkerView.alpha = 1

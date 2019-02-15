@@ -87,6 +87,18 @@ final class CKRoomCreatingViewController: MXKViewController {
         self.tableView.register(CKRoomCreatingNameCell.nib, forCellReuseIdentifier: CKRoomCreatingNameCell.identifier)
         self.tableView.allowsSelection = false
         
+        // self is root view controller
+        if self.navigationController?.viewControllers.first == self {
+            
+            // Setup close button item
+            let closeItemButton = UIBarButtonItem.init(
+                image: UIImage(named: "ic_x_close"),
+                style: .plain,
+                target: self, action: #selector(clickedOnBackButton(_:)))
+            
+            self.navigationItem.leftBarButtonItem = closeItemButton
+        }
+        
         // Setup right button item
         let rightItemButton = UIBarButtonItem.init(
             title: "Create",
@@ -263,7 +275,7 @@ final class CKRoomCreatingViewController: MXKViewController {
     // MARK: - ACTION
     
     @objc func clickedOnBackButton(_ sender: Any?) {
-        if self.navigationController != nil {
+        if self.navigationController?.viewControllers.first != self {
             self.navigationController?.popViewController(animated: true)
         } else {
             self.dismiss(animated: true, completion: nil)

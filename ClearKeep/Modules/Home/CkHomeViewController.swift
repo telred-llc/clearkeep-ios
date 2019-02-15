@@ -150,24 +150,11 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc func clickedOnLeftMenuItem() {
-        showSettingViewController()
+        self.showSettingViewController()
     }
     
     @objc func clickedOnRightMenuItem() {
-        
-        // init
-        let nvc = CKRoomDirectCreatingViewController.instanceNavigation { (vc: MXKViewController) in
-            
-            // is class?
-            if let vc = vc as? CKRoomDirectCreatingViewController {
-                
-                // setup vc
-                vc.delegate = self
-                vc.importSession(self.mxSessions)
-            }
-        }
-        
-        self.present(nvc, animated: true, completion: nil)
+        self.showDirectChatVC()
     }
     
     func showSettingViewController() {
@@ -210,6 +197,9 @@ final class CkHomeViewController: MXKViewController {
         })
     }
     
+    /**
+     Process direct chatting
+     */
     func processDirectChat(_ userId: String, completion: ((Bool) -> Void)?) {
         
         // account is ok
@@ -277,6 +267,9 @@ final class CkHomeViewController: MXKViewController {
         }
     }
     
+    /**
+     Process direct calling
+     */
     func processDirectCall(_ userId: String, completion: ((Bool) -> Void)?) {
         
         // account is ok
@@ -337,6 +330,44 @@ final class CkHomeViewController: MXKViewController {
             }
         }
     }
+    
+    /**
+     Show direct chat creating controller
+     */
+    func showDirectChatVC() {
+        // init
+        let nvc = CKRoomDirectCreatingViewController.instanceNavigation { (vc: MXKViewController) in
+            
+            // is class?
+            if let vc = vc as? CKRoomDirectCreatingViewController {
+                
+                // setup vc
+                vc.delegate = self
+                vc.importSession(self.mxSessions)
+            }
+        }
+        
+        self.present(nvc, animated: true, completion: nil)
+    }
+    
+    /**
+     Show room creating controller
+     */
+    func showRoomChatVC() {
+        
+        // init
+        let nvc = CKRoomCreatingViewController.instanceNavigation { (vc: MXKViewController) in
+            
+            // is class?
+            if let vc = vc as? CKRoomCreatingViewController {
+
+                // importing session
+                vc.importSession(self.mxSessions)
+            }
+        }
+        
+        self.present(nvc, animated: true, completion: nil)
+    }
 
 }
 
@@ -346,11 +377,11 @@ extension CkHomeViewController: PagingViewControllerDataSource {
     func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T where T : PagingItem, T : Comparable, T : Hashable {
         switch index {
         case 0:
-            let peopleArray = self.recentsDataSource?.peopleCellDataArray
-            return PagingIndexItem(index: index, title: "\(String.ck_LocalizedString(key: "Direct Message"))(\(peopleArray?.count ?? 0))") as! T
+            _ = self.recentsDataSource?.peopleCellDataArray
+            return PagingIndexItem(index: index, title: "Direct Message") as! T
         case 1:
-            let roomsArray = self.recentsDataSource?.conversationCellDataArray
-            return PagingIndexItem(index: index, title: "\(String.ck_LocalizedString(key: "Room"))(\(roomsArray?.count ?? 0))") as! T
+            _ = self.recentsDataSource?.conversationCellDataArray
+            return PagingIndexItem(index: index, title: "Room") as! T
         default:
             return PagingIndexItem(index: index, title: "") as! T
         }
@@ -472,6 +503,17 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
         
         // present
         self.present(nvc, animated: true, completion: nil)
+    }
+    
+    /**
+     Delegate of Recent List view controller
+     */
+    func recentListViewDidTapStartChat(_ aClass: AnyClass) {
+        if aClass == CKDirectMessagePageViewController.self {
+            self.showDirectChatVC()
+        } else if aClass == CKRoomPageViewController.self {
+            self.showRoomChatVC()
+        }
     }
 }
 
