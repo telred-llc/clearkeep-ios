@@ -9,7 +9,13 @@
 import UIKit
 
 class CKRoomPageViewController: CKRecentListViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    var missedItemCount: Int = 0
+
+    override func reloadData(rooms: [MXKRecentCellData]) {
+        super.reloadData(rooms: rooms)
+        
+        // keep missedItemCount
+        self.missedItemCount = rooms.filter({ $0.roomSummary.membership == MXMembership.invite }).count
     }
 }
