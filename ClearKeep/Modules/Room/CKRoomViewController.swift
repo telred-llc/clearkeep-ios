@@ -424,7 +424,7 @@ extension CKRoomViewController {
     func resendAllUnsentMessages() {
         // List unsent event ids
         let outgoingMsgs = roomDataSource.room.outgoingMessages() ?? []
-        var failedEventIds = [AnyHashable](repeating: 0, count: outgoingMsgs.count)
+        var failedEventIds = [String]()
 
         for event in outgoingMsgs {
             if event.sentState == MXEventSentStateFailed {
