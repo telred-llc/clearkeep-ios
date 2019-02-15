@@ -16,6 +16,6 @@ class CKRoomPageViewController: CKRecentListViewController {
         super.reloadData(rooms: rooms)
         
         // keep missedItemCount
-        self.missedItemCount = rooms.filter({ $0.roomSummary.membership == MXMembership.invite }).count
+        self.missedItemCount = rooms.filter({ $0.roomSummary.membership == MXMembership.invite || $0.hasUnread || $0.notificationCount > 0 }).count
     }
 }

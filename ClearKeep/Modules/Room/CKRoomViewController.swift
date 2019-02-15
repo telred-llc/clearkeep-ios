@@ -1544,7 +1544,7 @@ extension CKRoomViewController {
                     hasUnsent = true
 
                     // Check if the error is due to unknown devices
-                    if (event.sentError._domain == MXEncryptingErrorDomain) && event.sentError._code == Int(Float(MXEncryptingErrorUnknownDeviceCode.rawValue)) {
+                    if (event.sentError?._domain == MXEncryptingErrorDomain) && event.sentError?._code == Int(Float(MXEncryptingErrorUnknownDeviceCode.rawValue)) {
                         hasUnsentDueToUnknownDevices = true
                         break
                     }
