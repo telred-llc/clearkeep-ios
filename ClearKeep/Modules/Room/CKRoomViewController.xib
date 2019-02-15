@@ -13,7 +13,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CKRoomViewController" customModule="Riot" customModuleProvider="target">
             <connections>
                 <outlet property="bubblesTableView" destination="BGD-sd-SQR" id="OG4-Tw-Ovt"/>
-                <outlet property="bubblesTableViewBottomConstraint" destination="Ksk-39-kfi" id="CTo-Ux-4NP"/>
                 <outlet property="bubblesTableViewTopConstraint" destination="X14-4s-uGM" id="Hic-6h-N05"/>
                 <outlet property="containerView" destination="iN0-l3-epB" id="tSb-G7-Jgq"/>
                 <outlet property="mentionListTableView" destination="6XV-L3-jht" id="2ub-2C-XY2"/>
@@ -37,7 +36,7 @@
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BGD-sd-SQR">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="606"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="586"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="RoomVCBubblesTableView"/>
@@ -108,7 +107,6 @@
                         <constraint firstAttribute="trailing" secondItem="6XV-L3-jht" secondAttribute="trailing" id="AxQ-LE-vpV"/>
                         <constraint firstItem="54r-18-K1g" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BC8-KU-Pus"/>
                         <constraint firstAttribute="trailing" secondItem="uK2-9a-rZj" secondAttribute="trailing" id="HbF-85-ctI"/>
-                        <constraint firstAttribute="bottom" secondItem="BGD-sd-SQR" secondAttribute="bottom" constant="41" id="Ksk-39-kfi"/>
                         <constraint firstItem="XX4-n6-hCm" firstAttribute="bottom" secondItem="nLd-BP-JAE" secondAttribute="top" id="QO8-nF-xys"/>
                         <constraint firstItem="XX4-n6-hCm" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="WhE-lH-ZtR"/>
                         <constraint firstItem="BGD-sd-SQR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="X14-4s-uGM"/>
@@ -117,6 +115,7 @@
                         <constraint firstItem="54r-18-K1g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ghf-co-a4t"/>
                         <constraint firstItem="BGD-sd-SQR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="haP-Kv-OLI"/>
                         <constraint firstAttribute="bottom" secondItem="nLd-BP-JAE" secondAttribute="bottom" id="kQ6-Cg-FMi"/>
+                        <constraint firstItem="XX4-n6-hCm" firstAttribute="top" secondItem="BGD-sd-SQR" secondAttribute="bottom" id="nGg-y8-Pjf"/>
                         <constraint firstItem="6XV-L3-jht" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="o6F-gA-kbd"/>
                         <constraint firstItem="uK2-9a-rZj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="u8r-eN-1g8"/>
                         <constraint firstItem="uK2-9a-rZj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y6b-JK-CF5"/>
