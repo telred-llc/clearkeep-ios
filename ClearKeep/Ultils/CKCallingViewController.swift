@@ -18,8 +18,11 @@ final class CKCallViewController: CallViewController {
         super.init(coder: aDecoder)
     }
     
-    override func call(_ call: MXCall, didEncounterError error: Error) {
-        let nsError = error as NSError
+    override func call(_ call: MXCall, didEncounterError error: Error?) {
+        
+        guard let nsError = error as NSError? else {
+            return
+        }
         
         if nsError._domain == MXEncryptingErrorDomain && nsError._code == Int(MXEncryptingErrorUnknownDeviceCode.rawValue) {
             // There are unknown devices -> call anyway
@@ -41,7 +44,7 @@ final class CKCallViewController: CallViewController {
                 }
             }
         } else {
-            super.call(call, didEncounterError: error)
+            super.call(call, didEncounterError: error!)
         }
     }
 }

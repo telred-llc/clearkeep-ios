@@ -101,7 +101,11 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         }
         
         // reload
-        if suggestedDataSource.count > 0 { self.tableView.reloadData() }
+        if suggestedDataSource.count > 0 {
+            self.tableView.reloadSections(
+                [Section.action.rawValue, Section.suggested.rawValue],
+                with: .none)
+        }
     }
     
     /**
@@ -287,8 +291,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         if let results = response?.results, results.count > 0 {
             
             // reset
-            self.suggestedDataSource.removeAll()
-            self.tableView.reloadData()
+            self.suggestedDataSource.removeAll()            
             
             // re-update
             for u in results {
@@ -298,8 +301,15 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
             }
             
             // re-load
-            self.tableView.reloadData()
-            self.view.endEditing(true)
+            self.tableView.reloadSections(
+                [Section.action.rawValue, Section.suggested.rawValue],
+                with: .none)
+        } else {
+            // no result
+            self.suggestedDataSource.removeAll()
+            self.tableView.reloadSections(
+                [Section.action.rawValue, Section.suggested.rawValue],
+                with: .none)
         }
     }
 }

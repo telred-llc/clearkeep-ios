@@ -50,7 +50,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         self.tableView.register(CKRoomAddingSearchCell.nib, forCellReuseIdentifier: CKRoomAddingSearchCell.identifier)
         self.tableView.register(CKRoomAddingMembersCell.nib, forCellReuseIdentifier: CKRoomAddingMembersCell.identifier)
         self.reloadDataSource()
-        self.navigationItem.title = "Add Members"
+        self.navigationItem.title = "Add members"
         
         // Setup right button item
         let rightItemButton = UIBarButtonItem.init(
@@ -106,7 +106,9 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         }
         
         // reload table view
-        if self.filteredDataSource.count > 0 { self.tableView.reloadData() }
+        if self.filteredDataSource.count > 0 {
+            self.tableView.reloadSections([1], with: .none)
+        }        
     }
     
     private func cellForSearching(atIndexPath indexPath: IndexPath) -> CKRoomAddingSearchCell {
@@ -255,7 +257,6 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             
             // reset
             self.filteredDataSource.removeAll()
-            self.tableView.reloadData()
             
             // re-update
             for u in results {
@@ -266,8 +267,11 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             }
             
             // re-load
-            self.tableView.reloadData()
-            self.view.endEditing(true)
+            self.tableView.reloadSections([Section.members.rawValue], with: .none)
+        } else {
+            // no result
+            self.filteredDataSource.removeAll()
+            self.tableView.reloadSections([Section.members.rawValue], with: .none)
         }
     }
 

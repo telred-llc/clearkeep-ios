@@ -27,8 +27,9 @@ final class CKRoomDirectCreatingSearchCell: CKRoomCreatingBaseCell {
 
 extension CKRoomDirectCreatingSearchCell: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let text = searchBar.text {
-            beginSearchingHandler?(text)
-        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        beginSearchingHandler?(searchText)
     }
 }

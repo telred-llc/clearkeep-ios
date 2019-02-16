@@ -234,8 +234,11 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
         {
             self.bingTextFont = [UIFont systemFontOfSize:15];
         }
-        self.stateEventTextFont = [UIFont italicSystemFontOfSize:15];
-        self.callNoticesTextFont = [UIFont italicSystemFontOfSize:15];
+        
+        // CK - modified
+        self.stateEventTextFont = [UIFont italicSystemFontOfSize:13];
+        self.callNoticesTextFont = [UIFont italicSystemFontOfSize:13];
+        
         self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:15];
         self.emojiOnlyTextFont = [UIFont systemFontOfSize:48];
     }
