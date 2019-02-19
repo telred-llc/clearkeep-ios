@@ -127,7 +127,7 @@ extension CKRoomSettingsMoreViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         // TODO
-        self.showAlert("Sorry!. It should be coming soon")
+        self.showAlert("Sorry! It should be coming soon")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

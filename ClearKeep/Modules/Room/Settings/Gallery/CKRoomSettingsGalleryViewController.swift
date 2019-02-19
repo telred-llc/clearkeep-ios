@@ -46,6 +46,7 @@ final class CKRoomSettingsGalleryViewController: MXKViewController {
         self.navigationItem.title = "Files"
         self.collectionView.register(CKRoomSettingsGalleryViewCell.nib, forCellWithReuseIdentifier: CKRoomSettingsGalleryViewCell.identifier)
         self.collectionView.reloadData()
+        self.collectionView.backgroundColor = CKColor.Background.tableView
     }
     
     
@@ -93,7 +94,9 @@ final class CKRoomSettingsGalleryViewController: MXKViewController {
 
 // MARK: - UICollectionViewDelegate
 extension CKRoomSettingsGalleryViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.showAlert("Sorry! it should be coming soon")
+    }
 }
 
 // MARK: - UICollectionViewDataSource

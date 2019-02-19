@@ -19,12 +19,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="82" height="74"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="53I-pP-5iX" customClass="MXKImageView">
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="53I-pP-5iX" customClass="MXKImageView">
                         <rect key="frame" x="0.0" y="0.0" width="82" height="74"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B7w-Qt-EHe">
-                        <rect key="frame" x="3" y="54" width="34" height="20"/>
+                        <rect key="frame" x="3" y="54" width="79" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="OzS-7n-UqD"/>
                         </constraints>
@@ -39,6 +39,7 @@
                 <constraint firstItem="53I-pP-5iX" firstAttribute="leading" secondItem="Kaz-9Z-3x2" secondAttribute="leading" id="3Of-Ov-vax"/>
                 <constraint firstAttribute="bottom" secondItem="B7w-Qt-EHe" secondAttribute="bottom" id="8MH-gK-ZDF"/>
                 <constraint firstAttribute="bottom" secondItem="53I-pP-5iX" secondAttribute="bottom" id="F4Z-r3-OHl"/>
+                <constraint firstAttribute="trailing" secondItem="B7w-Qt-EHe" secondAttribute="trailing" id="PNg-rl-UuS"/>
                 <constraint firstItem="B7w-Qt-EHe" firstAttribute="leading" secondItem="Kaz-9Z-3x2" secondAttribute="leading" constant="3" id="dPh-CR-R7P"/>
                 <constraint firstItem="53I-pP-5iX" firstAttribute="top" secondItem="Kaz-9Z-3x2" secondAttribute="top" id="k29-Rn-djd"/>
             </constraints>
