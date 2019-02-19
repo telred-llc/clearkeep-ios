@@ -32,11 +32,16 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
     
     // MARK: - PROPERTY
     
+    /**
+     Room object
+     */
+    public var mxRoom: MXRoom!
+
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Room Settings"
+        self.navigationItem.title = "Settings"
         self.tableView.register(CKRoomSettingsMoreActionCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreActionCell.identifier)
         self.tableView.reloadData()
     }

@@ -435,6 +435,11 @@
 		E5233119221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */; };
 		E5233121221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */; };
 		E5233123221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5233122221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib */; };
+		E5233126221BDDCE008FC772 /* CKRoomSettingsGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233125221BDDCE008FC772 /* CKRoomSettingsGalleryViewController.swift */; };
+		E5233128221BDE76008FC772 /* CKRoomSettingsGalleryViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5233127221BDE76008FC772 /* CKRoomSettingsGalleryViewCell.xib */; };
+		E523312A221BDE7D008FC772 /* CKRoomSettingsGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233129221BDE7D008FC772 /* CKRoomSettingsGalleryViewCell.swift */; };
+		E523312C221BDEDD008FC772 /* CKBaseCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523312B221BDEDD008FC772 /* CKBaseCollectionCell.swift */; };
+		E523312E221BDF1F008FC772 /* CKRoomSettingsGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E523312D221BDF1F008FC772 /* CKRoomSettingsGalleryViewController.xib */; };
 		E54A5AD421F99F5D0094461E /* CKLayoutSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */; };
 		E54A5AD621F9C5430094461E /* CKRecentItemInvitationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD521F9C5430094461E /* CKRecentItemInvitationCell.swift */; };
 		E54A5ADA21FAF6020094461E /* Misc+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD921FAF6020094461E /* Misc+Extension.swift */; };
@@ -1185,6 +1190,11 @@
 		E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreViewController.xib; sourceTree = "<group>"; };
 		E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreActionCell.swift; sourceTree = "<group>"; };
 		E5233122221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreActionCell.xib; sourceTree = "<group>"; };
+		E5233125221BDDCE008FC772 /* CKRoomSettingsGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsGalleryViewController.swift; sourceTree = "<group>"; };
+		E5233127221BDE76008FC772 /* CKRoomSettingsGalleryViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomSettingsGalleryViewCell.xib; sourceTree = "<group>"; };
+		E5233129221BDE7D008FC772 /* CKRoomSettingsGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsGalleryViewCell.swift; sourceTree = "<group>"; };
+		E523312B221BDEDD008FC772 /* CKBaseCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKBaseCollectionCell.swift; sourceTree = "<group>"; };
+		E523312D221BDF1F008FC772 /* CKRoomSettingsGalleryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsGalleryViewController.xib; sourceTree = "<group>"; };
 		E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKLayoutSize.swift; sourceTree = "<group>"; };
 		E54A5AD521F9C5430094461E /* CKRecentItemInvitationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemInvitationCell.swift; sourceTree = "<group>"; };
 		E54A5AD921FAF6020094461E /* Misc+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Misc+Extension.swift"; sourceTree = "<group>"; };
@@ -3020,6 +3030,17 @@
 			path = MoreSettings;
 			sourceTree = "<group>";
 		};
+		E5233124221BDDB9008FC772 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				E5233125221BDDCE008FC772 /* CKRoomSettingsGalleryViewController.swift */,
+				E523312D221BDF1F008FC772 /* CKRoomSettingsGalleryViewController.xib */,
+				E5233127221BDE76008FC772 /* CKRoomSettingsGalleryViewCell.xib */,
+				E5233129221BDE7D008FC772 /* CKRoomSettingsGalleryViewCell.swift */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
 		E54A5ADB21FEE4EE0094461E /* ContactList */ = {
 			isa = PBXGroup;
 			children = (
@@ -3040,6 +3061,7 @@
 			isa = PBXGroup;
 			children = (
 				E54A5AE321FEEBA10094461E /* CKBaseCell.swift */,
+				E523312B221BDEDD008FC772 /* CKBaseCollectionCell.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3206,6 +3228,7 @@
 		E5ABA73921E73CBC005EFE0C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				E5233124221BDDB9008FC772 /* Gallery */,
 				E5233115221BA923008FC772 /* MoreSettings */,
 				E574335521F3286A00989FF3 /* Participant */,
 				E51891E621EF2F5E00DFBCA5 /* Editing */,
@@ -3613,6 +3636,7 @@
 				B1B558E220EF768F00210D55 /* RoomIncomingTextMsgBubbleCell.xib in Resources */,
 				E51891EA21EF34E800DFBCA5 /* CKRoomSettingsEditablePhotoCell.xib in Resources */,
 				85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */,
+				E5233128221BDE76008FC772 /* CKRoomSettingsGalleryViewCell.xib in Resources */,
 				B1664DA220F4F95800808783 /* Localizable.strings in Resources */,
 				B169328720F3954A00746532 /* SharedImages.xcassets in Resources */,
 				B1664DA120F4F94F00808783 /* InfoPlist.strings in Resources */,
@@ -3705,6 +3729,7 @@
 				B1B558D120EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				B1B558FE20EF768F00210D55 /* RoomMembershipExpandedWithPaginationTitleBubbleCell.xib in Resources */,
 				B1B5581D20EF625800210D55 /* RoomAvatarTitleView.xib in Resources */,
+				E523312E221BDF1F008FC772 /* CKRoomSettingsGalleryViewController.xib in Resources */,
 				E51891E821EF34D700DFBCA5 /* CKRoomSettingsEditableCell.xib in Resources */,
 				B1B5590B20EF768F00210D55 /* RoomMembershipExpandedBubbleCell.xib in Resources */,
 				E51891E521EF120C00DFBCA5 /* CKRoomSettingsEditViewController.xib in Resources */,
@@ -4064,6 +4089,7 @@
 				851C8ABB21FAAE49008FD696 /* ActionCell.swift in Sources */,
 				851C8ACD21FAAE49008FD696 /* ImagePickerLayout.swift in Sources */,
 				85B6ED2621F96797000D99CE /* CKMentionUserTableViewCell.swift in Sources */,
+				E523312C221BDEDD008FC772 /* CKBaseCollectionCell.swift in Sources */,
 				851C8AEA21FAB762008FD696 /* CustomVideoCell.swift in Sources */,
 				851C8AEC21FAB762008FD696 /* IconWithTextCell.swift in Sources */,
 				B1B5582C20EF666100210D55 /* DirectoryRecentTableViewCell.m in Sources */,
@@ -4119,6 +4145,7 @@
 				E574336A21F370CA00989FF3 /* CKRoomCreatingOptionsCell.swift in Sources */,
 				B1B5583120EF66BA00210D55 /* RoomIdOrAliasTableViewCell.m in Sources */,
 				F083BDFA1E7009ED00A9B29C /* RoomPreviewData.m in Sources */,
+				E5233126221BDDCE008FC772 /* CKRoomSettingsGalleryViewController.swift in Sources */,
 				B1B557B420EF5AEF00210D55 /* EventDetailsView.m in Sources */,
 				851C8AC721FAAE49008FD696 /* CollectionViewBatchAnimation.swift in Sources */,
 				E5026CA621F5DE96009D1B86 /* CKRoomDirectCreatingViewController.swift in Sources */,
@@ -4178,6 +4205,7 @@
 				851C8ACC21FAAE49008FD696 /* ImagePickerDelegate.swift in Sources */,
 				85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */,
 				B1B558C720EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
+				E523312A221BDE7D008FC772 /* CKRoomSettingsGalleryViewCell.swift in Sources */,
 				B1B558F020EF768F00210D55 /* RoomOutgoingAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				926FA53F1F4C132000F826C2 /* MXSession+Riot.m in Sources */,
 				B1B5593820EF7BAC00210D55 /* TableViewCellWithLabelAndLargeTextView.m in Sources */,
