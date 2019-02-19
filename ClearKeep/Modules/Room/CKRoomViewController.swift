@@ -617,7 +617,7 @@ extension CKRoomViewController {
     
     func refreshRoomInputToolbar() {
         if inputToolbarView != nil && (inputToolbarView is CKRoomInputToolbarView) {
-            let roomInputToolbarView = inputToolbarView as! CKRoomInputToolbarView
+            let _ = inputToolbarView as! CKRoomInputToolbarView
             
             // TODO: Customize roomInputToolbarView if needed
             

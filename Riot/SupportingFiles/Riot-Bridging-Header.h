@@ -4,6 +4,7 @@
 
 @import MatrixSDK;
 @import MatrixKit;
+@import SwiftImagePicker;
 
 #import "WebViewViewController.h"
 
@@ -77,8 +78,6 @@
 #import "EventFormatter.h"
 
 #import "DisabledRoomInputToolbarView.h"
-
-#import "UIImageEffects.h"
 
 #import "RoomSearchViewController.h"
 #import "SimpleRoomTitleView.h"

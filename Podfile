@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, "9.0"
+platform :ios, "11.0"
 
 # Use frameforks to allow usage of pod written in Swift (like PiwikTracker)
 use_frameworks!
@@ -26,6 +26,7 @@ def import_MatrixKit
     pod 'XLActionController', '4.0.1'
     pod 'XLActionController/Youtube'
     pod 'PromiseKit'
+    pod 'SwiftImagePicker', :git => 'https://github.com/sinbadflyce/image-picker.git', :inhibit_warnings => true
     
     if $matrixKitVersion == 'local'
         pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'

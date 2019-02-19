@@ -91,6 +91,7 @@ PODS:
     - Reusable/View (= 4.0.5)
   - Reusable/Storyboard (4.0.5)
   - Reusable/View (4.0.5)
+  - SwiftImagePicker (0.7.6)
   - WebRTC (63.11.20455)
   - XLActionController (4.0.1):
     - XLActionController/Core (= 4.0.1)
@@ -111,6 +112,7 @@ DEPENDENCIES:
   - PiwikTracker (from `https://github.com/manuroe/matomo-sdk-ios.git`, branch `feature/CustomVariables`)
   - PromiseKit
   - Reusable (~> 4.0)
+  - SwiftImagePicker (from `https://github.com/sinbadflyce/image-picker.git`)
   - XLActionController (= 4.0.1)
   - XLActionController/Youtube
 
@@ -142,6 +144,8 @@ EXTERNAL SOURCES:
   PiwikTracker:
     :branch: feature/CustomVariables
     :git: https://github.com/manuroe/matomo-sdk-ios.git
+  SwiftImagePicker:
+    :git: https://github.com/sinbadflyce/image-picker.git
 
 CHECKOUT OPTIONS:
   MatrixKit:
@@ -150,6 +154,9 @@ CHECKOUT OPTIONS:
   PiwikTracker:
     :commit: dfb048f25f4eefbe13ff7515c3c1c2cad5d94491
     :git: https://github.com/manuroe/matomo-sdk-ios.git
+  SwiftImagePicker:
+    :commit: a24e54daec7f567e8aaee737ffb465a6a41df8bb
+    :git: https://github.com/sinbadflyce/image-picker.git
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -170,9 +177,10 @@ SPEC CHECKSUMS:
   PromiseKit: 94c6e781838c5bf4717677d0d882b0e7250c80fc
   Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
   Reusable: 188be1a54ac0691bc66e5bb24ec6eb91971b315b
+  SwiftImagePicker: cf0e1cde2920540e44ef4f9300f8572e9565f122
   WebRTC: f2a6203584745fe53532633397557876b5d71640
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: 0e78c09d9533189b13f3d96e303e11f68fd2b240
+PODFILE CHECKSUM: 6ce20d08edef6e8e9b616df93bdae4a1476cee0e
 
 COCOAPODS: 1.5.3
