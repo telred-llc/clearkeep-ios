@@ -19,37 +19,56 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vN2-vg-win">
-                        <rect key="frame" x="20" y="10" width="60" height="60"/>
+                        <rect key="frame" x="20" y="10" width="40" height="40"/>
                         <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="60" id="4Zs-Qe-opS"/>
-                            <constraint firstAttribute="height" constant="60" id="ewc-eT-tgX"/>
+                            <constraint firstAttribute="width" secondItem="vN2-vg-win" secondAttribute="height" multiplier="1:1" id="Z4t-BS-zeE"/>
+                            <constraint firstAttribute="height" constant="40" id="ewc-eT-tgX"/>
                         </constraints>
                         <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                         <state key="normal" image="ic_new_group"/>
                     </button>
                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ujs-NO-p43">
-                        <rect key="frame" x="110" y="10" width="60" height="60"/>
+                        <rect key="frame" x="110" y="10" width="40" height="40"/>
                         <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="60" id="0zU-Pu-YiS"/>
-                            <constraint firstAttribute="height" constant="60" id="A4C-yp-elx"/>
+                            <constraint firstAttribute="height" constant="40" id="A4C-yp-elx"/>
+                            <constraint firstAttribute="width" secondItem="Ujs-NO-p43" secondAttribute="height" multiplier="1:1" id="qZy-Se-uDc"/>
                         </constraints>
                         <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                         <state key="normal" image="ic_new_call"/>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Rk-vg-EMM">
+                        <rect key="frame" x="5" y="53" width="70" height="21.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Call" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="orP-W2-xIq">
+                        <rect key="frame" x="101.5" y="53" width="57" height="21.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="vN2-vg-win" firstAttribute="centerY" secondItem="1dh-GO-0sL" secondAttribute="centerY" id="Bdo-7p-XEa"/>
+                    <constraint firstItem="vN2-vg-win" firstAttribute="centerY" secondItem="1dh-GO-0sL" secondAttribute="centerY" constant="-10" id="Bdo-7p-XEa"/>
+                    <constraint firstItem="Ujs-NO-p43" firstAttribute="centerY" secondItem="vN2-vg-win" secondAttribute="centerY" id="E3c-58-BYg"/>
+                    <constraint firstItem="orP-W2-xIq" firstAttribute="centerX" secondItem="Ujs-NO-p43" secondAttribute="centerX" id="EEM-gi-Dp2"/>
                     <constraint firstItem="vN2-vg-win" firstAttribute="leading" secondItem="1dh-GO-0sL" secondAttribute="leading" constant="20" id="Eoe-qi-M1y"/>
-                    <constraint firstItem="Ujs-NO-p43" firstAttribute="centerY" secondItem="1dh-GO-0sL" secondAttribute="centerY" id="Oyp-ZU-wSq"/>
-                    <constraint firstItem="Ujs-NO-p43" firstAttribute="leading" secondItem="vN2-vg-win" secondAttribute="trailing" constant="30" id="lMv-ii-5yb"/>
+                    <constraint firstAttribute="bottom" secondItem="orP-W2-xIq" secondAttribute="bottom" constant="5" id="eb5-4m-Snq"/>
+                    <constraint firstAttribute="bottom" secondItem="5Rk-vg-EMM" secondAttribute="bottom" constant="5" id="f52-9z-9Af"/>
+                    <constraint firstItem="Ujs-NO-p43" firstAttribute="leading" secondItem="vN2-vg-win" secondAttribute="trailing" constant="50" id="lMv-ii-5yb"/>
+                    <constraint firstItem="orP-W2-xIq" firstAttribute="top" secondItem="Ujs-NO-p43" secondAttribute="bottom" constant="3" id="mUY-S2-z1H"/>
+                    <constraint firstItem="5Rk-vg-EMM" firstAttribute="centerX" secondItem="vN2-vg-win" secondAttribute="centerX" id="qW6-sO-SWt"/>
+                    <constraint firstItem="5Rk-vg-EMM" firstAttribute="top" secondItem="vN2-vg-win" secondAttribute="bottom" constant="3" id="zLG-Ru-3fY"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="newCallButton" destination="Ujs-NO-p43" id="gBP-7a-kSU"/>
                 <outlet property="newGroupButton" destination="vN2-vg-win" id="hhI-59-KAt"/>
             </connections>
+            <point key="canvasLocation" x="55.200000000000003" y="48.575712143928037"/>
         </tableViewCell>
     </objects>
     <resources>
