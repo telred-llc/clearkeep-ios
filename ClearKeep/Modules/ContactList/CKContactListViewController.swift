@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Contacts
 
 protocol CKContactListViewControllerDelegate: class {
     func contactListCreating(withUserId userId: String, completion: ((_ success: Bool) -> Void)? )
@@ -58,7 +59,7 @@ final class CKContactListViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         // load from xib
         if let nib = CKContactListViewController.nib() {
             nib.instantiate(withOwner: self, options: nil)
@@ -69,6 +70,11 @@ final class CKContactListViewController: MXKViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Check whether the access to the local contacts has not been already asked.
+        if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
+            MXKAppSettings.standard()?.syncLocalContacts = true
+        }
     }
     
     // MARK: - OBJC
@@ -206,7 +212,7 @@ extension CKContactListViewController {
     /**
      Reload local contact
      */
-    private func reloadLocalContacts() {
+    @objc private func reloadLocalContacts() {
         
         // shared locals
         if let localcs = MXKContactManager.shared()?.localContactsSplitByContactMethod as? [MXKContact] {

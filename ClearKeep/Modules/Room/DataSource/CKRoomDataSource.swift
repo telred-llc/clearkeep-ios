@@ -435,7 +435,7 @@ class CKRoomDataSource: MXKRoomDataSource {
             bubbleCell.isAutoAnimatedGif = cellData?.attachment != nil && cellData?.attachment.type == MXKAttachmentTypeSticker
             
             // Disable textview selecting
-            bubbleCell.messageTextView?.isSelectable = false
+//            bubbleCell.messageTextView?.isSelectable = false
         }
  
         return cell
@@ -451,12 +451,13 @@ class CKRoomDataSource: MXKRoomDataSource {
             components.forEach { (component) in
                 if let event = component.event {
                     
-                    if CKMessageContentManagement.shouldHideMessage(from: event) {
+                    if CKMessageContentManagement.shouldHideMessage(from: event, inRoomState: self.roomState) {
                         bubbleData.removeEvent(event.eventId)
                     }
                 }
             }
             
+            if (bubbleData.events?.count ?? 0) == 0 { return nil }
             return bubbleData
         }
 

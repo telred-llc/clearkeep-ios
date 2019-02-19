@@ -255,6 +255,12 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.present(alert, animated: true, completion: nil)
     }
     
+    private func showMoreSetting() {
+        let vc = CKRoomSettingsMoreViewController.instance()
+        vc.importSession(self.mxSessions)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // MARK: - ACTION
     
     @objc func clickedOnBackButton(_ sender: Any?) {
@@ -396,7 +402,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             if indexPath.row == 1 || indexPath.row == 2 { self.showsSettingsEdit() }
         case .settings:
             if indexPath.row == 0 { self.showParticiants() } else {
-                self.showAlert("Sorry. It will be comming soon!")
+                self.showMoreSetting()
             }
             break
         case .actions:

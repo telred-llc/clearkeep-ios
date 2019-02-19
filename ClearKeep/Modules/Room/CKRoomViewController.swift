@@ -528,6 +528,10 @@ extension CKRoomViewController {
         }
     }
     
+    override func startActivityIndicator() {
+        // TODO: don't use start activity indicator
+    }
+    
     // MARK: Prepare for segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
