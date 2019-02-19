@@ -258,6 +258,14 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     private func showMoreSetting() {
         let vc = CKRoomSettingsMoreViewController.instance()
         vc.importSession(self.mxSessions)
+        vc.mxRoom = self.mxRoom
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func showFiles() {
+        let vc = CKRoomSettingsGalleryViewController.instance()
+        vc.importSession(self.mxSessions)
+        vc.mxRoom = self.mxRoom
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -399,11 +407,17 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         
         switch sectionType {
         case .infos:
+            // editting
             if indexPath.row == 1 || indexPath.row == 2 { self.showsSettingsEdit() }
         case .settings:
-            if indexPath.row == 0 { self.showParticiants() } else {
-                self.showMoreSetting()
-            }
+            // participant
+            if indexPath.row == 0 { self.showParticiants() }
+            
+            // more setting
+            else if indexPath.row == 1 { self.showFiles() }
+            
+            // gallery
+            else if indexPath.row == 2 { self.showMoreSetting() }
             break
         case .actions:
             if let room = self.mxRoom {
