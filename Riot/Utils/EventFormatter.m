@@ -178,7 +178,8 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
 {
     NSString *displayText;
 
-    if (events.count)
+    // CK - TODO: this fix is to prevent showing membership changes
+    if (events.count < 2)
     {
         if (events[0].eventType == MXEventTypeRoomMember)
         {

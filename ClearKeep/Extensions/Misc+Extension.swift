@@ -43,3 +43,33 @@ extension String {
         return emailTest.evaluate(with: self)
     }
 }
+
+
+extension MXRoomState {
+    
+    /**
+     Try to get created of Date
+     */
+    var createdDate: Date? {
+        
+        // loop via rse
+        for rev in self.stateEvents {
+            
+            // is room create event
+            if rev.eventType == __MXEventTypeRoomCreate {
+                
+                // found created date
+                return Date(timeIntervalSince1970: TimeInterval(rev.ageLocalTs / 1000))
+            }
+        }
+        
+        // not found
+        return nil
+    }
+}
+
+extension MXEvent {
+    var date: Date {
+        return Date(timeIntervalSince1970: TimeInterval(self.ageLocalTs / 1000))
+    }
+}

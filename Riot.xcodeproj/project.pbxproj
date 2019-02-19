@@ -431,6 +431,10 @@
 		E520894121DC730400591830 /* CkAvatarTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E520893F21DC730300591830 /* CkAvatarTopView.xib */; };
 		E520894221DC730400591830 /* CkAvatarTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E520894021DC730400591830 /* CkAvatarTopView.swift */; };
 		E520894421DC783300591830 /* CkHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E520894321DC783300591830 /* CkHomeViewController.xib */; };
+		E5233117221BA961008FC772 /* CKRoomSettingsMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233116221BA961008FC772 /* CKRoomSettingsMoreViewController.swift */; };
+		E5233119221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */; };
+		E5233121221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */; };
+		E5233123221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5233122221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib */; };
 		E54A5AD421F99F5D0094461E /* CKLayoutSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */; };
 		E54A5AD621F9C5430094461E /* CKRecentItemInvitationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD521F9C5430094461E /* CKRecentItemInvitationCell.swift */; };
 		E54A5ADA21FAF6020094461E /* Misc+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD921FAF6020094461E /* Misc+Extension.swift */; };
@@ -1177,6 +1181,10 @@
 		E520893F21DC730300591830 /* CkAvatarTopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CkAvatarTopView.xib; sourceTree = "<group>"; };
 		E520894021DC730400591830 /* CkAvatarTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CkAvatarTopView.swift; sourceTree = "<group>"; };
 		E520894321DC783300591830 /* CkHomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CkHomeViewController.xib; sourceTree = "<group>"; };
+		E5233116221BA961008FC772 /* CKRoomSettingsMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreViewController.swift; sourceTree = "<group>"; };
+		E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreViewController.xib; sourceTree = "<group>"; };
+		E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreActionCell.swift; sourceTree = "<group>"; };
+		E5233122221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreActionCell.xib; sourceTree = "<group>"; };
 		E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKLayoutSize.swift; sourceTree = "<group>"; };
 		E54A5AD521F9C5430094461E /* CKRecentItemInvitationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemInvitationCell.swift; sourceTree = "<group>"; };
 		E54A5AD921FAF6020094461E /* Misc+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Misc+Extension.swift"; sourceTree = "<group>"; };
@@ -3001,6 +3009,17 @@
 			path = Editing;
 			sourceTree = "<group>";
 		};
+		E5233115221BA923008FC772 /* MoreSettings */ = {
+			isa = PBXGroup;
+			children = (
+				E5233116221BA961008FC772 /* CKRoomSettingsMoreViewController.swift */,
+				E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */,
+				E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */,
+				E5233122221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib */,
+			);
+			path = MoreSettings;
+			sourceTree = "<group>";
+		};
 		E54A5ADB21FEE4EE0094461E /* ContactList */ = {
 			isa = PBXGroup;
 			children = (
@@ -3187,6 +3206,7 @@
 		E5ABA73921E73CBC005EFE0C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				E5233115221BA923008FC772 /* MoreSettings */,
 				E574335521F3286A00989FF3 /* Participant */,
 				E51891E621EF2F5E00DFBCA5 /* Editing */,
 				E57F0BBA21E89D9700DE36E5 /* Views */,
@@ -3575,6 +3595,7 @@
 				853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */,
 				853E996821E4986100D005F4 /* SFCompactDisplay-Heavy.ttf in Resources */,
 				B1B5592B20EF7A5D00210D55 /* TableViewCellWithButton.xib in Resources */,
+				E5233119221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib in Resources */,
 				B1B5574620EE6C4D00210D55 /* StartChatViewController.xib in Resources */,
 				B1B5590A20EF768F00210D55 /* RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				A000B6EA21F876740002EBB3 /* CKAccountEditProfileAvatarCell.xib in Resources */,
@@ -3736,6 +3757,7 @@
 				B1B557B320EF5AEF00210D55 /* EventDetailsView.xib in Resources */,
 				B1B557DD20EF5FBB00210D55 /* FilesSearchTableViewCell.xib in Resources */,
 				B1B5590320EF768F00210D55 /* RoomSelectedStickerBubbleCell.xib in Resources */,
+				E5233123221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib in Resources */,
 				A0043FBE21F849240051AAE1 /* CKAccountProfileActionCell.xib in Resources */,
 				B1B5573F20EE6C4D00210D55 /* SegmentedViewController.xib in Resources */,
 				B1B5581E20EF625800210D55 /* RoomTitleView.xib in Resources */,
@@ -3969,6 +3991,7 @@
 				B1B557BD20EF5B4500210D55 /* KeyboardGrowingTextView.m in Sources */,
 				858A7D7821E43E3100BB9737 /* CKRecentListViewController.swift in Sources */,
 				B1B558F420EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
+				E5233117221BA961008FC772 /* CKRoomSettingsMoreViewController.swift in Sources */,
 				B1B5572320EE6C4D00210D55 /* AttachmentsViewController.m in Sources */,
 				F083BDEE1E7009ED00A9B29C /* MXRoom+Riot.m in Sources */,
 				B1B5598620EFC3E000210D55 /* RiotSettings.swift in Sources */,
@@ -3990,6 +4013,7 @@
 				B1B5577420EE702900210D55 /* WidgetViewController.m in Sources */,
 				B1B5574A20EE6C4D00210D55 /* MediaPickerViewController.m in Sources */,
 				B1B5598520EFC3E000210D55 /* RageShakeManager.m in Sources */,
+				E5233121221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift in Sources */,
 				B1B558D420EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
 				B169331420F3CAFC00746532 /* PublicRoomTableViewCell.m in Sources */,
 				E574335B21F32B9A00989FF3 /* CKRoomSettingsParticipantCell.swift in Sources */,

@@ -197,6 +197,7 @@ final class CKRoomCreatingViewController: MXKViewController {
                 }
                 
             } else { // enable e2ee
+                #if false
                 cell.titleLabel.text = "Enable end to end encryption"
                 cell.desciptpionLabel.text = "Once you enable e2ee, you can not disable it"
                 cell.optionSwitch.isOn = creatingData.isE2ee
@@ -205,6 +206,7 @@ final class CKRoomCreatingViewController: MXKViewController {
                 cell.valueChangedHandler = { isOn in
                     self.creatingData.isE2ee = isOn
                 }
+                #endif
             }
             return cell
         }
@@ -333,7 +335,7 @@ extension CKRoomCreatingViewController: UITableViewDataSource {
         
         // number rows in case
         switch s {
-        case .option: return 2
+        case .option: return 1
         case .name: return 1
         case .topic: return 1
         }
