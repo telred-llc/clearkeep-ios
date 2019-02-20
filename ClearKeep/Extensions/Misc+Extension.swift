@@ -66,6 +66,32 @@ extension MXRoomState {
         // not found
         return nil
     }
+    
+    /**
+     Try to get creator
+     */
+    
+    var creator: String? {
+
+        // loop via rse
+        for rev in self.stateEvents {
+            
+            // is room create event
+            if rev.eventType == __MXEventTypeRoomCreate {
+                
+                // found creator
+                if let createContent = MXRoomCreateContent.model(fromJSON: rev.content) as? MXRoomCreateContent {
+                    return createContent.creatorUserId
+                }
+                
+                // not found
+                return "@unknown"
+            }
+        }
+        
+        // not found
+        return nil
+    }
 }
 
 extension MXEvent {

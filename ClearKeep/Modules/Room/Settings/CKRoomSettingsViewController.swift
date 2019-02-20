@@ -106,7 +106,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             withIdentifier: CKRoomSettingsRoomNameCell.identifier ,
             for: indexPath) as! CKRoomSettingsRoomNameCell
         
-        cell.roomnameLabel.text = self.mxRoom?.summary?.displayname
+        cell.roomnameLabel.text = "#" + (self.mxRoom?.summary?.displayname ?? "unknown")
         return cell
     }
     
@@ -162,6 +162,33 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             withIdentifier: CKRoomSettingsLeaveCell.identifier ,
             for: indexPath) as! CKRoomSettingsLeaveCell
         return cell
+    }
+    
+    private func cellForCreatedBy(_ indexPath: IndexPath) -> CKRoomSettingsTopicCell! {
+        
+        // cell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsTopicCell.identifier ,
+            for: indexPath) as! CKRoomSettingsTopicCell
+        
+        // creator
+        let creator = self.mxRoomState?.creator?.components(separatedBy: ":").first
+        
+        // created date
+        var dateString = "unknown"
+        if let date = self.mxRoomState?.createdDate {
+            let df = DateFormatter()
+            df.dateFormat = "E, d MMM yyyy"
+            dateString = df.string(from: date)
+        }
+        
+        // fill cell
+        cell.topicLabel.text = "Created by"
+        cell.topicTextLabel.textColor = CKColor.Text.darkGray
+        cell.topicTextLabel.font = UIFont.systemFont(ofSize: 14)
+        cell.topicTextLabel.text = "This room was created by " + (creator ?? "@unknown") + " on " + dateString
+        return cell
+
     }
     
     private func showsSettingsEdit() {
@@ -306,7 +333,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
 
         switch sectionType {
         case .infos:
-            return self.isInfosAvailableData() ? 3 : 2
+            return self.isInfosAvailableData() ? 4 : 3
         case .settings:
             return 3
         case .actions:
@@ -323,6 +350,8 @@ protocol CKRoomSettingsViewControllerDelegate: class {
                 return self.cellForRoomName(indexPath)
             } else if indexPath.row == 1 {
                 return self.cellForRoomTopic(indexPath)
+            } else if indexPath.row == 2 {
+                return self.cellForCreatedBy(indexPath)
             } else {
                 let cell = UITableViewCell()
                 cell.textLabel?.text = "Edit"
@@ -354,19 +383,17 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = CKColor.Background.tableView
-        return view
+        let v = CKRoomHeaderInSectionView.instance()
+        v?.descriptionLabel.text = nil
+        return v
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.header40px
+        return CKLayoutSize.Table.defaultHeader
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView.init()
-        view.backgroundColor = UIColor.clear
-        return view
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -379,26 +406,13 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         // case-in
         switch sectionType {
         case .infos:
-            
-            // is 2nd row?
-            if indexPath.row == 1 {
-                
-                // fix heigh
-                if (self.mxRoom != nil && mxRoom?.summary?.topic == nil) {
-                    return CKLayoutSize.Table.row60px
-                }
-
-                // dynamic heigh
-                return UITableViewAutomaticDimension
-            }
-        default:
-            
-            // default
+            if indexPath.row == 0 { return CKLayoutSize.Table.row43px }
+            else { return UITableViewAutomaticDimension }
+        case .actions:
             return CKLayoutSize.Table.row60px
+        case .settings:
+            return CKLayoutSize.Table.row43px
         }
-        
-        // default
-        return CKLayoutSize.Table.row60px
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -408,7 +422,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         switch sectionType {
         case .infos:
             // editting
-            if indexPath.row == 1 || indexPath.row == 2 { self.showsSettingsEdit() }
+            if indexPath.row == 2 || indexPath.row == 3 { self.showsSettingsEdit() }
         case .settings:
             // participant
             if indexPath.row == 0 { self.showParticiants() }

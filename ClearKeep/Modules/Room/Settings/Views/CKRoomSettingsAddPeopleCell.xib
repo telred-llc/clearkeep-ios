@@ -51,6 +51,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_room_add_user" width="314" height="313"/>
+        <image name="ic_room_add_user" width="22" height="22"/>
     </resources>
 </document>

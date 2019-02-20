@@ -403,6 +403,10 @@
 		E5233146221C5507008FC772 /* CustomVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5233140221C5506008FC772 /* CustomVideoCell.xib */; };
 		E5233147221C5507008FC772 /* IconWithTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233141221C5506008FC772 /* IconWithTextCell.swift */; };
 		E5233148221C5507008FC772 /* IconWithTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5233142221C5506008FC772 /* IconWithTextCell.xib */; };
+		E539906D221D582D0014F26D /* CKRoomSettingsMoreSecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E539906C221D582D0014F26D /* CKRoomSettingsMoreSecurityViewController.swift */; };
+		E539906F221D587B0014F26D /* CKRoomSettingsMoreSecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E539906E221D587B0014F26D /* CKRoomSettingsMoreSecurityViewController.xib */; };
+		E5399072221D5AE30014F26D /* CKRoomSettingsMoreSecurityRadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5399071221D5AE30014F26D /* CKRoomSettingsMoreSecurityRadioCell.swift */; };
+		E5399074221D5B040014F26D /* CKRoomSettingsMoreSecurityRadioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5399073221D5B040014F26D /* CKRoomSettingsMoreSecurityRadioCell.xib */; };
 		E54A5AD421F99F5D0094461E /* CKLayoutSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */; };
 		E54A5AD621F9C5430094461E /* CKRecentItemInvitationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD521F9C5430094461E /* CKRecentItemInvitationCell.swift */; };
 		E54A5ADA21FAF6020094461E /* Misc+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5AD921FAF6020094461E /* Misc+Extension.swift */; };
@@ -1119,6 +1123,10 @@
 		E5233140221C5506008FC772 /* CustomVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomVideoCell.xib; sourceTree = "<group>"; };
 		E5233141221C5506008FC772 /* IconWithTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconWithTextCell.swift; sourceTree = "<group>"; };
 		E5233142221C5506008FC772 /* IconWithTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconWithTextCell.xib; sourceTree = "<group>"; };
+		E539906C221D582D0014F26D /* CKRoomSettingsMoreSecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreSecurityViewController.swift; sourceTree = "<group>"; };
+		E539906E221D587B0014F26D /* CKRoomSettingsMoreSecurityViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreSecurityViewController.xib; sourceTree = "<group>"; };
+		E5399071221D5AE30014F26D /* CKRoomSettingsMoreSecurityRadioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreSecurityRadioCell.swift; sourceTree = "<group>"; };
+		E5399073221D5B040014F26D /* CKRoomSettingsMoreSecurityRadioCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreSecurityRadioCell.xib; sourceTree = "<group>"; };
 		E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKLayoutSize.swift; sourceTree = "<group>"; };
 		E54A5AD521F9C5430094461E /* CKRecentItemInvitationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemInvitationCell.swift; sourceTree = "<group>"; };
 		E54A5AD921FAF6020094461E /* Misc+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Misc+Extension.swift"; sourceTree = "<group>"; };
@@ -2886,6 +2894,7 @@
 		E5233115221BA923008FC772 /* MoreSettings */ = {
 			isa = PBXGroup;
 			children = (
+				E5399070221D59130014F26D /* Security */,
 				E5233116221BA961008FC772 /* CKRoomSettingsMoreViewController.swift */,
 				E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */,
 				E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */,
@@ -2916,6 +2925,17 @@
 				E5233142221C5506008FC772 /* IconWithTextCell.xib */,
 			);
 			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		E5399070221D59130014F26D /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				E539906C221D582D0014F26D /* CKRoomSettingsMoreSecurityViewController.swift */,
+				E539906E221D587B0014F26D /* CKRoomSettingsMoreSecurityViewController.xib */,
+				E5399071221D5AE30014F26D /* CKRoomSettingsMoreSecurityRadioCell.swift */,
+				E5399073221D5B040014F26D /* CKRoomSettingsMoreSecurityRadioCell.xib */,
+			);
+			path = Security;
 			sourceTree = "<group>";
 		};
 		E54A5ADB21FEE4EE0094461E /* ContactList */ = {
@@ -3600,6 +3620,7 @@
 				32B1FEDB21A46F2C00637127 /* TermsView.xib in Resources */,
 				B1B5578E20EF568D00210D55 /* GroupInviteTableViewCell.xib in Resources */,
 				B1B5582020EF625800210D55 /* SimpleRoomTitleView.xib in Resources */,
+				E5399074221D5B040014F26D /* CKRoomSettingsMoreSecurityRadioCell.xib in Resources */,
 				F083BE061E7009ED00A9B29C /* Riot-Defaults.plist in Resources */,
 				E520894121DC730400591830 /* CkAvatarTopView.xib in Resources */,
 				B1B558D120EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -3638,6 +3659,7 @@
 				B1B557AD20EF5A6D00210D55 /* DeviceView.xib in Resources */,
 				B1B5573920EE6C4D00210D55 /* GroupRoomsViewController.xib in Resources */,
 				853E996721E4986100D005F4 /* SFCompactDisplay-Thin.ttf in Resources */,
+				E539906F221D587B0014F26D /* CKRoomSettingsMoreSecurityViewController.xib in Resources */,
 				B1B5597620EFB02A00210D55 /* InviteRecentTableViewCell.xib in Resources */,
 				E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */,
 				B1B558FB20EF768F00210D55 /* RoomIncomingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -3929,6 +3951,7 @@
 				3275FD8C21A5A2C500B9C13D /* TermsView.swift in Sources */,
 				B1B5573D20EE6C4D00210D55 /* WebViewViewController.m in Sources */,
 				E5C0B9A821CA76A400910D8B /* CkSignUpViewController.swift in Sources */,
+				E5399072221D5AE30014F26D /* CKRoomSettingsMoreSecurityRadioCell.swift in Sources */,
 				A0043FB621F848520051AAE1 /* CKAccountProfileBaseCell.swift in Sources */,
 				B1B5572720EE6C4D00210D55 /* RoomSearchViewController.m in Sources */,
 				F05927C91FDED836009F2A68 /* MXGroup+Riot.m in Sources */,
@@ -4052,6 +4075,7 @@
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
 				B1B5575A20EE6C4D00210D55 /* UnifiedSearchViewController.m in Sources */,
 				B1B5572820EE6C4D00210D55 /* RoomViewController.m in Sources */,
+				E539906D221D582D0014F26D /* CKRoomSettingsMoreSecurityViewController.swift in Sources */,
 				85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */,
 				B1B558C720EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				E523312A221BDE7D008FC772 /* CKRoomSettingsGalleryViewCell.swift in Sources */,
