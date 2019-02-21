@@ -8,6 +8,7 @@
 
 import UIKit
 import XLActionController
+import FloatingPanel
 
 protocol CKRecentListViewControllerDelegate: class {
     func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData)
@@ -25,6 +26,10 @@ class CKRecentListViewController: MXKViewController {
     weak var delegate: CKRecentListViewControllerDelegate?
 
     var dataSource: [MXKRecentCellData] = []
+    
+    var fpc: FloatingPanelController!
+    var isAddview = false
+    let viewbg = UIView()
 
     var isEmpty: Bool {
         return (self.dataSource.count == 0)
@@ -95,6 +100,7 @@ class CKRecentListViewController: MXKViewController {
             self.delegate?.recentListView(self, didOpenRoomSettingWithRoomCellData: roomData)
         }
     }
+    
 }
 
 private extension CKRecentListViewController {
@@ -116,76 +122,52 @@ private extension CKRecentListViewController {
      Show menu options
      */
     func showMenuOptions(roomData: MXKRecentCellData) {
+        fpc = FloatingPanelController()
         
-        let actionController = YoutubeActionController.init()
+        fpc.delegate = self
+        let contentVC = ShowMenuOptionVC.init(nibName: "ShowMenuOptionVC", bundle: nil)
+        fpc.set(contentViewController: contentVC)
+        fpc.isRemovalInteractionEnabled = true // Optional: Let it removable by a swipe-down
+        contentVC.callBackCKRecentListVC = { (type) in
+            switch type {
+            case .unMute:
+                self.muteEditedRoomNotifications(roomData: roomData, mute: true)
+            case .mute:
+                self.muteEditedRoomNotifications(roomData: roomData, mute: false)
+            case .removeFromFavourite:
+                self.updateEditedRoomTag(roomData: roomData, tag: nil)
+            case .addToFavourite:
+                self.updateEditedRoomTag(roomData: roomData, tag: kMXRoomTagFavourite)
+            case .setting:
+                self.openRoomSetting(roomData: roomData)
+            case .cancel:
+                break
+            }
+            self.dismiss(animated: true, completion: nil)
+            self.viewbg.isHidden = true
+            self.isAddview = false
+            guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
+            masterTabbar.navigationController?.navigationBar.isUserInteractionEnabled = true
+            masterTabbar.navigationController?.navigationBar.alpha = 1.0
+        }
         
         // Mute option
         if roomData.roomSummary.room.isMute || roomData.roomSummary.room.isMentionsOnly {
-            actionController.addAction(
-                Action.init(
-                    ActionData.init(
-                        title: String.ck_LocalizedString(key: "UnMute"),
-                        image: UIImage.init(named: "notifications")!),
-                    style: ActionStyle.default,
-                    executeImmediatelyOnTouch: false,
-                    handler: { [weak self] (action) in
-                        self?.muteEditedRoomNotifications(roomData: roomData, mute: false)
-            }))
+            contentVC.mute = .mute
         } else {
-            actionController.addAction(
-                Action.init(
-                    ActionData.init(
-                        title: String.ck_LocalizedString(key: "UnMute"),
-                        image: UIImage.init(named: "notificationsOff")!),
-                    style: ActionStyle.default,
-                    executeImmediatelyOnTouch: false,
-                    handler: { [weak self] (action) in
-                        self?.muteEditedRoomNotifications(roomData: roomData, mute: true)
-            }))
+            contentVC.mute = .unMute
         }
         
         // Favourite option
         let currentTag = roomData.roomSummary.room.accountData.tags?.first?.value
         if kMXRoomTagFavourite == currentTag?.name {
-            actionController.addAction(
-                Action.init(
-                    ActionData.init(
-                        title: String.ck_LocalizedString(key: "Remove from favourite"),
-                        image: UIImage.init(named: "favouriteOff")!),
-                    style: ActionStyle.default,
-                    executeImmediatelyOnTouch: false,
-                    handler: { [weak self] (action) in
-                self?.updateEditedRoomTag(roomData: roomData, tag: nil)
-            }))
+            contentVC.favourite = .removeFromFavourite
         } else {
-            actionController.addAction(
-                Action.init(
-                    ActionData.init(
-                        title: String.ck_LocalizedString(key: "Add to favourite"),
-                        image: UIImage.init(named: "favourite")!),
-                    style: ActionStyle.default,
-                    executeImmediatelyOnTouch: false, handler: { [weak self] (action) in
-                        self?.updateEditedRoomTag(roomData: roomData, tag: kMXRoomTagFavourite)
-            }))
+            contentVC.favourite = .addToFavourite
         }
-
-        // Setting option
-        actionController.addAction(
-            Action.init(
-                ActionData.init(
-                    title: String.ck_LocalizedString(key: "Setting"),
-                    image: UIImage.init(named: "settings_icon")!),
-                style: ActionStyle.default,
-                executeImmediatelyOnTouch: false,
-                handler: { [weak self] (action) in
-                    self?.openRoomSetting(roomData: roomData)
-        }))
         
-        // settings
-        actionController.settings.behavior.hideOnScrollDown = true
-        actionController.settings.animation.dismiss.duration = 0.4
+        self.present(fpc, animated: true, completion: nil)
         
-        present(actionController, animated: true, completion: nil)
     }
     
     func getIndexPath(gesture: UIGestureRecognizer) -> IndexPath? {
@@ -199,12 +181,58 @@ private extension CKRecentListViewController {
         if self.isEmpty {
             return
         }
-
+        
         // try to do more
         if let selectedIndexPath = getIndexPath(gesture: gesture) {
             let selectedRoomData = dataSource[selectedIndexPath.row]
+            if isAddview == false {
+                viewbg.isHidden = false
+                viewbg.frame = UIApplication.shared.keyWindow!.frame
+                viewbg.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.4)
+                isAddview = true
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(bgTapped(tapGestureRecognizer:)))
+                viewbg.isUserInteractionEnabled = true
+                viewbg.addGestureRecognizer(tapGestureRecognizer)
+
+                if self.parent?.parent?.parent?.isKind(of: CkHomeViewController.self) == true {
+                    self.parent?.parent?.parent?.view.addSubview(viewbg)
+                } else if self.isKind(of: CKRecentListViewController.self) {
+                    self.view.addSubview(viewbg)
+                }
+//                if let arrVC = self.navigationController?.viewControllers {
+//                    if arrVC.count > 0 {
+//                        for vc in arrVC {
+//                            for vcChild in (vc.childViewControllers) {
+//                                if vcChild.isKind(of: CkHomeViewController.self) {
+//                                    viewbg.isHidden = false
+//                                    viewbg.frame = UIApplication.shared.keyWindow!.frame
+//                                    viewbg.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.4)
+//                                    isAddview = true
+//                                    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(bgTapped(tapGestureRecognizer:)))
+//                                    viewbg.isUserInteractionEnabled = true
+//                                    viewbg.addGestureRecognizer(tapGestureRecognizer)
+//                                    vcChild.view.addSubview(viewbg)
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+            }
             showMenuOptions(roomData: selectedRoomData)
         }
+    }
+    
+    // Action
+    
+    @objc func bgTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        self.dismiss(animated: true, completion: nil)
+        viewbg.isHidden = true
+        isAddview = false
+        guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
+        masterTabbar.navigationController?.navigationBar.isUserInteractionEnabled = true
+        masterTabbar.navigationController?.navigationBar.alpha = 1.0
+
     }
     
     @objc func onTableViewCellTap(_ gesture: UIGestureRecognizer) {
@@ -410,5 +438,31 @@ extension CKRecentListViewController {
     
     override func startActivityIndicator() {
         // TODO: this is a temporary fix
+    }
+}
+
+extension CKRecentListViewController: FloatingPanelControllerDelegate {
+    
+    func floatingPanelDidEndDragging(_ vc: FloatingPanelController, withVelocity velocity: CGPoint, targetPosition: FloatingPanelPosition) {
+        if targetPosition == .tip {
+            self.dismiss(animated: true, completion: nil)
+            isAddview = false
+        }
+    }
+    
+    func floatingPanelDidChangePosition(_ vc: FloatingPanelController) {
+        if vc.position == .hidden {
+            fpc.fp_dismiss(animated: false)
+            viewbg.isHidden = true
+            isAddview = false
+            guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
+            masterTabbar.navigationController?.navigationBar.isUserInteractionEnabled = true
+            masterTabbar.navigationController?.navigationBar.alpha = 1.0
+        } else {
+            viewbg.isHidden = false
+            guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
+            masterTabbar.navigationController?.navigationBar.isUserInteractionEnabled = false
+            masterTabbar.navigationController?.navigationBar.alpha = 0.6
+        }
     }
 }

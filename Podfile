@@ -27,6 +27,8 @@ def import_MatrixKit
     pod 'XLActionController/Youtube'
     pod 'PromiseKit'
     pod 'SwiftImagePicker', :git => 'https://github.com/sinbadflyce/image-picker.git', :inhibit_warnings => true
+    pod 'FloatingPanel'
+
     
     if $matrixKitVersion == 'local'
         pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
