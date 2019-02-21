@@ -19,10 +19,9 @@
                 <rect key="frame" x="0.0" y="0.0" width="82" height="74"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="53I-pP-5iX" customClass="MXKImageView">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J9i-9n-A0K">
                         <rect key="frame" x="0.0" y="0.0" width="82" height="74"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B7w-Qt-EHe">
                         <rect key="frame" x="3" y="54" width="79" height="20"/>
                         <constraints>
@@ -35,18 +34,18 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="53I-pP-5iX" secondAttribute="trailing" id="0gY-5Q-gha"/>
-                <constraint firstItem="53I-pP-5iX" firstAttribute="leading" secondItem="Kaz-9Z-3x2" secondAttribute="leading" id="3Of-Ov-vax"/>
                 <constraint firstAttribute="bottom" secondItem="B7w-Qt-EHe" secondAttribute="bottom" id="8MH-gK-ZDF"/>
-                <constraint firstAttribute="bottom" secondItem="53I-pP-5iX" secondAttribute="bottom" id="F4Z-r3-OHl"/>
+                <constraint firstAttribute="trailing" secondItem="J9i-9n-A0K" secondAttribute="trailing" id="Cmz-r9-Eeh"/>
+                <constraint firstItem="J9i-9n-A0K" firstAttribute="top" secondItem="Kaz-9Z-3x2" secondAttribute="top" id="H1m-dX-8k7"/>
                 <constraint firstAttribute="trailing" secondItem="B7w-Qt-EHe" secondAttribute="trailing" id="PNg-rl-UuS"/>
                 <constraint firstItem="B7w-Qt-EHe" firstAttribute="leading" secondItem="Kaz-9Z-3x2" secondAttribute="leading" constant="3" id="dPh-CR-R7P"/>
-                <constraint firstItem="53I-pP-5iX" firstAttribute="top" secondItem="Kaz-9Z-3x2" secondAttribute="top" id="k29-Rn-djd"/>
+                <constraint firstAttribute="bottom" secondItem="J9i-9n-A0K" secondAttribute="bottom" id="n46-ES-kzD"/>
+                <constraint firstItem="J9i-9n-A0K" firstAttribute="leading" secondItem="Kaz-9Z-3x2" secondAttribute="leading" id="uWO-cX-Iws"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="3R6-tV-YP6"/>
             <connections>
                 <outlet property="nameLabel" destination="B7w-Qt-EHe" id="Z0L-04-t2a"/>
-                <outlet property="photoImage" destination="53I-pP-5iX" id="Bbj-J9-6NI"/>
+                <outlet property="photoImage" destination="J9i-9n-A0K" id="edh-ew-QI5"/>
             </connections>
         </collectionViewCell>
     </objects>

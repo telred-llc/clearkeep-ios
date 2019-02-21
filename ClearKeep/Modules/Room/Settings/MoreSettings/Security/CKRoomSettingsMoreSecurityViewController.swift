@@ -25,13 +25,13 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
         }
     }
 
-    // MARK: - STRUCT
+    // MARK: - PROPERTY
     
-    private struct SecurityOption {
-        var description: String
-        var isSelected: Bool
-        var mxRule: MXRoomJoinRule
-    }
+    /**
+     Chooses to make checkmark
+     */
+    private var chooses = [Section.access.rawValue : 0,
+                           Section.read.rawValue : 0]
     
     /**
      DataSource for UI
@@ -50,8 +50,6 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
                  "Members only (since they joined)"]]
     ]
     
-    // MARK: - PROPERTY
-    
     public var mxRoom: MXRoom!
     
     // MARK: - OVERRIDE
@@ -60,17 +58,21 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
         super.viewDidLoad()
         self.tableView.reloadData()
         self.tableView.register(CKRoomSettingsMoreSecurityRadioCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreSecurityRadioCell.identifier)
-        self.navigationItem.title = "Security"
-        
-        //self.mxRoom.setJoinRule(MXRoomJoinRule, completion: <#T##(MXResponse<Void>) -> Void#>)
+        self.navigationItem.title = "Security"                
     }
     
     // MARK: - PRIVATE
     
     private func cellForSecurityRadio(_ indexPath: IndexPath) -> CKRoomSettingsMoreSecurityRadioCell {
+        
+        // dequeue cell
         let cell = self.tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsMoreSecurityRadioCell.identifier, for: indexPath) as! CKRoomSettingsMoreSecurityRadioCell
-        cell.textLabel?.text = self.stringForIndexPath(indexPath)
+        
+        // fill cell
+        cell.title = self.stringForIndexPath(indexPath)
+        cell.tintColor = UIColor.darkGray
+        cell.accessoryType = (self.chooses[indexPath.section] == indexPath.row) ? .checkmark : .none
         return cell
     }
     
@@ -100,14 +102,12 @@ extension CKRoomSettingsMoreSecurityViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        // TODO
-        self.showAlert("Sorry! It should be coming soon")
+        self.chooses[indexPath.section] = indexPath.row
+        tableView.reloadSections([indexPath.section], with: .automatic)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CKLayoutSize.Table.row60px
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

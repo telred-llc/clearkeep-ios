@@ -128,9 +128,15 @@ extension CKRoomSettingsMoreViewController: UITableViewDelegate {
             vc.mxRoom = self.mxRoom
             self.navigationController?.pushViewController(vc, animated: true)
         case .roles:
-            self.showAlert("Sorry! It should be coming soon")
+            let vc = CKRoomSettingsMoreRoleViewController.instance()
+            vc.importSession(self.mxSessions)
+            vc.mxRoom = self.mxRoom
+            self.navigationController?.pushViewController(vc, animated: true)
         case .advanced:
-            self.showAlert("Sorry! It should be coming soon")
+            let vc = CKRoomSettingsMoreAdvancedViewController.instance()
+            vc.importSession(self.mxSessions)
+            vc.mxRoom = self.mxRoom
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     

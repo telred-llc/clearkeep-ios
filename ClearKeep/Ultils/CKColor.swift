@@ -14,11 +14,13 @@ class CKColor {
         static let lightGray: UIColor               = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         static let lightBlueText: UIColor           = #colorLiteral(red: 0.1411764706, green: 0.5215686275, blue: 0.6705882353, alpha: 1)
         static let darkGray: UIColor                = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
+        static let black: UIColor                   = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
     
     struct Background {
         static let navigationBar: UIColor           = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
         static let tableView: UIColor               = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
+        static let darkGray: UIColor                = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
     }
     
     struct Misc {
