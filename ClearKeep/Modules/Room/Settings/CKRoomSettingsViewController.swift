@@ -422,7 +422,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         switch sectionType {
         case .infos:
             // editting
-            if indexPath.row == 2 || indexPath.row == 3 { self.showsSettingsEdit() }
+            if indexPath.row == 1 || indexPath.row == 3 { self.showsSettingsEdit() }
         case .settings:
             // participant
             if indexPath.row == 0 { self.showParticiants() }
