@@ -33,7 +33,7 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
         
         set {
             __isChecking = newValue
-            self.checkmarkImageView.image = __isChecking ? UIImage(named: "ic_checkmark") : UIImage(named: "ic_uncheckmark")
+            self.checkmarkImageView.image = __isChecking ? UIImage(named: "ic_check_yes") : UIImage(named: "ic_check_no")
         }
     }
     

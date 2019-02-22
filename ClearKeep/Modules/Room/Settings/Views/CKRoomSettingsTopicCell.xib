@@ -24,7 +24,7 @@
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="23" id="RMG-LL-zQ6"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -33,7 +33,7 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Topic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BiH-Yo-Bon">
                                 <rect key="frame" x="20" y="0.0" width="331" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -53,7 +53,7 @@
                     <constraint firstItem="Evk-Ft-yiy" firstAttribute="top" secondItem="vSY-ls-Ir8" secondAttribute="bottom" id="Nab-7c-sfz"/>
                     <constraint firstAttribute="trailing" secondItem="vSY-ls-Ir8" secondAttribute="trailing" id="Uc7-F9-3ag"/>
                     <constraint firstAttribute="trailing" secondItem="Evk-Ft-yiy" secondAttribute="trailing" id="kUH-zd-saD"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Evk-Ft-yiy" secondAttribute="bottom" id="qWm-iS-LOr"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Evk-Ft-yiy" secondAttribute="bottom" constant="8" id="qWm-iS-LOr"/>
                     <constraint firstItem="vSY-ls-Ir8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="t2Y-9b-dhr"/>
                     <constraint firstItem="Evk-Ft-yiy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="zyh-CN-E8M"/>
                 </constraints>

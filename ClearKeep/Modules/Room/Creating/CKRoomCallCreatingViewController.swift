@@ -379,7 +379,7 @@ extension CKRoomCallCreatingViewController: UITableViewDelegate {
         case .search:
             return CKLayoutSize.Table.header1px
         default:
-            return CKLayoutSize.Table.header40px
+            return CKLayoutSize.Table.defaultHeader
         }
     }
     

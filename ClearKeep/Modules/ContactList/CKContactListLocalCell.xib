@@ -19,10 +19,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uu7-Ad-JmF">
-                        <rect key="frame" x="20" y="10" width="74.5" height="74.5"/>
+                        <rect key="frame" x="20" y="10" width="40" height="40"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xeI-iO-X9h">
-                                <rect key="frame" x="0.0" y="0.0" width="74.5" height="74.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Rzc-RP-3XO"/>
+                                    <constraint firstAttribute="width" constant="40" id="Vya-ol-EOv"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -35,17 +39,17 @@
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="YCd-vM-QKs">
-                        <rect key="frame" x="102.5" y="25.5" width="252.5" height="44"/>
+                        <rect key="frame" x="68" y="8" width="287" height="44"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" tag="-1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Member Display Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FID-wd-t0z">
-                                <rect key="frame" x="0.0" y="0.0" width="252.5" height="20.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="287" height="20.5"/>
                                 <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.2274509804" green="0.28627450980000002" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="ojY-4D-NkV">
-                                <rect key="frame" x="0.0" y="24.5" width="252.5" height="19.5"/>
+                                <rect key="frame" x="0.0" y="24.5" width="287" height="19.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eYI-6n-KdY">
                                         <rect key="frame" x="0.0" y="0.0" width="39" height="19.5"/>
@@ -54,7 +58,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Invite " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIg-CX-cOk">
-                                        <rect key="frame" x="202.5" y="0.0" width="50" height="19.5"/>
+                                        <rect key="frame" x="237" y="0.0" width="50" height="19.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="2jD-fb-LyV"/>
                                         </constraints>

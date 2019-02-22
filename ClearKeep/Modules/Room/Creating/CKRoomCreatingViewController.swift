@@ -312,7 +312,7 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.header40px
+        return CKLayoutSize.Table.defaultHeader
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

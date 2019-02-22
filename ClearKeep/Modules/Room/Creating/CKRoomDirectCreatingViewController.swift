@@ -343,9 +343,9 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         case .search:
             return CKLayoutSize.Table.header1px
         case .action:
-            return CKLayoutSize.Table.header40px
+            return CKLayoutSize.Table.defaultHeader
         case .suggested:
-            return CKLayoutSize.Table.header40px
+            return CKLayoutSize.Table.defaultHeader
         }
     }
     

@@ -19,14 +19,13 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
      Section
      */
     private enum Section: Int {
-        case general = 0
-        case security = 1
-        case roles = 2
-        case advanced = 3
+        case security = 0
+        case roles = 1
+        case advanced = 2
         
         // count number items
         static func count() -> Int {
-            return 4
+            return 3
         }
     }
     
@@ -65,8 +64,6 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
         guard let s = Section(rawValue: section) else { return ""}
         
         switch s {
-        case .general:
-            return "GENERAL"
         case .security:
             return "SECURITY & PRIVACY"
         case .roles:
@@ -83,8 +80,6 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
         guard let s = Section(rawValue: section) else { return ""}
         
         switch s {
-        case .general:
-            return "General"
         case .security:
             return "Security & Privacy"
         case .roles:
@@ -98,8 +93,6 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
         guard let s = Section(rawValue: section) else { return nil}
         
         switch s {
-        case .general:
-            return UIImage(named: "ic_setting_more_general")
         case .security:
             return UIImage(named: "ic_setting_more_security")
         case .roles:
@@ -120,14 +113,31 @@ extension CKRoomSettingsMoreViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.header40px
+        return CKLayoutSize.Table.defaultHeader
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        // TODO
-        self.showAlert("Sorry! It should be coming soon")
+        guard let s = Section(rawValue: indexPath.section) else { return}
+        
+        switch s {
+        case .security:
+            let vc = CKRoomSettingsMoreSecurityViewController.instance()
+            vc.importSession(self.mxSessions)
+            vc.mxRoom = self.mxRoom
+            self.navigationController?.pushViewController(vc, animated: true)
+        case .roles:
+            let vc = CKRoomSettingsMoreRoleViewController.instance()
+            vc.importSession(self.mxSessions)
+            vc.mxRoom = self.mxRoom
+            self.navigationController?.pushViewController(vc, animated: true)
+        case .advanced:
+            let vc = CKRoomSettingsMoreAdvancedViewController.instance()
+            vc.importSession(self.mxSessions)
+            vc.mxRoom = self.mxRoom
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

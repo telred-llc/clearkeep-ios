@@ -17,5 +17,6 @@ final class CKRoomSettingsMoreActionCell: CKRoomSettingsBaseCell {
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.titleLable.textColor = CKColor.Text.black
     }    
 }

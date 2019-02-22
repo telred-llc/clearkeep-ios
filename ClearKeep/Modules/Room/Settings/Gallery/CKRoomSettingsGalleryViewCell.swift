@@ -10,11 +10,11 @@ import UIKit
 
 class CKRoomSettingsGalleryViewCell: CKBaseCollectionCell {
 
-    @IBOutlet weak var photoImage: MXKImageView!
+    @IBOutlet weak var photoImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     override func prepareForReuse() {
         super.prepareForReuse()
