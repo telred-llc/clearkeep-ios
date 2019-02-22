@@ -19,14 +19,24 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uu7-Ad-JmF" customClass="MXKImageView">
-                        <rect key="frame" x="20" y="10" width="39.5" height="39.5"/>
+                        <rect key="frame" x="20" y="10.5" width="40" height="40"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="width" constant="40" id="CFu-au-YdV"/>
                             <constraint firstAttribute="width" secondItem="uu7-Ad-JmF" secondAttribute="height" multiplier="1:1" id="Jlt-2m-mk9"/>
+                            <constraint firstAttribute="height" constant="40" id="Wsp-2m-m0T"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wmX-RX-jcR" userLabel="Status">
+                        <rect key="frame" x="48" y="38.5" width="10" height="10"/>
+                        <color key="backgroundColor" red="0.3921568627" green="0.80784313730000001" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="10" id="RrL-I8-Pmc"/>
+                            <constraint firstAttribute="height" constant="10" id="wKb-Cd-oIf"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" tag="-1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Member Display Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FID-wd-t0z">
-                        <rect key="frame" x="67.5" y="0.0" width="287.5" height="59.5"/>
+                        <rect key="frame" x="68" y="0.0" width="287" height="60.5"/>
                         <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.2274509804" green="0.28627450980000002" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -34,10 +44,12 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="wmX-RX-jcR" firstAttribute="trailing" secondItem="uu7-Ad-JmF" secondAttribute="trailing" constant="-2" id="Afd-VL-ecb"/>
                     <constraint firstItem="FID-wd-t0z" firstAttribute="leading" secondItem="uu7-Ad-JmF" secondAttribute="trailing" constant="8" id="L42-dc-7ig"/>
                     <constraint firstItem="FID-wd-t0z" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" id="RRv-am-ru0"/>
                     <constraint firstAttribute="bottom" secondItem="uu7-Ad-JmF" secondAttribute="bottom" constant="10" id="RxM-Ao-B98"/>
                     <constraint firstAttribute="bottom" secondItem="FID-wd-t0z" secondAttribute="bottom" id="WHE-lt-drZ"/>
+                    <constraint firstItem="wmX-RX-jcR" firstAttribute="bottom" secondItem="uu7-Ad-JmF" secondAttribute="bottom" constant="-2" id="cNP-As-5qZ"/>
                     <constraint firstAttribute="trailing" secondItem="FID-wd-t0z" secondAttribute="trailing" constant="20" id="cvB-BE-wtO"/>
                     <constraint firstItem="uu7-Ad-JmF" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" constant="10" id="ecv-1O-So1"/>
                     <constraint firstItem="uu7-Ad-JmF" firstAttribute="leading" secondItem="TAQ-GQ-J5E" secondAttribute="leading" constant="20" id="nK6-2w-I65"/>
@@ -46,6 +58,7 @@
             <connections>
                 <outlet property="displayNameLabel" destination="FID-wd-t0z" id="0on-z3-7p0"/>
                 <outlet property="photoView" destination="uu7-Ad-JmF" id="MZN-qx-Ag5"/>
+                <outlet property="statusView" destination="wmX-RX-jcR" id="zd4-DR-qzk"/>
             </connections>
         </tableViewCell>
     </objects>

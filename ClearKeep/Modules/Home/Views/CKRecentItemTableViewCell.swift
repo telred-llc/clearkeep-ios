@@ -15,15 +15,71 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var contentStackView: UIStackView!
     @IBOutlet weak var encryptedIconImage: UIImageView!
+    @IBOutlet weak var statusView: UIView!
     
     private var lastMessageLabel: UILabel?
     private var roomCellData: MXKRecentCellDataStoring?
     
+    public var status: Int {
+        set {
+            self.statusView.tag = newValue
+            if newValue > 0 {
+                self.statusView.backgroundColor = CKColor.Background.primaryGreenColor
+            } else {
+                self.statusView.backgroundColor = CKColor.Background.lightGray
+            }
+        }
+        
+        get {
+            return self.statusView.tag
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.statusView.layer.cornerRadius = 6
+        self.statusView.layer.borderColor = UIColor.white.cgColor
+        self.statusView.layer.borderWidth = 2
+    }
+    
+    /**
+     Rendering of direct user status
+     */
+    private func renderStatus(_ roomSummary: MXRoomSummary!) {
+        
+        // is room chat
+        if (roomSummary?.isDirect ?? false) == false {
+            self.statusView.isHidden = true
+        } else { // is direct chat
+            self.statusView.isHidden = false
+        }
+        
+        self.status = 0
+        if let directUserId = roomSummary?.room?.directUserId {
+            
+            if directUserId == (roomSummary?.mxSession?.myUser?.userId ?? "") {
+                self.status = 0
+                return
+            }
+            
+            if let mxDirectUser = roomSummary?.mxSession?.user(
+                withUserId: directUserId) {
+                self.status = mxDirectUser.presence == MXPresenceOnline ? 1 : 0
+            }
+        }
+    }
+    
+    /**
+     Rendering of cell data
+     */
     func render(_ cellData: MXKCellData!) {
         roomCellData = cellData as? MXKRecentCellDataStoring
-     
         roomNameLabel.text = roomCellData?.roomSummary.displayname
         timeLabel.text = roomCellData?.lastEventDate
+        
+        // rendering of status
+        self.renderStatus(roomCellData?.roomSummary)
         
         // last message
         if let lastEvent = roomCellData?.lastEvent,
@@ -76,8 +132,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
     }
     
     static func height(for cellData: MXKCellData!, withMaximumWidth maxWidth: CGFloat) -> CGFloat {
-        // The height is fixed
-        return 70;
+        return CKLayoutSize.Table.row70px;
     }
     
     override func prepareForReuse() {

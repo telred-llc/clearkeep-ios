@@ -13,6 +13,7 @@ final class CKContactListMatrixCell: CKContactListBaseCell {
     // MARK: - OUTLET
     @IBOutlet weak var photoView: MXKImageView!
     @IBOutlet weak var displayNameLabel: UILabel!
+    @IBOutlet weak var statusView: UIView!
 
     // MARK: - OVERRIDE
     
@@ -26,10 +27,38 @@ final class CKContactListMatrixCell: CKContactListBaseCell {
         self.photoView.clipsToBounds = true
         self.photoView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
+        
+        self.statusView.layer.cornerRadius = 5
+        self.statusView.layer.borderColor = UIColor.white.cgColor
+        self.statusView.layer.borderWidth = 1.5
     }
+    
+    // MARK: - PRIVATE
+    
+    public var status: Int {
+        set {
+            self.statusView.tag = newValue
+            if newValue > 0 {
+                self.statusView.backgroundColor = CKColor.Background.primaryGreenColor
+            } else {
+                self.statusView.backgroundColor = CKColor.Background.lightGray
+            }
+        }
+        
+        get {
+            return self.statusView.tag
+        }
+    }
+    
+    // MARK: - OVERRIDE
     
     override func getMXKImageView() -> MXKImageView! {
         return self.photoView
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.status = 0
     }
     
     // MARK: - PUBLIC

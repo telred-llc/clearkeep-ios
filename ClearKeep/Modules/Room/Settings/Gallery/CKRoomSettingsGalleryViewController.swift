@@ -22,6 +22,11 @@ final class CKRoomSettingsGalleryViewController: MXKViewController {
     private var attachments: [MXKAttachment]!
     
     /**
+     Number of items to get in paginate func
+     */
+    private let kPaginateLimit: UInt = 100
+    
+    /**
      Room object
      */
     public var mxRoom: MXRoom! {
@@ -46,7 +51,7 @@ final class CKRoomSettingsGalleryViewController: MXKViewController {
         self.navigationItem.title = "Files"
         self.collectionView.register(CKRoomSettingsGalleryViewCell.nib, forCellWithReuseIdentifier: CKRoomSettingsGalleryViewCell.identifier)
         self.collectionView.reloadData()
-        self.collectionView.backgroundColor = CKColor.Background.tableView
+        self.collectionView.backgroundColor = CKColor.Background.darkGray
     }
     
     
@@ -78,7 +83,7 @@ final class CKRoomSettingsGalleryViewController: MXKViewController {
         DispatchQueue.main.async { self.startActivityIndicator() }
         
         ds.paginate(
-            100, direction: __MXTimelineDirectionBackwards, onlyFromStore: false,
+            kPaginateLimit, direction: __MXTimelineDirectionBackwards, onlyFromStore: false,
             success: { (numers: UInt) in
                 DispatchQueue.main.async {
                     self.stopActivityIndicator()

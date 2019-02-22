@@ -140,6 +140,9 @@ final class CKRoomSettingsEditViewController: MXKViewController {
         }
     }
     
+    /**
+     On save
+     */
     private func onSave() {
         
         self.view.endEditing(true)
@@ -148,17 +151,35 @@ final class CKRoomSettingsEditViewController: MXKViewController {
             return
         }
         
-        if self.newTopic != nil {
+        if (self.newTopic?.count ?? 0) > 0 {
             room.setTopic(self.newTopic) { (response: MXResponse<Void>) in
                 if let error = response.error { print("[CK] Error - \(error.localizedDescription)")}
             }
         }
         
-        if self.newName != nil {
+        if (self.newName?.count ?? 0) > 0 {
             room.summary.displayname = self.newName
             room.setName(self.newName) { (response: MXResponse<Void>) in
                 if let error = response.error { print("[CK] Error - \(error.localizedDescription)")}
             }
+        }
+    }
+    
+    /**
+     TITLE for table header
+     */
+    private func titleForTableHeader(_ section: Int) -> String? {
+        guard let st = SectionType(rawValue: section) else {
+            return nil
+        }
+        
+        switch st {
+        case .name:
+            return "NAME"
+        case .image:
+            return "PHOTO"
+        case .topic:
+            return "CURRENT TOPIC"
         }
     }
 }
@@ -168,7 +189,22 @@ final class CKRoomSettingsEditViewController: MXKViewController {
 extension CKRoomSettingsEditViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CKLayoutSize.Table.row60px
+        
+        // zero
+        guard let st = SectionType(rawValue: indexPath.section) else {
+            return 0
+        }
+        
+        switch st {
+        case .name:
+            if self.mxRoom?.summary?.displayname != nil { return UITableViewAutomaticDimension}
+            else { return CKLayoutSize.Table.row60px }
+        case .image:
+            return CKLayoutSize.Table.row60px
+        case .topic:
+            if self.mxRoom?.summary?.topic != nil { return UITableViewAutomaticDimension}
+            else { return CKLayoutSize.Table.row60px }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,33 +212,13 @@ extension CKRoomSettingsEditViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        // section type
-        guard let st = SectionType(rawValue: section) else {
-            return nil
-        }
-        
-        var titleSection = ""
-        
-        switch st {
-        case .name:
-            titleSection = "Name"
-        case .image:
-            titleSection = "Photo"
-        case .topic:
-            titleSection = "Current topic"
-        }
-        
-        let label = CKLabelInternal()
-        label.backgroundColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
-        label.text = titleSection
-        label.font = CKAppTheme.mainLightAppFont(size: 15)
-        label.textColor = #colorLiteral(red: 0.4352941176, green: 0.431372549, blue: 0.4509803922, alpha: 1)
-        return label
+        let v = CKRoomHeaderInSectionView.instance()
+        v?.descriptionLabel.text = self.titleForTableHeader(section)
+        return v
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.header40px
+        return CKLayoutSize.Table.defaultHeader
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

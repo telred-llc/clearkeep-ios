@@ -49,7 +49,4 @@ class CKOtherProfileActionCell: CKAccountProfileBaseCell {
         callHandler?()
     }
     
-    
-    
-    
 }
