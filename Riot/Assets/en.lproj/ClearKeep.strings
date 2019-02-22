@@ -6,8 +6,8 @@
   Copyright © 2019 matrix.org. All rights reserved.
 */
 
-"Mute" = "Mute";
-"UnMute" = "UnMute";
+"Mute" = "Turn off room notification";
+"UnMute" = "Turn on room notification";
 "Add to favourite" = "Add to favourite";
 "Setting" = "Setting";
 "Direct Message" = "Direct Message";

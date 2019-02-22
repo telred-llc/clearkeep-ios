@@ -125,9 +125,10 @@ private extension CKRecentListViewController {
         fpc = FloatingPanelController()
         
         fpc.delegate = self
-        let contentVC = ShowMenuOptionVC.init(nibName: "ShowMenuOptionVC", bundle: nil)
+        let contentVC = CKMenuRoomViewController.init(nibName: "CKMenuRoomViewController", bundle: nil)
         fpc.set(contentViewController: contentVC)
         fpc.isRemovalInteractionEnabled = true // Optional: Let it removable by a swipe-down
+        
         contentVC.callBackCKRecentListVC = { (type) in
             switch type {
             case .unMute:
@@ -140,8 +141,6 @@ private extension CKRecentListViewController {
                 self.updateEditedRoomTag(roomData: roomData, tag: kMXRoomTagFavourite)
             case .setting:
                 self.openRoomSetting(roomData: roomData)
-            case .cancel:
-                break
             }
             self.dismiss(animated: true, completion: nil)
             self.viewbg.isHidden = true
@@ -199,24 +198,6 @@ private extension CKRecentListViewController {
                 } else if self.isKind(of: CKRecentListViewController.self) {
                     self.view.addSubview(viewbg)
                 }
-//                if let arrVC = self.navigationController?.viewControllers {
-//                    if arrVC.count > 0 {
-//                        for vc in arrVC {
-//                            for vcChild in (vc.childViewControllers) {
-//                                if vcChild.isKind(of: CkHomeViewController.self) {
-//                                    viewbg.isHidden = false
-//                                    viewbg.frame = UIApplication.shared.keyWindow!.frame
-//                                    viewbg.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.4)
-//                                    isAddview = true
-//                                    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(bgTapped(tapGestureRecognizer:)))
-//                                    viewbg.isUserInteractionEnabled = true
-//                                    viewbg.addGestureRecognizer(tapGestureRecognizer)
-//                                    vcChild.view.addSubview(viewbg)
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
             }
             showMenuOptions(roomData: selectedRoomData)
         }

@@ -18,8 +18,8 @@
 		358DB9429359F97520545D35 /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5856BA7A55E53C0AEAFC084 /* Pods_RiotPods_RiotShareExtension.framework */; };
 		5EDD03A6221E531E0013A82F /* CKAlertSettingRoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD03A4221E531E0013A82F /* CKAlertSettingRoomCell.swift */; };
 		5EDD03A7221E531E0013A82F /* CKAlertSettingRoomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EDD03A5221E531E0013A82F /* CKAlertSettingRoomCell.xib */; };
-		5EF8B5E1221D58B4007B431C /* ShowMenuOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF8B5DF221D58B4007B431C /* ShowMenuOptionVC.swift */; };
-		5EF8B5E2221D58B4007B431C /* ShowMenuOptionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EF8B5E0221D58B4007B431C /* ShowMenuOptionVC.xib */; };
+		5EF8B5E1221D58B4007B431C /* CKMenuRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF8B5DF221D58B4007B431C /* CKMenuRoomViewController.swift */; };
+		5EF8B5E2221D58B4007B431C /* CKMenuRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EF8B5E0221D58B4007B431C /* CKMenuRoomViewController.xib */; };
 		8519E71321DF0C26006C055F /* CKImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71221DF0C26006C055F /* CKImage+Extension.swift */; };
 		8519E71521DF0CA2006C055F /* CKViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */; };
 		851F40182204555400326BBE /* CKSearchBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F40172204555400326BBE /* CKSearchBarContainerView.swift */; };
@@ -586,8 +586,8 @@
 		3998C51E0196D42B366E0900 /* Pods-RiotPods-RiotShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension/Pods-RiotPods-RiotShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		5EDD03A4221E531E0013A82F /* CKAlertSettingRoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAlertSettingRoomCell.swift; sourceTree = "<group>"; };
 		5EDD03A5221E531E0013A82F /* CKAlertSettingRoomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAlertSettingRoomCell.xib; sourceTree = "<group>"; };
-		5EF8B5DF221D58B4007B431C /* ShowMenuOptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMenuOptionVC.swift; sourceTree = "<group>"; };
-		5EF8B5E0221D58B4007B431C /* ShowMenuOptionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowMenuOptionVC.xib; sourceTree = "<group>"; };
+		5EF8B5DF221D58B4007B431C /* CKMenuRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKMenuRoomViewController.swift; sourceTree = "<group>"; };
+		5EF8B5E0221D58B4007B431C /* CKMenuRoomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKMenuRoomViewController.xib; sourceTree = "<group>"; };
 		78CD06F14060998545642330 /* Pods-RiotPods-Riot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-Riot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot.debug.xcconfig"; sourceTree = "<group>"; };
 		8519E71221DF0C26006C055F /* CKImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKImage+Extension.swift"; sourceTree = "<group>"; };
 		8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -3175,8 +3175,8 @@
 				85CA7CA821DE13A2000331AC /* CKDirectMessagePageViewController.swift */,
 				85CA7CA921DE13A2000331AC /* CKDirectMessagePageViewController.xib */,
 				858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */,
-				5EF8B5DF221D58B4007B431C /* ShowMenuOptionVC.swift */,
-				5EF8B5E0221D58B4007B431C /* ShowMenuOptionVC.xib */,
+				5EF8B5DF221D58B4007B431C /* CKMenuRoomViewController.swift */,
+				5EF8B5E0221D58B4007B431C /* CKMenuRoomViewController.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -3630,7 +3630,7 @@
 				B1B5574320EE6C4D00210D55 /* CallViewController.xib in Resources */,
 				E517440F22167C7500C13B21 /* CKRecentItemFirstChatCell.xib in Resources */,
 				F083BDEA1E7009ED00A9B29C /* ringback.mp3 in Resources */,
-				5EF8B5E2221D58B4007B431C /* ShowMenuOptionVC.xib in Resources */,
+				5EF8B5E2221D58B4007B431C /* CKMenuRoomViewController.xib in Resources */,
 				E574336321F366B100989FF3 /* CKRoomCreatingViewController.xib in Resources */,
 				F083BDF21E7009ED00A9B29C /* GoogleService-Info.plist in Resources */,
 				E5233144221C5507008FC772 /* CustomImageCell.xib in Resources */,
@@ -4045,7 +4045,7 @@
 				B1B5590620EF768F00210D55 /* RoomMembershipCollapsedWithPaginationTitleBubbleCell.m in Sources */,
 				F083BE031E7009ED00A9B29C /* EventFormatter.m in Sources */,
 				E51891EE21EF351700DFBCA5 /* CKRoomSettingsEditablePhotoCell.swift in Sources */,
-				5EF8B5E1221D58B4007B431C /* ShowMenuOptionVC.swift in Sources */,
+				5EF8B5E1221D58B4007B431C /* CKMenuRoomViewController.swift in Sources */,
 				B16932F720F3C50E00746532 /* RecentsDataSource.m in Sources */,
 				B1B558FC20EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				B1B5572920EE6C4D00210D55 /* RoomFilesViewController.m in Sources */,

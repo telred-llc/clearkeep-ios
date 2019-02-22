@@ -7,114 +7,105 @@
 //
 
 import UIKit
-enum typeCellShowMenu {
+
+internal enum CKMenuRoomCellType {
     case unMute
     case mute
     case removeFromFavourite
     case addToFavourite
     case setting
-    case cancel
 
+    // title
     func title() -> String {
         switch self {
         case .unMute:
-            return "UnMute"
+            return "Turn on room notification"
         case .mute:
-            return "UnMute"
+            return "Turn off room notification"
         case .removeFromFavourite:
             return "Remove from favourite"
         case .addToFavourite:
             return "Add to favourite"
         case .setting:
             return "Setting"
-        case .cancel:
-            return "Cancel"
         }
     }
     
+    // icon
     func icon() -> String {
         switch self {
         case .unMute:
-            return "notifications"
+            return "ic_room_bell_on"
         case .mute:
-            return "notificationsOff"
+            return "ic_room_bell_off"
         case .removeFromFavourite:
-            return "favouriteOff"
+            return "ic_room_unfavourite"
         case .addToFavourite:
-            return "favourite"
+            return "ic_room_favourite"
         case .setting:
-            return "settings_icon"
-        case .cancel:
-            return ""
+            return "ic_room_settings"
         }
     }
 }
-class ShowMenuOptionVC: UIViewController {
+
+// MARK: - CKRoomMenuViewController
+
+final class CKMenuRoomViewController: UIViewController {
+    
+    // MARK: - OUTLET
+    
     @IBOutlet weak var tableView: UITableView!
     
-    var datasourceTableView: [typeCellShowMenu] = []
-    var callBackCKRecentListVC: ((_ result:typeCellShowMenu) -> Void)?
-    var mute: typeCellShowMenu = .unMute
-    var favourite: typeCellShowMenu = .removeFromFavourite
+    // MARK: - PROPERTY
+    
+    internal var datasourceTableView: [CKMenuRoomCellType] = []
+    internal var callBackCKRecentListVC: ((_ result: CKMenuRoomCellType) -> Void)?
+    internal var mute: CKMenuRoomCellType = .unMute
+    internal var favourite: CKMenuRoomCellType = .removeFromFavourite
+
+    // MARK: - OVERRIDE
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         self.tableView.estimatedRowHeight = 50
-        tableView.register(UINib.init(nibName: "CKAlertSettingRoomCell", bundle: nil), forCellReuseIdentifier: "CKAlertSettingRoomCell")
+        tableView.register(
+            UINib.init(nibName: "CKAlertSettingRoomCell", bundle: nil),
+            forCellReuseIdentifier: "CKAlertSettingRoomCell")
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        datasourceTableView = [mute, favourite, .setting, .cancel]
+        datasourceTableView = [mute, favourite, .setting]
     }
+
+    // MARK: - PRIVATE
+    
+    // MARK: - PUBLIC
 
 }
 
-extension ShowMenuOptionVC: UITableViewDelegate, UITableViewDataSource {
+extension CKMenuRoomViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return datasourceTableView.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let data = datasourceTableView[indexPath.row]
-        if data == .cancel {
-            return 60
-        } else {
-            return 44
-        }
-        
+        return 44
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = datasourceTableView[indexPath.row]
-        if data == .cancel {
-            let cell = UITableViewCell()
-            let lbl = UILabel.init(frame: CGRect.init(x: 40, y: 16, width: self.view.bounds.width - 80, height: 44))
-            lbl.text = data.title()
-            lbl.font = UIFont.boldSystemFont(ofSize: 16)
-            lbl.textColor = .red
-            lbl.textAlignment = .center
-            cell.addSubview(lbl)
-            lbl.borderWidth = 2
-            lbl.borderColor = UIColor.gray
-            lbl.cornerRadius = 5
-            return cell
-        } else {
-            return tableView.dequeueReusableCell(withIdentifier: "CKAlertSettingRoomCell", for: indexPath)
-        }
+        return tableView.dequeueReusableCell(withIdentifier: "CKAlertSettingRoomCell", for: indexPath)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let data = datasourceTableView[indexPath.row]
-        if data != .cancel {
-            if let cell = cell as? CKAlertSettingRoomCell {
-                cell.imgCell.image = UIImage.init(named: data.icon())
-                cell.lblTitle.text = data.title()
-            }
+        if let cell = cell as? CKAlertSettingRoomCell {
+            cell.imgCell.image = UIImage.init(named: data.icon())
+            cell.lblTitle.text = data.title()
         }
     }
     
@@ -131,8 +122,6 @@ extension ShowMenuOptionVC: UITableViewDelegate, UITableViewDataSource {
             self.callBackCKRecentListVC?(.addToFavourite)
         case .setting:
             self.callBackCKRecentListVC?(.setting)
-        case .cancel:
-            self.callBackCKRecentListVC?(.cancel)
         }
         
         tableView.reloadData()

@@ -20,13 +20,15 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vtj-lZ-xkt">
-                        <rect key="frame" x="10" y="5" width="33.5" height="33.5"/>
+                        <rect key="frame" x="10" y="12" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Vtj-lZ-xkt" secondAttribute="height" multiplier="1:1" id="0rP-wN-5vz"/>
+                            <constraint firstAttribute="width" constant="20" id="3mf-Dt-JOj"/>
+                            <constraint firstAttribute="height" constant="20" id="Ax2-rC-7dV"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Sj-PB-4oz">
-                        <rect key="frame" x="53.5" y="12" width="39.5" height="19.5"/>
+                        <rect key="frame" x="40" y="12" width="39.5" height="19.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -36,7 +38,6 @@
                     <constraint firstItem="Vtj-lZ-xkt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="0VG-L3-UA2"/>
                     <constraint firstItem="4Sj-PB-4oz" firstAttribute="leading" secondItem="Vtj-lZ-xkt" secondAttribute="trailing" constant="10" id="75d-jZ-OGX"/>
                     <constraint firstItem="Vtj-lZ-xkt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Hx7-NW-URb"/>
-                    <constraint firstItem="Vtj-lZ-xkt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="eeU-qa-Fbp"/>
                     <constraint firstItem="4Sj-PB-4oz" firstAttribute="centerY" secondItem="Vtj-lZ-xkt" secondAttribute="centerY" id="lQr-MZ-ft1"/>
                 </constraints>
             </tableViewCellContentView>
