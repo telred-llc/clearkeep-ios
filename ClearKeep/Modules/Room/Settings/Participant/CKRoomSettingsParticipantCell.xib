@@ -32,20 +32,31 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ycA-eo-qWi" userLabel="StatusView">
+                        <rect key="frame" x="40.5" y="38.5" width="12" height="12"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="4uj-TU-9Vh"/>
+                            <constraint firstAttribute="width" secondItem="ycA-eo-qWi" secondAttribute="height" multiplier="1:1" id="q4y-BP-hf6"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Yzp-OC-nbH" firstAttribute="leading" secondItem="w4O-Uw-odr" secondAttribute="leading" constant="10" id="1n7-q4-ECi"/>
                     <constraint firstAttribute="trailingMargin" secondItem="an6-4E-hPa" secondAttribute="trailing" constant="10" id="M2F-ku-rLp"/>
+                    <constraint firstItem="ycA-eo-qWi" firstAttribute="bottom" secondItem="Yzp-OC-nbH" secondAttribute="bottom" constant="-1" id="O0c-Um-5Ey"/>
                     <constraint firstItem="an6-4E-hPa" firstAttribute="leading" secondItem="Yzp-OC-nbH" secondAttribute="trailing" constant="10" id="R6m-CY-LLA"/>
                     <constraint firstItem="Yzp-OC-nbH" firstAttribute="top" secondItem="w4O-Uw-odr" secondAttribute="top" constant="8" id="TmX-Mx-P6R"/>
                     <constraint firstAttribute="bottom" secondItem="Yzp-OC-nbH" secondAttribute="bottom" constant="8" id="pEA-cz-r1W"/>
                     <constraint firstItem="an6-4E-hPa" firstAttribute="top" secondItem="w4O-Uw-odr" secondAttribute="topMargin" id="v0q-78-UtR"/>
                     <constraint firstItem="an6-4E-hPa" firstAttribute="bottom" secondItem="w4O-Uw-odr" secondAttribute="bottomMargin" id="wKL-JS-Fqn"/>
+                    <constraint firstItem="ycA-eo-qWi" firstAttribute="trailing" secondItem="Yzp-OC-nbH" secondAttribute="trailing" constant="-1" id="yh0-CB-6NT"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="participantLabel" destination="an6-4E-hPa" id="TOl-vE-mDi"/>
                 <outlet property="photoView" destination="Yzp-OC-nbH" id="0nf-CU-42W"/>
+                <outlet property="statusView" destination="ycA-eo-qWi" id="DxG-BG-Yev"/>
             </connections>
         </tableViewCell>
     </objects>

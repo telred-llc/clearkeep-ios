@@ -1467,27 +1467,42 @@ extension CKRoomViewController {
     }
     
     override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
-        if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
+        
+        // is long press event?
+        if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
+            && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
+            
+            // call to super
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+            
+            // current alert is available
             if let currentAlert = self.currentAlert {
+                
                 // delay for presenting action sheet completed
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
                     currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
                     currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
                 }
             }
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
-                        // click user avatar in room go to  view info profile
-            let idAvatarTap = userInfo?["kMXKRoomBubbleCellUserIdKey"] as? String
+            
+            // click user avatar in room go to  view info profile
+            let idAvatarTap = userInfo?[kMXKRoomBubbleCellUserIdKey] as? String
+            
+            // is current ser
             if idAvatarTap == mainSession.myUser.userId {
+                
+                // shows account profile
                 self.showPersonalAccountProfile()
             } else {
+                
+                // get member, show its profile
                 if let mxMember = roomDataSource?.roomState?.members.member(withUserId: idAvatarTap) {
                     self.showOthersAccountProfile(mxMember: mxMember)
                 }
             }
-        } else {
+        } else { // call super
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         }
     }
@@ -1611,30 +1626,20 @@ extension CKRoomViewController {
     
     // Click avatar Show info profile
     private func showPersonalAccountProfile() {
-        
-        // initialize vc from xib
-        let vc = CKAccountProfileViewController(
-            nibName: CKAccountProfileViewController.nibName,
-            bundle: nil)
-        
-        // import mx session and room id
-        vc.importSession(self.mxSessions)
-        
-        self.navigationController?.pushViewController(vc, animated: true)
+        let nvc = CKAccountProfileViewController.instanceNavigation { (vc: MXKViewController) in
+            vc.importSession(self.mxSessions)
+            (vc as? CKAccountProfileViewController)?.isForcedPresenting = true
+        }
+        self.present(nvc, animated: true, completion: nil)
     }
     
     private func showOthersAccountProfile(mxMember: MXRoomMember) {
-        
-        // initialize vc from xib
-        let vc = CKOtherProfileViewController(
-            nibName: CKOtherProfileViewController.nibName,
-            bundle: nil)
-        
-        // import mx session and room id
-        vc.importSession(self.mxSessions)
-        vc.mxMember = mxMember
-        
-        self.navigationController?.pushViewController(vc, animated: true)
+        let nvc = CKOtherProfileViewController.instanceNavigation { (vc: MXKViewController) in
+            vc.importSession(self.mxSessions)
+            (vc as? CKOtherProfileViewController)?.mxMember = mxMember
+            (vc as? CKOtherProfileViewController)?.isForcedPresenting = true
+        }
+        self.present(nvc, animated: true, completion: nil)
     }
 }
 

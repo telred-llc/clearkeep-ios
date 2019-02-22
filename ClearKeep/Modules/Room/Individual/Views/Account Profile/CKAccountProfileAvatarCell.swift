@@ -38,7 +38,7 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
     
     public func settingStatus(online: Bool)  {
         if online == true {
-            statusView.backgroundColor = CKColor.Misc.primaryGreenColor
+            statusView.backgroundColor = CKColor.Misc.onlineColor
         } else {
             statusView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         }

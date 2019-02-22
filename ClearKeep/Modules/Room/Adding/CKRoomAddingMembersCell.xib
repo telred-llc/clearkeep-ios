@@ -39,15 +39,25 @@
                             <constraint firstAttribute="width" constant="26" id="qgp-NH-qFB"/>
                         </constraints>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iVg-Ky-ppc" userLabel="StatusView">
+                        <rect key="frame" x="46.5" y="36.5" width="12" height="12"/>
+                        <color key="backgroundColor" red="0.3921568627" green="0.80784313730000001" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="iVg-Ky-ppc" secondAttribute="height" multiplier="1:1" id="EVp-pR-2sV"/>
+                            <constraint firstAttribute="width" constant="12" id="NLX-la-NqN"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="0M8-Oo-rRq" secondAttribute="trailing" constant="20" id="3BA-Zj-rdW"/>
                     <constraint firstItem="0M8-Oo-rRq" firstAttribute="leading" secondItem="FID-wd-t0z" secondAttribute="trailing" constant="8" id="6lN-X4-Olf"/>
                     <constraint firstItem="FID-wd-t0z" firstAttribute="leading" secondItem="uu7-Ad-JmF" secondAttribute="trailing" constant="8" id="L42-dc-7ig"/>
+                    <constraint firstItem="iVg-Ky-ppc" firstAttribute="bottom" secondItem="uu7-Ad-JmF" secondAttribute="bottom" constant="-1" id="PYV-8f-tYp"/>
                     <constraint firstItem="FID-wd-t0z" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" id="RRv-am-ru0"/>
                     <constraint firstAttribute="bottom" secondItem="uu7-Ad-JmF" secondAttribute="bottom" constant="10" id="RxM-Ao-B98"/>
                     <constraint firstAttribute="bottom" secondItem="FID-wd-t0z" secondAttribute="bottom" id="WHE-lt-drZ"/>
                     <constraint firstItem="uu7-Ad-JmF" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" constant="10" id="ecv-1O-So1"/>
+                    <constraint firstItem="iVg-Ky-ppc" firstAttribute="trailing" secondItem="uu7-Ad-JmF" secondAttribute="trailing" constant="-1" id="h2U-Dw-jdz"/>
                     <constraint firstItem="0M8-Oo-rRq" firstAttribute="centerY" secondItem="TAQ-GQ-J5E" secondAttribute="centerY" id="ipi-Bz-g9I"/>
                     <constraint firstItem="uu7-Ad-JmF" firstAttribute="leading" secondItem="TAQ-GQ-J5E" secondAttribute="leading" constant="20" id="nK6-2w-I65"/>
                 </constraints>
@@ -56,6 +66,7 @@
                 <outlet property="checkmarkImageView" destination="0M8-Oo-rRq" id="ULy-Jg-ndI"/>
                 <outlet property="displayNameLabel" destination="FID-wd-t0z" id="0on-z3-7p0"/>
                 <outlet property="photoView" destination="uu7-Ad-JmF" id="MZN-qx-Ag5"/>
+                <outlet property="statusView" destination="iVg-Ky-ppc" id="ydk-cH-4wR"/>
             </connections>
         </tableViewCell>
     </objects>
