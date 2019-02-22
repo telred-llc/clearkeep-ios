@@ -9,6 +9,7 @@
 import UIKit
 
 class CKAccountProfileViewController: MXKViewController {
+    
     // MARK: - OUTLET
     @IBOutlet weak var tableView: UITableView!
     
@@ -39,6 +40,11 @@ class CKAccountProfileViewController: MXKViewController {
     private var accountUserInfoObserver: Any?
     private var pushInfoUpdateObserver: Any?
 
+    /**
+     When you want this controller always behavior a presenting controller, set true it
+     */
+    internal var isForcedPresenting = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.myUser = self.getMyUser()
@@ -66,8 +72,23 @@ class CKAccountProfileViewController: MXKViewController {
             self.stopActivityIndicator()
             self.refreshData()
         })
+        
+        if self.isForcedPresenting {
+            // Setup close button item
+            let closeItemButton = UIBarButtonItem.init(
+                image: UIImage(named: "ic_x_close"),
+                style: .plain,
+                target: self, action: #selector(clickedOnBackButton(_:)))
+            
+            // set nv items
+            self.navigationItem.leftBarButtonItem = closeItemButton
+        }
     }
     
+    @objc func clickedOnBackButton(_ sender: Any?) {
+        self.dismiss(animated: true, completion: nil)
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"

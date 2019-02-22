@@ -28,9 +28,9 @@ final class CKContactListMatrixCell: CKContactListBaseCell {
         self.photoView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
         
-        self.statusView.layer.cornerRadius = 5
+        self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor
-        self.statusView.layer.borderWidth = 1.5
+        self.statusView.layer.borderWidth = 2
     }
     
     // MARK: - PRIVATE
@@ -39,9 +39,9 @@ final class CKContactListMatrixCell: CKContactListBaseCell {
         set {
             self.statusView.tag = newValue
             if newValue > 0 {
-                self.statusView.backgroundColor = CKColor.Background.primaryGreenColor
+                self.statusView.backgroundColor = CKColor.Misc.onlineColor
             } else {
-                self.statusView.backgroundColor = CKColor.Background.lightGray
+                self.statusView.backgroundColor = CKColor.Misc.offlineColor
             }
         }
         

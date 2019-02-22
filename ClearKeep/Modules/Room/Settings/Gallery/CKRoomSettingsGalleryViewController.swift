@@ -13,6 +13,7 @@ final class CKRoomSettingsGalleryViewController: MXKViewController {
     // MARK: - OULTET
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var blankView: UIView!
     
     // MARK: - PROPERTY
     
@@ -51,7 +52,8 @@ final class CKRoomSettingsGalleryViewController: MXKViewController {
         self.navigationItem.title = "Files"
         self.collectionView.register(CKRoomSettingsGalleryViewCell.nib, forCellWithReuseIdentifier: CKRoomSettingsGalleryViewCell.identifier)
         self.collectionView.reloadData()
-        self.collectionView.backgroundColor = CKColor.Background.darkGray
+        self.collectionView.backgroundColor = CKColor.Background.tableView
+        self.updateBlank()
     }
     
     
@@ -91,6 +93,19 @@ final class CKRoomSettingsGalleryViewController: MXKViewController {
                 }
         }) { (error: Error?) in
             print("Paginate error: \(String.init(describing: error?.localizedDescription))")
+        }
+    }
+    
+    /**
+     Update blank view
+     */
+    private func updateBlank() {
+        if (self.attachments?.count ?? 0) == 0 {
+            self.blankView.isHidden = false
+            self.collectionView.isHidden = true
+        } else {
+            self.blankView.isHidden = true
+            self.collectionView.isHidden = false
         }
     }
     
@@ -156,6 +171,7 @@ extension CKRoomSettingsGalleryViewController: MXKDataSourceDelegate {
                 if let attachments = self.roomDataSource.attachmentsWithThumbnail as? [MXKAttachment] {
                     self.attachments = attachments
                     self.collectionView.reloadData()
+                    self.updateBlank()
                 }
             }
         }

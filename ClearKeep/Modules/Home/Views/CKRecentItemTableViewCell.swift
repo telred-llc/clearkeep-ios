@@ -24,9 +24,9 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         set {
             self.statusView.tag = newValue
             if newValue > 0 {
-                self.statusView.backgroundColor = CKColor.Background.primaryGreenColor
+                self.statusView.backgroundColor = CKColor.Misc.onlineColor
             } else {
-                self.statusView.backgroundColor = CKColor.Background.lightGray
+                self.statusView.backgroundColor = CKColor.Misc.offlineColor
             }
         }
         
@@ -38,7 +38,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.statusView.layer.cornerRadius = 6
+        self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor
         self.statusView.layer.borderWidth = 2
     }

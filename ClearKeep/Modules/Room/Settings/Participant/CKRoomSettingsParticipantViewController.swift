@@ -357,6 +357,12 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
                 identifyText: mxMember.userId,
                 session: self.mainSession)
             
+            // status
+            if let u = self.mainSession?.user(
+                withUserId: mxMember.userId ?? "") {
+                cell.status = u.presence == MXPresenceOnline ? 1 : 0
+            } else { cell.status = 0 }
+
             return cell
         }
         

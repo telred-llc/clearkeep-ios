@@ -24,10 +24,13 @@ class CKColor {
         static let tableView: UIColor               = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
         static let darkGray: UIColor                = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
         static let lightGray: UIColor               = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        static let blue: UIColor                    = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
     }
     
     struct Misc {
         static let primaryGreenColor: UIColor       = #colorLiteral(red: 0.3921568627, green: 0.8078431373, blue: 0.6235294118, alpha: 1)
         static let borderColor: UIColor             = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        static let onlineColor: UIColor             = #colorLiteral(red: 0.2941176471, green: 0.8588235294, blue: 0.4235294118, alpha: 1)
+        static let offlineColor: UIColor            = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
     }
 }

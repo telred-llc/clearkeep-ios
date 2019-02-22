@@ -161,6 +161,12 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             cell.displayNameLabel.text = d.mxContact.displayName
             cell.isChecked = d.isSelected
             cell.changesBy(mxContact: d.mxContact, inSession: self.mainSession)
+            
+            if let u = self.mainSession?.user(
+                withUserId: (d.mxContact?.matrixIdentifiers?.first as? String) ?? "") {
+                cell.status = u.presence == MXPresenceOnline ? 1 : 0
+            } else { cell.status = 0 }
+            
             return cell
         }
         return CKRoomAddingMembersCell()

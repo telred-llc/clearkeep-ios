@@ -31,10 +31,6 @@ class CKOtherProfileViewController: MXKViewController {
     
     // MARK: - PROPERTY
     
-    /**
-     MX Room
-     */
-    public var mxMember: MXRoomMember!
     private var request: MXHTTPOperation!
     
     // Observers to manage ongoing conference call banner
@@ -42,6 +38,16 @@ class CKOtherProfileViewController: MXKViewController {
     private var kMXCallManagerConferenceStartedObserver: Any?
     private var kMXCallManagerConferenceFinishedObserver: Any?
     
+    /**
+     MX Room
+     */
+    public var mxMember: MXRoomMember!
+
+    /**
+     When you want this controller always behavior a presenting controller, set true it
+     */
+    internal var isForcedPresenting = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.finalizeLoadView()
@@ -67,6 +73,17 @@ class CKOtherProfileViewController: MXKViewController {
         self.tableView.register(CKOtherProfileActionCell.nib, forCellReuseIdentifier: CKOtherProfileActionCell.identifier)
         self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
         self.tableView.allowsSelection = false
+        
+        if self.isForcedPresenting {
+            // Setup close button item
+            let closeItemButton = UIBarButtonItem.init(
+                image: UIImage(named: "ic_x_close"),
+                style: .plain,
+                target: self, action: #selector(clickedOnBackButton(_:)))
+            
+            // set nv items
+            self.navigationItem.leftBarButtonItem = closeItemButton
+        }
     }
     
     private func cellForAvatarPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileAvatarCell {
@@ -81,7 +98,7 @@ class CKOtherProfileViewController: MXKViewController {
             
             //status
             if let mxMember = mxMember,
-                let presence = MXKAccountManager.shared()?.account(forUserId: mxMember.userId)?.userPresence {
+                let presence = self.mainSession?.user(withUserId: mxMember.userId)?.presence {
                 switch presence {
                 case MXPresenceOnline:
                     cell.settingStatus(online: true)
@@ -196,6 +213,11 @@ class CKOtherProfileViewController: MXKViewController {
                 AppDelegate.the().masterTabBarController?.navigationController?.popToRootViewController(animated: false)
             }
         })
+    }
+    
+    // MARK: - ACTION
+    @objc func clickedOnBackButton(_ sender: Any?) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

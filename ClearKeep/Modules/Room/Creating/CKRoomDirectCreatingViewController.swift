@@ -186,6 +186,13 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                 identifyText: contact.displayName,
                 session: self.mainSession)
             
+            // status
+            if let u = self.mainSession?.user(
+                withUserId: (contact.matrixIdentifiers?.first as? String) ?? "") {
+                cell.status = u.presence == MXPresenceOnline ? 1 : 0
+            } else { cell.status = 0 }
+
+            
             return cell
         }
         return CKRoomDirectCreatingSuggestedCell()
