@@ -160,6 +160,7 @@ import MatrixKit
     // Typing notifications listener.
 
     private var typingNotifListener: Any?
+    
 }
 
 extension CKRoomViewController {
@@ -1466,9 +1467,8 @@ extension CKRoomViewController {
     }
     
     override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
-        super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
-        
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
+            super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
             if let currentAlert = self.currentAlert {
                 // delay for presenting action sheet completed
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -1477,6 +1477,18 @@ extension CKRoomViewController {
                     currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
                 }
             }
+        } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
+                        // click user avatar in room go to  view info profile
+            let idAvatarTap = userInfo?["kMXKRoomBubbleCellUserIdKey"] as? String
+            if idAvatarTap == mainSession.myUser.userId {
+                self.showPersonalAccountProfile()
+            } else {
+                if let mxMember = roomDataSource?.roomState?.members.member(withUserId: idAvatarTap) {
+                    self.showOthersAccountProfile(mxMember: mxMember)
+                }
+            }
+        } else {
+            super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         }
     }
     
@@ -1595,6 +1607,34 @@ extension CKRoomViewController {
         }
         
         return hasUnsent
+    }
+    
+    // Click avatar Show info profile
+    private func showPersonalAccountProfile() {
+        
+        // initialize vc from xib
+        let vc = CKAccountProfileViewController(
+            nibName: CKAccountProfileViewController.nibName,
+            bundle: nil)
+        
+        // import mx session and room id
+        vc.importSession(self.mxSessions)
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func showOthersAccountProfile(mxMember: MXRoomMember) {
+        
+        // initialize vc from xib
+        let vc = CKOtherProfileViewController(
+            nibName: CKOtherProfileViewController.nibName,
+            bundle: nil)
+        
+        // import mx session and room id
+        vc.importSession(self.mxSessions)
+        vc.mxMember = mxMember
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
