@@ -151,13 +151,13 @@ final class CKRoomSettingsEditViewController: MXKViewController {
             return
         }
         
-        if self.newTopic != nil {
+        if (self.newTopic?.count ?? 0) > 0 {
             room.setTopic(self.newTopic) { (response: MXResponse<Void>) in
                 if let error = response.error { print("[CK] Error - \(error.localizedDescription)")}
             }
         }
         
-        if self.newName != nil {
+        if (self.newName?.count ?? 0) > 0 {
             room.summary.displayname = self.newName
             room.setName(self.newName) { (response: MXResponse<Void>) in
                 if let error = response.error { print("[CK] Error - \(error.localizedDescription)")}

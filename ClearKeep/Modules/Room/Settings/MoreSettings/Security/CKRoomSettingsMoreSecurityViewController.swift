@@ -28,6 +28,11 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
     // MARK: - PROPERTY
     
     /**
+     Admin permission of room
+     */
+    let kAdminPermission = 100
+    
+    /**
      Chooses to make checkmark
      */
     private var chooses = [Section.access.rawValue : 0,
@@ -50,7 +55,15 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
                  "Members only (since they joined)"]]
     ]
     
+    /**
+     Room object
+     */
     public var mxRoom: MXRoom!
+    
+    /**
+     Power level of current user in this room
+     */
+    private var powerLevel: Int = 0
     
     // MARK: - OVERRIDE
     
@@ -58,7 +71,8 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
         super.viewDidLoad()
         self.tableView.reloadData()
         self.tableView.register(CKRoomSettingsMoreSecurityRadioCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreSecurityRadioCell.identifier)
-        self.navigationItem.title = "Security"                
+        self.navigationItem.title = "Security"
+        self.loadPowerLevel()
     }
     
     // MARK: - PRIVATE
@@ -71,8 +85,9 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
         
         // fill cell
         cell.title = self.stringForIndexPath(indexPath)
-        cell.tintColor = UIColor.darkGray
+        cell.tintColor = self.powerLevel >= kAdminPermission ? UIColor.darkGray : UIColor.lightGray
         cell.accessoryType = (self.chooses[indexPath.section] == indexPath.row) ? .checkmark : .none
+        
         return cell
     }
     
@@ -85,6 +100,23 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
             return self.dataSource[indexPath.section]?[key]?[indexPath.row]
         }
         return nil
+    }
+    
+    private func loadPowerLevel() {
+        
+        // room state
+        self.mxRoom.state { (s: MXRoomState?) in
+            
+            // try to get power level
+            let pl = s?.powerLevels?.powerLevelOfUser(
+                withUserID: self.mainSession?.myUser?.userId) ?? 0
+            
+            // reload data
+            DispatchQueue.main.async {
+                self.powerLevel = pl
+                self.tableView.reloadData()
+            }
+        }
     }
     
     // MARK: - PUBLIC
@@ -102,6 +134,10 @@ extension CKRoomSettingsMoreSecurityViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.powerLevel < kAdminPermission {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
         self.chooses[indexPath.section] = indexPath.row
         tableView.reloadSections([indexPath.section], with: .automatic)
     }

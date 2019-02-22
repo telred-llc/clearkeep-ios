@@ -101,6 +101,52 @@ class CKRecentListViewController: MXKViewController {
         }
     }
     
+    private func showLeaveRoom(roomData: MXKRecentCellData) {
+        
+        // alert obj
+        let alert = UIAlertController(
+            title: "Are you sure to leave room?",
+            message: nil,
+            preferredStyle: .actionSheet)
+        
+        // leave room
+        alert.addAction(UIAlertAction(title: "Leave", style: .default , handler:{ (_) in
+            
+            // spin
+            self.startActivityIndicator()
+            
+            // do leaving room
+            if let room = roomData.roomSummary?.room {
+                
+                // leave
+                room.leave(completion: { (response: MXResponse<Void>) in
+                    
+                    // main thread
+                    DispatchQueue.main.async {
+                        
+                        // spin
+                        self.stopActivityIndicator()
+                        
+                        // error
+                        if let error = response.error {
+                            
+                            // alert
+                            self.showAlert(error.localizedDescription)
+                        } else { // ok
+                            self.dismiss(animated: false, completion: nil)
+                        }
+                    }
+                })
+            }
+        }))
+        
+        // cancel
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (_) in
+        }))
+        
+        // present
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 private extension CKRecentListViewController {
@@ -141,7 +187,12 @@ private extension CKRecentListViewController {
                 self.updateEditedRoomTag(roomData: roomData, tag: kMXRoomTagFavourite)
             case .setting:
                 self.openRoomSetting(roomData: roomData)
+            case .leave:
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                    self.showLeaveRoom(roomData: roomData)
+                })
             }
+            
             self.dismiss(animated: true, completion: nil)
             self.viewbg.isHidden = true
             self.isAddview = false

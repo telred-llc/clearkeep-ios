@@ -14,6 +14,7 @@ internal enum CKMenuRoomCellType {
     case removeFromFavourite
     case addToFavourite
     case setting
+    case leave
 
     // title
     func title() -> String {
@@ -28,6 +29,8 @@ internal enum CKMenuRoomCellType {
             return "Add to favourite"
         case .setting:
             return "Setting"
+        case .leave:
+            return "Leave"
         }
     }
     
@@ -44,6 +47,8 @@ internal enum CKMenuRoomCellType {
             return "ic_room_favourite"
         case .setting:
             return "ic_room_settings"
+        case .leave:
+            return "ic_leave_room"
         }
     }
 }
@@ -67,9 +72,12 @@ final class CKMenuRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         self.tableView.estimatedRowHeight = 50
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.bounces = false
+        
         tableView.register(
             UINib.init(nibName: "CKAlertSettingRoomCell", bundle: nil),
             forCellReuseIdentifier: "CKAlertSettingRoomCell")
@@ -78,7 +86,7 @@ final class CKMenuRoomViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        datasourceTableView = [mute, favourite, .setting]
+        datasourceTableView = [mute, favourite, .setting, .leave]
     }
 
     // MARK: - PRIVATE
@@ -94,7 +102,7 @@ extension CKMenuRoomViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        return 50
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,6 +115,10 @@ extension CKMenuRoomViewController: UITableViewDelegate, UITableViewDataSource {
             cell.imgCell.image = UIImage.init(named: data.icon())
             cell.lblTitle.text = data.title()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView(frame: CGRect.zero)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -122,6 +134,8 @@ extension CKMenuRoomViewController: UITableViewDelegate, UITableViewDataSource {
             self.callBackCKRecentListVC?(.addToFavourite)
         case .setting:
             self.callBackCKRecentListVC?(.setting)
+        case .leave:
+            self.callBackCKRecentListVC?(.leave)
         }
         
         tableView.reloadData()

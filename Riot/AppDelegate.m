@@ -483,6 +483,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     [self initMatrixSessions];
 
     [[IQKeyboardManager shared] setEnable:YES];
+    [[IQKeyboardManager shared] setEnableAutoToolbar:NO];
     
     NSLog(@"[AppDelegate] didFinishLaunchingWithOptions: Done in %.0fms", [[NSDate date] timeIntervalSinceDate:startDate] * 1000);
 

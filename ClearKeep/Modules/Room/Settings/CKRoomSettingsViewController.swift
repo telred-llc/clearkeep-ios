@@ -30,15 +30,14 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     }    
     
     /**
+     Moderator permission of room
+     */
+    private let kModeratorPemission = 50
+    
+    /**
      delegate
      */
     weak var delegate: CKRoomSettingsViewControllerDelegate?
-    
-    /**
-     Cells heigh
-     */
-    private let kInfoCellHeigh: CGFloat     = 80.0
-    private let kDefaultCellHeigh: CGFloat  = 60.0
     
     /**
      tblSections
@@ -115,11 +114,15 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             withIdentifier: CKRoomSettingsTopicCell.identifier ,
             for: indexPath) as! CKRoomSettingsTopicCell
         
-        if self.mxRoom != nil && self.mxRoom?.summary?.topic != nil {
+        let pl = self.mxRoomState?.powerLevels?.powerLevelOfUser(
+            withUserID: self.mainSession?.myUser?.userId) ?? 0
+        
+        if (self.mxRoom?.summary?.topic?.count ?? 0) > 0 {
             cell.enableEditTopic(false)
             cell.topicTextLabel.text = self.mxRoom?.summary?.topic
         } else {
-            cell.enableEditTopic(true)
+            if pl >= kModeratorPemission { cell.enableEditTopic(true) }
+            else { cell.enableEditTopic(false) }
         }
         
         return cell
@@ -226,12 +229,23 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func isInfosAvailableData() -> Bool {
-        guard let room = self.mxRoom, let roomSummary = room.summary else {
+    /**
+     This func to make sure room info is available
+     */
+    private func isInfoCanEdit() -> Bool {
+        
+        // room object is not existing
+        guard let room = self.mxRoom, let _ = room.summary else {
             return false
         }
         
-        return roomSummary.topic != nil
+        // power levels
+        let pl = self.mxRoomState?.powerLevels?.powerLevelOfUser(
+            withUserID: self.mainSession?.myUser?.userId) ?? 0
+
+        if pl < kModeratorPemission { return false }
+        
+        return true
     }
     
     private func showLeaveRoom() {
@@ -333,7 +347,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
 
         switch sectionType {
         case .infos:
-            return self.isInfosAvailableData() ? 4 : 3
+            return self.isInfoCanEdit() ? 4 : 3
         case .settings:
             return 3
         case .actions:
@@ -356,7 +370,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
                 let cell = UITableViewCell()
                 cell.textLabel?.text = "Edit"
                 cell.textLabel?.textAlignment = NSTextAlignment.center
-                cell.textLabel?.textColor = CKColor.Text.lightBlueText
+                cell.textLabel?.textColor = CKColor.Misc.primaryGreenColor
                 return cell
             }
         case .settings:

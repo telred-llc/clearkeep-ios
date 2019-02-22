@@ -26,30 +26,30 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" tag="-1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Member Display Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FID-wd-t0z">
-                        <rect key="frame" x="67.5" y="0.0" width="250" height="59.5"/>
+                        <rect key="frame" x="67.5" y="0.0" width="253.5" height="59.5"/>
                         <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.2274509804" green="0.28627450980000002" blue="0.38431372549999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="0M8-Oo-rRq">
-                        <rect key="frame" x="325.5" y="10" width="39.5" height="39.5"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_check_no" translatesAutoresizingMaskIntoConstraints="NO" id="0M8-Oo-rRq">
+                        <rect key="frame" x="329" y="17" width="26" height="26"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="0M8-Oo-rRq" secondAttribute="height" multiplier="1:1" id="YIz-l0-bxD"/>
+                            <constraint firstAttribute="height" constant="26" id="pwa-gX-z8J"/>
+                            <constraint firstAttribute="width" constant="26" id="qgp-NH-qFB"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="0M8-Oo-rRq" secondAttribute="trailing" constant="10" id="3BA-Zj-rdW"/>
+                    <constraint firstAttribute="trailing" secondItem="0M8-Oo-rRq" secondAttribute="trailing" constant="20" id="3BA-Zj-rdW"/>
                     <constraint firstItem="0M8-Oo-rRq" firstAttribute="leading" secondItem="FID-wd-t0z" secondAttribute="trailing" constant="8" id="6lN-X4-Olf"/>
                     <constraint firstItem="FID-wd-t0z" firstAttribute="leading" secondItem="uu7-Ad-JmF" secondAttribute="trailing" constant="8" id="L42-dc-7ig"/>
                     <constraint firstItem="FID-wd-t0z" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" id="RRv-am-ru0"/>
                     <constraint firstAttribute="bottom" secondItem="uu7-Ad-JmF" secondAttribute="bottom" constant="10" id="RxM-Ao-B98"/>
                     <constraint firstAttribute="bottom" secondItem="FID-wd-t0z" secondAttribute="bottom" id="WHE-lt-drZ"/>
                     <constraint firstItem="uu7-Ad-JmF" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" constant="10" id="ecv-1O-So1"/>
-                    <constraint firstAttribute="bottom" secondItem="0M8-Oo-rRq" secondAttribute="bottom" constant="10" id="gNp-c4-Akt"/>
+                    <constraint firstItem="0M8-Oo-rRq" firstAttribute="centerY" secondItem="TAQ-GQ-J5E" secondAttribute="centerY" id="ipi-Bz-g9I"/>
                     <constraint firstItem="uu7-Ad-JmF" firstAttribute="leading" secondItem="TAQ-GQ-J5E" secondAttribute="leading" constant="20" id="nK6-2w-I65"/>
-                    <constraint firstItem="0M8-Oo-rRq" firstAttribute="top" secondItem="TAQ-GQ-J5E" secondAttribute="top" constant="10" id="xLy-zR-Qtt"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -60,6 +60,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_checkmark" width="48" height="48"/>
+        <image name="ic_check_no" width="22" height="22"/>
     </resources>
 </document>

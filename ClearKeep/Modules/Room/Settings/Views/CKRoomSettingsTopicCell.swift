@@ -33,7 +33,7 @@ class CKRoomSettingsTopicCell: CKRoomSettingsBaseCell {
         if isEnable {
             self.isUserInteractionEnabled = true
             topicTextLabel.text = "Set a topic"
-            topicTextLabel.textColor = CKColor.Text.lightBlueText
+            topicTextLabel.textColor = CKColor.Misc.primaryGreenColor
         } else {
             self.isUserInteractionEnabled = false
             topicTextLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)

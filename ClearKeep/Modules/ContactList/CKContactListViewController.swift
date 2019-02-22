@@ -177,6 +177,14 @@ extension CKContactListViewController {
                 ds[indexPath.row].matrixAvatarURL,
                 identifyText: ds[indexPath.row].displayName,
                 session: self.mainSession)
+            
+            // status
+            if let mid = ds[indexPath.row].matrixIdentifiers?.first as? String {
+                let u = self.mainSession.user(withUserId: mid)
+                cell.status = ((u?.presence ?? MXPresenceUnavailable) == MXPresenceOnline) ? 1 : 0
+            } else {
+                cell.status = 0
+            }
         }
         return cell
     }
