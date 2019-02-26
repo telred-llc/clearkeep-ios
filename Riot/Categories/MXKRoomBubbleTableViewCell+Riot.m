@@ -252,7 +252,7 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
     }
 }
 
-- (void)addDateLabel
+- (void)addDateLabel:(BOOL)timeOnly
 {
     self.bubbleInfoContainer.hidden = NO;
     
@@ -261,7 +261,16 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
     {
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bubbleInfoContainer.frame.size.width , 18)];
         
-        timeLabel.text = [bubbleData.eventFormatter dateStringFromDate:date withTime:NO];
+        // ck: change date format
+        if (timeOnly) {
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"h:mm a"];
+            NSString *timeSent = [dateFormat stringFromDate:date];
+            timeLabel.text = timeSent;
+        } else {
+             timeLabel.text = [bubbleData.eventFormatter dateStringFromDate:date withTime:YES];
+        }
+        
         timeLabel.textAlignment = NSTextAlignmentRight;
         timeLabel.textColor = kRiotSecondaryTextColor;
         if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)])

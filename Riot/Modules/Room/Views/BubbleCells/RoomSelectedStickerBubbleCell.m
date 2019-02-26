@@ -189,6 +189,7 @@
             self.bubbleInfoContainerTopConstraint.constant = cell.bubbleInfoContainerTopConstraint.constant;
         }
     }
+    
 }
 
 + (CGFloat)heightForCellData:(MXKCellData*)cellData withMaximumWidth:(CGFloat)maxWidth

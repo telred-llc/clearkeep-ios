@@ -92,7 +92,7 @@
         MXKRoomBubbleTableViewCell *bubbleCell = (MXKRoomBubbleTableViewCell*)cell;
         
         // Display date for each message
-        [bubbleCell addDateLabel];
+        [bubbleCell addDateLabel:false];
     }
     
     return cell;

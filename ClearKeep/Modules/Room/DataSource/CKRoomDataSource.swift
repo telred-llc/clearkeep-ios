@@ -35,6 +35,10 @@ class CKRoomDataSource: MXKRoomDataSource {
         }
     }
     
+    // time sent messages
+    var timeSent = ""
+    
+    
     /**
      Tell whether the initial event of the timeline (if any) must be marked. Default is NO.
      */
@@ -256,7 +260,12 @@ class CKRoomDataSource: MXKRoomDataSource {
             
             let cellData = bubbleCell.bubbleData as? RoomBubbleCellData
             let bubbleComponents = cellData?.bubbleComponents
-
+            
+            // Display time for each message
+            if bubbleCell.bubbleInfoContainer != nil {
+                bubbleCell.addDateLabel(true)
+            }
+            
             let isCollapsableCellCollapsed: Bool = cellData?.collapsable != nil && cellData?.collapsed != nil
 
             // Display timestamp of the last message

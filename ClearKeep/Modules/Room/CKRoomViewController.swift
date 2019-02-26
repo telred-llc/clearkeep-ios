@@ -1959,7 +1959,7 @@ extension CKRoomViewController {
                 cell.selectedBackgroundView?.backgroundColor = nil
             }
         }
-        
+
         if cell.isKind(of: MXKRoomBubbleTableViewCell.self),
             let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
             if roomBubbleTableViewCell.readMarkerView != nil {

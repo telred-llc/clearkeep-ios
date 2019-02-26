@@ -61,7 +61,7 @@ extern NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer;
 /**
  Add a label to display the date of the cell.
  */
-- (void)addDateLabel;
+- (void)addDateLabel:(BOOL)timeOnly;
 
 /**
  Called when the user taps on the Receipt Container.
