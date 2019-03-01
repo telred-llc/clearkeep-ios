@@ -60,7 +60,7 @@
 		85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CAD21DE307F000331AC /* CKColor.swift */; };
 		85E57518220499DA0076FFAE /* CKFavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */; };
 		85E57519220499DA0076FFAE /* CKFavouriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */; };
-		85E5751B2204C6A30076FFAE /* CKCallingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E5751A2204C6A30076FFAE /* CKCallingViewController.swift */; };
+		85E5751B2204C6A30076FFAE /* CKCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E5751A2204C6A30076FFAE /* CKCallViewController.swift */; };
 		89C94E649229EA68AE787E9E /* Pods_RiotPods_Riot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2510A69B4A681C1FEC36E848 /* Pods_RiotPods_Riot.framework */; };
 		926FA53F1F4C132000F826C2 /* MXSession+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = 926FA53E1F4C132000F826C2 /* MXSession+Riot.m */; };
 		92726A471F58737A004AD26F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 92726A461F58737A004AD26F /* IntentHandler.m */; };
@@ -424,6 +424,7 @@
 		E54A5AEE21FF0D5E0094461E /* CKContactListLocalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54A5AEB21FF0D5E0094461E /* CKContactListLocalCell.xib */; };
 		E54A5AEF21FF0D5E0094461E /* CKContactListSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54A5AEC21FF0D5E0094461E /* CKContactListSearchCell.xib */; };
 		E54A5AF021FF0D5E0094461E /* CKContactListMatrixCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54A5AED21FF0D5E0094461E /* CKContactListMatrixCell.xib */; };
+		E56DF676222945C500D54DBD /* CKCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E56DF675222945C500D54DBD /* CKCallViewController.xib */; };
 		E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */; };
 		E5720EDC21ACFA1F0093D99A /* CkMasterTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */; };
 		E5720EDE21ACFB390093D99A /* CkAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */; };
@@ -631,7 +632,7 @@
 		85CA7CAD21DE307F000331AC /* CKColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKColor.swift; sourceTree = "<group>"; };
 		85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKFavouriteViewController.swift; sourceTree = "<group>"; };
 		85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKFavouriteViewController.xib; sourceTree = "<group>"; };
-		85E5751A2204C6A30076FFAE /* CKCallingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKCallingViewController.swift; sourceTree = "<group>"; };
+		85E5751A2204C6A30076FFAE /* CKCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKCallViewController.swift; sourceTree = "<group>"; };
 		926FA53D1F4C132000F826C2 /* MXSession+Riot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MXSession+Riot.h"; sourceTree = "<group>"; };
 		926FA53E1F4C132000F826C2 /* MXSession+Riot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MXSession+Riot.m"; sourceTree = "<group>"; };
 		92726A431F58737A004AD26F /* SiriIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SiriIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1158,6 +1159,7 @@
 		E54A5AEC21FF0D5E0094461E /* CKContactListSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKContactListSearchCell.xib; sourceTree = "<group>"; };
 		E54A5AED21FF0D5E0094461E /* CKContactListMatrixCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKContactListMatrixCell.xib; sourceTree = "<group>"; };
 		E569BCC122154AE4004F71F1 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E56DF675222945C500D54DBD /* CKCallViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKCallViewController.xib; sourceTree = "<group>"; };
 		E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAppDelegate.swift; sourceTree = "<group>"; };
 		E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkMasterTabBarController.swift; sourceTree = "<group>"; };
 		E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAuthenticationViewController.swift; sourceTree = "<group>"; };
@@ -1534,7 +1536,6 @@
 				E5ABA73521E6FD49005EFE0C /* CKLocalization.swift */,
 				E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */,
 				851F40172204555400326BBE /* CKSearchBarContainerView.swift */,
-				85E5751A2204C6A30076FFAE /* CKCallingViewController.swift */,
 				85743491221566B10009E618 /* CKMessageContentManagement.swift */,
 			);
 			path = Ultils;
@@ -2993,9 +2994,19 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		E56DF674222945AF00D54DBD /* Call */ = {
+			isa = PBXGroup;
+			children = (
+				E56DF675222945C500D54DBD /* CKCallViewController.xib */,
+				85E5751A2204C6A30076FFAE /* CKCallViewController.swift */,
+			);
+			path = Call;
+			sourceTree = "<group>";
+		};
 		E5720EDF21ACFB5F0093D99A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E56DF674222945AF00D54DBD /* Call */,
 				85E57515220499690076FFAE /* Favourite */,
 				E54A5AE221FEEB920094461E /* Common */,
 				E54A5ADB21FEE4EE0094461E /* ContactList */,
@@ -3720,6 +3731,7 @@
 				B1B5573920EE6C4D00210D55 /* GroupRoomsViewController.xib in Resources */,
 				853E996721E4986100D005F4 /* SFCompactDisplay-Thin.ttf in Resources */,
 				E539906F221D587B0014F26D /* CKRoomSettingsMoreSecurityViewController.xib in Resources */,
+				E56DF676222945C500D54DBD /* CKCallViewController.xib in Resources */,
 				B1B5597620EFB02A00210D55 /* InviteRecentTableViewCell.xib in Resources */,
 				E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */,
 				B1B558FB20EF768F00210D55 /* RoomIncomingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -4136,7 +4148,7 @@
 				E5DB12AA221E7C67009B07B0 /* CKRoomSettingsMoreRoleCell.swift in Sources */,
 				B1B558D020EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				B1B558CF20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
-				85E5751B2204C6A30076FFAE /* CKCallingViewController.swift in Sources */,
+				85E5751B2204C6A30076FFAE /* CKCallViewController.swift in Sources */,
 				B1B5575120EE6C4D00210D55 /* AuthenticationViewController.m in Sources */,
 				B1B5571820EE6C4D00210D55 /* CountryPickerViewController.m in Sources */,
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
