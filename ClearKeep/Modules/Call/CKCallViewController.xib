@@ -22,6 +22,9 @@
                 <outlet property="callerNameLabel" destination="IW8-8P-mS3" id="eaa-oo-l01"/>
                 <outlet property="cameraSwitchButton" destination="Iiz-W1-oNW" id="bsM-mH-ti8"/>
                 <outlet property="chatButton" destination="xCi-hD-FBs" id="h3w-6I-Agn"/>
+                <outlet property="distanceOverViewToBottom" destination="KDu-Kr-vji" id="fCq-V2-wHy"/>
+                <outlet property="distanceOverViewToTop" destination="Z6W-gz-KKT" id="oT6-di-Y6c"/>
+                <outlet property="distancelocalPreviewToBottom" destination="bmf-4N-mLk" id="2sE-H2-c7o"/>
                 <outlet property="endCallButton" destination="lVK-d8-Dqf" id="zgE-Go-bo6"/>
                 <outlet property="gradientMaskContainerView" destination="STO-VX-5VW" id="9s2-wN-gIY"/>
                 <outlet property="localPreviewActivityView" destination="Bhz-hS-5B6" id="2yA-xn-ITf"/>
@@ -213,7 +216,7 @@
                                     <rect key="frame" x="0.0" y="10" width="375" height="22"/>
                                     <accessibility key="accessibilityConfiguration" identifier="CallVCCallerNameLabel"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="-" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="29y-MK-OWH">

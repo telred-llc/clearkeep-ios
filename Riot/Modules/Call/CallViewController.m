@@ -124,7 +124,7 @@
     CGFloat white = 1.0;
     [kRiotPrimaryBgColor getWhite:&white alpha:nil];
     
-    CGColorRef opaqueWhiteColor = [UIColor colorWithWhite:white alpha:1.0].CGColor;
+    CGColorRef opaqueWhiteColor = [UIColor colorWithWhite:white alpha:0.0].CGColor;
     CGColorRef transparentWhiteColor = [UIColor colorWithWhite:white alpha:0].CGColor;
     
     gradientMaskLayer.colors = [NSArray arrayWithObjects:(__bridge id)opaqueWhiteColor, (__bridge id)transparentWhiteColor, nil];
@@ -453,7 +453,7 @@
                 
             }];
         }
-    }
+    } 
     else
     {
         [super onButtonPressed:sender];
