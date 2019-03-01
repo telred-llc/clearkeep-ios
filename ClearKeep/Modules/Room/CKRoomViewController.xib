@@ -15,6 +15,7 @@
                 <outlet property="bubblesTableView" destination="BGD-sd-SQR" id="OG4-Tw-Ovt"/>
                 <outlet property="bubblesTableViewTopConstraint" destination="X14-4s-uGM" id="Hic-6h-N05"/>
                 <outlet property="containerView" destination="iN0-l3-epB" id="tSb-G7-Jgq"/>
+                <outlet property="invitationController" destination="SgA-HI-dQ0" id="XNw-qf-6Su"/>
                 <outlet property="mentionListTableView" destination="6XV-L3-jht" id="2ub-2C-XY2"/>
                 <outlet property="mentionListTableViewHeightConstraint" destination="hrx-ds-4j0" id="1Xb-Ls-4YV"/>
                 <outlet property="previewHeaderContainer" destination="54r-18-K1g" id="wXd-xh-gad"/>
@@ -96,17 +97,104 @@
                                 <constraint firstAttribute="height" constant="41" id="5eD-Fm-RDb"/>
                             </constraints>
                         </view>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="96H-Xh-me1" userLabel="InvitationView">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                            <subviews>
+                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PnZ-Ab-iqk">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cyd-xY-yuY" userLabel="ContentView">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                            <subviews>
+                                                <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="zEB-D5-eC4" userLabel="Avatar" customClass="MXKImageView">
+                                                    <rect key="frame" x="137.5" y="60" width="100" height="100"/>
+                                                    <color key="backgroundColor" red="0.3921568627" green="0.80784313730000001" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="Hii-hC-Wvz"/>
+                                                        <constraint firstAttribute="width" constant="100" id="sfm-D9-D3U"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Someone invited you to this room, join to chat?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vk3-W4-8lH">
+                                                    <rect key="frame" x="8" y="190" width="359" height="19.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iSR-Tj-TYV">
+                                                    <rect key="frame" x="30" y="229.5" width="315" height="100"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gj1-u3-wEI">
+                                                            <rect key="frame" x="0.0" y="0.0" width="315" height="46"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                            <state key="normal" title="Join">
+                                                                <color key="titleColor" red="0.3921568627" green="0.80784313730000001" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="clickedOnInvitationButton:" destination="-1" eventType="touchUpInside" id="MTJ-nn-4hH"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0IK-4e-p4u">
+                                                            <rect key="frame" x="0.0" y="54" width="315" height="46"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                            <state key="normal" title="Decline">
+                                                                <color key="titleColor" red="0.3921568627" green="0.80784313730000001" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="clickedOnInvitationButton:" destination="-1" eventType="touchUpInside" id="T9y-o9-MVx"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="Ink-F5-g67"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="zEB-D5-eC4" firstAttribute="centerX" secondItem="cyd-xY-yuY" secondAttribute="centerX" id="Bma-RG-n29"/>
+                                                <constraint firstItem="iSR-Tj-TYV" firstAttribute="top" secondItem="vk3-W4-8lH" secondAttribute="bottom" constant="20" id="C7h-aG-6jS"/>
+                                                <constraint firstAttribute="trailing" secondItem="vk3-W4-8lH" secondAttribute="trailing" constant="8" id="O8D-XB-IBF"/>
+                                                <constraint firstAttribute="trailing" secondItem="iSR-Tj-TYV" secondAttribute="trailing" constant="30" id="Tuc-x9-lFo"/>
+                                                <constraint firstItem="vk3-W4-8lH" firstAttribute="leading" secondItem="cyd-xY-yuY" secondAttribute="leading" constant="8" id="UKS-3S-U4T"/>
+                                                <constraint firstItem="iSR-Tj-TYV" firstAttribute="leading" secondItem="cyd-xY-yuY" secondAttribute="leading" constant="30" id="XQ4-lS-yw9"/>
+                                                <constraint firstItem="vk3-W4-8lH" firstAttribute="top" secondItem="zEB-D5-eC4" secondAttribute="bottom" constant="30" id="siQ-60-OmH"/>
+                                                <constraint firstItem="zEB-D5-eC4" firstAttribute="top" secondItem="cyd-xY-yuY" secondAttribute="top" constant="60" id="wzW-Kz-yG2"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="cyd-xY-yuY" firstAttribute="top" secondItem="PnZ-Ab-iqk" secondAttribute="top" id="50J-oH-sGy"/>
+                                        <constraint firstItem="cyd-xY-yuY" firstAttribute="height" secondItem="PnZ-Ab-iqk" secondAttribute="height" id="PJ2-lM-Sqp"/>
+                                        <constraint firstItem="cyd-xY-yuY" firstAttribute="width" secondItem="PnZ-Ab-iqk" secondAttribute="width" id="a5Y-Nl-AHo"/>
+                                        <constraint firstAttribute="bottom" secondItem="cyd-xY-yuY" secondAttribute="bottom" id="leJ-ke-L6C"/>
+                                        <constraint firstItem="cyd-xY-yuY" firstAttribute="leading" secondItem="PnZ-Ab-iqk" secondAttribute="leading" id="w04-Te-AET"/>
+                                        <constraint firstAttribute="trailing" secondItem="cyd-xY-yuY" secondAttribute="trailing" id="zsq-2D-2rY"/>
+                                    </constraints>
+                                </scrollView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="PnZ-Ab-iqk" secondAttribute="bottom" id="9tP-1m-UEU"/>
+                                <constraint firstAttribute="trailing" secondItem="PnZ-Ab-iqk" secondAttribute="trailing" id="HK7-uy-nsP"/>
+                                <constraint firstItem="PnZ-Ab-iqk" firstAttribute="top" secondItem="96H-Xh-me1" secondAttribute="top" id="fTd-4u-gwG"/>
+                                <constraint firstItem="PnZ-Ab-iqk" firstAttribute="leading" secondItem="96H-Xh-me1" secondAttribute="leading" id="hcg-W2-MgA"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="RoomVCView"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="BGD-sd-SQR" secondAttribute="trailing" id="0la-ok-MBr"/>
+                        <constraint firstItem="96H-Xh-me1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0wo-RS-OUa"/>
                         <constraint firstItem="nLd-BP-JAE" firstAttribute="top" secondItem="6XV-L3-jht" secondAttribute="bottom" id="40W-hY-P7A"/>
                         <constraint firstItem="nLd-BP-JAE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4Q7-hr-rqi"/>
                         <constraint firstAttribute="trailing" secondItem="54r-18-K1g" secondAttribute="trailing" id="6NN-Vs-ci8"/>
                         <constraint firstAttribute="trailing" secondItem="6XV-L3-jht" secondAttribute="trailing" id="AxQ-LE-vpV"/>
                         <constraint firstItem="54r-18-K1g" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BC8-KU-Pus"/>
+                        <constraint firstAttribute="bottom" secondItem="96H-Xh-me1" secondAttribute="bottom" id="FmS-ao-Yux"/>
+                        <constraint firstAttribute="trailing" secondItem="96H-Xh-me1" secondAttribute="trailing" id="HQb-5h-QPQ"/>
                         <constraint firstAttribute="trailing" secondItem="uK2-9a-rZj" secondAttribute="trailing" id="HbF-85-ctI"/>
+                        <constraint firstItem="96H-Xh-me1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="P9y-7M-iA2"/>
                         <constraint firstItem="XX4-n6-hCm" firstAttribute="bottom" secondItem="nLd-BP-JAE" secondAttribute="top" id="QO8-nF-xys"/>
                         <constraint firstItem="XX4-n6-hCm" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="WhE-lH-ZtR"/>
                         <constraint firstItem="BGD-sd-SQR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="X14-4s-uGM"/>
@@ -134,5 +222,14 @@
             <viewLayoutGuide key="safeArea" id="gyd-c8-1CM"/>
             <point key="canvasLocation" x="152.80000000000001" y="151.57421289355324"/>
         </view>
+        <customObject id="SgA-HI-dQ0" customClass="CKRoomInvitationController" customModule="Riot" customModuleProvider="target">
+            <connections>
+                <outlet property="declineButton" destination="0IK-4e-p4u" id="zT9-IH-BmF"/>
+                <outlet property="descriptionLabel" destination="vk3-W4-8lH" id="dhD-xQ-iRS"/>
+                <outlet property="joinButton" destination="gj1-u3-wEI" id="pKP-mE-n09"/>
+                <outlet property="photoView" destination="zEB-D5-eC4" id="wPL-gH-iPr"/>
+                <outlet property="view" destination="96H-Xh-me1" id="EPP-zh-4dX"/>
+            </connections>
+        </customObject>
     </objects>
 </document>

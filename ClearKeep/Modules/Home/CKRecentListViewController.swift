@@ -342,6 +342,11 @@ private extension CKRecentListViewController {
             })
         }
         
+        // add tap gesture to cell
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(onTableViewCellTap))
+        tap.cancelsTouchesInView = false
+        cell.addGestureRecognizer(tap)
+
         return cell
     }
     

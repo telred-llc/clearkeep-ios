@@ -18,7 +18,8 @@ import MatrixKit
     @IBOutlet weak var previewHeaderContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mentionListTableView: UITableView!
     @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
-    
+    @IBOutlet var invitationController: CKRoomInvitationController!
+        
     // MARK: - Constants
     
     private let kShowRoomSearchSegue = "showRoomSearch"
@@ -80,6 +81,12 @@ import MatrixKit
         }
     }
 
+    // MARK: - ACTION
+    
+    @IBAction func clickedOnInvitationButton(_ sender: UIButton!) {
+        self.invitationController?.clickedOnButton(sender)
+    }
+    
     // MARK: Private
     
     /**
@@ -172,8 +179,9 @@ extension CKRoomViewController {
             nibName: CKRoomViewController.nibName,
             bundle: Bundle(for: self))
     }
-
+    
     override func destroy() {
+        invitationController = nil
         rightBarButtonItems = nil;
         for barButtonItem in navigationItem.rightBarButtonItems ?? [] {
             barButtonItem.isEnabled = false
@@ -234,6 +242,8 @@ extension CKRoomViewController {
         if roomDataSource != nil {
             refreshRoomInputToolbar()
         }
+        
+        self.invitationController.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -533,6 +543,11 @@ extension CKRoomViewController {
         // TODO: don't use start activity indicator
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.invitationController?.update()
+    }
+    
     // MARK: Prepare for segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -674,6 +689,10 @@ extension CKRoomViewController {
         if self.isRoomPreview() {
             // Do not show the right buttons
             navigationItem.rightBarButtonItems = nil
+            
+            if self.roomDataSource != nil {
+                self.setRoomTitleViewClass(RoomTitleView.self)
+            }
         } else {
             
             // Prepare rightBarButtonItems
@@ -1301,7 +1320,14 @@ extension CKRoomViewController {
             if self.inputToolbarView != nil {
                 super.setRoomInputToolbarViewClass(nil)
             }
+            
+            // invitation view
+            self.titleView?.editable = false
+            self.titleView?.refreshDisplay()
+            self.invitationController?.showIt(true, roomDataSource: self.roomDataSource)
         } else {
+            // invitation view
+            self.invitationController?.showIt(false, roomDataSource: self.roomDataSource)
             
             navigationItem.rightBarButtonItem?.isEnabled = roomDataSource != nil
             titleView?.editable = false
@@ -1888,7 +1914,7 @@ extension CKRoomViewController {
             }
         }
     }
-    
+        
     func animateReadMarkerView() {
         // Check whether the cell with the read marker is known and if the marker is not animated yet.
         if readMarkerTableViewCell != nil,
@@ -1977,5 +2003,71 @@ extension CKRoomViewController {
         if MXKRoomViewController.instancesRespond(to: #selector(self.tableView(_:didEndDisplaying:forRowAt:))) {
             super.tableView(tableView, didEndDisplaying: cell, forRowAt: indexPath)
         }
+    }
+}
+
+
+extension CKRoomViewController: CKRoomInvitationControllerDeletate {
+    
+    func invitationDidSelectJoin() {
+        
+        // session
+        var ms: MXSession! = self.mainSession
+        
+        // is nil?
+        if ms == nil {
+            
+            // Get the first session of AppDelegate
+            ms = AppDelegate.the()?.mxSessions.first as? MXSession
+        }
+        
+        guard let session = ms else {
+            self.showAlert("Occur an error. Please try to join chat later.")
+            return
+        }
+
+        session.joinRoom(self.roomDataSource.roomId, completion: { (response: MXResponse<MXRoom>) in
+            
+            // main thread
+            DispatchQueue.main.async {
+                
+                // got error
+                if let error = response.error {
+                    self.showAlert(error.localizedDescription)
+                }
+            }
+        })
+    }
+    
+    func invitationDidSelectDecline() {
+        
+        guard let invitedRoom = self.roomDataSource?.room else {
+            self.showAlert("Occur an error. Please try to it later.")
+            return
+        }
+        
+        // alert obj
+        let alert = UIAlertController(
+            title: "Are you sure to decline this room?",
+            message: nil,
+            preferredStyle: .actionSheet)
+        
+        // leave room
+        alert.addAction(UIAlertAction(title: "Decline", style: .default , handler:{ (_) in
+            invitedRoom.leave(completion: { (response: MXResponse<Void>) in
+                if let error = response.error {
+                    self.showAlert(error.localizedDescription)
+                } else {
+                    AppDelegate.the()?.masterTabBarController?.navigationController?.popViewController(animated: true)
+                }
+            })
+        }))
+        
+        // cancel
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (_) in
+        }))
+        
+        // present
+        self.present(alert, animated: true, completion: nil)
     }
 }

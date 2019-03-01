@@ -44,6 +44,26 @@ extension String {
     }
 }
 
+extension UIView {
+    func applyGradient(colours: [UIColor]) -> Void {
+        self.applyGradient(colours: colours, locations: nil)
+    }
+    
+    func applyGradient(colours: [UIColor], locations: [NSNumber]?) -> Void {
+        let name = "ck-gradient"
+        
+        self.layer.sublayers?.filter({ $0.name == name }).forEach({ (gradientLayer) in
+            gradientLayer.removeFromSuperlayer()
+        })
+        
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.name = name
+        gradient.frame = self.bounds
+        gradient.colors = colours.map { $0.cgColor }
+        gradient.locations = locations
+        self.layer.insertSublayer(gradient, at: 0)
+    }
+}
 
 extension MXRoomState {
     
@@ -92,6 +112,7 @@ extension MXRoomState {
         // not found
         return nil
     }
+
 }
 
 extension MXEvent {

@@ -443,6 +443,7 @@
 		E574337221F3715400989FF3 /* CKRoomCreatingOptionsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E574337121F3715400989FF3 /* CKRoomCreatingOptionsCell.xib */; };
 		E574337621F5816400989FF3 /* CKRoomCreatingNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E574337521F5816400989FF3 /* CKRoomCreatingNameCell.xib */; };
 		E574337821F581B100989FF3 /* CKRoomCreatingTopicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E574337721F581B100989FF3 /* CKRoomCreatingTopicCell.xib */; };
+		E5774823222690CA0047D9AC /* CKRoomInvitationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5774822222690CA0047D9AC /* CKRoomInvitationController.swift */; };
 		E57814FC21A7B6A8001BF40D /* MainEx.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57814FA21A7B6A8001BF40D /* MainEx.storyboard */; };
 		E57814FE21A7B773001BF40D /* CkSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57814FD21A7B773001BF40D /* CkSplitViewController.swift */; };
 		E5ABA73221E6FA7B005EFE0C /* ClearKeep.strings in Resources */ = {isa = PBXBuildFile; fileRef = E5ABA73021E6FA7B005EFE0C /* ClearKeep.strings */; };
@@ -1176,6 +1177,7 @@
 		E574337121F3715400989FF3 /* CKRoomCreatingOptionsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomCreatingOptionsCell.xib; sourceTree = "<group>"; };
 		E574337521F5816400989FF3 /* CKRoomCreatingNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomCreatingNameCell.xib; sourceTree = "<group>"; };
 		E574337721F581B100989FF3 /* CKRoomCreatingTopicCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomCreatingTopicCell.xib; sourceTree = "<group>"; };
+		E5774822222690CA0047D9AC /* CKRoomInvitationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomInvitationController.swift; sourceTree = "<group>"; };
 		E57814FB21A7B6A8001BF40D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Riot/Assets/Base.lproj/MainEx.storyboard; sourceTree = SOURCE_ROOT; };
 		E57814FD21A7B773001BF40D /* CkSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkSplitViewController.swift; sourceTree = "<group>"; };
 		E5ABA73121E6FA7B005EFE0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ClearKeep.strings; sourceTree = "<group>"; };
@@ -3146,6 +3148,7 @@
 				E5ABA73921E73CBC005EFE0C /* Settings */,
 				E5ABA73821E73CBC005EFE0C /* CKRoomViewController.swift */,
 				85335BE421F1C59300DFA15E /* CKRoomViewController.xib */,
+				E5774822222690CA0047D9AC /* CKRoomInvitationController.swift */,
 			);
 			path = Room;
 			sourceTree = "<group>";
@@ -4072,6 +4075,7 @@
 				B1B557DE20EF5FBB00210D55 /* FilesSearchTableViewCell.m in Sources */,
 				A0043FB221F847780051AAE1 /* CKAccountProfileViewController.swift in Sources */,
 				B1B5574020EE6C4D00210D55 /* SegmentedViewController.m in Sources */,
+				E5774823222690CA0047D9AC /* CKRoomInvitationController.swift in Sources */,
 				B1B5599320EFC5E400210D55 /* DecryptionFailure.m in Sources */,
 				A01DCDE921FEC1980069CA4A /* CKOtherProfileViewController.swift in Sources */,
 				E5ABD65521CC8CA10017D93E /* CkAuthorizer.swift in Sources */,
