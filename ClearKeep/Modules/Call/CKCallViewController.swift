@@ -21,9 +21,7 @@ final class CKCallViewController: CallViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // set backgound View
-         self.view.backgroundColor = UIColor.init(red: 57/255, green: 73/255, blue: 99/255, alpha: 1)
+        self.roundButtons()
     }
     
     func roundButtons() {
@@ -31,7 +29,7 @@ final class CKCallViewController: CallViewController {
         roundView(viewBoder: videoMuteButton)
         roundView(viewBoder: speakerButton)
         roundView(viewBoder: chatButton)
-        roundView(viewBoder: endCallButton)
+        roundView(viewBoder: endCallButton)        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,12 +51,11 @@ final class CKCallViewController: CallViewController {
         self.view.layoutIfNeeded()
     }
     
-    func roundView(viewBoder: UIView, color: UIColor = CKColor.Background.lightGray) {
-        viewBoder.backgroundColor = .clear
-        viewBoder.backgroundColor = .white
+    func roundView(viewBoder: UIView, color: UIColor = CKColor.Background.primaryGreenColor) {
+        viewBoder.backgroundColor = UIColor(white: 1, alpha: 0.35)
         viewBoder.layer.borderWidth = 1
         viewBoder.layer.borderColor = color.cgColor
-        viewBoder.layer.cornerRadius = (viewBoder.frame.height)/2
+        viewBoder.layer.cornerRadius = (viewBoder.bounds.height)/2
         viewBoder.layer.masksToBounds = true        
     }
     
@@ -69,6 +66,10 @@ final class CKCallViewController: CallViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.roundButtons()
+    }
+    
+    override func startActivityIndicator() {
+        // TODO: Temporary fixing
     }
     
     override func call(_ call: MXCall, didEncounterError error: Error?) {

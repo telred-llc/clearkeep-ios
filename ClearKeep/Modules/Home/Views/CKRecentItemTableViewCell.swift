@@ -90,10 +90,21 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
                 lastMessageLabel.removeFromSuperview()
             }
         } else {
-            if let lastMessage = roomCellData?.lastEventTextMessage {
+            
+            // TODO: Temporary fix
+            var ignored = false
+            if let kPrefixString = Bundle.mxk_localizedString(
+                forKey: "notice_crypto_unable_to_decrypt")?.components(separatedBy: " %@ **").first ,
+                (roomCellData?.lastEventTextMessage ?? "").hasPrefix(kPrefixString) {
+                ignored = true
+            }
+            
+            // show last message
+            if ignored == false, let lastMessage = roomCellData?.lastEventTextMessage {
+                
                 if lastMessageLabel == nil {
                     lastMessageLabel = UILabel.init()
-                }
+                }                                                
                 
                 if !contentStackView.arrangedSubviews.contains(where: { $0 == lastMessageLabel }) {
                     contentStackView.addArrangedSubview(lastMessageLabel!)
