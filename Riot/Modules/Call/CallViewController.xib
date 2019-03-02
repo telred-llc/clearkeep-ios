@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -70,7 +68,7 @@
                     <accessibility key="accessibilityConfiguration" identifier="CallVCRemotePreviewContainerView"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="STO-VX-5VW">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="34" width="375" height="599"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="CallVCGradientMaskContainerView"/>
                 </view>
@@ -93,10 +91,10 @@
                     </constraints>
                 </view>
                 <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JAR-tn-sGN" userLabel="Overlay Container View">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="34" width="375" height="599"/>
                     <subviews>
                         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nk9-Un-LVP" userLabel="Call Control Container View">
-                            <rect key="frame" x="0.0" y="613" width="375" height="54"/>
+                            <rect key="frame" x="0.0" y="545" width="375" height="54"/>
                             <subviews>
                                 <button autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxP-zM-kfT">
                                     <rect key="frame" x="10" y="0.0" width="55" height="54"/>
@@ -302,19 +300,19 @@
             <accessibility key="accessibilityConfiguration" identifier="CallVCView"/>
             <constraints>
                 <constraint firstItem="v1I-LH-wvv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="0.8" id="7bF-kf-k3o"/>
-                <constraint firstAttribute="bottom" secondItem="STO-VX-5VW" secondAttribute="bottom" id="DhB-zy-SJA"/>
+                <constraint firstAttribute="bottom" secondItem="STO-VX-5VW" secondAttribute="bottom" constant="34" id="DhB-zy-SJA"/>
                 <constraint firstAttribute="trailing" secondItem="JAR-tn-sGN" secondAttribute="trailing" id="IGf-YS-JEj"/>
-                <constraint firstAttribute="bottom" secondItem="JAR-tn-sGN" secondAttribute="bottom" id="KDu-Kr-vji"/>
+                <constraint firstAttribute="bottom" secondItem="JAR-tn-sGN" secondAttribute="bottom" constant="34" id="KDu-Kr-vji"/>
                 <constraint firstItem="STO-VX-5VW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Tyh-Du-Ztt"/>
                 <constraint firstItem="6gQ-zo-2Zw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="750" constant="420" id="VUy-XN-XzH"/>
                 <constraint firstAttribute="trailing" secondItem="STO-VX-5VW" secondAttribute="trailing" id="X0Q-UU-v3g"/>
-                <constraint firstItem="JAR-tn-sGN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Z6W-gz-KKT"/>
+                <constraint firstItem="JAR-tn-sGN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="34" id="Z6W-gz-KKT"/>
                 <constraint firstItem="v1I-LH-wvv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ZfI-qE-l2V"/>
                 <constraint firstItem="Tjb-57-yB1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aKy-Ol-bhc"/>
                 <constraint firstAttribute="bottom" secondItem="Tjb-57-yB1" secondAttribute="bottom" id="akt-pO-kWM"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6gQ-zo-2Zw" secondAttribute="bottom" constant="74" id="bmf-4N-mLk"/>
                 <constraint firstItem="6gQ-zo-2Zw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="dq3-4E-bhT"/>
-                <constraint firstItem="STO-VX-5VW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="e4c-aG-jOB"/>
+                <constraint firstItem="STO-VX-5VW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="34" id="e4c-aG-jOB"/>
                 <constraint firstItem="Tjb-57-yB1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mW3-RA-hx2"/>
                 <constraint firstItem="JAR-tn-sGN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pei-Ab-VHX"/>
                 <constraint firstAttribute="trailing" secondItem="Tjb-57-yB1" secondAttribute="trailing" id="rXn-dm-69F"/>

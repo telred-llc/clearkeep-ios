@@ -37,7 +37,7 @@ PODS:
     - DTFoundation/Core
   - DTFoundation/UIKit (1.7.13):
     - DTFoundation/Core
-  - FloatingPanel (1.3.4)
+  - FloatingPanel (1.3.5)
   - GBDeviceInfo (5.2.0):
     - GBDeviceInfo/Core (= 5.2.0)
   - GBDeviceInfo/Core (5.2.0)
@@ -166,7 +166,7 @@ SPEC CHECKSUMS:
   cmark: ec0275215b504780287b6fca360224e384368af8
   DTCoreText: e5d688cffc9f6a61eddd1a4f94e2046851230de3
   DTFoundation: f03be9fd786f11e505bb8fc44e2a3732bf0917df
-  FloatingPanel: 867950ddc47fd0e042f8a14e60425b2a4254a104
+  FloatingPanel: 09f49a4b17115397e2cba7734c3864dd3ed216eb
   GBDeviceInfo: 2c65ceb9404f9079264d4c238f5b81916fdfc5e2
   GZIP: 12374d285e3b5d46cfcd480700fcfc7e16caf4f1
   HPGrowingTextView: 88a716d97fb853bcb08a4a08e4727da17efc9b19
