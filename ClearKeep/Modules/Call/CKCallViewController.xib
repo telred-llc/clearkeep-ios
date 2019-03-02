@@ -27,6 +27,7 @@
                 <outlet property="distancelocalPreviewToBottom" destination="bmf-4N-mLk" id="2sE-H2-c7o"/>
                 <outlet property="endCallButton" destination="lVK-d8-Dqf" id="zgE-Go-bo6"/>
                 <outlet property="gradientMaskContainerView" destination="STO-VX-5VW" id="9s2-wN-gIY"/>
+                <outlet property="heightViewtotalBottom" destination="eS5-qj-HTc" id="Oh5-S0-wgC"/>
                 <outlet property="localPreviewActivityView" destination="Bhz-hS-5B6" id="2yA-xn-ITf"/>
                 <outlet property="localPreviewContainerView" destination="6gQ-zo-2Zw" id="6Ba-YZ-OmX"/>
                 <outlet property="localPreviewContainerViewHeightConstraint" destination="dZW-ZL-5rV" id="apO-M6-y8C"/>
@@ -97,10 +98,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nk9-Un-LVP" userLabel="Call Control Container View">
-                            <rect key="frame" x="0.0" y="613" width="375" height="54"/>
+                            <rect key="frame" x="0.0" y="612" width="375" height="55"/>
                             <subviews>
                                 <button autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxP-zM-kfT">
-                                    <rect key="frame" x="10" y="0.0" width="55" height="54"/>
+                                    <rect key="frame" x="10" y="0.0" width="55" height="55"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="CallVCAudioMuteButton"/>
                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
@@ -117,7 +118,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yq6-d2-Ea2">
-                                    <rect key="frame" x="85" y="0.0" width="55" height="54"/>
+                                    <rect key="frame" x="85" y="0.0" width="55" height="55"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="CallVCSpeakerButton"/>
                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
@@ -134,7 +135,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVK-d8-Dqf" userLabel="End Call Button">
-                                    <rect key="frame" x="160" y="0.0" width="55" height="54"/>
+                                    <rect key="frame" x="160" y="0.0" width="55" height="55"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="CallVCEndCallButton"/>
                                     <state key="normal" image="call_hangup_icon">
@@ -147,7 +148,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UHM-u9-ODN">
-                                    <rect key="frame" x="235" y="0.0" width="55" height="54"/>
+                                    <rect key="frame" x="235" y="0.0" width="55" height="55"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="CallVCVideoMuteButton"/>
                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
@@ -165,7 +166,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCi-hD-FBs">
-                                    <rect key="frame" x="310" y="0.0" width="55" height="54"/>
+                                    <rect key="frame" x="310" y="0.0" width="55" height="55"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="CallVCChatButton"/>
                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
@@ -200,7 +201,7 @@
                                 <constraint firstAttribute="trailing" secondItem="xCi-hD-FBs" secondAttribute="trailing" constant="10" id="UAd-cs-Evp"/>
                                 <constraint firstItem="lVK-d8-Dqf" firstAttribute="width" secondItem="nk9-Un-LVP" secondAttribute="width" multiplier="1/5" constant="-20" id="VrK-vw-mbY"/>
                                 <constraint firstItem="xCi-hD-FBs" firstAttribute="leading" secondItem="UHM-u9-ODN" secondAttribute="trailing" constant="20" id="bQT-Ff-cxR"/>
-                                <constraint firstAttribute="height" constant="54" id="eS5-qj-HTc"/>
+                                <constraint firstAttribute="height" constant="55" id="eS5-qj-HTc"/>
                                 <constraint firstAttribute="bottom" secondItem="UHM-u9-ODN" secondAttribute="bottom" id="g18-gQ-ckj"/>
                                 <constraint firstItem="lVK-d8-Dqf" firstAttribute="centerY" secondItem="nk9-Un-LVP" secondAttribute="centerY" id="hY9-ut-lPv"/>
                                 <constraint firstItem="fxP-zM-kfT" firstAttribute="leading" secondItem="nk9-Un-LVP" secondAttribute="leading" constant="10" id="tkX-xK-GQj"/>

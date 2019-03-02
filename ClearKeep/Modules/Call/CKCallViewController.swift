@@ -16,6 +16,7 @@ final class CKCallViewController: CallViewController {
     @IBOutlet weak var distanceOverViewToBottom: NSLayoutConstraint!
     @IBOutlet weak var distanceOverViewToTop: NSLayoutConstraint!
     @IBOutlet weak var distancelocalPreviewToBottom: NSLayoutConstraint!
+    @IBOutlet weak var heightViewtotalBottom: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         // set backgound View
@@ -26,16 +27,13 @@ final class CKCallViewController: CallViewController {
             if UIScreen.main.bounds.height >= 812 {
                 // iphone X and later
                 distanceOverViewToTop.constant = 44
-                distanceOverViewToBottom.constant = 34
+                distanceOverViewToBottom.constant = 54
                 distancelocalPreviewToBottom.constant = 240
             } else {
                 // before iphone X
-                distanceOverViewToTop.constant = 0
-                distanceOverViewToBottom.constant = 0
+                distanceOverViewToTop.constant = 20
+                distanceOverViewToBottom.constant = 20
                 distancelocalPreviewToBottom.constant = 140
-                if UIScreen.main.bounds.height > 667 {
-                    distancelocalPreviewToBottom.constant = 74
-                }
             }
         }
         
@@ -58,8 +56,8 @@ final class CKCallViewController: CallViewController {
         
         endCallButton.setTitle(nil, for: .normal)
         endCallButton.setTitle(nil, for: .highlighted)
-        endCallButton.setImage(UIImage(named: "call_hangup_icon"), for: .normal)
-        endCallButton.setImage(UIImage(named: "call_hangup_icon"), for: .highlighted)
+        endCallButton.setImage(UIImage(named: "ic_call"), for: .normal)
+        endCallButton.setImage(UIImage(named: "ic_call"), for: .highlighted)
         
         boderView(viewBoder: audioMuteButton)
         boderView(viewBoder: videoMuteButton)
@@ -67,8 +65,18 @@ final class CKCallViewController: CallViewController {
         boderView(viewBoder: chatButton)
         boderView(viewBoder: endCallButton)
         
+        endCallButton.backgroundColor = UIColor.red
         callControlContainerView.backgroundColor = .clear
         callerNameLabel.textColor = .white
+        remotePreviewContainerView.backgroundColor = UIColor.init(red: 57/255, green: 73/255, blue: 99/255, alpha: 1)
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        heightViewtotalBottom.constant = audioMuteButton.bounds.width
+        self.view.setNeedsLayout()
+        self.view.layoutIfNeeded()
     }
     
     func boderView(viewBoder: UIView) {
