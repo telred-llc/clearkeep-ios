@@ -44,7 +44,6 @@ PODS:
   - GZIP (1.2.2)
   - HPGrowingTextView (1.1)
   - IQKeyboardManagerSwift (6.2.0)
-  - ISEmojiView (0.1.2)
   - libbase58 (0.1.4)
   - libPhoneNumber-iOS (0.9.13)
   - MatrixKit/AppExtension (0.9.3):
@@ -107,7 +106,6 @@ DEPENDENCIES:
   - FloatingPanel
   - GBDeviceInfo (~> 5.2.0)
   - IQKeyboardManagerSwift (~> 6.2.0)
-  - ISEmojiView
   - MatrixKit/AppExtension (from `https://github.com/sinbadflyce/matrix-ios-kit.git`, branch `o365`)
   - MatrixSDK/JingleCallStack
   - MatrixSDK/SwiftSupport
@@ -131,7 +129,6 @@ SPEC REPOS:
     - GZIP
     - HPGrowingTextView
     - IQKeyboardManagerSwift
-    - ISEmojiView
     - libbase58
     - libPhoneNumber-iOS
     - MatrixSDK
@@ -174,7 +171,6 @@ SPEC CHECKSUMS:
   GZIP: 12374d285e3b5d46cfcd480700fcfc7e16caf4f1
   HPGrowingTextView: 88a716d97fb853bcb08a4a08e4727da17efc9b19
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
-  ISEmojiView: 5b53bdf057ddf484b92e70064a1cc46b5fedf7ea
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
   libPhoneNumber-iOS: e444379ac18bbfbdefad571da735b2cd7e096caa
   MatrixKit: af9f94f36644bc21b63b114413f7bb510506b7d1
@@ -189,6 +185,6 @@ SPEC CHECKSUMS:
   WebRTC: f2a6203584745fe53532633397557876b5d71640
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: fe3da91fb2180b0c15d9045e50d4b28cf8883a21
+PODFILE CHECKSUM: 899505f061fed0889deb8cf9730d8fe069abde8b
 
 COCOAPODS: 1.5.3
