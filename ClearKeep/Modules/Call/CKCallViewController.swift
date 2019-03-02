@@ -10,19 +10,20 @@ import Foundation
 
 final class CKCallViewController: CallViewController {
     
+    private let maxCallControlItemWidth: CGFloat = 55
+    private let minCallControlsSpacing: CGFloat = 10
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: CKCallViewController.nibName, bundle: Bundle.init(for: CKCallViewController.self))
     }
     
-    @IBOutlet weak var heightViewtotalBottom: NSLayoutConstraint!
+    @IBOutlet weak var callControlContainerHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // set backgound View
          self.view.backgroundColor = UIColor.init(red: 57/255, green: 73/255, blue: 99/255, alpha: 1)
-        
-        self.roundButtons()
     }
     
     func roundButtons() {
@@ -35,7 +36,19 @@ final class CKCallViewController: CallViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        heightViewtotalBottom.constant = audioMuteButton.bounds.width
+        
+        // update layout
+        let screenWidth = UIScreen.main.bounds.size.width
+        let controlItemsCount: CGFloat = 5
+        let minTotlaSpacing = (controlItemsCount + 1.0) * minCallControlsSpacing
+        let maxAbleControlItemWidth = (screenWidth - minTotlaSpacing) / controlItemsCount
+        
+        if maxCallControlItemWidth > maxAbleControlItemWidth {
+            self.callControlContainerHeightConstraint.constant = maxAbleControlItemWidth
+        } else {
+            self.callControlContainerHeightConstraint.constant = maxCallControlItemWidth
+        }
+        
         self.view.setNeedsLayout()
         self.view.layoutIfNeeded()
     }
@@ -53,9 +66,9 @@ final class CKCallViewController: CallViewController {
         super.init(coder: aDecoder)
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-           self.roundButtons()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.roundButtons()
     }
     
     override func call(_ call: MXCall, didEncounterError error: Error?) {
