@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,9 +23,6 @@
                 <outlet property="callerNameLabel" destination="IW8-8P-mS3" id="eaa-oo-l01"/>
                 <outlet property="cameraSwitchButton" destination="Iiz-W1-oNW" id="bsM-mH-ti8"/>
                 <outlet property="chatButton" destination="xCi-hD-FBs" id="h3w-6I-Agn"/>
-                <outlet property="distanceOverViewToBottom" destination="KDu-Kr-vji" id="fCq-V2-wHy"/>
-                <outlet property="distanceOverViewToTop" destination="Z6W-gz-KKT" id="oT6-di-Y6c"/>
-                <outlet property="distancelocalPreviewToBottom" destination="bmf-4N-mLk" id="2sE-H2-c7o"/>
                 <outlet property="endCallButton" destination="lVK-d8-Dqf" id="zgE-Go-bo6"/>
                 <outlet property="gradientMaskContainerView" destination="STO-VX-5VW" id="9s2-wN-gIY"/>
                 <outlet property="heightViewtotalBottom" destination="eS5-qj-HTc" id="Oh5-S0-wgC"/>
@@ -95,10 +93,10 @@
                     </constraints>
                 </view>
                 <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JAR-tn-sGN" userLabel="Overlay Container View">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="30" width="375" height="617"/>
                     <subviews>
                         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nk9-Un-LVP" userLabel="Call Control Container View">
-                            <rect key="frame" x="0.0" y="612" width="375" height="55"/>
+                            <rect key="frame" x="0.0" y="562" width="375" height="55"/>
                             <subviews>
                                 <button autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxP-zM-kfT">
                                     <rect key="frame" x="10" y="0.0" width="55" height="55"/>
@@ -184,7 +182,7 @@
                                     </connections>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <accessibility key="accessibilityConfiguration" identifier="CallVCCallControlContainerView"/>
                             <constraints>
                                 <constraint firstItem="UHM-u9-ODN" firstAttribute="top" secondItem="nk9-Un-LVP" secondAttribute="top" id="9WM-jp-uJ2"/>
@@ -304,28 +302,30 @@
             <accessibility key="accessibilityConfiguration" identifier="CallVCView"/>
             <constraints>
                 <constraint firstItem="v1I-LH-wvv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="0.8" id="7bF-kf-k3o"/>
+                <constraint firstItem="JAR-tn-sGN" firstAttribute="top" secondItem="xrI-Qo-z0K" secondAttribute="top" constant="10" id="966-xt-rl9"/>
                 <constraint firstAttribute="bottom" secondItem="STO-VX-5VW" secondAttribute="bottom" id="DhB-zy-SJA"/>
                 <constraint firstAttribute="trailing" secondItem="JAR-tn-sGN" secondAttribute="trailing" id="IGf-YS-JEj"/>
-                <constraint firstAttribute="bottom" secondItem="JAR-tn-sGN" secondAttribute="bottom" id="KDu-Kr-vji"/>
+                <constraint firstItem="xrI-Qo-z0K" firstAttribute="bottom" secondItem="JAR-tn-sGN" secondAttribute="bottom" constant="20" id="KDu-Kr-vji"/>
                 <constraint firstItem="STO-VX-5VW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Tyh-Du-Ztt"/>
                 <constraint firstItem="6gQ-zo-2Zw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="750" constant="420" id="VUy-XN-XzH"/>
                 <constraint firstAttribute="trailing" secondItem="STO-VX-5VW" secondAttribute="trailing" id="X0Q-UU-v3g"/>
-                <constraint firstItem="JAR-tn-sGN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Z6W-gz-KKT"/>
                 <constraint firstItem="v1I-LH-wvv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ZfI-qE-l2V"/>
                 <constraint firstItem="Tjb-57-yB1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="aKy-Ol-bhc"/>
                 <constraint firstAttribute="bottom" secondItem="Tjb-57-yB1" secondAttribute="bottom" id="akt-pO-kWM"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6gQ-zo-2Zw" secondAttribute="bottom" constant="74" id="bmf-4N-mLk"/>
+                <constraint firstItem="xrI-Qo-z0K" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6gQ-zo-2Zw" secondAttribute="bottom" constant="94" id="bmf-4N-mLk"/>
                 <constraint firstItem="6gQ-zo-2Zw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="dq3-4E-bhT"/>
                 <constraint firstItem="STO-VX-5VW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="e4c-aG-jOB"/>
                 <constraint firstItem="Tjb-57-yB1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mW3-RA-hx2"/>
                 <constraint firstItem="JAR-tn-sGN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pei-Ab-VHX"/>
                 <constraint firstAttribute="trailing" secondItem="Tjb-57-yB1" secondAttribute="trailing" id="rXn-dm-69F"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="xrI-Qo-z0K"/>
+            <point key="canvasLocation" x="138.40000000000001" y="139.880059970015"/>
         </view>
     </objects>
     <resources>
-        <image name="back_icon" width="13" height="23"/>
-        <image name="call_hangup_icon" width="26" height="27"/>
+        <image name="back_icon" width="13.5" height="23"/>
+        <image name="call_hangup_icon" width="41.599998474121094" height="43.200000762939453"/>
         <image name="camera_switch" width="32" height="24"/>
     </resources>
 </document>

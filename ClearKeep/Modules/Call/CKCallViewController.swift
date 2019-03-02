@@ -13,9 +13,7 @@ final class CKCallViewController: CallViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: CKCallViewController.nibName, bundle: Bundle.init(for: CKCallViewController.self))
     }
-    @IBOutlet weak var distanceOverViewToBottom: NSLayoutConstraint!
-    @IBOutlet weak var distanceOverViewToTop: NSLayoutConstraint!
-    @IBOutlet weak var distancelocalPreviewToBottom: NSLayoutConstraint!
+    
     @IBOutlet weak var heightViewtotalBottom: NSLayoutConstraint!
     
     override func viewDidLoad() {
@@ -23,21 +21,6 @@ final class CKCallViewController: CallViewController {
 
         // set backgound View
          self.view.backgroundColor = UIColor.init(red: 57/255, green: 73/255, blue: 99/255, alpha: 1)
-        
-        // check device
-        if UIDevice().userInterfaceIdiom == .phone {
-            if UIScreen.main.bounds.height >= 812 {
-                // iphone X and later
-                distanceOverViewToTop.constant = 44
-                distanceOverViewToBottom.constant = 54
-                distancelocalPreviewToBottom.constant = 240
-            } else {
-                // before iphone X
-                distanceOverViewToTop.constant = 20
-                distanceOverViewToBottom.constant = 20
-                distancelocalPreviewToBottom.constant = 140
-            }
-        }
         
         self.roundButtons()
     }
