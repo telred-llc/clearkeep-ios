@@ -52,9 +52,7 @@ class CKMessageContentManagement {
                     return true
                 }
             }
-
-            return false
-            
+            return false            
         default:
             break
         }
