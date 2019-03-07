@@ -48,6 +48,10 @@ class CKNotificationSettingViewController: MXKViewController {
     
     // MARK: - LifeCycle
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupInitization()
@@ -59,7 +63,20 @@ class CKNotificationSettingViewController: MXKViewController {
     }
     
     private func setupInitization() {
+        setupNotification()
         setupTableView()
+    }
+    
+    override func onMatrixSessionStateDidChange(_ notif: Notification?) {
+        // Check whether the concerned session is a new one which is not already associated with this view controller.
+        if let mxSession = notif?.object as? MXSession {
+            if mxSession.state == MXSessionStateInitialised && self.mxSessions.contains(where: { ($0 as? MXSession) == mxSession }) == true {
+                // Store this new session
+                addMatrixSession(mxSession)
+            } else {
+                super.onMatrixSessionStateDidChange(notif)
+            }
+        }
     }
 }
 
@@ -76,6 +93,37 @@ private extension CKNotificationSettingViewController {
         tableView.allowsSelection = false
     }
     
+    func setupNotification() {
+
+        // Add observer to handle removed accounts
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountManagerDidRemoveAccount, object: nil, queue: OperationQueue.main, using: { notif in
+
+            if (MXKAccountManager.shared().accounts ?? []).count > 0 {
+                // Refresh table to remove this account
+                self.refreshSettings()
+            }
+
+        })
+
+        // Add observer to handle accounts update
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+
+            self.stopActivityIndicator()
+
+            self.refreshSettings()
+
+        })
+
+        // Add observer to push settings
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountPushKitActivityDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+
+            self.stopActivityIndicator()
+
+            self.refreshSettings()
+        })
+
+    }
+    
     @objc func togglePushNotifications(_ sender: UISwitch) {
 
         // Check first whether the user allow notification from device settings
@@ -87,6 +135,10 @@ private extension CKNotificationSettingViewController {
                 
                 if let account = accountManager?.activeAccounts?.first {
                     
+                    DispatchQueue.main.async {
+                        self?.startActivityIndicator()
+                    }
+                    
                     if accountManager?.pushDeviceToken != nil {
                         DispatchQueue.main.async {
                             account.enablePushKitNotifications = !account.isPushKitNotificationActive
@@ -95,15 +147,10 @@ private extension CKNotificationSettingViewController {
                         // Obtain device token when user has just enabled access to notifications from system settings
                         
                         DispatchQueue.main.async {
-                            self?.startActivityIndicator()
-
                             AppDelegate.the().registerForRemoteNotifications(completion: { error in
-                                DispatchQueue.main.async {
-                                    self?.stopActivityIndicator()
-                                }
-                                
                                 if error != nil {
                                     DispatchQueue.main.async {
+                                        self?.stopActivityIndicator()
                                         sender.setOn(false, animated: true)
                                     }
                                 } else {
@@ -141,12 +188,27 @@ private extension CKNotificationSettingViewController {
             }
         }
     }
+    
+    @objc func toggleShowDecodedContent(_ sender: UISwitch!) {
+        RiotSettings.shared.showDecryptedContentInNotifications = sender.isOn;
+    }
+    
+    @objc func togglePinRoomsWithMissedNotif(_ sender: UISwitch!) {
+        RiotSettings.shared.pinRoomsWithMissedNotificationsOnHome = sender.isOn
+    }
+
+    @objc func togglePinRoomsWithUnread(_ sender: UISwitch!) {
+        RiotSettings.shared.pinRoomsWithUnreadMessagesOnHome = sender.isOn
+    }
+
 }
 
 // MARK: - Public Methods
 
 extension CKNotificationSettingViewController {
-    
+    func refreshSettings() {
+        self.tableView.reloadData()
+    }
 }
 
 // MARK: UITableViewDataSource
@@ -165,19 +227,26 @@ extension CKNotificationSettingViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingToggleItemTableViewCell", for: indexPath) as! CKSettingToggleItemTableViewCell
         
         let cellType = sections[indexPath.section][indexPath.row]
-        
         cell.titleLabel.text = cellType.title()
 
+        let account = MXKAccountManager.shared().activeAccounts.first
         switch cellType {
         case .allowNotification:
-            let account = MXKAccountManager.shared().activeAccounts.first
             cell.switchView.isOn = account?.isPushKitNotificationActive ?? false
             cell.switchView.isEnabled = true
             cell.switchView.addTarget(self, action: #selector(togglePushNotifications(_:)), for: UIControlEvents.valueChanged)
         case .showDecryptedContent:
-            break
-        default:
-            break
+            cell.switchView.isOn = RiotSettings.shared.showDecryptedContentInNotifications;
+            cell.switchView.isEnabled = account?.isPushKitNotificationActive ?? false
+            cell.switchView.addTarget(self, action: #selector(toggleShowDecodedContent(_:)), for: UIControlEvents.valueChanged)
+        case .pinMissedNoti:
+            cell.switchView.isOn = RiotSettings.shared.pinRoomsWithMissedNotificationsOnHome;
+            cell.switchView.isEnabled = true
+            cell.switchView.addTarget(self, action: #selector(togglePinRoomsWithMissedNotif(_:)), for: UIControlEvents.valueChanged)
+        case .pinUnreadMessage:
+            cell.switchView.isOn = RiotSettings.shared.pinRoomsWithUnreadMessagesOnHome;
+            cell.switchView.isEnabled = true
+            cell.switchView.addTarget(self, action: #selector(togglePinRoomsWithUnread(_:)), for: UIControlEvents.valueChanged)
         }
         
         return cell
