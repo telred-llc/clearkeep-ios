@@ -209,7 +209,8 @@ class CKAccountProfileViewController: MXKViewController {
             }
             
             cell.settingHandler = {
-                let settingVC = UIStoryboard.init(name: "MainEx", bundle: nil).instantiateViewController(withIdentifier: "SettingsViewController")
+                let settingVC = CKSettingsViewController.init(nibName: "CKSettingsViewController", bundle: Bundle.init(for: CKSettingsViewController.self))
+                settingVC.importSession(self.mxSessions)
                 self.navigationController?.pushViewController(settingVC, animated: true)
             }
             
