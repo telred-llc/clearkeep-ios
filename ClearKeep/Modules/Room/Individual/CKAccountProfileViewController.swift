@@ -19,8 +19,9 @@ class CKAccountProfileViewController: MXKViewController {
         case avatar  = 0
         case action  = 1
         case detail  = 2
+        case signOut = 3
         
-        static var count: Int { return 3}
+        static var count: Int { return 4}
     }
     
     // MARK: - CLASS
@@ -137,6 +138,7 @@ class CKAccountProfileViewController: MXKViewController {
         self.tableView.register(CKAccountProfileAvatarCell.nib, forCellReuseIdentifier: CKAccountProfileAvatarCell.identifier)
         self.tableView.register(CKAccountProfileActionCell.nib, forCellReuseIdentifier: CKAccountProfileActionCell.identifier)
         self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
+        self.tableView.register(CKSignoutButtonTableViewCell.nib, forCellReuseIdentifier: CKSignoutButtonTableViewCell.identifier)
         self.tableView.allowsSelection = false
     }
     
@@ -209,7 +211,8 @@ class CKAccountProfileViewController: MXKViewController {
             }
             
             cell.settingHandler = {
-                let settingVC = UIStoryboard.init(name: "MainEx", bundle: nil).instantiateViewController(withIdentifier: "SettingsViewController")
+                let settingVC = CKSettingsViewController.init(nibName: "CKSettingsViewController", bundle: Bundle.init(for: CKSettingsViewController.self))
+                settingVC.importSession(self.mxSessions)
                 self.navigationController?.pushViewController(settingVC, animated: true)
             }
             
@@ -245,18 +248,41 @@ class CKAccountProfileViewController: MXKViewController {
         return CKAccountProfileInfoCell()
     }
     
+    private func cellForSignOutButton(atIndexPath indexPath: IndexPath) -> CKSignoutButtonTableViewCell {
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: CKSignoutButtonTableViewCell.identifier,
+            for: indexPath) as? CKSignoutButtonTableViewCell {
+
+            cell.signOutHandler = { [weak self] in
+                self?.signOut(button: cell.signOutButton)
+            }
+        }
+        
+        return CKSignoutButtonTableViewCell()
+    }
+    
     private func titleForHeader(atSection section: Int) -> String {
         guard let section = Section(rawValue: section) else { return ""}
         
         switch section {
-        case .avatar:
-            return ""
-        case .action:
-            return ""
-        case .detail:
+        default:
             return ""
         }
-    }    
+    }
+    
+    private func signOut(button: UIButton) {
+        button.isEnabled = false
+        
+        startActivityIndicator()
+
+        AppDelegate.the().logout(withConfirmation: true) { [weak self] isLoggedOut in
+            if !isLoggedOut {
+                // Enable the button and stop activity indicator
+                button.isEnabled = true
+                self?.stopActivityIndicator()
+            }
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -267,7 +293,8 @@ extension CKAccountProfileViewController: UITableViewDelegate {
         switch section {
         case .avatar:
             return 250
-            
+        case .signOut:
+            return 100
         default:
             return 60
         }
@@ -313,6 +340,7 @@ extension CKAccountProfileViewController: UITableViewDataSource {
         case .avatar: return 1
         case .action: return 1
         case .detail: return 2
+        case .signOut: return 1
         }
     }
     
@@ -332,6 +360,8 @@ extension CKAccountProfileViewController: UITableViewDataSource {
             return cellForAction(atIndexPath: indexPath)
         case .detail:
             return cellForInfoPersonal(atIndexPath: indexPath)
+        case .signOut:
+            return cellForSignOutButton(atIndexPath: indexPath)
         }
     }
 }
