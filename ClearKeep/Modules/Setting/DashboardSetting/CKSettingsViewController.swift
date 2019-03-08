@@ -277,7 +277,7 @@ extension CKSettingsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CKLayoutSize.Table.row44px
+        return CKLayoutSize.Table.row43px
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {

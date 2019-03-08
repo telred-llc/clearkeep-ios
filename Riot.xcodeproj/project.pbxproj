@@ -45,6 +45,8 @@
 		853CBDE82232062A00404DBC /* CKCallsSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853CBDE62232062A00404DBC /* CKCallsSettingViewController.xib */; };
 		853CBDEC2232065F00404DBC /* CKSecuritySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853CBDEA2232065F00404DBC /* CKSecuritySettingViewController.swift */; };
 		853CBDED2232065F00404DBC /* CKSecuritySettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853CBDEB2232065F00404DBC /* CKSecuritySettingViewController.xib */; };
+		853CBDF02232788000404DBC /* CKSignoutButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853CBDEE2232788000404DBC /* CKSignoutButtonTableViewCell.swift */; };
+		853CBDF12232788000404DBC /* CKSignoutButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853CBDEF2232788000404DBC /* CKSignoutButtonTableViewCell.xib */; };
 		853E996121E4986100D005F4 /* SFCompactDisplay-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */; };
 		853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */; };
 		853E996321E4986100D005F4 /* SFCompactDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */; };
@@ -633,6 +635,8 @@
 		853CBDE62232062A00404DBC /* CKCallsSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKCallsSettingViewController.xib; sourceTree = "<group>"; };
 		853CBDEA2232065F00404DBC /* CKSecuritySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSecuritySettingViewController.swift; sourceTree = "<group>"; };
 		853CBDEB2232065F00404DBC /* CKSecuritySettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSecuritySettingViewController.xib; sourceTree = "<group>"; };
+		853CBDEE2232788000404DBC /* CKSignoutButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSignoutButtonTableViewCell.swift; sourceTree = "<group>"; };
+		853CBDEF2232788000404DBC /* CKSignoutButtonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSignoutButtonTableViewCell.xib; sourceTree = "<group>"; };
 		853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-SemiBold.ttf"; sourceTree = "<group>"; };
 		853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.ttf"; sourceTree = "<group>"; };
@@ -1619,6 +1623,8 @@
 				A0043FBF21F84A610051AAE1 /* CKAccountProfileInfoCell.swift */,
 				A0043FC021F84A610051AAE1 /* CKAccountProfileInfoCell.xib */,
 				A01DCDE021FEBCA30069CA4A /* CKImageView.swift */,
+				853CBDEE2232788000404DBC /* CKSignoutButtonTableViewCell.swift */,
+				853CBDEF2232788000404DBC /* CKSignoutButtonTableViewCell.xib */,
 			);
 			path = "Account Profile";
 			sourceTree = "<group>";
@@ -3765,6 +3771,7 @@
 				E5233144221C5507008FC772 /* CustomImageCell.xib in Resources */,
 				B1B558E320EF768F00210D55 /* RoomEmptyBubbleCell.xib in Resources */,
 				85CA7C9F21DDF5C7000331AC /* CK.xcassets in Resources */,
+				853CBDF12232788000404DBC /* CKSignoutButtonTableViewCell.xib in Resources */,
 				B1B5590420EF768F00210D55 /* RoomOutgoingAttachmentBubbleCell.xib in Resources */,
 				B1B558F120EF768F00210D55 /* RoomIncomingAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
 				E57814FC21A7B6A8001BF40D /* MainEx.storyboard in Resources */,
@@ -4311,6 +4318,7 @@
 				B1B5577020EE702800210D55 /* WidgetPickerViewController.m in Sources */,
 				B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				B1B5576F20EE702800210D55 /* IntegrationManagerViewController.m in Sources */,
+				853CBDF02232788000404DBC /* CKSignoutButtonTableViewCell.swift in Sources */,
 				B1B557AC20EF5A6D00210D55 /* DeviceView.m in Sources */,
 				E5E27FE421F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift in Sources */,
 				B16932EE20F3C3C900746532 /* FilesSearchCellData.m in Sources */,
