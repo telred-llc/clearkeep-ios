@@ -36,7 +36,12 @@ extension UIViewController {
 // MARK: - MXKViewController extension
 
 extension MXKViewController {
-    
+   
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.rageShakeManager = RageShakeManager.sharedManager() as? MXKResponderRageShaking
+    }
+   
     // MARK: - CLASS VAR
     
     /**
