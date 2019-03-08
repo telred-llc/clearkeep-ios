@@ -17,13 +17,10 @@ class CKSecuritySettingViewController: MXKViewController {
     // MARK: - Enums
     
     enum CellType {
-        case showDecryptedContent
         case exportKeys
 
         func title() -> String? {
             switch self {
-            case .showDecryptedContent:
-                return NSLocalizedString("settings_show_decrypted_content", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
             case .exportKeys:
                 return NSLocalizedString("settings_crypto_export", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
             }
@@ -34,7 +31,7 @@ class CKSecuritySettingViewController: MXKViewController {
     
     // MARK: Private
     
-    private let sections: [[CellType]] = [[.showDecryptedContent], [.exportKeys]]
+    private let sections: [[CellType]] = [[.exportKeys]]
     
     // Current alert (if any).
     private var currentAlert: UIAlertController?
@@ -108,10 +105,6 @@ private extension CKSecuritySettingViewController {
         cell.titleLabel.text = cellType.title()
         
         switch cellType {
-        case .showDecryptedContent:
-            cell.switchView.isOn = RiotSettings.shared.showDecryptedContentInNotifications
-            cell.switchView.isEnabled = true
-            cell.switchView.addTarget(self, action: #selector(toggleShowDecodedContent(_:)), for: UIControlEvents.valueChanged)
         default:
             break
         }
@@ -133,10 +126,6 @@ private extension CKSecuritySettingViewController {
     }
 
     // Actions
-    
-    @objc func toggleShowDecodedContent(_ sender: UISwitch!) {
-        RiotSettings.shared.showDecryptedContentInNotifications = sender.isOn;
-    }
     
     func exportEncryptionKeys() {
         currentAlert?.dismiss(animated: false)
@@ -199,8 +188,6 @@ extension CKSecuritySettingViewController: UITableViewDataSource {
         switch cellType {
         case .exportKeys:
             return cellForButton(tableView, indexPath: indexPath)
-        default:
-            return cellForNormalItems(tableView, indexPath: indexPath)
         }
     }
 }
@@ -222,8 +209,6 @@ extension CKSecuritySettingViewController: UITableViewDelegate {
         switch cellType {
         case .exportKeys:
             self.exportEncryptionKeys()
-        default:
-            break
         }
     }
     
