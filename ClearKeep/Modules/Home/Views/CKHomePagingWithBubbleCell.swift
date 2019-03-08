@@ -52,6 +52,7 @@ class CKHomePagingWithBubbleCell: PagingCell {
                 bubbleView.isHidden = true
                 contentStackView.spacing = 0
             }
+            pagingTitleLabel.font = CKAppTheme.mainMediumAppFont(size: 15)
         } else {
             pagingTitleLabel.text = nil
             bubbleTitleLabel.text = nil
