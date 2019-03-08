@@ -19,7 +19,6 @@ class CKNotificationSettingViewController: MXKViewController {
     
     enum CellType {
         case allowNotification
-        case showDecryptedContent
         case pinMissedNoti
         case pinUnreadMessage
         
@@ -27,8 +26,6 @@ class CKNotificationSettingViewController: MXKViewController {
             switch self {
             case .allowNotification:
                 return NSLocalizedString("settings_enable_push_notif", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-            case .showDecryptedContent:
-                return NSLocalizedString("settings_show_decrypted_content", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
             case .pinMissedNoti:
                 return NSLocalizedString("settings_pin_rooms_with_missed_notif", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
             case .pinUnreadMessage:
@@ -41,7 +38,7 @@ class CKNotificationSettingViewController: MXKViewController {
     
     // MARK: Private
     
-    private let sections: [[CellType]] = [[.allowNotification], [.showDecryptedContent], [.pinMissedNoti, .pinUnreadMessage]]
+    private let sections: [[CellType]] = [[.allowNotification], [.pinMissedNoti, .pinUnreadMessage]]
     
     // Current alert (if any).
     private var currentAlert: UIAlertController?
@@ -189,10 +186,6 @@ private extension CKNotificationSettingViewController {
         }
     }
     
-    @objc func toggleShowDecodedContent(_ sender: UISwitch!) {
-        RiotSettings.shared.showDecryptedContentInNotifications = sender.isOn;
-    }
-    
     @objc func togglePinRoomsWithMissedNotif(_ sender: UISwitch!) {
         RiotSettings.shared.pinRoomsWithMissedNotificationsOnHome = sender.isOn
     }
@@ -235,10 +228,6 @@ extension CKNotificationSettingViewController: UITableViewDataSource {
             cell.switchView.isOn = account?.isPushKitNotificationActive ?? false
             cell.switchView.isEnabled = true
             cell.switchView.addTarget(self, action: #selector(togglePushNotifications(_:)), for: UIControlEvents.valueChanged)
-        case .showDecryptedContent:
-            cell.switchView.isOn = RiotSettings.shared.showDecryptedContentInNotifications;
-            cell.switchView.isEnabled = account?.isPushKitNotificationActive ?? false
-            cell.switchView.addTarget(self, action: #selector(toggleShowDecodedContent(_:)), for: UIControlEvents.valueChanged)
         case .pinMissedNoti:
             cell.switchView.isOn = RiotSettings.shared.pinRoomsWithMissedNotificationsOnHome;
             cell.switchView.isEnabled = true

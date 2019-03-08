@@ -55,8 +55,8 @@
 		853E996821E4986100D005F4 /* SFCompactDisplay-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995F21E4986000D005F4 /* SFCompactDisplay-Heavy.ttf */; };
 		853E996921E4986100D005F4 /* SFCompactDisplay-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E996021E4986000D005F4 /* SFCompactDisplay-UltraLight.ttf */; };
 		853E996B21E4A73600D005F4 /* CKAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853E996A21E4A73600D005F4 /* CKAppTheme.swift */; };
-		8542618622316D9200F24395 /* CKDeactivateSettingButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542618422316D9200F24395 /* CKDeactivateSettingButtonCell.swift */; };
-		8542618722316D9200F24395 /* CKDeactivateSettingButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8542618522316D9200F24395 /* CKDeactivateSettingButtonCell.xib */; };
+		8542618622316D9200F24395 /* CKSettingButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542618422316D9200F24395 /* CKSettingButtonCell.swift */; };
+		8542618722316D9200F24395 /* CKSettingButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8542618522316D9200F24395 /* CKSettingButtonCell.xib */; };
 		85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */; };
 		85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */; };
 		8554B71A22171257008CB324 /* CKRecentItemInvitationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */; };
@@ -643,8 +643,8 @@
 		853E995F21E4986000D005F4 /* SFCompactDisplay-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Heavy.ttf"; sourceTree = "<group>"; };
 		853E996021E4986000D005F4 /* SFCompactDisplay-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-UltraLight.ttf"; sourceTree = "<group>"; };
 		853E996A21E4A73600D005F4 /* CKAppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAppTheme.swift; sourceTree = "<group>"; };
-		8542618422316D9200F24395 /* CKDeactivateSettingButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKDeactivateSettingButtonCell.swift; sourceTree = "<group>"; };
-		8542618522316D9200F24395 /* CKDeactivateSettingButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKDeactivateSettingButtonCell.xib; sourceTree = "<group>"; };
+		8542618422316D9200F24395 /* CKSettingButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSettingButtonCell.swift; sourceTree = "<group>"; };
+		8542618522316D9200F24395 /* CKSettingButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSettingButtonCell.xib; sourceTree = "<group>"; };
 		85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemTableViewCell.swift; sourceTree = "<group>"; };
 		85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRecentItemTableViewCell.xib; sourceTree = "<group>"; };
 		8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRecentItemInvitationCell.xib; sourceTree = "<group>"; };
@@ -1408,8 +1408,6 @@
 			children = (
 				8511E14C2230D1B90059ABC0 /* CKSettingsGroupedItemCell.swift */,
 				8511E14D2230D1B90059ABC0 /* CKSettingsGroupedItemCell.xib */,
-				8542618422316D9200F24395 /* CKDeactivateSettingButtonCell.swift */,
-				8542618522316D9200F24395 /* CKDeactivateSettingButtonCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1438,6 +1436,8 @@
 			children = (
 				8511E1612231029B0059ABC0 /* CKSettingToggleItemTableViewCell.swift */,
 				8511E1622231029B0059ABC0 /* CKSettingToggleItemTableViewCell.xib */,
+				8542618422316D9200F24395 /* CKSettingButtonCell.swift */,
+				8542618522316D9200F24395 /* CKSettingButtonCell.xib */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -3829,7 +3829,7 @@
 				B1B5583D20EF6E7F00210D55 /* GroupRoomTableViewCell.xib in Resources */,
 				E5ABA75021E73CBC005EFE0C /* CKRoomSettingsFilesCell.xib in Resources */,
 				85B6ED2C21F9BB56000D99CE /* CKRoomInputToolbarView.xib in Resources */,
-				8542618722316D9200F24395 /* CKDeactivateSettingButtonCell.xib in Resources */,
+				8542618722316D9200F24395 /* CKSettingButtonCell.xib in Resources */,
 				B1B5572D20EE6C4D00210D55 /* RoomParticipantsViewController.xib in Resources */,
 				E5C0B9A621CA717F00910D8B /* CkForgotPasswordViewController.xib in Resources */,
 				B1B5577220EE702800210D55 /* JitsiViewController.xib in Resources */,
@@ -4332,7 +4332,7 @@
 				B1B5575B20EE6C4D00210D55 /* HomeFilesSearchViewController.m in Sources */,
 				E5E27FE021F8713B00532610 /* CKRoomSettingsParticipantSearchCell.swift in Sources */,
 				B1B558F520EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleBubbleCell.m in Sources */,
-				8542618622316D9200F24395 /* CKDeactivateSettingButtonCell.swift in Sources */,
+				8542618622316D9200F24395 /* CKSettingButtonCell.swift in Sources */,
 				B1B558F820EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */,
 				B16932E720F3C37100746532 /* HomeMessagesSearchDataSource.m in Sources */,

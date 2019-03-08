@@ -21,6 +21,8 @@ final class CKSettingsViewController: MXKViewController {
         case terms
         case privacyPolicy
         case copyright
+        case markAllMessageAsRead
+        case clearCache
         case deactivateAccount
     }
     
@@ -52,7 +54,7 @@ final class CKSettingsViewController: MXKViewController {
     
     private func setupInitization() {
         // Init datasource
-        tblDatasource = [[.profile], [.notification, .calls, .report], [.security], [.terms, .privacyPolicy, .copyright], [.deactivateAccount]]
+        tblDatasource = [[.profile], [.notification, .calls, .report], [.security], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
         setupTableView()
     }
 }
@@ -62,7 +64,7 @@ final class CKSettingsViewController: MXKViewController {
 private extension CKSettingsViewController {
     func setupTableView() {
         tableView.register(UINib.init(nibName: "CKSettingsGroupedItemCell", bundle: Bundle.init(for: CKSettingsGroupedItemCell.self)), forCellReuseIdentifier: "CKSettingsGroupedItemCell")
-        tableView.register(UINib.init(nibName: "CKDeactivateSettingButtonCell", bundle: Bundle.init(for: CKDeactivateSettingButtonCell.self)), forCellReuseIdentifier: "CKDeactivateSettingButtonCell")
+        tableView.register(UINib.init(nibName: "CKSettingButtonCell", bundle: Bundle.init(for: CKSettingButtonCell.self)), forCellReuseIdentifier: "CKSettingButtonCell")
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -72,8 +74,23 @@ private extension CKSettingsViewController {
     
     // cells
     
-    func cellForDeactivateButton(_ tableView: UITableView, indexPath: IndexPath) -> CKDeactivateSettingButtonCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CKDeactivateSettingButtonCell", for: indexPath) as! CKDeactivateSettingButtonCell
+    func cellForButton(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingButtonCell {
+        let cellType = tblDatasource[indexPath.section][indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingButtonCell", for: indexPath) as! CKSettingButtonCell
+
+        switch cellType {
+        case .markAllMessageAsRead:
+            cell.titleLabel.textColor = kRiotColorGreen
+            cell.titleLabel.text =  NSLocalizedString("settings_mark_all_as_read", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        case .clearCache:
+            cell.titleLabel.textColor = kRiotColorGreen
+            cell.titleLabel.text =  NSLocalizedString("settings_clear_cache", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        case .deactivateAccount:
+            cell.titleLabel.textColor = kRiotColorRed
+            cell.titleLabel.text =  NSLocalizedString("settings_deactivate_my_account", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        default:
+            break
+        }
         
         return cell
     }
@@ -141,6 +158,36 @@ private extension CKSettingsViewController {
             navigationController?.pushViewController(webViewViewController, animated: true)
         }
     }
+    
+    func markAllAsRead(cell: UITableViewCell) {
+        // Feedback: disable button and run activity indicator
+        cell.isUserInteractionEnabled = false
+        cell.alpha = 0.7
+        
+        startActivityIndicator()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+            
+            AppDelegate.the().markAllMessagesAsRead()
+            
+            self.stopActivityIndicator()
+            
+            cell.isUserInteractionEnabled = true
+            cell.alpha = 1.0
+        })
+    }
+    
+    func clearCache(cell: UITableViewCell) {
+        // Feedback: disable button and run activity indicator
+        cell.isUserInteractionEnabled = false
+        cell.alpha = 0.7
+        
+        startActivityIndicator()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+            AppDelegate.the().reloadMatrixSessions(true)
+        })
+    }
 }
 
 // MARK: - Public Methods
@@ -164,8 +211,8 @@ extension CKSettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellType = tblDatasource[indexPath.section][indexPath.row]
         switch cellType {
-        case .deactivateAccount:
-            return cellForDeactivateButton(tableView, indexPath: indexPath)
+        case .deactivateAccount, .markAllMessageAsRead, .clearCache:
+            return cellForButton(tableView, indexPath: indexPath)
         default:
             return cellForNormalItems(tableView, indexPath: indexPath)
         }
@@ -218,11 +265,58 @@ extension CKSettingsViewController: UITableViewDelegate {
             self.showWebViewController(url: url, title: title)
         case .deactivateAccount:
             self.deactivateAccountAction()
+        case .markAllMessageAsRead:
+            if let cell = tableView.cellForRow(at: indexPath) {
+                self.markAllAsRead(cell: cell)
+            }
+        case .clearCache:
+            if let cell = tableView.cellForRow(at: indexPath) {
+                self.clearCache(cell: cell)
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CKLayoutSize.Table.row44px
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let numberOfSections = tableView.numberOfSections
+        if section == numberOfSections - 1 {
+            let label = UILabel.init()
+            label.numberOfLines = 0
+            label.textAlignment = .center
+            label.font = UIFont.systemFont(ofSize: 14)
+            label.textColor = UIColor.init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
+            
+            let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+            let build = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String
+            
+            label.text = "Version \(version) (\(build))"
+            
+            let footerView = UIView.init()
+            footerView.addSubview(label)
+            
+            label.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                footerView.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -15),
+                footerView.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 15),
+                footerView.topAnchor.constraint(equalTo: label.topAnchor, constant: -20),
+                footerView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 20)
+                ])
+            
+            return footerView
+        }
+        
+        return nil
     }
 }
 

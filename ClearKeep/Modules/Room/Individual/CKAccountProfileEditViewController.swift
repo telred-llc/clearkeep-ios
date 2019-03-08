@@ -118,7 +118,6 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     override func finalizeInit() {
         super.finalizeInit()
         enableBarTintColorStatusChange = false
-        self.rageShakeManager = RageShakeManager.sharedManager() as? MXKResponderRageShaking
         isSavingInProgress = false
     }
     

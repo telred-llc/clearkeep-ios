@@ -89,3 +89,4 @@
 
 // CK - Settings
 #import "DeactivateAccountViewController.h"
+#import "BugReportViewController.h"
