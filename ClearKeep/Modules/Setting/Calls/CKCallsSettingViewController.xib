@@ -10,9 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CKSettingsViewController" customModule="Riot" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CKCallsSettingViewController" customModule="Riot" customModuleProvider="target">
             <connections>
-                <outlet property="tableView" destination="y6q-oj-rzq" id="Wq4-YD-5So"/>
+                <outlet property="tableView" destination="z9c-IE-Dzt" id="LoB-Oq-zvx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,20 +21,19 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="y6q-oj-rzq">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="z9c-IE-Dzt">
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                 </tableView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="y6q-oj-rzq" secondAttribute="bottom" id="3Yk-7x-mHi"/>
-                <constraint firstItem="y6q-oj-rzq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="M5b-dt-3GE"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="y6q-oj-rzq" secondAttribute="trailing" id="aHW-VB-YtI"/>
-                <constraint firstItem="y6q-oj-rzq" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="pkJ-vg-pcr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="z9c-IE-Dzt" secondAttribute="trailing" id="1UF-81-VL2"/>
+                <constraint firstItem="z9c-IE-Dzt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Ep6-w6-Kwl"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="z9c-IE-Dzt" secondAttribute="bottom" id="S4y-83-5Zr"/>
+                <constraint firstItem="z9c-IE-Dzt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Sze-mC-Myg"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="36" y="131"/>
         </view>
     </objects>
 </document>

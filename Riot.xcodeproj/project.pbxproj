@@ -26,8 +26,6 @@
 		8511E14F2230D1B90059ABC0 /* CKSettingsGroupedItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8511E14D2230D1B90059ABC0 /* CKSettingsGroupedItemCell.xib */; };
 		8511E15A2230DE1A0059ABC0 /* CKNotificationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8511E1582230DE1A0059ABC0 /* CKNotificationSettingViewController.swift */; };
 		8511E15B2230DE1A0059ABC0 /* CKNotificationSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8511E1592230DE1A0059ABC0 /* CKNotificationSettingViewController.xib */; };
-		8511E15E2230DE320059ABC0 /* CKOthersSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8511E15C2230DE320059ABC0 /* CKOthersSettingViewController.swift */; };
-		8511E15F2230DE320059ABC0 /* CKOthersSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8511E15D2230DE320059ABC0 /* CKOthersSettingViewController.xib */; };
 		8511E1632231029C0059ABC0 /* CKSettingToggleItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8511E1612231029B0059ABC0 /* CKSettingToggleItemTableViewCell.swift */; };
 		8511E1642231029C0059ABC0 /* CKSettingToggleItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8511E1622231029B0059ABC0 /* CKSettingToggleItemTableViewCell.xib */; };
 		8519E71321DF0C26006C055F /* CKImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519E71221DF0C26006C055F /* CKImage+Extension.swift */; };
@@ -41,6 +39,12 @@
 		85335BE521F1C59400DFA15E /* CKRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85335BE421F1C59300DFA15E /* CKRoomViewController.xib */; };
 		853C92582203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */; };
 		853C92592203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */; };
+		853CBDE2223205B700404DBC /* CKReportSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853CBDE0223205B700404DBC /* CKReportSettingViewController.swift */; };
+		853CBDE3223205B700404DBC /* CKReportSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853CBDE1223205B700404DBC /* CKReportSettingViewController.xib */; };
+		853CBDE72232062A00404DBC /* CKCallsSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853CBDE52232062A00404DBC /* CKCallsSettingViewController.swift */; };
+		853CBDE82232062A00404DBC /* CKCallsSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853CBDE62232062A00404DBC /* CKCallsSettingViewController.xib */; };
+		853CBDEC2232065F00404DBC /* CKSecuritySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853CBDEA2232065F00404DBC /* CKSecuritySettingViewController.swift */; };
+		853CBDED2232065F00404DBC /* CKSecuritySettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853CBDEB2232065F00404DBC /* CKSecuritySettingViewController.xib */; };
 		853E996121E4986100D005F4 /* SFCompactDisplay-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */; };
 		853E996221E4986100D005F4 /* SFCompactDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */; };
 		853E996321E4986100D005F4 /* SFCompactDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */; };
@@ -51,6 +55,8 @@
 		853E996821E4986100D005F4 /* SFCompactDisplay-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995F21E4986000D005F4 /* SFCompactDisplay-Heavy.ttf */; };
 		853E996921E4986100D005F4 /* SFCompactDisplay-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E996021E4986000D005F4 /* SFCompactDisplay-UltraLight.ttf */; };
 		853E996B21E4A73600D005F4 /* CKAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853E996A21E4A73600D005F4 /* CKAppTheme.swift */; };
+		8542618622316D9200F24395 /* CKDeactivateSettingButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542618422316D9200F24395 /* CKDeactivateSettingButtonCell.swift */; };
+		8542618722316D9200F24395 /* CKDeactivateSettingButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8542618522316D9200F24395 /* CKDeactivateSettingButtonCell.xib */; };
 		85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */; };
 		85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */; };
 		8554B71A22171257008CB324 /* CKRecentItemInvitationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */; };
@@ -607,8 +613,6 @@
 		8511E14D2230D1B90059ABC0 /* CKSettingsGroupedItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKSettingsGroupedItemCell.xib; sourceTree = "<group>"; };
 		8511E1582230DE1A0059ABC0 /* CKNotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKNotificationSettingViewController.swift; sourceTree = "<group>"; };
 		8511E1592230DE1A0059ABC0 /* CKNotificationSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKNotificationSettingViewController.xib; sourceTree = "<group>"; };
-		8511E15C2230DE320059ABC0 /* CKOthersSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKOthersSettingViewController.swift; sourceTree = "<group>"; };
-		8511E15D2230DE320059ABC0 /* CKOthersSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKOthersSettingViewController.xib; sourceTree = "<group>"; };
 		8511E1612231029B0059ABC0 /* CKSettingToggleItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSettingToggleItemTableViewCell.swift; sourceTree = "<group>"; };
 		8511E1622231029B0059ABC0 /* CKSettingToggleItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSettingToggleItemTableViewCell.xib; sourceTree = "<group>"; };
 		8519E71221DF0C26006C055F /* CKImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKImage+Extension.swift"; sourceTree = "<group>"; };
@@ -623,6 +627,12 @@
 		85335BE421F1C59300DFA15E /* CKRoomViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomViewController.xib; sourceTree = "<group>"; };
 		853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditProfileWithTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKEditProfileWithTextFieldTableViewCell.xib; sourceTree = "<group>"; };
+		853CBDE0223205B700404DBC /* CKReportSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKReportSettingViewController.swift; sourceTree = "<group>"; };
+		853CBDE1223205B700404DBC /* CKReportSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKReportSettingViewController.xib; sourceTree = "<group>"; };
+		853CBDE52232062A00404DBC /* CKCallsSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKCallsSettingViewController.swift; sourceTree = "<group>"; };
+		853CBDE62232062A00404DBC /* CKCallsSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKCallsSettingViewController.xib; sourceTree = "<group>"; };
+		853CBDEA2232065F00404DBC /* CKSecuritySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSecuritySettingViewController.swift; sourceTree = "<group>"; };
+		853CBDEB2232065F00404DBC /* CKSecuritySettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSecuritySettingViewController.xib; sourceTree = "<group>"; };
 		853E995821E4985F00D005F4 /* SFCompactDisplay-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-SemiBold.ttf"; sourceTree = "<group>"; };
 		853E995921E4985F00D005F4 /* SFCompactDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		853E995A21E4985F00D005F4 /* SFCompactDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Medium.ttf"; sourceTree = "<group>"; };
@@ -633,6 +643,8 @@
 		853E995F21E4986000D005F4 /* SFCompactDisplay-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Heavy.ttf"; sourceTree = "<group>"; };
 		853E996021E4986000D005F4 /* SFCompactDisplay-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-UltraLight.ttf"; sourceTree = "<group>"; };
 		853E996A21E4A73600D005F4 /* CKAppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAppTheme.swift; sourceTree = "<group>"; };
+		8542618422316D9200F24395 /* CKDeactivateSettingButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKDeactivateSettingButtonCell.swift; sourceTree = "<group>"; };
+		8542618522316D9200F24395 /* CKDeactivateSettingButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKDeactivateSettingButtonCell.xib; sourceTree = "<group>"; };
 		85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemTableViewCell.swift; sourceTree = "<group>"; };
 		85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRecentItemTableViewCell.xib; sourceTree = "<group>"; };
 		8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRecentItemInvitationCell.xib; sourceTree = "<group>"; };
@@ -1381,8 +1393,10 @@
 		8511E1462230C7670059ABC0 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				853CBDE92232064800404DBC /* Security */,
+				853CBDE4223205E900404DBC /* Calls */,
+				853CBDDF2232059A00404DBC /* Report */,
 				8511E160223100E60059ABC0 /* CommonViews */,
-				8511E1572230DDF10059ABC0 /* Others */,
 				8511E1562230DDE40059ABC0 /* Notification */,
 				8511E1502230DD800059ABC0 /* DashboardSetting */,
 			);
@@ -1394,6 +1408,8 @@
 			children = (
 				8511E14C2230D1B90059ABC0 /* CKSettingsGroupedItemCell.swift */,
 				8511E14D2230D1B90059ABC0 /* CKSettingsGroupedItemCell.xib */,
+				8542618422316D9200F24395 /* CKDeactivateSettingButtonCell.swift */,
+				8542618522316D9200F24395 /* CKDeactivateSettingButtonCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1417,15 +1433,6 @@
 			path = Notification;
 			sourceTree = "<group>";
 		};
-		8511E1572230DDF10059ABC0 /* Others */ = {
-			isa = PBXGroup;
-			children = (
-				8511E15C2230DE320059ABC0 /* CKOthersSettingViewController.swift */,
-				8511E15D2230DE320059ABC0 /* CKOthersSettingViewController.xib */,
-			);
-			path = Others;
-			sourceTree = "<group>";
-		};
 		8511E160223100E60059ABC0 /* CommonViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1443,6 +1450,33 @@
 				E54A5AD921FAF6020094461E /* Misc+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		853CBDDF2232059A00404DBC /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				853CBDE0223205B700404DBC /* CKReportSettingViewController.swift */,
+				853CBDE1223205B700404DBC /* CKReportSettingViewController.xib */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		853CBDE4223205E900404DBC /* Calls */ = {
+			isa = PBXGroup;
+			children = (
+				853CBDE52232062A00404DBC /* CKCallsSettingViewController.swift */,
+				853CBDE62232062A00404DBC /* CKCallsSettingViewController.xib */,
+			);
+			path = Calls;
+			sourceTree = "<group>";
+		};
+		853CBDE92232064800404DBC /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				853CBDEA2232065F00404DBC /* CKSecuritySettingViewController.swift */,
+				853CBDEB2232065F00404DBC /* CKSecuritySettingViewController.xib */,
+			);
+			path = Security;
 			sourceTree = "<group>";
 		};
 		853E995721E4982600D005F4 /* Fonts */ = {
@@ -3689,7 +3723,6 @@
 				E5DB12B1221E951A009B07B0 /* CKRoomSettingsMoreAdvancedViewController.xib in Resources */,
 				E5026CA821F5DEA6009D1B86 /* CKRoomDirectCreatingViewController.xib in Resources */,
 				E5AC22C62163775D00AA76B1 /* NavigationItemImage.xib in Resources */,
-				8511E15F2230DE320059ABC0 /* CKOthersSettingViewController.xib in Resources */,
 				B1B5594620EF7BD000210D55 /* RoomCollectionViewCell.xib in Resources */,
 				F083BDE71E7009ED00A9B29C /* callend.mp3 in Resources */,
 				B1B558EF20EF768F00210D55 /* RoomMembershipCollapsedWithPaginationTitleBubbleCell.xib in Resources */,
@@ -3723,6 +3756,7 @@
 				E5026CAC21F5E14E009D1B86 /* CKRoomDirectCreatingActionCell.xib in Resources */,
 				B1B5575020EE6C4D00210D55 /* AuthenticationViewController.xib in Resources */,
 				B1B5574320EE6C4D00210D55 /* CallViewController.xib in Resources */,
+				853CBDED2232065F00404DBC /* CKSecuritySettingViewController.xib in Resources */,
 				E517440F22167C7500C13B21 /* CKRecentItemFirstChatCell.xib in Resources */,
 				F083BDEA1E7009ED00A9B29C /* ringback.mp3 in Resources */,
 				5EF8B5E2221D58B4007B431C /* CKMenuRoomViewController.xib in Resources */,
@@ -3795,6 +3829,7 @@
 				B1B5583D20EF6E7F00210D55 /* GroupRoomTableViewCell.xib in Resources */,
 				E5ABA75021E73CBC005EFE0C /* CKRoomSettingsFilesCell.xib in Resources */,
 				85B6ED2C21F9BB56000D99CE /* CKRoomInputToolbarView.xib in Resources */,
+				8542618722316D9200F24395 /* CKDeactivateSettingButtonCell.xib in Resources */,
 				B1B5572D20EE6C4D00210D55 /* RoomParticipantsViewController.xib in Resources */,
 				E5C0B9A621CA717F00910D8B /* CkForgotPasswordViewController.xib in Resources */,
 				B1B5577220EE702800210D55 /* JitsiViewController.xib in Resources */,
@@ -3844,9 +3879,11 @@
 				3284A35120A07C210044F922 /* postMessageAPI.js in Resources */,
 				8520DFA62216AC94000833A1 /* CKHomePagingWithBubbleCell.xib in Resources */,
 				B1B557A220EF58AD00210D55 /* ContactTableViewCell.xib in Resources */,
+				853CBDE3223205B700404DBC /* CKReportSettingViewController.xib in Resources */,
 				B1B558EB20EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleBubbleCell.xib in Resources */,
 				B1B5581820EF625800210D55 /* PreviewRoomTitleView.xib in Resources */,
 				B1B5583020EF66BA00210D55 /* RoomIdOrAliasTableViewCell.xib in Resources */,
+				853CBDE82232062A00404DBC /* CKCallsSettingViewController.xib in Resources */,
 				B1B558BF20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				E574335921F32A1600989FF3 /* CKRoomSettingsParticipantViewController.xib in Resources */,
 				85CA7CAB21DE13A2000331AC /* CKDirectMessagePageViewController.xib in Resources */,
@@ -4022,6 +4059,7 @@
 				E57814FE21A7B773001BF40D /* CkSplitViewController.swift in Sources */,
 				B1B557D120EF5E3500210D55 /* MediaAlbumTableCell.m in Sources */,
 				B16932AC20F3A7B100746532 /* RiotDesignValues.m in Sources */,
+				853CBDE72232062A00404DBC /* CKCallsSettingViewController.swift in Sources */,
 				B1B557A120EF58AD00210D55 /* ContactTableViewCell.m in Sources */,
 				A06949AB21F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift in Sources */,
 				E517440D22167C4A00C13B21 /* CKRecentItemFirstChatCell.swift in Sources */,
@@ -4106,6 +4144,7 @@
 				A01DCDE121FEBCA30069CA4A /* CKImageView.swift in Sources */,
 				B1B5581A20EF625800210D55 /* ExpandedRoomTitleView.m in Sources */,
 				B1B558E920EF768F00210D55 /* RoomSelectedStickerBubbleCell.m in Sources */,
+				853CBDE2223205B700404DBC /* CKReportSettingViewController.swift in Sources */,
 				B1B558DF20EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
 				F083BE041E7009ED00A9B29C /* Tools.m in Sources */,
 				3275FD8C21A5A2C500B9C13D /* TermsView.swift in Sources */,
@@ -4213,6 +4252,7 @@
 				B1B5573B20EE6C4D00210D55 /* FavouritesViewController.m in Sources */,
 				E5ABA75721E73CBC005EFE0C /* CKRoomSettingsTopicCell.swift in Sources */,
 				E574336C21F370DD00989FF3 /* CKRoomCreatingNameCell.swift in Sources */,
+				853CBDEC2232065F00404DBC /* CKSecuritySettingViewController.swift in Sources */,
 				B1B5579920EF575B00210D55 /* AuthInputsView.m in Sources */,
 				B1B5597520EFB02A00210D55 /* InviteRecentTableViewCell.m in Sources */,
 				E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */,
@@ -4277,7 +4317,6 @@
 				E5DB12A6221E6615009B07B0 /* CKRoomSettingsMoreRoleViewController.swift in Sources */,
 				B1B558E520EF768F00210D55 /* RoomMembershipExpandedBubbleCell.m in Sources */,
 				8519E71321DF0C26006C055F /* CKImage+Extension.swift in Sources */,
-				8511E15E2230DE320059ABC0 /* CKOthersSettingViewController.swift in Sources */,
 				8511E14E2230D1B90059ABC0 /* CKSettingsGroupedItemCell.swift in Sources */,
 				B1B5599420EFC5E400210D55 /* DecryptionFailureTracker.m in Sources */,
 				F083BDF01E7009ED00A9B29C /* UIViewController+RiotSearch.m in Sources */,
@@ -4293,6 +4332,7 @@
 				B1B5575B20EE6C4D00210D55 /* HomeFilesSearchViewController.m in Sources */,
 				E5E27FE021F8713B00532610 /* CKRoomSettingsParticipantSearchCell.swift in Sources */,
 				B1B558F520EF768F00210D55 /* RoomOutgoingTextMsgWithPaginationTitleBubbleCell.m in Sources */,
+				8542618622316D9200F24395 /* CKDeactivateSettingButtonCell.swift in Sources */,
 				B1B558F820EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */,
 				B16932E720F3C37100746532 /* HomeMessagesSearchDataSource.m in Sources */,
