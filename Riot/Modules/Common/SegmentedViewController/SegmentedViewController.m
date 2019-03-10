@@ -244,9 +244,9 @@
         UILabel *label = [[UILabel alloc] init];
         
         label.text = [sectionTitles objectAtIndex:index];
-        label.font = [UIFont systemFontOfSize:17];
         label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = _sectionHeaderTintColor;
+        label.font = [UIFont fontWithName:@"SFCompactDisplay-Medium" size:15];
+        label.textColor = [UIColor colorWithRed:0.67 green:0.67 blue:0.67 alpha:1];
         label.backgroundColor = [UIColor clearColor];
         label.accessibilityIdentifier = [NSString stringWithFormat:@"SegmentedVCSectionLabel%tu", index];
         
@@ -255,6 +255,7 @@
         [label setTranslatesAutoresizingMaskIntoConstraints:NO];
         
         // add the label before setting the constraints
+        self.selectionContainer.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
         [self.selectionContainer addSubview:label];
     
         NSLayoutConstraint *leftConstraint;
@@ -320,6 +321,7 @@
     
     sectionLabels = labels;
     
+    [self addLineMarkerView];
     [self addSelectedMarkerView];
     
     [self displaySelectedViewController];
@@ -369,7 +371,55 @@
                                                                            toItem:nil
                                                                         attribute:NSLayoutAttributeNotAnAttribute
                                                                        multiplier:1.0
-                                                                         constant:3];
+                                                                         constant:1];
+    
+    // set the constraints
+    [NSLayoutConstraint activateConstraints:@[leftMarkerViewConstraint, widthConstraint, bottomConstraint, heightConstraint]];
+}
+
+- (void)addLineMarkerView
+{
+    
+    // create the line marker view
+    selectedMarkerView = [[UIView alloc] init];
+    selectedMarkerView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    [selectedMarkerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.selectionContainer addSubview:selectedMarkerView];
+    
+    leftMarkerViewConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
+                                                            attribute:NSLayoutAttributeLeading
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self.view
+                                                            attribute:NSLayoutAttributeLeading
+                                                           multiplier:1.0
+                                                             constant:0];
+    
+    
+    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:self.view
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                      multiplier:1.0
+                                                                        constant:0];
+    
+    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.selectionContainer
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                       multiplier:1.0
+                                                                         constant:0];
+    
+    
+    
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
+                                                                        attribute:NSLayoutAttributeHeight
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:nil
+                                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                                       multiplier:1.0
+                                                                         constant:1];
     
     // set the constraints
     [NSLayoutConstraint activateConstraints:@[leftMarkerViewConstraint, widthConstraint, bottomConstraint, heightConstraint]];
@@ -387,7 +437,8 @@
         if (index != NSNotFound)
         {
             UILabel* label = [sectionLabels objectAtIndex:index];
-            label.font = [UIFont systemFontOfSize:17];
+            label.font = [UIFont fontWithName:@"SFCompactDisplay-Medium" size:15];
+            label.textColor = [UIColor colorWithRed:0.67 green:0.67 blue:0.67 alpha:1];
         }
         
         [_selectedViewController willMoveToParentViewController:nil];
@@ -399,7 +450,8 @@
     }
     
     UILabel* label = [sectionLabels objectAtIndex:_selectedIndex];
-    label.font = [UIFont boldSystemFontOfSize:17];
+    label.font = [UIFont fontWithName:@"SFCompactDisplay-Medium" size:15];//[UIFont boldSystemFontOfSize:17];
+    label.textColor = _sectionHeaderTintColor;
 
     // update the marker view position
     [NSLayoutConstraint deactivateConstraints:@[leftMarkerViewConstraint]];
@@ -534,7 +586,6 @@
 - (void)onLabelTouch:(UIGestureRecognizer*)gestureRecognizer
 {
     NSUInteger pos = [sectionLabels indexOfObject:gestureRecognizer.view];
-    
     // check if there is an update before triggering anything
     if ((pos != NSNotFound) && (_selectedIndex != pos))
     {
