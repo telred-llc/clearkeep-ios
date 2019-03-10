@@ -118,7 +118,6 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     override func finalizeInit() {
         super.finalizeInit()
         enableBarTintColorStatusChange = false
-        self.rageShakeManager = RageShakeManager.sharedManager() as? MXKResponderRageShaking
         isSavingInProgress = false
     }
     
@@ -243,7 +242,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             let session = AppDelegate.the().mxSessions[0] as? MXSession
             let myUser: MXMyUser? = session?.myUser
 
-            let saveButtonEnabled: Bool = nil != newAvatarImage || myUser?.displayname != savingData.displayName
+            let saveButtonEnabled: Bool = nil != newAvatarImage || ((savingData.displayName ?? "").count > 0 && myUser?.displayname != savingData.displayName)
             navigationItem.rightBarButtonItem?.isEnabled = saveButtonEnabled
         }
     }
@@ -443,6 +442,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 DispatchQueue.main.async {
                     cell.avaImage.image = image
                     self.newAvatarImage = cell.avaImage.image
+                    self.updateSaveButtonStatus()
                 }
             }
             
