@@ -283,7 +283,7 @@ extension CKRoomViewController {
         refreshActivitiesViewDisplay()
 
         // Warn about the beta state of e2e encryption when entering the first time in an encrypted room
-        let account: MXKAccount? = MXKAccountManager.shared().account(forUserId: roomDataSource.mxSession?.myUser?.userId)
+        let account: MXKAccount? = MXKAccountManager.shared().account(forUserId: roomDataSource?.mxSession?.myUser?.userId)
         if account != nil && account?.isWarnedAboutEncryption == nil && roomDataSource.room.summary.isEncrypted {
             account?.isWarnedAboutEncryption = true
         }

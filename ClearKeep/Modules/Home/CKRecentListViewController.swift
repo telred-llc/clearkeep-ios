@@ -326,7 +326,7 @@ private extension CKRecentListViewController {
                     } else {
                         
                         // select room
-                        AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary.mxSession)
+                        AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary?.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary?.mxSession)
                     }
                 }
             })
@@ -344,7 +344,7 @@ private extension CKRecentListViewController {
         
         // add tap gesture to cell
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(onTableViewCellTap))
-        tap.cancelsTouchesInView = false
+        tap.cancelsTouchesInView = true
         cell.addGestureRecognizer(tap)
 
         return cell

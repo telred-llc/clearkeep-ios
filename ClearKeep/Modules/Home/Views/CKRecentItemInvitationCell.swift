@@ -48,6 +48,8 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.roomCellData = nil
+        self.joinOnPressHandler = nil
+        self.declineOnPressHandler = nil
     }
     
     // MARK: - ACTION
