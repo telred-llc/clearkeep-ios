@@ -283,7 +283,7 @@ extension CKRoomViewController {
         refreshActivitiesViewDisplay()
 
         // Warn about the beta state of e2e encryption when entering the first time in an encrypted room
-        let account: MXKAccount? = MXKAccountManager.shared().account(forUserId: roomDataSource.mxSession?.myUser?.userId)
+        let account: MXKAccount? = MXKAccountManager.shared().account(forUserId: roomDataSource?.mxSession?.myUser?.userId)
         if account != nil && account?.isWarnedAboutEncryption == nil && roomDataSource.room.summary.isEncrypted {
             account?.isWarnedAboutEncryption = true
         }
@@ -675,8 +675,8 @@ extension CKRoomViewController {
     func refreshRoomNavigationBar() {
         
         if rightBarButtonItems == nil {
-            let searchBarButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "search_icon"), style: .plain, target: self, action: #selector(self.navigationSearchBarButtonPressed(_:)))
-            let callBarButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "voice_call_icon"), style: .plain, target: self, action: #selector(self.navigationCallBarButtonPressed(_:)))
+            let searchBarButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_search"), style: .plain, target: self, action: #selector(self.navigationSearchBarButtonPressed(_:)))
+            let callBarButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_call_new"), style: .plain, target: self, action: #selector(self.navigationCallBarButtonPressed(_:)))
             rightBarButtonItems = [searchBarButton, callBarButton]
         }
         
@@ -699,11 +699,12 @@ extension CKRoomViewController {
             let searchBarButton = rightBarButtonItems![0]
             let callBarButton = rightBarButtonItems![1]
             
+            searchBarButton.image = #imageLiteral(resourceName: "ic_search").withRenderingMode(.alwaysOriginal)
             if isSupportCallOption() {
                 if isCalling() {
-                    callBarButton.image = #imageLiteral(resourceName: "call_hangup_icon").withRenderingMode(.alwaysOriginal)
+                    callBarButton.image = #imageLiteral(resourceName: "ic_call_hang_up").withRenderingMode(.alwaysOriginal)
                 } else {
-                    callBarButton.image = #imageLiteral(resourceName: "voice_call_icon").withRenderingMode(.alwaysOriginal)
+                    callBarButton.image = #imageLiteral(resourceName: "ic_call_new").withRenderingMode(.alwaysOriginal)
                 }
                 navigationItem.rightBarButtonItems = [searchBarButton, callBarButton]
             } else {
