@@ -24,9 +24,9 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="EUP-yx-50D"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <state key="normal" title="Sign Out">
-                            <color key="titleColor" red="0.1333333333" green="0.66666666669999997" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.98823529409999999" green="0.3921568627" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
                             <action selector="clickedOnSignOutButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="G8O-m8-AAM"/>
