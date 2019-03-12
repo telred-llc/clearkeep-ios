@@ -292,7 +292,7 @@ final class CkHomeViewController: MXKViewController {
                             completion?(true)
                             AppDelegate.the().masterTabBarController.selectRoom(withId: room.roomId, andEventId: nil, inMatrixSession: mxSession) {
                                 let roomVC = AppDelegate.the().masterTabBarController.currentRoomViewController
-                                if roomVC?.isSupportCallOption() == true && roomVC?.isCalling() != true {
+                                if roomVC?.isSupportCallOption() == true && roomVC?.isCallingInRoom() != true {
                                     
                                     // Delay for pushing completed
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {

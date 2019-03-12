@@ -532,7 +532,7 @@ extension CKRoomViewController {
     }
     
     @objc func navigationCallBarButtonPressed(_ sender: UIBarButtonItem) {
-        if isCalling() {
+        if isCallingInRoom() {
             self.hangupCall()
         } else {
             self.handleCallToRoom(sender)
@@ -701,7 +701,7 @@ extension CKRoomViewController {
             
             searchBarButton.image = #imageLiteral(resourceName: "ic_search").withRenderingMode(.alwaysOriginal)
             if isSupportCallOption() {
-                if isCalling() {
+                if isCallingInRoom() {
                     callBarButton.image = #imageLiteral(resourceName: "ic_call_hang_up").withRenderingMode(.alwaysOriginal)
                 } else {
                     callBarButton.image = #imageLiteral(resourceName: "ic_call_new").withRenderingMode(.alwaysOriginal)
@@ -761,35 +761,30 @@ extension CKRoomViewController {
     
     // MARK: Setup Call feature
     
-    func isCalling() -> Bool {
-        if self.roomDataSource != nil && self.roomDataSource?.mxSession?.callManager != nil && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2 {
-            if let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId) {
-                if (callInRoom.state != MXCallState.ended)
-                    || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource.roomId) {
-                    return true
-                }
+    func isCallingInRoom() -> Bool {
+        if self.roomDataSource != nil {
+            let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
+            if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource.roomId) {
+                // there is an active call in this room
+                return true
             }
         }
         return false
     }
     
     func isSupportCallOption() -> Bool {
-        if self.roomDataSource != nil && self.roomDataSource?.mxSession?.callManager != nil && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2 {
-            if let _ = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId) {
-                if (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource.roomId) {
-                    return true
-                } else {
-                    // Hide the call button if there is an active call in another room
-                    if AppDelegate.the()?.callStatusBarWindow == nil {
-                        return true
-                    }
-                }
-            } else {
-                return true
-            }
+        // Check whether the call option is supported
+        var isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2
+        
+        let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
+        if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource.roomId) {
+            // there is an active call in this room
+        } else {
+            // Hide the call button if there is an active call in another room
+            isSupportCallOption = isSupportCallOption && (AppDelegate.the()?.callStatusBarWindow == nil)
         }
         
-        return false
+        return isSupportCallOption
     }
     
     func handleCallToRoom(_ sender: UIBarButtonItem?) {
