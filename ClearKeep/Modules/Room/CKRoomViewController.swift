@@ -101,9 +101,6 @@ import MatrixKit
         }
     }
     
-    // The right bar button items back up.
-    private var rightBarButtonItems: [UIBarButtonItem]?
-    
     // The intermediate action sheet
 
     private var actionSheet: UIAlertController?
@@ -182,7 +179,6 @@ extension CKRoomViewController {
     
     override func destroy() {
         invitationController = nil
-        rightBarButtonItems = nil;
         for barButtonItem in navigationItem.rightBarButtonItems ?? [] {
             barButtonItem.isEnabled = false
         }
@@ -531,11 +527,29 @@ extension CKRoomViewController {
         performSegue(withIdentifier: kShowRoomSearchSegue, sender: self)
     }
     
-    @objc func navigationCallBarButtonPressed(_ sender: UIBarButtonItem) {
+    @objc func navigationVoiceCallBarButtonPressed(_ sender: UIBarButtonItem) {
+        if !isCallingInRoom() {
+            self.checkMediaPermission(video: false, completion: { [weak self] (granted) in
+                if granted {
+                    self?.performCalling(video: false)
+                }
+            })
+        }
+    }
+
+    @objc func navigationVideoCallBarButtonPressed(_ sender: UIBarButtonItem) {
+        if !isCallingInRoom() {
+            self.checkMediaPermission(video: true, completion: { [weak self] (granted) in
+                if granted {
+                    self?.performCalling(video: true)
+                }
+            })
+        }
+    }
+    
+    @objc func navigationHangupCallBarButtonPressed(_ sender: UIBarButtonItem) {
         if isCallingInRoom() {
             self.hangupCall()
-        } else {
-            self.handleCallToRoom(sender)
         }
     }
     
@@ -674,17 +688,6 @@ extension CKRoomViewController {
     
     func refreshRoomNavigationBar() {
         
-        if rightBarButtonItems == nil {
-            let searchBarButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_search"), style: .plain, target: self, action: #selector(self.navigationSearchBarButtonPressed(_:)))
-            let callBarButton = UIBarButtonItem.init(image: #imageLiteral(resourceName: "ic_call_new"), style: .plain, target: self, action: #selector(self.navigationCallBarButtonPressed(_:)))
-            rightBarButtonItems = [searchBarButton, callBarButton]
-        }
-        
-        if rightBarButtonItems != nil && navigationItem.rightBarButtonItems == nil {
-            // Restore by default the search bar button.
-            navigationItem.rightBarButtonItems = rightBarButtonItems
-        }
-        
         // Set the right room title view
         if self.isRoomPreview() {
             // Do not show the right buttons
@@ -694,19 +697,40 @@ extension CKRoomViewController {
                 self.setRoomTitleViewClass(RoomTitleView.self)
             }
         } else {
+            // searchBarButton
+            let searchButton : UIButton = UIButton.init(type: .custom)
+            searchButton.setImage(#imageLiteral(resourceName: "ic_search").withRenderingMode(.alwaysOriginal), for: .normal)
+            searchButton.addTarget(self, action: #selector(navigationSearchBarButtonPressed(_:)), for: .touchUpInside)
+            searchButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            let searchBarButton = UIBarButtonItem(customView: searchButton)
+
+            // voiceCallBarButton
+            let voiceCallButton : UIButton = UIButton.init(type: .custom)
+            voiceCallButton.setImage(#imageLiteral(resourceName: "ic_voice_call_new").withRenderingMode(.alwaysOriginal), for: .normal)
+            voiceCallButton.addTarget(self, action: #selector(navigationVoiceCallBarButtonPressed(_:)), for: .touchUpInside)
+            voiceCallButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            let voiceCallBarButton = UIBarButtonItem(customView: voiceCallButton)
+
+            // videoCallBarButton
+            let videoCallButton : UIButton = UIButton.init(type: .custom)
+            videoCallButton.setImage(#imageLiteral(resourceName: "ic_video_call_new").withRenderingMode(.alwaysOriginal), for: .normal)
+            videoCallButton.addTarget(self, action: #selector(navigationVideoCallBarButtonPressed(_:)), for: .touchUpInside)
+            searchButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            let videoCallBarButton = UIBarButtonItem(customView: videoCallButton)
+
+            // hangupCallBarButton
+            let hangupCallButton : UIButton = UIButton.init(type: .custom)
+            hangupCallButton.setImage(#imageLiteral(resourceName: "ic_call_hang_up").withRenderingMode(.alwaysOriginal), for: .normal)
+            hangupCallButton.addTarget(self, action: #selector(navigationHangupCallBarButtonPressed(_:)), for: .touchUpInside)
+            hangupCallButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            let hangupCallBarButton = UIBarButtonItem(customView: hangupCallButton)
             
-            // Prepare rightBarButtonItems
-            let searchBarButton = rightBarButtonItems![0]
-            let callBarButton = rightBarButtonItems![1]
-            
-            searchBarButton.image = #imageLiteral(resourceName: "ic_search").withRenderingMode(.alwaysOriginal)
             if isSupportCallOption() {
                 if isCallingInRoom() {
-                    callBarButton.image = #imageLiteral(resourceName: "ic_call_hang_up").withRenderingMode(.alwaysOriginal)
+                    navigationItem.rightBarButtonItems = [searchBarButton, hangupCallBarButton]
                 } else {
-                    callBarButton.image = #imageLiteral(resourceName: "ic_call_new").withRenderingMode(.alwaysOriginal)
+                    navigationItem.rightBarButtonItems = [searchBarButton, voiceCallBarButton, videoCallBarButton]
                 }
-                navigationItem.rightBarButtonItems = [searchBarButton, callBarButton]
             } else {
                 navigationItem.rightBarButtonItems = [searchBarButton]
             }
@@ -787,36 +811,45 @@ extension CKRoomViewController {
         return isSupportCallOption
     }
     
-    func handleCallToRoom(_ sender: UIBarButtonItem?) {
+    func checkMediaPermission(video: Bool, completion: ((Bool) -> Void)?) {
+        let appDisplayName = (Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String) ?? ""
         
-        func call(video: Bool) {
-            let appDisplayName = (Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String) ?? ""
-            
-            // Check app permissions first
-            
-            let messageForAudio = String(format: Bundle.mxk_localizedString(forKey: "microphone_access_not_granted_for_call"), appDisplayName)
-            let messageForVideo = String(format: Bundle.mxk_localizedString(forKey: "camera_access_not_granted_for_call"), appDisplayName)
-            
-            MXKTools.checkAccess(forCall: video, manualChangeMessageForAudio: messageForAudio, manualChangeMessageForVideo: messageForVideo, showPopUpIn: self) { [weak self] (granted) in
-                if granted {
-                    self?.performCalling(video: video)
-                } else {
-                    print("RoomViewController: Warning: The application does not have the perssion to place the call")
-                }
+        // Check app permissions first
+        
+        let messageForAudio = String(format: Bundle.mxk_localizedString(forKey: "microphone_access_not_granted_for_call"), appDisplayName)
+        let messageForVideo = String(format: Bundle.mxk_localizedString(forKey: "camera_access_not_granted_for_call"), appDisplayName)
+        
+        MXKTools.checkAccess(forCall: video, manualChangeMessageForAudio: messageForAudio, manualChangeMessageForVideo: messageForVideo, showPopUpIn: self) { (granted) in
+            if granted {
+                completion?(granted)
+            } else {
+                print("RoomViewController: Warning: The application does not have the perssion to place the call")
+                completion?(false)
             }
         }
+    }
+    
+    func handleCallToRoom(_ sender: UIBarButtonItem?) {
         
         // Ask the user the kind of the call: voice or video?
         actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         actionSheet!.addAction(UIAlertAction(title: NSLocalizedString("voice", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] action in
             self?.actionSheet = nil
-            call(video: false)
+            self?.checkMediaPermission(video: false,completion: { (granted) in
+                if granted {
+                    self?.performCalling(video: false)
+                }
+            })
         }))
 
         actionSheet!.addAction(UIAlertAction(title: NSLocalizedString("video", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] action in
             self?.actionSheet = nil
-            call(video: true)
+            self?.checkMediaPermission(video: true, completion: { (granted) in
+                if granted {
+                    self?.performCalling(video: true)
+                }
+            })
         }))
         
         actionSheet!.addAction(UIAlertAction(title: NSLocalizedString("cancel", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .cancel, handler: { [weak self] action in
@@ -832,11 +865,12 @@ extension CKRoomViewController {
     }
     
     func performCalling(video: Bool) {
-
+        
         // If there is already a jitsi widget, join it
         if let jitsiWidget = customizedRoomDataSource?.jitsiWidget()
         {
             AppDelegate.the().displayJitsiViewController(with: jitsiWidget, andVideo: video)
+            self.refreshRoomNavigationBar()
         }
         // If enabled, create the conf using jitsi widget and open it directly
         else if RiotSettings.shared.createConferenceCallsWithJitsi && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) > 2
@@ -846,11 +880,13 @@ extension CKRoomViewController {
             WidgetManager.shared()?.createJitsiWidget(in: self.roomDataSource.room, withVideo: video, success: { [weak self] (jitsiWidget) in
                 self?.stopActivityIndicator()
                 AppDelegate.the().displayJitsiViewController(with: jitsiWidget, andVideo: video)
+                self?.refreshRoomNavigationBar()
             }, failure: { [weak self] (error) in
                 self?.stopActivityIndicator()
                 if let error = error {
                     self?.showJitsiError(error)
                 }
+                self?.refreshRoomNavigationBar()
             })
             
         }
@@ -887,6 +923,7 @@ extension CKRoomViewController {
         {
             self.roomDataSource?.room?.placeCall(withVideo: video) { call in
                 call.value?.answer()
+                self.refreshRoomNavigationBar()
             }
         }
     }
