@@ -164,7 +164,6 @@ import MatrixKit
     // Typing notifications listener.
 
     private var typingNotifListener: Any?
-    
 }
 
 extension CKRoomViewController {
@@ -208,7 +207,7 @@ extension CKRoomViewController {
         self.removeTypingNotificationsListener()
         self.removeCallNotificationsListeners()
         self.removeWidgetNotificationsListeners()
-        
+
         super.destroy()
     }
     
@@ -282,6 +281,10 @@ extension CKRoomViewController {
         let account: MXKAccount? = MXKAccountManager.shared().account(forUserId: roomDataSource?.mxSession?.myUser?.userId)
         if account != nil && account?.isWarnedAboutEncryption == nil && roomDataSource.room.summary.isEncrypted {
             account?.isWarnedAboutEncryption = true
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.refreshRoomNavigationBar()
         }
     }
     
@@ -686,14 +689,14 @@ extension CKRoomViewController {
         cancelEventSelection()
     }
     
-    func refreshRoomNavigationBar() {
+    func refreshRoomNavigationBar(_ isRefreshRoomTitle: Bool = true) {
         
         // Set the right room title view
         if self.isRoomPreview() {
             // Do not show the right buttons
             navigationItem.rightBarButtonItems = nil
             
-            if self.roomDataSource != nil {
+            if isRefreshRoomTitle && self.roomDataSource != nil {
                 self.setRoomTitleViewClass(RoomTitleView.self)
             }
         } else {
@@ -744,15 +747,19 @@ extension CKRoomViewController {
                         barButtonItem.isEnabled = true
                     }
                     
-                    self.setRoomTitleViewClass(RoomTitleView.self)
-                    (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+                    if isRefreshRoomTitle {
+                        self.setRoomTitleViewClass(RoomTitleView.self)
+                        (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+                    }
                 } else {
                     
                     // Remove the search button temporarily
                     navigationItem.rightBarButtonItems = nil
                     
-                    self.setRoomTitleViewClass(SimpleRoomTitleView.self)
-                    titleView?.editable = false
+                    if isRefreshRoomTitle {
+                        self.setRoomTitleViewClass(SimpleRoomTitleView.self)
+                        titleView?.editable = false
+                    }
                 }
             } else {
                 // Disbale the right buttons (Search and Call)
@@ -760,8 +767,10 @@ extension CKRoomViewController {
                     barButtonItem.isEnabled = false
                 }
                 
-                self.setRoomTitleViewClass(RoomTitleView.self)
-                (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+                if isRefreshRoomTitle {
+                    self.setRoomTitleViewClass(RoomTitleView.self)
+                    (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+                }
             }
         }
     }
@@ -801,7 +810,7 @@ extension CKRoomViewController {
         var isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2
         
         let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
-        if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource.roomId) {
+        if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource?.roomId) {
             // there is an active call in this room
         } else {
             // Hide the call button if there is an active call in another room
@@ -963,7 +972,7 @@ extension CKRoomViewController {
             }
         })
     }
-
+    
     func showJitsiError(_ error: Error) {
         // Customise the error for permission issues
         var nsError = error as NSError
@@ -1380,6 +1389,8 @@ extension CKRoomViewController {
                     self.setRoomActivitiesViewClass(RoomActivitiesView.self)
                 }
             }
+            
+            self.refreshRoomNavigationBar(false)
         }
     }
     
@@ -1578,6 +1589,7 @@ extension CKRoomViewController {
         
         // refresh if did receive new message,...
         self.refreshActivitiesViewDisplay()
+        self.refreshRoomNavigationBar()
     }
     
     @objc private func dismissCurrentAlert(_ gesture: UITapGestureRecognizer) {
@@ -2060,12 +2072,11 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
         }
 
         session.joinRoom(self.roomDataSource.roomId, completion: { (response: MXResponse<MXRoom>) in
-            
-            // main thread
-            DispatchQueue.main.async {
-                
+            if response.isSuccess {
+                //
+            } else if let error = response.error {
                 // got error
-                if let error = response.error {
+                DispatchQueue.main.async {
                     self.showAlert(error.localizedDescription)
                 }
             }
