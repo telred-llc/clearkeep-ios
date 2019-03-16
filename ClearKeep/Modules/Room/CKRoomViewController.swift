@@ -2073,7 +2073,10 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
 
         session.joinRoom(self.roomDataSource.roomId, completion: { (response: MXResponse<MXRoom>) in
             if response.isSuccess {
-                //
+                // reload navbar
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.refreshRoomNavigationBar()
+                }
             } else if let error = response.error {
                 // got error
                 DispatchQueue.main.async {
