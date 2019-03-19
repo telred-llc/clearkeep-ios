@@ -11,6 +11,7 @@ import UIKit
 public class CkAuthIndicatorViewController: CkAuthenticationViewController {
     
     @IBOutlet weak var refreshUI: UIActivityIndicatorView!
+    @IBOutlet weak var cancelRegistrationButton: UIButton!
     @IBOutlet weak var verificationLabel: UILabel!
     
     public override func viewDidLoad() {
@@ -31,6 +32,7 @@ public class CkAuthIndicatorViewController: CkAuthenticationViewController {
         
         set {
             verificationLabel.isHidden = !newValue
+            cancelRegistrationButton.isHidden = !newValue
         }
     }
     

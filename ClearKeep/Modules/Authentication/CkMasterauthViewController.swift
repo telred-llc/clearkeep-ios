@@ -190,6 +190,10 @@ extension CkMasterauthViewController {
         self.alert(withMessage: message)
     }
     
+    func authenticationCancelSigningUp(_ authentication: CkAuthenticationViewController) {
+        self.authentication(authentication, requestAction: "register")
+    }
+    
     func authentication(_ authentication: CkAuthenticationViewController, onFailureDuringAuthError error: Error) {
         
         self.alert(withMessage: error.localizedDescription)
