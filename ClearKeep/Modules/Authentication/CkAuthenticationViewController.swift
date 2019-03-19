@@ -113,7 +113,7 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     @IBAction func cancelSignUp() {
         /// Show alert to confirm action
         cancelSignupAlert = UIAlertController(title: nil,
-                                              message: "Are you sure you want to cancel this registration?",
+                                              message: "Are you sure to cancel this registration?",
                                               preferredStyle: .alert)
         guard  let alertController = cancelSignupAlert else {
             return
