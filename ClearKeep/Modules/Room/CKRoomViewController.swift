@@ -97,7 +97,7 @@ import MatrixKit
             return self.value(forKey: "currentAlert") as? UIAlertController
         }
         set {
-            self.setValue(currentAlert, forKey: "currentAlert")
+            self.setValue(newValue, forKey: "currentAlert")
         }
     }
     
@@ -160,6 +160,10 @@ import MatrixKit
     
     // Observe kAppDelegateDidTapStatusBarNotification to handle tap on clock status bar.
     private var kAppDelegateDidTapStatusBarNotificationObserver: Any?
+    
+    // Observe UIMenuControllerDidHideMenuNotification to cancel text selection
+    private var UIMenuControllerDidHideMenuNotificationObserver: Any?
+    private var selectedText: String?
     
     // Typing notifications listener.
 
@@ -1542,8 +1546,182 @@ extension CKRoomViewController {
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
             && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
             
-            // call to super
-            super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+            guard let cell = cell,
+                let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
+                    return
+            }
+            let attachment = roomBubbleTableViewCell.bubbleData.attachment
+            
+            // Add actions for text message
+            // Handle this case to add "Quote" action.
+            if attachment == nil {
+                self.dismissKeyboard()
+                guard let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent else {
+                    return
+                }
+                
+                let components = roomBubbleTableViewCell.bubbleData.bubbleComponents ?? [MXKRoomBubbleComponent]()
+                let selectedComponent: MXKRoomBubbleComponent? = components.first(where: {$0.event.eventId == selectedEvent.eventId})
+                
+                if let currentAlert = currentAlert {
+                    currentAlert.dismiss(animated: false, completion: nil)
+                    
+                    // Cancel potential text selection in other bubbles
+                    for cell in self.bubblesTableView.visibleCells {
+                        if let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
+                            bubbleCell.highlightTextMessage(forEvent: nil)
+                        }
+                    }
+                }
+                
+                // Create new AlertViewController
+                currentAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                
+                // Add actions for a failed event
+                if selectedEvent.sentState == MXEventSentStateFailed {
+                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_resend", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        
+                        weakSelf.cancelEventSelection()
+                        weakSelf.roomDataSource.resendEvent(withEventId: selectedEvent.eventId,
+                                                            success: nil,
+                                                            failure: nil)
+                    }))
+                    
+                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_delete", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        
+                        weakSelf.cancelEventSelection()
+                        weakSelf.roomDataSource.removeEvent(withEventId: selectedEvent.eventId)
+                    }))
+                }
+                
+                // Add actions for text message
+                // Check status of the selected event
+                if selectedEvent.sentState == MXEventSentStatePreparing ||
+                    selectedEvent.sentState == MXEventSentStateEncrypting ||
+                    selectedEvent.sentState == MXEventSentStateSending {
+                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_cancel_send", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        
+                        weakSelf.currentAlert = nil
+                        
+                        // Cancel and remove the outgoing message
+                        weakSelf.roomDataSource.room.cancelSendingOperation(selectedEvent.eventId)
+                        weakSelf.roomDataSource.removeEvent(withEventId: selectedEvent.eventId)
+                        
+                        weakSelf.cancelEventSelection()
+                    }))
+                }
+                
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_copy", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self, let selectedComponent = selectedComponent else {
+                        return
+                    }
+
+                    weakSelf.cancelEventSelection()
+                    
+                    UIPasteboard.general.string = selectedComponent.textMessage
+                }))
+                
+                // Add action for room message only
+                if selectedEvent.eventType == __MXEventTypeRoomMessage {
+                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_quote", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        
+                        weakSelf.cancelEventSelection()
+                        weakSelf.inputToolbarView.textMessage = String(format: "%@\n>%@\n\n",
+                                                                       self?.inputToolbarView.textMessage ?? "",
+                                                                       selectedComponent?.textMessage ?? "")
+                        
+                        weakSelf.inputToolbarView.becomeFirstResponder()
+                    }))
+                }
+                
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self else {
+                        return
+                    }
+                    
+                    weakSelf.cancelEventSelection()
+                    
+                    let activityViewController = UIActivityViewController(activityItems: [selectedComponent?.textMessage ?? ""], applicationActivities: nil)
+                    
+                    activityViewController.modalTransitionStyle = .coverVertical
+                    activityViewController.popoverPresentationController?.sourceView = roomBubbleTableViewCell
+                    activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
+                    
+                    weakSelf.present(activityViewController, animated: true, completion: nil)
+
+                }))
+                
+                if components.count > 1 {
+                    currentAlert?.addAction(UIAlertAction(title: "Select All", style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        
+                        weakSelf.currentAlert = nil
+                        weakSelf.selectAllTextMessage(inCell: roomBubbleTableViewCell)
+                    }))
+                }
+                
+                if selectedEvent.sentState == MXEventSentStateSent {
+                    // Check whether download is in progress
+                    if selectedEvent.isMediaAttachment() {
+                        let downloadId = roomBubbleTableViewCell.bubbleData.attachment.downloadId
+                        if let loader = MXMediaManager.existingDownloader(withIdentifier: downloadId) {
+                            currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_cancel_download", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                                guard let weakSelf = self else {
+                                    return
+                                }
+                                
+                                weakSelf.cancelEventSelection()
+                                loader.cancel()
+                                roomBubbleTableViewCell.progressView.isHidden = true
+                            }))
+                        }
+                    }
+                    
+                    currentAlert?.addAction(UIAlertAction(title: "Show Details", style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        weakSelf.currentAlert = nil
+                        
+                        // Cancel event highlighting (if any)
+                        roomBubbleTableViewCell.highlightTextMessage(forEvent: nil)
+                        
+                        // Display event details
+                        weakSelf.showEventDetails(selectedEvent)
+                    }))
+                }
+                
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("cancel", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self else {
+                        return
+                    }
+                    weakSelf.cancelEventSelection()
+                }))
+                
+                currentAlert?.mxk_setAccessibilityIdentifier("RoomVCEventMenuAlert")
+                currentAlert?.popoverPresentationController?.sourceView = roomBubbleTableViewCell
+                currentAlert?.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
+                if let currentAlert = self.currentAlert {
+                    self.present(currentAlert, animated: true, completion: nil)
+                }
+            } else {
+                // call to super
+                super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+            }
             
             // current alert is available
             if let currentAlert = self.currentAlert {
@@ -2033,6 +2211,10 @@ extension CKRoomViewController {
 
         if cell.isKind(of: MXKRoomBubbleTableViewCell.self),
             let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
+            if roomBubbleTableViewCell.messageTextView != nil {
+                roomBubbleTableViewCell.messageTextView.isSelectable = false
+            }
+            
             if roomBubbleTableViewCell.readMarkerView != nil {
                 readMarkerTableViewCell = roomBubbleTableViewCell
                 checkReadMarkerVisibility()
@@ -2117,4 +2299,70 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
         // present
         self.present(alert, animated: true, completion: nil)
     }
+}
+
+// MARK: - Clipboard
+extension CKRoomViewController {
+    
+    /// Selected all text message in cell
+    func selectAllTextMessage(inCell cell: MXKRoomBubbleTableViewCell) {
+        selectedText = cell.bubbleData.textMessage
+        cell.allTextHighlighted = true
+        DispatchQueue.main.async {
+            self.UIMenuControllerDidHideMenuNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.UIMenuControllerDidHideMenu, object: nil, queue: OperationQueue.main, using: { (notifi) in
+                cell.allTextHighlighted = false
+                self.selectedText = nil
+                UIMenuController.shared.menuItems = nil
+                NotificationCenter.default.removeObserver(NSNotification.Name.UIMenuControllerDidHideMenu)
+                self.UIMenuControllerDidHideMenuNotificationObserver = nil
+            })
+            
+            self.becomeFirstResponder()
+            
+            let menu = UIMenuController.shared
+            menu.menuItems = [UIMenuItem(title: "Share", action: #selector(self.share(_:)))]
+            menu.setTargetRect(cell.messageTextView.frame, in: cell)
+            menu.setMenuVisible(true, animated: true)
+        }
+    }
+    
+    @objc override func copy(_ sender: Any?) {
+        UIPasteboard.general.string = selectedText
+    }
+    
+    @objc func share(_ sender: Any?) {
+        if let selectedText = selectedText {
+            let activityViewController = UIActivityViewController(activityItems: [selectedText], applicationActivities: nil)
+            
+            activityViewController.modalTransitionStyle = .coverVertical
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            activityViewController.popoverPresentationController?.sourceRect = self.view.bounds
+            
+            self.present(activityViewController, animated: true, completion: nil)
+        }
+    }
+    
+    // Performaction copy and share
+    @objc override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        super.canPerformAction(action, withSender: sender)
+        guard let selectedText = selectedText, !selectedText.isEmpty else {
+            return false
+        }
+        
+        if action == #selector(self.copy(_:)) || action == #selector(self.share(_:)) {
+            return true
+        }
+        
+        return false
+    }
+    
+    // Need override to show UIMenuController
+    override var canBecomeFirstResponder: Bool {
+        if let selectedText = selectedText, !selectedText.isEmpty {
+            return true
+        }
+        
+        return false
+    }
+    
 }
