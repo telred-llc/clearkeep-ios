@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CkAuthIndicatorViewController" customModule="Riot" customModuleProvider="target">
             <connections>
+                <outlet property="cancelRegistrationButton" destination="V4b-dc-dnG" id="WE8-y9-pjr"/>
                 <outlet property="refreshUI" destination="IaO-We-HMl" id="iaX-Q0-ZlV"/>
                 <outlet property="verificationLabel" destination="t5Y-Ls-shW" id="GXr-OE-zxM"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -35,16 +36,41 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V4b-dc-dnG">
+                    <rect key="frame" x="30" y="816" width="354" height="50"/>
+                    <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="WSv-r2-Hdr"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="CANCEL">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="-1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="cancelSignUp" destination="-1" eventType="touchUpInside" id="1Ca-Wb-0nk"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="IaO-We-HMl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="42B-ec-sUC"/>
+                <constraint firstItem="V4b-dc-dnG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="FVd-a2-kYx"/>
                 <constraint firstItem="IaO-We-HMl" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="HA0-2W-OJc"/>
                 <constraint firstItem="t5Y-Ls-shW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="HJK-BX-rgx"/>
                 <constraint firstItem="t5Y-Ls-shW" firstAttribute="top" secondItem="IaO-We-HMl" secondAttribute="top" constant="100" id="IGY-OV-2yy"/>
+                <constraint firstAttribute="bottom" secondItem="V4b-dc-dnG" secondAttribute="bottom" constant="30" id="IPt-YH-feb"/>
                 <constraint firstItem="yXH-hZ-3Oj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Mt4-ah-V5w"/>
                 <constraint firstAttribute="trailing" secondItem="t5Y-Ls-shW" secondAttribute="trailing" constant="10" id="VLo-NB-edy"/>
                 <constraint firstAttribute="bottom" secondItem="yXH-hZ-3Oj" secondAttribute="bottom" id="bR0-8g-Abt"/>
+                <constraint firstItem="V4b-dc-dnG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="f07-SG-nqg"/>
                 <constraint firstAttribute="trailing" secondItem="yXH-hZ-3Oj" secondAttribute="trailing" id="fUu-Nj-bxu"/>
                 <constraint firstItem="yXH-hZ-3Oj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="n2E-X6-BYY"/>
             </constraints>

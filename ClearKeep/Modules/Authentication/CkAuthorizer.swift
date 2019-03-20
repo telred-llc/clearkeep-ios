@@ -262,6 +262,19 @@ public class CkAuthorizer {
         }
     }
     
+    /// Cancel authentication  
+    internal func cancelAuthenticationSession() {
+        if self.mxCurrentOperation != nil {
+            self.mxCurrentOperation.cancel()
+            self.mxCurrentOperation = nil
+        }
+        
+        if self.registrationTimer != nil {
+            self.registrationTimer.invalidate()
+            self.registrationTimer = nil
+        }
+    }
+    
     internal func checkInUse(forUsername username: String, completion: @escaping (Bool) -> Void) {
         self.mxCurrentOperation = mxRestClient.isUserNameInUse(username, completion: { (isInUsed: Bool) in
             completion(isInUsed)

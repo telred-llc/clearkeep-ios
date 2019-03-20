@@ -13,6 +13,7 @@ protocol CkAuthenticationViewControllerDelegate: class {
     func authentication(_ authentication: CkAuthenticationViewController, requestAction action: String)
     func authentication(_ authentication: CkAuthenticationViewController, onSuccessfulAuthCredentials credentials: MXCredentials)
     func authentication(_ authentication: CkAuthenticationViewController, onFailureDuringAuthError error: Error)
+    func authenticationCancelSigningUp(_ authentication: CkAuthenticationViewController)
     
     func authenticationFailStartSigningIn(withMessage message: String)
     func authenticationFailStartSigningUp(withMessage message: String)
@@ -26,6 +27,7 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     @IBOutlet weak var authenticationScrollView: UIScrollView!
     @IBOutlet weak var welcomeImageView: UIImageView!
     @IBOutlet weak var signupButton: UIButton!
+    private var cancelSignupAlert: UIAlertController?
     
     /**
      Delegate
@@ -107,6 +109,32 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
         }
     }
     
+    /// Cancel signup request
+    @IBAction func cancelSignUp() {
+        /// Show alert to confirm action
+        cancelSignupAlert = UIAlertController(title: nil,
+                                              message: "Are you sure to cancel this registration?",
+                                              preferredStyle: .alert)
+        guard  let alertController = cancelSignupAlert else {
+            return
+        }
+        let okAction = UIAlertAction(title: "Yes", style: .destructive) { _ in
+            self.delegate?.authenticationCancelSigningUp(self)
+        }
+        let cancelAction = UIAlertAction(title: "No", style: .default, handler: nil)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func dismissCancelAlert() {
+        if let cancelSignupAlert = cancelSignupAlert {
+            cancelSignupAlert.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     // MARK: - PROBABLY OVERIDE
     public func askForUpdating(completion: ([String: Any]) -> Void) {}
     
@@ -131,12 +159,14 @@ extension CkAuthenticationViewController {
     
     internal func authorizer(_ authorizer: CkAuthorizer, onFailureDuringAuthError error: Error) {
         if self.isVisible() {
+            dismissCancelAlert()
             self.delegate?.authentication(self, onFailureDuringAuthError: error)
         }
     }
     
     internal func authorizer(_ authorizer: CkAuthorizer, onSuccessfulAuthCredentials credentials: MXCredentials) {
         if self.isVisible() {
+            dismissCancelAlert()
             self.delegate?.authentication(self, onSuccessfulAuthCredentials: credentials)
         }
     }
