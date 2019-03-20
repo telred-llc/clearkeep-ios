@@ -90,10 +90,12 @@ class CKOtherProfileViewController: MXKViewController {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountProfileAvatarCell.identifier, for: indexPath) as? CKAccountProfileAvatarCell {
             
-            cell.nameLabel.text = mxMember.displayname
+            let dispn = mxMember?.displayname ?? (mxMember?.userId?.components(separatedBy: ":").first ?? "Unknown")
+            
+            cell.nameLabel.text = dispn
             cell.setAvatarUri(
                 mxMember.avatarUrl,
-                identifyText: mxMember.displayname,
+                identifyText: dispn,
                 session: self.mainSession)
             
             //status
@@ -150,7 +152,7 @@ class CKOtherProfileViewController: MXKViewController {
 
             if indexPath.row == 0 {
                 cell.titleLabel.text = "Display name"
-                cell.contentLabel.text = mxMember.displayname
+                cell.contentLabel.text = mxMember?.displayname ?? (mxMember?.userId?.components(separatedBy: ":").first ?? "Unknown")
             } else if indexPath.row == 1 {
                 cell.titleLabel.text = "User ID"
                 cell.contentLabel.text = mxMember.userId
