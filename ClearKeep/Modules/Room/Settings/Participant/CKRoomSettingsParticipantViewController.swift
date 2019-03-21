@@ -29,6 +29,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
      MX Room
      */
     public var mxRoom: MXRoom!
+    private var mxRoomPowerLevels: MXRoomPowerLevels?
     
     /**
      Original data source
@@ -40,6 +41,9 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
      */
     private var filteredParticipants: [MXRoomMember]! = [MXRoomMember]()
     
+    // List admin in room
+    private var adminList = [String]()
+    
     /**
      members Listener
      */
@@ -49,6 +53,8 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     private var removedAccountObserver: Any?
     private var accountUserInfoObserver: Any?
     private var pushInfoUpdateObserver: Any?
+    
+    private let kCkRoomAdminLevel = 100
     
     // MARK: - OVERRIDE
     
@@ -152,6 +158,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
                                 
                                 // handle member
                                 self.handle(roomMember: mxMember)
+                                self.getAdmin(state: liveTimeline.state, member: mxMember)
                             }
                             
                             // finalize room member state
@@ -177,18 +184,30 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         
         // room state
         self.mxRoom.state { (state: MXRoomState?) in
-            
+            self.mxRoomPowerLevels = state?.powerLevels
             // try to get members
             if let members = state?.members.membersWithoutConferenceUser() {
                 
                 // handl each member
                 for m in members {
                     self.handle(roomMember: m)
+                    self.getAdmin(state: state, member: m)
                 }
                 
                 // finalize room member state
                 self.finalizeReloadingParticipants(state!)
             }
+        }
+    }
+    
+    private func getAdmin(state: MXRoomState?, member: MXRoomMember) {
+        // power lever is admin
+        guard let state = state, let powerLevels = state.powerLevels else {
+            return
+        }
+        
+        if powerLevels.powerLevelOfUser(withUserID: member.userId) >= self.kCkRoomAdminLevel {
+            adminList.append(member.userId)
         }
     }
     
@@ -213,6 +232,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         // import mx session and room id
         vc.importSession(self.mxSessions)
         
+        vc.mxRoomPowerLevels = mxRoomPowerLevels
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -226,6 +246,8 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         // import mx session and room id
         vc.importSession(self.mxSessions)
         vc.mxMember = mxMember
+        vc.mxRoom = mxRoom
+        vc.mxRoomPowerLevels = mxRoomPowerLevels
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -348,6 +370,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             
             // fill fields to cell
             cell.participantLabel.text = mxMember.displayname ?? mxMember.userId
+            cell.adminStatusView.isHidden = !adminList.contains(mxMember.userId)
             cell.participantLabel.backgroundColor = UIColor.clear
             cell.accessoryType = .disclosureIndicator
             
@@ -397,6 +420,46 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             })
         }
         return cell
+    }
+    
+    private func loadPrivileged(completion: (([String]?) -> Void)?) {
+        // pull room's state
+        self.mxRoom.state { (state: MXRoomState?) in
+            guard let state = state else {
+                // fallback error
+                completion?(nil)
+                return
+            }
+            
+            // room members
+            self.mxRoom?.members(completion: { (members: MXResponse<MXRoomMembers?>) in
+                
+                // sure that
+                if let members = members.value??.members {
+                    guard let powerLevels = state.powerLevels else {
+                        completion?(nil)
+                        return
+                    }
+                    
+                    // admin-id list
+                    var admins = [String]()
+                    
+                    for member in members {
+                        if powerLevels.powerLevelOfUser(withUserID: member.userId) >= self.kCkRoomAdminLevel {
+                            
+                            // if power lever is admin, append it
+                            admins.append(member.userId)
+                        }
+                    }
+                    
+                    // fallback ok
+                    completion?(admins)
+                }
+                
+                // fallback error
+                completion?(nil)
+            })
+        }
     }
 
     // MARK: - PUBLIC

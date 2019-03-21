@@ -44,24 +44,35 @@
                             <constraint firstAttribute="height" constant="10" id="ubL-Tw-pd5"/>
                         </constraints>
                     </view>
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_admin" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-51-TJR">
+                        <rect key="frame" x="290" y="138.5" width="10" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="g2O-51-TJR" secondAttribute="height" id="Wzd-by-hzJ"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="40o-8p-Zyj" secondAttribute="bottom" id="58A-co-l84"/>
                     <constraint firstItem="ISO-LC-gHy" firstAttribute="centerY" secondItem="Kqb-AA-b7U" secondAttribute="centerY" constant="3" id="7QD-Iv-Bvx"/>
                     <constraint firstAttribute="bottom" secondItem="wIa-d0-gF1" secondAttribute="bottom" id="C9A-Ir-qTG"/>
+                    <constraint firstAttribute="trailing" secondItem="g2O-51-TJR" secondAttribute="trailing" constant="20" id="D7f-FA-MCR"/>
                     <constraint firstItem="Kqb-AA-b7U" firstAttribute="leading" secondItem="AO5-Pd-WGP" secondAttribute="leading" constant="20" id="GZf-mU-EpR"/>
                     <constraint firstItem="wIa-d0-gF1" firstAttribute="leading" secondItem="AO5-Pd-WGP" secondAttribute="leading" id="Hi9-1h-AGk"/>
                     <constraint firstItem="40o-8p-Zyj" firstAttribute="top" secondItem="Kqb-AA-b7U" secondAttribute="top" id="IeZ-FC-NA8"/>
+                    <constraint firstItem="g2O-51-TJR" firstAttribute="height" secondItem="ISO-LC-gHy" secondAttribute="height" id="YuQ-wf-EF2"/>
                     <constraint firstAttribute="trailing" secondItem="wIa-d0-gF1" secondAttribute="trailing" id="jPO-Dl-XV2"/>
                     <constraint firstAttribute="trailing" secondItem="40o-8p-Zyj" secondAttribute="trailing" id="jha-mh-9oc"/>
                     <constraint firstItem="ISO-LC-gHy" firstAttribute="leading" secondItem="Kqb-AA-b7U" secondAttribute="trailing" constant="5" id="kbH-fk-70V"/>
                     <constraint firstItem="wIa-d0-gF1" firstAttribute="top" secondItem="AO5-Pd-WGP" secondAttribute="top" id="lnd-b9-pcE"/>
                     <constraint firstAttribute="bottom" secondItem="Kqb-AA-b7U" secondAttribute="bottom" id="sNU-gG-vQC"/>
+                    <constraint firstItem="g2O-51-TJR" firstAttribute="centerY" secondItem="Kqb-AA-b7U" secondAttribute="centerY" id="trJ-Ha-uku"/>
+                    <constraint firstItem="g2O-51-TJR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ISO-LC-gHy" secondAttribute="trailing" constant="10" id="u5u-8H-i5Z"/>
                     <constraint firstItem="40o-8p-Zyj" firstAttribute="leading" secondItem="AO5-Pd-WGP" secondAttribute="leading" id="uvj-Mz-gOw"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="7c9-Yd-DVF"/>
             <connections>
+                <outlet property="adminStatusView" destination="g2O-51-TJR" id="HWq-hN-KZD"/>
                 <outlet property="avaImage" destination="wIa-d0-gF1" id="5MQ-LR-sOV"/>
                 <outlet property="nameLabel" destination="Kqb-AA-b7U" id="swh-Ny-6as"/>
                 <outlet property="statusView" destination="ISO-LC-gHy" id="uQl-cv-gTd"/>
@@ -69,4 +80,7 @@
             <point key="canvasLocation" x="172.80000000000001" y="-44.07796101949026"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_room_admin" width="20" height="20"/>
+    </resources>
 </document>

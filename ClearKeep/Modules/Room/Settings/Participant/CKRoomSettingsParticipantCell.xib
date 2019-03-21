@@ -32,6 +32,12 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_admin" translatesAutoresizingMaskIntoConstraints="NO" id="loC-cH-jJf">
+                        <rect key="frame" x="11" y="9" width="12" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="loC-cH-jJf" secondAttribute="height" id="eVI-Su-5h0"/>
+                        </constraints>
+                    </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ycA-eo-qWi" userLabel="StatusView">
                         <rect key="frame" x="40.5" y="38.5" width="12" height="12"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -43,21 +49,28 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="Yzp-OC-nbH" firstAttribute="leading" secondItem="w4O-Uw-odr" secondAttribute="leading" constant="10" id="1n7-q4-ECi"/>
+                    <constraint firstItem="loC-cH-jJf" firstAttribute="height" secondItem="ycA-eo-qWi" secondAttribute="height" id="9pm-cA-Yag"/>
                     <constraint firstAttribute="trailingMargin" secondItem="an6-4E-hPa" secondAttribute="trailing" constant="10" id="M2F-ku-rLp"/>
                     <constraint firstItem="ycA-eo-qWi" firstAttribute="bottom" secondItem="Yzp-OC-nbH" secondAttribute="bottom" constant="-1" id="O0c-Um-5Ey"/>
                     <constraint firstItem="an6-4E-hPa" firstAttribute="leading" secondItem="Yzp-OC-nbH" secondAttribute="trailing" constant="10" id="R6m-CY-LLA"/>
                     <constraint firstItem="Yzp-OC-nbH" firstAttribute="top" secondItem="w4O-Uw-odr" secondAttribute="top" constant="8" id="TmX-Mx-P6R"/>
+                    <constraint firstItem="loC-cH-jJf" firstAttribute="top" secondItem="Yzp-OC-nbH" secondAttribute="top" constant="1" id="iKj-QE-PV0"/>
                     <constraint firstAttribute="bottom" secondItem="Yzp-OC-nbH" secondAttribute="bottom" constant="8" id="pEA-cz-r1W"/>
                     <constraint firstItem="an6-4E-hPa" firstAttribute="top" secondItem="w4O-Uw-odr" secondAttribute="topMargin" id="v0q-78-UtR"/>
                     <constraint firstItem="an6-4E-hPa" firstAttribute="bottom" secondItem="w4O-Uw-odr" secondAttribute="bottomMargin" id="wKL-JS-Fqn"/>
+                    <constraint firstItem="loC-cH-jJf" firstAttribute="leading" secondItem="Yzp-OC-nbH" secondAttribute="leading" constant="1" id="xVF-jd-CEz"/>
                     <constraint firstItem="ycA-eo-qWi" firstAttribute="trailing" secondItem="Yzp-OC-nbH" secondAttribute="trailing" constant="-1" id="yh0-CB-6NT"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="adminStatusView" destination="loC-cH-jJf" id="Y7m-8U-vjf"/>
                 <outlet property="participantLabel" destination="an6-4E-hPa" id="TOl-vE-mDi"/>
                 <outlet property="photoView" destination="Yzp-OC-nbH" id="0nf-CU-42W"/>
                 <outlet property="statusView" destination="ycA-eo-qWi" id="DxG-BG-Yev"/>
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_room_admin" width="20" height="20"/>
+    </resources>
 </document>

@@ -15,11 +15,13 @@ class CKOtherProfileViewController: MXKViewController {
     // MARK: - ENUM
     
     private enum Section: Int {
-        case avatar  = 0
-        case action  = 1
-        case detail  = 2
+        case avatar     = 0
+        case action     = 1
+        case detail     = 2
+        case setAdmin   = 3
         
-        static var count: Int { return 3}
+        static var memberCount: Int { return 3}
+        static var adminCount: Int { return 4}
     }
     
     // MARK: - CLASS
@@ -39,9 +41,18 @@ class CKOtherProfileViewController: MXKViewController {
     private var kMXCallManagerConferenceFinishedObserver: Any?
     
     /**
+     members Listener
+     */
+    private var membersListener: Any!
+    
+    /**
      MX Room
      */
     public var mxMember: MXRoomMember!
+    public var mxRoomPowerLevels: MXRoomPowerLevels?
+    public var mxRoom: MXRoom?
+    private var myUser: MXMyUser?
+    private let kCkRoomAdminLevel = 100
 
     /**
      When you want this controller always behavior a presenting controller, set true it
@@ -50,6 +61,7 @@ class CKOtherProfileViewController: MXKViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        myUser = getMyUser()
         self.finalizeLoadView()
     }
     deinit {
@@ -72,6 +84,7 @@ class CKOtherProfileViewController: MXKViewController {
         self.tableView.register(CKAccountProfileAvatarCell.nib, forCellReuseIdentifier: CKAccountProfileAvatarCell.identifier)
         self.tableView.register(CKOtherProfileActionCell.nib, forCellReuseIdentifier: CKOtherProfileActionCell.identifier)
         self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
+        self.tableView.register(CKAssignAdminButtonTableViewCell.nib, forCellReuseIdentifier:CKAssignAdminButtonTableViewCell.identifier)
         self.tableView.allowsSelection = false
         
         if self.isForcedPresenting {
@@ -84,6 +97,12 @@ class CKOtherProfileViewController: MXKViewController {
             // set nv items
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
+        
+        // invoke timeline event
+        self.liveTimelineEvents()
+        
+        // Update user state
+        self.updateUserState()
     }
     
     private func cellForAvatarPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileAvatarCell {
@@ -97,6 +116,13 @@ class CKOtherProfileViewController: MXKViewController {
                 mxMember.avatarUrl,
                 identifyText: dispn,
                 session: self.mainSession)
+            
+            // Is admin
+            if let mxMember = mxMember, let powerLevels = mxRoomPowerLevels, powerLevels.powerLevelOfUser(withUserID: mxMember.userId) == kCkRoomAdminLevel {
+                cell.adminStatusView.isHidden = false
+            } else {
+                cell.adminStatusView.isHidden = true
+            }
             
             //status
             if let mxMember = mxMember,
@@ -166,6 +192,21 @@ class CKOtherProfileViewController: MXKViewController {
         return CKAccountProfileInfoCell()
     }
     
+    private func cellForSetAdmin(indexPath: IndexPath) -> CKAssignAdminButtonTableViewCell {
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: CKAssignAdminButtonTableViewCell.identifier,
+            for: indexPath) as? CKAssignAdminButtonTableViewCell {
+            
+            cell.assignAdminHandler = { [weak self] in
+                self?.setUserToAdmin()
+            }
+            
+            return cell
+        }
+        
+        return CKAssignAdminButtonTableViewCell()
+    }
+    
     private func titleForHeader(atSection section: Int) -> String {
         guard let section = Section(rawValue: section) else { return ""}
         
@@ -175,6 +216,8 @@ class CKOtherProfileViewController: MXKViewController {
         case .action:
             return ""
         case .detail:
+            return ""
+        case .setAdmin:
             return ""
         }
     }
@@ -217,6 +260,76 @@ class CKOtherProfileViewController: MXKViewController {
         })
     }
     
+    // Get current logined user
+    private func getMyUser() -> MXMyUser? {
+        let session = AppDelegate.the()?.mxSessions.first as? MXSession
+        if let myUser = session?.myUser {
+            return myUser
+        }
+        return nil
+    }
+    
+    // Check if it's able to set user to
+    private func canSetUserToAdmin() -> Bool {
+        guard let roomPowerLevels = mxRoomPowerLevels, let myUser = myUser, mxRoom != nil else {
+            return false
+        }
+        
+        let currentPowerLevel = roomPowerLevels.powerLevelOfUser(withUserID: mxMember.userId)
+        let myUserPowerLevel = roomPowerLevels.powerLevelOfUser(withUserID: myUser.userId)
+        
+        // don't have permision to set room admin or user had alreadly been admin
+        if myUserPowerLevel < kCkRoomAdminLevel || currentPowerLevel == kCkRoomAdminLevel {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func updateUserState() {
+        // room state
+        guard let mxRoom = mxRoom else {
+            return
+        }
+        mxRoom.state { [weak self] (state: MXRoomState?) in
+            guard let weakSelf = self else {
+                return
+            }
+            // Update power levels
+            weakSelf.mxRoomPowerLevels = state?.powerLevels
+            DispatchQueue.main.async {
+                weakSelf.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func liveTimelineEvents() {
+        guard let mxRoom = mxRoom else {
+            return
+        }
+        // event of types
+        let eventsOfTypes = [MXEventType.roomPowerLevels]
+        
+        // list members
+        mxRoom.liveTimeline { (liveTimeline: MXEventTimeline?) in
+            
+            // guard
+            guard let liveTimeline = liveTimeline else {
+                return
+            }
+            
+            // timeline listen to events
+            self.membersListener = liveTimeline.listenToEvents(eventsOfTypes, { [weak self] (event: MXEvent, direction: MXTimelineDirection, state: MXRoomState) in
+                
+                // direction
+                if direction == MXTimelineDirection.forwards, let weakSelf = self {
+                    // If powerlevels has been changed, reload user status
+                    weakSelf.updateUserState()
+                }
+            })
+        }
+    }
+    
     // MARK: - ACTION
     @objc func clickedOnBackButton(_ sender: Any?) {
         self.dismiss(animated: true, completion: nil)
@@ -231,7 +344,8 @@ extension CKOtherProfileViewController: UITableViewDelegate {
         switch section {
         case .avatar:
             return 250
-            
+        case .setAdmin:
+            return 100
         default:
             return 60
         }
@@ -264,7 +378,8 @@ extension CKOtherProfileViewController: UITableViewDelegate {
 extension CKOtherProfileViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.count
+        let sectionCount = canSetUserToAdmin() ? Section.adminCount : Section.memberCount
+        return sectionCount
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -277,6 +392,7 @@ extension CKOtherProfileViewController: UITableViewDataSource {
         case .avatar: return 1
         case .action: return 1
         case .detail: return 2
+        case .setAdmin: return 1
         }
     }
     
@@ -296,6 +412,50 @@ extension CKOtherProfileViewController: UITableViewDataSource {
             return cellForAction(atIndexPath: indexPath)
         case .detail:
             return cellForInfoPersonal(atIndexPath: indexPath)
+        case .setAdmin:
+            return cellForSetAdmin(indexPath: indexPath)
+        }
+    }
+}
+
+extension CKOtherProfileViewController {
+    
+    // Set cu
+    func setUserToAdmin() {
+        guard let roomPowerLevels = mxRoomPowerLevels, let myUser = myUser, let room = mxRoom else {
+            return
+        }
+        
+        let currentPowerLevel = roomPowerLevels.powerLevelOfUser(withUserID: mxMember.userId)
+        let myUserPowerLevel = roomPowerLevels.powerLevelOfUser(withUserID: myUser.userId)
+        
+        // don't have permision to set room admin
+        if myUserPowerLevel < kCkRoomAdminLevel {
+            return
+        }
+        
+        if currentPowerLevel != kCkRoomAdminLevel {
+            self.startActivityIndicator()
+            // Set user to admin
+            room.setPowerLevel(ofUser: mxMember.userId, powerLevel: kCkRoomAdminLevel) { [weak self](response: MXResponse<Void>) in
+                guard let weakSelf = self else {
+                    return
+                }
+                
+                weakSelf.stopActivityIndicator()
+                
+                if response.isSuccess {
+                    print("Assign admin  ")
+                } else {
+                    if let error = response.error {
+                        weakSelf.showAlert(error.localizedDescription)
+                    } else {
+                        weakSelf.showAlert("Occur an unknow error")
+                    }
+                }
+            }
+        } else {
+            self.updateUserState()
         }
     }
 }

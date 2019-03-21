@@ -15,6 +15,7 @@ final class CKRoomSettingsParticipantCell: CKRoomSettingsBaseCell {
     @IBOutlet weak var photoView: MXKImageView!
     @IBOutlet weak var participantLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
+    @IBOutlet weak var adminStatusView: UIImageView!
     
     // MARK: - OVERRIDE
     

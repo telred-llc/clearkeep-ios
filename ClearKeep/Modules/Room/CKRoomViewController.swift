@@ -1878,6 +1878,9 @@ extension CKRoomViewController {
         let nvc = CKAccountProfileViewController.instanceNavigation { (vc: MXKViewController) in
             vc.importSession(self.mxSessions)
             (vc as? CKAccountProfileViewController)?.isForcedPresenting = true
+            if let roomDataSource = self.roomDataSource, roomDataSource.roomState != nil, let room = roomDataSource.room {
+                (vc as? CKAccountProfileViewController)?.mxRoomPowerLevels = roomDataSource.roomState.powerLevels
+            }
         }
         self.present(nvc, animated: true, completion: nil)
     }
@@ -1887,6 +1890,10 @@ extension CKRoomViewController {
             vc.importSession(self.mxSessions)
             (vc as? CKOtherProfileViewController)?.mxMember = mxMember
             (vc as? CKOtherProfileViewController)?.isForcedPresenting = true
+            if let roomDataSource = self.roomDataSource, roomDataSource.roomState != nil, let room = roomDataSource.room {
+                (vc as? CKOtherProfileViewController)?.mxRoom = room
+                (vc as? CKOtherProfileViewController)?.mxRoomPowerLevels = roomDataSource.roomState.powerLevels
+            }
         }
         self.present(nvc, animated: true, completion: nil)
     }
