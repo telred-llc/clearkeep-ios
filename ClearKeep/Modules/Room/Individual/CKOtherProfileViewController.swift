@@ -198,7 +198,9 @@ class CKOtherProfileViewController: MXKViewController {
             for: indexPath) as? CKAssignAdminButtonTableViewCell {
             
             cell.assignAdminHandler = { [weak self] in
-                self?.setUserToAdmin()
+                if let weakSelf = self {
+                    weakSelf.setUserToAdmin()
+                }
             }
             
             return cell
