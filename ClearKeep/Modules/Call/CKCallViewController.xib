@@ -137,7 +137,7 @@
                                             <subviews>
                                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yq6-d2-Ea2">
                                                     <rect key="frame" x="10" y="0.0" width="55" height="55"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="CallVCSpeakerButton"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="Yq6-d2-Ea2" secondAttribute="height" multiplier="1:1" id="IXw-LX-5WC"/>
@@ -195,13 +195,12 @@
                                             <subviews>
                                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UHM-u9-ODN">
                                                     <rect key="frame" x="10" y="0.0" width="55" height="55"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="CallVCVideoMuteButton"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="UHM-u9-ODN" secondAttribute="height" multiplier="1:1" id="Jdz-Ht-hQg"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
-                                                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="-74" minY="61" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -227,13 +226,12 @@
                                             <subviews>
                                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCi-hD-FBs">
                                                     <rect key="frame" x="10" y="0.0" width="55" height="55"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <accessibility key="accessibilityConfiguration" identifier="CallVCChatButton"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="xCi-hD-FBs" secondAttribute="height" multiplier="1:1" id="H6w-nH-yLW"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
-                                                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="-74" minY="61" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -386,7 +384,7 @@
     </objects>
     <resources>
         <image name="back_icon" width="13.5" height="23"/>
-        <image name="call_hangup_icon" width="41.599998474121094" height="43.200000762939453"/>
-        <image name="camera_switch" width="32" height="24"/>
+        <image name="call_hangup_icon" width="55" height="55"/>
+        <image name="camera_switch" width="55" height="55"/>
     </resources>
 </document>
