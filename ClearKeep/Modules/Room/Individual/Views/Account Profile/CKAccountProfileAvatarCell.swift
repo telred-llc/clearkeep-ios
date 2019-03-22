@@ -15,6 +15,7 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
     @IBOutlet weak var avaImage: CKImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
+    @IBOutlet weak var adminStatusView: UIImageView!
     
     // MARK: - OVERRIDE
     

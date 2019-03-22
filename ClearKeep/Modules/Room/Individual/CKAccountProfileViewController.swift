@@ -35,6 +35,9 @@ class CKAccountProfileViewController: MXKViewController {
     
     private var request: MXHTTPOperation!
     private var myUser: MXMyUser?
+    private let kCkRoomAdminLevel = 100
+    
+    public var mxRoomPowerLevels: MXRoomPowerLevels?
 
     // Observers
     private var removedAccountObserver: Any?
@@ -160,6 +163,7 @@ class CKAccountProfileViewController: MXKViewController {
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountProfileAvatarCell.identifier, for: indexPath) as? CKAccountProfileAvatarCell {
             
             cell.nameLabel.text = myUser?.displayname
+            cell.adminStatusView.isHidden = true
             
             if let myUser = self.myUser {
                 
@@ -175,7 +179,9 @@ class CKAccountProfileViewController: MXKViewController {
                     myUser.avatarUrl,
                     identifyText: myUser.userId,
                     session: self.mainSession)
-                
+                if let powerLevels = mxRoomPowerLevels, powerLevels.powerLevelOfUser(withUserID: myUser.userId) == kCkRoomAdminLevel {
+                    cell.adminStatusView.isHidden = false
+                }
             } else {
                 cell.settingStatus(online: false)
                 cell.avaImage.image = nil
