@@ -21,7 +21,7 @@ final class CKCallViewController: CallViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.roundButtons()
+        //self.roundButtons()
     }
     
     func roundButtons() {
@@ -65,7 +65,7 @@ final class CKCallViewController: CallViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.roundButtons()
+        //self.roundButtons()
     }
     
     override func startActivityIndicator() {
