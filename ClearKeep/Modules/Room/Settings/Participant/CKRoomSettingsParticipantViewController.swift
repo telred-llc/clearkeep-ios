@@ -422,45 +422,5 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
         return cell
     }
     
-    private func loadPrivileged(completion: (([String]?) -> Void)?) {
-        // pull room's state
-        self.mxRoom.state { (state: MXRoomState?) in
-            guard let state = state else {
-                // fallback error
-                completion?(nil)
-                return
-            }
-            
-            // room members
-            self.mxRoom?.members(completion: { (members: MXResponse<MXRoomMembers?>) in
-                
-                // sure that
-                if let members = members.value??.members {
-                    guard let powerLevels = state.powerLevels else {
-                        completion?(nil)
-                        return
-                    }
-                    
-                    // admin-id list
-                    var admins = [String]()
-                    
-                    for member in members {
-                        if powerLevels.powerLevelOfUser(withUserID: member.userId) >= self.kCkRoomAdminLevel {
-                            
-                            // if power lever is admin, append it
-                            admins.append(member.userId)
-                        }
-                    }
-                    
-                    // fallback ok
-                    completion?(admins)
-                }
-                
-                // fallback error
-                completion?(nil)
-            })
-        }
-    }
-
     // MARK: - PUBLIC
 }
