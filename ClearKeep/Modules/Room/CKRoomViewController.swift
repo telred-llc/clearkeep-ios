@@ -227,6 +227,8 @@ extension CKRoomViewController {
         self.setupBubblesTableView()
         self.setupMentionTableView()
         
+        // Custom attackmentViewController
+        self.setAttachmentsViewerClass(CKAttachmentsViewController.self)
         // Replace the default input toolbar view.
         // Note: this operation will force the layout of subviews. That is why cell view classes must be registered before.
         updateRoomInputToolbarViewClassIfNeeded()

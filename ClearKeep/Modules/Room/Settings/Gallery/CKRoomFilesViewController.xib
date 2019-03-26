@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CKRoomFilesViewController" customModule="Riot" customModuleProvider="target">
+            <connections>
+                <outlet property="bubblesTableView" destination="9Jd-rE-Mgt" id="acQ-ud-74e"/>
+                <outlet property="bubblesTableViewBottomConstraint" destination="O0I-tq-bGw" id="nxW-R3-PT4"/>
+                <outlet property="roomActivitiesContainer" destination="nyQ-D7-OT7" id="94R-SE-70R"/>
+                <outlet property="roomActivitiesContainerHeightConstraint" destination="Tmz-aL-7Ji" id="lmU-Mw-J1Y"/>
+                <outlet property="roomInputToolbarContainer" destination="cN5-bQ-wuG" id="Le2-EZ-Gcq"/>
+                <outlet property="roomInputToolbarContainerBottomConstraint" destination="ZGA-s0-cKQ" id="bvZ-wL-8hi"/>
+                <outlet property="roomInputToolbarContainerHeightConstraint" destination="4bg-p5-brd" id="f7B-x1-SdV"/>
+                <outlet property="view" destination="wu9-lH-rnJ" id="bq1-03-hfJ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="wu9-lH-rnJ">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9Jd-rE-Mgt">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="626"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nyQ-D7-OT7" userLabel="Activities Container">
+                    <rect key="frame" x="0.0" y="606" width="375" height="20"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="Tmz-aL-7Ji"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cN5-bQ-wuG" userLabel="Room Input Toolbar Container">
+                    <rect key="frame" x="0.0" y="626" width="375" height="41"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="41" id="4bg-p5-brd"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="9Jd-rE-Mgt" secondAttribute="trailing" id="8lS-lE-NFF"/>
+                <constraint firstItem="9Jd-rE-Mgt" firstAttribute="leading" secondItem="wu9-lH-rnJ" secondAttribute="leading" id="Dru-Ro-hgL"/>
+                <constraint firstAttribute="bottom" secondItem="9Jd-rE-Mgt" secondAttribute="bottom" constant="41" id="O0I-tq-bGw"/>
+                <constraint firstItem="nyQ-D7-OT7" firstAttribute="width" secondItem="wu9-lH-rnJ" secondAttribute="width" id="Owe-Ff-HHG"/>
+                <constraint firstItem="9Jd-rE-Mgt" firstAttribute="top" secondItem="wu9-lH-rnJ" secondAttribute="top" id="U3j-pM-CKx"/>
+                <constraint firstAttribute="bottom" secondItem="cN5-bQ-wuG" secondAttribute="bottom" id="ZGA-s0-cKQ"/>
+                <constraint firstAttribute="trailing" secondItem="cN5-bQ-wuG" secondAttribute="trailing" id="ax3-Zr-1QD"/>
+                <constraint firstItem="nyQ-D7-OT7" firstAttribute="leading" secondItem="wu9-lH-rnJ" secondAttribute="leading" id="ep5-jh-ZrP"/>
+                <constraint firstItem="nyQ-D7-OT7" firstAttribute="bottom" secondItem="cN5-bQ-wuG" secondAttribute="top" id="grk-jX-YsP"/>
+                <constraint firstItem="cN5-bQ-wuG" firstAttribute="leading" secondItem="wu9-lH-rnJ" secondAttribute="leading" id="sCb-L3-8Pl"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="EiJ-ku-U03"/>
+        </view>
+    </objects>
+</document>

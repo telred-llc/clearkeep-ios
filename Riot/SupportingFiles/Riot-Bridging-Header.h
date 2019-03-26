@@ -86,6 +86,7 @@
 #import "RiotNavigationController.h"
 #import "RiotDesignValues.h"
 #import "TableViewCellWithCheckBoxAndLabel.h"
+#import "FilesSearchTableViewCell.h"
 
 // CK - Settings
 #import "DeactivateAccountViewController.h"

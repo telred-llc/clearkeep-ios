@@ -304,10 +304,18 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     }
     
     private func showFiles() {
-        let vc = CKRoomSettingsGalleryViewController.instance()
-        vc.importSession(self.mxSessions)
-        vc.mxRoom = self.mxRoom
-        self.navigationController?.pushViewController(vc, animated: true)
+        MXKRoomDataSource.load(withRoomId: self.mxRoom.roomId, andMatrixSession: self.mxRoom.mxSession) { (roomDataSource) in
+            if let roomDataSource = roomDataSource as? MXKRoomDataSource {
+                //roomDataSource.filterMessagesWithURL = true
+                roomDataSource.finalizeInitialization()
+                let vc = CKRoomFilesViewController.instance()
+                vc.hasRoomDataSourceOwnership = true
+                vc.displayRoom(roomDataSource)
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                print("")
+            }
+        }
     }
     
     // MARK: - ACTION

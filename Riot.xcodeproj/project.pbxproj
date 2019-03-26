@@ -22,6 +22,9 @@
 		5EF8B5E2221D58B4007B431C /* CKMenuRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EF8B5E0221D58B4007B431C /* CKMenuRoomViewController.xib */; };
 		69ED3E3722434D3C0096F34D /* CKAssignAdminButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69ED3E3522434D3C0096F34D /* CKAssignAdminButtonTableViewCell.swift */; };
 		69ED3E3822434D3C0096F34D /* CKAssignAdminButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69ED3E3622434D3C0096F34D /* CKAssignAdminButtonTableViewCell.xib */; };
+		6917A3182248B04F001F2D9D /* CKRoomFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6917A3162248B04F001F2D9D /* CKRoomFilesViewController.swift */; };
+		6917A3202248D60E001F2D9D /* CKRoomFilesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6917A31A2248C594001F2D9D /* CKRoomFilesViewController.xib */; };
+		6917A322224A11E1001F2D9D /* CKAttachmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6917A321224A11E1001F2D9D /* CKAttachmentsViewController.swift */; };
 		8511E1492230C7840059ABC0 /* CKSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8511E1472230C7840059ABC0 /* CKSettingsViewController.swift */; };
 		8511E14A2230C7840059ABC0 /* CKSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8511E1482230C7840059ABC0 /* CKSettingsViewController.xib */; };
 		8511E14E2230D1B90059ABC0 /* CKSettingsGroupedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8511E14C2230D1B90059ABC0 /* CKSettingsGroupedItemCell.swift */; };
@@ -612,6 +615,9 @@
 		5EF8B5E0221D58B4007B431C /* CKMenuRoomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKMenuRoomViewController.xib; sourceTree = "<group>"; };
 		69ED3E3522434D3C0096F34D /* CKAssignAdminButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAssignAdminButtonTableViewCell.swift; sourceTree = "<group>"; };
 		69ED3E3622434D3C0096F34D /* CKAssignAdminButtonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAssignAdminButtonTableViewCell.xib; sourceTree = "<group>"; };
+		6917A3162248B04F001F2D9D /* CKRoomFilesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomFilesViewController.swift; sourceTree = "<group>"; };
+		6917A31A2248C594001F2D9D /* CKRoomFilesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomFilesViewController.xib; sourceTree = "<group>"; };
+		6917A321224A11E1001F2D9D /* CKAttachmentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAttachmentsViewController.swift; sourceTree = "<group>"; };
 		78CD06F14060998545642330 /* Pods-RiotPods-Riot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-Riot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot.debug.xcconfig"; sourceTree = "<group>"; };
 		8511E1472230C7840059ABC0 /* CKSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSettingsViewController.swift; sourceTree = "<group>"; };
 		8511E1482230C7840059ABC0 /* CKSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSettingsViewController.xib; sourceTree = "<group>"; };
@@ -3060,10 +3066,13 @@
 		E5233124221BDDB9008FC772 /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
+				6917A31A2248C594001F2D9D /* CKRoomFilesViewController.xib */,
+				6917A3162248B04F001F2D9D /* CKRoomFilesViewController.swift */,
 				E5233125221BDDCE008FC772 /* CKRoomSettingsGalleryViewController.swift */,
 				E523312D221BDF1F008FC772 /* CKRoomSettingsGalleryViewController.xib */,
 				E5233127221BDE76008FC772 /* CKRoomSettingsGalleryViewCell.xib */,
 				E5233129221BDE7D008FC772 /* CKRoomSettingsGalleryViewCell.swift */,
+				6917A321224A11E1001F2D9D /* CKAttachmentsViewController.swift */,
 			);
 			path = Gallery;
 			sourceTree = "<group>";
@@ -3738,6 +3747,7 @@
 				E5AC22C62163775D00AA76B1 /* NavigationItemImage.xib in Resources */,
 				B1B5594620EF7BD000210D55 /* RoomCollectionViewCell.xib in Resources */,
 				F083BDE71E7009ED00A9B29C /* callend.mp3 in Resources */,
+				6917A3202248D60E001F2D9D /* CKRoomFilesViewController.xib in Resources */,
 				B1B558EF20EF768F00210D55 /* RoomMembershipCollapsedWithPaginationTitleBubbleCell.xib in Resources */,
 				B1B5573420EE6C4D00210D55 /* GroupDetailsViewController.xib in Resources */,
 				B1B557E420EF60B900210D55 /* MessagesSearchResultAttachmentBubbleCell.xib in Resources */,
@@ -4154,6 +4164,7 @@
 				E574335F21F35F1400989FF3 /* CKRoomSettingsBaseCell.swift in Sources */,
 				B1B558C120EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				B1B5573E20EE6C4D00210D55 /* RiotNavigationController.m in Sources */,
+				6917A322224A11E1001F2D9D /* CKAttachmentsViewController.swift in Sources */,
 				B1B5593B20EF7BAC00210D55 /* TableViewCellWithCheckBoxAndLabel.m in Sources */,
 				A01DCDE121FEBCA30069CA4A /* CKImageView.swift in Sources */,
 				B1B5581A20EF625800210D55 /* ExpandedRoomTitleView.m in Sources */,
@@ -4253,6 +4264,7 @@
 				8520DFA52216AC94000833A1 /* CKHomePagingWithBubbleCell.swift in Sources */,
 				E574336E21F370EE00989FF3 /* CKRoomCreatingTopicCell.swift in Sources */,
 				B1B5595220EF9A8700210D55 /* RecentTableViewCell.m in Sources */,
+				6917A3182248B04F001F2D9D /* CKRoomFilesViewController.swift in Sources */,
 				B1B5574120EE6C4D00210D55 /* RecentsViewController.m in Sources */,
 				B1D250D82118AA0A000F4E93 /* RoomPredecessorBubbleCell.m in Sources */,
 				B1B5577120EE702800210D55 /* StickerPickerViewController.m in Sources */,
