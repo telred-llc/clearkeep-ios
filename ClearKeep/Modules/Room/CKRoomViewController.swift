@@ -1752,6 +1752,8 @@ extension CKRoomViewController {
                     self.showOthersAccountProfile(mxMember: mxMember)
                 }
             }
+        } else if actionIdentifier == kMXKRoomBubbleCellTapOnSenderNameLabel {
+            // Do nothing
         } else { // call super
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         }
@@ -2221,7 +2223,19 @@ extension CKRoomViewController {
         if cell.isKind(of: MXKRoomBubbleTableViewCell.self),
             let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
             if roomBubbleTableViewCell.messageTextView != nil {
-                roomBubbleTableViewCell.messageTextView.isSelectable = false
+                                
+                // we don't want to select text
+                roomBubbleTableViewCell.messageTextView?.gestureRecognizers?.forEach({ (recognizer: UIGestureRecognizer) in
+                    if let recognizer = recognizer as? UILongPressGestureRecognizer {
+                        if let name = recognizer.name {
+                            if name == "UITextInteractionNameLoupe" ||
+                                name == "_UIKeyboardTextSelectionGestureForcePress" ||
+                                name == "UITextInteractionNameTapAndHold" {
+                                recognizer.isEnabled = false
+                            }
+                        }
+                    }
+                })
             }
             
             if roomBubbleTableViewCell.readMarkerView != nil {
@@ -2375,3 +2389,15 @@ extension CKRoomViewController {
     }
     
 }
+
+
+//extension UITextView {
+//    override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//        if isEditable == false {
+//            if let gesture =  gestureRecognizer as? UILongPressGestureRecognizer, gesture.minimumPressDuration == 0.5 {
+//                return false
+//            }
+//        }
+//        return true
+//    }
+//}

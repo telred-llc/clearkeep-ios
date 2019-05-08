@@ -200,6 +200,7 @@
 
 - (UIView *)createIncomingCallView
 {
+#if 0
     NSString *callInfo;
     if (self.mxCall.isVideoCall)
         callInfo = NSLocalizedStringFromTable(@"call_incoming_video", @"Vector", nil);
@@ -224,6 +225,9 @@
     };
     
     return incomingCallView;
+#endif
+    
+    return NULL;
 }
 
 #pragma mark - MXCallDelegate
