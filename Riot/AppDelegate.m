@@ -487,6 +487,13 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     NSLog(@"[AppDelegate] didFinishLaunchingWithOptions: Done in %.0fms", [[NSDate date] timeIntervalSinceDate:startDate] * 1000);
 
+    // Setup Jitsi
+    NSString *jitsiServerStringURL = @"https://meet.jit.si/";
+    NSURL *jitsiServerURL = [NSURL URLWithString:jitsiServerStringURL];
+    
+    [JitsiService.shared configureDefaultConferenceOptionsWith:jitsiServerURL];
+    [JitsiService.shared application:application didFinishLaunchingWithOptions:launchOptions];
+    
     return YES;
 }
 
@@ -2923,6 +2930,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 
 - (void)enableCallKit:(BOOL)enable forCallManager:(MXCallManager *)callManager
 {
+    
+    JitsiService.shared.enableCallKit = enable;
+    
     if (enable)
     {
         // Create adapter for Riot
@@ -2935,6 +2945,12 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 #ifdef CALL_STACK_JINGLE
         audioSessionConfigurator = [[MXJingleCallAudioSessionConfigurator alloc] init];
 #endif
+        
+        NSData *riotCallKitIconData = UIImagePNGRepresentation([UIImage imageNamed:callKitConfiguration.iconName]);
+
+        [JitsiService.shared configureCallKitProviderWithLocalizedName:callKitConfiguration.name
+                                                          ringtoneName:callKitConfiguration.ringtoneName
+                                                 iconTemplateImageData:riotCallKitIconData];
         
         callKitAdapter.audioSessionConfigurator = audioSessionConfigurator;
         

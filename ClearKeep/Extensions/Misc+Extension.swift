@@ -100,7 +100,7 @@ extension MXRoomState {
             if rev.eventType == __MXEventTypeRoomCreate {
                 
                 // found creator
-                if let createContent = MXRoomCreateContent.model(fromJSON: rev.content) as? MXRoomCreateContent {
+                if let createContent = MXRoomCreateContent(fromJSON: rev.content) {
                     return createContent.creatorUserId
                 }
                 

@@ -157,7 +157,9 @@ public class CkAuthorizer {
                 
                 if let jsonResponseValue = jsonResponse.value, jsonResponse.isSuccess == true {
                     
-                    if let credentials = MXCredentials.model(fromJSON: jsonResponseValue) as? MXCredentials {
+                    if let loginResp = MXLoginResponse(fromJSON: jsonResponseValue) {
+                        
+                        let credentials = MXCredentials(loginResponse: loginResp, andDefaultCredentials: nil)
                         
                         if credentials.userId == nil || credentials.accessToken == nil {
                             self.onFailureDuringAuthRequest(
@@ -190,7 +192,9 @@ public class CkAuthorizer {
                 
                 if let jsonResponseValue = jsonResponse.value, jsonResponse.isSuccess == true {
                     
-                    if let credentials = MXCredentials.model(fromJSON: jsonResponseValue) as? MXCredentials {
+                    if let loginResp = MXLoginResponse(fromJSON: jsonResponseValue) {
+                        
+                        let credentials = MXCredentials(loginResponse: loginResp, andDefaultCredentials: nil)
 
                         if credentials.userId == nil || credentials.accessToken == nil {
                             self.onFailureDuringAuthRequest(

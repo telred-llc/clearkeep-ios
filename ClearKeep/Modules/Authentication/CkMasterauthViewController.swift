@@ -206,6 +206,6 @@ extension CkMasterauthViewController {
     }
     
     func authentication(_ authentication: CkAuthenticationViewController, onSuccessfulAuthCredentials credentials: MXCredentials) {
-        self.finalAuthentication(withUserId: credentials.userId)
+        self.finalAuthentication(withUserId: credentials.userId ?? "unknown")
     }
 }
