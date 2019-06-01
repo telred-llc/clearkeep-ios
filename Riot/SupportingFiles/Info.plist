@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>33</string>
+	<string>34</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -39,6 +39,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>See your scheduled meetings in the app.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>The camera is used to take photos and videos, make video calls.</string>
 	<key>NSContactsUsageDescription</key>
@@ -103,6 +105,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>UserDefaults</key>
-	<string>${PRODUCT_NAME}-Defaults</string>
+	<string>${PRODUCT_NAME}-Prod-Defaults</string>
 </dict>
 </plist>
