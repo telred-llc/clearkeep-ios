@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>ClearKeep</string>
+	<string>ClearKeep DEV</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -105,6 +105,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>UserDefaults</key>
-	<string>${PRODUCT_NAME}-Prod-Defaults</string>
+	<string>${TARGET_NAME}-Defaults</string>
 </dict>
 </plist>
