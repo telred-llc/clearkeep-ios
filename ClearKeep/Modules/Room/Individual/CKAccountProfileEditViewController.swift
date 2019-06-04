@@ -247,10 +247,11 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
         }
     }
 
-    private func saveData()  {
+    private func saveData(completion: ((Bool) -> Void)? = nil)  {
         
         // sanity check
         if MXKAccountManager.shared().activeAccounts.count == 0 {
+            completion?(true)
             return
         }
         
@@ -278,6 +279,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 }
             }).done {
                 //
+                completion?(true)
             }.ensure {
                 
                 // Backup is complete
@@ -291,11 +293,11 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                 } else {
                     self.tableView.reloadData()
                 }
-                
             }.catch { (error) in
                 if !error.isCancelled {
                     self.handleErrorDuringProfileChangeSaving(error: error as NSError)
                 }
+                completion?(false)
         }
     }
 
@@ -512,7 +514,11 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     
     @objc func clickedOnSaveButton(_ sender: Any?) {
         self.view.endEditing(true)
-        self.saveData()
+        self.saveData { (success) in
+            if success {
+                self.clickedOnCancelButton(sender)
+            }
+        }
     }
 }
 // MARK: - UITableViewDelegate
