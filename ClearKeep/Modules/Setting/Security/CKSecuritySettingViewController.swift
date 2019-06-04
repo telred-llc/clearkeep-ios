@@ -134,7 +134,7 @@ private extension CKSecuritySettingViewController {
         currentAlert = exportView?.alertController
 
         // Use a temporary file for the export
-        keyExportsFile = URL(fileURLWithPath: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("riot-keys.txt").absoluteString)
+        keyExportsFile = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("riot-keys.txt")
 
         // Make sure the file is empty
         deleteKeyExportFile()
