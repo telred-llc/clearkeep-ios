@@ -1843,7 +1843,7 @@
 		F083BC141E7009EC00A9B29C /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		F083BC151E7009EC00A9B29C /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
 		F083BC181E7009EC00A9B29C /* Riot-Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Riot-Defaults.plist"; sourceTree = "<group>"; };
-		F094A9A21B78D8F000B1FBBF /* Riot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Riot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F094A9A21B78D8F000B1FBBF /* Riot-Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Riot-Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F094A9BE1B78D8F000B1FBBF /* RiotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RiotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0D2AD9F1F6AA5FD00A7097D /* MXRoomSummary+Riot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MXRoomSummary+Riot.h"; sourceTree = "<group>"; };
 		F0D2ADA01F6AA5FD00A7097D /* MXRoomSummary+Riot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MXRoomSummary+Riot.m"; sourceTree = "<group>"; };
@@ -4058,7 +4058,7 @@
 		F094A9A31B78D8F000B1FBBF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F094A9A21B78D8F000B1FBBF /* Riot.app */,
+				F094A9A21B78D8F000B1FBBF /* Riot-Dev.app */,
 				F094A9BE1B78D8F000B1FBBF /* RiotTests.xctest */,
 				24CBEC4E1F0EAD310093EABB /* RiotShareExtension.appex */,
 				92726A431F58737A004AD26F /* SiriIntents.appex */,
@@ -4145,7 +4145,7 @@
 			);
 			name = Riot;
 			productName = Vector;
-			productReference = F094A9A21B78D8F000B1FBBF /* Riot.app */;
+			productReference = F094A9A21B78D8F000B1FBBF /* Riot-Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F094A9BD1B78D8F000B1FBBF /* RiotTests */ = {
@@ -5925,15 +5925,17 @@
 				);
 				INFOPLIST_FILE = Riot/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_MAP_FILE_PATH = "$(TARGET_TEMP_DIR)/$(TARGET_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE = "16dd2361-9d36-450a-b8fc-d93a1c5fca60";
 				PROVISIONING_PROFILE_SPECIFIER = "Riot App Developer";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PRODUCT_NAME)/SupportingFiles/Riot-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5972,15 +5974,17 @@
 				);
 				INFOPLIST_FILE = Riot/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_MAP_FILE_PATH = "$(TARGET_TEMP_DIR)/$(TARGET_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE = "16dd2361-9d36-450a-b8fc-d93a1c5fca60";
 				PROVISIONING_PROFILE_SPECIFIER = "CK-Riot App Distr";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PRODUCT_NAME)/SupportingFiles/Riot-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
