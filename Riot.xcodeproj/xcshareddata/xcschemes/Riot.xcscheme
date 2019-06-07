@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F094A9A11B78D8F000B1FBBF"
-               BuildableName = "Riot.app"
+               BuildableName = "Riot-Dev.app"
                BlueprintName = "Riot"
                ReferencedContainer = "container:Riot.xcodeproj">
             </BuildableReference>
@@ -47,7 +47,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F094A9A11B78D8F000B1FBBF"
-            BuildableName = "Riot.app"
+            BuildableName = "Riot-Dev.app"
             BlueprintName = "Riot"
             ReferencedContainer = "container:Riot.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F094A9A11B78D8F000B1FBBF"
-            BuildableName = "Riot.app"
+            BuildableName = "Riot-Dev.app"
             BlueprintName = "Riot"
             ReferencedContainer = "container:Riot.xcodeproj">
          </BuildableReference>
@@ -89,7 +89,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F094A9A11B78D8F000B1FBBF"
-            BuildableName = "Riot.app"
+            BuildableName = "Riot-Dev.app"
             BlueprintName = "Riot"
             ReferencedContainer = "container:Riot.xcodeproj">
          </BuildableReference>

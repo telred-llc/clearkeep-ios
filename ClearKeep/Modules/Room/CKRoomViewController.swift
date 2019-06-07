@@ -19,7 +19,9 @@ import MatrixKit
     @IBOutlet weak var mentionListTableView: UITableView!
     @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var invitationController: CKRoomInvitationController!
-        
+    
+    @IBOutlet weak var activityCHeight: NSLayoutConstraint!
+    
     // MARK: - Constants
     
     private let kShowRoomSearchSegue = "showRoomSearch"
@@ -1054,7 +1056,7 @@ extension CKRoomViewController {
         }
     }
     
-    func refreshTypingNotification() {
+    func refreshTypingNotification() -> Bool {
         if self.activitiesView.isKind(of: RoomActivitiesView.self) {
             // Prepare here typing notification
             var text: String? = nil
@@ -1090,7 +1092,9 @@ extension CKRoomViewController {
             }
 
             (activitiesView as? RoomActivitiesView)?.displayTypingNotification(text)
+            return (text ?? "").count != 0
         }
+        return false
     }
     
     // MARK: Unreachable Network Handling
@@ -1098,9 +1102,13 @@ extension CKRoomViewController {
     func refreshActivitiesViewDisplay() {
         // TODO: implement
         
+        self.roomActivitiesContainer?.isHidden = false
+        
         if self.activitiesView == nil {
             return
         }
+        
+        var shallRVshowing = false
         
         if self.activitiesView.isKind(of: RoomActivitiesView.self) {
             
@@ -1116,6 +1124,7 @@ extension CKRoomViewController {
             let jitsiWidget = customizedRoomDataSource?.jitsiWidget()
 
             if (roomDataSource?.mxSession?.syncError?.errcode == kMXErrCodeStringResourceLimitExceeded) {
+                shallRVshowing = true
                 roomActivitiesView.showResourceLimitExceededError(roomDataSource?.mxSession?.syncError?.userInfo, onAdminContactTapped: { adminContact in
                     if let adminContact = adminContact {
                         if UIApplication.shared.canOpenURL(adminContact) {
@@ -1127,6 +1136,7 @@ extension CKRoomViewController {
                 })
             }
             else if AppDelegate.the()?.isOffline == true {
+                shallRVshowing = true
                 roomActivitiesView.displayNetworkErrorNotification(NSLocalizedString("room_offline_notification", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""))
             } else if customizedRoomDataSource?.roomState?.isObsolete == true {
                 if let replacementRoomId = customizedRoomDataSource?.roomState.tombStoneContent.replacementRoomId {
@@ -1142,9 +1152,10 @@ extension CKRoomViewController {
                 let callInRoom: MXCall? = roomDataSource?.mxSession?.callManager?.call(inRoom: roomDataSource.roomId)
                 if callInRoom != nil, let state = callInRoom?.state, state != MXCallState.ended {
                     if checkUnsentMessages() == false {
-                         refreshTypingNotification()
+                        shallRVshowing = refreshTypingNotification()
                     }
                 } else {
+                    shallRVshowing = true
                     roomActivitiesView.displayOngoingConferenceCall({ video in
 
                         print("[RoomVC] onOngoingConferenceCallPressed")
@@ -1163,9 +1174,10 @@ extension CKRoomViewController {
                 // Show it in the banner if the user is not already in
                 if AppDelegate.the().jitsiViewController?.widget?.widgetId == jitsiWidget.widgetId {
                     if checkUnsentMessages() == false {
-                         refreshTypingNotification()
+                        shallRVshowing = refreshTypingNotification()
                     }
                 } else {
+                    shallRVshowing = true
                     roomActivitiesView.displayOngoingConferenceCall({ (video) in
                         print("[RoomVC] onOngoingConferenceCallPressed (jitsi)")
 
@@ -1217,14 +1229,16 @@ extension CKRoomViewController {
                         // Refresh the typing notification here
                         // We will keep visible this notification (if any) beside the "scroll to bottom" icon.
                         
-                         refreshTypingNotification()
+                        shallRVshowing = refreshTypingNotification()
                     }
 
+                    shallRVshowing = (unreadCount != 0)
                     roomActivitiesView.displayScroll(toBottomIcon: unreadCount, onIconTapGesture: {
                         self.goBackToLive()
                     })
                 }
                 else if let usageLimit = serverNotices?.usageLimit, usageLimit.isServerNoticeUsageLimit {
+                    shallRVshowing = true
                     roomActivitiesView.showResourceUsageLimitNotice(usageLimit, onAdminContactTapped: { adminContact in
 
                         if let adminContact = adminContact {
@@ -1238,7 +1252,7 @@ extension CKRoomViewController {
                 }
                 else
                 {
-                     refreshTypingNotification()
+                    shallRVshowing = refreshTypingNotification()
                 }
             }
             
@@ -1247,6 +1261,14 @@ extension CKRoomViewController {
             swipe.numberOfTouchesRequired = 1
             swipe.direction = .down
             roomActivitiesView.addGestureRecognizer(swipe)
+                        
+            if shallRVshowing {
+                roomActivitiesView.isHidden = false
+                self.roomActivitiesContainerHeightConstraint.constant = roomActivitiesView.height
+            } else {
+                roomActivitiesView.isHidden = true
+                self.roomActivitiesContainerHeightConstraint.constant = 0
+            }
         }
     }
     
