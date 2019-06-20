@@ -294,6 +294,11 @@ extension CKRoomViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.refreshRoomNavigationBar()
         }
+        
+        // trust all devices
+        DispatchQueue.main.async {
+            self.trustAllMember()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -956,6 +961,17 @@ extension CKRoomViewController {
         
         // refresh call button
         refreshRoomNavigationBar()
+    }
+    
+    private func trustAllMember() {
+        var userIds = [String]()
+        for user in roomDataSource.roomState?.members.members ?? [] {
+            userIds.append(user.userId)
+        }
+        mainSession.crypto.downloadKeys(userIds, forceDownload: true
+            , success: { (deviceInfor) in
+                self.mainSession.crypto.setDevicesKnown(deviceInfor, complete: nil)
+        }, failure: nil)
     }
     
     // MARK: - Widget notifications management
@@ -1941,7 +1957,7 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             
             var roomMembers: [MXRoomMember] = self.roomDataSource?.roomState.members.members ?? []
             if let mentionText = mentionText,
-                mentionText.count > 0 {                
+                mentionText.count > 0 {
                 roomMembers = self.roomDataSource?.roomState.members.members.filter({ $0.displayname?.lowercased().contains(mentionText.lowercased()) == true }) ?? []
             }
             
