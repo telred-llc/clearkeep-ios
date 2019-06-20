@@ -1941,8 +1941,8 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             
             var roomMembers: [MXRoomMember] = self.roomDataSource?.roomState.members.members ?? []
             if let mentionText = mentionText,
-                mentionText.count > 0 {
-                roomMembers = self.roomDataSource?.roomState.members.members.filter({ $0.displayname?.contains(mentionText) == true }) ?? []
+                mentionText.count > 0 {                
+                roomMembers = self.roomDataSource?.roomState.members.members.filter({ $0.displayname?.lowercased().contains(mentionText.lowercased()) == true }) ?? []
             }
             
             if roomMembers.count > 0 {
