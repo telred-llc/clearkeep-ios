@@ -18,6 +18,7 @@ final class CKSettingsViewController: MXKViewController {
         case calls
         case report
         case security
+        case darkmode
         case terms
         case privacyPolicy
         case copyright
@@ -54,7 +55,7 @@ final class CKSettingsViewController: MXKViewController {
     
     private func setupInitization() {
         // Init datasource
-        tblDatasource = [[.profile], [.notification, .calls, .report], [.security], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
+        tblDatasource = [[.profile], [.notification, .calls, .report], [.security], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
         setupTableView()
     }
 }
@@ -63,6 +64,7 @@ final class CKSettingsViewController: MXKViewController {
 
 private extension CKSettingsViewController {
     func setupTableView() {
+        tableView.register(UINib.init(nibName: "CKSettingDarkModeCell", bundle: Bundle.init(for: CKSettingDarkModeCell.self)), forCellReuseIdentifier: "CKSettingDarkModeCell")
         tableView.register(UINib.init(nibName: "CKSettingsGroupedItemCell", bundle: Bundle.init(for: CKSettingsGroupedItemCell.self)), forCellReuseIdentifier: "CKSettingsGroupedItemCell")
         tableView.register(UINib.init(nibName: "CKSettingButtonCell", bundle: Bundle.init(for: CKSettingButtonCell.self)), forCellReuseIdentifier: "CKSettingButtonCell")
         
@@ -92,6 +94,13 @@ private extension CKSettingsViewController {
             break
         }
         
+        return cell
+    }
+    
+    func cellForDarkMode(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingDarkModeCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingDarkModeCell", for: indexPath) as! CKSettingDarkModeCell
+        cell.titleLabel.text = "Dark Mode"
+        cell.iconImageView.image = #imageLiteral(resourceName: "ic_darkmode_setting")
         return cell
     }
     
@@ -213,6 +222,8 @@ extension CKSettingsViewController: UITableViewDataSource {
         switch cellType {
         case .deactivateAccount, .markAllMessageAsRead, .clearCache:
             return cellForButton(tableView, indexPath: indexPath)
+        case .darkmode:
+            return cellForDarkMode(tableView, indexPath: indexPath)
         default:
             return cellForNormalItems(tableView, indexPath: indexPath)
         }
@@ -273,6 +284,9 @@ extension CKSettingsViewController: UITableViewDelegate {
             if let cell = tableView.cellForRow(at: indexPath) {
                 self.clearCache(cell: cell)
             }
+        case .darkmode:
+            // TODO
+            let vc = CKReportSettingViewController.instance()
         }
     }
     

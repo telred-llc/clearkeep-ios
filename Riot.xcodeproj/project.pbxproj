@@ -1031,6 +1031,10 @@
 		E5E7DD3B229BC7D300AB7CF3 /* SiriIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 92726A431F58737A004AD26F /* SiriIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E5E7DD43229BC8D800AB7CF3 /* Riot-Prod-Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = E5E7DD42229BC8D800AB7CF3 /* Riot-Prod-Defaults.plist */; };
 		E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E9062A21523EDC00155DD5 /* AuthWebViewController.m */; };
+		E5FB45E722BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FB45E622BB2CE7008C93E6 /* CKSettingDarkModeCell.swift */; };
+		E5FB45E822BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FB45E622BB2CE7008C93E6 /* CKSettingDarkModeCell.swift */; };
+		E5FB45EA22BB2CF3008C93E6 /* CKSettingDarkModeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5FB45E922BB2CF3008C93E6 /* CKSettingDarkModeCell.xib */; };
+		E5FB45EB22BB2CF3008C93E6 /* CKSettingDarkModeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5FB45E922BB2CF3008C93E6 /* CKSettingDarkModeCell.xib */; };
 		F05927C91FDED836009F2A68 /* MXGroup+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = F05927C71FDED835009F2A68 /* MXGroup+Riot.m */; };
 		F083BD1E1E7009ED00A9B29C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BB0D1E7009EC00A9B29C /* AppDelegate.m */; };
 		F083BDE61E7009ED00A9B29C /* busy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F083BBDB1E7009EC00A9B29C /* busy.mp3 */; };
@@ -1808,6 +1812,8 @@
 		E5E7DD42229BC8D800AB7CF3 /* Riot-Prod-Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Riot-Prod-Defaults.plist"; sourceTree = "<group>"; };
 		E5E9062921523EDC00155DD5 /* AuthWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthWebViewController.h; sourceTree = "<group>"; };
 		E5E9062A21523EDC00155DD5 /* AuthWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthWebViewController.m; sourceTree = "<group>"; };
+		E5FB45E622BB2CE7008C93E6 /* CKSettingDarkModeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSettingDarkModeCell.swift; sourceTree = "<group>"; };
+		E5FB45E922BB2CF3008C93E6 /* CKSettingDarkModeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKSettingDarkModeCell.xib; sourceTree = "<group>"; };
 		EDB6B525D50A54A4E1489397 /* Pods-RiotPods-Riot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-Riot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-Riot/Pods-RiotPods-Riot.debug.xcconfig"; sourceTree = "<group>"; };
 		EE8AD7EF51758CA3EFD23BE1 /* Pods-RiotPods-SiriIntents.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-SiriIntents.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-SiriIntents/Pods-RiotPods-SiriIntents.release.xcconfig"; sourceTree = "<group>"; };
 		F05927C71FDED835009F2A68 /* MXGroup+Riot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MXGroup+Riot.m"; sourceTree = "<group>"; };
@@ -1987,6 +1993,8 @@
 				8511E1622231029B0059ABC0 /* CKSettingToggleItemTableViewCell.xib */,
 				8542618422316D9200F24395 /* CKSettingButtonCell.swift */,
 				8542618522316D9200F24395 /* CKSettingButtonCell.xib */,
+				E5FB45E622BB2CE7008C93E6 /* CKSettingDarkModeCell.swift */,
+				E5FB45E922BB2CF3008C93E6 /* CKSettingDarkModeCell.xib */,
 			);
 			path = CommonViews;
 			sourceTree = "<group>";
@@ -4297,6 +4305,7 @@
 				E5E7DC83229BC7D300AB7CF3 /* CKRecentItemTableViewCell.xib in Resources */,
 				E5E7DC84229BC7D300AB7CF3 /* CKRoomSettingsGalleryViewCell.xib in Resources */,
 				E5E7DC85229BC7D300AB7CF3 /* Localizable.strings in Resources */,
+				E5FB45EB22BB2CF3008C93E6 /* CKSettingDarkModeCell.xib in Resources */,
 				E5E7DC86229BC7D300AB7CF3 /* SharedImages.xcassets in Resources */,
 				E5E7DC87229BC7D300AB7CF3 /* InfoPlist.strings in Resources */,
 				E5E7DC88229BC7D300AB7CF3 /* AuthInputsView.xib in Resources */,
@@ -4649,6 +4658,7 @@
 				E5E27FE521F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib in Resources */,
 				B1B5595320EF9A8700210D55 /* RecentTableViewCell.xib in Resources */,
 				E5E27FDD21F6CB5E00532610 /* CKRoomAddingSearchCell.xib in Resources */,
+				E5FB45EA22BB2CF3008C93E6 /* CKSettingDarkModeCell.xib in Resources */,
 				B1B557AD20EF5A6D00210D55 /* DeviceView.xib in Resources */,
 				B1B5573920EE6C4D00210D55 /* GroupRoomsViewController.xib in Resources */,
 				853E996721E4986100D005F4 /* SFCompactDisplay-Thin.ttf in Resources */,
@@ -5123,6 +5133,7 @@
 				E5E7DC3B229BC7D300AB7CF3 /* WidgetPickerViewController.m in Sources */,
 				E5E7DC3C229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				E5E7DC3D229BC7D300AB7CF3 /* IntegrationManagerViewController.m in Sources */,
+				E5FB45E822BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */,
 				E5E7DC3E229BC7D300AB7CF3 /* CKSignoutButtonTableViewCell.swift in Sources */,
 				E5E7DC3F229BC7D300AB7CF3 /* DeviceView.m in Sources */,
 				E5E7DC40229BC7D300AB7CF3 /* CKRoomDirectCreatingSearchCell.swift in Sources */,
@@ -5422,6 +5433,7 @@
 				B1B5577020EE702800210D55 /* WidgetPickerViewController.m in Sources */,
 				B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				B1B5576F20EE702800210D55 /* IntegrationManagerViewController.m in Sources */,
+				E5FB45E722BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */,
 				853CBDF02232788000404DBC /* CKSignoutButtonTableViewCell.swift in Sources */,
 				B1B557AC20EF5A6D00210D55 /* DeviceView.m in Sources */,
 				E5E27FE421F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift in Sources */,
