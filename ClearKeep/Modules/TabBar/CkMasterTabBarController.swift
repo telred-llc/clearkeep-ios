@@ -21,10 +21,16 @@ final public class CkMasterTabBarController: MasterTabBarController {
     let kHomeContactIndex   = 2
     
     var missedCount: UInt = 0
-    
+    let disposeBag = DisposeBag()
+
+    override public var preferredStatusBarStyle: UIStatusBarStyle {
+        return themeService.attrs.statusBarStyle
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupNavigationBar()
+        bindingTheme()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -85,11 +91,23 @@ final public class CkMasterTabBarController: MasterTabBarController {
         placeholderSearchBar.placeholder = NSLocalizedString("search_default_placeholder", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
         placeholderSearchBar.setShowsCancelButton(false, animated: false)
         placeholderSearchBar.delegate = self
-        
+
         let searchBarContainer = CKSearchBarContainerView(customSearchBar: placeholderSearchBar)
         searchBarContainer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
         navigationItem.titleView = searchBarContainer
     }
+
+    private func bindingTheme() {
+        self.tabBar.isTranslucent = false
+        self.tabBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
+
+        // Binding navigation bar color
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
+
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.placeholderSearchBar.setTextFieldColor(color: theme.searchBarBgColor)
+            self?.setNeedsStatusBarAppearanceUpdate()
+        }).disposed(by: disposeBag)
+    }
 }
-
-

@@ -31,6 +31,8 @@ final class CKContactListMatrixCell: CKContactListBaseCell {
         self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor
         self.statusView.layer.borderWidth = 2
+
+        self.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
     }
     
     // MARK: - PRIVATE

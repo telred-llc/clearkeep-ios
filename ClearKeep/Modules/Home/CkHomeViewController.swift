@@ -32,6 +32,7 @@ final class CkHomeViewController: MXKViewController {
     let pagingViewController = PagingViewController<CKPagingIndexItem>.init()
     var recentsDataSource: RecentsDataSource?
     var missedDiscussionsCount: Int = 0
+    let disposeBag = DisposeBag()
     
     // MARK: LifeCycle
     
@@ -42,6 +43,7 @@ final class CkHomeViewController: MXKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPageViewController()
+        bindingTheme()
         
         // Listen to the user info did changed
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil)
@@ -64,7 +66,11 @@ final class CkHomeViewController: MXKViewController {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
     }
-    
+
+    func bindingTheme() {
+        pagingViewController.collectionView.theme.backgroundColor = themeService.attrStream{$0.primaryBgColor}
+    }
+
     func setupPageViewController() {
         pagingViewController.dataSource = self
         pagingViewController.indicatorClass = PagingIndicatorView.self
@@ -73,7 +79,6 @@ final class CkHomeViewController: MXKViewController {
         // setup UI
         pagingViewController.indicatorOptions    = PagingIndicatorOptions.visible(height: 0.75, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
         pagingViewController.indicatorColor      = CKColor.Misc.primaryGreenColor
-        pagingViewController.menuBackgroundColor = CKColor.Background.navigationBar
         pagingViewController.textColor           = CKColor.Text.lightGray
         pagingViewController.selectedTextColor   = CKColor.Misc.primaryGreenColor
         
@@ -100,7 +105,11 @@ final class CkHomeViewController: MXKViewController {
         setupLeftMenu(navigationItem: masterTabbar.navigationItem)
         
         // setup right menu
-        setupRightMenu(navigationItem: masterTabbar.navigationItem)        
+        setupRightMenu(navigationItem: masterTabbar.navigationItem)
+
+        // Binding navigation bar color
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
     }
     
     func setupLeftMenu(navigationItem: UINavigationItem) {

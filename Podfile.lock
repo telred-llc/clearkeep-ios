@@ -93,6 +93,12 @@ PODS:
     - Reusable/View (= 4.1.0)
   - Reusable/Storyboard (4.1.0)
   - Reusable/View (4.1.0)
+  - RxCocoa (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxSwift (4.5.0)
+  - RxTheme (3.3.0):
+    - RxCocoa (>= 4.4.2, ~> 4.4)
+    - RxSwift (>= 4.4.2, ~> 4.4)
   - SwiftImagePicker (0.7.6)
   - XLActionController (4.0.1):
     - XLActionController/Core (= 4.0.1)
@@ -114,6 +120,7 @@ DEPENDENCIES:
   - PiwikTracker (from `https://github.com/manuroe/matomo-sdk-ios.git`, branch `feature/CustomVariables`)
   - PromiseKit
   - Reusable (~> 4.0)
+  - RxTheme (~> 3.0)
   - SwiftImagePicker (from `https://github.com/sinbadflyce/image-picker.git`)
   - XLActionController (= 4.0.1)
   - XLActionController/Youtube
@@ -138,6 +145,9 @@ SPEC REPOS:
     - PromiseKit
     - Realm
     - Reusable
+    - RxCocoa
+    - RxSwift
+    - RxTheme
     - XLActionController
 
 EXTERNAL SOURCES:
@@ -182,9 +192,12 @@ SPEC CHECKSUMS:
   PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
   Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
   Reusable: 82be188f29d96dc5eff0db7b2393bcc08d2cdd5b
+  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
+  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
+  RxTheme: 40fdcdeba539402beface070d8472e8d0db78d66
   SwiftImagePicker: cf0e1cde2920540e44ef4f9300f8572e9565f122
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: 506997aa2d530296360349e6b2179fb4c06c90a6
+PODFILE CHECKSUM: 25f18ebd8418c5367a150ae7da3bd4c786a8fdf0
 
 COCOAPODS: 1.6.1

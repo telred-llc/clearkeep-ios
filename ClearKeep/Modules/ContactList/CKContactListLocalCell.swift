@@ -24,6 +24,12 @@ final class CKContactListLocalCell: CKContactListBaseCell {
         
         self.displayNameLabel.backgroundColor = UIColor.clear
         self.emailLabel.backgroundColor = UIColor.clear
+
+        self.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        self.emailLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
+
+        self.inviteLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        self.inviteLabel.layer.theme.borderColor = themeService.attrStream{ $0.primaryTextColor.cgColor }
     }
     
     // MARK: - PUBLIC
@@ -38,7 +44,6 @@ final class CKContactListLocalCell: CKContactListBaseCell {
         
         self.inviteLabel.layer.cornerRadius = 4
         self.inviteLabel.layer.borderWidth = 1
-        self.inviteLabel.layer.borderColor = UIColor.black.cgColor
     }
     
     func setup(_ contact: MXKContact!) {

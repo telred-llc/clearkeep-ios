@@ -20,5 +20,6 @@ final class CKRecentItemFirstFavouriteCell: CKBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.titleLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
     }    
 }

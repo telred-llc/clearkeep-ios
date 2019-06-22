@@ -5,6 +5,7 @@
 @import MatrixSDK;
 @import MatrixKit;
 @import SwiftImagePicker;
+@import RxSwift;
 
 #import "WebViewViewController.h"
 

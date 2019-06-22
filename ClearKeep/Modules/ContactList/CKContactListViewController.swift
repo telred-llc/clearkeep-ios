@@ -46,7 +46,9 @@ final class CKContactListViewController: MXKViewController {
      */
     private var filteredLocalSource: [MXKContact]!
     private var filteredMatrixSource: [MXKContact]!
-    
+
+    private var disposeBag = DisposeBag()
+
     // MARK: - CLASS
     
     public class func nib() -> UINib? {
@@ -59,7 +61,7 @@ final class CKContactListViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+
         // load from xib
         if let nib = CKContactListViewController.nib() {
             nib.instantiate(withOwner: self, options: nil)
@@ -70,7 +72,8 @@ final class CKContactListViewController: MXKViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        bindingTheme()
+
         // Check whether the access to the local contacts has not been already asked.
         if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
             MXKAppSettings.standard()?.syncLocalContacts = true
@@ -101,7 +104,20 @@ final class CKContactListViewController: MXKViewController {
 // MARK: - PRIVATE
 
 extension CKContactListViewController {
-    
+
+    func bindingTheme() {
+        // Dispose
+        disposeBag = DisposeBag()
+
+        // Binding navigation bar color
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     /**
      Get a title for the header
      */
@@ -360,34 +376,35 @@ extension CKContactListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
             view.descriptionLabel.text = self.titleForHeader(atSection: section)
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
             return view
         }
         return UIView()
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UILabel()
-        view.backgroundColor = CKColor.Background.tableView
-        return view
+        return nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let s = Section(rawValue: section) else { return 1}
         switch s {
         case .search:
-            return CKLayoutSize.Table.header1px
+            return CGFloat.leastNonzeroMagnitude
         default:
             return CKLayoutSize.Table.defaultHeader
         }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.footer1px
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
         guard let s = Section(rawValue: indexPath.section) else { return}
         switch s {
         case .local:

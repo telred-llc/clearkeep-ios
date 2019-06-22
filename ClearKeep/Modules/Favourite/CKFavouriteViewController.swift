@@ -34,6 +34,10 @@ class CKFavouriteViewController: CKRecentListViewController {
         
         // Observe server sync at room data source level too
         NotificationCenter.default.addObserver(self, selector: #selector(onMatrixSessionChange), name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
+
+        // Binding navigation bar color
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
