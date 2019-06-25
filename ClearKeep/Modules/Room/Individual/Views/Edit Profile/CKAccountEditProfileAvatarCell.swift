@@ -16,7 +16,9 @@ class CKAccountEditProfileAvatarCell: CKAccountEditProfileBaseCell, UITextFieldD
     @IBOutlet weak var avaImage: CKImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var cameraButton: UIButton!
-    
+    @IBOutlet weak var displayNameTitleLabel: UILabel!
+    @IBOutlet weak var textInputContainerView: UIView!
+
     // MARK: - PROPERTY
     
     /**

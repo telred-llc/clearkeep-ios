@@ -20,6 +20,8 @@ class CKSignoutButtonTableViewCell: CKBaseCell {
         signOutButton.layer.cornerRadius = 3
         signOutButton.layer.borderWidth = 1
         signOutButton.layer.borderColor = CKColor.Misc.primaryGreenColor.cgColor
+
+        self.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
     }
 
     @IBAction func clickedOnSignOutButton(_ sender: Any) {

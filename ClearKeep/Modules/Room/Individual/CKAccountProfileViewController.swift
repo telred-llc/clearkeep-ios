@@ -44,6 +44,8 @@ class CKAccountProfileViewController: MXKViewController {
     private var accountUserInfoObserver: Any?
     private var pushInfoUpdateObserver: Any?
 
+    private let disposeBag = DisposeBag()
+
     /**
      When you want this controller always behavior a presenting controller, set true it
      */
@@ -87,6 +89,8 @@ class CKAccountProfileViewController: MXKViewController {
             // set nv items
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
+
+        bindingTheme()
     }
     
     @objc func clickedOnBackButton(_ sender: Any?) {
@@ -144,7 +148,13 @@ class CKAccountProfileViewController: MXKViewController {
         self.tableView.register(CKSignoutButtonTableViewCell.nib, forCellReuseIdentifier: CKSignoutButtonTableViewCell.identifier)
         self.tableView.allowsSelection = false
     }
-    
+
+    func bindingTheme() {
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     private func getMyUser() -> MXMyUser? {
         let session = AppDelegate.the()?.mxSessions.first as? MXSession
         if let myUser = session?.myUser {
@@ -308,18 +318,18 @@ extension CKAccountProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.backgroundColor = UIColor.white
+        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.backgroundColor = UIColor.white
+        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

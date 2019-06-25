@@ -47,8 +47,6 @@ class CKRecentListViewController: MXKViewController {
     }
 
     func bindingTheme() {
-        // Update background Theme
-
         themeService.rx
             .bind({ $0.secondBgColor }, to: recentTableView.rx.backgroundColor)
             .disposed(by: disposeBag)

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -66,13 +66,15 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="newCallButton" destination="Ujs-NO-p43" id="gBP-7a-kSU"/>
+                <outlet property="newCallLabel" destination="orP-W2-xIq" id="nx2-hf-v0J"/>
                 <outlet property="newGroupButton" destination="vN2-vg-win" id="hhI-59-KAt"/>
+                <outlet property="newRoomLabel" destination="5Rk-vg-EMM" id="ykg-QN-DH0"/>
             </connections>
             <point key="canvasLocation" x="55.200000000000003" y="48.575712143928037"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_new_call" width="40" height="40"/>
-        <image name="ic_new_group" width="40" height="40"/>
+        <image name="ic_new_call" width="30" height="30"/>
+        <image name="ic_new_group" width="30" height="30"/>
     </resources>
 </document>

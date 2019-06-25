@@ -44,7 +44,12 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
      Use this property to pursue a registration from the next_link sent in an email validation email.
      */
     @objc public var externalRegistrationParameters: NSDictionary!
-    
+
+    /**
+     DisposeBag
+     */
+    private let disposeBag = DisposeBag()
+
     /**
      finalize initial
      */
@@ -59,6 +64,8 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
             self.signupButton.layer.borderWidth = 1
             self.signupButton.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         }
+
+        bindingTheme()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -66,9 +73,17 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidDisappear(animated)
     }
-        
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+    }
+
     @IBAction func onSignIn() {
         self.delegate?.authentication(self, requestAction: "login")
         

@@ -14,5 +14,6 @@ class CKSettingButtonCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
     }
 }

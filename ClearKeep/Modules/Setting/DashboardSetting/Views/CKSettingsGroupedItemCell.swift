@@ -20,5 +20,7 @@ class CKSettingsGroupedItemCell: MXKTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.accessoryType = .disclosureIndicator
+        self.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        self.titleLabel.theme.textColor = themeService.attrStream { $0.primaryTextColor }
     }
 }

@@ -37,14 +37,20 @@ extension UIViewController {
 
 extension MXKViewController {
 
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        return themeService.attrs.statusBarStyle
+    }
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.rageShakeManager = RageShakeManager.sharedManager() as? MXKResponderRageShaking
-        if self.defaultBarTintColor == nil {
-            self.defaultBarTintColor = themeService.attrs.primaryBgColor
-        }
     }
-   
+    
     // MARK: - CLASS VAR
     
     /**

@@ -10,6 +10,14 @@ import Foundation
 @objc extension AppDelegate {
     
     public func useCkStoryboard(_ application: UIApplication) {
+        // get theme
+        let isDarkMode = UserDefaults.standard.bool(forKey: kDarkThemeTypeIdentifier)
+        if isDarkMode {
+            themeService.switch(.dark)
+        } else {
+            themeService.switch(.dark)
+        }
+
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
         let storyboard = UIStoryboard(name: "MainEx", bundle: nil)        
@@ -19,7 +27,7 @@ import Foundation
         self.window?.rootViewController = initialViewController
         self.window?.makeKeyAndVisible()
     }
-    
+
     public func inviteChat(_ contact: MXKContact?, completion: ((Bool) -> Void)? ) {
         
         // is contact live?

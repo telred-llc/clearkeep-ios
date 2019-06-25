@@ -31,7 +31,9 @@ final class CKRoomCallCreatingViewController: MXKViewController {
      A filtered data source that contains mx contacts
      */
     private var filteredDataSource = [CKContactInternal]()
-    
+
+    private let disposeBag = DisposeBag()
+
     /**
      Room object
      */
@@ -61,10 +63,23 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         
         // assign right button
         self.navigationItem.rightBarButtonItem = rightItemButton
+        bindingTheme()
     }
     
     // MARK: - PRIVATE
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     /**
      Reloading data source
      */
@@ -134,7 +149,9 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                 }
             })
         }
-        
+
+        cell.backgroundColor = UIColor.clear
+
         return cell
     }
     
@@ -148,6 +165,10 @@ final class CKRoomCallCreatingViewController: MXKViewController {
             cell.displayNameLabel.text = (d.mxContact.displayName != nil) ? d.mxContact.displayName : ((d.mxContact.emailAddresses.first) as! MXKEmail).emailAddress
             cell.isChecked = d.isSelected
             cell.changesBy(mxContact: d.mxContact, inSession: self.mainSession)
+
+            cell.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
             return cell
         }
         return CKRoomAddingMembersCell()
@@ -362,6 +383,8 @@ extension CKRoomCallCreatingViewController: UITableViewDelegate {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.backgroundColor = CKColor.Background.tableView
             view.descriptionLabel.text = self.titleForHeader(atSection: section)
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             return view
         }
         return UIView()
@@ -377,14 +400,14 @@ extension CKRoomCallCreatingViewController: UITableViewDelegate {
         guard let s = Section(rawValue: section) else { return 1}
         switch s {
         case .search:
-            return CKLayoutSize.Table.header1px
+            return CGFloat.leastNonzeroMagnitude
         default:
             return CKLayoutSize.Table.defaultHeader
         }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.footer1px
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

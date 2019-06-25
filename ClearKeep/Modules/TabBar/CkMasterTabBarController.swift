@@ -101,11 +101,10 @@ final public class CkMasterTabBarController: MasterTabBarController {
         self.tabBar.isTranslucent = false
         self.tabBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
 
-        // Binding navigation bar color
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
-
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.navigationController?.navigationBar.isTranslucent = false
+            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.init(color: theme.primaryBgColor), for: .default)
+
             self?.placeholderSearchBar.setTextFieldColor(color: theme.searchBarBgColor)
             self?.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: disposeBag)

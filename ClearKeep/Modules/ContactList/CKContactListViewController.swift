@@ -58,10 +58,9 @@ final class CKContactListViewController: MXKViewController {
     }
     
     // MARK: - OVERRIDE
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
+    override func loadView() {
+        super.loadView()
         // load from xib
         if let nib = CKContactListViewController.nib() {
             nib.instantiate(withOwner: self, options: nil)
@@ -69,10 +68,14 @@ final class CKContactListViewController: MXKViewController {
             self.reloadData()
         }
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        bindingTheme()
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        bindingTheme()
 
         // Check whether the access to the local contacts has not been already asked.
         if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
@@ -106,16 +109,12 @@ final class CKContactListViewController: MXKViewController {
 extension CKContactListViewController {
 
     func bindingTheme() {
-        // Dispose
-        disposeBag = DisposeBag()
-
         // Binding navigation bar color
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
-
-        themeService.rx
-            .bind({ $0.secondBgColor }, to: tableView.rx.backgroundColor)
-            .disposed(by: disposeBag)
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView?.backgroundColor = theme.secondBgColor
+        }).disposed(by: disposeBag)
     }
 
     /**

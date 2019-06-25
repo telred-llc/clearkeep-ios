@@ -12,7 +12,8 @@ class CKEditProfileWithTextFieldTableViewCell: CKAccountEditProfileBaseCell, UIT
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var inputTextField: UITextField!
-    
+    @IBOutlet weak var inputTextFiedContainerView: UIView!
+
     // MARK: - OVERRIDE
     
     /**

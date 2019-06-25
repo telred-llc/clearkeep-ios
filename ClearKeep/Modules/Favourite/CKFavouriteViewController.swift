@@ -34,15 +34,21 @@ class CKFavouriteViewController: CKRecentListViewController {
         
         // Observe server sync at room data source level too
         NotificationCenter.default.addObserver(self, selector: #selector(onMatrixSessionChange), name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
-
-        // Binding navigation bar color
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
+    }
+
+    override func bindingTheme() {
+        super.bindingTheme()
+
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
     }
 
     @objc public func displayList(_ aRecentsDataSource: MXKRecentsDataSource!) {

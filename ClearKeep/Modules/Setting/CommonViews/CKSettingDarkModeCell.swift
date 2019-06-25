@@ -15,8 +15,17 @@ class CKSettingDarkModeCell: UITableViewCell {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
 
+    var disposeBag = DisposeBag()
+
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        self.titleLabel.theme.textColor = themeService.attrStream { $0.primaryTextColor }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
 }
