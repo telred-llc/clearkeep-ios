@@ -993,12 +993,11 @@ extension CKRoomViewController {
     
     private func trustAllMember() {
         var userIds = [String]()
-        for user in roomDataSource.roomState?.members.members ?? [] {
+        for user in self.roomDataSource?.roomState?.members?.members ?? [] {
             userIds.append(user.userId)
         }
-        mainSession.crypto.downloadKeys(userIds, forceDownload: true
-            , success: { (deviceInfor) in
-                self.mainSession.crypto.setDevicesKnown(deviceInfor, complete: nil)
+        self.mainSession?.crypto?.downloadKeys(userIds, forceDownload: true, success: { (deviceInfor) in
+            self.mainSession?.crypto?.setDevicesKnown(deviceInfor, complete: nil)
         }, failure: nil)
     }
     
