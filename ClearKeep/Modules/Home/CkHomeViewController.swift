@@ -165,13 +165,7 @@ final class CkHomeViewController: MXKViewController {
     }
     
     @objc func clickedOnLeftMenuItem() {
-        switch themeService.type {
-        case .light:
-            themeService.switch(.dark)
-        default:
-            themeService.switch(.light)
-        }
-//        self.showSettingViewController()
+        self.showSettingViewController()
     }
     
     @objc func clickedOnRightMenuItem() {
