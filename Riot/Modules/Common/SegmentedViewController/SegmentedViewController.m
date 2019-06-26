@@ -255,7 +255,8 @@
         [label setTranslatesAutoresizingMaskIntoConstraints:NO];
         
         // add the label before setting the constraints
-        self.selectionContainer.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
+        // CK: change selectionContainer's backgroundColor to clearColor
+        self.selectionContainer.backgroundColor = [UIColor clearColor];
         [self.selectionContainer addSubview:label];
     
         NSLayoutConstraint *leftConstraint;

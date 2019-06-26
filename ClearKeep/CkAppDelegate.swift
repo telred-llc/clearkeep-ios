@@ -11,11 +11,13 @@ import Foundation
     
     public func useCkStoryboard(_ application: UIApplication) {
         // get theme
-        let isDarkMode = UserDefaults.standard.bool(forKey: kDarkThemeTypeIdentifier)
+        let isDarkMode = RiotSettings.shared.userInterfaceTheme == ThemeType.dark.typeName
         if isDarkMode {
             themeService.switch(.dark)
+            RiotSettings.shared.userInterfaceTheme = ThemeType.dark.typeName
         } else {
-            themeService.switch(.dark)
+            themeService.switch(.light)
+            RiotSettings.shared.userInterfaceTheme = ThemeType.light.typeName
         }
 
         self.window = UIWindow(frame: UIScreen.main.bounds)

@@ -19,7 +19,6 @@ class CKRoomSettingsMoreSettingsCell: CKRoomSettingsBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        imageSettings.image = UIImage(named: "ic_room_settings")
         self.accessoryType = .disclosureIndicator
     }
 

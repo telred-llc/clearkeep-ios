@@ -115,7 +115,7 @@ private extension CKSettingsViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingDarkModeCell", for: indexPath) as! CKSettingDarkModeCell
         cell.titleLabel.text = "Dark Mode"
 
-        let isDarkMode = UserDefaults.standard.bool(forKey: kDarkThemeTypeIdentifier)
+        let isDarkMode = RiotSettings.shared.userInterfaceTheme == ThemeType.dark.typeName
         cell.switchView.isOn = isDarkMode
 
         cell.iconImageView.image = #imageLiteral(resourceName: "ic_darkmode_setting").withRenderingMode(.alwaysTemplate)
@@ -125,10 +125,10 @@ private extension CKSettingsViewController {
             switch themeService.type {
             case .light:
                 themeService.switch(.dark)
-                UserDefaults.standard.set(true, forKey: kDarkThemeTypeIdentifier)
+                RiotSettings.shared.userInterfaceTheme = ThemeType.dark.typeName
             case .dark:
                 themeService.switch(.light)
-                UserDefaults.standard.set(false, forKey: kDarkThemeTypeIdentifier)
+                RiotSettings.shared.userInterfaceTheme = ThemeType.light.typeName
             }
             UserDefaults.standard.synchronize()
         }).disposed(by: cell.disposeBag)

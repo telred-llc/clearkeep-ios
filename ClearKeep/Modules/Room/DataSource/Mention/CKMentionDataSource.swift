@@ -79,7 +79,9 @@ extension CKMentionDataSource: UITableViewDataSource {
             cell.usernameLabel.text = nil
             cell.avatarImageView.image = nil
         }
-        
+
+        cell.usernameLabel.textColor = themeService.attrs.primaryTextColor
+        cell.backgroundColor = themeService.attrs.primaryBgColor
         return cell
     }
 }

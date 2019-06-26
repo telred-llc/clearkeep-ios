@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -46,10 +46,10 @@
                             <rect key="frame" x="0.0" y="46" width="409" height="36"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dbl-Hp-MrJ">
-                                    <rect key="frame" x="10" y="7" width="14" height="22"/>
+                                    <rect key="frame" x="10" y="5.5" width="25" height="25"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="854-Uj-lZg">
-                                            <rect key="frame" x="0.0" y="0.0" width="14" height="22"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                             <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <state key="normal" image="ic_tagging"/>
                                             <connections>
@@ -59,17 +59,17 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="fYB-Ed-fG0">
-                                    <rect key="frame" x="306" y="2" width="88" height="32"/>
+                                    <rect key="frame" x="295" y="2" width="99" height="32"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXz-33-8LG">
-                                            <rect key="frame" x="0.0" y="0.0" width="14" height="32"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="25" height="32"/>
                                             <state key="normal" image="ic_send_image_disabled"/>
                                             <connections>
                                                 <action selector="clickedOnShareImageButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="nWA-2Z-xrp"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Itw-6f-HNS">
-                                            <rect key="frame" x="34" y="0.0" width="54" height="32"/>
+                                            <rect key="frame" x="45" y="0.0" width="54" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="Jh3-iG-RnF"/>
                                                 <constraint firstAttribute="width" constant="54" id="XZr-Q9-B9a"/>
@@ -97,7 +97,7 @@
                                     </subviews>
                                 </stackView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="fYB-Ed-fG0" secondAttribute="trailing" constant="15" id="1o9-E4-rge"/>
                                 <constraint firstItem="Dbl-Hp-MrJ" firstAttribute="centerY" secondItem="oL1-AL-sDn" secondAttribute="centerY" id="4gM-F9-DbP"/>
@@ -137,6 +137,7 @@
                 <outlet property="mainToolbarHeightConstraint" destination="Evd-ed-PWb" id="gGq-B7-x06"/>
                 <outlet property="mainToolbarMinHeightConstraint" destination="r16-oX-c59" id="fGx-Ma-MDM"/>
                 <outlet property="mainToolbarView" destination="g3d-as-ewc" id="gP2-mA-RMC"/>
+                <outlet property="mentionButton" destination="854-Uj-lZg" id="8wi-BK-fT4"/>
                 <outlet property="messageComposerContainer" destination="8Re-dA-XD0" id="8fB-Nb-2Dv"/>
                 <outlet property="messageComposerContainerBottomConstraint" destination="RDH-Z6-F87" id="izQ-dm-aoF"/>
                 <outlet property="messageComposerContainerTopConstraint" destination="rpB-BT-6lP" id="S4l-BE-2HM"/>
@@ -148,7 +149,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_send_image_disabled" width="14.399999618530273" height="14.399999618530273"/>
-        <image name="ic_tagging" width="14.399999618530273" height="14.399999618530273"/>
+        <image name="ic_send_image_disabled" width="25" height="25"/>
+        <image name="ic_tagging" width="25" height="25"/>
     </resources>
 </document>

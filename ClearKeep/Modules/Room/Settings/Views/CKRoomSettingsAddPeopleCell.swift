@@ -19,7 +19,6 @@ class CKRoomSettingsAddPeopleCell: CKRoomSettingsBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        imageAdd.image = UIImage(named: "ic_room_add_user")
         self.accessoryType = .disclosureIndicator
     }
 

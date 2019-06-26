@@ -22,5 +22,11 @@ extension UISearchBar {
             }
         }
     }
+
+    func setTextFieldTextColor(color: UIColor) {
+        if let textField = getViewElement(type: UITextField.self) {
+            textField.textColor = color
+        }
+    }
 }
 

@@ -149,7 +149,9 @@ final class CKRoomAddingMembersViewController: MXKViewController {
                 }
             })
         }
-        
+
+        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
+
         return cell
     }
     

@@ -62,7 +62,9 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     private var mxRoomState: MXRoomState! {
         return self.value(forKey: "mxRoomState") as? MXRoomState
     }    
-    
+
+    private let disposeBag = DisposeBag()
+
     // MARK: - CLASS
     
     public override class func nib() -> UINib? {
@@ -72,7 +74,20 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     }
     
     // MARK: - PRIVATE
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     private func setupTableView()  {
         
         self.tableView.register(CKRoomSettingsRoomNameCell.nib, forCellReuseIdentifier: CKRoomSettingsRoomNameCell.identifier)
@@ -85,9 +100,6 @@ protocol CKRoomSettingsViewControllerDelegate: class {
 
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.backgroundColor = CKColor.Background.tableView
-        self.view.backgroundColor = CKColor.Background.tableView
-        self.navigationItem.title = String.ck_LocalizedString(key: "Info")
         self.reloadTableView()
     }
     
@@ -106,6 +118,9 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             for: indexPath) as! CKRoomSettingsRoomNameCell
         
         cell.roomnameLabel.text = "#" + (self.mxRoom?.summary?.displayname ?? "unknown")
+        cell.roomnameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
         return cell
     }
     
@@ -124,7 +139,11 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             if pl >= kModeratorPemission { cell.enableEditTopic(true) }
             else { cell.enableEditTopic(false) }
         }
-        
+
+        cell.topicLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
+        cell.topicTextLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
         return cell
     }
 
@@ -132,7 +151,12 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsMembersCell.identifier ,
             for: indexPath) as! CKRoomSettingsMembersCell
-        
+
+        cell.imageMember.image = UIImage(named: "ic_room_members")?.withRenderingMode(.alwaysTemplate)
+        cell.imageMember.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.btnMembers.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
         return cell
     }
 
@@ -140,7 +164,12 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsFilesCell.identifier ,
             for: indexPath) as! CKRoomSettingsFilesCell
-        
+
+        cell.imageFiles.image = UIImage(named: "ic_room_file")?.withRenderingMode(.alwaysTemplate)
+        cell.imageFiles.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.btnFile.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
         return cell
     }
 
@@ -148,7 +177,12 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsMoreSettingsCell.identifier ,
             for: indexPath) as! CKRoomSettingsMoreSettingsCell
-        
+
+        cell.imageSettings.image = UIImage(named: "ic_room_settings")?.withRenderingMode(.alwaysTemplate)
+        cell.imageSettings.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.btnSetting.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
         return cell
     }
 
@@ -156,7 +190,12 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsAddPeopleCell.identifier ,
             for: indexPath) as! CKRoomSettingsAddPeopleCell
-        
+
+        cell.imageAdd.image = UIImage(named: "ic_room_add_user")?.withRenderingMode(.alwaysTemplate)
+        cell.imageAdd.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.btnAddUser.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
         return cell
     }
 
@@ -164,6 +203,12 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsLeaveCell.identifier ,
             for: indexPath) as! CKRoomSettingsLeaveCell
+
+        cell.iconImageView.image = UIImage(named: "ic_leave_room")?.withRenderingMode(.alwaysTemplate)
+        cell.iconImageView.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.leaveButton.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
         return cell
     }
     
@@ -187,9 +232,13 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         
         // fill cell
         cell.topicLabel.text = "Created by"
-        cell.topicTextLabel.textColor = CKColor.Text.darkGray
         cell.topicTextLabel.font = UIFont.systemFont(ofSize: 14)
         cell.topicTextLabel.text = "This room was created by " + (creator ?? "@unknown") + " on " + dateString
+
+        cell.topicLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
+        cell.topicTextLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
         return cell
 
     }
@@ -339,11 +388,13 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
 
+        self.bindingTheme()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.title = String.ck_LocalizedString(key: "Info")
+        self.title = String.ck_LocalizedString(key: "Info")
+        self.navigationController?.navigationBar.titleTextAttributes = themeService.attrs.navTitleTextAttributes
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -379,6 +430,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
                 cell.textLabel?.text = "Edit"
                 cell.textLabel?.textAlignment = NSTextAlignment.center
                 cell.textLabel?.textColor = CKColor.Misc.primaryGreenColor
+                cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
                 return cell
             }
         case .settings:
@@ -407,6 +459,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let v = CKRoomHeaderInSectionView.instance()
         v?.descriptionLabel.text = nil
+        v?.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         return v
     }
     
@@ -419,7 +472,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.footer1px
+        return CGFloat.leastNonzeroMagnitude
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -465,6 +518,10 @@ protocol CKRoomSettingsViewControllerDelegate: class {
                 }
             }
         }
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.contentView.backgroundColor = UIColor.clear
     }
     
     override func initWith(_ session: MXSession!, andRoomId roomId: String!) {

@@ -73,6 +73,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.primaryBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
@@ -151,6 +152,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         }
 
         cell.backgroundColor = UIColor.clear
+        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
 
         return cell
     }
@@ -160,7 +162,6 @@ final class CKRoomCallCreatingViewController: MXKViewController {
             withIdentifier: CKRoomAddingMembersCell.identifier, for: indexPath) as? CKRoomAddingMembersCell {
             
             let d = self.filteredDataSource[indexPath.row]
-            
             
             cell.displayNameLabel.text = (d.mxContact.displayName != nil) ? d.mxContact.displayName : ((d.mxContact.emailAddresses.first) as! MXKEmail).emailAddress
             cell.isChecked = d.isSelected

@@ -23,7 +23,8 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     @IBOutlet weak var mainToolbarView: UIView!
     @IBOutlet weak var separatorView: UIView!
     @IBOutlet weak var sendImageButton: UIButton!
-    
+    @IBOutlet weak var mentionButton: UIButton!
+
     // MARK: - Enums
     
     enum MessageContentType {
@@ -107,6 +108,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         shadowTextView.delegate = self
         maxNumberOfLines = 3
         typingMessage = .text(msg: nil)
+        mentionButton.setImage(UIImage.init(named: "ic_tagging")?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
     override class func nib() -> UINib? {
@@ -309,9 +311,9 @@ private extension CKRoomInputToolbarView {
     
     func updateSendImageButton(highlight: Bool) {
         if highlight {
-            sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_enabled"), for: .normal)
+            sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_enabled").withRenderingMode(.alwaysTemplate), for: .normal)
         } else {
-            sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_disabled"), for: .normal)
+            sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_disabled").withRenderingMode(.alwaysTemplate), for: .normal)
         }
     }
     

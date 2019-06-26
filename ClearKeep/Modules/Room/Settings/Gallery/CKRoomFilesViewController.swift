@@ -11,13 +11,12 @@ import MatrixKit
 
 final class CKRoomFilesViewController: MXKRoomViewController {
     
-    private var kRiotDesignValuesDidChangeThemeNotificationObserver: Any?
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBubblesTableView()
-        setNavigationBarTitle()
-        // Do any additional setup after loading the view.
+        bindingTheme()
     }
     
     override func finalizeInit() {
@@ -46,65 +45,45 @@ final class CKRoomFilesViewController: MXKRoomViewController {
             self.roomInputToolbarView(self.inputToolbarView, heightDidChanged: 0, completion: nil)
             self.view.layoutIfNeeded()
         }
-        
-        kRiotDesignValuesDidChangeThemeNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.riotDesignValuesDidChangeTheme, object: nil, queue: OperationQueue.main, using: { [weak self] notif in
-            if let weakSelf = self {
-                weakSelf.userInterfaceThemeDidChange()
-            }
-        })
-        
-        self.userInterfaceThemeDidChange()
     }
-    
-    func userInterfaceThemeDidChange() {
-        self.defaultBarTintColor = kRiotSecondaryBgColor
-        self.barTitleColor = kRiotPrimaryTextColor
-        self.activityIndicator.backgroundColor = kRiotOverlayColor
-        
-        // Check the table view style to select its bg color.
-        self.bubblesTableView.backgroundColor = self.bubblesTableView.style == .plain ? kRiotPrimaryBgColor : kRiotSecondaryBgColor
-        self.view.backgroundColor = self.bubblesTableView.backgroundColor
-        if self.bubblesTableView.dataSource != nil {
-            self.bubblesTableView.reloadData()
-        }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title = "Files"
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.delegate = nil
-        super.viewDidAppear(animated)
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-         return kRiotDesignStatusBarStyle
-    }
-    
-    override func destroy() {
-        if (kRiotDesignValuesDidChangeThemeNotificationObserver != nil) {
-            NotificationCenter.default.removeObserver(kRiotDesignValuesDidChangeThemeNotificationObserver!)
-            kRiotDesignValuesDidChangeThemeNotificationObserver = nil
-        }
-        super.destroy()
+        super.viewWillDisappear(animated)
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
         setNavBarButtons()
     }
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            if self?.bubblesTableView.dataSource != nil {
+                self?.bubblesTableView.reloadData()
+            }
+            self?.activityIndicator?.backgroundColor = themeService.attrs.overlayColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, bubblesTableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     private func setNavBarButtons() {
         let topViewController = self.parent ?? self
         topViewController.navigationItem.rightBarButtonItem = nil
         topViewController.navigationItem.leftBarButtonItem = nil
     }
-    
-    private func setNavigationBarTitle() {
-        let titleLabel = UILabel()
-        titleLabel.text = "Files"
-        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        titleLabel.sizeToFit()
-        self.navigationItem.titleView = titleLabel
-    }
-    
+
     // MARK: - MXKDataSourceDelegate
     
     override func cellViewClass(for cellData: MXKCellData!) -> MXKCellRendering.Type! {
@@ -149,5 +128,4 @@ final class CKRoomFilesViewController: MXKRoomViewController {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
-    
 }

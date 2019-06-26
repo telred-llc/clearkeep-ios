@@ -12,7 +12,8 @@ final class CKCallViewController: CallViewController {
     
     private let maxCallControlItemWidth: CGFloat = 55
     private let minCallControlsSpacing: CGFloat = 10
-    
+    private let disposeBag = DisposeBag()
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: CKCallViewController.nibName, bundle: Bundle.init(for: CKCallViewController.self))
     }
@@ -22,6 +23,17 @@ final class CKCallViewController: CallViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.roundButtons()
+        bindingTheme()
+    }
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.callerNameLabel.textColor = themeService.attrs.primaryTextColor
+            self?.callStatusLabel.textColor = themeService.attrs.secondTextColor
+            self?.view.backgroundColor = themeService.attrs.secondBgColor
+            self?.gradientMaskContainerView.backgroundColor = themeService.attrs.secondBgColor
+        }).disposed(by: disposeBag)
     }
     
     func roundButtons() {

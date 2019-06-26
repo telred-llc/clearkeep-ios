@@ -85,6 +85,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.primaryBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
@@ -267,6 +268,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         }
 
         cell.backgroundColor = UIColor.clear
+        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
 
         return cell
     }
@@ -374,7 +376,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         guard let s = Section(rawValue: section) else { return 0}
         switch s {
         case .search:
-            return CKLayoutSize.Table.header1px
+            return CGFloat.leastNonzeroMagnitude
         case .action:
             return CKLayoutSize.Table.defaultHeader
         case .suggested:
@@ -383,7 +385,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

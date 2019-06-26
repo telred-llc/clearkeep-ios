@@ -63,6 +63,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
         self.view.endEditing(true)
         
         if let searchVC = UIStoryboard.init(name: "MainEx", bundle: nil).instantiateViewController(withIdentifier: "UnifiedSearchViewController") as? UnifiedSearchViewController {
+            searchVC.searchBar.setTextFieldColor(color: themeService.attrs.secondBgColor)
             searchVC.importSession(self.mxSessions)
             self.navigationController?.pushViewController(searchVC, animated: false)
         }

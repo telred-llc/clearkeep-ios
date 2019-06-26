@@ -114,6 +114,7 @@ extension CKContactListViewController {
             self?.defaultBarTintColor = themeService.attrs.primaryBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.tableView?.backgroundColor = theme.secondBgColor
+            self?.tableView.reloadData()
         }).disposed(by: disposeBag)
     }
 
@@ -177,6 +178,8 @@ extension CKContactListViewController {
                 }
             }
         }
+
+        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
         return cell
     }
     
