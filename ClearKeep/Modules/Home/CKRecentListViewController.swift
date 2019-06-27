@@ -186,7 +186,7 @@ private extension CKRecentListViewController {
         let contentVC = CKMenuRoomViewController.init(nibName: "CKMenuRoomViewController", bundle: nil)
         fpc.set(contentViewController: contentVC)
         fpc.isRemovalInteractionEnabled = true // Optional: Let it removable by a swipe-down
-        
+
         contentVC.callBackCKRecentListVC = { (type) in
             switch type {
             case .unMute:
@@ -227,9 +227,8 @@ private extension CKRecentListViewController {
         } else {
             contentVC.favourite = .addToFavourite
         }
-        
-        self.present(fpc, animated: true, completion: nil)
-        
+
+        self.present(fpc, animated: true, completion: nil)        
     }
     
     func getIndexPath(gesture: UIGestureRecognizer) -> IndexPath? {

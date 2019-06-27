@@ -68,6 +68,8 @@ final class CKMenuRoomViewController: UIViewController {
     internal var mute: CKMenuRoomCellType = .unMute
     internal var favourite: CKMenuRoomCellType = .removeFromFavourite
 
+    private let disposeBag = DisposeBag()
+
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -90,7 +92,18 @@ final class CKMenuRoomViewController: UIViewController {
     }
 
     // MARK: - PRIVATE
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     // MARK: - PUBLIC
 
 }
@@ -112,8 +125,12 @@ extension CKMenuRoomViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let data = datasourceTableView[indexPath.row]
         if let cell = cell as? CKAlertSettingRoomCell {
-            cell.imgCell.image = UIImage.init(named: data.icon())
+            cell.imgCell.image = UIImage.init(named: data.icon())?.withRenderingMode(.alwaysTemplate)
             cell.lblTitle.text = data.title()
+
+            cell.lblTitle.textColor = themeService.attrs.primaryTextColor
+            cell.imgCell.tintColor = themeService.attrs.primaryTextColor
+            cell.backgroundColor = themeService.attrs.primaryBgColor
         }
     }
     

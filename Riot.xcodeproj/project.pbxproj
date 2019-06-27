@@ -74,6 +74,8 @@
 		85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */; };
 		85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */; };
 		8554B71A22171257008CB324 /* CKRecentItemInvitationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */; };
+		8558894322C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */; };
+		8558894422C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */; };
 		85743492221566B10009E618 /* CKMessageContentManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85743491221566B10009E618 /* CKMessageContentManagement.swift */; };
 		858A532121F58AB200570D83 /* CKRoomDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A532021F58AB200570D83 /* CKRoomDataSource.swift */; };
 		858A7D7821E43E3100BB9737 /* CKRecentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */; };
@@ -1201,6 +1203,7 @@
 		85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemTableViewCell.swift; sourceTree = "<group>"; };
 		85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRecentItemTableViewCell.xib; sourceTree = "<group>"; };
 		8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRecentItemInvitationCell.xib; sourceTree = "<group>"; };
+		8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKTableViewController+Extension.swift"; sourceTree = "<group>"; };
 		85743491221566B10009E618 /* CKMessageContentManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKMessageContentManagement.swift; sourceTree = "<group>"; };
 		858A532021F58AB200570D83 /* CKRoomDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomDataSource.swift; sourceTree = "<group>"; };
 		858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentListViewController.swift; sourceTree = "<group>"; };
@@ -2019,6 +2022,7 @@
 				E54A5AD921FAF6020094461E /* Misc+Extension.swift */,
 				853174C622BDF09D0092F73D /* CKSearchBar+Extension.swift */,
 				853174C922BDF1200092F73D /* CKView+Extension.swift */,
+				8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4959,6 +4963,7 @@
 				E5E7DB6F229BC7D300AB7CF3 /* MXRoom+Riot.m in Sources */,
 				E5E7DB70229BC7D300AB7CF3 /* RiotSettings.swift in Sources */,
 				E5E7DB71229BC7D300AB7CF3 /* PreviewRoomTitleView.m in Sources */,
+				8558894422C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */,
 				E5E7DB72229BC7D300AB7CF3 /* CKRoomSettingsParticipantViewController.swift in Sources */,
 				E5E7DB73229BC7D300AB7CF3 /* CKRoomHeaderInSectionView.swift in Sources */,
 				E5E7DB74229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
@@ -5263,6 +5268,7 @@
 				F083BDEE1E7009ED00A9B29C /* MXRoom+Riot.m in Sources */,
 				B1B5598620EFC3E000210D55 /* RiotSettings.swift in Sources */,
 				B1B5581720EF625800210D55 /* PreviewRoomTitleView.m in Sources */,
+				8558894322C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */,
 				E574335721F328B600989FF3 /* CKRoomSettingsParticipantViewController.swift in Sources */,
 				E5026CA221F5D601009D1B86 /* CKRoomHeaderInSectionView.swift in Sources */,
 				B1B558C420EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
