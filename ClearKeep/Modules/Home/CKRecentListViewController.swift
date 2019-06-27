@@ -32,6 +32,7 @@ class CKRecentListViewController: MXKViewController {
     weak var delegate: CKRecentListViewControllerDelegate?
 
     var dataSource: [[MXKRecentCellData]] = []
+    var isExpanded: [Bool] = [true, true]
     
     var fpc: FloatingPanelController!
     var isAddview = false
@@ -71,6 +72,8 @@ class CKRecentListViewController: MXKViewController {
         } else {
             self.recentTableView.separatorStyle = .singleLine
         }
+        
+//        self.recentTableView.separatorStyle = .none
         
         // reload tb
         self.recentTableView?.reloadData()        
@@ -183,13 +186,14 @@ private extension CKRecentListViewController {
      Setup table view
      */
     func setupTableView() {
-        recentTableView.register(CKRecentItemTableViewCell.nib, forCellReuseIdentifier: CKRecentItemTableViewCell.identifier)
-        recentTableView.register(CKRecentItemInvitationCell.nib, forCellReuseIdentifier: CKRecentItemInvitationCell.identifier)
-        recentTableView.register(CKRecentItemFirstChatCell.nib, forCellReuseIdentifier: CKRecentItemFirstChatCell.identifier)
-        recentTableView.register(CKRecentItemFirstFavouriteCell.nib, forCellReuseIdentifier: CKRecentItemFirstFavouriteCell.identifier)
-        recentTableView.allowsSelection = false
-        recentTableView.dataSource = self
-        recentTableView.delegate = self
+        self.recentTableView.register(CKRecentItemTableViewCell.nib, forCellReuseIdentifier: CKRecentItemTableViewCell.identifier)
+        self.recentTableView.register(CKRecentItemInvitationCell.nib, forCellReuseIdentifier: CKRecentItemInvitationCell.identifier)
+        self.recentTableView.register(CKRecentItemFirstChatCell.nib, forCellReuseIdentifier: CKRecentItemFirstChatCell.identifier)
+        self.recentTableView.register(CKRecentItemFirstFavouriteCell.nib, forCellReuseIdentifier: CKRecentItemFirstFavouriteCell.identifier)
+        self.recentTableView.allowsSelection = false
+        self.recentTableView.dataSource = self
+        self.recentTableView.delegate = self
+        self.recentTableView.tableFooterView = UIView()
     }
     
     /**
@@ -287,7 +291,7 @@ private extension CKRecentListViewController {
         }
     }
     
-    // Action
+    // MARK: - ACTION
     
     @objc func bgTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
@@ -302,11 +306,6 @@ private extension CKRecentListViewController {
     
     @objc func onTableViewCellTap(_ gesture: UIGestureRecognizer) {
         
-//        // do nothing
-//        if self.isEmpty {
-//            return
-//        }
-        
         // try to do more
         if let selectedIndexPath = getIndexPath(gesture: gesture) {
             
@@ -318,6 +317,37 @@ private extension CKRecentListViewController {
             let selectedRoomData = dataSource[selectedIndexPath.section][selectedIndexPath.row]
             displayRoom(withRoomId: selectedRoomData.roomSummary.roomId, inMatrixSession: selectedRoomData.roomSummary.room.mxSession)
         }
+    }
+    
+    // MARK: - Header & cell instance
+    /**
+     Header instance for section
+     */
+    func headerSection(_ section: Int) -> UIView {
+        guard self.dataSource.count != 1, let view = CKRecentHeaderView.instance() else {
+            return UIView()
+        }
+        
+        view.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        if section == SectionRecent.room.rawValue {
+            view.setTitle(title: String.ck_LocalizedString(key: "Room"), numberChat: self.dataSource[section].count)
+        } else if section == SectionRecent.direct.rawValue{
+            view.setTitle(title: String.ck_LocalizedString(key: "Direct Message"), numberChat: self.dataSource[section].count)
+        }
+        
+        view.onPressHandler = {
+            if self.isExpanded[section] {
+                self.collapseCellsFromIndexOf(section, headerView: view)
+            } else {
+                self.expandCellsFromIndexOf(section, headerView: view)
+            }
+        }
+        
+        view.addOnPressHandler = {
+            self.delegate?.recentListViewDidTapStartChat(section)
+        }
+        
+        return view
     }
     
     /**
@@ -465,6 +495,45 @@ private extension CKRecentListViewController {
         
         return cell
     }
+    
+    // MARK: - Collapse & Expand cell
+    
+    /**
+     Collapse cell
+     */
+    func collapseCellsFromIndexOf(_ section: Int, headerView: CKRecentHeaderView) {
+        if self.dataSource[section].count == 0 {
+            return
+        }
+        headerView.tapHeader(isExpanded: false)
+        self.isExpanded[section] = false
+        // Create index paths for the number of rows to be removed
+        var indexPaths = [IndexPath]()
+        for index in 0 ..< self.dataSource[section].count {
+            indexPaths.append(IndexPath.init(row: index, section: section))
+        }
+        // Animate and delete
+        self.recentTableView.deleteRows(at: indexPaths, with: .left)
+    }
+    
+    /**
+     Expand cell
+     */
+    func expandCellsFromIndexOf(_ section: Int, headerView: CKRecentHeaderView) {
+        if self.dataSource[section].count == 0 {
+            return
+        }
+        headerView.tapHeader(isExpanded: true)
+        self.isExpanded[section] = true
+        
+        var indexPaths = [IndexPath]()
+        // Create index paths for the range
+        for index in 0 ..< self.dataSource[section].count {
+            indexPaths.append(IndexPath.init(row: index, section: section))
+        }
+        // Insert the rows
+        self.recentTableView.insertRows(at: indexPaths, with: .left)
+    }
 }
 
 extension CKRecentListViewController: UITableViewDataSource {
@@ -481,25 +550,28 @@ extension CKRecentListViewController: UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { 
-        if self.dataSource.count != 1, let view = CKRecentHeaderView.instance() {
-            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
-            view.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            if section == SectionRecent.room.rawValue {
-                view.blindData(title: String.ck_LocalizedString(key: "Room"), numberChat: self.dataSource[section].count)
-            } else if section == SectionRecent.direct.rawValue{
-                view.blindData(title: String.ck_LocalizedString(key: "Direct Message"), numberChat: self.dataSource[section].count)
-            }
-            
-            return view
-        }
-        return UIView()
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = self.headerSection(section)
+        header.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+        return header
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        // favourite
+        if self.dataSource.count == 1 {
+            return dataSource[section].count == 0 ? 1 : dataSource[section].count
+        }
+        
         // direct or room
-        return dataSource[section].count == 0 ? 1 : dataSource[section].count
+        if self.dataSource[section].count == 0 {
+            return 1
+        } else if self.isExpanded[section] {
+            return dataSource[section].count
+        } else {
+            return 0
+        }
+//        return dataSource[section].count == 0 ? 1 : dataSource[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

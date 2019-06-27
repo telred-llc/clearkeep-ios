@@ -13,6 +13,9 @@ class CKRecentHeaderView: UIView {
     @IBOutlet weak var arrowImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
+    internal var addOnPressHandler: (() -> Void)?
+    internal var onPressHandler: (() -> Void)?
+    
     public class func instance() -> CKRecentHeaderView? {
         return UINib(nibName: "CKRecentHeaderView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? CKRecentHeaderView
     }
@@ -21,15 +24,38 @@ class CKRecentHeaderView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = CKColor.Background.tableView
+        
+        self.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
+        
+        // add tap gesture to cell
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(onHeaderViewTap))
+        tap.cancelsTouchesInView = true
+        self.addGestureRecognizer(tap)
     }
 
     // MARK: - ACTION
     @IBAction func addChatAction(_ sender: UIButton) {
-        
+        self.addOnPressHandler?()
+    }
+    
+    @objc func onHeaderViewTap(_ gesture: UIGestureRecognizer) {
+        self.onPressHandler?()
     }
     
     // MARK: - PUBLIC
-    func blindData(title: String, numberChat: Int) {
+    func setTitle(title: String, numberChat: Int) {
         self.titleLabel.text = "\(title) (\(numberChat))"
+    }
+    
+    func tapHeader(isExpanded: Bool) {
+        if isExpanded {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
+            })
+        } else {
+            UIView.animate(withDuration: 0.5) {
+                self.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi)
+            }
+        }
     }
 }
