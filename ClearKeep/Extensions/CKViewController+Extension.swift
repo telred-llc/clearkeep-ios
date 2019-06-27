@@ -36,12 +36,21 @@ extension UIViewController {
 // MARK: - MXKViewController extension
 
 extension MXKViewController {
-   
+
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        return themeService.attrs.statusBarStyle
+    }
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.rageShakeManager = RageShakeManager.sharedManager() as? MXKResponderRageShaking
     }
-   
+    
     // MARK: - CLASS VAR
     
     /**

@@ -14,7 +14,9 @@ final class CKRoomDirectCreatingActionCell: CKRoomCreatingBaseCell {
 
     @IBOutlet weak var newGroupButton: UIButton!
     @IBOutlet weak var newCallButton: UIButton!
-    
+    @IBOutlet weak var newRoomLabel: UILabel!
+    @IBOutlet weak var newCallLabel: UILabel!
+
     // MARK: - PROPERTY
 
     /**

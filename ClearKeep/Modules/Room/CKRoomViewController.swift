@@ -170,6 +170,8 @@ import MatrixKit
     // Typing notifications listener.
 
     private var typingNotifListener: Any?
+
+    private let disposeBag = DisposeBag()
 }
 
 extension CKRoomViewController {
@@ -247,6 +249,8 @@ extension CKRoomViewController {
         }
         
         self.invitationController.delegate = self
+
+        bindingTheme()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -343,6 +347,23 @@ extension CKRoomViewController {
             kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
         }
     }
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.bubblesTableView?.reloadData()
+            self?.refreshRoomInputToolbar()
+
+            self?.view.backgroundColor = themeService.attrs.secondBgColor
+            self?.bubblesTableView?.backgroundColor = themeService.attrs.secondBgColor
+            self?.mentionListTableView?.backgroundColor = themeService.attrs.primaryBgColor
+
+            // Fix: has a white subview of view
+            self?.view.subviews.first?.backgroundColor = themeService.attrs.secondBgColor
+        }).disposed(by: disposeBag)
+    }
     
     private func setupBubblesTableView() {
         // Register first customized cell view classes used to render bubbles
@@ -404,7 +425,7 @@ extension CKRoomViewController {
 
         // add border
         let border = CALayer()
-        border.frame = CGRect(x: 0, y: 0, width: self.mentionListTableView.frame.width, height: 1.0)
+        border.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 1.0)
         border.backgroundColor = CKColor.Misc.borderColor.cgColor
         mentionListTableView.layer.addSublayer(border)
     }
@@ -663,17 +684,21 @@ extension CKRoomViewController {
     
     func refreshRoomInputToolbar() {
         if inputToolbarView != nil && (inputToolbarView is CKRoomInputToolbarView) {
-            let _ = inputToolbarView as! CKRoomInputToolbarView
-            
-            // TODO: Customize roomInputToolbarView if needed
-            
+            let roomInputToolbarView = inputToolbarView as! CKRoomInputToolbarView
+            roomInputToolbarView.backgroundColor = themeService.attrs.secondBgColor
+            roomInputToolbarView.growingTextView?.placeholderColor = themeService.attrs.placeholderTextColor
+            roomInputToolbarView.growingTextView?.textColor = themeService.attrs.primaryTextColor
+            roomInputToolbarView.sendImageButton.tintColor = themeService.attrs.primaryTextColor
+            roomInputToolbarView.mentionButton.tintColor = themeService.attrs.primaryTextColor
         } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! DisabledRoomInputToolbarView
-            
+
+            roomInputToolbarView.backgroundColor = themeService.attrs.secondBgColor
+            roomInputToolbarView.disabledReasonTextView.textColor = themeService.attrs.primaryTextColor
+
             // For the moment, there is only one reason to use `DisabledRoomInputToolbarView`
             roomInputToolbarView.setDisabledReason(NSLocalizedString("room_do_not_have_permission_to_post", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""))
         }
-
     }
     
     override func setRoomActivitiesViewClass(_ roomActivitiesViewClass: AnyClass!) {
@@ -763,6 +788,7 @@ extension CKRoomViewController {
                     if isRefreshRoomTitle {
                         self.setRoomTitleViewClass(RoomTitleView.self)
                         (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+                        (self.titleView as? RoomTitleView)?.displayNameTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
                     }
                 } else {
                     
@@ -772,6 +798,7 @@ extension CKRoomViewController {
                     if isRefreshRoomTitle {
                         self.setRoomTitleViewClass(SimpleRoomTitleView.self)
                         titleView?.editable = false
+                        (self.titleView as? SimpleRoomTitleView)?.displayNameTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
                     }
                 }
             } else {
@@ -783,6 +810,7 @@ extension CKRoomViewController {
                 if isRefreshRoomTitle {
                     self.setRoomTitleViewClass(RoomTitleView.self)
                     (self.titleView as? RoomTitleView)?.tapGestureDelegate = self
+                    (self.titleView as? RoomTitleView)?.displayNameTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
                 }
             }
         }
@@ -2243,12 +2271,12 @@ extension CKRoomViewController {
             super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
         }
         
-        cell.backgroundColor = kRiotPrimaryBgColor
+        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
 
         // Update the selected background view
-        if kRiotSelectedBgColor != nil {
+        if themeService.attrs.selectedBgColor != nil {
             cell.selectedBackgroundView = UIView()
-            cell.selectedBackgroundView?.backgroundColor = kRiotSelectedBgColor
+            cell.selectedBackgroundView?.theme.backgroundColor = themeService.attrStream{ $0.selectedBgColor }
         } else {
             if tableView.style == .plain {
                 cell.selectedBackgroundView = nil
@@ -2260,7 +2288,10 @@ extension CKRoomViewController {
         if cell.isKind(of: MXKRoomBubbleTableViewCell.self),
             let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
             if roomBubbleTableViewCell.messageTextView != nil {
-                                
+                roomBubbleTableViewCell.messageTextView.textColor = themeService.attrs.secondTextColor
+                roomBubbleTableViewCell.userNameLabel?.textColor = themeService.attrs.primaryTextColor
+                roomBubbleTableViewCell.statsLabel?.textColor = themeService.attrs.secondTextColor
+
                 // we don't want to select text
                 roomBubbleTableViewCell.messageTextView?.gestureRecognizers?.forEach({ (recognizer: UIGestureRecognizer) in
                     if let recognizer = recognizer as? UILongPressGestureRecognizer {

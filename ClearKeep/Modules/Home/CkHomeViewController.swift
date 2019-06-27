@@ -32,6 +32,7 @@ final class CkHomeViewController: MXKViewController {
     let pagingViewController = PagingViewController<CKPagingIndexItem>.init()
     var recentsDataSource: RecentsDataSource?
     var missedDiscussionsCount: Int = 0
+    let disposeBag = DisposeBag()
     
     // MARK: LifeCycle
     
@@ -42,15 +43,17 @@ final class CkHomeViewController: MXKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPageViewController()
-        
+
         // Listen to the user info did changed
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil)
+
+        bindingTheme()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
-        
+
         if let recentsDataSource = self.recentsDataSource {
             recentsDataSource.areSectionsShrinkable = false
             recentsDataSource.setDelegate(self, andRecentsDataSourceMode: RecentsDataSourceModeHome)
@@ -64,7 +67,17 @@ final class CkHomeViewController: MXKViewController {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
     }
-    
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        pagingViewController.collectionView.theme.backgroundColor = themeService.attrStream{$0.primaryBgColor}
+    }
+
     func setupPageViewController() {
         pagingViewController.dataSource = self
         pagingViewController.indicatorClass = PagingIndicatorView.self
@@ -73,7 +86,6 @@ final class CkHomeViewController: MXKViewController {
         // setup UI
         pagingViewController.indicatorOptions    = PagingIndicatorOptions.visible(height: 0.75, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
         pagingViewController.indicatorColor      = CKColor.Misc.primaryGreenColor
-        pagingViewController.menuBackgroundColor = CKColor.Background.navigationBar
         pagingViewController.textColor           = CKColor.Text.lightGray
         pagingViewController.selectedTextColor   = CKColor.Misc.primaryGreenColor
         
@@ -100,7 +112,7 @@ final class CkHomeViewController: MXKViewController {
         setupLeftMenu(navigationItem: masterTabbar.navigationItem)
         
         // setup right menu
-        setupRightMenu(navigationItem: masterTabbar.navigationItem)        
+        setupRightMenu(navigationItem: masterTabbar.navigationItem)
     }
     
     func setupLeftMenu(navigationItem: UINavigationItem) {
@@ -420,7 +432,7 @@ extension CkHomeViewController {
         mxSessions.flatMap({ return $0 })?.forEach({ (mxSession) in
             if MXKRoomDataSourceManager.sharedManager(forMatrixSession: mxSession)?.isServerSyncInProgress == true {
                 // sync is in progress for at least one data source, keep running the loading wheel
-                self.activityIndicator.startAnimating()
+                self.activityIndicator?.startAnimating()
                 return
             }
         })

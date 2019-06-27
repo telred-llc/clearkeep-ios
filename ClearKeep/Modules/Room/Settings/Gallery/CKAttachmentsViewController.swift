@@ -10,39 +10,24 @@ import UIKit
 
 class CKAttachmentsViewController: MXKAttachmentsViewController {
 
-    private var kRiotDesignValuesDidChangeThemeNotificationObserver: Any?
-    
+    private let disposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        kRiotDesignValuesDidChangeThemeNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.riotDesignValuesDidChangeTheme, object: nil, queue: OperationQueue.main, using: { [weak self] notif in
-            if let weakSelf = self {
-                weakSelf.userInterfaceThemeDidChange()
-            }
-        })
-        
-        self.userInterfaceThemeDidChange()
-    }
-    
-    func userInterfaceThemeDidChange() {
-        self.view.backgroundColor = kRiotPrimaryBgColor
-        self.defaultBarTintColor = .red
-        self.barTitleColor = kRiotPrimaryTextColor
-        self.activityIndicator.backgroundColor = kRiotOverlayColor
-        
-        self.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationBar.tintColor = CKColor.Misc.primaryGreenColor
-        self.navigationBar.shadowImage = UIImage()
-        self.navigationBar.isTranslucent = true
         self.backButton.image = UIImage(named: "ic_x_close")
-    }
-    
-    override func destroy() {
-        if (kRiotDesignValuesDidChangeThemeNotificationObserver != nil) {
-            NotificationCenter.default.removeObserver(kRiotDesignValuesDidChangeThemeNotificationObserver!)
-            kRiotDesignValuesDidChangeThemeNotificationObserver = nil
-        }
-        super.destroy()
+        bindingTheme()
     }
 
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.activityIndicator?.backgroundColor = themeService.attrs.overlayColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
 }

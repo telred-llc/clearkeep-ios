@@ -59,6 +59,7 @@ final class CKRoomCreatingViewController: MXKViewController {
         topic: "")
     
     private var request: MXHTTPOperation!
+    private let disposeBag = DisposeBag()
     
     // MARK: - OVERRIDE
     
@@ -109,6 +110,20 @@ final class CKRoomCreatingViewController: MXKViewController {
 
         // assign back button
         self.navigationItem.rightBarButtonItem = rightItemButton
+
+        bindingTheme()
+    }
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
     }
     
     /**
@@ -208,6 +223,11 @@ final class CKRoomCreatingViewController: MXKViewController {
                 }
                 #endif
             }
+
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+            cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.desciptpionLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
+
             return cell
         }
         
@@ -230,6 +250,11 @@ final class CKRoomCreatingViewController: MXKViewController {
                     self.updateControls()
                 }
             }
+
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+            cell.nameTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.nameTextField.attributedPlaceholder = NSAttributedString.init(string: "Name", attributes: [NSAttributedString.Key.foregroundColor: themeService.attrs.secondTextColor])
+
             return cell
         }
         
@@ -249,6 +274,11 @@ final class CKRoomCreatingViewController: MXKViewController {
             cell.edittingChangedHandler = { text in
                 if let text = text {self.creatingData.topic = text}
             }
+
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+            cell.topicTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.topicTextField.attributedPlaceholder = NSAttributedString.init(string: "Briefly describle the topic of room", attributes: [NSAttributedString.Key.foregroundColor: themeService.attrs.secondTextColor])
+
             return cell
         }
         
@@ -298,8 +328,9 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
             return view
         }
         return UIView()
@@ -307,7 +338,7 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UILabel()
-        view.backgroundColor = CKColor.Background.tableView
+        view.backgroundColor = UIColor.clear
         return view
     }
     
@@ -316,7 +347,7 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.footer1px
+        return CGFloat.leastNonzeroMagnitude
     }
 }
 

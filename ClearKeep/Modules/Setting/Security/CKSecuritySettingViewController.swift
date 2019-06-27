@@ -44,6 +44,7 @@ class CKSecuritySettingViewController: MXKViewController {
     
     private var keyExportsFile: URL?
     private var keyExportsFileDeletionTimer: Timer?
+    private let disposeBag = DisposeBag()
 
     // MARK: - LifeCycle
     
@@ -59,6 +60,19 @@ class CKSecuritySettingViewController: MXKViewController {
     
     private func setupInitization() {
         setupTableView()
+        bindingTheme()
+    }
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
     }
     
     override func onMatrixSessionStateDidChange(_ notif: Notification?) {
@@ -225,8 +239,8 @@ extension CKSecuritySettingViewController: UITableViewDelegate {
             let label = UILabel.init()
             label.numberOfLines = 0
             label.font = UIFont.systemFont(ofSize: 14)
-            label.textColor = UIColor.init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
-            
+            label.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+
             label.text = "You should export your key which is useful to decrypt the messages in the next login."
             
             let headerView = UIView.init()

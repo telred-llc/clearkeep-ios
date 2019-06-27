@@ -36,6 +36,8 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
      */
     public var mxRoom: MXRoom!
 
+    private let disposeBag = DisposeBag()
+
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -43,10 +45,24 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
         self.navigationItem.title = "Settings"
         self.tableView.register(CKRoomSettingsMoreActionCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreActionCell.identifier)
         self.tableView.reloadData()
+        self.bindingTheme()
     }
     
     // MARK: - PRIVATE
-    
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     /**
      Initilize cell by index paht
      */
@@ -109,7 +125,7 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
 extension CKRoomSettingsMoreViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -148,6 +164,10 @@ extension CKRoomSettingsMoreViewController: UITableViewDelegate {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.backgroundColor = CKColor.Background.tableView
             view.descriptionLabel.text = self.titleForHeader(atSection: section)
+
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
             return view
         }
         return nil
@@ -172,7 +192,11 @@ extension CKRoomSettingsMoreViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.cellForMoreAction(indexPath)
         cell.titleLable.text = self.titleForCell(atSection: indexPath.section)
-        cell.iconView.image = self.imageForCell(atSection: indexPath.section)
+        cell.iconView.image = self.imageForCell(atSection: indexPath.section)?.withRenderingMode(.alwaysTemplate)
+
+        cell.titleLable.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        cell.iconView.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
         return cell
     }
 }

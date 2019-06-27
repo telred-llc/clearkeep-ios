@@ -38,7 +38,8 @@ class CKReportSettingViewController: MXKViewController {
     // MARK: Private
     
     private let sections: [[CellType]] = [[.sendCrashAndData, .shakeToReport], [.reportBug]]
-    
+    private let disposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupInitization()
@@ -51,6 +52,19 @@ class CKReportSettingViewController: MXKViewController {
     
     private func setupInitization() {
         setupTableView()
+        bindingTheme()
+    }
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
     }
     
     override func onMatrixSessionStateDidChange(_ notif: Notification?) {
@@ -83,8 +97,6 @@ private extension CKReportSettingViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingButtonCell", for: indexPath) as! CKSettingButtonCell
         
         let cellType = sections[indexPath.section][indexPath.row]
-
-        cell.titleLabel.textColor = kRiotColorGreen
         cell.titleLabel.text = cellType.title()
         
         return cell
@@ -95,6 +107,8 @@ private extension CKReportSettingViewController {
         
         let cellType = sections[indexPath.section][indexPath.row]
         cell.titleLabel.text = cellType.title()
+        cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
         switch cellType {
         case .sendCrashAndData:

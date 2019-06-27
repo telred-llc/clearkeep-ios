@@ -30,6 +30,7 @@ class CKRecentListViewController: MXKViewController {
     var fpc: FloatingPanelController!
     var isAddview = false
     let viewbg = UIView()
+    let disposeBag = DisposeBag()
 
     var isEmpty: Bool {
         return (self.dataSource.count == 0)
@@ -38,8 +39,19 @@ class CKRecentListViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindingTheme()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+    func bindingTheme() {
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: recentTableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     func reloadData(rooms: [MXKRecentCellData]) {
         
         // update source
@@ -174,7 +186,7 @@ private extension CKRecentListViewController {
         let contentVC = CKMenuRoomViewController.init(nibName: "CKMenuRoomViewController", bundle: nil)
         fpc.set(contentViewController: contentVC)
         fpc.isRemovalInteractionEnabled = true // Optional: Let it removable by a swipe-down
-        
+
         contentVC.callBackCKRecentListVC = { (type) in
             switch type {
             case .unMute:
@@ -215,9 +227,8 @@ private extension CKRecentListViewController {
         } else {
             contentVC.favourite = .addToFavourite
         }
-        
-        self.present(fpc, animated: true, completion: nil)
-        
+
+        self.present(fpc, animated: true, completion: nil)        
     }
     
     func getIndexPath(gesture: UIGestureRecognizer) -> IndexPath? {
@@ -441,19 +452,27 @@ extension CKRecentListViewController: UITableViewDataSource {
             
             // fav
             if self.isKind(of: CKFavouriteViewController.self) {
-                return self.cellForFirstFavourite(indexPath)
+                let cell = self.cellForFirstFavourite(indexPath)
+                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+                return cell
             }
             
             // s-chat
-            return self.cellForStartChat(indexPath)
+            let cell = self.cellForStartChat(indexPath)
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            return cell
         } else {
             
             // direct & room?
             let cellData = dataSource[indexPath.row]
             if cellData.roomSummary.membership == MXMembership.invite {
-                return self.cellForInvitationRoom(indexPath, cellData: cellData)
+                let cell = self.cellForInvitationRoom(indexPath, cellData: cellData)
+                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+                return cell
             } else {
-                return self.cellForNormalRoom(indexPath, cellData: cellData)
+                let cell = self.cellForNormalRoom(indexPath, cellData: cellData)
+                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+                return cell
             }
         }
     }

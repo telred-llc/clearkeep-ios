@@ -28,7 +28,7 @@ def import_MatrixKit
     pod 'PromiseKit'
     pod 'SwiftImagePicker', :git => 'https://github.com/sinbadflyce/image-picker.git', :inhibit_warnings => true
     pod 'FloatingPanel'
-
+    pod 'RxTheme', '~> 3.0'
     
     if $matrixKitVersion == 'local'
         pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
@@ -112,7 +112,12 @@ post_install do |installer|
         # Plus the app does not enable it
         target.build_configurations.each do |config|
             config.build_settings['ENABLE_BITCODE'] = 'NO'
-            config.build_settings['SWIFT_VERSION'] = '4.0'     # Required for PiwikTracker. Should be removed
+
+            if target.name == 'RxTheme'
+              config.build_settings['SWIFT_VERSION'] = '4.2'
+            else
+              config.build_settings['SWIFT_VERSION'] = '4.0'     # Required for PiwikTracker. Should be removed
+            end
         end
     end
 end

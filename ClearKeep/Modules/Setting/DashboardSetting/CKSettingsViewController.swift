@@ -36,7 +36,8 @@ final class CKSettingsViewController: MXKViewController {
     // MARK: Private
     
     private var tblDatasource: [[GroupedSettingType]] = [[]]
-    
+    private let disposeBag = DisposeBag()
+
     // MARK: Public
     
     weak var deactivateAccountViewController: DeactivateAccountViewController?
@@ -57,6 +58,19 @@ final class CKSettingsViewController: MXKViewController {
         // Init datasource
         tblDatasource = [[.profile], [.notification, .calls, .report], [.security], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
         setupTableView()
+        bindingTheme()
+    }
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -100,7 +114,25 @@ private extension CKSettingsViewController {
     func cellForDarkMode(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingDarkModeCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingDarkModeCell", for: indexPath) as! CKSettingDarkModeCell
         cell.titleLabel.text = "Dark Mode"
-        cell.iconImageView.image = #imageLiteral(resourceName: "ic_darkmode_setting")
+
+        let isDarkMode = RiotSettings.shared.userInterfaceTheme == ThemeType.dark.typeName
+        cell.switchView.isOn = isDarkMode
+
+        cell.iconImageView.image = #imageLiteral(resourceName: "ic_darkmode_setting").withRenderingMode(.alwaysTemplate)
+        cell.iconImageView.theme.tintColor = themeService.attrStream { $0.primaryTextColor }
+
+        cell.switchView.rx.controlEvent(.valueChanged).subscribe(onNext: { (_) in
+            switch themeService.type {
+            case .light:
+                themeService.switch(.dark)
+                RiotSettings.shared.userInterfaceTheme = ThemeType.dark.typeName
+            case .dark:
+                themeService.switch(.light)
+                RiotSettings.shared.userInterfaceTheme = ThemeType.light.typeName
+            }
+            UserDefaults.standard.synchronize()
+        }).disposed(by: cell.disposeBag)
+
         return cell
     }
     
@@ -111,32 +143,33 @@ private extension CKSettingsViewController {
         switch cellType {
         case .profile:
             cell.titleLabel.text = "Edit Profile"
-            cell.iconImageView.image = #imageLiteral(resourceName: "ic_edit_profile_setting")
+            cell.iconImageView.image = #imageLiteral(resourceName: "ic_edit_profile_setting").withRenderingMode(.alwaysTemplate)
         case .notification:
             cell.titleLabel.text = "Notification"
-            cell.iconImageView.image = #imageLiteral(resourceName: "ic_notification_setting")
+            cell.iconImageView.image = #imageLiteral(resourceName: "ic_notification_setting").withRenderingMode(.alwaysTemplate)
         case .calls:
             cell.titleLabel.text = "Calls"
-            cell.iconImageView.image = #imageLiteral(resourceName: "ic_calls_setting")
+            cell.iconImageView.image = #imageLiteral(resourceName: "ic_calls_setting").withRenderingMode(.alwaysTemplate)
         case .security:
             cell.titleLabel.text = "Security"
-            cell.iconImageView.image = #imageLiteral(resourceName: "ic_security_setting")
+            cell.iconImageView.image = #imageLiteral(resourceName: "ic_security_setting").withRenderingMode(.alwaysTemplate)
         case .terms:
             cell.titleLabel.text = NSLocalizedString("settings_term_conditions", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-            cell.iconImageView.image = #imageLiteral(resourceName: "ic_terms_condition_setting")
+            cell.iconImageView.image = #imageLiteral(resourceName: "ic_terms_condition_setting").withRenderingMode(.alwaysTemplate)
         case .privacyPolicy:
             cell.titleLabel.text = NSLocalizedString("settings_privacy_policy", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-            cell.iconImageView.image = #imageLiteral(resourceName: "ic_privacy_policy_setting")
+            cell.iconImageView.image = #imageLiteral(resourceName: "ic_privacy_policy_setting").withRenderingMode(.alwaysTemplate)
         case .report:
             cell.titleLabel.text = "Report"
-            cell.iconImageView.image = #imageLiteral(resourceName: "ic_report_setting")
+            cell.iconImageView.image = #imageLiteral(resourceName: "ic_report_setting").withRenderingMode(.alwaysTemplate)
         case .copyright:
             cell.titleLabel.text = NSLocalizedString("settings_copyright", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-            cell.iconImageView.image = #imageLiteral(resourceName: "ic_copyright_setting")
+            cell.iconImageView.image = #imageLiteral(resourceName: "ic_copyright_setting").withRenderingMode(.alwaysTemplate)
         default:
             break
         }
-        
+
+        cell.iconImageView.theme.tintColor = themeService.attrStream { $0.primaryTextColor }
         return cell
     }
     
@@ -160,6 +193,8 @@ private extension CKSettingsViewController {
     func showWebViewController(url: String, title: String) {
         if let webViewViewController = WebViewViewController(url: url) {
             webViewViewController.title = title
+            webViewViewController.defaultBarTintColor = themeService.attrs.primaryBgColor
+            webViewViewController.barTitleColor = themeService.attrs.primaryTextColor
 
             // Hide back button title
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -285,8 +320,7 @@ extension CKSettingsViewController: UITableViewDelegate {
                 self.clearCache(cell: cell)
             }
         case .darkmode:
-            // TODO
-            let vc = CKReportSettingViewController.instance()
+            break
         }
     }
     
@@ -309,7 +343,7 @@ extension CKSettingsViewController: UITableViewDelegate {
             label.numberOfLines = 0
             label.textAlignment = .center
             label.font = UIFont.systemFont(ofSize: 14)
-            label.textColor = UIColor.init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
+            label.theme.textColor = themeService.attrStream{ $0.secondTextColor }
             
             let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
             let build = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String

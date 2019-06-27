@@ -64,7 +64,9 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
      Power level of current user in this room
      */
     private var powerLevel: Int = 0
-    
+
+    private let disposeBag = DisposeBag()
+
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -73,9 +75,23 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
         self.tableView.register(CKRoomSettingsMoreSecurityRadioCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreSecurityRadioCell.identifier)
         self.navigationItem.title = "Security"
         self.loadPowerLevel()
+        self.bindingTheme()
     }
     
     // MARK: - PRIVATE
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
     
     private func cellForSecurityRadio(_ indexPath: IndexPath) -> CKRoomSettingsMoreSecurityRadioCell {
         
@@ -85,9 +101,12 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
         
         // fill cell
         cell.title = self.stringForIndexPath(indexPath)
-        cell.tintColor = self.powerLevel >= kAdminPermission ? UIColor.darkGray : UIColor.lightGray
+        cell.tintColor = self.powerLevel >= kAdminPermission ? themeService.attrs.primaryTextColor : UIColor.lightGray
         cell.accessoryType = (self.chooses[indexPath.section] == indexPath.row) ? .checkmark : .none
-        
+
+        cell.titleLable.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
         return cell
     }
     
@@ -148,8 +167,10 @@ extension CKRoomSettingsMoreSecurityViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
             view.descriptionLabel.text = self.stringForSection(section)?.uppercased()
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+
             return view
         }
         return nil

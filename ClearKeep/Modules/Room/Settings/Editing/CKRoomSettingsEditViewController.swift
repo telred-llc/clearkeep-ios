@@ -61,7 +61,9 @@ final class CKRoomSettingsEditViewController: MXKViewController {
      tableView
      */
     @IBOutlet weak var tableView: UITableView!
-    
+
+    private let disposeBag = DisposeBag()
+
     // MARK: - IBAction
     
     @objc func clickedOnBackButton(_ sender: Any?) {
@@ -80,10 +82,10 @@ final class CKRoomSettingsEditViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.backgroundColor = CKColor.Background.tableView
         self.registerCells()
         self.resgisterNotifications()
-        self.navigationItem.title = "Edit Room"                
+        self.navigationItem.title = "Edit Room"
+        self.bindingTheme()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,7 +107,20 @@ final class CKRoomSettingsEditViewController: MXKViewController {
     }
     
     // MARK: - PRIVATE
-    
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     private func loadSessionData() {
 
         // reload table view
@@ -214,6 +229,8 @@ extension CKRoomSettingsEditViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let v = CKRoomHeaderInSectionView.instance()
         v?.descriptionLabel.text = self.titleForTableHeader(section)
+        v?.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        v?.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return v
     }
     
@@ -222,7 +239,7 @@ extension CKRoomSettingsEditViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.footer1px
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -263,6 +280,11 @@ extension CKRoomSettingsEditViewController: UITableViewDataSource {
                 cell.doneKeyboadHandler = {
                     self.onSave()
                 }
+
+                cell.textField.theme.placeHolderColor = themeService.attrStream{ $0.secondTextColor }
+                cell.textField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
                 return cell
             }
         case .image:
@@ -275,6 +297,8 @@ extension CKRoomSettingsEditViewController: UITableViewDataSource {
                     mxRoom.summary.avatar,
                     identifyText: mxRoom.summary.roomId,
                     session: self.mainSession)
+                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
                 return cell
             }
         case .topic:
@@ -295,6 +319,10 @@ extension CKRoomSettingsEditViewController: UITableViewDataSource {
                 cell.doneKeyboadHandler = {
                     self.onSave()
                 }
+
+                cell.textField.theme.placeHolderColor = themeService.attrStream{ $0.secondTextColor }
+                cell.textField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
 
                 return cell
             }

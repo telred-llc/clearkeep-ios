@@ -80,10 +80,13 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
     private var isSavingInProgress: Bool?
     private var deviceView: MXKDeviceView?
     private var onReadyToDestroyHandler: blockSettingsViewController_onReadyToDestroy?
-    
+
+    private let disposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()        
         self.finalizeLoadView()
+        self.bindingTheme()
         
         // Add observer to handle removed accounts
         removedAccountObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxkAccountManagerDidRemoveAccount, object: nil, queue: OperationQueue.main, using: { notif in
@@ -164,7 +167,19 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             deviceView = nil
         }
     }
-    
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     override func onMatrixSessionStateDidChange(_ notif: Notification?) {
         // Check whether the concerned session is a new one which is not already associated with this view controller.
         if let mxSession = notif?.object as? MXSession {
@@ -455,6 +470,12 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                     self.updateSaveButtonStatus()
                 }
             }
+
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.displayNameTitleLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
+            cell.nameTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.textInputContainerView.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
             return cell
         }
         return CKAccountEditProfileAvatarCell()
@@ -481,7 +502,12 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
                     break
                 }
             }
-            
+
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.titleLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
+            cell.inputTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.inputTextFiedContainerView.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
             return cell
         }
         return CKEditProfileWithTextFieldTableViewCell()

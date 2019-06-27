@@ -13,7 +13,8 @@ class CKRoomSettingsLeaveCell: CKRoomSettingsBaseCell {
     // MARK: - Outlet
     
     @IBOutlet weak var leaveButton: UIButton!
-    
+    @IBOutlet weak var iconImageView: UIImageView!
+
     // MARK: - OVERRIDE
     
     override func awakeFromNib() {

@@ -40,6 +40,12 @@
 		8520DFAA2216B20E000833A1 /* CKHomePagingMenuBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8520DFA92216B20E000833A1 /* CKHomePagingMenuBubbleView.swift */; };
 		8520DFAC2216B217000833A1 /* CKHomePagingMenuBubbleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8520DFAB2216B217000833A1 /* CKHomePagingMenuBubbleView.xib */; };
 		8520DFAE2216BA2E000833A1 /* CKIndexedPagingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8520DFAD2216BA2E000833A1 /* CKIndexedPagingItem.swift */; };
+		853174C422BDE5280092F73D /* BinderExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853174C322BDE5280092F73D /* BinderExtensions.swift */; };
+		853174C522BDE5280092F73D /* BinderExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853174C322BDE5280092F73D /* BinderExtensions.swift */; };
+		853174C722BDF09D0092F73D /* CKSearchBar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853174C622BDF09D0092F73D /* CKSearchBar+Extension.swift */; };
+		853174C822BDF09D0092F73D /* CKSearchBar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853174C622BDF09D0092F73D /* CKSearchBar+Extension.swift */; };
+		853174CA22BDF1200092F73D /* CKView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853174C922BDF1200092F73D /* CKView+Extension.swift */; };
+		853174CB22BDF1200092F73D /* CKView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853174C922BDF1200092F73D /* CKView+Extension.swift */; };
 		85335BE521F1C59400DFA15E /* CKRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85335BE421F1C59300DFA15E /* CKRoomViewController.xib */; };
 		853C92582203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */; };
 		853C92592203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */; };
@@ -63,9 +69,13 @@
 		853E996B21E4A73600D005F4 /* CKAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853E996A21E4A73600D005F4 /* CKAppTheme.swift */; };
 		8542618622316D9200F24395 /* CKSettingButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542618422316D9200F24395 /* CKSettingButtonCell.swift */; };
 		8542618722316D9200F24395 /* CKSettingButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8542618522316D9200F24395 /* CKSettingButtonCell.xib */; };
+		8551EC9322BB9B060097ED84 /* CKThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8551EC9222BB9B060097ED84 /* CKThemeManager.swift */; };
+		8551EC9422BB9B0E0097ED84 /* CKThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8551EC9222BB9B060097ED84 /* CKThemeManager.swift */; };
 		85548F4B21E332BC008221AD /* CKRecentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */; };
 		85548F4C21E332BC008221AD /* CKRecentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */; };
 		8554B71A22171257008CB324 /* CKRecentItemInvitationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */; };
+		8558894322C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */; };
+		8558894422C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */; };
 		85743492221566B10009E618 /* CKMessageContentManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85743491221566B10009E618 /* CKMessageContentManagement.swift */; };
 		858A532121F58AB200570D83 /* CKRoomDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A532021F58AB200570D83 /* CKRoomDataSource.swift */; };
 		858A7D7821E43E3100BB9737 /* CKRecentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */; };
@@ -1163,6 +1173,9 @@
 		8520DFAB2216B217000833A1 /* CKHomePagingMenuBubbleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKHomePagingMenuBubbleView.xib; sourceTree = "<group>"; };
 		8520DFAD2216BA2E000833A1 /* CKIndexedPagingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKIndexedPagingItem.swift; sourceTree = "<group>"; };
 		8520DFAF2216CB8F000833A1 /* CKRecentItemInvitationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRecentItemInvitationCell.xib; sourceTree = "<group>"; };
+		853174C322BDE5280092F73D /* BinderExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinderExtensions.swift; sourceTree = "<group>"; };
+		853174C622BDF09D0092F73D /* CKSearchBar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKSearchBar+Extension.swift"; sourceTree = "<group>"; };
+		853174C922BDF1200092F73D /* CKView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKView+Extension.swift"; sourceTree = "<group>"; };
 		85335BE421F1C59300DFA15E /* CKRoomViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomViewController.xib; sourceTree = "<group>"; };
 		853C92562203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditProfileWithTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKEditProfileWithTextFieldTableViewCell.xib; sourceTree = "<group>"; };
@@ -1186,9 +1199,11 @@
 		853E996A21E4A73600D005F4 /* CKAppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAppTheme.swift; sourceTree = "<group>"; };
 		8542618422316D9200F24395 /* CKSettingButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSettingButtonCell.swift; sourceTree = "<group>"; };
 		8542618522316D9200F24395 /* CKSettingButtonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSettingButtonCell.xib; sourceTree = "<group>"; };
+		8551EC9222BB9B060097ED84 /* CKThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKThemeManager.swift; sourceTree = "<group>"; };
 		85548F4921E332BC008221AD /* CKRecentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentItemTableViewCell.swift; sourceTree = "<group>"; };
 		85548F4A21E332BC008221AD /* CKRecentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRecentItemTableViewCell.xib; sourceTree = "<group>"; };
 		8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRecentItemInvitationCell.xib; sourceTree = "<group>"; };
+		8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKTableViewController+Extension.swift"; sourceTree = "<group>"; };
 		85743491221566B10009E618 /* CKMessageContentManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKMessageContentManagement.swift; sourceTree = "<group>"; };
 		858A532021F58AB200570D83 /* CKRoomDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomDataSource.swift; sourceTree = "<group>"; };
 		858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentListViewController.swift; sourceTree = "<group>"; };
@@ -2005,8 +2020,20 @@
 				8519E71221DF0C26006C055F /* CKImage+Extension.swift */,
 				8519E71421DF0CA2006C055F /* CKViewController+Extension.swift */,
 				E54A5AD921FAF6020094461E /* Misc+Extension.swift */,
+				853174C622BDF09D0092F73D /* CKSearchBar+Extension.swift */,
+				853174C922BDF1200092F73D /* CKView+Extension.swift */,
+				8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		853174C222BDE5090092F73D /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				8551EC9222BB9B060097ED84 /* CKThemeManager.swift */,
+				853174C322BDE5280092F73D /* BinderExtensions.swift */,
+			);
+			path = Theme;
 			sourceTree = "<group>";
 		};
 		853CBDDF2232059A00404DBC /* Report */ = {
@@ -2199,6 +2226,7 @@
 		A0D996B221CB415600AD8135 /* Ultils */ = {
 			isa = PBXGroup;
 			children = (
+				853174C222BDE5090092F73D /* Theme */,
 				E523313C221C5506008FC772 /* ImagePicker */,
 				85CA7CAD21DE307F000331AC /* CKColor.swift */,
 				A0D996B521CB42E800AD8135 /* Checkbox.swift */,
@@ -4765,6 +4793,9 @@
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/Reusable/Reusable.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxTheme/RxTheme.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftImagePicker/SwiftImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
 				"${BUILT_PRODUCTS_DIR}/cmark/cmark.framework",
@@ -4791,6 +4822,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reusable.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTheme.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark.framework",
@@ -4929,6 +4963,7 @@
 				E5E7DB6F229BC7D300AB7CF3 /* MXRoom+Riot.m in Sources */,
 				E5E7DB70229BC7D300AB7CF3 /* RiotSettings.swift in Sources */,
 				E5E7DB71229BC7D300AB7CF3 /* PreviewRoomTitleView.m in Sources */,
+				8558894422C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */,
 				E5E7DB72229BC7D300AB7CF3 /* CKRoomSettingsParticipantViewController.swift in Sources */,
 				E5E7DB73229BC7D300AB7CF3 /* CKRoomHeaderInSectionView.swift in Sources */,
 				E5E7DB74229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
@@ -4953,6 +4988,7 @@
 				E5E7DB87229BC7D300AB7CF3 /* CKContactListSearchCell.swift in Sources */,
 				E5E7DB88229BC7D300AB7CF3 /* SettingsViewController.m in Sources */,
 				E5E7DB89229BC7D300AB7CF3 /* CkLoginViewController.swift in Sources */,
+				853174C822BDF09D0092F73D /* CKSearchBar+Extension.swift in Sources */,
 				E5E7DB8A229BC7D300AB7CF3 /* CKRoomCreatingBaseCell.swift in Sources */,
 				E5E7DB8B229BC7D300AB7CF3 /* CKFavouriteViewController.swift in Sources */,
 				E5E7DB8C229BC7D300AB7CF3 /* RoomCollectionViewCell.m in Sources */,
@@ -4979,6 +5015,7 @@
 				E5E7DBA1229BC7D300AB7CF3 /* TableViewCellWithCollectionView.m in Sources */,
 				E5E7DBA2229BC7D300AB7CF3 /* UINavigationController+Riot.m in Sources */,
 				E5E7DBA3229BC7D300AB7CF3 /* SimpleRoomTitleView.m in Sources */,
+				8551EC9422BB9B0E0097ED84 /* CKThemeManager.swift in Sources */,
 				E5E7DBA4229BC7D300AB7CF3 /* CKRoomAddingSearchCell.swift in Sources */,
 				E5E7DBA5229BC7D300AB7CF3 /* RoomDataSource.m in Sources */,
 				E5E7DBA6229BC7D300AB7CF3 /* RoomIncomingTextMsgWithoutSenderNameBubbleCell.m in Sources */,
@@ -5065,7 +5102,9 @@
 				E5E7DBF7229BC7D300AB7CF3 /* StickerPickerViewController.m in Sources */,
 				E5E7DBF8229BC7D300AB7CF3 /* DesignableUI.swift in Sources */,
 				E5E7DBF9229BC7D300AB7CF3 /* ContactsTableViewController.m in Sources */,
+				853174CB22BDF1200092F73D /* CKView+Extension.swift in Sources */,
 				E5E7DBFA229BC7D300AB7CF3 /* RoomTitleView.m in Sources */,
+				853174C522BDE5280092F73D /* BinderExtensions.swift in Sources */,
 				E5E7DBFB229BC7D300AB7CF3 /* RoomInputToolbarView.m in Sources */,
 				E5E7DBFC229BC7D300AB7CF3 /* CKRoomBaseCell.swift in Sources */,
 				E5E7DBFD229BC7D300AB7CF3 /* CKRecentItemFirstFavouriteCell.swift in Sources */,
@@ -5229,6 +5268,7 @@
 				F083BDEE1E7009ED00A9B29C /* MXRoom+Riot.m in Sources */,
 				B1B5598620EFC3E000210D55 /* RiotSettings.swift in Sources */,
 				B1B5581720EF625800210D55 /* PreviewRoomTitleView.m in Sources */,
+				8558894322C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */,
 				E574335721F328B600989FF3 /* CKRoomSettingsParticipantViewController.swift in Sources */,
 				E5026CA221F5D601009D1B86 /* CKRoomHeaderInSectionView.swift in Sources */,
 				B1B558C420EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
@@ -5253,6 +5293,7 @@
 				E54A5AE621FEEE340094461E /* CKContactListSearchCell.swift in Sources */,
 				B1B5571A20EE6C4D00210D55 /* SettingsViewController.m in Sources */,
 				E5C0B9A221CA37E500910D8B /* CkLoginViewController.swift in Sources */,
+				853174C722BDF09D0092F73D /* CKSearchBar+Extension.swift in Sources */,
 				E574336821F3709500989FF3 /* CKRoomCreatingBaseCell.swift in Sources */,
 				85E57518220499DA0076FFAE /* CKFavouriteViewController.swift in Sources */,
 				B1B5594720EF7BD000210D55 /* RoomCollectionViewCell.m in Sources */,
@@ -5279,6 +5320,7 @@
 				B1B5594520EF7BD000210D55 /* TableViewCellWithCollectionView.m in Sources */,
 				F083BDEF1E7009ED00A9B29C /* UINavigationController+Riot.m in Sources */,
 				B1B5581F20EF625800210D55 /* SimpleRoomTitleView.m in Sources */,
+				8551EC9322BB9B060097ED84 /* CKThemeManager.swift in Sources */,
 				E5E27FD921F6CAE100532610 /* CKRoomAddingSearchCell.swift in Sources */,
 				B169330020F3C97D00746532 /* RoomDataSource.m in Sources */,
 				B1B558ED20EF768F00210D55 /* RoomIncomingTextMsgWithoutSenderNameBubbleCell.m in Sources */,
@@ -5365,7 +5407,9 @@
 				B1B5577120EE702800210D55 /* StickerPickerViewController.m in Sources */,
 				A0D996B421CB417E00AD8135 /* DesignableUI.swift in Sources */,
 				B1B5572020EE6C4D00210D55 /* ContactsTableViewController.m in Sources */,
+				853174CA22BDF1200092F73D /* CKView+Extension.swift in Sources */,
 				B1B5581920EF625800210D55 /* RoomTitleView.m in Sources */,
+				853174C422BDE5280092F73D /* BinderExtensions.swift in Sources */,
 				B1B557BE20EF5B4500210D55 /* RoomInputToolbarView.m in Sources */,
 				E574336621F3682A00989FF3 /* CKRoomBaseCell.swift in Sources */,
 				E51744132216A5C000C13B21 /* CKRecentItemFirstFavouriteCell.swift in Sources */,

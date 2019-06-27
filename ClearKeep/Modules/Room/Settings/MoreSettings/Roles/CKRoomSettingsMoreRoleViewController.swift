@@ -26,7 +26,8 @@ final class CKRoomSettingsMoreRoleViewController: MXKViewController {
     
     private let kCkRoomModeratorLevel = 50
     private let kCkRoomAdminLevel = 100
-    
+    private let disposeBag = DisposeBag()
+
     /**
      DataSource for UI
      */
@@ -82,10 +83,25 @@ final class CKRoomSettingsMoreRoleViewController: MXKViewController {
                 self.tableView.reloadSections([Section.privileged.rawValue], with: .none)
             }
         }
+
+        bindingTheme()
     }
     
     // MARK: - PRIVATE
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     /**
      Cell for roles
      */
@@ -108,6 +124,8 @@ final class CKRoomSettingsMoreRoleViewController: MXKViewController {
         }
         
         cell.title = self.stringForIndexPath(indexPath)
+        cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         return cell
     }
     
@@ -177,7 +195,7 @@ final class CKRoomSettingsMoreRoleViewController: MXKViewController {
 extension CKRoomSettingsMoreRoleViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -194,8 +212,9 @@ extension CKRoomSettingsMoreRoleViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
             view.descriptionLabel.text = self.stringForSection(section)?.uppercased()
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             return view
         }
         return nil

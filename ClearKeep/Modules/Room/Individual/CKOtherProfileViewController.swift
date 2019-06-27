@@ -54,6 +54,8 @@ class CKOtherProfileViewController: MXKViewController {
     private var myUser: MXMyUser?
     private let kCkRoomAdminLevel = 100
 
+    private let disposeBag = DisposeBag()
+
     /**
      When you want this controller always behavior a presenting controller, set true it
      */
@@ -103,8 +105,22 @@ class CKOtherProfileViewController: MXKViewController {
         
         // Update user state
         self.updateUserState()
+
+        self.bindingTheme()
     }
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     private func cellForAvatarPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileAvatarCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountProfileAvatarCell.identifier, for: indexPath) as? CKAccountProfileAvatarCell {
@@ -136,6 +152,9 @@ class CKOtherProfileViewController: MXKViewController {
             } else {
                 cell.settingStatus(online: false)
             }
+
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
             return cell
         }
         return CKAccountProfileAvatarCell()
@@ -159,7 +178,12 @@ class CKOtherProfileViewController: MXKViewController {
                     self.callToRoom(userId: userId)
                 }
             }
-            
+
+            cell.contentView.backgroundColor = UIColor.clear
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.messageButton.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+            cell.callButton.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+
             return cell
         }
         return CKOtherProfileActionCell()
@@ -186,7 +210,8 @@ class CKOtherProfileViewController: MXKViewController {
                 cell.titleLabel.text = nil
                 cell.contentLabel.text = nil
             }
-            
+
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
             return cell
         }
         return CKAccountProfileInfoCell()
@@ -202,7 +227,9 @@ class CKOtherProfileViewController: MXKViewController {
                     weakSelf.setUserToAdmin()
                 }
             }
-            
+
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.assignAdminButton.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
             return cell
         }
         
@@ -355,18 +382,18 @@ extension CKOtherProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.backgroundColor = UIColor.white
+        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.backgroundColor = UIColor.white
+        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

@@ -9,5 +9,5 @@
 import Foundation
 
 final public class CkSplitViewController: RiotSplitViewController {
-
+    
 }

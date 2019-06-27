@@ -37,6 +37,10 @@ class CKAccountProfileActionCell: CKAccountProfileBaseCell {
         
         self.settingButton.addTarget(self, action: #selector(onClickedSettingButton(_:)), for: .touchUpInside)
         self.editButton.addTarget(self, action: #selector(onClickedEditButton(_:)), for: .touchUpInside)
+
+        self.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        self.settingButton.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+        self.editButton.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
     }
     
     // MARK: - ACTION

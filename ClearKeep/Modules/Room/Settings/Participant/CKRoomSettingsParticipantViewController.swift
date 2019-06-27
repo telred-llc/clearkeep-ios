@@ -55,6 +55,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     private var pushInfoUpdateObserver: Any?
     
     private let kCkRoomAdminLevel = 100
+    private let disposeBag = DisposeBag()
     
     // MARK: - OVERRIDE
     
@@ -122,9 +123,23 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         
         // reload
         self.reloadParticipantsInRoom()
-        
+
+        bindingTheme()
     }
-    
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     private func liveTimelineEvents() {
         
         // event of types
@@ -301,7 +316,8 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
             return view
         }
@@ -310,7 +326,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UILabel()
-        view.backgroundColor = CKColor.Background.tableView
+        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         return view
     }
     
@@ -318,14 +334,14 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
         guard let s = Section(rawValue: section) else { return 1}
         switch s {
         case .search:
-            return CKLayoutSize.Table.header1px
+            return CGFloat.leastNonzeroMagnitude
         default:
             return CKLayoutSize.Table.defaultHeader
         }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.footer1px
+        return CGFloat.leastNonzeroMagnitude
     }
 }
 
@@ -386,6 +402,9 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
                 cell.status = u.presence == MXPresenceOnline ? 1 : 0
             } else { cell.status = 0 }
 
+            cell.participantLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
             return cell
         }
         
@@ -419,6 +438,9 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
                     IndexSet([Section.participants.rawValue]), with: .none)
             })
         }
+
+        cell.backgroundColor = UIColor.clear
+        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
         return cell
     }
     

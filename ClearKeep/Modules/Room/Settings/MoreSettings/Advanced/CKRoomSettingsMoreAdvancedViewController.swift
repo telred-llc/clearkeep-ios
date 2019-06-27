@@ -25,17 +25,32 @@ final class CKRoomSettingsMoreAdvancedViewController: MXKViewController {
     // MARK: - PROPERTY
     
     public var mxRoom: MXRoom!
-    
+    private let disposeBag = DisposeBag()
+
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(CKRoomSettingsMoreAdvancedCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreAdvancedCell.identifier)
         self.navigationItem.title = "Advanced"
+        self.bindingTheme()
     }
     
     // MARK: - PRIVATE
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     private func cellForAdvanced(_ indexPath: IndexPath) -> CKRoomSettingsMoreAdvancedCell {
         let cell = self.tableView.dequeueReusableCell(
             withIdentifier: CKRoomSettingsMoreAdvancedCell.identifier,
@@ -50,7 +65,10 @@ final class CKRoomSettingsMoreAdvancedViewController: MXKViewController {
         case .version:
             cell.title = "Version: 1"
         }
-        
+
+        cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
         return cell
     }
     
@@ -71,7 +89,7 @@ final class CKRoomSettingsMoreAdvancedViewController: MXKViewController {
 extension CKRoomSettingsMoreAdvancedViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -88,8 +106,9 @@ extension CKRoomSettingsMoreAdvancedViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
             view.descriptionLabel.text = self.titleForSection(section)
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             return view
         }
         return nil

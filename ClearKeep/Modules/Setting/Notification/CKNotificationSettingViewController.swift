@@ -45,7 +45,9 @@ class CKNotificationSettingViewController: MXKViewController {
     
     // Current alert (if any).
     private var currentAlert: UIAlertController?
-    
+
+    private let disposeBag = DisposeBag()
+
     // MARK: - LifeCycle
     
     deinit {
@@ -65,8 +67,21 @@ class CKNotificationSettingViewController: MXKViewController {
     private func setupInitization() {
         setupNotification()
         setupTableView()
+        bindingTheme()
     }
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     override func onMatrixSessionStateDidChange(_ notif: Notification?) {
         // Check whether the concerned session is a new one which is not already associated with this view controller.
         if let mxSession = notif?.object as? MXSession {
@@ -247,7 +262,10 @@ extension CKNotificationSettingViewController: UITableViewDataSource {
             cell.switchView.isEnabled = true
             cell.switchView.addTarget(self, action: #selector(togglePinRoomsWithUnread(_:)), for: UIControlEvents.valueChanged)
         }
-        
+
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+
         return cell
     }
 }
@@ -271,7 +289,7 @@ extension CKNotificationSettingViewController: UITableViewDelegate {
             let label = UILabel.init()
             label.numberOfLines = 0
             label.font = UIFont.systemFont(ofSize: 14)
-            label.textColor = UIColor.init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
+            label.theme.textColor = themeService.attrStream{ $0.secondTextColor }
             
             let appDisplayName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
             label.text = String(format: NSLocalizedString("settings_global_settings_info", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), appDisplayName ?? "")

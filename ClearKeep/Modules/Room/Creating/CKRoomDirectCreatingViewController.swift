@@ -41,7 +41,9 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
      data source
      */
     private var suggestedDataSource = [MXKContact]()
-    
+
+    private let disposeBag = DisposeBag()
+
     // MARK: - OVERRIDE
 
     override func viewDidLoad() {
@@ -67,6 +69,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         
         // first reload ds
         self.reloadDataSource()
+        bindingTheme()
     }
     
     // MARK: - ACTION
@@ -76,7 +79,20 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
     }
     
     // MARK: - PRIVATE
-    
+
+    func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.tableView.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     /**
      Reload suggested data source
      */
@@ -160,7 +176,13 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                 // push vc
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            
+
+            cell.newGroupButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.newCallButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.newRoomLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.newCallLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
             return cell
         }
         return CKRoomDirectCreatingActionCell()
@@ -192,7 +214,9 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                 cell.status = u.presence == MXPresenceOnline ? 1 : 0
             } else { cell.status = 0 }
 
-            
+            cell.suggesteeLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
             return cell
         }
         return CKRoomDirectCreatingSuggestedCell()
@@ -242,7 +266,10 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                 }
             })
         }
-        
+
+        cell.backgroundColor = UIColor.clear
+        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
+
         return cell
     }
     
@@ -337,8 +364,9 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
             return view
         }
         return UIView()
@@ -348,7 +376,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         guard let s = Section(rawValue: section) else { return 0}
         switch s {
         case .search:
-            return CKLayoutSize.Table.header1px
+            return CGFloat.leastNonzeroMagnitude
         case .action:
             return CKLayoutSize.Table.defaultHeader
         case .suggested:
@@ -357,7 +385,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

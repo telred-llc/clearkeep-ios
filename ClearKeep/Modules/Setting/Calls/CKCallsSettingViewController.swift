@@ -32,6 +32,7 @@ class CKCallsSettingViewController: MXKViewController {
     // MARK: Private
     
     private let sections: [[CellType]] = [[.callIntegration]]
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,19 @@ class CKCallsSettingViewController: MXKViewController {
     
     private func setupInitization() {
         setupTableView()
+        bindingTheme()
+    }
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
     }
     
     override func onMatrixSessionStateDidChange(_ notif: Notification?) {
@@ -93,7 +107,9 @@ extension CKCallsSettingViewController: UITableViewDataSource {
         
         let cellType = sections[indexPath.section][indexPath.row]
         cell.titleLabel.text = cellType.title()
-        
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+
         switch cellType {
         case .callIntegration:
             cell.switchView.isOn = MXKAppSettings.standard()?.isCallKitEnabled ?? false
@@ -123,8 +139,8 @@ extension CKCallsSettingViewController: UITableViewDelegate {
             let label = UILabel.init()
             label.numberOfLines = 0
             label.font = UIFont.systemFont(ofSize: 14)
-            label.textColor = UIColor.init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
-            
+            label.theme.textColor = themeService.attrStream{ $0.secondTextColor }
+
             label.text = NSLocalizedString("settings_callkit_info", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
             
             let headerView = UIView.init()

@@ -41,6 +41,9 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor
         self.statusView.layer.borderWidth = 2
+
+        self.roomNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        self.timeLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
     }
     
     /**
@@ -112,6 +115,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
                 
                 lastMessageLabel!.text = lastMessage
                 lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 14)
+                lastMessageLabel!.theme.textColor = themeService.attrStream{ $0.secondTextColor }
             } else {
                 if let lastMessageLabel = lastMessageLabel {
                     contentStackView.removeArrangedSubview(lastMessageLabel)
@@ -131,7 +135,8 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
             encryptedIconImage.image = UIImage(named: "ic_cell_badge")
             encryptedIconImage.isHidden = false
         } else {
-            encryptedIconImage.image = UIImage(named: "ic_key_encrypted")
+            encryptedIconImage.image = UIImage(named: "ic_key_encrypted")?.withRenderingMode(.alwaysTemplate)
+            encryptedIconImage.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
             encryptedIconImage.isHidden = (rcd.roomSummary.isEncrypted != true)
         }
         
