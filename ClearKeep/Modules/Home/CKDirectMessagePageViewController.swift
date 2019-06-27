@@ -12,10 +12,10 @@ class CKDirectMessagePageViewController: CKRecentListViewController {
     
     var missedItemCount: Int = 0
 
-    override func reloadData(rooms: [MXKRecentCellData]) {
+    override func reloadData(rooms: [[MXKRecentCellData]]) {
         super.reloadData(rooms: rooms)
         
         // keep missedItemCount
-        self.missedItemCount = rooms.filter({ $0.hasUnread || $0.notificationCount > 0 }).count
+        self.missedItemCount = rooms[1].filter({ $0.hasUnread || $0.notificationCount > 0 }).count
     }
 }

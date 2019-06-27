@@ -122,7 +122,7 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
     private func reloadData() {
         if var favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
             favouritesArray.reverse()
-            self.reloadData(rooms: favouritesArray)
+            self.reloadData(rooms: [favouritesArray])
         } else {
             self.reloadData(rooms: [])
         }

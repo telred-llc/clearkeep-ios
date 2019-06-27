@@ -450,8 +450,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     }
     
     @objc public func dataSource(_ dataSource: MXKDataSource?, didCellChange changes: Any?) {
-        self.reloadDirectMessagePage()
-        self.reloadRoomPage()
+        self.reloadDataSource()
         
         // reload pager
         self.pagingViewController.reloadData()
@@ -469,7 +468,41 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         self.removeMatrixSession(mxSession)
     }
     
-    private func reloadRoomPage() {
+//    private func reloadRoomPage() {
+//        if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
+//            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+//                for invite in invitesArray.reversed() {
+//                    if invite.roomSummary.isDirect == false {
+//                        roomsArray.insert(invite, at: 0)
+//                    }
+//                }
+//            }
+//            roomVC.reloadData(rooms: roomsArray)
+//        } else {
+//            roomVC.reloadData(rooms: [])
+//        }
+//    }
+//
+//    private func reloadDirectMessagePage() {
+//        if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
+//
+//            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+//                for invite in invitesArray.reversed() {
+//                    if invite.roomSummary.isDirect == true {
+//                        peopleArray.insert(invite, at: 0)
+//                    }
+//                }
+//            }
+//
+//            directMessageVC.reloadData(rooms: peopleArray)
+//        } else {
+//            directMessageVC.reloadData(rooms: [])
+//        }
+//    }
+    
+    private func reloadDataSource() {
+        var rooms: [[MXKRecentCellData]] = []
+        
         if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
                 for invite in invitesArray.reversed() {
@@ -478,15 +511,12 @@ extension CkHomeViewController: MXKDataSourceDelegate {
                     }
                 }
             }
-            roomVC.reloadData(rooms: roomsArray)
+            rooms.append(roomsArray)
         } else {
-            roomVC.reloadData(rooms: [])
+            rooms.append([])
         }
-    }
-    
-    private func reloadDirectMessagePage() {
+        
         if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
-            
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
                 for invite in invitesArray.reversed() {
                     if invite.roomSummary.isDirect == true {
@@ -494,11 +524,13 @@ extension CkHomeViewController: MXKDataSourceDelegate {
                     }
                 }
             }
-            
-            directMessageVC.reloadData(rooms: peopleArray)            
+            rooms.append(peopleArray) 
         } else {
-            directMessageVC.reloadData(rooms: [])
+            rooms.append([])
         }
+        
+        roomVC.reloadData(rooms: rooms)
+        directMessageVC.reloadData(rooms: rooms)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -535,6 +567,17 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
             self.showDirectChatVC()
         } else if aClass == CKRoomPageViewController.self {
             self.showRoomChatVC()
+        }
+    }
+    
+    /**
+     Delegate of Recent List view controller
+     */
+    func recentListViewDidTapStartChat(_ section: Int) {
+        if section == SectionRecent.room.rawValue {
+            self.showRoomChatVC()
+        } else if section == SectionRecent.direct.rawValue {
+            self.showDirectChatVC()
         }
     }
 }

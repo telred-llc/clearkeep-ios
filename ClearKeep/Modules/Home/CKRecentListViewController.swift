@@ -13,6 +13,12 @@ import FloatingPanel
 protocol CKRecentListViewControllerDelegate: class {
     func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData)
     func recentListViewDidTapStartChat(_ class: AnyClass)
+    func recentListViewDidTapStartChat(_ section: Int)
+}
+
+enum SectionRecent: Int {
+    case room     = 0
+    case direct   = 1
 }
 
 class CKRecentListViewController: MXKViewController {
@@ -25,16 +31,16 @@ class CKRecentListViewController: MXKViewController {
     
     weak var delegate: CKRecentListViewControllerDelegate?
 
-    var dataSource: [MXKRecentCellData] = []
+    var dataSource: [[MXKRecentCellData]] = []
     
     var fpc: FloatingPanelController!
     var isAddview = false
     let viewbg = UIView()
     let disposeBag = DisposeBag()
 
-    var isEmpty: Bool {
-        return (self.dataSource.count == 0)
-    }
+//    var isEmpty: Bool {
+//        return (self.dataSource.count == 0)
+//    }
 
     
     override func viewDidLoad() {
@@ -52,14 +58,19 @@ class CKRecentListViewController: MXKViewController {
             .disposed(by: disposeBag)
     }
 
-    func reloadData(rooms: [MXKRecentCellData]) {
+    func reloadData(rooms: [[MXKRecentCellData]]) {
         
         // update source
         self.dataSource = rooms
         
         // separator
-        if self.isEmpty { self.recentTableView.separatorStyle = .none }
-        else { self.recentTableView.separatorStyle = .singleLine }
+//        if self.isEmpty { self.recentTableView.separatorStyle = .none }
+//        else { self.recentTableView.separatorStyle = .singleLine }
+        if (self.dataSource.count == 1 && self.dataSource[0].count == 0) || (self.dataSource.count == 2 && self.dataSource[0].count == 0 && self.dataSource[1].count == 0) {
+            self.recentTableView.separatorStyle = .none
+        } else {
+            self.recentTableView.separatorStyle = .singleLine
+        }
         
         // reload tb
         self.recentTableView?.reloadData()        
@@ -159,6 +170,11 @@ class CKRecentListViewController: MXKViewController {
         // present
         self.present(alert, animated: true, completion: nil)
     }
+    
+    private func isEmpty(section: Int) -> Bool {
+        return self.dataSource[section].count == 0
+    }
+    
 }
 
 private extension CKRecentListViewController {
@@ -238,14 +254,20 @@ private extension CKRecentListViewController {
     
     @objc func onTableViewCellLongPress(_ gesture: UIGestureRecognizer) {
         
-        // do nothing
-        if self.isEmpty {
-            return
-        }
+//        // do nothing
+//        if self.isEmpty {
+//            return
+//        }
         
         // try to do more
         if let selectedIndexPath = getIndexPath(gesture: gesture) {
-            let selectedRoomData = dataSource[selectedIndexPath.row]
+            
+            // do nothing
+            if self.isEmpty(section: selectedIndexPath.section) {
+                return
+            }
+            
+            let selectedRoomData = dataSource[selectedIndexPath.section][selectedIndexPath.row]
             if isAddview == false {
                 viewbg.isHidden = false
                 viewbg.frame = UIApplication.shared.keyWindow!.frame
@@ -280,14 +302,20 @@ private extension CKRecentListViewController {
     
     @objc func onTableViewCellTap(_ gesture: UIGestureRecognizer) {
         
-        // do nothing
-        if self.isEmpty {
-            return
-        }
+//        // do nothing
+//        if self.isEmpty {
+//            return
+//        }
         
         // try to do more
         if let selectedIndexPath = getIndexPath(gesture: gesture) {
-            let selectedRoomData = dataSource[selectedIndexPath.row]
+            
+            // do nothing
+            if self.isEmpty(section: selectedIndexPath.section) {
+                return
+            }
+            
+            let selectedRoomData = dataSource[selectedIndexPath.section][selectedIndexPath.row]
             displayRoom(withRoomId: selectedRoomData.roomSummary.roomId, inMatrixSession: selectedRoomData.roomSummary.room.mxSession)
         }
     }
@@ -298,7 +326,7 @@ private extension CKRecentListViewController {
     func cellForInvitationRoom(_ indexPath: IndexPath, cellData: MXKCellData) -> CKRecentItemInvitationCell {
         
         // cell data
-        let cellData = dataSource[indexPath.row]
+        let cellData = dataSource[indexPath.section][indexPath.row]
         
         // init cell
         let cell = self.recentTableView.dequeueReusableCell(
@@ -403,14 +431,20 @@ private extension CKRecentListViewController {
 
         // action
         cell.startChattingHanlder = {
-            self.delegate?.recentListViewDidTapStartChat(self.classForCoder)
+//            self.delegate?.recentListViewDidTapStartChat(self.classForCoder)
+            self.delegate?.recentListViewDidTapStartChat(indexPath.section)
         }
         
         // change text        
-        if self.isKind(of: CKDirectMessagePageViewController.self) {
-            cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
-        } else if self.isKind(of: CKRoomPageViewController.self) {
+//        if self.isKind(of: CKDirectMessagePageViewController.self) {
+//            cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
+//        } else if self.isKind(of: CKRoomPageViewController.self) {
+//            cell.startChatButton.setTitle("Start Room Chat", for: .normal)
+//        }
+        if indexPath.section == SectionRecent.room.rawValue {
             cell.startChatButton.setTitle("Start Room Chat", for: .normal)
+        } else if indexPath.section == SectionRecent.direct.rawValue {
+            cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
         }
         
         return cell
@@ -436,19 +470,42 @@ private extension CKRecentListViewController {
 extension CKRecentListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return self.dataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if self.dataSource.count == 1 {
+            return 0
+        } else {
+            return 50
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { 
+        if self.dataSource.count != 1, let view = CKRecentHeaderView.instance() {
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+            view.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            if section == SectionRecent.room.rawValue {
+                view.blindData(title: String.ck_LocalizedString(key: "Room"), numberChat: self.dataSource[section].count)
+            } else if section == SectionRecent.direct.rawValue{
+                view.blindData(title: String.ck_LocalizedString(key: "Direct Message"), numberChat: self.dataSource[section].count)
+            }
+            
+            return view
+        }
+        return UIView()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         // direct or room
-        return dataSource.count == 0 ? 1 : dataSource.count
+        return dataSource[section].count == 0 ? 1 : dataSource[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // empty? and not favourite?
-        if self.isEmpty {
+        if self.isEmpty(section: indexPath.section) {
             
             // fav
             if self.isKind(of: CKFavouriteViewController.self) {
@@ -464,7 +521,7 @@ extension CKRecentListViewController: UITableViewDataSource {
         } else {
             
             // direct & room?
-            let cellData = dataSource[indexPath.row]
+            let cellData = dataSource[indexPath.section][indexPath.row]
             if cellData.roomSummary.membership == MXMembership.invite {
                 let cell = self.cellForInvitationRoom(indexPath, cellData: cellData)
                 cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
@@ -479,12 +536,12 @@ extension CKRecentListViewController: UITableViewDataSource {
 }
 
 extension CKRecentListViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? CKRecentItemInvitationCell {
             cell.updateUI()
-        }
-        else if let cell = cell as? CKRecentItemTableViewCell {
-            let cellData = dataSource[indexPath.row]
+        } else if let cell = cell as? CKRecentItemTableViewCell {
+            let cellData = dataSource[indexPath.section][indexPath.row]
             cell.render(cellData)
         }
     }
