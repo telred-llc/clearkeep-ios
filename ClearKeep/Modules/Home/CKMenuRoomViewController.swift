@@ -90,6 +90,7 @@ final class CKMenuRoomViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         datasourceTableView = [mute, favourite, .setting, .leave]
+        self.tableView.reloadData()
     }
 
     // MARK: - PRIVATE
