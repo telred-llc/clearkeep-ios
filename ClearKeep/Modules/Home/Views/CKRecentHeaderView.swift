@@ -12,6 +12,7 @@ class CKRecentHeaderView: UIView {
 
     @IBOutlet weak var arrowImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var addButton: UIButton!
     
     internal var addOnPressHandler: (() -> Void)?
     internal var onPressHandler: (() -> Void)?
@@ -23,14 +24,23 @@ class CKRecentHeaderView: UIView {
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = CKColor.Background.tableView
         
-        self.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
+        self.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        self.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        
+        self.arrowImageView.image = self.arrowImageView.image?.withRenderingMode(.alwaysTemplate)
+        self.arrowImageView.theme.tintColor = themeService.attrStream { $0.primaryTextColor }
+        
+        let addImage = self.addButton.imageView?.image
+        let tintedAddImage = addImage?.withRenderingMode(.alwaysTemplate)
+        self.addButton.setImage(tintedAddImage, for: .normal)
+        self.addButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
         
         // add tap gesture to cell
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(onHeaderViewTap))
         tap.cancelsTouchesInView = true
         self.addGestureRecognizer(tap)
+        
     }
 
     // MARK: - ACTION
@@ -50,11 +60,11 @@ class CKRecentHeaderView: UIView {
     func tapHeader(isExpanded: Bool) {
         if isExpanded {
             UIView.animate(withDuration: 0.5, animations: {
-                self.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
+                self.arrowImageView.transform = CGAffineTransform.identity
             })
         } else {
             UIView.animate(withDuration: 0.5) {
-                self.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi)
+                self.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
             }
         }
     }

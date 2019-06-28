@@ -26,9 +26,10 @@ extension UIViewController {
     /**
      Show alert in Self
      */
-    func showAlert(_ message: String) {
-        let alert = UIAlertController(title: "ClearKeep", message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+    func showAlert(_ message: String) { 
+        let error = message == "No known servers" ? Bundle.mxk_localizedString(forKey: "room_error_join_failed_empty_room") : message
+        let alert = UIAlertController(title: "ClearKeep", message: error, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }

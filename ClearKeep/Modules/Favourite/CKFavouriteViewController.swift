@@ -41,15 +41,15 @@ class CKFavouriteViewController: CKRecentListViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
     }
 
-    override func bindingTheme() {
-        super.bindingTheme()
-
-        // Binding navigation bar color
-        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
-        }).disposed(by: disposeBag)
-    }
+//    override func bindingTheme() {
+//        super.bindingTheme()
+//
+//        // Binding navigation bar color
+//        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+//            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+//            self?.barTitleColor = themeService.attrs.primaryTextColor
+//        }).disposed(by: disposeBag)
+//    }
 
     @objc public func displayList(_ aRecentsDataSource: MXKRecentsDataSource!) {
         

@@ -11,14 +11,16 @@ import XLActionController
 import FloatingPanel
 
 protocol CKRecentListViewControllerDelegate: class {
+    
     func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData)
-    func recentListViewDidTapStartChat(_ class: AnyClass)
+    
     func recentListViewDidTapStartChat(_ section: Int)
+    
 }
 
 enum SectionRecent: Int {
-    case room     = 0
-    case direct   = 1
+    case room = 0
+    case direct = 1
 }
 
 class CKRecentListViewController: MXKViewController {
@@ -38,11 +40,6 @@ class CKRecentListViewController: MXKViewController {
     var isAddview = false
     let viewbg = UIView()
     let disposeBag = DisposeBag()
-
-//    var isEmpty: Bool {
-//        return (self.dataSource.count == 0)
-//    }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +54,12 @@ class CKRecentListViewController: MXKViewController {
         themeService.rx
             .bind({ $0.secondBgColor }, to: recentTableView.rx.backgroundColor)
             .disposed(by: disposeBag)
+        
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
     }
 
     func reloadData(rooms: [[MXKRecentCellData]]) {
@@ -65,15 +68,11 @@ class CKRecentListViewController: MXKViewController {
         self.dataSource = rooms
         
         // separator
-//        if self.isEmpty { self.recentTableView.separatorStyle = .none }
-//        else { self.recentTableView.separatorStyle = .singleLine }
         if (self.dataSource.count == 1 && self.dataSource[0].count == 0) || (self.dataSource.count == 2 && self.dataSource[0].count == 0 && self.dataSource[1].count == 0) {
-            self.recentTableView.separatorStyle = .none
+            self.recentTableView?.separatorStyle = .none
         } else {
-            self.recentTableView.separatorStyle = .singleLine
+            self.recentTableView?.separatorStyle = .singleLine
         }
-        
-//        self.recentTableView.separatorStyle = .none
         
         // reload tb
         self.recentTableView?.reloadData()        
@@ -258,11 +257,6 @@ private extension CKRecentListViewController {
     
     @objc func onTableViewCellLongPress(_ gesture: UIGestureRecognizer) {
         
-//        // do nothing
-//        if self.isEmpty {
-//            return
-//        }
-        
         // try to do more
         if let selectedIndexPath = getIndexPath(gesture: gesture) {
             
@@ -320,6 +314,7 @@ private extension CKRecentListViewController {
     }
     
     // MARK: - Header & cell instance
+    
     /**
      Header instance for section
      */
@@ -328,7 +323,12 @@ private extension CKRecentListViewController {
             return UIView()
         }
         
-        view.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        if self.isExpanded[section] {
+            view.arrowImageView.transform = CGAffineTransform.identity
+        } else {
+            view.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
+        }
+        
         if section == SectionRecent.room.rawValue {
             view.setTitle(title: String.ck_LocalizedString(key: "Room"), numberChat: self.dataSource[section].count)
         } else if section == SectionRecent.direct.rawValue{
@@ -461,16 +461,10 @@ private extension CKRecentListViewController {
 
         // action
         cell.startChattingHanlder = {
-//            self.delegate?.recentListViewDidTapStartChat(self.classForCoder)
             self.delegate?.recentListViewDidTapStartChat(indexPath.section)
         }
         
-        // change text        
-//        if self.isKind(of: CKDirectMessagePageViewController.self) {
-//            cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
-//        } else if self.isKind(of: CKRoomPageViewController.self) {
-//            cell.startChatButton.setTitle("Start Room Chat", for: .normal)
-//        }
+        // change text
         if indexPath.section == SectionRecent.room.rawValue {
             cell.startChatButton.setTitle("Start Room Chat", for: .normal)
         } else if indexPath.section == SectionRecent.direct.rawValue {
@@ -534,6 +528,7 @@ private extension CKRecentListViewController {
         // Insert the rows
         self.recentTableView.insertRows(at: indexPaths, with: .left)
     }
+    
 }
 
 extension CKRecentListViewController: UITableViewDataSource {
@@ -552,7 +547,6 @@ extension CKRecentListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = self.headerSection(section)
-        header.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return header
     }
     

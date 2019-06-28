@@ -259,7 +259,18 @@
                     <view key="view" contentMode="scaleToFill" id="hxX-1O-zT8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bbw-jz-B3Z">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Bbw-jz-B3Z" firstAttribute="top" secondItem="MeI-Cb-toO" secondAttribute="bottom" id="BUn-Ma-Kdk"/>
+                            <constraint firstItem="Bbw-jz-B3Z" firstAttribute="leading" secondItem="hxX-1O-zT8" secondAttribute="leading" id="E1K-7k-9CQ"/>
+                            <constraint firstAttribute="trailing" secondItem="Bbw-jz-B3Z" secondAttribute="trailing" id="gW7-VR-zd3"/>
+                            <constraint firstItem="AwN-9W-dDJ" firstAttribute="top" secondItem="Bbw-jz-B3Z" secondAttribute="bottom" id="tTx-DG-jZF"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="tab_home" selectedImage="tab_home_selected" id="hNI-yH-EXj">
                         <userDefinedRuntimeAttributes>
@@ -268,13 +279,14 @@
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="rA5-PM-GBU"/>
                     <connections>
+                        <outlet property="recentTableView" destination="Bbw-jz-B3Z" id="7hi-oi-sU7"/>
                         <segue destination="WDS-Ip-RQ9" kind="presentation" identifier="presentStartChat" id="mhb-l9-pM3"/>
                         <segue destination="e7G-NU-7ck" kind="show" identifier="showRoomDetails" id="HSg-jN-pbo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pEk-LO-Ij0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="942" y="-2818"/>
+            <point key="canvasLocation" x="941.60000000000002" y="-2818.7406296851577"/>
         </scene>
         <!--Ck Master Tab Bar Controller-->
         <scene sceneID="iBe-Y5-gBt">
@@ -631,7 +643,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mhb-l9-pM3"/>
-        <segue reference="p4M-yR-DLA"/>
+        <segue reference="0ws-cL-0tk"/>
         <segue reference="f5u-Y1-7nt"/>
         <segue reference="HSg-jN-pbo"/>
         <segue reference="cUw-vU-gJq"/>
