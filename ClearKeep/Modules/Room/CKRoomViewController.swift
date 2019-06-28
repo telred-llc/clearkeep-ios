@@ -688,8 +688,6 @@ extension CKRoomViewController {
             roomInputToolbarView.backgroundColor = themeService.attrs.secondBgColor
             roomInputToolbarView.growingTextView?.placeholderColor = themeService.attrs.placeholderTextColor
             roomInputToolbarView.growingTextView?.textColor = themeService.attrs.primaryTextColor
-            roomInputToolbarView.sendImageButton.tintColor = themeService.attrs.primaryTextColor
-            roomInputToolbarView.mentionButton.tintColor = themeService.attrs.primaryTextColor
         } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! DisabledRoomInputToolbarView
 
@@ -1980,6 +1978,13 @@ extension CKRoomViewController: MXServerNoticesDelegate {
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?) {
+
+        func highlightMentionButton(highlight: Bool) {
+            if let roomInputToolbarView = inputToolbarView as? CKRoomInputToolbarView {
+                roomInputToolbarView.mentionButton.theme.tintColor = themeService.attrStream{ highlight ? $0.primaryTextColor : $0.secondTextColor }
+            }
+        }
+
         if triggerMention {
             
             var roomMembers: [MXRoomMember] = self.roomDataSource?.roomState.members.members ?? []
@@ -1990,6 +1995,7 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             
             if roomMembers.count > 0 {
                 mentionDataSource = CKMentionDataSource.init(roomMembers, matrixSession: self.mainSession, delegate: self)
+                highlightMentionButton(highlight: true)
                 return
             }
         }
@@ -1997,6 +2003,7 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
         if mentionDataSource != nil {
             mentionDataSource = nil
         }
+        highlightMentionButton(highlight: false)
     }
     
     override func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, isTyping typing: Bool) {

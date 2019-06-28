@@ -141,6 +141,7 @@ extension CKContactListViewController {
         self.tableView.register(CKContactListSearchCell.nib, forCellReuseIdentifier: CKContactListSearchCell.identifier)
         self.tableView.register(CKContactListMatrixCell.nib, forCellReuseIdentifier: CKContactListMatrixCell.identifier)
         self.tableView.register(CKContactListLocalCell.nib, forCellReuseIdentifier: CKContactListLocalCell.identifier)
+        self.tableView.theme.separatorColor = themeService.attrStream{ $0.separatorColor }
     }
     
     /**

@@ -83,7 +83,8 @@ final class CKMenuRoomViewController: UIViewController {
         tableView.register(
             UINib.init(nibName: "CKAlertSettingRoomCell", bundle: nil),
             forCellReuseIdentifier: "CKAlertSettingRoomCell")
-        
+
+        bindingTheme()
     }
     
     override func viewWillAppear(_ animated: Bool) {
