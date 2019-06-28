@@ -19,6 +19,7 @@ protocol Theme {
     var secondTextColor: UIColor { get } //subtitle, sending messages color.
     var placeholderTextColor: UIColor { get }
     var overlayColor: UIColor { get } // fading behind dialog modals. This color includes the transparency value.
+    var separatorColor: UIColor { get } // tableview separator
 
     var searchBarBgColor: UIColor { get }
     var tblHeaderBgColor: UIColor { get }
@@ -34,6 +35,7 @@ struct LightTheme: Theme {
     var primaryTextColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     var placeholderTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
     var overlayColor = UIColor.init(white: 0.3, alpha: 0.5)
+    var separatorColor = UIColor.lightGray.withAlphaComponent(0.4)
     var secondTextColor = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
     var searchBarBgColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var tblHeaderBgColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
@@ -50,6 +52,7 @@ struct DarkTheme: Theme {
     var secondTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
     var placeholderTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
     var overlayColor = UIColor.init(white: 0.3, alpha: 0.5)
+    var separatorColor = UIColor.lightGray.withAlphaComponent(0.4)
     var searchBarBgColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 1)
     var tblHeaderBgColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
 

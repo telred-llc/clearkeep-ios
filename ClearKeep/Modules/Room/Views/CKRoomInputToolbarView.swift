@@ -108,7 +108,10 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         shadowTextView.delegate = self
         maxNumberOfLines = 3
         typingMessage = .text(msg: nil)
-        mentionButton.setImage(UIImage.init(named: "ic_tagging")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        mentionButton.setImage(#imageLiteral(resourceName: "ic_tagging").withRenderingMode(.alwaysTemplate), for: .normal)
+        sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_enabled").withRenderingMode(.alwaysTemplate), for: .normal)
+        mentionButton.tintColor = themeService.attrs.secondTextColor
+        sendImageButton.tintColor = themeService.attrs.secondTextColor
     }
     
     override class func nib() -> UINib? {
@@ -311,9 +314,9 @@ private extension CKRoomInputToolbarView {
     
     func updateSendImageButton(highlight: Bool) {
         if highlight {
-            sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_enabled").withRenderingMode(.alwaysTemplate), for: .normal)
+            sendImageButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
         } else {
-            sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_disabled").withRenderingMode(.alwaysTemplate), for: .normal)
+            sendImageButton.theme.tintColor = themeService.attrStream{ $0.secondTextColor }
         }
     }
     

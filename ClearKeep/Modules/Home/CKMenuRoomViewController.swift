@@ -83,12 +83,14 @@ final class CKMenuRoomViewController: UIViewController {
         tableView.register(
             UINib.init(nibName: "CKAlertSettingRoomCell", bundle: nil),
             forCellReuseIdentifier: "CKAlertSettingRoomCell")
-        
+
+        bindingTheme()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         datasourceTableView = [mute, favourite, .setting, .leave]
+        self.tableView.reloadData()
     }
 
     // MARK: - PRIVATE

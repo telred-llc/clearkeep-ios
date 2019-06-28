@@ -59,7 +59,10 @@ class CKRecentListViewController: MXKViewController {
         
         // separator
         if self.isEmpty { self.recentTableView.separatorStyle = .none }
-        else { self.recentTableView.separatorStyle = .singleLine }
+        else {
+            self.recentTableView.separatorStyle = .singleLine
+            self.recentTableView.separatorColor = themeService.attrs.separatorColor
+        }
         
         // reload tb
         self.recentTableView?.reloadData()        
@@ -251,6 +254,12 @@ private extension CKRecentListViewController {
                 viewbg.frame = UIApplication.shared.keyWindow!.frame
                 viewbg.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.4)
                 isAddview = true
+
+                viewbg.gestureRecognizers?.forEach({ (gesture) in
+                    if gesture.isKind(of: UITapGestureRecognizer.self) {
+                        viewbg.removeGestureRecognizer(gesture)
+                    }
+                })
                 let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(bgTapped(tapGestureRecognizer:)))
                 viewbg.isUserInteractionEnabled = true
                 viewbg.addGestureRecognizer(tapGestureRecognizer)
@@ -260,8 +269,8 @@ private extension CKRecentListViewController {
                 } else if self.isKind(of: CKRecentListViewController.self) {
                     self.view.addSubview(viewbg)
                 }
+                showMenuOptions(roomData: selectedRoomData)
             }
-            showMenuOptions(roomData: selectedRoomData)
         }
     }
     
@@ -352,11 +361,21 @@ private extension CKRecentListViewController {
                 }
             })
         }
-        
+
+        cell.gestureRecognizers?.forEach({ (gesture) in
+            if gesture.isKind(of: UITapGestureRecognizer.self) {
+                cell.removeGestureRecognizer(gesture)
+            }
+        })
         // add tap gesture to cell
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(onTableViewCellTap))
         tap.cancelsTouchesInView = true
         cell.addGestureRecognizer(tap)
+
+        cell.backgroundColor = themeService.attrs.secondBgColor
+        cell.roomNameLabel.textColor = themeService.attrs.primaryTextColor
+        cell.lastMessageLabel?.textColor = themeService.attrs.secondTextColor
+        cell.timeLabel.textColor = themeService.attrs.secondTextColor
 
         return cell
     }
@@ -374,6 +393,14 @@ private extension CKRecentListViewController {
         // update cell
         // cell.render(cellData)
         cell.selectionStyle = .none
+
+        cell.gestureRecognizers?.forEach({ (gesture) in
+            if gesture.isKind(of: UILongPressGestureRecognizer.self) {
+                cell.removeGestureRecognizer(gesture)
+            } else if gesture.isKind(of: UITapGestureRecognizer.self) {
+                cell.removeGestureRecognizer(gesture)
+            }
+        })
         
         // add long press gesture to cell
         let longPress = UILongPressGestureRecognizer.init(target: self, action: #selector(onTableViewCellLongPress))
