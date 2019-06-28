@@ -42,7 +42,9 @@ final class CKRoomAddingMembersViewController: MXKViewController {
      This controller probably displayed while you create new a room or add people to an existing room
      */
     public var isNewStarting: Bool = false
-    
+
+    private let disposeBag = DisposeBag()
+
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -74,10 +76,27 @@ final class CKRoomAddingMembersViewController: MXKViewController {
 
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
+
+        bindingTheme()
     }
     
     // MARK: - PRIVATE
-    
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = theme.primaryBgColor
+            self?.barTitleColor = theme.primaryTextColor
+            self?.tableView?.backgroundColor = theme.secondBgColor
+            self?.tableView?.separatorColor = theme.separatorColor
+            self?.tableView?.reloadData()
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     /**
      Reloading data source
      */
@@ -151,7 +170,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         }
 
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
-
+        cell.backgroundColor = themeService.attrs.secondBgColor
         return cell
     }
     
@@ -168,7 +187,10 @@ final class CKRoomAddingMembersViewController: MXKViewController {
                 withUserId: (d.mxContact?.matrixIdentifiers?.first as? String) ?? "") {
                 cell.status = u.presence == MXPresenceOnline ? 1 : 0
             } else { cell.status = 0 }
-            
+
+            cell.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
             return cell
         }
         return CKRoomAddingMembersCell()
@@ -312,8 +334,9 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
             return view
         }
         return UIView()
@@ -321,22 +344,22 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UILabel()
-        view.backgroundColor = CKColor.Background.tableView
+        view.backgroundColor = themeService.attrs.secondBgColor
         return view
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let s = Section(rawValue: section) else { return 1}
+        guard let s = Section(rawValue: section) else { return CGFloat.leastNonzeroMagnitude }
         switch s {
         case .search:
-            return CKLayoutSize.Table.header1px
+            return CGFloat.leastNonzeroMagnitude
         default:
             return CKLayoutSize.Table.defaultHeader
         }
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.footer1px
+        return CGFloat.leastNonzeroMagnitude
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

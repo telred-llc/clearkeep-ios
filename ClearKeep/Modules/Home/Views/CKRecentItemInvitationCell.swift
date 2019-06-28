@@ -34,7 +34,7 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
     /**
      Last message label
      */
-    private var lastMessageLabel: UILabel?
+    var lastMessageLabel: UILabel?
     
     // MARK: - OVERRIDE
     
