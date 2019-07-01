@@ -39,17 +39,7 @@ class CKFavouriteViewController: CKRecentListViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
-    }
-
-    override func bindingTheme() {
-        super.bindingTheme()
-
-        // Binding navigation bar color
-        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
-        }).disposed(by: disposeBag)
-    }
+    } 
 
     @objc public func displayList(_ aRecentsDataSource: MXKRecentsDataSource!) {
         
@@ -122,7 +112,7 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
     private func reloadData() {
         if var favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
             favouritesArray.reverse()
-            self.reloadData(rooms: favouritesArray)
+            self.reloadData(rooms: [favouritesArray])
         } else {
             self.reloadData(rooms: [])
         }

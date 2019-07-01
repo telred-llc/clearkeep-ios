@@ -10,49 +10,31 @@ import Foundation
 import MatrixKit
 import Parchment
 
-final class CkHomeViewController: MXKViewController {
+final class CkHomeViewController: CKRecentListViewController {
     
     // MARK: Properties
-    
-    lazy var directMessageVC: CKDirectMessagePageViewController = {
-        let vc = Bundle.main.loadNibNamed(CKDirectMessagePageViewController.nibName, owner: nil, options: nil)?.first as! CKDirectMessagePageViewController
-        vc.delegate = self
-        vc.importSession(self.mxSessions)
-        return vc
-    }()
-
-    lazy var roomVC: CKRoomPageViewController = {
-        let vc = Bundle.main.loadNibNamed(CKRoomPageViewController.nibName, owner: nil, options: nil)?.first as! CKRoomPageViewController
-        vc.importSession(self.mxSessions)
-        vc.delegate = self
-        return vc
-    }()
-    
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
-    let pagingViewController = PagingViewController<CKPagingIndexItem>.init()
     var recentsDataSource: RecentsDataSource?
     var missedDiscussionsCount: Int = 0
-    let disposeBag = DisposeBag()
     
     // MARK: LifeCycle
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupPageViewController()
-
+        
+        self.delegate = self
+        
         // Listen to the user info did changed
-        NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil)
-
-        bindingTheme()
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil) 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavigationBar()
+        
+        self.setupNavigationBar()
 
         if let recentsDataSource = self.recentsDataSource {
             recentsDataSource.areSectionsShrinkable = false
@@ -67,41 +49,8 @@ final class CkHomeViewController: MXKViewController {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kMXKRoomDataSourceSyncStatusChanged), object: nil)
     }
-
-    func bindingTheme() {
-        // Binding navigation bar color
-        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
-        }).disposed(by: disposeBag)
-
-        pagingViewController.collectionView.theme.backgroundColor = themeService.attrStream{$0.primaryBgColor}
-    }
-
-    func setupPageViewController() {
-        pagingViewController.dataSource = self
-        pagingViewController.indicatorClass = PagingIndicatorView.self
-        pagingViewController.menuItemSource = PagingMenuItemSource.nib(nib: UINib.init(nibName: "CKHomePagingWithBubbleCell", bundle: Bundle.init(for: CKHomePagingWithBubbleCell.self)))
-
-        // setup UI
-        pagingViewController.indicatorOptions    = PagingIndicatorOptions.visible(height: 0.75, zIndex: Int.max, spacing: UIEdgeInsets.zero, insets: UIEdgeInsets.zero)
-        pagingViewController.indicatorColor      = CKColor.Misc.primaryGreenColor
-        pagingViewController.textColor           = CKColor.Text.lightGray
-        pagingViewController.selectedTextColor   = CKColor.Misc.primaryGreenColor
-        
-        // Make sure you add the PagingViewController as a child view controller
-        addChildViewController(pagingViewController)
-        view.addSubview(pagingViewController.view)
-        
-        // constrain pagingViewController.view to the edges of the view.
-        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        view.safeAreaLayoutGuide.leftAnchor.constraint(equalTo: pagingViewController.view.leftAnchor).isActive = true
-        view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: pagingViewController.view.topAnchor).isActive = true
-        view.safeAreaLayoutGuide.rightAnchor.constraint(equalTo: pagingViewController.view.rightAnchor).isActive = true
-        view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: pagingViewController.view.bottomAnchor).isActive = true
-
-        pagingViewController.didMove(toParentViewController: self)
-    }
+    
+    // MARK: Setup view
     
     func setupNavigationBar() {
         guard let masterTabbar = AppDelegate.the()?.masterTabBarController else { return }
@@ -155,6 +104,8 @@ final class CkHomeViewController: MXKViewController {
         let newChatItem = UIBarButtonItem.init(image: UIImage.init(named: "ic_new_chat"), style: .plain, target: self, action: #selector(clickedOnRightMenuItem))
         navigationItem.rightBarButtonItem = newChatItem
     }
+    
+    // MARK: Action
     
     @objc func userInfoDidChanged(_ noti: NSNotification) {
         let account = MXKAccountManager.shared()?.accounts.first
@@ -346,22 +297,24 @@ final class CkHomeViewController: MXKViewController {
         }
     }
     
+    // MARK: - CREATE DIRECT AND ROOM CHAT
+    
     /**
      Show direct chat creating controller
      */
     func showDirectChatVC() {
         // init
         let nvc = CKRoomDirectCreatingViewController.instanceNavigation { (vc: MXKViewController) in
-            
+
             // is class?
             if let vc = vc as? CKRoomDirectCreatingViewController {
-                
+
                 // setup vc
                 vc.delegate = self
                 vc.importSession(self.mxSessions)
             }
         }
-        
+
         self.present(nvc, animated: true, completion: nil)
     }
     
@@ -369,10 +322,10 @@ final class CkHomeViewController: MXKViewController {
      Show room creating controller
      */
     func showRoomChatVC() {
-        
+
         // init
         let nvc = CKRoomCreatingViewController.instanceNavigation { (vc: MXKViewController) in
-            
+
             // is class?
             if let vc = vc as? CKRoomCreatingViewController {
 
@@ -380,48 +333,10 @@ final class CkHomeViewController: MXKViewController {
                 vc.importSession(self.mxSessions)
             }
         }
-        
+
         self.present(nvc, animated: true, completion: nil)
     }
 
-}
-
-// MARK: - PagingViewControllerDataSource
-
-extension CkHomeViewController: PagingViewControllerDataSource {
-    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, pagingItemForIndex index: Int) -> T where T : PagingItem, T : Comparable, T : Hashable {
-        
-        var title: String = ""
-        var bubbleTitle: String? = nil
-        
-        switch index {
-        case 0:
-            title = "\(String.ck_LocalizedString(key: "Direct Message"))"
-            bubbleTitle = directMessageVC.missedItemCount > 0 ? "\(directMessageVC.missedItemCount)" : nil
-        case 1:
-            title = "\(String.ck_LocalizedString(key: "Room"))"
-            bubbleTitle = roomVC.missedItemCount > 0 ? "\(roomVC.missedItemCount)" : nil
-        default:
-            break
-        }
-        
-        return CKPagingIndexItem.init(index: index, title: title, bubbleTitle: bubbleTitle) as! T
-    }
-    
-    func numberOfViewControllers<T>(in pagingViewController: PagingViewController<T>) -> Int {
-        return 2
-    }
-    
-    func pagingViewController<T>(_ pagingViewController: PagingViewController<T>, viewControllerForIndex index: Int) -> UIViewController {
-        switch index {
-        case 0:
-            return directMessageVC
-        case 1:
-            return roomVC
-        default:
-            return UIViewController()
-        }
-    }
 }
 
 extension CkHomeViewController {
@@ -450,14 +365,9 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     }
     
     @objc public func dataSource(_ dataSource: MXKDataSource?, didCellChange changes: Any?) {
-        self.reloadDirectMessagePage()
-        self.reloadRoomPage()
+        self.reloadDataSource()
         
-        // reload pager
-        self.pagingViewController.reloadData()
-        
-        // reflect tabbar
-        self.missedDiscussionsCount = directMessageVC.missedItemCount + roomVC.missedItemCount
+        // reflect Badge
         AppDelegate.the()?.masterTabBarController.reflectingBadges()
     }
     
@@ -469,7 +379,9 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         self.removeMatrixSession(mxSession)
     }
     
-    private func reloadRoomPage() {
+    private func reloadDataSource() {
+        var rooms: [[MXKRecentCellData]] = []
+        
         if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
                 for invite in invitesArray.reversed() {
@@ -478,15 +390,12 @@ extension CkHomeViewController: MXKDataSourceDelegate {
                     }
                 }
             }
-            roomVC.reloadData(rooms: roomsArray)
+            rooms.append(roomsArray)
         } else {
-            roomVC.reloadData(rooms: [])
+            rooms.append([])
         }
-    }
-    
-    private func reloadDirectMessagePage() {
+        
         if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
-            
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
                 for invite in invitesArray.reversed() {
                     if invite.roomSummary.isDirect == true {
@@ -494,11 +403,12 @@ extension CkHomeViewController: MXKDataSourceDelegate {
                     }
                 }
             }
-            
-            directMessageVC.reloadData(rooms: peopleArray)            
+            rooms.append(peopleArray) 
         } else {
-            directMessageVC.reloadData(rooms: [])
+            rooms.append([])
         }
+        self.missedDiscussionsCount = rooms.reduce(0, { $0 + $1.filter({ $0.roomSummary.membership == MXMembership.invite || $0.hasUnread || $0.notificationCount > 0 }).count })
+        self.reloadData(rooms: rooms)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -525,16 +435,16 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
         
         // present
         self.present(nvc, animated: true, completion: nil)
-    }
+    } 
     
     /**
      Delegate of Recent List view controller
      */
-    func recentListViewDidTapStartChat(_ aClass: AnyClass) {
-        if aClass == CKDirectMessagePageViewController.self {
-            self.showDirectChatVC()
-        } else if aClass == CKRoomPageViewController.self {
+    func recentListViewDidTapStartChat(_ section: Int) {
+        if section == SectionRecent.room.rawValue {
             self.showRoomChatVC()
+        } else if section == SectionRecent.direct.rawValue {
+            self.showDirectChatVC()
         }
     }
 }
@@ -542,18 +452,18 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
 // MARK: - CKRoomDirectCreatingViewControllerDelegate
 
 extension CkHomeViewController: CKRoomDirectCreatingViewControllerDelegate {
-    
+
     /**
      In the CKRoomDirectCreatingViewController, if you select a contact to direct chat.
      Then, it should be callback this function
      */
     func roomDirectCreating(withUserId userId: String, completion: ((Bool) -> Void)?) {
         self.processDirectChat(userId, completion: completion)
-    }        
+    }
 }
 
 extension CkHomeViewController: CKContactListViewControllerDelegate {
- 
+
     func contactListCreating(withUserId userId: String, completion: ((Bool) -> Void)?) {
         self.processDirectChat(userId, completion: completion)
     }
