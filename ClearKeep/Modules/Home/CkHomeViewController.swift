@@ -25,6 +25,8 @@ final class CkHomeViewController: CKRecentListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.delegate = self
+        
         // Listen to the user info did changed
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil) 
     }
@@ -33,7 +35,6 @@ final class CkHomeViewController: CKRecentListViewController {
         super.viewWillAppear(animated)
         
         self.setupNavigationBar()
-        self.delegate = self
 
         if let recentsDataSource = self.recentsDataSource {
             recentsDataSource.areSectionsShrinkable = false
@@ -434,18 +435,7 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
         
         // present
         self.present(nvc, animated: true, completion: nil)
-    }
-    
-    /**
-     Delegate of Recent List view controller
-     */
-    func recentListViewDidTapStartChat(_ aClass: AnyClass) {
-//        if aClass == CKDirectMessagePageViewController.self {
-//            self.showDirectChatVC()
-//        } else if aClass == CKRoomPageViewController.self {
-//            self.showRoomChatVC()
-//        }
-    }
+    } 
     
     /**
      Delegate of Recent List view controller

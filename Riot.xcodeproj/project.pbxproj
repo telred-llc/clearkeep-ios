@@ -85,10 +85,6 @@
 		85B6ED2C21F9BB56000D99CE /* CKRoomInputToolbarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85B6ED2A21F9BB56000D99CE /* CKRoomInputToolbarView.xib */; };
 		85B6ED2D21F9BB56000D99CE /* CKRoomInputToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B6ED2B21F9BB56000D99CE /* CKRoomInputToolbarView.swift */; };
 		85CA7C9F21DDF5C7000331AC /* CK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7C9E21DDF5C7000331AC /* CK.xcassets */; };
-		85CA7CA621DE1385000331AC /* CKRoomPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */; };
-		85CA7CA721DE1385000331AC /* CKRoomPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */; };
-		85CA7CAA21DE13A2000331AC /* CKDirectMessagePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CA821DE13A2000331AC /* CKDirectMessagePageViewController.swift */; };
-		85CA7CAB21DE13A2000331AC /* CKDirectMessagePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7CA921DE13A2000331AC /* CKDirectMessagePageViewController.xib */; };
 		85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CAD21DE307F000331AC /* CKColor.swift */; };
 		85E57518220499DA0076FFAE /* CKFavouriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */; };
 		85E57519220499DA0076FFAE /* CKFavouriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */; };
@@ -593,7 +589,6 @@
 		E5E7DB76229BC7D300AB7CF3 /* CKRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABA73821E73CBC005EFE0C /* CKRoomViewController.swift */; };
 		E5E7DB77229BC7D300AB7CF3 /* CKRoomSettingsFilesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABA73F21E73CBC005EFE0C /* CKRoomSettingsFilesCell.swift */; };
 		E5E7DB78229BC7D300AB7CF3 /* CKAccountProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06949A321F85B8A002ABA27 /* CKAccountProfileEditViewController.swift */; };
-		E5E7DB79229BC7D300AB7CF3 /* CKDirectMessagePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CA821DE13A2000331AC /* CKDirectMessagePageViewController.swift */; };
 		E5E7DB7A229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5585A20EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.m */; };
 		E5E7DB7B229BC7D300AB7CF3 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = B169330A20F3CA3900746532 /* Contact.m */; };
 		E5E7DB7C229BC7D300AB7CF3 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598C20EFC5E400210D55 /* Analytics.m */; };
@@ -802,7 +797,6 @@
 		E5E7DC47229BC7D300AB7CF3 /* UIViewController+RiotSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBEC1E7009EC00A9B29C /* UIViewController+RiotSearch.m */; };
 		E5E7DC48229BC7D300AB7CF3 /* RoomEmailInvitation.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBFC1E7009EC00A9B29C /* RoomEmailInvitation.m */; };
 		E5E7DC49229BC7D300AB7CF3 /* RoomParticipantsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556AA20EE6C4C00210D55 /* RoomParticipantsViewController.m */; };
-		E5E7DC4A229BC7D300AB7CF3 /* CKRoomPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */; };
 		E5E7DC4B229BC7D300AB7CF3 /* CKMentionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B6ED2121F959A4000D99CE /* CKMentionDataSource.swift */; };
 		E5E7DC4C229BC7D300AB7CF3 /* RoomOutgoingAttachmentBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5589020EF768E00210D55 /* RoomOutgoingAttachmentBubbleCell.m */; };
 		E5E7DC4D229BC7D300AB7CF3 /* CKRoomSettingsEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51891E221EF120000DFBCA5 /* CKRoomSettingsEditViewController.swift */; };
@@ -877,7 +871,6 @@
 		E5E7DC95229BC7D300AB7CF3 /* CKRoomSettingsRoomNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5ABA74721E73CBC005EFE0C /* CKRoomSettingsRoomNameCell.xib */; };
 		E5E7DC96229BC7D300AB7CF3 /* SFCompactDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 853E995B21E4985F00D005F4 /* SFCompactDisplay-Regular.ttf */; };
 		E5E7DC97229BC7D300AB7CF3 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5585C20EF768E00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.xib */; };
-		E5E7DC98229BC7D300AB7CF3 /* CKRoomPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */; };
 		E5E7DC99229BC7D300AB7CF3 /* CkLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5720EE321AD1B7D0093D99A /* CkLoginViewController.xib */; };
 		E5E7DC9A229BC7D300AB7CF3 /* CKRoomSettingsParticipantSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E27FDF21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib */; };
 		E5E7DC9B229BC7D300AB7CF3 /* RoomPredecessorBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B9194A2118984300FE25B5 /* RoomPredecessorBubbleCell.xib */; };
@@ -1030,7 +1023,6 @@
 		E5E7DD2F229BC7D300AB7CF3 /* CKCallsSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853CBDE62232062A00404DBC /* CKCallsSettingViewController.xib */; };
 		E5E7DD30229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5584820EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.xib */; };
 		E5E7DD31229BC7D300AB7CF3 /* CKRoomSettingsParticipantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E574335821F32A1600989FF3 /* CKRoomSettingsParticipantViewController.xib */; };
-		E5E7DD32229BC7D300AB7CF3 /* CKDirectMessagePageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7CA921DE13A2000331AC /* CKDirectMessagePageViewController.xib */; };
 		E5E7DD33229BC7D300AB7CF3 /* CKAccountProfileEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A06949A421F85B8A002ABA27 /* CKAccountProfileEditViewController.xib */; };
 		E5E7DD34229BC7D300AB7CF3 /* CKRoomSettingsMembersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5ABA74221E73CBC005EFE0C /* CKRoomSettingsMembersCell.xib */; };
 		E5E7DD35229BC7D300AB7CF3 /* RoomIncomingAttachmentBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B558A720EF768E00210D55 /* RoomIncomingAttachmentBubbleCell.xib */; };
@@ -1213,10 +1205,6 @@
 		85B6ED2A21F9BB56000D99CE /* CKRoomInputToolbarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomInputToolbarView.xib; sourceTree = "<group>"; };
 		85B6ED2B21F9BB56000D99CE /* CKRoomInputToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomInputToolbarView.swift; sourceTree = "<group>"; };
 		85CA7C9E21DDF5C7000331AC /* CK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CK.xcassets; sourceTree = "<group>"; };
-		85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomPageViewController.swift; sourceTree = "<group>"; };
-		85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomPageViewController.xib; sourceTree = "<group>"; };
-		85CA7CA821DE13A2000331AC /* CKDirectMessagePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKDirectMessagePageViewController.swift; sourceTree = "<group>"; };
-		85CA7CA921DE13A2000331AC /* CKDirectMessagePageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKDirectMessagePageViewController.xib; sourceTree = "<group>"; };
 		85CA7CAD21DE307F000331AC /* CKColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKColor.swift; sourceTree = "<group>"; };
 		85E57516220499DA0076FFAE /* CKFavouriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKFavouriteViewController.swift; sourceTree = "<group>"; };
 		85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKFavouriteViewController.xib; sourceTree = "<group>"; };
@@ -3891,10 +3879,6 @@
 			children = (
 				85548F4821E33276008221AD /* Views */,
 				E5ABD65921D616520017D93E /* CkHomeViewController.swift */,
-				85CA7CA421DE1385000331AC /* CKRoomPageViewController.swift */,
-				85CA7CA521DE1385000331AC /* CKRoomPageViewController.xib */,
-				85CA7CA821DE13A2000331AC /* CKDirectMessagePageViewController.swift */,
-				85CA7CA921DE13A2000331AC /* CKDirectMessagePageViewController.xib */,
 				858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */,
 				5EF8B5DF221D58B4007B431C /* CKMenuRoomViewController.swift */,
 				5EF8B5E0221D58B4007B431C /* CKMenuRoomViewController.xib */,
@@ -4354,7 +4338,6 @@
 				E5E7DC95229BC7D300AB7CF3 /* CKRoomSettingsRoomNameCell.xib in Resources */,
 				E5E7DC96229BC7D300AB7CF3 /* SFCompactDisplay-Regular.ttf in Resources */,
 				E5E7DC97229BC7D300AB7CF3 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
-				E5E7DC98229BC7D300AB7CF3 /* CKRoomPageViewController.xib in Resources */,
 				E5E7DC99229BC7D300AB7CF3 /* CkLoginViewController.xib in Resources */,
 				E5E7DC9A229BC7D300AB7CF3 /* CKRoomSettingsParticipantSearchCell.xib in Resources */,
 				E5E7DC9B229BC7D300AB7CF3 /* RoomPredecessorBubbleCell.xib in Resources */,
@@ -4508,7 +4491,6 @@
 				E5E7DD2F229BC7D300AB7CF3 /* CKCallsSettingViewController.xib in Resources */,
 				E5E7DD30229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				E5E7DD31229BC7D300AB7CF3 /* CKRoomSettingsParticipantViewController.xib in Resources */,
-				E5E7DD32229BC7D300AB7CF3 /* CKDirectMessagePageViewController.xib in Resources */,
 				E5E7DD33229BC7D300AB7CF3 /* CKAccountProfileEditViewController.xib in Resources */,
 				E5E7DD34229BC7D300AB7CF3 /* CKRoomSettingsMembersCell.xib in Resources */,
 				E5E7DD35229BC7D300AB7CF3 /* RoomIncomingAttachmentBubbleCell.xib in Resources */,
@@ -4576,7 +4558,6 @@
 				E5ABA75621E73CBC005EFE0C /* CKRoomSettingsRoomNameCell.xib in Resources */,
 				853E996421E4986100D005F4 /* SFCompactDisplay-Regular.ttf in Resources */,
 				B1B558CD20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
-				85CA7CA721DE1385000331AC /* CKRoomPageViewController.xib in Resources */,
 				E5720EE421AD1B7D0093D99A /* CkLoginViewController.xib in Resources */,
 				E5E27FE121F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib in Resources */,
 				B1B9194C2118984300FE25B5 /* RoomPredecessorBubbleCell.xib in Resources */,
@@ -4731,7 +4712,6 @@
 				853CBDE82232062A00404DBC /* CKCallsSettingViewController.xib in Resources */,
 				B1B558BF20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				E574335921F32A1600989FF3 /* CKRoomSettingsParticipantViewController.xib in Resources */,
-				85CA7CAB21DE13A2000331AC /* CKDirectMessagePageViewController.xib in Resources */,
 				A06949A621F85B8A002ABA27 /* CKAccountProfileEditViewController.xib in Resources */,
 				E5ABA75221E73CBC005EFE0C /* CKRoomSettingsMembersCell.xib in Resources */,
 				B1B558FD20EF768F00210D55 /* RoomIncomingAttachmentBubbleCell.xib in Resources */,
@@ -4921,7 +4901,6 @@
 				E5E7DB76229BC7D300AB7CF3 /* CKRoomViewController.swift in Sources */,
 				E5E7DB77229BC7D300AB7CF3 /* CKRoomSettingsFilesCell.swift in Sources */,
 				E5E7DB78229BC7D300AB7CF3 /* CKAccountProfileEditViewController.swift in Sources */,
-				E5E7DB79229BC7D300AB7CF3 /* CKDirectMessagePageViewController.swift in Sources */,
 				E5E7DB7A229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
 				E5E7DB7B229BC7D300AB7CF3 /* Contact.m in Sources */,
 				E5E7DB7C229BC7D300AB7CF3 /* Analytics.m in Sources */,
@@ -5135,7 +5114,6 @@
 				E5E7DC47229BC7D300AB7CF3 /* UIViewController+RiotSearch.m in Sources */,
 				E5E7DC48229BC7D300AB7CF3 /* RoomEmailInvitation.m in Sources */,
 				E5E7DC49229BC7D300AB7CF3 /* RoomParticipantsViewController.m in Sources */,
-				E5E7DC4A229BC7D300AB7CF3 /* CKRoomPageViewController.swift in Sources */,
 				E5E7DC4B229BC7D300AB7CF3 /* CKMentionDataSource.swift in Sources */,
 				E5E7DC4C229BC7D300AB7CF3 /* RoomOutgoingAttachmentBubbleCell.m in Sources */,
 				E5E7DC4D229BC7D300AB7CF3 /* CKRoomSettingsEditViewController.swift in Sources */,
@@ -5226,7 +5204,6 @@
 				E5ABA74A21E73CBC005EFE0C /* CKRoomViewController.swift in Sources */,
 				E5ABA74F21E73CBC005EFE0C /* CKRoomSettingsFilesCell.swift in Sources */,
 				A06949A521F85B8A002ABA27 /* CKAccountProfileEditViewController.swift in Sources */,
-				85CA7CAA21DE13A2000331AC /* CKDirectMessagePageViewController.swift in Sources */,
 				B1B558CB20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
 				B169330B20F3CA3A00746532 /* Contact.m in Sources */,
 				B1B5599220EFC5E400210D55 /* Analytics.m in Sources */,
@@ -5441,7 +5418,6 @@
 				F083BDF01E7009ED00A9B29C /* UIViewController+RiotSearch.m in Sources */,
 				F083BDF91E7009ED00A9B29C /* RoomEmailInvitation.m in Sources */,
 				B1B5572C20EE6C4D00210D55 /* RoomParticipantsViewController.m in Sources */,
-				85CA7CA621DE1385000331AC /* CKRoomPageViewController.swift in Sources */,
 				85B6ED2221F959A4000D99CE /* CKMentionDataSource.swift in Sources */,
 				B1B558EE20EF768F00210D55 /* RoomOutgoingAttachmentBubbleCell.m in Sources */,
 				E51891E321EF120000DFBCA5 /* CKRoomSettingsEditViewController.swift in Sources */,

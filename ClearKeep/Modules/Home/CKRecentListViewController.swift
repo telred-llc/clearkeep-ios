@@ -398,7 +398,8 @@ private extension CKRecentListViewController {
                     
                     // got error
                     if let error = response.error {
-                        self.showAlert(error.localizedDescription)
+                        let errorMessage = error.localizedDescription == "No known servers" ? Bundle.mxk_localizedString(forKey: "room_error_join_failed_empty_room") : error.localizedDescription
+                        self.showAlert(errorMessage ?? "") 
                     } else {
                         
                         // select room
