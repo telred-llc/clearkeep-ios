@@ -92,7 +92,11 @@ abstract_target 'RiotPods' do
     target "Riot" do
         import_MatrixKit
     end
-    
+
+    target "Riot-Prod" do
+      import_MatrixKit
+    end
+
     target "RiotShareExtension" do
         import_MatrixKitAppExtension
     end
