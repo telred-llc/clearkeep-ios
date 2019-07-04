@@ -117,14 +117,7 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
         self.removeMatrixSession(mxSession)
     }
     
-    private func reloadDataSource() {
-//        if var favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
-//            favouritesArray.reverse()
-//            self.reloadData(rooms: [favouritesArray])
-//        } else {
-//            self.reloadData(rooms: [])
-//        }
-        
+    private func reloadDataSource() { 
         var rooms: [[MXKRecentCellData]] = []
         var roomsArray: [MXKRecentCellData] = []
         var peopleArray: [MXKRecentCellData] = []
@@ -140,33 +133,6 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
         }
         rooms.append(roomsArray)
         rooms.append(peopleArray)
-//
-//        if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
-//            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
-//                for invite in invitesArray.reversed() {
-//                    if invite.roomSummary.isDirect == false {
-//                        roomsArray.insert(invite, at: 0)
-//                    }
-//                }
-//            }
-//            rooms.append(roomsArray)
-//        } else {
-//            rooms.append([])
-//        }
-//
-//        if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
-//            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
-//                for invite in invitesArray.reversed() {
-//                    if invite.roomSummary.isDirect == true {
-//                        peopleArray.insert(invite, at: 0)
-//                    }
-//                }
-//            }
-//            rooms.append(peopleArray)
-//        } else {
-//            rooms.append([])
-//        }
-//        self.missedDiscussionsCount = rooms.reduce(0, { $0 + $1.filter({ $0.roomSummary.membership == MXMembership.invite || $0.hasUnread || $0.notificationCount > 0 }).count })
         self.reloadData(rooms: rooms)
     }
     
