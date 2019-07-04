@@ -99,6 +99,8 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
     
     @objc public func dataSource(_ dataSource: MXKDataSource?, didCellChange changes: Any?) {
         self.reloadData()
+        
+        AppDelegate.the()?.masterTabBarController.reflectingBadges()
     }
     
     func dataSource(_ dataSource: MXKDataSource!, didAddMatrixSession mxSession: MXSession!) {
@@ -110,12 +112,55 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
     }
     
     private func reloadData() {
-        if var favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
-            favouritesArray.reverse()
-            self.reloadData(rooms: [favouritesArray])
-        } else {
-            self.reloadData(rooms: [])
+//        if var favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
+//            favouritesArray.reverse()
+//            self.reloadData(rooms: [favouritesArray])
+//        } else {
+//            self.reloadData(rooms: [])
+//        }
+        
+        var rooms: [[MXKRecentCellData]] = []
+        var roomsArray: [MXKRecentCellData] = []
+        var peopleArray: [MXKRecentCellData] = []
+
+        if let favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
+            for favourite in favouritesArray.reversed() {
+                if favourite.roomSummary.isDirect {
+                    peopleArray.insert(favourite, at: 0)
+                } else {
+                    roomsArray.insert(favourite, at: 0)
+                }
+            }
         }
+        rooms.append(roomsArray)
+        rooms.append(peopleArray)
+//
+//        if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
+//            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+//                for invite in invitesArray.reversed() {
+//                    if invite.roomSummary.isDirect == false {
+//                        roomsArray.insert(invite, at: 0)
+//                    }
+//                }
+//            }
+//            rooms.append(roomsArray)
+//        } else {
+//            rooms.append([])
+//        }
+//
+//        if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
+//            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+//                for invite in invitesArray.reversed() {
+//                    if invite.roomSummary.isDirect == true {
+//                        peopleArray.insert(invite, at: 0)
+//                    }
+//                }
+//            }
+//            rooms.append(peopleArray)
+//        } else {
+//            rooms.append([])
+//        }
+        self.reloadData(rooms: rooms)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
