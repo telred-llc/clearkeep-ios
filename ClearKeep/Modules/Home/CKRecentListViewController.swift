@@ -584,7 +584,7 @@ extension CKRecentListViewController: UITableViewDataSource {
         if tableView.numberOfSections == 1 {
             return 0
         }
-        return 50
+        return CKLayoutSize.Table.header60px
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -604,20 +604,6 @@ extension CKRecentListViewController: UITableViewDataSource {
         } else {
             return 0
         }
-        
-//        // favourite
-//        if self.dataSource.count == 1 {
-//            return dataSource[section].count == 0 ? 1 : dataSource[section].count
-//        }
-//
-//        // direct or room
-//        if self.dataSource[section].count == 0 {
-//            return 1
-//        } else if self.isExpanded[section] {
-//            return dataSource[section].count
-//        } else {
-//            return 0
-//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -641,35 +627,6 @@ extension CKRecentListViewController: UITableViewDataSource {
                 return cell
             }
         }
-        
-//        // empty? and not favourite?
-//        if self.isEmpty(section: indexPath.section) {
-//
-//            // fav
-//            if self.isKind(of: CKFavouriteViewController.self)  {
-//                let cell = self.cellForFirstFavourite(indexPath)
-//                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-//                return cell
-//            }
-//
-//            // s-chat
-//            let cell = self.cellForStartChat(indexPath)
-//            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-//            return cell
-//        } else {
-//
-//            // direct & room?
-//            let cellData = dataSource[indexPath.section][indexPath.row]
-//            if cellData.roomSummary.membership == MXMembership.invite {
-//                let cell = self.cellForInvitationRoom(indexPath, cellData: cellData)
-//                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-//                return cell
-//            } else {
-//                let cell = self.cellForNormalRoom(indexPath, cellData: cellData)
-//                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-//                return cell
-//            }
-//        }
     }
 }
 
