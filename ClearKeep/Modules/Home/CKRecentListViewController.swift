@@ -11,9 +11,7 @@ import XLActionController
 import FloatingPanel
 
 protocol CKRecentListViewControllerDelegate: class {
-    
-    func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData)
-    
+        
     func recentListViewDidTapStartChat(_ section: Int)
     
 }
@@ -123,7 +121,12 @@ class CKRecentListViewController: MXKViewController {
     
     func openRoomSetting(roomData: MXKRecentCellData) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            self.delegate?.recentListView(self, didOpenRoomSettingWithRoomCellData: roomData)
+            let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
+                if let vc = vc as? CKRoomSettingsViewController {
+                    vc.initWith(roomData.roomSummary.mxSession, andRoomId: roomData.roomSummary.roomId)
+                }
+            }
+            self.present(nvc, animated: true, completion: nil)
         }
     }
     

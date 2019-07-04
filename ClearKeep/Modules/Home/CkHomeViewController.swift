@@ -421,24 +421,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     }
 }
 
-extension CkHomeViewController: CKRecentListViewControllerDelegate {
-    
-    func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData) {
-        
-        // init nvc
-        let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
-            
-            // completed vc
-            if let vc = vc as? CKRoomSettingsViewController {
-                
-                // init
-                vc.initWith(roomCellData.roomSummary.mxSession, andRoomId: roomCellData.roomSummary.roomId)
-            }
-        }
-        
-        // present
-        self.present(nvc, animated: true, completion: nil)
-    } 
+extension CkHomeViewController: CKRecentListViewControllerDelegate { 
     
     /**
      Delegate of Recent List view controller
