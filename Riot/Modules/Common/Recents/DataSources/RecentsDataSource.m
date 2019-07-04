@@ -1211,9 +1211,8 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
                     {
                         _missedHighlightFavouriteDiscussionsCount ++;
                     }
-                }
-                
-                if (room.isDirect)
+                } 
+                else if (room.isDirect)
                 {
                     _missedDirectDiscussionsCount ++;
                     
@@ -1222,7 +1221,7 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
                         _missedHighlightDirectDiscussionsCount ++;
                     }
                 }
-                else if (!room.accountData.tags.count || room.accountData.tags[kMXRoomTagFavourite])
+                else if (!room.accountData.tags.count)
                 {
                     _missedGroupDiscussionsCount ++;
                     

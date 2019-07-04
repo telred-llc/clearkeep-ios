@@ -13,6 +13,11 @@ class CKFavouriteViewController: CKRecentListViewController {
     // MARK: Properties
 
     var recentsDataSource: RecentsDataSource?
+    var missedDiscussionsCount: UInt {
+        get {
+            return self.recentsDataSource?.missedFavouriteDiscussionsCount ?? 0
+        }
+    }
 
     // MARK: LifeCycle
     
@@ -98,9 +103,10 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
     }
     
     @objc public func dataSource(_ dataSource: MXKDataSource?, didCellChange changes: Any?) {
-        self.reloadData()
+        self.reloadDataSource()
         
-        AppDelegate.the()?.masterTabBarController.reflectingBadges()
+        // reflect Badge
+        AppDelegate.the()?.masterTabBarController.reflectingBadges() 
     }
     
     func dataSource(_ dataSource: MXKDataSource!, didAddMatrixSession mxSession: MXSession!) {
@@ -111,7 +117,7 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
         self.removeMatrixSession(mxSession)
     }
     
-    private func reloadData() {
+    private func reloadDataSource() {
 //        if var favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
 //            favouritesArray.reverse()
 //            self.reloadData(rooms: [favouritesArray])
@@ -160,6 +166,7 @@ extension CKFavouriteViewController: MXKDataSourceDelegate {
 //        } else {
 //            rooms.append([])
 //        }
+//        self.missedDiscussionsCount = rooms.reduce(0, { $0 + $1.filter({ $0.roomSummary.membership == MXMembership.invite || $0.hasUnread || $0.notificationCount > 0 }).count })
         self.reloadData(rooms: rooms)
     }
     
