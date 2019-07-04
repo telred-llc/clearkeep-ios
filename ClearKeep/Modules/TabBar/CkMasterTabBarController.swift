@@ -73,20 +73,25 @@ final public class CkMasterTabBarController: MasterTabBarController {
     }
     
     public override func reflectingBadges() {
-        
         // missed count
-        let missedCount = self.homeViewController.missedDiscussionsCount
-        
+        let missedCountHomeScreen = self.homeViewController.missedDiscussionsCount
         // is not zero
-        if missedCount > 0 {
-            
+        if missedCountHomeScreen > 0 {
             // update badge
-            self.tabBar.items?[kHomeTabIndex].badgeValue = self.tabBarBadgeStringValue(UInt(missedCount))
-        } else {
-            
+            self.tabBar.items?[kHomeTabIndex].badgeValue = self.tabBarBadgeStringValue(missedCountHomeScreen)
+        } else { 
             // zero badge
             self.tabBar.items?[kHomeTabIndex].badgeValue = nil
         }
+
+        let missedCountFavouritesScreen = self.favouritesViewController.missedDiscussionsCount
+        if missedCountFavouritesScreen > 0 {
+            self.tabBar.items?[kHomeFavouriteIndex].badgeValue = self.tabBarBadgeStringValue(missedCountFavouritesScreen)
+        } else {
+            self.tabBar.items?[kHomeFavouriteIndex].badgeValue = nil
+        }
+        
+        super.reflectingBadges()
     }
     
     private func setupNavigationBar() {

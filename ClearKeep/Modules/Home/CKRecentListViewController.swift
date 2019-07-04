@@ -174,10 +174,21 @@ class CKRecentListViewController: MXKViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    
+    /// Check section in dataSource isEmpty
+    ///
+    /// - Parameter section: section cheking
+    /// - Returns: isEmpty
     private func isEmpty(section: Int) -> Bool {
         return self.dataSource[section].count == 0
     }
     
+    /// Check dataSource isEmpty
+    ///
+    /// - Returns: isEmpty
+    private func isEmpty() -> Bool {
+        return self.dataSource.reduce(0, { $0 + $1.count }) == 0
+    }
 }
 
 private extension CKRecentListViewController {
@@ -341,6 +352,8 @@ private extension CKRecentListViewController {
         } else if section == SectionRecent.direct.rawValue{
             view.setTitle(title: String.ck_LocalizedString(key: "Direct Message"), numberChat: self.dataSource[section].count)
         }
+        
+        view.addButton.isHidden = self.isKind(of: CKFavouriteViewController.self)
         
         view.onPressHandler = {
             if self.isExpanded[section] {
@@ -560,65 +573,55 @@ private extension CKRecentListViewController {
 extension CKRecentListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.dataSource.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if self.dataSource.count == 1 {
-            return 0
+        if self.isKind(of: CKFavouriteViewController.self) && self.isEmpty() {
+            return 1
         } else {
-            return 50
+            return self.dataSource.count
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if tableView.numberOfSections == 1 {
+            return 0
+        }
+        return CKLayoutSize.Table.header60px
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if tableView.numberOfSections == 1 {
+            return UIView()
+        }
         let header = self.headerSection(section)
         return header
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        // favourite
-        if self.dataSource.count == 1 {
-            return dataSource[section].count == 0 ? 1 : dataSource[section].count
-        }
-        
-        // direct or room
-        if self.dataSource[section].count == 0 {
+        if (tableView.numberOfSections == 1) || (self.isKind(of: CkHomeViewController.self) && self.isEmpty(section: section)) {
             return 1
         } else if self.isExpanded[section] {
             return dataSource[section].count
         } else {
             return 0
         }
-//        return dataSource[section].count == 0 ? 1 : dataSource[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        // empty? and not favourite?
-        if self.isEmpty(section: indexPath.section) {
-            
-            // fav
-            if self.isKind(of: CKFavouriteViewController.self) {
-                let cell = self.cellForFirstFavourite(indexPath)
-                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-                return cell
-            }
-            
-            // s-chat
+        if tableView.numberOfSections == 1 {  // favorite and empty
+            let cell = self.cellForFirstFavourite(indexPath)
+            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            return cell
+        } else if self.isEmpty(section: indexPath.section) { // direct or room empty
             let cell = self.cellForStartChat(indexPath)
             cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
             return cell
-        } else {
-            
-            // direct & room?
+        } else { // direct & room normal
             let cellData = dataSource[indexPath.section][indexPath.row]
-            if cellData.roomSummary.membership == MXMembership.invite {
+            if cellData.roomSummary.membership == MXMembership.invite { // invite chat cell
                 let cell = self.cellForInvitationRoom(indexPath, cellData: cellData)
                 cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
                 return cell
-            } else {
+            } else { // normal chat cell
                 let cell = self.cellForNormalRoom(indexPath, cellData: cellData)
                 cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
                 return cell

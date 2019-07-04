@@ -15,7 +15,11 @@ final class CkHomeViewController: CKRecentListViewController {
     // MARK: Properties
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
     var recentsDataSource: RecentsDataSource?
-    var missedDiscussionsCount: Int = 0
+    var missedDiscussionsCount: UInt {
+        get { 
+            return (self.recentsDataSource?.missedDirectDiscussionsCount ?? 0) + (self.recentsDataSource?.missedGroupDiscussionsCount ?? 0)
+        }
+    }
     
     // MARK: LifeCycle
     deinit {
@@ -368,7 +372,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         self.reloadDataSource()
         
         // reflect Badge
-        AppDelegate.the()?.masterTabBarController.reflectingBadges()
+        AppDelegate.the()?.masterTabBarController.reflectingBadges() 
     }
     
     func dataSource(_ dataSource: MXKDataSource!, didAddMatrixSession mxSession: MXSession!) {
@@ -407,7 +411,6 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         } else {
             rooms.append([])
         }
-        self.missedDiscussionsCount = rooms.reduce(0, { $0 + $1.filter({ $0.roomSummary.membership == MXMembership.invite || $0.hasUnread || $0.notificationCount > 0 }).count })
         self.reloadData(rooms: rooms)
     }
     
