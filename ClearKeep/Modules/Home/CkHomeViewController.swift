@@ -386,6 +386,21 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     private func reloadDataSource() {
         var rooms: [[MXKRecentCellData]] = []
         
+        // DIRECT_SECTION
+        if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
+            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+                for invite in invitesArray.reversed() {
+                    if invite.roomSummary.isDirect == true {
+                        peopleArray.insert(invite, at: 0)
+                    }
+                }
+            }
+            rooms.append(peopleArray)
+        } else {
+            rooms.append([])
+        }
+        
+        // ROOM_SECTION
         if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
                 for invite in invitesArray.reversed() {
@@ -399,18 +414,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
             rooms.append([])
         }
         
-        if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
-            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
-                for invite in invitesArray.reversed() {
-                    if invite.roomSummary.isDirect == true {
-                        peopleArray.insert(invite, at: 0)
-                    }
-                }
-            }
-            rooms.append(peopleArray) 
-        } else {
-            rooms.append([])
-        }
+        
         self.reloadData(rooms: rooms)
     }
     
@@ -427,10 +431,13 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
      Delegate of Recent List view controller
      */
     func recentListViewDidTapStartChat(_ section: Int) {
-        if section == SectionRecent.room.rawValue {
-            self.showRoomChatVC()
-        } else if section == SectionRecent.direct.rawValue {
+        switch section {
+        case DIRECT_SECTION:
             self.showDirectChatVC()
+        case ROOM_SECTION:
+            self.showRoomChatVC()
+        default:
+            break
         }
     }
 }
