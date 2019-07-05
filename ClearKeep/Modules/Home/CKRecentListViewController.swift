@@ -14,12 +14,14 @@ protocol CKRecentListViewControllerDelegate: class {
         
     func recentListViewDidTapStartChat(_ section: Int)
     
-} 
+}
+
+enum SectionRecent: Int {
+    case direct = 0
+    case room = 1
+}
 
 class CKRecentListViewController: MXKViewController {
-    
-    let DIRECT_SECTION = 0
-    let ROOM_SECTION = 1
 
     @IBOutlet weak var recentTableView: UITableView! {
         didSet {
@@ -348,13 +350,10 @@ private extension CKRecentListViewController {
             view.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
         }
         
-        switch section {
-        case DIRECT_SECTION:
-            view.setTitle(title: String.ck_LocalizedString(key: "Direct Message"), numberChat: self.dataSource[section].count)
-        case ROOM_SECTION:
+        if section == SectionRecent.room.rawValue {
             view.setTitle(title: String.ck_LocalizedString(key: "Room"), numberChat: self.dataSource[section].count)
-        default:
-            break
+        } else if section == SectionRecent.direct.rawValue{
+            view.setTitle(title: String.ck_LocalizedString(key: "Direct Message"), numberChat: self.dataSource[section].count)
         }
         
         view.addButton.isHidden = self.isKind(of: CKFavouriteViewController.self)
@@ -508,13 +507,10 @@ private extension CKRecentListViewController {
         }
         
         // change text
-        switch indexPath.section {
-        case DIRECT_SECTION:
-            cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
-        case ROOM_SECTION:
+        if indexPath.section == SectionRecent.room.rawValue {
             cell.startChatButton.setTitle("Start Room Chat", for: .normal)
-        default:
-            break
+        } else if indexPath.section == SectionRecent.direct.rawValue {
+            cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
         }
         
         return cell

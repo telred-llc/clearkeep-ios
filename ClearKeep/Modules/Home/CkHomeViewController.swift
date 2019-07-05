@@ -386,7 +386,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     private func reloadDataSource() {
         var rooms: [[MXKRecentCellData]] = []
         
-        // DIRECT_SECTION
+        // Direct chat
         if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
                 for invite in invitesArray.reversed() {
@@ -395,12 +395,12 @@ extension CkHomeViewController: MXKDataSourceDelegate {
                     }
                 }
             }
-            rooms.append(peopleArray)
+            rooms.append(peopleArray) 
         } else {
             rooms.append([])
         }
         
-        // ROOM_SECTION
+        // Room chat
         if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
                 for invite in invitesArray.reversed() {
@@ -413,8 +413,6 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         } else {
             rooms.append([])
         }
-        
-        
         self.reloadData(rooms: rooms)
     }
     
@@ -431,13 +429,10 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
      Delegate of Recent List view controller
      */
     func recentListViewDidTapStartChat(_ section: Int) {
-        switch section {
-        case DIRECT_SECTION:
-            self.showDirectChatVC()
-        case ROOM_SECTION:
+        if section == SectionRecent.room.rawValue {
             self.showRoomChatVC()
-        default:
-            break
+        } else if section == SectionRecent.direct.rawValue {
+            self.showDirectChatVC()
         }
     }
 }
