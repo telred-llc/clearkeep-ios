@@ -89,9 +89,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
             self.tabBar.items?[kHomeFavouriteIndex].badgeValue = self.tabBarBadgeStringValue(missedCountFavouritesScreen)
         } else {
             self.tabBar.items?[kHomeFavouriteIndex].badgeValue = nil
-        }
-        
-        super.reflectingBadges()
+        } 
     }
     
     private func setupNavigationBar() {
