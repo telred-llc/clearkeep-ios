@@ -17,8 +17,8 @@ protocol CKRecentListViewControllerDelegate: class {
 }
 
 enum SectionRecent: Int {
-    case room = 0
-    case direct = 1
+    case direct = 0
+    case room = 1
 }
 
 class CKRecentListViewController: MXKViewController {
