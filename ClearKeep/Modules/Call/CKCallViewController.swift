@@ -32,7 +32,6 @@ final class CKCallViewController: CallViewController {
             self?.callerNameLabel.textColor = themeService.attrs.primaryTextColor
             self?.callStatusLabel.textColor = themeService.attrs.secondTextColor
             self?.view.backgroundColor = themeService.attrs.secondBgColor
-            self?.gradientMaskContainerView.backgroundColor = themeService.attrs.secondBgColor
         }).disposed(by: disposeBag)
     }
     
