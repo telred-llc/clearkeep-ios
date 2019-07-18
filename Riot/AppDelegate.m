@@ -2750,6 +2750,12 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                                                                             queue:[NSOperationQueue mainQueue]
                                                                        usingBlock:^(NSNotification *notif)
     {
+        
+        // One more check leak vc
+        if ([currentCallViewController mxCall].state == MXCallStateEnded ) {
+            currentCallViewController = nil;
+        }
+        
         // Ignore the call if a call is already in progress
         if (!currentCallViewController && !_jitsiViewController)
         {
