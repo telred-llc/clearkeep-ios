@@ -17,7 +17,7 @@
 	<key>pushKitAppIdProd</key>
 	<string>im.vector.vmodev.app</string>
 	<key>identityserverurl</key>
-	<string>https://matrix.org</string>
+	<string>https://id.clearkeep.me</string>
 	<key>webAppUrlDev</key>
 	<string>https://riot.im/develop</string>
 	<key>webAppUrlBeta</key>
