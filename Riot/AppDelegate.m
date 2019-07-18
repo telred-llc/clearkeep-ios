@@ -2590,60 +2590,49 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             [self.logoutConfirmation dismissViewControllerAnimated:NO completion:nil];
             self.logoutConfirmation = nil;
         }
-        
+
         __weak typeof(self) weakSelf = self;
-        
-        NSString *message = NSLocalizedStringFromTable(@"settings_sign_out_confirmation", @"Vector", nil);
-        
-        // If the user has encrypted rooms, warn he will lose his e2e keys
-        MXSession *session = self.mxSessions.firstObject;
-        for (MXRoom *room in session.rooms)
-        {
-            if (room.summary.isEncrypted)
-            {
-                message = [message stringByAppendingString:[NSString stringWithFormat:@"\n\n%@", NSLocalizedStringFromTable(@"settings_sign_out_e2e_warn", @"Vector", nil)]];
-                break;
-            }
-        }
-        
+
+        NSString *message = NSLocalizedStringFromTable(@"settings_sign_out_confirmation", @"Vector", nil); 
+
         // Ask confirmation
         self.logoutConfirmation = [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"settings_sign_out", @"Vector", nil) message:message preferredStyle:UIAlertControllerStyleAlert];
-        
+
         [self.logoutConfirmation addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"settings_sign_out", @"Vector", nil)
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action) {
-                                                           
+
                                                            if (weakSelf)
                                                            {
                                                                typeof(self) self = weakSelf;
                                                                self.logoutConfirmation = nil;
-                                                               
+
                                                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                                                                   
+
                                                                    [self logoutWithConfirmation:NO completion:completion];
-                                                                   
+
                                                                });
                                                            }
-                                                           
+
                                                        }]];
-        
+
         [self.logoutConfirmation addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"cancel"]
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action) {
-                                                           
+
                                                            if (weakSelf)
                                                            {
                                                                typeof(self) self = weakSelf;
                                                                self.logoutConfirmation = nil;
-                                                               
+
                                                                if (completion)
                                                                {
                                                                    completion(NO);
                                                                }
                                                            }
-                                                           
+
                                                        }]];
-        
+
         [self.logoutConfirmation mxk_setAccessibilityIdentifier: @"AppDelegateLogoutConfirmationAlert"];
         [self showNotificationAlert:self.logoutConfirmation];
         return;
@@ -2680,6 +2669,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     // Clear cache
     [MXMediaManager clearCache];
+    
+    // Reset key backup banner preferences
+    [KeyBackupBannerPreferences.shared reset];
     
 #ifdef MX_CALL_STACK_ENDPOINT
     // Erase all created certificates and private keys by MXEndpointCallStack

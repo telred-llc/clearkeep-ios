@@ -33,11 +33,16 @@ class CKAccountProfileViewController: MXKViewController {
     
     // MARK: - PROPERTY
     
+    private weak var signOutButton: UIButton?
+    
     private var request: MXHTTPOperation!
     private var myUser: MXMyUser?
     private let kCkRoomAdminLevel = 100
     
     public var mxRoomPowerLevels: MXRoomPowerLevels?
+    
+    var signOutAlertPresenter: SignOutAlertPresenter?
+    var keyBackupSetupCoordinatorBridgePresenter: KeyBackupSetupCoordinatorBridgePresenter?
 
     // Observers
     private var removedAccountObserver: Any?
@@ -90,7 +95,11 @@ class CKAccountProfileViewController: MXKViewController {
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
 
-        bindingTheme()
+        // init sign out alert
+        self.signOutAlertPresenter = SignOutAlertPresenter()
+        self.signOutAlertPresenter?.delegate = self
+        
+        self.bindingTheme()
     }
     
     @objc func clickedOnBackButton(_ sender: Any?) {
@@ -272,9 +281,7 @@ class CKAccountProfileViewController: MXKViewController {
     }
     
     private func cellForSignOutButton(atIndexPath indexPath: IndexPath) -> CKSignoutButtonTableViewCell {
-        if let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKSignoutButtonTableViewCell.identifier,
-            for: indexPath) as? CKSignoutButtonTableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: CKSignoutButtonTableViewCell.identifier, for: indexPath) as? CKSignoutButtonTableViewCell {
 
             cell.signOutHandler = { [weak self] in
                 self?.signOut(button: cell.signOutButton)
@@ -282,6 +289,7 @@ class CKAccountProfileViewController: MXKViewController {
         }
         
         return CKSignoutButtonTableViewCell()
+        
     }
     
     private func titleForHeader(atSection section: Int) -> String {
@@ -294,10 +302,15 @@ class CKAccountProfileViewController: MXKViewController {
     }
     
     private func signOut(button: UIButton) {
+        //  Check sign out when use KeyBackup
+        self.signOutButton = button
+        if let keyBackup = self.mainSession.crypto.backup {
+            self.signOutAlertPresenter?.present(for: keyBackup.state, areThereKeysToBackup: keyBackup.hasKeysToBackup, from: self, sourceView: button, animated: true)
+            return
+        }
+       
         button.isEnabled = false
-        
-        startActivityIndicator()
-
+        self.startActivityIndicator()
         AppDelegate.the().logout(withConfirmation: true) { [weak self] isLoggedOut in
             if !isLoggedOut {
                 // Enable the button and stop activity indicator
@@ -389,3 +402,50 @@ extension CKAccountProfileViewController: UITableViewDataSource {
     }
 }
 
+extension CKAccountProfileViewController: SignOutAlertPresenterDelegate {
+    
+    func signOutAlertPresenterDidTapSignOutAction(_ presenter: SignOutAlertPresenter) {
+        // Prevent user to perform user interaction in settings when sign out
+        // TODO: Prevent user interaction in all application (navigation controller and split view controller included)
+        self.view.isUserInteractionEnabled = false
+        self.signOutButton?.isEnabled = false
+        
+        self.startActivityIndicator()
+        
+        AppDelegate.the().logout(withConfirmation: true) { [weak self] isLoggedOut in
+            // Enable the button and stop activity indicator
+            self?.stopActivityIndicator()
+            
+            self?.view.isUserInteractionEnabled = true
+            self?.signOutButton?.isEnabled = true
+        }
+    }
+    
+    func signOutAlertPresenterDidTapBackupAction(_ presenter: SignOutAlertPresenter) {
+        self.showKeyBackupSetupFromSignOutFlow(showFromSignOutFlow: true)
+    }
+    
+    private func showKeyBackupSetupFromSignOutFlow(showFromSignOutFlow: Bool) {
+        self.keyBackupSetupCoordinatorBridgePresenter = KeyBackupSetupCoordinatorBridgePresenter(session: mainSession)
+        self.keyBackupSetupCoordinatorBridgePresenter?.present(from: self, isStartedFromSignOut: showFromSignOutFlow, animated: true)
+        self.keyBackupSetupCoordinatorBridgePresenter?.delegate = self
+    }
+}
+
+extension CKAccountProfileViewController: KeyBackupSetupCoordinatorBridgePresenterDelegate {
+    
+    func keyBackupSetupCoordinatorBridgePresenterDelegateDidCancel(_ keyBackupSetupCoordinatorBridgePresenter: KeyBackupSetupCoordinatorBridgePresenter) {
+        if self.keyBackupSetupCoordinatorBridgePresenter != nil {
+            self.keyBackupSetupCoordinatorBridgePresenter?.dismiss(animated: true)
+            self.keyBackupSetupCoordinatorBridgePresenter = nil
+        }
+
+    }
+
+    func keyBackupSetupCoordinatorBridgePresenterDelegateDidSetupRecoveryKey(_ keyBackupSetupCoordinatorBridgePresenter: KeyBackupSetupCoordinatorBridgePresenter) {
+        if self.keyBackupSetupCoordinatorBridgePresenter != nil {
+            self.keyBackupSetupCoordinatorBridgePresenter?.dismiss(animated: true)
+            self.keyBackupSetupCoordinatorBridgePresenter = nil
+        }
+    }
+}

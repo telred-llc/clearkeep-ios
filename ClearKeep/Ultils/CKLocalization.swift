@@ -11,12 +11,20 @@ import Foundation
 final class CKLocalization: NSObject {
     
     public class func string(byKey key: String) -> String {
-        return NSLocalizedString(key, tableName: "ClearKeep", bundle: Bundle.main, value: "", comment: "")
+        var value = NSLocalizedString(key, tableName: "ClearKeep", bundle: Bundle.main, value: "", comment: "")
+        if value.isEmpty || value == key {
+            value = NSLocalizedString(key, tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        }
+        return value
     }
 }
 
 extension String {
     public static func ck_LocalizedString(key: String) -> String {
-        return NSLocalizedString(key, tableName: "ClearKeep", bundle: Bundle.main, value: "", comment: "")
+        var value = NSLocalizedString(key, tableName: "ClearKeep", bundle: Bundle.main, value: "", comment: "")
+        if value.isEmpty {
+            value = NSLocalizedString(key, tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        }
+        return value
     }
 }

@@ -12,6 +12,12 @@ import Foundation
 
 extension UIViewController {
     
+    /// Remove back bar button title when pushing a view controller.
+    /// This method should be called on the previous controller in UINavigationController stack.
+    func vc_removeBackTitle() {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
     /**
      This allows you change navigation color
      */
