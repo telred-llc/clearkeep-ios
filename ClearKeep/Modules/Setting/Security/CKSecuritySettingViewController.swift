@@ -195,11 +195,7 @@ private extension CKSecuritySettingViewController {
             }
         })
 
-    }
-    
-    func usingKeyBackup() {
-        debugPrint("[CKSecuritySettingViewController] using KeyBackup")
-    }
+    } 
 }
 
 // MARK: - UITableViewDataSource
@@ -305,24 +301,6 @@ extension CKSecuritySettingViewController: UIDocumentInteractionControllerDelega
     }
 }
 
-extension CKSecuritySettingViewController: KeyBackupRecoverCoordinatorBridgePresenterDelegate {
-    
-    func keyBackupRecoverCoordinatorBridgePresenterDidCancel(_ keyBackupRecoverCoordinatorBridgePresenter: KeyBackupRecoverCoordinatorBridgePresenter) {
-        if self.keyBackupRecoverCoordinatorBridgePresenter != nil {
-            self.keyBackupRecoverCoordinatorBridgePresenter?.dismiss(animated: true)
-            self.keyBackupRecoverCoordinatorBridgePresenter = nil
-        }
-    }
-    
-    func keyBackupRecoverCoordinatorBridgePresenterDidRecover(_ keyBackupRecoverCoordinatorBridgePresenter: KeyBackupRecoverCoordinatorBridgePresenter) {
-        if self.keyBackupRecoverCoordinatorBridgePresenter != nil {
-            self.keyBackupRecoverCoordinatorBridgePresenter?.dismiss(animated: true)
-            self.keyBackupRecoverCoordinatorBridgePresenter = nil
-        }
-    }
-    
-}
-
 extension CKSecuritySettingViewController: SettingsKeyBackupTableViewSectionDelegate {
     
     func settingsKeyBackupTableViewSectionDidUpdate(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection) {
@@ -403,7 +381,6 @@ extension CKSecuritySettingViewController: SettingsKeyBackupTableViewSectionDele
         self.keyBackupRecoverCoordinatorBridgePresenter?.present(from: self, animated: true)
         self.keyBackupRecoverCoordinatorBridgePresenter?.delegate = self
     }
-
 }
 
 extension CKSecuritySettingViewController: KeyBackupSetupCoordinatorBridgePresenterDelegate {
@@ -421,6 +398,21 @@ extension CKSecuritySettingViewController: KeyBackupSetupCoordinatorBridgePresen
             self.keyBackupSetupCoordinatorBridgePresenter = nil
         }
     }
+}
+
+extension CKSecuritySettingViewController: KeyBackupRecoverCoordinatorBridgePresenterDelegate {
     
+    func keyBackupRecoverCoordinatorBridgePresenterDidCancel(_ keyBackupRecoverCoordinatorBridgePresenter: KeyBackupRecoverCoordinatorBridgePresenter) {
+        if self.keyBackupRecoverCoordinatorBridgePresenter != nil {
+            self.keyBackupRecoverCoordinatorBridgePresenter?.dismiss(animated: true)
+            self.keyBackupRecoverCoordinatorBridgePresenter = nil
+        }
+    }
     
+    func keyBackupRecoverCoordinatorBridgePresenterDidRecover(_ keyBackupRecoverCoordinatorBridgePresenter: KeyBackupRecoverCoordinatorBridgePresenter) {
+        if self.keyBackupRecoverCoordinatorBridgePresenter != nil {
+            self.keyBackupRecoverCoordinatorBridgePresenter?.dismiss(animated: true)
+            self.keyBackupRecoverCoordinatorBridgePresenter = nil
+        }
+    }
 }

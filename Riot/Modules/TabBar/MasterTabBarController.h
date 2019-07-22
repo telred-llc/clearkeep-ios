@@ -49,6 +49,9 @@
 // Associated matrix sessions (empty by default).
 @property (nonatomic, readonly) NSArray *mxSessions;
 
+// Current alert (if any).
+@property (strong, nonatomic) UIAlertController *currentAlert;
+
 // Add a matrix session. This session is propagated to all view controllers handled by the tab bar controller.
 - (void)addMatrixSession:(MXSession*)mxSession;
 // Remove a matrix session.

@@ -51,6 +51,15 @@
 "key_backup_setup_skip_alert_message" = "You may lose secure messages if you log out or lose your device.";
 "key_backup_setup_skip_alert_skip_action" = "Skip";
 
+// Login
+
+"key_backup_alert_title_status_not_trusted" = "Key Backup not trusted";
+"key_backup_alert_message_status_not_trusted" = "This device is not backing up your keys, but you do have an existing backup you can restore from and add to going forward.\n\nConnect this device to Key Backup";
+
+"key_backup_alert_title_status_disabled" = "Key Backup disabled";
+"key_backup_alert_message_status_disabled" = "Your keys are not being backed up from this device.\n\nEncrypted messages are secured with end-to-end encryption. Only you and the recipient(s) have the keys to read these messages.\n\nConnect this device to key backup before signing out to avoid losing any keys that may only be on this device.";
+
+
 // Intro
 
 "key_backup_setup_intro_title" = "Never lose encrypted messages";
@@ -154,3 +163,9 @@
 "sign_out_key_backup_in_progress_alert_title" = "Key backup in progress. If you sign out now you’ll lose access to your encrypted messages.";
 "sign_out_key_backup_in_progress_alert_discard_key_backup_action" = "I don't want my encrypted messages";
 "sign_out_key_backup_in_progress_alert_cancel_action" = "I'll wait";
+
+// Key backup wrong version
+"e2e_key_backup_wrong_version_title" = "New Key Backup";
+"e2e_key_backup_wrong_version" = "A new secure message key backup has been detected.\n\nIf this wasn’t you, set a new passphrase in Settings.";
+"e2e_key_backup_wrong_version_button_settings" = "Settings";
+"e2e_key_backup_wrong_version_button_wasme" = "It was me";

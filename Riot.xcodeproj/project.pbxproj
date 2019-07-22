@@ -144,8 +144,6 @@
 		9C3AC4EA22D742F300DD179F /* NavigationRouterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC4E722D742F300DD179F /* NavigationRouterType.swift */; };
 		9C3AC4F122D746A200DD179F /* Storyboards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC4ED22D746A100DD179F /* Storyboards.swift */; };
 		9C3AC4F222D746A200DD179F /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC4EE22D746A100DD179F /* Images.swift */; };
-		9C3AC4F722D7472D00DD179F /* KeyboardAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC4F522D7472D00DD179F /* KeyboardAvoider.swift */; };
-		9C3AC4F822D7472D00DD179F /* KeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC4F622D7472D00DD179F /* KeyboardNotification.swift */; };
 		9CA8780A22DA160200A28C95 /* OperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA8780922DA160200A28C95 /* OperationQueue.swift */; };
 		9CBD7CB022DD841F00F60628 /* SettingsKeyBackupViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD7CAB22DD841F00F60628 /* SettingsKeyBackupViewState.swift */; };
 		9CBD7CB122DD841F00F60628 /* SettingsKeyBackupTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD7CAC22DD841F00F60628 /* SettingsKeyBackupTableViewSection.swift */; };
@@ -158,6 +156,8 @@
 		9CEE911522DEB508005C5584 /* CKSettingTextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CEE911322DEB508005C5584 /* CKSettingTextViewCell.xib */; };
 		9CEEB4DA22C62D260031AB36 /* CKRecentHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CEEB4D822C62D260031AB36 /* CKRecentHeaderView.xib */; };
 		9CEEB4DB22C62D260031AB36 /* CKRecentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB4D922C62D260031AB36 /* CKRecentHeaderView.swift */; };
+		9CF5B7F822E16E7600ECF4B0 /* KeyboardAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF5B7F722E16E7600ECF4B0 /* KeyboardAvoider.swift */; };
+		9CF5B7FA22E16E8300ECF4B0 /* KeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF5B7F922E16E8200ECF4B0 /* KeyboardNotification.swift */; };
 		9CF635DE22D81ECA00790297 /* ActivityIndicatorPresenterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF635DA22D81ECA00790297 /* ActivityIndicatorPresenterType.swift */; };
 		9CF635DF22D81ECA00790297 /* ActivityIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CF635DB22D81ECA00790297 /* ActivityIndicatorView.xib */; };
 		9CF635E022D81ECA00790297 /* ActivityIndicatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF635DC22D81ECA00790297 /* ActivityIndicatorPresenter.swift */; };
@@ -1343,8 +1343,6 @@
 		9C3AC4E722D742F300DD179F /* NavigationRouterType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationRouterType.swift; sourceTree = "<group>"; };
 		9C3AC4ED22D746A100DD179F /* Storyboards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
 		9C3AC4EE22D746A100DD179F /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
-		9C3AC4F522D7472D00DD179F /* KeyboardAvoider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAvoider.swift; sourceTree = "<group>"; };
-		9C3AC4F622D7472D00DD179F /* KeyboardNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardNotification.swift; sourceTree = "<group>"; };
 		9CA8780922DA160200A28C95 /* OperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationQueue.swift; sourceTree = "<group>"; };
 		9CBD7CAB22DD841F00F60628 /* SettingsKeyBackupViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsKeyBackupViewState.swift; sourceTree = "<group>"; };
 		9CBD7CAC22DD841F00F60628 /* SettingsKeyBackupTableViewSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsKeyBackupTableViewSection.swift; sourceTree = "<group>"; };
@@ -1357,6 +1355,8 @@
 		9CEE911322DEB508005C5584 /* CKSettingTextViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSettingTextViewCell.xib; sourceTree = "<group>"; };
 		9CEEB4D822C62D260031AB36 /* CKRecentHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRecentHeaderView.xib; sourceTree = "<group>"; };
 		9CEEB4D922C62D260031AB36 /* CKRecentHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRecentHeaderView.swift; sourceTree = "<group>"; };
+		9CF5B7F722E16E7600ECF4B0 /* KeyboardAvoider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAvoider.swift; sourceTree = "<group>"; };
+		9CF5B7F922E16E8200ECF4B0 /* KeyboardNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardNotification.swift; sourceTree = "<group>"; };
 		9CF635DA22D81ECA00790297 /* ActivityIndicatorPresenterType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorPresenterType.swift; sourceTree = "<group>"; };
 		9CF635DB22D81ECA00790297 /* ActivityIndicatorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityIndicatorView.xib; sourceTree = "<group>"; };
 		9CF635DC22D81ECA00790297 /* ActivityIndicatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorPresenter.swift; sourceTree = "<group>"; };
@@ -2462,16 +2462,6 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
-		9C3AC4F422D7472D00DD179F /* KeyboardAvoiding */ = {
-			isa = PBXGroup;
-			children = (
-				9C3AC4F522D7472D00DD179F /* KeyboardAvoider.swift */,
-				9C3AC4F622D7472D00DD179F /* KeyboardNotification.swift */,
-			);
-			name = KeyboardAvoiding;
-			path = "../../../../riot-ios-develop/Riot/Modules/Common/KeyboardAvoiding";
-			sourceTree = "<group>";
-		};
 		9CBD7CAA22DD841F00F60628 /* KeyBackup */ = {
 			isa = PBXGroup;
 			children = (
@@ -2483,6 +2473,15 @@
 			);
 			name = KeyBackup;
 			path = ../KeyBackup;
+			sourceTree = "<group>";
+		};
+		9CF5B7F622E16E4A00ECF4B0 /* KeyboardAvoiding */ = {
+			isa = PBXGroup;
+			children = (
+				9CF5B7F722E16E7600ECF4B0 /* KeyboardAvoider.swift */,
+				9CF5B7F922E16E8200ECF4B0 /* KeyboardNotification.swift */,
+			);
+			path = KeyboardAvoiding;
 			sourceTree = "<group>";
 		};
 		9CF635D922D81ECA00790297 /* ActivityIndicator */ = {
@@ -4045,8 +4044,8 @@
 			children = (
 				E54A5AE321FEEBA10094461E /* CKBaseCell.swift */,
 				E523312B221BDEDD008FC772 /* CKBaseCollectionCell.swift */,
-				9C3AC4F422D7472D00DD179F /* KeyboardAvoiding */,
 				9CF635D922D81ECA00790297 /* ActivityIndicator */,
+				9CF5B7F622E16E4A00ECF4B0 /* KeyboardAvoiding */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -5603,7 +5602,6 @@
 				B1B5574820EE6C4D00210D55 /* PeopleViewController.m in Sources */,
 				E5ABD65A21D616520017D93E /* CkHomeViewController.swift in Sources */,
 				A0043FB921F8489F0051AAE1 /* CKAccountProfileAvatarCell.swift in Sources */,
-				9C3AC4F722D7472D00DD179F /* KeyboardAvoider.swift in Sources */,
 				9C3AC4F222D746A200DD179F /* Images.swift in Sources */,
 				E5E7DB33229677D300AB7CF3 /* JitsiService.swift in Sources */,
 				B1B5598720EFC3E000210D55 /* Widget.m in Sources */,
@@ -5719,6 +5717,7 @@
 				B1B5571B20EE6C4D00210D55 /* DeactivateAccountViewController.m in Sources */,
 				9C3AC4DF22D73B6A00DD179F /* KeyBackupRecoverCoordinator.swift in Sources */,
 				B1B5590620EF768F00210D55 /* RoomMembershipCollapsedWithPaginationTitleBubbleCell.m in Sources */,
+				9CF5B7F822E16E7600ECF4B0 /* KeyboardAvoider.swift in Sources */,
 				F083BE031E7009ED00A9B29C /* EventFormatter.m in Sources */,
 				E51891EE21EF351700DFBCA5 /* CKRoomSettingsEditablePhotoCell.swift in Sources */,
 				5EF8B5E1221D58B4007B431C /* CKMenuRoomViewController.swift in Sources */,
@@ -5808,6 +5807,7 @@
 				9C3AC4C622D73B6A00DD179F /* KeyBackupSetupCoordinatorType.swift in Sources */,
 				E574336C21F370DD00989FF3 /* CKRoomCreatingNameCell.swift in Sources */,
 				853CBDEC2232065F00404DBC /* CKSecuritySettingViewController.swift in Sources */,
+				9CF5B7FA22E16E8300ECF4B0 /* KeyboardNotification.swift in Sources */,
 				B1B5579920EF575B00210D55 /* AuthInputsView.m in Sources */,
 				B1B5597520EFB02A00210D55 /* InviteRecentTableViewCell.m in Sources */,
 				E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */,
@@ -5882,7 +5882,6 @@
 				B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				9CF635E022D81ECA00790297 /* ActivityIndicatorPresenter.swift in Sources */,
 				B1B5576F20EE702800210D55 /* IntegrationManagerViewController.m in Sources */,
-				9C3AC4F822D7472D00DD179F /* KeyboardNotification.swift in Sources */,
 				E5FB45E722BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */,
 				853CBDF02232788000404DBC /* CKSignoutButtonTableViewCell.swift in Sources */,
 				B1B557AC20EF5A6D00210D55 /* DeviceView.m in Sources */,

@@ -32,7 +32,7 @@ final class CkHomeViewController: CKRecentListViewController {
         self.delegate = self
         
         // Listen to the user info did changed
-        NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil) 
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -340,7 +340,6 @@ final class CkHomeViewController: CKRecentListViewController {
 
         self.present(nvc, animated: true, completion: nil)
     }
-
 }
 
 extension CkHomeViewController {
