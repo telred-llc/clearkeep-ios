@@ -407,16 +407,14 @@ extension CKAccountProfileViewController: SignOutAlertPresenterDelegate {
     func signOutAlertPresenterDidTapSignOutAction(_ presenter: SignOutAlertPresenter) {
         // Prevent user to perform user interaction in settings when sign out
         // TODO: Prevent user interaction in all application (navigation controller and split view controller included)
-        self.view.isUserInteractionEnabled = false
-        self.signOutButton?.isEnabled = false
-        
+        UIApplication.shared.beginIgnoringInteractionEvents()
         self.startActivityIndicator()
+        self.signOutButton?.isEnabled = false
         
         AppDelegate.the().logout(withConfirmation: true) { [weak self] isLoggedOut in
             // Enable the button and stop activity indicator
+            UIApplication.shared.endIgnoringInteractionEvents()
             self?.stopActivityIndicator()
-            
-            self?.view.isUserInteractionEnabled = true
             self?.signOutButton?.isEnabled = true
         }
     }
