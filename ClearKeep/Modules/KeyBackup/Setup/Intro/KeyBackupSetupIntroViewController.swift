@@ -33,11 +33,7 @@ final class KeyBackupSetupIntroViewController: UIViewController {
     @IBOutlet private weak var informationLabel: UILabel!
     
     @IBOutlet private weak var setUpButtonBackgroundView: UIView!
-    @IBOutlet private weak var setUpButton: UIButton!
-    
-    @IBOutlet private weak var manualExportContainerView: UIView!
-    @IBOutlet private weak var manualExportInfoLabel: UILabel!
-    @IBOutlet private weak var manualExportButton: UIButton!
+    @IBOutlet private weak var setUpButton: UIButton! 
     
     // MARK: Private
     
@@ -96,11 +92,6 @@ final class KeyBackupSetupIntroViewController: UIViewController {
         let setupTitle = self.isABackupAlreadyExists ? CKLocalization.string(byKey: "key_backup_setup_intro_setup_connect_action_with_existing_backup") : CKLocalization.string(byKey: "key_backup_setup_intro_setup_action_without_existing_backup")
         
         self.setUpButton.setTitle(setupTitle, for: .normal)
-        
-        self.manualExportInfoLabel.text = CKLocalization.string(byKey: "key_backup_setup_intro_manual_export_info")
-        
-        self.manualExportContainerView.isHidden = !self.showManualExport
-        self.manualExportButton.setTitle(CKLocalization.string(byKey: "key_backup_setup_intro_manual_export_action"), for: .normal)
     }
     
     private func bindingTheme() {
@@ -121,11 +112,10 @@ final class KeyBackupSetupIntroViewController: UIViewController {
         themeService.rx
             .bind({ $0.secondBgColor }, to: self.view.rx.backgroundColor)
             .bind({ $0.primaryBgColor }, to: self.setUpButtonBackgroundView.rx.backgroundColor)
-            .bind({ $0.primaryTextColor }, to: self.keyBackupLogoImageView.rx.tintColor, self.titleLabel.rx.textColor, self.informationLabel.rx.textColor, self.manualExportInfoLabel.rx.textColor)
+            .bind({ $0.primaryTextColor }, to: self.keyBackupLogoImageView.rx.tintColor, self.titleLabel.rx.textColor, self.informationLabel.rx.textColor)
             .disposed(by: disposeBag)
         
         CKColor.applyStyle(onButton: self.setUpButton)
-        CKColor.applyStyle(onButton: self.manualExportButton) 
     }
     
     private func showSkipAlert() {
@@ -147,9 +137,5 @@ final class KeyBackupSetupIntroViewController: UIViewController {
     
     @IBAction private func validateButtonAction(_ sender: Any) {
         self.delegate?.keyBackupSetupIntroViewControllerDidTapSetupAction(self)
-    }
-    
-    @IBAction private func manualExportButtonAction(_ sender: Any) {
-        self.encryptionKeysExportPresenter?.present(from: self, sourceView: self.manualExportButton)
     }
 }
