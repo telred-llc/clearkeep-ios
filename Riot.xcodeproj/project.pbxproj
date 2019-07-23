@@ -92,7 +92,6 @@
 		89C94E649229EA68AE787E9E /* Pods_RiotPods_Riot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2510A69B4A681C1FEC36E848 /* Pods_RiotPods_Riot.framework */; };
 		926FA53F1F4C132000F826C2 /* MXSession+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = 926FA53E1F4C132000F826C2 /* MXSession+Riot.m */; };
 		92726A471F58737A004AD26F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 92726A461F58737A004AD26F /* IntentHandler.m */; };
-		92726A4B1F58737A004AD26F /* SiriIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 92726A431F58737A004AD26F /* SiriIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		92726A511F587410004AD26F /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92726A501F587410004AD26F /* Intents.framework */; };
 		9C3AC4B422D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC47E22D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.swift */; };
 		9C3AC4B522D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C3AC47F22D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.storyboard */; };
@@ -1232,13 +1231,6 @@
 			remoteGlobalIDString = 24CBEC4D1F0EAD310093EABB;
 			remoteInfo = "Riot Share Extension";
 		};
-		92726A491F58737A004AD26F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F094A99A1B78D8F000B1FBBF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 92726A421F58737A004AD26F;
-			remoteInfo = SiriIntents;
-		};
 		E520C5B122E71505003101BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F094A99A1B78D8F000B1FBBF /* Project object */;
@@ -1263,7 +1255,6 @@
 			dstSubfolderSpec = 13;
 			files = (
 				24CBEC591F0EAD310093EABB /* RiotShareExtension-Dev.appex in Embed App Extensions */,
-				92726A4B1F58737A004AD26F /* SiriIntents.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4646,7 +4637,6 @@
 			);
 			dependencies = (
 				242661F61F12B1BA00D3FC08 /* PBXTargetDependency */,
-				92726A4A1F58737A004AD26F /* PBXTargetDependency */,
 			);
 			name = Riot;
 			productName = Vector;
@@ -6190,11 +6180,6 @@
 			target = 24CBEC4D1F0EAD310093EABB /* RiotShareExtension */;
 			targetProxy = 242661F51F12B1BA00D3FC08 /* PBXContainerItemProxy */;
 		};
-		92726A4A1F58737A004AD26F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 92726A421F58737A004AD26F /* SiriIntents */;
-			targetProxy = 92726A491F58737A004AD26F /* PBXContainerItemProxy */;
-		};
 		E520C5B222E71505003101BA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E520C58E22E7136B003101BA /* RiotShareExtension-Prod */;
@@ -6287,6 +6272,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"IS_SHARE_EXTENSION=1",
+					"TARGET_DEV=1",
 				);
 				INFOPLIST_FILE = RiotShareExtension/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -6328,6 +6314,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"IS_SHARE_EXTENSION=1",
+					"TARGET_DEV=1",
 				);
 				INFOPLIST_FILE = RiotShareExtension/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -6720,6 +6707,11 @@
 					"\"${PODS_ROOT}/WebRTC\"",
 					"\"$(PROJECT_DIR)/Riot/libs/jitsi-meet\"",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TARGET_DEV=1",
+				);
 				INFOPLIST_FILE = Riot/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_MAP_FILE_PATH = "$(TARGET_TEMP_DIR)/$(TARGET_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
@@ -6768,6 +6760,11 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/libPhoneNumber-iOS\"",
 					"\"${PODS_ROOT}/WebRTC\"",
 					"\"$(PROJECT_DIR)/Riot/libs/jitsi-meet\"",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TARGET_DEV=1",
 				);
 				INFOPLIST_FILE = Riot/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

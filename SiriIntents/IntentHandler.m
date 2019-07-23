@@ -33,7 +33,11 @@
     self = [super init];
     if (self)
     {
+#ifdef TARGET_DEV
         [MXSDKOptions sharedInstance].applicationGroupIdentifier = @"group.im.vector.vmodev";
+#else
+        [MXSDKOptions sharedInstance].applicationGroupIdentifier = @"group.com.telred.clearkeep";
+#endif
 
         // NSLog -> console.log file when not debugging the app
         if (!isatty(STDERR_FILENO))

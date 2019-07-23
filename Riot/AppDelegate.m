@@ -244,7 +244,12 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 
     // Set the App Group identifier.
     MXSDKOptions *sdkOptions = [MXSDKOptions sharedInstance];
+    
+#ifdef TARGET_DEV
     sdkOptions.applicationGroupIdentifier = @"group.im.vector.vmodev";
+#else
+    sdkOptions.applicationGroupIdentifier = @"group.com.telred.clearkeep";
+#endif
 
     // Redirect NSLogs to files only if we are not debugging
     if (!isatty(STDERR_FILENO))
