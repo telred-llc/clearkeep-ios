@@ -7,8 +7,9 @@
 //
 
 import Foundation
+
 @objc extension AppDelegate {
-    
+        
     public func useCkStoryboard(_ application: UIApplication) {
         // get theme
         let isDarkMode = RiotSettings.shared.userInterfaceTheme == ThemeType.dark.typeName
@@ -185,4 +186,44 @@ import Foundation
         }
         return nil
     }
-}
+    
+    // MARK - Application layout handling
+    
+    public func showNotificationAlert(_ alert: UIAlertController?) {
+        if window.rootViewController?.presentedViewController != nil {
+            alert?.popoverPresentationController?.sourceView = window.rootViewController?.presentedViewController?.view
+            alert?.popoverPresentationController?.sourceRect = window.rootViewController?.presentedViewController?.view.bounds ?? CGRect.zero
+            if let alert = alert {
+                window.rootViewController?.presentedViewController?.present(alert, animated: true)
+            }
+        } else {
+            alert?.popoverPresentationController?.sourceView = window.rootViewController?.view
+            alert?.popoverPresentationController?.sourceRect = window.rootViewController?.view.bounds ?? CGRect.zero
+            if let alert = alert {
+                window.rootViewController?.present(alert, animated: true)
+            }
+        }
+    }
+
+    public func keyBackupStateDidChange(_ notification: Notification?) {
+        guard let keyBackup = notification?.object as? MXKeyBackup else {
+            return
+        }
+                
+        if keyBackup.state == MXKeyBackupStateWrongBackUpVersion {
+            if self.keyBackupAlert != nil {
+                self.keyBackupAlert?.dismiss(animated: false)
+            }
+            
+            self.keyBackupAlert = UIAlertController(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_title"), message: CKLocalization.string(byKey: "e2e_key_backup_wrong_version"), preferredStyle: .alert)
+            self.keyBackupAlert.addAction(UIAlertAction(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_button_settings"), style: .default, handler: { action in
+                self.keyBackupAlert = nil
+            }))
+            self.keyBackupAlert.addAction(UIAlertAction(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_button_wasme"), style: .default, handler: { action in
+                self.keyBackupAlert = nil
+            }))
+            
+            self.showNotificationAlert(self.keyBackupAlert)
+        }
+    }
+} 

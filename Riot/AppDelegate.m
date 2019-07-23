@@ -205,7 +205,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     /**
      Prompt to ask the user to log in again.
      */
-    UIAlertController *cryptoDataCorruptedAlert;
+    UIAlertController *cryptoDataCorruptedAlert; 
     
     /**
      The launch animation container view
@@ -534,6 +534,11 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         [cryptoDataCorruptedAlert dismissViewControllerAnimated:NO completion:nil];
         cryptoDataCorruptedAlert = nil;
     }
+    
+    if (self.keyBackupAlert) {
+        [self.keyBackupAlert dismissViewControllerAnimated:NO completion:nil];
+        self.keyBackupAlert = nil;
+    }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -666,6 +671,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     // Observe crypto data storage corruption
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSessionCryptoDidCorruptData:) name:kMXSessionCryptoDidCorruptDataNotification object:nil];
+    
+    // Observe wrong backup version
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBackupStateDidChange:) name:kMXKeyBackupDidStateChangeNotification object:nil];
     
     // Resume all existing matrix sessions
     NSArray *mxAccounts = [MXKAccountManager sharedManager].activeAccounts;
@@ -807,6 +815,12 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                     NSLog(@"[AppDelegate] restoreInitialDisplay: keep visible log in again");
                     [self showNotificationAlert:cryptoDataCorruptedAlert];
                 }
+                else if (self.keyBackupAlert)
+                {
+                    NSLog(@"[AppDelegate] restoreInitialDisplay: keep visible keyBackupAlert");
+                    [self showNotificationAlert:self.keyBackupAlert];
+                    
+                }
                 // Check whether an error notification is pending
                 else if (_errorNotification)
                 {
@@ -929,23 +943,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     }
     
     return self.errorNotification;
-}
-
-- (void)showNotificationAlert:(UIAlertController*)alert
-{
-    if (self.window.rootViewController.presentedViewController)
-    {
-        [alert popoverPresentationController].sourceView = self.window.rootViewController.presentedViewController.view;
-        [alert popoverPresentationController].sourceRect = self.window.rootViewController.presentedViewController.view.bounds;
-        [self.window.rootViewController.presentedViewController presentViewController:alert animated:YES completion:nil];
-    }
-    else
-    {
-        [alert popoverPresentationController].sourceView = self.window.rootViewController.view;
-        [alert popoverPresentationController].sourceRect = self.window.rootViewController.view.bounds;
-        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
-    }
-}
+} 
 
 - (void)onSessionCryptoDidCorruptData:(NSNotification *)notification
 {
@@ -2590,60 +2588,49 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             [self.logoutConfirmation dismissViewControllerAnimated:NO completion:nil];
             self.logoutConfirmation = nil;
         }
-        
+
         __weak typeof(self) weakSelf = self;
-        
-        NSString *message = NSLocalizedStringFromTable(@"settings_sign_out_confirmation", @"Vector", nil);
-        
-        // If the user has encrypted rooms, warn he will lose his e2e keys
-        MXSession *session = self.mxSessions.firstObject;
-        for (MXRoom *room in session.rooms)
-        {
-            if (room.summary.isEncrypted)
-            {
-                message = [message stringByAppendingString:[NSString stringWithFormat:@"\n\n%@", NSLocalizedStringFromTable(@"settings_sign_out_e2e_warn", @"Vector", nil)]];
-                break;
-            }
-        }
-        
+
+        NSString *message = NSLocalizedStringFromTable(@"settings_sign_out_confirmation", @"Vector", nil); 
+
         // Ask confirmation
         self.logoutConfirmation = [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"settings_sign_out", @"Vector", nil) message:message preferredStyle:UIAlertControllerStyleAlert];
-        
+
         [self.logoutConfirmation addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"settings_sign_out", @"Vector", nil)
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action) {
-                                                           
+
                                                            if (weakSelf)
                                                            {
                                                                typeof(self) self = weakSelf;
                                                                self.logoutConfirmation = nil;
-                                                               
+
                                                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                                                                   
+
                                                                    [self logoutWithConfirmation:NO completion:completion];
-                                                                   
+
                                                                });
                                                            }
-                                                           
+
                                                        }]];
-        
+
         [self.logoutConfirmation addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"cancel"]
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action) {
-                                                           
+
                                                            if (weakSelf)
                                                            {
                                                                typeof(self) self = weakSelf;
                                                                self.logoutConfirmation = nil;
-                                                               
+
                                                                if (completion)
                                                                {
                                                                    completion(NO);
                                                                }
                                                            }
-                                                           
+
                                                        }]];
-        
+
         [self.logoutConfirmation mxk_setAccessibilityIdentifier: @"AppDelegateLogoutConfirmationAlert"];
         [self showNotificationAlert:self.logoutConfirmation];
         return;
@@ -2680,6 +2667,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     // Clear cache
     [MXMediaManager clearCache];
+    
+    // Reset key backup banner preferences
+    [KeyBackupBannerPreferences.shared reset];
     
 #ifdef MX_CALL_STACK_ENDPOINT
     // Erase all created certificates and private keys by MXEndpointCallStack

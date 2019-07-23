@@ -25,6 +25,7 @@
 #import "Analytics.h"
 
 #import "RiotDesignValues.h"
+ 
 
 #pragma mark - Notifications
 /**
@@ -59,6 +60,13 @@ extern NSString *const kAppDelegateNetworkStatusDidChangeNotification;
 
 @property (nonatomic) BOOL isAppForeground;
 @property (nonatomic) BOOL isOffline;
+
+@property (nonatomic) BOOL isFirstLogin; 
+
+/**
+ KeyBackup
+ */
+@property (strong, nonatomic) UIAlertController *keyBackupAlert;
 
 /**
  The navigation controller of the master view controller of the main split view controller.

@@ -47,10 +47,7 @@
     RecentsDataSource *recentsDataSource;
     
     // The current unified search screen if any
-    UnifiedSearchViewController *unifiedSearchViewController;
-    
-    // Current alert (if any).
-    UIAlertController *currentAlert;
+    UnifiedSearchViewController *unifiedSearchViewController; 
     
     // Keep reference on the pushed view controllers to release them correctly
     NSMutableArray *childViewControllers;
@@ -210,10 +207,10 @@
     _roomsViewController = nil;
     _groupsViewController = nil;
     
-    if (currentAlert)
+    if (self.currentAlert)
     {
-        [currentAlert dismissViewControllerAnimated:NO completion:nil];
-        currentAlert = nil;
+        [self.currentAlert dismissViewControllerAnimated:NO completion:nil];
+        self.currentAlert = nil;
     }
     
     if (authViewControllerObserver)
@@ -871,17 +868,17 @@
 
 - (void)promptUserBeforeUsingAnalytics
 {
-    NSLog(@"[MasterTabBarController]: Invite the user to send crash reports");
+    NSLog(@"[CkMasterTabBarController]: present Invite the user to send crash reports");
     
     __weak typeof(self) weakSelf = self;
     
-    [currentAlert dismissViewControllerAnimated:NO completion:nil];
+    [self.currentAlert dismissViewControllerAnimated:NO completion:nil];
     
     NSString *appDisplayName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
     
-    currentAlert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTable(@"google_analytics_use_prompt", @"Vector", nil), appDisplayName] message:nil preferredStyle:UIAlertControllerStyleAlert];
+    self.currentAlert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTable(@"google_analytics_use_prompt", @"Vector", nil), appDisplayName] message:nil preferredStyle:UIAlertControllerStyleAlert];
     
-    [currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"no"]
+    [self.currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"no"]
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                        
@@ -890,12 +887,12 @@
                                                        if (weakSelf)
                                                        {
                                                            typeof(self) self = weakSelf;
-                                                           self->currentAlert = nil;
+                                                           self.currentAlert = nil;
                                                        }
                                                        
                                                    }]];
     
-    [currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"yes"]
+    [self.currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"yes"]
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                                                                               
@@ -904,15 +901,15 @@
                                                        if (weakSelf)
                                                        {
                                                            typeof(self) self = weakSelf;
-                                                           self->currentAlert = nil;
+                                                           self.currentAlert = nil;
                                                        }
 
                                                        [[Analytics sharedInstance] start];
                                                        
                                                    }]];
     
-    [currentAlert mxk_setAccessibilityIdentifier: @"HomeVCUseAnalyticsAlert"];
-    [self presentViewController:currentAlert animated:YES completion:nil];
+    [self.currentAlert mxk_setAccessibilityIdentifier: @"HomeVCUseAnalyticsAlert"];
+    [self presentViewController:self.currentAlert animated:YES completion:nil];
 }
 
 #pragma mark - UITabBarDelegate

@@ -117,6 +117,9 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
     }
 
     private func finalAuthentication(withUserId userId: String) {
+        // Tag the first Login
+        AppDelegate.the().isFirstLogin = true
+        
         if let nc = self.navigationController {
             nc.popViewController(animated: true)
         } else {
