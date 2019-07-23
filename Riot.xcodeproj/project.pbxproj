@@ -492,6 +492,30 @@
 		E51891EE21EF351700DFBCA5 /* CKRoomSettingsEditablePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51891ED21EF351700DFBCA5 /* CKRoomSettingsEditablePhotoCell.swift */; };
 		E520894121DC730400591830 /* CkAvatarTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E520893F21DC730300591830 /* CkAvatarTopView.xib */; };
 		E520894221DC730400591830 /* CkAvatarTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E520894021DC730400591830 /* CkAvatarTopView.swift */; };
+		E520C59122E7136B003101BA /* SegmentedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556D720EE6C4C00210D55 /* SegmentedViewController.m */; };
+		E520C59222E7136B003101BA /* RiotDesignValues.m in Sources */ = {isa = PBXBuildFile; fileRef = B16932AB20F3A7B000746532 /* RiotDesignValues.m */; };
+		E520C59322E7136B003101BA /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1664BB820F4E67500808783 /* ShareViewController.m */; };
+		E520C59422E7136B003101BA /* FallbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1664BAE20F4E67500808783 /* FallbackViewController.m */; };
+		E520C59522E7136B003101BA /* AvatarGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BC111E7009EC00A9B29C /* AvatarGenerator.m */; };
+		E520C59622E7136B003101BA /* ShareExtensionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1664BC420F4E67600808783 /* ShareExtensionManager.m */; };
+		E520C59722E7136B003101BA /* MXRoom+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBE81E7009EC00A9B29C /* MXRoom+Riot.m */; };
+		E520C59822E7136B003101BA /* SharePresentingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1664BB220F4E67500808783 /* SharePresentingViewController.m */; };
+		E520C59922E7136B003101BA /* MXRoomSummary+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = F0D2ADA01F6AA5FD00A7097D /* MXRoomSummary+Riot.m */; };
+		E520C59A22E7136B003101BA /* RiotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B5597F20EFC3DF00210D55 /* RiotSettings.swift */; };
+		E520C59B22E7136B003101BA /* ShareDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = B1664BB520F4E67500808783 /* ShareDataSource.m */; };
+		E520C59C22E7136B003101BA /* RecentRoomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1664BBE20F4E67500808783 /* RecentRoomTableViewCell.m */; };
+		E520C59D22E7136B003101BA /* RecentCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = B16932F920F3C51900746532 /* RecentCellData.m */; };
+		E520C59E22E7136B003101BA /* RoomsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1664BBC20F4E67500808783 /* RoomsListViewController.m */; };
+		E520C5A022E7136B003101BA /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5856BA7A55E53C0AEAFC084 /* Pods_RiotPods_RiotShareExtension.framework */; };
+		E520C5A222E7136B003101BA /* RoomsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1664BBA20F4E67500808783 /* RoomsListViewController.xib */; };
+		E520C5A322E7136B003101BA /* SegmentedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B556D620EE6C4C00210D55 /* SegmentedViewController.xib */; };
+		E520C5A422E7136B003101BA /* Vector.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1664D5520F4EBEC00808783 /* Vector.strings */; };
+		E520C5A522E7136B003101BA /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1664BB720F4E67500808783 /* ShareViewController.xib */; };
+		E520C5A622E7136B003101BA /* SharedImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B169328620F3954A00746532 /* SharedImages.xcassets */; };
+		E520C5A722E7136B003101BA /* FallbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1664BAD20F4E67500808783 /* FallbackViewController.xib */; };
+		E520C5A822E7136B003101BA /* RecentRoomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1664BBF20F4E67500808783 /* RecentRoomTableViewCell.xib */; };
+		E520C5B022E71505003101BA /* RiotShareExtension-Prod.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E520C5AC22E7136B003101BA /* RiotShareExtension-Prod.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E520C5B322E71660003101BA /* SignOutAlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6C0D222E01D0300BC44D3 /* SignOutAlertPresenter.swift */; };
 		E5233117221BA961008FC772 /* CKRoomSettingsMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233116221BA961008FC772 /* CKRoomSettingsMoreViewController.swift */; };
 		E5233119221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */; };
 		E5233121221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */; };
@@ -1102,8 +1126,6 @@
 		E5E7DD36229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5587020EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.xib */; };
 		E5E7DD37229BC7D300AB7CF3 /* RoomMemberDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B556A920EE6C4C00210D55 /* RoomMemberDetailsViewController.xib */; };
 		E5E7DD38229BC7D300AB7CF3 /* RoomIncomingEncryptedAttachmentBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5585420EF768E00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.xib */; };
-		E5E7DD3A229BC7D300AB7CF3 /* RiotShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 24CBEC4E1F0EAD310093EABB /* RiotShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E5E7DD3B229BC7D300AB7CF3 /* SiriIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 92726A431F58737A004AD26F /* SiriIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E5E7DD43229BC8D800AB7CF3 /* Riot-Prod-Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = E5E7DD42229BC8D800AB7CF3 /* Riot-Prod-Defaults.plist */; };
 		E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E9062A21523EDC00155DD5 /* AuthWebViewController.m */; };
 		E5FB45E722BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FB45E622BB2CE7008C93E6 /* CKSettingDarkModeCell.swift */; };
@@ -1150,19 +1172,12 @@
 			remoteGlobalIDString = 92726A421F58737A004AD26F;
 			remoteInfo = SiriIntents;
 		};
-		E5E7DB36229BC7D300AB7CF3 /* PBXContainerItemProxy */ = {
+		E520C5B122E71505003101BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F094A99A1B78D8F000B1FBBF /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 24CBEC4D1F0EAD310093EABB;
-			remoteInfo = "Riot Share Extension";
-		};
-		E5E7DB38229BC7D300AB7CF3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F094A99A1B78D8F000B1FBBF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 92726A421F58737A004AD26F;
-			remoteInfo = SiriIntents;
+			remoteGlobalIDString = E520C58E22E7136B003101BA;
+			remoteInfo = "RiotShareExtension-Prod";
 		};
 		F094A9BF1B78D8F000B1FBBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1192,8 +1207,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E5E7DD3A229BC7D300AB7CF3 /* RiotShareExtension.appex in Embed App Extensions */,
-				E5E7DD3B229BC7D300AB7CF3 /* SiriIntents.appex in Embed App Extensions */,
+				E520C5B022E71505003101BA /* RiotShareExtension-Prod.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1850,6 +1864,10 @@
 		E51891ED21EF351700DFBCA5 /* CKRoomSettingsEditablePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsEditablePhotoCell.swift; sourceTree = "<group>"; };
 		E520893F21DC730300591830 /* CkAvatarTopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CkAvatarTopView.xib; sourceTree = "<group>"; };
 		E520894021DC730400591830 /* CkAvatarTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CkAvatarTopView.swift; sourceTree = "<group>"; };
+		E520C58D22E711B6003101BA /* Riot-Prod.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Riot-Prod.entitlements"; path = "Riot/SupportingFiles/Riot-Prod.entitlements"; sourceTree = SOURCE_ROOT; };
+		E520C5AC22E7136B003101BA /* RiotShareExtension-Prod.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "RiotShareExtension-Prod.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E520C5AD22E7136C003101BA /* Info-Prod.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-Prod.plist"; path = "/Volumes/Data/PROJECTS/Riots/riot-ios/Info-Prod.plist"; sourceTree = "<absolute>"; };
+		E520C5AF22E71482003101BA /* RiotShareExtension-Prod.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RiotShareExtension-Prod.entitlements"; sourceTree = "<group>"; };
 		E5233116221BA961008FC772 /* CKRoomSettingsMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreViewController.swift; sourceTree = "<group>"; };
 		E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreViewController.xib; sourceTree = "<group>"; };
 		E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreActionCell.swift; sourceTree = "<group>"; };
@@ -2022,6 +2040,14 @@
 			files = (
 				92726A511F587410004AD26F /* Intents.framework in Frameworks */,
 				CD9C4E21170ABE528E087A51 /* Pods_RiotPods_SiriIntents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E520C59F22E7136B003101BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E520C5A022E7136B003101BA /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2686,7 +2712,9 @@
 			isa = PBXGroup;
 			children = (
 				B1664BD120F4E82700808783 /* RiotShareExtension-Bridging-Header.h */,
+				E520C5AF22E71482003101BA /* RiotShareExtension-Prod.entitlements */,
 				B1664BD220F4E82800808783 /* RiotShareExtension.entitlements */,
+				E520C5AD22E7136C003101BA /* Info-Prod.plist */,
 				B1664BD320F4E82800808783 /* Info.plist */,
 			);
 			path = SupportingFiles;
@@ -2708,6 +2736,7 @@
 			children = (
 				B169329E20F3A21B00746532 /* Riot-Bridging-Header.h */,
 				B169329F20F3A21B00746532 /* main.m */,
+				E520C58D22E711B6003101BA /* Riot-Prod.entitlements */,
 				B16932A020F3A21B00746532 /* Riot.entitlements */,
 				E5BEBA1922C9F3DB00B6D973 /* Info-prod.plist */,
 				B16932A120F3A21B00746532 /* Info.plist */,
@@ -4452,6 +4481,7 @@
 				24CBEC4E1F0EAD310093EABB /* RiotShareExtension.appex */,
 				92726A431F58737A004AD26F /* SiriIntents.appex */,
 				E5E7DD40229BC7D300AB7CF3 /* Riot.app */,
+				E520C5AC22E7136B003101BA /* RiotShareExtension-Prod.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4495,6 +4525,24 @@
 			productReference = 92726A431F58737A004AD26F /* SiriIntents.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		E520C58E22E7136B003101BA /* RiotShareExtension-Prod */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E520C5A922E7136B003101BA /* Build configuration list for PBXNativeTarget "RiotShareExtension-Prod" */;
+			buildPhases = (
+				E520C58F22E7136B003101BA /* [CP] Check Pods Manifest.lock */,
+				E520C59022E7136B003101BA /* Sources */,
+				E520C59F22E7136B003101BA /* Frameworks */,
+				E520C5A122E7136B003101BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RiotShareExtension-Prod";
+			productName = "Riot Share Extension";
+			productReference = E520C5AC22E7136B003101BA /* RiotShareExtension-Prod.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		E5E7DB34229BC7D300AB7CF3 /* Riot-Prod */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E5E7DD3D229BC7D300AB7CF3 /* Build configuration list for PBXNativeTarget "Riot-Prod" */;
@@ -4509,8 +4557,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				E5E7DB35229BC7D300AB7CF3 /* PBXTargetDependency */,
-				E5E7DB37229BC7D300AB7CF3 /* PBXTargetDependency */,
+				E520C5B222E71505003101BA /* PBXTargetDependency */,
 			);
 			name = "Riot-Prod";
 			productName = Vector;
@@ -4582,6 +4629,23 @@
 							};
 						};
 					};
+					E520C58E22E7136B003101BA = {
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					E5E7DB34229BC7D300AB7CF3 = {
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Siri = {
+								enabled = 0;
+							};
+						};
+					};
 					F094A9A11B78D8F000B1FBBF = {
 						CreatedOnToolsVersion = 6.2;
 						LastSwiftMigration = 0940;
@@ -4622,6 +4686,7 @@
 				F094A9BD1B78D8F000B1FBBF /* RiotTests */,
 				24CBEC4D1F0EAD310093EABB /* RiotShareExtension */,
 				92726A421F58737A004AD26F /* SiriIntents */,
+				E520C58E22E7136B003101BA /* RiotShareExtension-Prod */,
 			);
 		};
 /* End PBXProject section */
@@ -4645,6 +4710,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E520C5A122E7136B003101BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E520C5A222E7136B003101BA /* RoomsListViewController.xib in Resources */,
+				E520C5A322E7136B003101BA /* SegmentedViewController.xib in Resources */,
+				E520C5A422E7136B003101BA /* Vector.strings in Resources */,
+				E520C5A522E7136B003101BA /* ShareViewController.xib in Resources */,
+				E520C5A622E7136B003101BA /* SharedImages.xcassets in Resources */,
+				E520C5A722E7136B003101BA /* FallbackViewController.xib in Resources */,
+				E520C5A822E7136B003101BA /* RecentRoomTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5222,6 +5301,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E520C58F22E7136B003101BA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RiotPods-RiotShareExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -5251,6 +5348,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				92726A471F58737A004AD26F /* IntentHandler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E520C59022E7136B003101BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E520C59122E7136B003101BA /* SegmentedViewController.m in Sources */,
+				E520C59222E7136B003101BA /* RiotDesignValues.m in Sources */,
+				E520C59322E7136B003101BA /* ShareViewController.m in Sources */,
+				E520C59422E7136B003101BA /* FallbackViewController.m in Sources */,
+				E520C59522E7136B003101BA /* AvatarGenerator.m in Sources */,
+				E520C59622E7136B003101BA /* ShareExtensionManager.m in Sources */,
+				E520C59722E7136B003101BA /* MXRoom+Riot.m in Sources */,
+				E520C59822E7136B003101BA /* SharePresentingViewController.m in Sources */,
+				E520C59922E7136B003101BA /* MXRoomSummary+Riot.m in Sources */,
+				E520C59A22E7136B003101BA /* RiotSettings.swift in Sources */,
+				E520C59B22E7136B003101BA /* ShareDataSource.m in Sources */,
+				E520C59C22E7136B003101BA /* RecentRoomTableViewCell.m in Sources */,
+				E520C59D22E7136B003101BA /* RecentCellData.m in Sources */,
+				E520C59E22E7136B003101BA /* RoomsListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5449,6 +5567,7 @@
 				E5E7DBF5229BC7D300AB7CF3 /* RecentsViewController.m in Sources */,
 				E5E7DBF6229BC7D300AB7CF3 /* RoomPredecessorBubbleCell.m in Sources */,
 				E5E7DBF7229BC7D300AB7CF3 /* StickerPickerViewController.m in Sources */,
+				E520C5B322E71660003101BA /* SignOutAlertPresenter.swift in Sources */,
 				E5E7DBF8229BC7D300AB7CF3 /* DesignableUI.swift in Sources */,
 				E5E7DBF9229BC7D300AB7CF3 /* ContactsTableViewController.m in Sources */,
 				853174CB22BDF1200092F73D /* CKView+Extension.swift in Sources */,
@@ -5942,15 +6061,10 @@
 			target = 92726A421F58737A004AD26F /* SiriIntents */;
 			targetProxy = 92726A491F58737A004AD26F /* PBXContainerItemProxy */;
 		};
-		E5E7DB35229BC7D300AB7CF3 /* PBXTargetDependency */ = {
+		E520C5B222E71505003101BA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 24CBEC4D1F0EAD310093EABB /* RiotShareExtension */;
-			targetProxy = E5E7DB36229BC7D300AB7CF3 /* PBXContainerItemProxy */;
-		};
-		E5E7DB37229BC7D300AB7CF3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 92726A421F58737A004AD26F /* SiriIntents */;
-			targetProxy = E5E7DB38229BC7D300AB7CF3 /* PBXContainerItemProxy */;
+			target = E520C58E22E7136B003101BA /* RiotShareExtension-Prod */;
+			targetProxy = E520C5B122E71505003101BA /* PBXContainerItemProxy */;
 		};
 		F094A9C01B78D8F000B1FBBF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6157,19 +6271,100 @@
 			};
 			name = Release;
 		};
+		E520C5AA22E7136B003101BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3998C51E0196D42B366E0900 /* Pods-RiotPods-RiotShareExtension.debug.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CLANG_WARN_STRICT_PROTOTYPES = NO;
+				CODE_SIGN_ENTITLEMENTS = "RiotShareExtension/SupportingFiles/RiotShareExtension-Prod.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = H4C7478UQW;
+				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"IS_SHARE_EXTENSION=1",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Info-Prod.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.shareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "98782c1e-eaae-4170-a224-9811ff2902cf";
+				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep Extension Developer";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PRODUCT_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		E520C5AB22E7136B003101BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D523D0ED52562EDD393BE0F0 /* Pods-RiotPods-RiotShareExtension.release.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CLANG_WARN_STRICT_PROTOTYPES = NO;
+				CODE_SIGN_ENTITLEMENTS = "RiotShareExtension/SupportingFiles/RiotShareExtension-Prod.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = H4C7478UQW;
+				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"IS_SHARE_EXTENSION=1",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Info-Prod.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.shareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "98782c1e-eaae-4170-a224-9811ff2902cf";
+				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep Extension Appstore";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PRODUCT_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 		E5E7DD3E229BC7D300AB7CF3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 230A4E332C11035BBE0615E2 /* Pods-RiotPods-Riot-Prod.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Riot/SupportingFiles/Riot-Prod.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 5KH4V6747U;
+				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6194,10 +6389,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep;
 				PRODUCT_NAME = Riot;
 				PROVISIONING_PROFILE = "16dd2361-9d36-450a-b8fc-d93a1c5fca60";
-				PROVISIONING_PROFILE_SPECIFIER = "Riot App Developer";
+				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep App Developer";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Riot/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -6209,14 +6404,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 109F7C862A4D67CA0B12F408 /* Pods-RiotPods-Riot-Prod.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "Riot/SupportingFiles/Riot-Prod.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 5KH4V6747U;
+				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6241,10 +6437,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep;
 				PRODUCT_NAME = Riot;
 				PROVISIONING_PROFILE = "16dd2361-9d36-450a-b8fc-d93a1c5fca60";
-				PROVISIONING_PROFILE_SPECIFIER = "Riot App Developer";
+				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep Appstore";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Riot/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6520,6 +6716,15 @@
 			buildConfigurations = (
 				92726A4C1F58737A004AD26F /* Debug */,
 				92726A4D1F58737A004AD26F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E520C5A922E7136B003101BA /* Build configuration list for PBXNativeTarget "RiotShareExtension-Prod" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E520C5AA22E7136B003101BA /* Debug */,
+				E520C5AB22E7136B003101BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
