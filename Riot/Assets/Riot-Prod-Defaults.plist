@@ -9,13 +9,13 @@
 	<key>pinRoomsWithUnread</key>
 	<true/>
 	<key>pushGatewayURL</key>
-	<string>http://ck.furoute.com:5000/_matrix/push/v1/notify</string>
+	<string>https://push.clearkeep.me/_matrix/push/v1/notify</string>
 	<key>pusherAppIdDev</key>
-	<string>im.vector.vmodev.app</string>
+	<string>com.telred.clearkeep</string>
 	<key>pusherAppIdProd</key>
-	<string>im.vector.vmodev.app.prod</string>
+	<string>com.telred.clearkeep</string>
 	<key>pushKitAppIdProd</key>
-	<string>im.vector.vmodev.app</string>
+	<string>com.telred.clearkeep.ios</string>
 	<key>identityserverurl</key>
 	<string>https://id.clearkeep.me</string>
 	<key>webAppUrlDev</key>
