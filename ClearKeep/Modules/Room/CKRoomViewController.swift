@@ -269,6 +269,8 @@ extension CKRoomViewController {
             self.bubblesTableView.setContentOffset(CGPoint(x: -self.bubblesTableView.mxk_adjustedContentInset.left, y: -self.bubblesTableView.mxk_adjustedContentInset.top), animated: true)
 
         })
+         
+        self.roomDataSource?.reload()
     }
     
     override func viewDidAppear(_ animated: Bool) {
