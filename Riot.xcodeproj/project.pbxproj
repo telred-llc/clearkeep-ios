@@ -4140,8 +4140,8 @@
 		E56DF674222945AF00D54DBD /* Call */ = {
 			isa = PBXGroup;
 			children = (
-				E56DF675222945C500D54DBD /* CKCallViewController.xib */,
 				85E5751A2204C6A30076FFAE /* CKCallViewController.swift */,
+				E56DF675222945C500D54DBD /* CKCallViewController.xib */,
 			);
 			path = Call;
 			sourceTree = "<group>";
