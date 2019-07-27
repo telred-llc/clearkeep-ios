@@ -17,7 +17,7 @@ final class CkHomeViewController: CKRecentListViewController {
     var recentsDataSource: RecentsDataSource?
     var missedDiscussionsCount: UInt {
         get { 
-            return (self.recentsDataSource?.missedDirectDiscussionsCount ?? 0) + (self.recentsDataSource?.missedGroupDiscussionsCount ?? 0)
+            return (self.recentsDataSource?.missedFavouriteDiscussionsCount ?? 0) + (self.recentsDataSource?.missedDirectDiscussionsCount ?? 0) + (self.recentsDataSource?.missedGroupDiscussionsCount ?? 0)
         }
     }
     
@@ -343,6 +343,7 @@ final class CkHomeViewController: CKRecentListViewController {
 }
 
 extension CkHomeViewController {
+    
     @objc override func onMatrixSessionChange() {
         super.onMatrixSessionChange()
         
@@ -384,6 +385,13 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     
     private func reloadDataSource() {
         var rooms: [[MXKRecentCellData]] = []
+
+        // Favourite chat
+        if let favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
+            rooms.append(favouritesArray)
+        } else {
+            rooms.append([])
+        }
         
         // Direct chat
         if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
@@ -428,11 +436,18 @@ extension CkHomeViewController: CKRecentListViewControllerDelegate {
      Delegate of Recent List view controller
      */
     func recentListViewDidTapStartChat(_ section: Int) {
-        if section == SectionRecent.room.rawValue {
-            self.showRoomChatVC()
-        } else if section == SectionRecent.direct.rawValue {
+        let sectionRecent = SectionRecent(rawValue: section)
+        if sectionRecent == .direct {
             self.showDirectChatVC()
-        }
+        } else if sectionRecent == .room {
+            self.showRoomChatVC()
+
+        } 
+//        if section == SectionRecent.room.rawValue {
+//            self.showRoomChatVC()
+//        } else if section == SectionRecent.direct.rawValue {
+//            self.showDirectChatVC()
+//        }
     }
 }
 

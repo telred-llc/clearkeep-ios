@@ -72,10 +72,10 @@
 
     // Retrieve the all view controllers
     _homeViewController = [self.viewControllers objectAtIndex:TABBAR_HOME_INDEX];
-    _favouritesViewController = [self.viewControllers objectAtIndex:TABBAR_FAVOURITES_INDEX];
     _peopleViewController = [self.viewControllers objectAtIndex:TABBAR_PEOPLE_INDEX];
     
     //-- CK: removed
+    //_favouritesViewController = [self.viewControllers objectAtIndex:TABBAR_FAVOURITES_INDEX];
     // _roomsViewController = [self.viewControllers objectAtIndex:TABBAR_ROOMS_INDEX];
     //_groupsViewController = [self.viewControllers objectAtIndex:TABBAR_GROUPS_INDEX];
     
@@ -83,14 +83,13 @@
     [_settingsBarButtonItem setAccessibilityLabel:NSLocalizedStringFromTable(@"settings_title", @"Vector", nil)];
     [_searchBarButtonIem setAccessibilityLabel:NSLocalizedStringFromTable(@"search_default_placeholder", @"Vector", nil)];
     [_homeViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_home", @"Vector", nil)];
-    [_favouritesViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_favourites", @"Vector", nil)];
     [_peopleViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_people", @"Vector", nil)];
     [_roomsViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_rooms", @"Vector", nil)];
     [_groupsViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_groups", @"Vector", nil)];
         
     // Sanity check
     //-- CK: unused _groupsViewController
-    NSAssert(_homeViewController && _favouritesViewController && _peopleViewController /*&& _roomsViewController && _groupsViewController*/, @"Something wrong in Main.storyboard");
+    NSAssert(_homeViewController && _peopleViewController /* && _favouritesViewController && _roomsViewController && _groupsViewController*/, @"Something wrong in Main.storyboard");
 
     // Adjust the display of the icons in the tabbar.
     for (UITabBarItem *tabBarItem in self.tabBar.items)
@@ -202,7 +201,6 @@
     mxSessionArray = nil;
     
     _homeViewController = nil;
-    _favouritesViewController = nil;
     _peopleViewController = nil;
     _roomsViewController = nil;
     _groupsViewController = nil;
@@ -247,7 +245,6 @@
         recentsDataSource = [[RecentsDataSource alloc] initWithMatrixSession:mainSession];
         
         [_homeViewController displayList:recentsDataSource];
-        [_favouritesViewController displayList:recentsDataSource];
         [_peopleViewController displayList:recentsDataSource];
         [_roomsViewController displayList:recentsDataSource];
         
@@ -259,8 +256,9 @@
             case TABBAR_HOME_INDEX:
                 break;
             case TABBAR_FAVOURITES_INDEX:
-                recentsDataSourceDelegate = _favouritesViewController;
-                recentsDataSourceMode = RecentsDataSourceModeFavourites;
+                //-- CK removed
+                // recentsDataSourceDelegate = _favouritesViewController;
+                // recentsDataSourceMode = RecentsDataSourceModeFavourites;
                 break;
             case TABBAR_PEOPLE_INDEX:
                 recentsDataSourceDelegate = _peopleViewController;
@@ -271,7 +269,6 @@
                 // recentsDataSourceDelegate = _roomsViewController;
                 // recentsDataSourceMode = RecentsDataSourceModeRooms;
                 break;
-                
             default:
                 break;
         }
@@ -344,7 +341,6 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:kMXSessionStateDidChangeNotification object:nil];
         
         [_homeViewController displayList:nil];
-        [_favouritesViewController displayList:nil];
         [_peopleViewController displayList:nil];
         [_roomsViewController displayList:nil];
         
@@ -797,8 +793,9 @@
 
 - (void)refreshTabBarBadges
 {
+    //-- CK Remove
     // Use a middle dot to signal missed notif in favourites
-    [self setMissedDiscussionsMark:(recentsDataSource.missedFavouriteDiscussionsCount? @"\u00B7": nil) onTabBarItem:TABBAR_FAVOURITES_INDEX withBadgeColor:(recentsDataSource.missedHighlightFavouriteDiscussionsCount ? kRiotColorPinkRed : kRiotColorGreen)];
+    // [self setMissedDiscussionsMark:(recentsDataSource.missedFavouriteDiscussionsCount? @"\u00B7": nil) onTabBarItem:TABBAR_FAVOURITES_INDEX withBadgeColor:(recentsDataSource.missedHighlightFavouriteDiscussionsCount ? kRiotColorPinkRed : kRiotColorGreen)];
     
     //-- CK Remove
     // Update the badge on People and Rooms tabs
@@ -928,10 +925,11 @@
         {
             [self.peopleViewController scrollToNextRoomWithMissedNotifications];
         }
-        else if (item.tag == TABBAR_FAVOURITES_INDEX)
-        {
-            [self.favouritesViewController scrollToNextRoomWithMissedNotifications];
-        }
+        //-- CK removed
+        // else if (item.tag == TABBAR_FAVOURITES_INDEX)
+        // {
+        //    [self.favouritesViewController scrollToNextRoomWithMissedNotifications];
+        // }
     }
 }
 

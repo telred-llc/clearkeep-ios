@@ -17,8 +17,9 @@ protocol CKRecentListViewControllerDelegate: class {
 }
 
 enum SectionRecent: Int {
-    case direct = 0
-    case room = 1
+    case favourite = 0
+    case direct = 1
+    case room = 2
 }
 
 class CKRecentListViewController: MXKViewController {
@@ -32,7 +33,7 @@ class CKRecentListViewController: MXKViewController {
     weak var delegate: CKRecentListViewControllerDelegate?
 
     var dataSource: [[MXKRecentCellData]] = []
-    var isExpanded: [Bool] = [true, true]
+    var isExpanded: [Bool] = [true, true, true]
     
     var fpc: FloatingPanelController!
     var isAddview = false
@@ -350,13 +351,18 @@ private extension CKRecentListViewController {
             view.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
         }
         
-        if section == SectionRecent.room.rawValue {
-            view.setTitle(title: String.ck_LocalizedString(key: "Room"), numberChat: self.dataSource[section].count)
-        } else if section == SectionRecent.direct.rawValue{
-            view.setTitle(title: String.ck_LocalizedString(key: "Direct Message"), numberChat: self.dataSource[section].count)
+        let sectionRecent = SectionRecent(rawValue: section) ?? .favourite
+        switch sectionRecent {
+        case .favourite:
+            view.setTitle(title: String.ck_LocalizedString(key: "Favourites"), numberChat: self.dataSource[section].count)
+            view.addButton.isHidden = true
+        case .direct:
+            view.setTitle(title: String.ck_LocalizedString(key: "Direct Messages"), numberChat: self.dataSource[section].count)
+            view.addButton.isHidden = false
+        case .room:
+            view.setTitle(title: String.ck_LocalizedString(key: "Rooms"), numberChat: self.dataSource[section].count)
+            view.addButton.isHidden = false
         }
-        
-        view.addButton.isHidden = self.isKind(of: CKFavouriteViewController.self)
         
         view.onPressHandler = {
             if self.isExpanded[section] {
@@ -576,31 +582,24 @@ private extension CKRecentListViewController {
 extension CKRecentListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        if self.isKind(of: CKFavouriteViewController.self) && self.isEmpty() {
-            return 1
-        } else {
-            return self.dataSource.count
-        }
+        return self.dataSource.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if tableView.numberOfSections == 1 {
+        let sectionRecent = SectionRecent(rawValue: section)
+        if sectionRecent == .favourite && self.dataSource[section].count == 0 {
             return 0
         }
         return CKLayoutSize.Table.header60px
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if tableView.numberOfSections == 1 {
-            return UIView()
-        }
-        let header = self.headerSection(section)
-        return header
+        return self.headerSection(section)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if (tableView.numberOfSections == 1) || (self.isKind(of: CkHomeViewController.self) && self.isEmpty(section: section)) {
+        let sectionRecent = SectionRecent(rawValue: section)
+        if sectionRecent != .favourite && self.isEmpty(section: section) {
             return 1
         } else if self.isExpanded[section] {
             return dataSource[section].count
@@ -610,11 +609,7 @@ extension CKRecentListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView.numberOfSections == 1 {  // favorite and empty
-            let cell = self.cellForFirstFavourite(indexPath)
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-            return cell
-        } else if self.isEmpty(section: indexPath.section) { // direct or room empty
+        if self.isEmpty(section: indexPath.section) { // direct or room empty
             let cell = self.cellForStartChat(indexPath)
             cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
             return cell

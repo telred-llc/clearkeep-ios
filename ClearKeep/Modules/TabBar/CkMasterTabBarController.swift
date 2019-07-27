@@ -17,8 +17,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
     lazy var placeholderSearchBar = UISearchBar()
     
     let kHomeTabIndex       = 0
-    let kHomeFavouriteIndex = 1
-    let kHomeContactIndex   = 2
+    let kHomeContactIndex   = 1
     
     var missedCount: UInt = 0
     let disposeBag = DisposeBag()
@@ -91,13 +90,6 @@ final public class CkMasterTabBarController: MasterTabBarController {
         } else { 
             // zero badge
             self.tabBar.items?[kHomeTabIndex].badgeValue = nil
-        }
-
-        let missedCountFavouritesScreen = self.favouritesViewController.missedDiscussionsCount
-        if missedCountFavouritesScreen > 0 {
-            self.tabBar.items?[kHomeFavouriteIndex].badgeValue = self.tabBarBadgeStringValue(missedCountFavouritesScreen)
-        } else {
-            self.tabBar.items?[kHomeFavouriteIndex].badgeValue = nil
         } 
     }
     
@@ -148,6 +140,8 @@ extension CkMasterTabBarController {
         guard let mainSession = self.mxSessions.first as? MXSession else {
             return
         }
+        AppDelegate.the()?.isFirstLogin = false
+
         self.keyBackupRecoverCoordinatorBridgePresenter = KeyBackupRecoverCoordinatorBridgePresenter(session: mainSession, keyBackupVersion: keyBackupVersion)
         self.keyBackupRecoverCoordinatorBridgePresenter?.present(from: self, animated: true)
         self.keyBackupRecoverCoordinatorBridgePresenter?.delegate = self

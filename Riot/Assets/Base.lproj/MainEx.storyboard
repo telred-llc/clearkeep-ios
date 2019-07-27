@@ -202,7 +202,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1rS-hy-ED0">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -313,7 +313,6 @@
                         <segue destination="ZlD-EU-ncw" kind="presentation" identifier="showAuth" id="fpJ-zM-Qpo"/>
                         <segue destination="pBa-To-3YT" kind="relationship" relationship="viewControllers" id="Sfs-mh-GOz"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showContactDetails" id="p4M-yR-DLA"/>
-                        <segue destination="HnD-LA-psC" kind="relationship" relationship="viewControllers" id="zON-Qp-EVq"/>
                         <segue destination="IGB-jr-yFz" kind="relationship" relationship="viewControllers" id="CeF-yL-aO0"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showGroupDetails" id="fIR-e3-ssz"/>
                         <segue destination="nJt-uq-tV9" kind="show" identifier="showUnifiedSearch" id="nfU-Xx-w6C"/>
