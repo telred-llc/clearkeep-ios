@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>homeserverurl</key>
-	<string>https://ck.furoute.com</string>
+	<string>https://s.clearkeep.me</string>
 	<key>pinRoomsWithMissedNotif</key>
 	<true/>
 	<key>pinRoomsWithUnread</key>
