@@ -244,23 +244,23 @@ extension CKContactListViewController {
         // shared locals
         if let localcs = MXKContactManager.shared().localContactsSplitByContactMethod as? [MXKContact] {
             
-        // reset
-        self.originalLocalSource.removeAll()
-        
-        // loop
-        for c in localcs {
+            // reset
+            self.originalLocalSource.removeAll()
             
-            // pick one, and it has email
-            if let eas = c.emailAddresses, eas.count > 0 {
+            // loop
+            for c in localcs {
                 
-                // append
-                self.originalLocalSource.append(c)
+                // pick one, and it has email
+                if let eas = c.emailAddresses, eas.count > 0 {
+                    
+                    // append
+                    self.originalLocalSource.append(c)
+                }
             }
+            
+            // assign fls to ols
+            self.filteredLocalSource = self.originalLocalSource
         }
-        
-        // assign fls to ols
-        self.filteredLocalSource = self.originalLocalSource
-    }
     }
     
     /**

@@ -1029,7 +1029,7 @@
         if (roomAlias.length)
         {
          
-            // CK doesn't use it
+            // CK is no longer use that code
             /*
             [self.mainSession joinRoom:roomAlias success:^(MXRoom *room) {
                 
@@ -3580,7 +3580,7 @@
             }
             
             // Note in case of simple link to a room the signUrl param is nil
-            // CK doesn't use it
+            // CK is no longer use that code
             /*
             [self joinRoomWithRoomIdOrAlias:roomIdOrAlias andSignUrl:roomPreviewData.emailInvitation.signUrl completion:^(BOOL succeed) {
                 
