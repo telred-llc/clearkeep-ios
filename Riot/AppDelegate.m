@@ -2375,7 +2375,11 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             if (isPushRegistered)
             {
                 // Enable push notifications by default on new added account
-                account.enablePushKitNotifications = YES;
+                [account enablePushKitNotifications:YES success:^{
+                   // TODO
+                } failure:^(NSError *error) {
+                    // TODO
+                }];
             }
             else
             {
