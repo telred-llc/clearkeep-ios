@@ -106,21 +106,20 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         self.filteredDataSource.removeAll()
         
         // fetch matrix contacts
-        if let mxcts = MXKContactManager.shared()?.directMatrixContacts {
+        let mxcts = MXKContactManager.shared().directMatrixContacts
             
-            // loop all mxc
-            for c in mxcts {
+        // loop all mxc
+        for c in mxcts {
+            
+            // sure it is mxkcontact type
+            if let c = c as? MXKContact {
                 
-                // sure it is mxkcontact type
-                if let c = c as? MXKContact {
-                    
-                    // ignore current user
-                    if c.isMatchedMyUser(inSession: self.mainSession) { continue }
-                    
-                    // add each of them in the filtered
-                    let ds = CKContactInternal(mxContact: c, isSelected: false)
-                    self.filteredDataSource.append(ds)
-                }
+                // ignore current user
+                if c.isMatchedMyUser(inSession: self.mainSession) { continue }
+                
+                // add each of them in the filtered
+                let ds = CKContactInternal(mxContact: c, isSelected: false)
+                self.filteredDataSource.append(ds)
             }
         }
         

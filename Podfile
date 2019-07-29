@@ -9,7 +9,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 # Different flavours of pods to MatrixKit
 # The current MatrixKit pod version
-$matrixKitVersion = '0.9.9'
+$matrixKitVersion = '0.10.1'
 
 # The develop branch version
 #$matrixKitVersion = 'develop'
@@ -106,9 +106,13 @@ abstract_target 'RiotPods' do
         import_MatrixKitAppExtension
     end
 
-    target "SiriIntents" do
+    target "RiotShareExtension-Prod" do
         import_MatrixKitAppExtension
     end
+
+    #target "SiriIntents" do
+    #    import_MatrixKitAppExtension
+    #end
     
 end
 

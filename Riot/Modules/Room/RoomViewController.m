@@ -1028,6 +1028,9 @@
         // Check
         if (roomAlias.length)
         {
+         
+            // CK is no longer use that code
+            /*
             [self.mainSession joinRoom:roomAlias success:^(MXRoom *room) {
                 
                 // Show the room
@@ -1040,6 +1043,7 @@
                 [[AppDelegate theDelegate] showErrorAsAlert:error];
                 
             }];
+            */
         }
         else
         {
@@ -3576,6 +3580,8 @@
             }
             
             // Note in case of simple link to a room the signUrl param is nil
+            // CK is no longer use that code
+            /*
             [self joinRoomWithRoomIdOrAlias:roomIdOrAlias andSignUrl:roomPreviewData.emailInvitation.signUrl completion:^(BOOL succeed) {
                 
                 if (succeed)
@@ -3610,6 +3616,7 @@
                 }
                 
             }];
+            */
         }
         else
         {
