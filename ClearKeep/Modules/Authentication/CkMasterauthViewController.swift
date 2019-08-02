@@ -119,7 +119,10 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
     private func finalAuthentication(withUserId userId: String) {
         // Tag the first Login
         AppDelegate.the().isFirstLogin = true
-        
+
+        // CK: Disbale syncWithLazyLoadOfRoomMembers as default
+        MXKAppSettings.standard()?.syncWithLazyLoadOfRoomMembers = false
+
         if let nc = self.navigationController {
             nc.popViewController(animated: true)
         } else {
