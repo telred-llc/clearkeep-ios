@@ -1107,12 +1107,46 @@ extension CKRoomViewController {
     }
     
     private func trustAllMember() {
+        
+        // an of array user id which need to be trusted
         var userIds = [String]()
+        
+        // put all room's member ids to the array, except my user id
         for user in self.roomDataSource?.roomState?.members?.members ?? [] {
-            userIds.append(user.userId)
+            
+            // pick not my id
+            if let myid = self.mainSession?.myUser?.userId, myid != user.userId {
+                userIds.append(user.userId)
+            }
         }
-        self.mainSession?.crypto?.downloadKeys(userIds, forceDownload: true, success: { (deviceInfor) in
-            self.mainSession?.crypto?.setDevicesKnown(deviceInfor, complete: nil)
+        
+        // download user's key
+        self.mainSession?.crypto?.downloadKeys(userIds, forceDownload: true, success: { (usersDevicesInfoMap) in
+            
+            // set known user's device
+            self.mainSession?.crypto?.setDevicesKnown(usersDevicesInfoMap, complete: nil)
+            
+            // verifying all devices
+            for userId in userIds {
+                
+                // an array of device ids
+                if let deviceIds = usersDevicesInfoMap?.deviceIds(forUser: userId) {
+                    
+                    for deviceId in deviceIds {
+                        
+                        // verifying a device
+                        self.mainSession?.crypto?.setDeviceVerification(
+                            
+                            // succeed to verify
+                            MXDeviceVerified, forDevice: deviceId, ofUser: userId, success: {
+                        }, failure: { (_) in
+                            
+                            // failed to verify
+                            print("[CK] Fail to verified deviceId: \(deviceId) for userId: \(userId)")
+                        })
+                    }
+                }
+            }
         }, failure: nil)
     }
     
