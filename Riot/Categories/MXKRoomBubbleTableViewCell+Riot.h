@@ -83,4 +83,20 @@ extern NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer;
  */
 @property (nonatomic) UIView *markerView;
 
+/**
+ Calculate surrounding component frame in table view. This frame goes over user name for first visible component for example.
+ 
+ @param componentIndex index of the component in bubble message data
+ @return Component surrounding frame in table view if component exist or CGRectNull.
+ */
+- (CGRect)surroundingFrameInTableViewForComponentIndex:(NSInteger)componentIndex;
+
+/**
+ Calculate the component frame in the contentView of the tableview cell.
+ 
+ @param componentIndex index of the component in bubble message data
+ @return component frame in the contentView if the component exists or CGRectNull.
+ */
+- (CGRect)componentFrameInContentViewForIndex:(NSInteger)componentIndex;
+
 @end

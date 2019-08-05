@@ -9,9 +9,16 @@
 import UIKit
 import HPGrowingTextView
 import MobileCoreServices
+import GBDeviceInfo
 
 @objc protocol CKRoomInputToolbarViewDelegate: MXKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
+}
+
+enum RoomInputToolbarViewSendMode: Int {
+    case send
+    case reply
+    case edit
 }
 
 final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
@@ -66,6 +73,17 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         }
     }
     
+    /**
+     Destination of the message in the composer.
+     */
+    var sendMode: RoomInputToolbarViewSendMode = .send {
+        didSet {
+            self.updatePlaceholder()
+            self.updateToolbarButtonLabel() 
+        }
+    }
+
+    
     // MARK: Private
     
     private var shadowTextView: UITextView = UITextView.init()
@@ -106,8 +124,10 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         super.awakeFromNib()
         self.addSubview(shadowTextView)
         shadowTextView.delegate = self
+        
         maxNumberOfLines = 3
         typingMessage = .text(msg: nil)
+        
         mentionButton.setImage(#imageLiteral(resourceName: "ic_tagging").withRenderingMode(.alwaysTemplate), for: .normal)
         sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_enabled").withRenderingMode(.alwaysTemplate), for: .normal)
         mentionButton.tintColor = themeService.attrs.secondTextColor
@@ -203,6 +223,63 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
                 self.addImagePickerAsInputView(true)
             }
         }
+    }
+    
+    // MARK: - Private functions
+
+    func setSendMode(sendMode: RoomInputToolbarViewSendMode) {
+        self.sendMode = sendMode
+        
+        self.updatePlaceholder()
+        self.updateToolbarButtonLabel()
+    }
+    
+    func updatePlaceholder() {
+        // Consider the default placeholder
+        var placeholder = ""
+        
+        // Check the device screen size before using large placeholder
+        let shouldDisplayLargePlaceholder = GBDeviceInfo.deviceInfo()?.family == .familyiPad || GBDeviceInfo.deviceInfo()?.displayInfo.display.rawValue ?? 0 >= GBDeviceDisplay.display4p7Inch.rawValue
+//        [GBDeviceInfo deviceInfo].family == GBDeviceFamilyiPad || [GBDeviceInfo deviceInfo].displayInfo.display >= GBDeviceDisplay4p7Inch;
+        if !shouldDisplayLargePlaceholder {
+            switch self.sendMode {
+            case .reply:
+                placeholder = CKLocalization.string(byKey: "room_message_reply_to_short_placeholder")
+                break
+            default:
+                placeholder = CKLocalization.string(byKey: "room_message_short_placeholder")
+                break
+            }
+        } else {
+            switch self.sendMode {
+            case .reply:
+                placeholder = CKLocalization.string(byKey: "encrypted_room_message_reply_to_placeholder")
+                break
+            default:
+                placeholder = CKLocalization.string(byKey: "encrypted_room_message_placeholder")
+                break
+            }
+        }
+        self.placeholder = placeholder;
+    }
+    
+    func updateToolbarButtonLabel() {
+        var title = ""
+        
+        switch self.sendMode {
+        case .reply:
+            title = CKLocalization.string(byKey: "room_action_reply")
+            break;
+        case .edit:
+            title = CKLocalization.string(byKey: "save")
+            break;
+        default:
+            title = CKLocalization.string(byKey: "send")
+            break;
+        }
+        
+        self.rightInputToolbarButton.setTitle(title, for: .normal)
+        self.rightInputToolbarButton.setTitle(title, for: .highlighted)
     }
 }
 

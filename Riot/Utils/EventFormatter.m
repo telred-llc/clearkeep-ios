@@ -26,8 +26,11 @@
 
 #pragma mark - Constants definitions
 
-NSString *const kEventFormatterOnReRequestKeysLinkAction = @"kEventFormatterOnReRequestKeysLinkAction";
-NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
+NSString *const EventFormatterOnReRequestKeysLinkAction = @"EventFormatterOnReRequestKeysLinkAction";
+NSString *const EventFormatterLinkActionSeparator = @"/";
+NSString *const EventFormatterEditedEventLinkAction = @"EventFormatterEditedEventLinkAction";
+
+static NSString *const kEventFormatterTimeFormat = @"HH:mm";
 
 @interface EventFormatter ()
 {
@@ -39,6 +42,14 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
 @end
 
 @implementation EventFormatter
+
+- (void)initDateTimeFormatters
+{
+    [super initDateTimeFormatters];
+    
+    timeFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [timeFormatter setDateFormat:kEventFormatterTimeFormat];
+}
 
 - (NSAttributedString *)attributedStringFromEvent:(MXEvent *)event withRoomState:(MXRoomState *)roomState error:(MXKEventFormatterError *)error
 {
@@ -148,8 +159,8 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
             NSMutableAttributedString *attributedStringWithRerequestMessage = [attributedString mutableCopy];
             [attributedStringWithRerequestMessage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
 
-            NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterOnReRequestKeysLinkAction,
-                                          kEventFormatterOnReRequestKeysLinkActionSeparator,
+            NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", EventFormatterOnReRequestKeysLinkAction,
+                                          EventFormatterLinkActionSeparator,
                                           event.eventId];
 
             [attributedStringWithRerequestMessage appendAttributedString:
@@ -168,6 +179,26 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
                                                           }]];
 
             attributedString = attributedStringWithRerequestMessage;
+        }
+        else if (self.showEditionMention && event.contentHasBeenEdited)
+        {
+            NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
+            
+            NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", EventFormatterEditedEventLinkAction,
+                                          EventFormatterLinkActionSeparator,
+                                          event.eventId];
+            
+            [attributedStringWithEditMention appendAttributedString:
+             [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
+                                             attributes:@{
+                                                          NSLinkAttributeName: linkActionString,
+                                                          // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
+                                                          // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
+                                                          NSForegroundColorAttributeName: self.editionMentionTextColor,
+                                                          NSFontAttributeName: self.editionMentionTextFont
+                                                          }]];
+            
+            attributedString = attributedStringWithEditMention;
         }
     }
 
@@ -242,6 +273,7 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
         
         self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:15];
         self.emojiOnlyTextFont = [UIFont systemFontOfSize:48];
+        self.editionMentionTextFont = [UIFont systemFontOfSize:12];
     }
     return self;
 }

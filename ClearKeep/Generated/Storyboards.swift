@@ -13,6 +13,18 @@ import UIKit
 // swiftlint:disable explicit_type_interface identifier_name line_length type_body_length type_name
 internal enum StoryboardScene {
     
+    internal enum EditHistoryVC: StoryboardType {
+        internal static let storyboardName = "EditHistoryViewController"
+        
+        internal static let initialScene = InitialSceneType<EditHistoryViewController>(storyboard: EditHistoryVC.self)
+    }
+    
+    internal enum EmojiPickerVC: StoryboardType {
+        internal static let storyboardName = "EmojiPickerViewController"
+        
+        internal static let initialScene = InitialSceneType<EmojiPickerViewController>(storyboard: EmojiPickerVC.self)
+    }
+    
     internal enum KeyBackupRecoverFromPassphraseVC: StoryboardType {
         internal static let storyboardName = "KeyBackupRecoverFromPassphraseViewController"
         
@@ -53,7 +65,13 @@ internal enum StoryboardScene {
         internal static let storyboardName = "KeyBackupSetupSuccessFromRecoveryKeyViewController"
         
         internal static let initialScene = InitialSceneType<KeyBackupSetupSuccessFromRecoveryKeyViewController>(storyboard: KeyBackupSetupSuccessFromRecoveryKeyVC.self)
-    } 
+    }
+    
+    internal enum RoomContextualMenuVC: StoryboardType {
+        internal static let storyboardName = "RoomContextualMenuViewController"
+        
+        internal static let initialScene = InitialSceneType<RoomContextualMenuViewController>(storyboard: RoomContextualMenuVC.self)
+    }
 }
 // swiftlint:enable explicit_type_interface identifier_name line_length type_body_length type_name
 

@@ -22,11 +22,21 @@ import MatrixKit
     
     @IBOutlet weak var activityCHeight: NSLayoutConstraint!
     
+    ///new
+    @IBOutlet weak var overlayContainerView: UIView!
+ 
     // MARK: - Constants
     
     private let kShowRoomSearchSegue = "showRoomSearch"
     
     // MARK: - Properties
+    var roomContextualMenuViewController: RoomContextualMenuViewController?
+    var roomContextualMenuPresenter: RoomContextualMenuPresenter?
+    var errorPresenter: MXKErrorAlertPresentation?
+    var textMessageBeforeEditing: String?
+    var editHistoryPresenter: EditHistoryCoordinatorBridgePresenter?
+    var documentPickerPresenter: MXKDocumentPickerPresenter?
+    var emojiPickerCoordinatorBridgePresenter: EmojiPickerCoordinatorBridgePresenter?
     
     // MARK: Public
     
@@ -46,16 +56,22 @@ import MatrixKit
     // The customized room data source for Vector
     var customizedRoomDataSource: CKRoomDataSource?
     
+    // The user taps on a member thumbnail
+    var selectedRoomMember: MXRoomMember?
+    
+    // The user taps on a user id contained in a message
+    var selectedContact: MXKContact?
+    
+    // Potential encryption details view.
+//    var encryptionInfoView: EncryptionInfoView?
+    
     // The list of unknown devices that prevent outgoing messages from being sent
-
     var unknownDevices: MXUsersDevicesMap<MXDeviceInfo>?
     
     // Homeserver notices
-    
     var serverNotices: MXServerNotices?
     
     // mentionDataSource
-    
     var mentionDataSource: CKMentionDataSource? {
         didSet {
             self.updateMentionTableView(mentionDataSource: self.mentionDataSource)
@@ -140,7 +156,8 @@ import MatrixKit
     // Tell whether the view controller is appeared or not.
     var isAppeared = false
     
-    // Observers
+    // Observe kThemeServiceDidChangeThemeNotification to handle user interface theme change.
+    private var kThemeServiceDidChangeThemeNotificationObserver: Any?
 
     // Observers to manage MXSession state (and sync errors)
 
@@ -153,12 +170,13 @@ import MatrixKit
     private var kMXCallManagerConferenceFinishedObserver: Any?
     
     // Observers to manage widgets
-
     private var kMXKWidgetManagerDidUpdateWidgetObserver: Any?
     
+    // Observer for removing the re-request explanation/waiting dialog
+    private var mxEventDidDecryptNotificationObserver: Any?
+    
     // Observe kAppDelegateNetworkStatusDidChangeNotification to handle network status change.
-
-    private var kAppDelegateNetworkStatusDidChangeNotificationObserver: Any?
+//    private var kAppDelegateNetworkStatusDidChangeNotificationObserver: Any?
     
     // Observe kAppDelegateDidTapStatusBarNotification to handle tap on clock status bar.
     private var kAppDelegateDidTapStatusBarNotificationObserver: Any?
@@ -200,18 +218,34 @@ extension CKRoomViewController {
             customizedRoomDataSource = nil;
         }
         
+        if kThemeServiceDidChangeThemeNotificationObserver != nil {
+            NotificationCenter.default.removeObserver(kThemeServiceDidChangeThemeNotificationObserver!)
+            kThemeServiceDidChangeThemeNotificationObserver = nil
+        }
+        
         if kAppDelegateDidTapStatusBarNotificationObserver != nil {
             NotificationCenter.default.removeObserver(kAppDelegateDidTapStatusBarNotificationObserver!)
             kAppDelegateDidTapStatusBarNotificationObserver = nil
         }
 
-        if kAppDelegateNetworkStatusDidChangeNotificationObserver != nil {
-            NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
-            kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
+//        if kAppDelegateNetworkStatusDidChangeNotificationObserver != nil {
+//            NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
+//            kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
+//        }
+        
+//        if mxRoomSummaryDidChangeObserver != nil {
+//            NotificationCenter.default.removeObserver(mxRoomSummaryDidChangeObserver!)
+//            mxRoomSummaryDidChangeObserver = nil
+//        }
+        
+        if mxEventDidDecryptNotificationObserver != nil {
+            NotificationCenter.default.removeObserver(mxEventDidDecryptNotificationObserver!)
+            mxEventDidDecryptNotificationObserver = nil
         }
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
-        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxEventDidChangeIdentifier, object: nil)
+
         self.removeTypingNotificationsListener()
         self.removeCallNotificationsListeners()
         self.removeWidgetNotificationsListeners()
@@ -224,6 +258,8 @@ extension CKRoomViewController {
 
         // Listen to the event sent state changes
         NotificationCenter.default.addObserver(self, selector: #selector(self.eventDidChangeSentState(_:)), name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.eventDidChangeIdentifier(_:)), name: NSNotification.Name.mxEventDidChangeIdentifier, object: nil)
+
     }
 
     override func viewDidLoad() {
@@ -248,9 +284,18 @@ extension CKRoomViewController {
             refreshRoomInputToolbar()
         }
         
+        self.roomContextualMenuPresenter = RoomContextualMenuPresenter()
+        self.errorPresenter = MXKErrorAlertPresentation()
+        
         self.invitationController.delegate = self
 
-        bindingTheme()
+        self.bindingTheme()
+        
+        // Observe user interface theme change.
+//        self.kThemeServiceDidChangeThemeNotificationObserver = NotificationCenter.default.addObserver(forName: kThemeServiceDidChangeThemeNotification, object: nil, queue: OperationQueue.main, using: { notif in
+//            self.userInterfaceThemeDidChange()
+//        })
+//        self.userInterfaceThemeDidChange()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -285,10 +330,10 @@ extension CKRoomViewController {
         }
         
         // Observe network reachability
-        kAppDelegateNetworkStatusDidChangeNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.appDelegateNetworkStatusDidChange, object: nil, queue: OperationQueue.main, using: { notif in
-            self.refreshActivitiesViewDisplay()
-
-        })
+//        kAppDelegateNetworkStatusDidChangeNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.appDelegateNetworkStatusDidChange, object: nil, queue: OperationQueue.main, using: { notif in
+//            self.refreshActivitiesViewDisplay()
+//
+//        })
         refreshActivitiesViewDisplay()
 
         // Warn about the beta state of e2e encryption when entering the first time in an encrypted room
@@ -341,12 +386,25 @@ extension CKRoomViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
+        // Hide contextual menu if needed
+        self.hideContextualMenu(true)
+        
         // Reset visible room id
         AppDelegate.the().visibleRoomId = nil
 
-        if kAppDelegateNetworkStatusDidChangeNotificationObserver != nil {
-            NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
-            kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
+//        if kAppDelegateNetworkStatusDidChangeNotificationObserver != nil {
+//            NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
+//            kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
+//        }
+        
+//        if self.mxRoomSummaryDidChangeObserver != nil  {
+//            NotificationCenter.default.removeObserver(mxRoomSummaryDidChangeObserver!)
+//            self.mxRoomSummaryDidChangeObserver = nil
+//        }
+    
+        if self.mxEventDidDecryptNotificationObserver != nil  {
+            NotificationCenter.default.removeObserver(mxEventDidDecryptNotificationObserver!)
+            self.mxEventDidDecryptNotificationObserver = nil
         }
     }
 
@@ -359,12 +417,15 @@ extension CKRoomViewController {
             self?.refreshRoomInputToolbar()
 
             self?.view.backgroundColor = themeService.attrs.secondBgColor
-            self?.bubblesTableView?.backgroundColor = themeService.attrs.secondBgColor
+//            self?.bubblesTableView?.backgroundColor = themeService.attrs.secondBgColor
+            self?.bubblesTableView.backgroundColor = self?.bubblesTableView.style == .plain ? themeService.attrs.backgroundColor : themeService.attrs.headerBackgroundColor
             self?.mentionListTableView?.backgroundColor = themeService.attrs.primaryBgColor
 
             // Fix: has a white subview of view
             self?.view.subviews.first?.backgroundColor = themeService.attrs.secondBgColor
         }).disposed(by: disposeBag)
+        
+        
     }
     
     private func setupBubblesTableView() {
@@ -432,6 +493,19 @@ extension CKRoomViewController {
         mentionListTableView.layer.addSublayer(border)
     }
     
+//    private func userInterfaceThemeDidChange() {
+//
+//        // Check the table view style to select its bg color.
+////        self.bubblesTableView.backgroundColor = ((self.bubblesTableView.style == UITableViewStylePlain) ? ThemeService.shared.theme.backgroundColor : ThemeService.shared.theme.headerBackgroundColor);
+//        self.bubblesTableView.backgroundColor = self.bubblesTableView.style == .plain ? themeService.attrs.backgroundColor : themeService.attrs.headerBackgroundColor
+//        self.bubblesTableView.separatorColor = themeService.attrs.lineBreakColor
+//        self.view.backgroundColor = self.bubblesTableView.backgroundColor
+////
+//        if self.bubblesTableView?.dataSource {
+//            self.bubblesTableView.reloadData()
+//        }
+//    }
+    
     @objc func eventDidChangeSentState(_ notif: Notification?) {
         // We are only interested by event that has just failed in their encryption
         // because of unknown devices in the room
@@ -465,6 +539,17 @@ extension CKRoomViewController {
                 self?.resendAllUnsentMessages()
             })
         }
+    }
+    
+    @objc func eventDidChangeIdentifier(_ notif: Notification?) {
+        let event = notif?.object as? MXEvent
+        let previousId = notif?.userInfo?[kMXEventIdentifierKey] as? String
+        
+        if self.customizedRoomDataSource?.selectedEventId == previousId {
+            NSLog("[RoomVC] eventDidChangeIdentifier: Update selectedEventId")
+            self.customizedRoomDataSource?.selectedEventId = event?.eventId
+        }
+        
     }
     
     func resendAllUnsentMessages() {
@@ -598,6 +683,7 @@ extension CKRoomViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         self.invitationController?.update()
     }
     
@@ -621,6 +707,8 @@ extension CKRoomViewController {
     // Set the input toolbar according to the current display
     func updateRoomInputToolbarViewClassIfNeeded() {
         var roomInputToolbarViewClass: AnyClass? = CKRoomInputToolbarView.self
+        
+        var shouldDismissContextualMenu = false
 
         // Check the user has enough power to post message
         if roomDataSource?.roomState != nil {
@@ -633,14 +721,21 @@ extension CKRoomViewController {
 
             if isRoomObsolete || isResourceLimitExceeded {
                 roomInputToolbarViewClass = nil
+                shouldDismissContextualMenu = true
             } else if !canSend {
                 roomInputToolbarViewClass = DisabledRoomInputToolbarView.self
+                shouldDismissContextualMenu = true
             }
         }
         
         // Do not show toolbar in case of preview
         if isRoomPreview() {
             roomInputToolbarViewClass = nil
+            shouldDismissContextualMenu = true
+        }
+        
+        if shouldDismissContextualMenu {
+            self.hideContextualMenu(false)
         }
 
         // Change inputToolbarView class only if given class is different from current one
@@ -669,6 +764,12 @@ extension CKRoomViewController {
             //
         }
         UIView.setAnimationsEnabled(true)
+    }
+    
+    func handleLongPressFromCell(cell: MXKCellRendering?, withTappedEvent event: MXEvent) {
+        if self.customizedRoomDataSource?.selectedEventId != nil {
+            self.showContextualMenuForEvent(event: event, fromSingleTapGesture: false, cell: cell, animated: true)
+        }
     }
 
     // Get the height of the current room input toolbar
@@ -701,6 +802,19 @@ extension CKRoomViewController {
         }
     }
     
+    func setInputToolBarSendMode(_ sendMode: RoomInputToolbarViewSendMode) {
+        if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
+            inputToolBarView.setSendMode(sendMode: sendMode)
+        }
+    }
+    
+    func inputToolBarSendMode() -> RoomInputToolbarViewSendMode {
+        if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
+            return inputToolBarView.sendMode
+        }
+        return .send
+    }
+    
     override func setRoomActivitiesViewClass(_ roomActivitiesViewClass: AnyClass!) {
         // Do not show room activities in case of preview (FIXME: show it when live events will be supported during peeking)
         if isRoomPreview() {
@@ -711,7 +825,7 @@ extension CKRoomViewController {
     }
     
     func sendTextMessage(_ msgTxt: String?) {
-        if isInReplyMode, let selectedEventId = customizedRoomDataSource?.selectedEventId {
+        if self.inputToolBarSendMode() == RoomInputToolbarViewSendMode.reply, let selectedEventId = customizedRoomDataSource?.selectedEventId {
             roomDataSource?.sendReplyToEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil, failure: { error in
                 // Just log the error. The message will be displayed in red in the room history
                 print("[MXKRoomViewController] sendTextMessage failed.")
@@ -816,13 +930,14 @@ extension CKRoomViewController {
         }
     }
     
-    func enableReplyMode(_ enable: Bool) {
-        isInReplyMode = enable
-
-        if inputToolbarView != nil && inputToolbarView?.isKind(of: RoomInputToolbarView.self) == true {
-            (inputToolbarView as? RoomInputToolbarView)?.isReplyToEnabled = enable
-        }
-    }
+    // New - maybe not use
+//    func enableReplyMode(_ enable: Bool) {
+//        isInReplyMode = enable
+//
+//        if inputToolbarView != nil && inputToolbarView?.isKind(of: RoomInputToolbarView.self) == true {
+//            (inputToolbarView as? RoomInputToolbarView)?.isReplyToEnabled = enable
+//        }
+//    }
     
     @objc func onSwipeGesture(_ swipeGestureRecognizer: UISwipeGestureRecognizer?) {
         let view: UIView? = swipeGestureRecognizer?.view
@@ -1177,12 +1292,12 @@ extension CKRoomViewController {
                         }
                     }
                 })
-            }
-            else if AppDelegate.the()?.isOffline == true {
+            } else if AppDelegate.the()?.isOffline == true {
                 shallRVshowing = true
                 roomActivitiesView.displayNetworkErrorNotification(NSLocalizedString("room_offline_notification", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""))
             } else if customizedRoomDataSource?.roomState?.isObsolete == true {
                 if let replacementRoomId = customizedRoomDataSource?.roomState.tombStoneContent.replacementRoomId {
+                    
                     let roomLinkFragment = "/room/\((replacementRoomId as NSString).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
                     
                     roomActivitiesView.displayRoomReplacement(roomLinkTappedHandler: {
@@ -1609,199 +1724,17 @@ extension CKRoomViewController {
     
     override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
         
-        // is long press event?
-        if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
-            && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
-            
-            guard let cell = cell,
-                let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
-                    return
-            }
-            let attachment = roomBubbleTableViewCell.bubbleData.attachment
-            
-            // Add actions for text message
-            // Handle this case to add "Quote" action.
-            if attachment == nil {
-                self.dismissKeyboard()
-                guard let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent else {
-                    return
-                }
-                
-                let components = roomBubbleTableViewCell.bubbleData.bubbleComponents ?? [MXKRoomBubbleComponent]()
-                let selectedComponent: MXKRoomBubbleComponent? = components.first(where: {$0.event.eventId == selectedEvent.eventId})
-                
-                if let currentAlert = currentAlert {
-                    currentAlert.dismiss(animated: false, completion: nil)
-                    
-                    // Cancel potential text selection in other bubbles
-                    for cell in self.bubblesTableView.visibleCells {
-                        if let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
-                            bubbleCell.highlightTextMessage(forEvent: nil)
-                        }
-                    }
-                }
-                
-                // Create new AlertViewController
-                currentAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                
-                // Add actions for a failed event
-                if selectedEvent.sentState == MXEventSentStateFailed {
-                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_resend", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                        guard let weakSelf = self else {
-                            return
-                        }
-                        
-                        weakSelf.cancelEventSelection()
-                        weakSelf.roomDataSource.resendEvent(withEventId: selectedEvent.eventId,
-                                                            success: nil,
-                                                            failure: nil)
-                    }))
-                    
-                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_delete", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                        guard let weakSelf = self else {
-                            return
-                        }
-                        
-                        weakSelf.cancelEventSelection()
-                        weakSelf.roomDataSource.removeEvent(withEventId: selectedEvent.eventId)
-                    }))
-                }
-                
-                // Add actions for text message
-                // Check status of the selected event
-                if selectedEvent.sentState == MXEventSentStatePreparing ||
-                    selectedEvent.sentState == MXEventSentStateEncrypting ||
-                    selectedEvent.sentState == MXEventSentStateSending {
-                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_cancel_send", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                        guard let weakSelf = self else {
-                            return
-                        }
-                        
-                        weakSelf.currentAlert = nil
-                        
-                        // Cancel and remove the outgoing message
-                        weakSelf.roomDataSource.room.cancelSendingOperation(selectedEvent.eventId)
-                        weakSelf.roomDataSource.removeEvent(withEventId: selectedEvent.eventId)
-                        
-                        weakSelf.cancelEventSelection()
-                    }))
-                }
-                
-                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_copy", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                    guard let weakSelf = self, let selectedComponent = selectedComponent else {
-                        return
-                    }
-
-                    weakSelf.cancelEventSelection()
-                    
-                    UIPasteboard.general.string = selectedComponent.textMessage
-                }))
-                
-                // Add action for room message only
-                if selectedEvent.eventType == __MXEventTypeRoomMessage {
-                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_quote", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                        guard let weakSelf = self else {
-                            return
-                        }
-                        
-                        weakSelf.cancelEventSelection()
-                        weakSelf.inputToolbarView.textMessage = String(format: "%@\n>%@\n\n",
-                                                                       self?.inputToolbarView.textMessage ?? "",
-                                                                       selectedComponent?.textMessage ?? "")
-                        
-                        weakSelf.inputToolbarView.becomeFirstResponder()
-                    }))
-                }
-                
-                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                    guard let weakSelf = self else {
-                        return
-                    }
-                    
-                    weakSelf.cancelEventSelection()
-                    
-                    let activityViewController = UIActivityViewController(activityItems: [selectedComponent?.textMessage ?? ""], applicationActivities: nil)
-                    
-                    activityViewController.modalTransitionStyle = .coverVertical
-                    activityViewController.popoverPresentationController?.sourceView = roomBubbleTableViewCell
-                    activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
-                    
-                    weakSelf.present(activityViewController, animated: true, completion: nil)
-
-                }))
-                
-                if components.count > 1 {
-                    currentAlert?.addAction(UIAlertAction(title: "Select All", style: .default, handler: { [weak self] _ in
-                        guard let weakSelf = self else {
-                            return
-                        }
-                        
-                        weakSelf.currentAlert = nil
-                        weakSelf.selectAllTextMessage(inCell: roomBubbleTableViewCell)
-                    }))
-                }
-                
-                if selectedEvent.sentState == MXEventSentStateSent {
-                    // Check whether download is in progress
-                    if selectedEvent.isMediaAttachment() {
-                        let downloadId = roomBubbleTableViewCell.bubbleData.attachment.downloadId
-                        if let loader = MXMediaManager.existingDownloader(withIdentifier: downloadId) {
-                            currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_cancel_download", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                                guard let weakSelf = self else {
-                                    return
-                                }
-                                
-                                weakSelf.cancelEventSelection()
-                                loader.cancel()
-                                roomBubbleTableViewCell.progressView.isHidden = true
-                            }))
-                        }
-                    }
-                    
-                    currentAlert?.addAction(UIAlertAction(title: "Show Details", style: .default, handler: { [weak self] _ in
-                        guard let weakSelf = self else {
-                            return
-                        }
-                        weakSelf.currentAlert = nil
-                        
-                        // Cancel event highlighting (if any)
-                        roomBubbleTableViewCell.highlightTextMessage(forEvent: nil)
-                        
-                        // Display event details
-                        weakSelf.showEventDetails(selectedEvent)
-                    }))
-                }
-                
-                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("cancel", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                    guard let weakSelf = self else {
-                        return
-                    }
-                    weakSelf.cancelEventSelection()
-                }))
-                
-                currentAlert?.mxk_setAccessibilityIdentifier("RoomVCEventMenuAlert")
-                currentAlert?.popoverPresentationController?.sourceView = roomBubbleTableViewCell
-                currentAlert?.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
-                if let currentAlert = self.currentAlert {
-                    self.present(currentAlert, animated: true, completion: nil)
-                }
-            } else {
-                // call to super
-                super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
-            }
-            
-            // current alert is available
-            if let currentAlert = self.currentAlert {
-                
-                // delay for presenting action sheet completed
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
-                    currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
-                    currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
-                }
-            }
-        } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
-            
+        guard let customizedRoomDataSource = self.customizedRoomDataSource else {
+            super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+            return
+        }
+        
+        var bubbleData: MXKRoomBubbleCellDataStoring?
+        if let cell = cell, let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
+            bubbleData = roomBubbleTableViewCell.bubbleData
+        }
+        
+        if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
             // click user avatar in room go to  view info profile
             let idAvatarTap = userInfo?[kMXKRoomBubbleCellUserIdKey] as? String
             
@@ -1817,28 +1750,410 @@ extension CKRoomViewController {
                     self.showOthersAccountProfile(mxMember: mxMember)
                 }
             }
-        } else if actionIdentifier == kMXKRoomBubbleCellTapOnSenderNameLabel {
+        } else if actionIdentifier == kMXKRoomBubbleCellLongPressOnAvatarView {
             // Do nothing
-        } else { // call super
+        } else if actionIdentifier == kMXKRoomBubbleCellTapOnMessageTextView || actionIdentifier == kMXKRoomBubbleCellTapOnContentView {
+            // Retrieve the tapped event
+            let tappedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent
+            
+            // Check whether a selection already exist or not
+            if customizedRoomDataSource.selectedEventId != nil {
+                self.cancelEventSelection()
+            } else if tappedEvent != nil {
+                if (tappedEvent?.eventType == __MXEventTypeRoomCreate) {
+                    // Handle tap on RoomPredecessorBubbleCell
+                    let createContent = MXRoomCreateContent(fromJSON: tappedEvent?.content)
+                    
+                    if let predecessorRoomId = createContent?.roomPredecessorInfo?.roomId {
+                        // Show predecessor room
+                        AppDelegate.the()?.showRoom(predecessorRoomId, andEventId: nil, withMatrixSession: self.mainSession)
+                    }
+                } else {
+                    // Show contextual menu on single tap if bubble is not collapsed
+                    if bubbleData?.collapsed ?? false {
+                        self.selectEventWithId(withId: tappedEvent?.eventId)
+                    } else {
+                        self.showContextualMenuForEvent(event: tappedEvent, fromSingleTapGesture: true, cell: cell, animated: true)
+                    }
+                }
+            }
+        } else if actionIdentifier == kMXKRoomBubbleCellTapOnOverlayContainer {
+            self.cancelEventSelection()
+        } else if actionIdentifier == kMXKRoomBubbleCellRiotEditButtonPressed {
+            self.dismissKeyboard()
+            
+            if let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent {
+                self.showContextualMenuForEvent(event: selectedEvent, fromSingleTapGesture: true, cell: cell, animated: true)
+            }
+        } else if actionIdentifier == kMXKRoomBubbleCellTapOnAttachmentView {
+            if bubbleData?.attachment.eventSentState == MXEventSentStateFailed {
+                // Shortcut: when clicking on an unsent media, show the action sheet to resend it
+                if let selectedEvent = self.roomDataSource.event(withEventId: bubbleData?.attachment.eventId ?? "") {
+                    self.dataSource(dataSource, didRecognizeAction: kMXKRoomBubbleCellRiotEditButtonPressed, inCell: cell, userInfo: [ kMXKRoomBubbleCellEventKey: selectedEvent ])
+                }
+            } else if bubbleData?.attachment.type == MXKAttachmentTypeSticker {
+                // We don't open the attachments viewer when the user taps on a sticker.
+                // We consider this tap like a selection.
+                
+                // Check whether a selection already exist or not
+                if (customizedRoomDataSource.selectedEventId != nil) {
+                    self.cancelEventSelection()
+                } else {
+                    // Highlight this event in displayed message
+                    self.selectEventWithId(withId: bubbleData?.attachment.eventId ?? "")
+                }
+            } else {
+                // Keep default implementation
+                super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+            }
+        } else if actionIdentifier == kMXKRoomBubbleCellTapOnReceiptsContainer {
+            let container = userInfo?[kMXKRoomBubbleCellReceiptsContainerKey] as? MXKReceiptSendersContainer
+            ReadReceiptsViewController.open(in: self, from: container, with: self.mainSession)
+        } else if actionIdentifier == kRoomMembershipExpandedBubbleCellTapOnCollapseButton {
+            // Reset the selection before collapsing
+            self.customizedRoomDataSource?.selectedEventId = nil
+            
+            self.roomDataSource.collapseRoomBubble(bubbleData, collapsed: true)
+        } else if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent {
+            longPressBubbleTableViewCell(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+            //            if let tappedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent, !(bubbleData?.collapsed != nil) {
+            //                self.handleLongPressFromCell(cell: cell, withTappedEvent: tappedEvent)
+            //            }
+        } else {
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         }
+        
+//        switch actionIdentifier {
+//        case kMXKRoomBubbleCellLongPressOnEvent:
+//            longPressBubbleTableViewCell(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+//            break
+//        case kMXKRoomBubbleCellTapOnAvatarView:
+//
+//            break
+//        case kMXKRoomBubbleCellLongPressOnAvatarView:
+//
+//            break
+//        case kMXKRoomBubbleCellTapOnSenderNameLabel:
+//            // Do nothing
+//            break
+//        default:
+//            super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+//        }
     }
     
-    override func dataSource(_ dataSource: MXKDataSource!, didCellChange changes: Any!) {
+//    override func dataSource(_ dataSource: MXKDataSource!, didCellChange changes: Any!) {
+//
+//        // invisible
+//        if self.isViewVisible() == false {
+//            return
+//        }
+//
+//        // data source update to super
+//        super.dataSource(dataSource, didCellChange: changes)
+//
+//        // refresh if did receive new message,...
+//        self.refreshActivitiesViewDisplay()
+//        self.refreshRoomNavigationBar()
+//    }
+    
+    override func dataSource(_ dataSource: MXKDataSource!, shouldDoAction actionIdentifier: String!, inCell cell: MXKCellRendering!, userInfo: [AnyHashable : Any]! = [:], defaultValue: Bool) -> Bool {
         
-        // invisible
-        if self.isViewVisible() == false {
+        var shouldDoAction = defaultValue
+        if actionIdentifier != kMXKRoomBubbleCellShouldInteractWithURL {
+            return shouldDoAction
+        }
+        
+        // Try to catch universal link supported by the app
+        let url = userInfo[kMXKRoomBubbleCellUrl] as? URL
+        // Retrieve the type of interaction expected with the URL (See UITextItemInteraction)
+        let urlItemInteractionValue = userInfo[kMXKRoomBubbleCellUrlItemInteraction] as? UITextItemInteraction
+        
+        // When a link refers to a room alias/id, a user id or an event id, the non-ASCII characters (like '#' in room alias) has been escaped
+        // to be able to convert it into a legal URL string.
+        let absoluteURLString = url?.absoluteString.removingPercentEncoding
+        
+        // If the link can be open it by the app, let it do
+        if Tools.isUniversalLink(url) {
+            shouldDoAction = false
+            
+            // iOS Patch: fix vector.im urls before using it
+//            NSURL *fixedURL = [Tools fixURLWithSeveralHashKeys:url];
+            if let fixedURL = Tools.fixURL(withSeveralHashKeys: url) {
+                AppDelegate.the()?.handleUniversalLinkFragment(fixedURL.fragment)
+            }
+        }
+        // Open a detail screen about the clicked user
+        else if MXTools.isMatrixUserIdentifier(absoluteURLString) {
+            shouldDoAction = false
+            
+            let userId = absoluteURLString
+            
+            if let member = self.roomDataSource.roomState.members.member(withUserId: userId) {
+                // Use the room member detail VC for room members
+                self.selectedRoomMember = member
+                self.performSegue(withIdentifier: "showMemberDetails", sender: self)
+            } else {
+                // Use the contact detail VC for other users
+                if let user = self.roomDataSource.room.mxSession.user(withUserId: userId) {
+                    self.selectedContact = MXKContact(matrixContactWithDisplayName: (user.displayname.count > 0) ? user.displayname : user.userId, andMatrixID: user.userId)
+                } else {
+                    self.selectedContact = MXKContact(matrixContactWithDisplayName: userId, andMatrixID: userId)
+                }
+                self.performSegue(withIdentifier: "showContactDetails", sender: self)
+            }
+        }
+        // Open the clicked room
+        else if MXTools.isMatrixRoomIdentifier(absoluteURLString) || MXTools.isMatrixRoomAlias(absoluteURLString) {
+            shouldDoAction = false
+            
+            // Open the room or preview it
+            let fragment = String(format: "/room/%@", MXTools.encodeURIComponent(absoluteURLString))
+            AppDelegate.the()?.handleUniversalLinkFragment(fragment)
+        }
+        // Preview the clicked group
+        else if MXTools.isMatrixGroupIdentifier(absoluteURLString) {
+            shouldDoAction = false
+            
+            // Open the group or preview it
+            let fragment = String(format: "/group/%@", MXTools.encodeURIComponent(absoluteURLString))
+            AppDelegate.the()?.handleUniversalLinkFragment(fragment)
+        } else if let absoluteURLString = absoluteURLString, absoluteURLString.hasPrefix(EventFormatterOnReRequestKeysLinkAction) {
+            let arguments = absoluteURLString.components(separatedBy: EventFormatterLinkActionSeparator)
+            
+            if arguments.count > 1 {
+                let eventId = arguments[1]
+                if let event = self.roomDataSource.event(withEventId: eventId) {
+                    self.reRequestKeysAndShowExplanationAlert(event: event)
+                }
+            }
+        } else if let absoluteURLString = absoluteURLString, absoluteURLString.hasPrefix(EventFormatterEditedEventLinkAction) {
+            shouldDoAction = false
+            
+            let arguments = absoluteURLString.components(separatedBy: EventFormatterLinkActionSeparator)
+            if arguments.count > 1 {
+                let eventId = arguments[1]
+                self.showEditHistoryForEventId(eventId: eventId, animated: true)
+            }
+        } else if let url = url, let urlItemInteractionValue = urlItemInteractionValue {
+            // Fallback case for external links
+            switch urlItemInteractionValue {
+            case UITextItemInteraction.invokeDefaultAction:
+                UIApplication.shared.vc_open(url) { success in
+                    if !success {
+                        self.showUnableToOpenLinkErrorAlert()
+                    }
+                    self.showUnableToOpenLinkErrorAlert()
+                }
+                shouldDoAction = false
+            break
+            case UITextItemInteraction.presentActions:
+                // Long press on link, present room contextual menu.
+                shouldDoAction = false
+            break
+            case UITextItemInteraction.preview:
+                // Force touch on link, let MXKRoomBubbleTableViewCell UITextView use default peek and pop behavior.
+                break
+            default:
+                break
+            }
+        } else {
+            self.showUnableToOpenLinkErrorAlert()
+        }
+        return shouldDoAction
+    }
+
+    private func longPressBubbleTableViewCell(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
+        NSLog("[CKRoomViewController] long press MXKRoomBubbleTableViewCell")
+        guard let cell = cell, let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
+            NSLog("[CKRoomViewController] long press cell not MXKRoomBubbleTableViewCell")
             return
         }
         
-        // data source update to super
-        super.dataSource(dataSource, didCellChange: changes)
+        let attachment = roomBubbleTableViewCell.bubbleData.attachment
         
-        // refresh if did receive new message,...
-        self.refreshActivitiesViewDisplay()
-        self.refreshRoomNavigationBar()
+        // Add actions for text message
+        // Handle this case to add "Quote" action.
+        if attachment == nil {
+            self.dismissKeyboard()
+            guard let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent else {
+                return
+            }
+            
+            let components = roomBubbleTableViewCell.bubbleData.bubbleComponents ?? [MXKRoomBubbleComponent]()
+            let selectedComponent: MXKRoomBubbleComponent? = components.first(where: {$0.event.eventId == selectedEvent.eventId})
+            
+            if let currentAlert = currentAlert {
+                currentAlert.dismiss(animated: false, completion: nil)
+                
+                // Cancel potential text selection in other bubbles
+                for cell in self.bubblesTableView.visibleCells {
+                    if let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
+                        bubbleCell.highlightTextMessage(forEvent: nil)
+                    }
+                }
+            }
+            
+            // Create new AlertViewController
+            currentAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            // Add actions for a failed event
+            if selectedEvent.sentState == MXEventSentStateFailed {
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_resend", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self else {
+                        return
+                    }
+                    
+                    weakSelf.cancelEventSelection()
+                    weakSelf.roomDataSource.resendEvent(withEventId: selectedEvent.eventId,
+                                                        success: nil,
+                                                        failure: nil)
+                }))
+                
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_delete", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self else {
+                        return
+                    }
+                    
+                    weakSelf.cancelEventSelection()
+                    weakSelf.roomDataSource.removeEvent(withEventId: selectedEvent.eventId)
+                }))
+            }
+            
+            // Add actions for text message
+            // Check status of the selected event
+            if selectedEvent.sentState == MXEventSentStatePreparing ||
+                selectedEvent.sentState == MXEventSentStateEncrypting ||
+                selectedEvent.sentState == MXEventSentStateSending {
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_cancel_send", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self else {
+                        return
+                    }
+                    
+                    weakSelf.currentAlert = nil
+                    
+                    // Cancel and remove the outgoing message
+                    weakSelf.roomDataSource.room.cancelSendingOperation(selectedEvent.eventId)
+                    weakSelf.roomDataSource.removeEvent(withEventId: selectedEvent.eventId)
+                    
+                    weakSelf.cancelEventSelection()
+                }))
+            }
+            
+            currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_copy", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                guard let weakSelf = self, let selectedComponent = selectedComponent else {
+                    return
+                }
+                
+                weakSelf.cancelEventSelection()
+                
+                UIPasteboard.general.string = selectedComponent.textMessage
+            }))
+            
+            // Add action for room message only
+            if selectedEvent.eventType == __MXEventTypeRoomMessage {
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_quote", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self else {
+                        return
+                    }
+                    
+                    weakSelf.cancelEventSelection()
+                    weakSelf.inputToolbarView.textMessage = String(format: "%@\n>%@\n\n",
+                                                                   self?.inputToolbarView.textMessage ?? "",
+                                                                   selectedComponent?.textMessage ?? "")
+                    
+                    weakSelf.inputToolbarView.becomeFirstResponder()
+                }))
+            }
+            
+            currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                guard let weakSelf = self else {
+                    return
+                }
+                
+                weakSelf.cancelEventSelection()
+                
+                let activityViewController = UIActivityViewController(activityItems: [selectedComponent?.textMessage ?? ""], applicationActivities: nil)
+                
+                activityViewController.modalTransitionStyle = .coverVertical
+                activityViewController.popoverPresentationController?.sourceView = roomBubbleTableViewCell
+                activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
+                
+                weakSelf.present(activityViewController, animated: true, completion: nil)
+                
+            }))
+            
+            if components.count > 1 {
+                currentAlert?.addAction(UIAlertAction(title: "Select All", style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self else {
+                        return
+                    }
+                    
+                    weakSelf.currentAlert = nil
+                    weakSelf.selectAllTextMessage(inCell: roomBubbleTableViewCell)
+                }))
+            }
+            
+            if selectedEvent.sentState == MXEventSentStateSent {
+                // Check whether download is in progress
+                if selectedEvent.isMediaAttachment() {
+                    let downloadId = roomBubbleTableViewCell.bubbleData.attachment.downloadId
+                    if let loader = MXMediaManager.existingDownloader(withIdentifier: downloadId) {
+                        currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_cancel_download", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                            guard let weakSelf = self else {
+                                return
+                            }
+                            
+                            weakSelf.cancelEventSelection()
+                            loader.cancel()
+                            roomBubbleTableViewCell.progressView.isHidden = true
+                        }))
+                    }
+                }
+                
+                currentAlert?.addAction(UIAlertAction(title: "Show Details", style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self else {
+                        return
+                    }
+                    weakSelf.currentAlert = nil
+                    
+                    // Cancel event highlighting (if any)
+                    roomBubbleTableViewCell.highlightTextMessage(forEvent: nil)
+                    
+                    // Display event details
+                    weakSelf.showEventDetails(selectedEvent)
+                }))
+            }
+            
+            currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("cancel", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                guard let weakSelf = self else {
+                    return
+                }
+                weakSelf.cancelEventSelection()
+            }))
+            
+            currentAlert?.mxk_setAccessibilityIdentifier("RoomVCEventMenuAlert")
+            currentAlert?.popoverPresentationController?.sourceView = roomBubbleTableViewCell
+            currentAlert?.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
+            if let currentAlert = self.currentAlert {
+                self.present(currentAlert, animated: true, completion: nil)
+            }
+        } else {
+            // call to super
+            super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+        }
+        
+        // current alert is available
+        if let currentAlert = self.currentAlert {
+            
+            // delay for presenting action sheet completed
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
+                currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+                currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
+            }
+        }
     }
-    
+
     @objc private func dismissCurrentAlert(_ gesture: UITapGestureRecognizer) {
         self.currentAlert?.dismiss(animated: true, completion: nil)
     }
@@ -1857,26 +2172,58 @@ extension CKRoomViewController {
         }
     }
     
-    func selectEvent(withId eventId: String?) {
-        let shouldEnableReplyMode = roomDataSource.canReplyToEvent(withId: eventId)
+    func selectEventWithId(withId eventId: String?) {
+//        let shouldEnableReplyMode = roomDataSource.canReplyToEvent(withId: eventId)
+//
+//        enableReplyMode(shouldEnableReplyMode)
+//
+//        customizedRoomDataSource?.selectedEventId = eventId
+        
+        
+//         [self selectEventWithId:eventId inputToolBarSendMode:RoomInputToolbarViewSendModeSend showTimestamp:YES];
+        self.selectEventWithId(withId: eventId, inputToolBarSendMode: .send, showTimestamp: true)
+        
+    }
+    
+    func selectEventWithId(withId eventId: String?, inputToolBarSendMode: RoomInputToolbarViewSendMode, showTimestamp: Bool) {
+        self.setInputToolBarSendMode(inputToolBarSendMode)
+        
+        self.customizedRoomDataSource?.showBubbleDateTimeOnSelection = showTimestamp
+        self.customizedRoomDataSource?.selectedEventId = eventId;
 
-        enableReplyMode(shouldEnableReplyMode)
-
-        customizedRoomDataSource?.selectedEventId = eventId
+        // Force table refresh
+        self.dataSource(roomDataSource, didCellChange: nil)
     }
     
     func cancelEventSelection() {
-        enableReplyMode(false)
-
+        self.setInputToolBarSendMode(.send)
+        
         if currentAlert != nil {
             currentAlert?.dismiss(animated: false)
             currentAlert = nil
         }
 
         customizedRoomDataSource?.selectedEventId = nil
+        
+        self.restoreTextMessageBeforeEditing()
 
         // Force table refresh
         dataSource(roomDataSource, didCellChange: nil)
+    }
+    
+    func showUnableToOpenLinkErrorAlert() {
+        AppDelegate.the()?.showAlertWithTitle(title: CKLocalization.string(byKey: "error"), message: CKLocalization.string(byKey: "room_message_unable_open_link_error_message"))
+    }
+    
+    func editEventContentWithId(eventId: String) {
+        let event = self.roomDataSource.event(withEventId: eventId)
+        
+        if let roomInputToolbarView = self.inputToolbarView as? CKRoomInputToolbarView {
+            self.textMessageBeforeEditing = roomInputToolbarView.textMessage
+            roomInputToolbarView.textMessage = self.roomDataSource.editableTextMessage(for: event)
+        }
+        
+        self.selectEventWithId(withId: eventId, inputToolBarSendMode: .edit, showTimestamp: true)
     }
     
     // MARK: - Unsent Messages Handling
@@ -1947,7 +2294,7 @@ extension CKRoomViewController {
         let nvc = CKAccountProfileViewController.instanceNavigation { (vc: MXKViewController) in
             vc.importSession(self.mxSessions)
             (vc as? CKAccountProfileViewController)?.isForcedPresenting = true
-            if let roomDataSource = self.roomDataSource, roomDataSource.roomState != nil, let room = roomDataSource.room {
+            if let roomDataSource = self.roomDataSource, roomDataSource.roomState != nil {
                 (vc as? CKAccountProfileViewController)?.mxRoomPowerLevels = roomDataSource.roomState.powerLevels
             }
         }
@@ -1965,6 +2312,13 @@ extension CKRoomViewController {
             }
         }
         self.present(nvc, animated: true, completion: nil)
+    }
+    
+    private func restoreTextMessageBeforeEditing() {
+        if let inputToolbarView = inputToolbarView as? CKRoomInputToolbarView, let textMessageBeforeEditing = self.textMessageBeforeEditing {
+            inputToolbarView.textMessage = textMessageBeforeEditing
+        }
+        self.textMessageBeforeEditing = nil
     }
 }
 
@@ -2087,6 +2441,9 @@ extension CKRoomViewController {
         }
     }
 }
+// MARK: -  Contextual Menu
+
+
 
 // MARK: - Call notifications management
 
@@ -2276,48 +2633,61 @@ extension CKRoomViewController {
 
 extension CKRoomViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if MXKRoomViewController.instancesRespond(to: #selector(self.tableView(_:willDisplay:forRowAt:))) {
-            super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
-        }
+//        if MXKRoomViewController.instancesRespond(to: #selector(self.tableView(_:willDisplay:forRowAt:))) {
+//            super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
+//        }
+//
+//        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+//
+//        // Update the selected background view
+//        if themeService.attrs.selectedBgColor != nil {
+//            cell.selectedBackgroundView = UIView()
+//            cell.selectedBackgroundView?.theme.backgroundColor = themeService.attrStream{ $0.selectedBgColor }
+//        } else {
+//            if tableView.style == .plain {
+//                cell.selectedBackgroundView = nil
+//            } else {
+//                cell.selectedBackgroundView?.backgroundColor = nil
+//            }
+//        }
+//
+//        if cell.isKind(of: MXKRoomBubbleTableViewCell.self),
+//            let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
+//            if roomBubbleTableViewCell.messageTextView != nil {
+//                roomBubbleTableViewCell.messageTextView.textColor = themeService.attrs.secondTextColor
+//                roomBubbleTableViewCell.userNameLabel?.textColor = themeService.attrs.primaryTextColor
+//                roomBubbleTableViewCell.statsLabel?.textColor = themeService.attrs.secondTextColor
+//
+//                // we don't want to select text
+//                roomBubbleTableViewCell.messageTextView?.gestureRecognizers?.forEach({ (recognizer: UIGestureRecognizer) in
+//                    if let recognizer = recognizer as? UILongPressGestureRecognizer {
+//                        if let name = recognizer.name {
+//                            if name == "UITextInteractionNameLoupe" ||
+//                                name == "_UIKeyboardTextSelectionGestureForcePress" ||
+//                                name == "UITextInteractionNameTapAndHold" {
+//                                recognizer.isEnabled = false
+//                            }
+//                        }
+//                    }
+//                })
+//            }
+//
+//            if roomBubbleTableViewCell.readMarkerView != nil {
+//                readMarkerTableViewCell = roomBubbleTableViewCell
+//                checkReadMarkerVisibility()
+//            }
+//        }
+
+        cell.backgroundColor = themeService.attrs.backgroundColor
         
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-
         // Update the selected background view
-        if themeService.attrs.selectedBgColor != nil {
-            cell.selectedBackgroundView = UIView()
-            cell.selectedBackgroundView?.theme.backgroundColor = themeService.attrStream{ $0.selectedBgColor }
-        } else {
-            if tableView.style == .plain {
-                cell.selectedBackgroundView = nil
-            } else {
-                cell.selectedBackgroundView?.backgroundColor = nil
-            }
-        }
-
-        if cell.isKind(of: MXKRoomBubbleTableViewCell.self),
-            let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
-            if roomBubbleTableViewCell.messageTextView != nil {
-                roomBubbleTableViewCell.messageTextView.textColor = themeService.attrs.secondTextColor
-                roomBubbleTableViewCell.userNameLabel?.textColor = themeService.attrs.primaryTextColor
-                roomBubbleTableViewCell.statsLabel?.textColor = themeService.attrs.secondTextColor
-
-                // we don't want to select text
-                roomBubbleTableViewCell.messageTextView?.gestureRecognizers?.forEach({ (recognizer: UIGestureRecognizer) in
-                    if let recognizer = recognizer as? UILongPressGestureRecognizer {
-                        if let name = recognizer.name {
-                            if name == "UITextInteractionNameLoupe" ||
-                                name == "_UIKeyboardTextSelectionGestureForcePress" ||
-                                name == "UITextInteractionNameTapAndHold" {
-                                recognizer.isEnabled = false
-                            }
-                        }
-                    }
-                })
-            }
-            
+        cell.selectedBackgroundView = UIView()
+        cell.selectedBackgroundView?.backgroundColor = themeService.attrs.selectedBackgroundColor
+        
+        if let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
             if roomBubbleTableViewCell.readMarkerView != nil {
                 readMarkerTableViewCell = roomBubbleTableViewCell
-                checkReadMarkerVisibility()
+                self.checkReadMarkerVisibility()
             }
         }
     }
@@ -2327,13 +2697,196 @@ extension CKRoomViewController {
             readMarkerTableViewCell = nil
         }
 
-        if MXKRoomViewController.instancesRespond(to: #selector(self.tableView(_:didEndDisplaying:forRowAt:))) {
-            super.tableView(tableView, didEndDisplaying: cell, forRowAt: indexPath)
-        }
+        super.tableView(tableView, didEndDisplaying: cell, forRowAt: indexPath)
     }
 }
 
+// MARK: - Re-request encryption keys
 
+extension CKRoomViewController {
+    
+    func reRequestKeysAndShowExplanationAlert(event: MXEvent) {
+        
+        var alert: UIAlertController?
+        
+        // Make the re-request
+        self.mainSession.crypto.reRequestRoomKey(for: event)
+        
+        // Observe kMXEventDidDecryptNotification to remove automatically the dialog
+        // if the user has shared the keys from another device
+        self.mxEventDidDecryptNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.mxEventDidDecrypt, object: nil, queue: .main, using: { notif in
+            if let decryptedEvent = notif.object as? MXEvent {
+//                decryptedEvent.eventId == event.eventId {
+//                    NotificationCenter.default.removeObserver(self.mxEventDidDecryptNotificationObserver!)
+//                    self.mxEventDidDecryptNotificationObserver = nil
+//                }
+                
+                if self.currentAlert == alert {
+                    self.currentAlert?.dismiss(animated: true, completion: nil)
+                    self.currentAlert = nil
+                }
+            }
+        })
+        
+        // Show the explanation dialog
+        alert = UIAlertController(title: CKLocalization.string(byKey: "rerequest_keys_alert_title"), message: CKLocalization.string(byKey: "rerequest_keys_alert_message"), preferredStyle: .alert)
+        
+        alert?.addAction(UIAlertAction(title: CKLocalization.string(byKey: "ok"), style: .default, handler: { action in
+            NotificationCenter.default.removeObserver(self.mxEventDidDecryptNotificationObserver!)
+            self.mxEventDidDecryptNotificationObserver = nil
+            
+            self.currentAlert = nil
+        }))
+        
+        self.currentAlert = alert
+        self.present(self.currentAlert!, animated: true, completion: nil)
+    }
+    
+}
+
+// MARK: - Contextual Menu
+
+extension CKRoomViewController {
+    
+    func contextualMenuItemsForEvent(event: MXEvent?, andCell cell: MXKCellRendering?) -> [RoomContextualMenuItem] {
+        guard let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
+            return []
+        }
+        let eventId = event?.eventId ?? ""
+        
+        let copyMenuItem = RoomContextualMenuItem(menuAction: .copy)
+        if let attachment = roomBubbleTableViewCell.bubbleData.attachment, attachment.type != MXKAttachmentTypeSticker {
+            copyMenuItem.isEnabled = attachment.type != MXKAttachmentTypeSticker
+            
+            self.hideContextualMenu(true) {
+                self.startActivityIndicator()
+                attachment.copy({
+                    self.stopActivityIndicator()
+                }, failure: { error in
+                    self.stopActivityIndicator()
+                    AppDelegate.the()?.showError(asAlert: error)
+                    roomBubbleTableViewCell.startProgressUI()
+                })
+            }
+        } else {
+            copyMenuItem.isEnabled = true
+            
+            let selectedComponent = roomBubbleTableViewCell.bubbleData.bubbleComponents?.filter({ $0.event.eventId  == eventId}).first
+            let textMessage = selectedComponent?.textMessage ?? ""
+            UIPasteboard.general.string = textMessage
+            self.hideContextualMenu(true)
+        }
+        
+        // Reply action
+
+        let replyMenuItem = RoomContextualMenuItem(menuAction: .reply)
+        replyMenuItem.isEnabled = self.roomDataSource.canReplyToEvent(withId: eventId)
+        replyMenuItem.action = {
+            self.hideContextualMenu(true, cancelEventSelection: false, completion: {})
+            self.selectEventWithId(withId: eventId, inputToolBarSendMode: .reply, showTimestamp: false)
+            
+            // And display the keyboard
+            self.inputToolbarView.becomeFirstResponder()
+        }
+
+        // Edit action
+        
+        let editMenuItem = RoomContextualMenuItem(menuAction: .edit)
+        editMenuItem.isEnabled = self.roomDataSource.canReplyToEvent(withId: eventId)
+        editMenuItem.action = {
+            self.hideContextualMenu(true, cancelEventSelection: false, completion: {})
+            self.editEventContentWithId(eventId: eventId)
+            
+            // And display the keyboard
+            self.inputToolbarView.becomeFirstResponder()
+        }
+        
+        // More action
+        
+        let moreMenuItem = RoomContextualMenuItem(menuAction: .more)
+        moreMenuItem.isEnabled = self.roomDataSource.canReplyToEvent(withId: eventId)
+        moreMenuItem.action = {
+            self.hideContextualMenu(true, completion: {})
+//            self.longPressBubbleTableViewCell
+//            self.showAdditionalActionsMenuForEvent
+        }
+        
+        return [copyMenuItem, replyMenuItem, editMenuItem, moreMenuItem];
+    }
+    
+    func showContextualMenuForEvent(event: MXEvent?, fromSingleTapGesture usedSingleTapGesture: Bool, cell: MXKCellRendering?, animated: Bool) {
+        if let roomContextualMenuPresenter = self.roomContextualMenuPresenter, roomContextualMenuPresenter.isPresenting {
+            return
+        }
+        let selectedEventId = event?.eventId ?? ""
+        let contextualMenuItems = self.contextualMenuItemsForEvent(event: event, andCell: cell)
+        var reactionsMenuViewModel: ReactionsMenuViewModel?
+        var bubbleComponentFrameInOverlayView = CGRect()
+ 
+        if let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell, self.roomDataSource.canReactToEvent(withId: event?.eventId) {
+            let bubbleCellData = roomBubbleTableViewCell.bubbleData
+            let bubbleComponents = bubbleCellData?.bubbleComponents
+            
+            let foundComponentIndex = bubbleComponents?.firstIndex(where: { $0.event.eventId == selectedEventId})
+            var bubbleComponentFrame = CGRect()
+            if let bubbleComponents = bubbleComponents, bubbleComponents.count > 0 {
+                let selectedComponentIndex = foundComponentIndex ?? 0
+                bubbleComponentFrame = roomBubbleTableViewCell.surroundingFrameInTableView(forComponentIndex: selectedComponentIndex)
+            } else {
+                bubbleComponentFrame = roomBubbleTableViewCell.frame
+            }
+            
+            bubbleComponentFrameInOverlayView = self.bubblesTableView.convert(bubbleComponentFrame, to: self.overlayContainerView)
+            let roomId = self.roomDataSource.roomId ?? ""
+            let aggregations = self.mainSession.aggregations
+            let aggregatedReactions = aggregations?.aggregatedReactions(onEvent: selectedEventId, inRoom: roomId)
+            
+            reactionsMenuViewModel = ReactionsMenuViewModel(aggregatedReactions: aggregatedReactions, eventId: selectedEventId)
+            reactionsMenuViewModel?.coordinatorDelegate = self
+        }
+        
+        if self.roomContextualMenuViewController == nil {
+            self.roomContextualMenuViewController = RoomContextualMenuViewController.instantiate()
+            self.roomContextualMenuViewController?.delegate = self
+        }
+        
+        self.roomContextualMenuViewController?.update(contextualMenuItems: contextualMenuItems, reactionsMenuViewModel: reactionsMenuViewModel)
+        self.enableOverlayContainerUserInteractions(true)
+        self.roomContextualMenuPresenter?.present(roomContextualMenuViewController: self.roomContextualMenuViewController!, from: self, on: self.overlayContainerView, contentToReactFrame: bubbleComponentFrameInOverlayView, fromSingleTapGesture: usedSingleTapGesture, animated: animated, completion: nil)
+        self.selectEventWithId(withId: selectedEventId)
+    }
+    
+    func hideContextualMenu(_ animated: Bool) {
+        self.hideContextualMenu(animated, completion: {})
+    }
+    
+    func hideContextualMenu(_ animated: Bool, completion: @escaping () -> Void) {
+        self.hideContextualMenu(animated, cancelEventSelection: true, completion: completion)
+    }
+    
+    func hideContextualMenu(_ animated: Bool, cancelEventSelection: Bool, completion: @escaping () -> Void) {
+        if !(self.roomContextualMenuPresenter?.isPresenting ?? false) {
+            return
+        }
+        
+        if cancelEventSelection {
+            self.cancelEventSelection()
+        }
+        
+        self.roomContextualMenuPresenter?.hideContextualMenu(animated: animated) {
+            self.enableOverlayContainerUserInteractions(false)
+            completion()
+        }
+    }
+    
+    private func enableOverlayContainerUserInteractions(_ enableOverlayContainerUserInteractions: Bool) {
+        self.inputToolbarView.isEditable = !enableOverlayContainerUserInteractions
+        self.bubblesTableView.scrollsToTop = !enableOverlayContainerUserInteractions
+        self.overlayContainerView.isUserInteractionEnabled = enableOverlayContainerUserInteractions
+    }
+}
+
+// MARK: - CKRoomInvitationControllerDeletate
 extension CKRoomViewController: CKRoomInvitationControllerDeletate {
     
     func invitationDidSelectJoin() {
@@ -2401,6 +2954,113 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
     }
 }
 
+// MARK: - RoomContextualMenuViewControllerDelegate
+extension CKRoomViewController: RoomContextualMenuViewControllerDelegate {
+    
+    func roomContextualMenuViewControllerDidTapBackgroundOverlay(_ viewController: RoomContextualMenuViewController) {
+        self.hideContextualMenu(true)
+    }
+}
+
+// MARK: - ReactionsMenuViewModelCoordinatorDelegate
+extension CKRoomViewController: ReactionsMenuViewModelCoordinatorDelegate {
+    
+    func reactionsMenuViewModel(_ viewModel: ReactionsMenuViewModel, didAddReaction reaction: String, forEventId eventId: String) {
+        self.hideContextualMenu(true, completion: {
+            self.roomDataSource.addReaction(reaction, forEventId: eventId, success: {
+                
+            }, failure: { error in
+                self.errorPresenter?.presentError(from: self, forError: error, animated: true, handler: nil)
+            })
+        })
+    }
+    
+    func reactionsMenuViewModel(_ viewModel: ReactionsMenuViewModel, didRemoveReaction reaction: String, forEventId eventId: String) {
+        self.hideContextualMenu(true) {
+            self.roomDataSource.removeReaction(reaction, forEventId: eventId, success: {
+                
+            }, failure: { error in
+                self.errorPresenter?.presentError(from: self, forError: error, animated: true, handler: nil)
+            })
+        }
+    }
+    
+}
+
+extension CKRoomViewController {
+    
+    func showEditHistoryForEventId(eventId: String?, animated: Bool) {
+        guard let event = self.roomDataSource.event(withEventId: eventId) else {
+            return
+        }
+        
+        let editHistoryPresenter = EditHistoryCoordinatorBridgePresenter(session: self.roomDataSource.mxSession, event: event)
+        editHistoryPresenter.delegate = self
+        editHistoryPresenter.present(from: self, animated: animated)
+        self.editHistoryPresenter = editHistoryPresenter
+    }
+}
+
+// MARK: - EditHistoryCoordinatorBridgePresenterDelegate
+extension CKRoomViewController: EditHistoryCoordinatorBridgePresenterDelegate {
+    
+    func editHistoryCoordinatorBridgePresenterDelegateDidComplete(_ coordinatorBridgePresenter: EditHistoryCoordinatorBridgePresenter) {
+        coordinatorBridgePresenter.dismiss(animated: true, completion: nil)
+        self.editHistoryPresenter = nil
+    }
+    
+}
+
+// MARK: - MXKDocumentPickerPresenterDelegate
+extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
+    
+    func documentPickerPresenterWasCancelled(_ presenter: MXKDocumentPickerPresenter) {
+        self.documentPickerPresenter = nil
+    }
+    
+    func documentPickerPresenter(_ presenter: MXKDocumentPickerPresenter, didPickDocumentsAt url: URL) {
+        self.documentPickerPresenter = nil
+        guard let fileUTI = MXKUTI(localFileURL: url) else {
+            return
+        }
+        if fileUTI.isImage {
+            let imageData = NSData(contentsOf: url) 
+            self.roomDataSource.sendImage(imageData as Data?, mimeType: fileUTI.mimeType, success: nil) { error in
+                NSLog("[CKRoomViewController] sendImage failed.")
+            }
+        } else if fileUTI.isVideo {
+            self.roomDataSource.sendVideo(url, withThumbnail: nil, success: nil) { error in
+                NSLog("[CKRoomViewController] sendVideo failed.")
+            }
+        } else if fileUTI.isFile {
+            self.roomDataSource.sendFile(url, mimeType: fileUTI.mimeType, success: nil) { error in
+                NSLog("[CKRoomViewController] sendFile failed.");
+            }
+        } else {
+            NSLog("[CKRoomViewController] File upload using MIME type %@ is not supported.", fileUTI.mimeType ?? "")
+            AppDelegate.the()?.showAlertWithTitle(title: CKLocalization.string(byKey: "file_upload_error_title"), message: CKLocalization.string(byKey: "file_upload_error_unsupported_file_type_message"))
+        }
+    }
+}
+
+// MARK: - EmojiPickerCoordinatorBridgePresenterDelegate
+extension CKRoomViewController: EmojiPickerCoordinatorBridgePresenterDelegate {
+    
+    func emojiPickerCoordinatorBridgePresenterDidCancel(_ coordinatorBridgePresenter: EmojiPickerCoordinatorBridgePresenter) {
+        
+    }
+    
+    
+    func emojiPickerCoordinatorBridgePresenter(_ coordinatorBridgePresenter: EmojiPickerCoordinatorBridgePresenter, didAddEmoji emoji: String, forEventId eventId: String) {
+        
+    }
+    
+    func emojiPickerCoordinatorBridgePresenter(_ coordinatorBridgePresenter: EmojiPickerCoordinatorBridgePresenter, didRemoveEmoji emoji: String, forEventId eventId: String) {
+        
+    }
+    
+}
+
 // MARK: - Clipboard
 extension CKRoomViewController {
     
@@ -2465,16 +3125,4 @@ extension CKRoomViewController {
         return false
     }
     
-}
-
-
-//extension UITextView {
-//    override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//        if isEditable == false {
-//            if let gesture =  gestureRecognizer as? UILongPressGestureRecognizer, gesture.minimumPressDuration == 0.5 {
-//                return false
-//            }
-//        }
-//        return true
-//    }
-//}
+} 

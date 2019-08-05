@@ -236,6 +236,7 @@
 "room_many_users_are_typing" = "%@, %@ & others are typing…";
 "room_message_placeholder" = "Send a message (unencrypted)…";
 "room_message_reply_to_placeholder" = "Send a reply (unencrypted)…";
+"room_message_unable_open_link_error_message" = "Unable to open the link.";
 "room_do_not_have_permission_to_post" = "You do not have permission to post to this room";
 "encrypted_room_message_placeholder" = "Send an encrypted message…";
 "encrypted_room_message_reply_to_placeholder" = "Send an encrypted reply…";
@@ -271,10 +272,16 @@
 "room_event_action_cancel_send" = "Cancel Send";
 "room_event_action_cancel_download" = "Cancel Download";
 "room_event_action_view_encryption" = "Encryption Information";
+"room_event_action_reply" = "Reply";
+"room_event_action_edit" = "Edit";
+"room_event_action_reaction_show_all" = "Show all";
+"room_event_action_reaction_show_less" = "Show less";
 "room_warning_about_encryption" = "End-to-end encryption is in beta and may not be reliable.\n\nYou should not yet trust it to secure data.\n\nDevices will not yet be able to decrypt history from before they joined the room.\n\nEncrypted messages will not be visible on clients that do not yet implement encryption.";
 "room_event_failed_to_send" = "Failed to send";
 "room_action_send_photo_or_video" = "Send photo or video";
 "room_action_send_sticker" = "Send sticker";
+"room_action_send_file" = "Send file";
+"room_action_reply" = "Reply";
 "room_replacement_information" = "This room has been replaced and is no longer active.";
 "room_replacement_link" = "The conversation continues here.";
 "room_predecessor_information" = "This room is a continuation of another conversation.";
@@ -286,6 +293,7 @@
 "room_resource_usage_limit_reached_message_1_monthly_active_user" = "This homeserver has hit its Monthly Active User limit so ";
 "room_resource_usage_limit_reached_message_2" = "some users will not be able to log in.";
 "room_resource_usage_limit_reached_message_contact_3" = " to get this limit increased.";
+"room_message_edits_history_title" = "Message edits";
 
 // Unknown devices
 "unknown_devices_alert_title" = "Room contains unknown devices";

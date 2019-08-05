@@ -18,6 +18,43 @@ extension UIViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    /// Add a child view controller matching current view controller view.
+    ///
+    /// - Parameter viewController: The child view controller to add.
+    func vc_addChildViewController(viewController: UIViewController) {
+        self.vc_addChildViewController(viewController: viewController, onView: self.view)
+    }
+    
+    
+    /// Add a child view controller on current view controller.
+    ///
+    /// - Parameters:
+    ///   - viewController: The child view controller to add.
+    ///   - view: The view on which to add the child view controller view.
+    func vc_addChildViewController(viewController: UIViewController, onView view: UIView) {
+        self.addChildViewController(viewController)
+        
+        viewController.view.frame = view.bounds
+        view.vc_addSubViewMatchingParent(viewController.view)
+        viewController.didMove(toParentViewController: self)
+    }
+    
+    
+    /// Remove a child view controller from current view controller.
+    ///
+    /// - Parameter viewController: The child view controller to remove.
+    func vc_removeChildViewController(viewController: UIViewController) {
+        viewController.willMove(toParentViewController: nil)
+        viewController.view.removeFromSuperview()
+        viewController.removeFromParentViewController()
+    }
+    
+    
+    /// Remove current view controller from parent.
+    func vc_removeFromParent() {
+        self.vc_removeChildViewController(viewController: self)
+    }
+    
     /**
      This allows you change navigation color
      */

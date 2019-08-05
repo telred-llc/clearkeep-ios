@@ -2799,9 +2799,9 @@
             NSString *fragment = [NSString stringWithFormat:@"/group/%@", [absoluteURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             [[AppDelegate theDelegate] handleUniversalLinkFragment:fragment];
         }
-        else if ([absoluteURLString hasPrefix:kEventFormatterOnReRequestKeysLinkAction])
+        else if ([absoluteURLString hasPrefix:EventFormatterOnReRequestKeysLinkAction])
         {
-            NSArray<NSString*> *arguments = [absoluteURLString componentsSeparatedByString:kEventFormatterOnReRequestKeysLinkActionSeparator];
+            NSArray<NSString*> *arguments = [absoluteURLString componentsSeparatedByString:EventFormatterLinkActionSeparator];
             if (arguments.count > 1)
             {
                 NSString *eventId = arguments[1];

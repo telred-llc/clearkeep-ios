@@ -19,10 +19,13 @@ class CKRoomDataSource: MXKRoomDataSource {
             if selectedEventId != nil {
                 let cellData: RoomBubbleCellData? = cellDataOfEvent(withEventId: selectedEventId) as? RoomBubbleCellData
                 cellData?.selectedEventId = nil
+                cellData?.showTimestampForSelectedComponent = false
             }
 
             if let selectedEventId = selectedEventId, selectedEventId.count > 0 {
                 let cellData: RoomBubbleCellData? = cellDataOfEvent(withEventId: selectedEventId) as? RoomBubbleCellData
+                
+                cellData?.showTimestampForSelectedComponent = self.showBubbleDateTimeOnSelection ?? true
 
                 if cellData?.collapsed != nil && cellData?.nextCollapsableCellData != nil {
                     // Select nothing for a collased cell but open it
@@ -38,6 +41,10 @@ class CKRoomDataSource: MXKRoomDataSource {
     // time sent messages
     var timeSent = ""
     
+    /**
+     Tell whether timestamp should be displayed on event selection. Default is YES.
+     */
+    var showBubbleDateTimeOnSelection: Bool?
     
     /**
      Tell whether the initial event of the timeline (if any) must be marked. Default is NO.
@@ -90,6 +97,9 @@ class CKRoomDataSource: MXKRoomDataSource {
         
         markTimelineInitialEvent = false
         
+        self.showBubbleDateTimeOnSelection = true
+        self.showReactions = true
+        
         // Observe user interface theme change.
         kRiotDesignValuesDidChangeThemeNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.riotDesignValuesDidChangeTheme, object: nil, queue: OperationQueue.main, using: { notif in
             
@@ -131,6 +141,18 @@ class CKRoomDataSource: MXKRoomDataSource {
         
         // Apply the event types filter to display only the wanted event types.
         eventFormatter.eventTypesFilterForMessages = MXKAppSettings.standard().eventsFilterForMessages
+    }
+    
+    override func updateCellDataReactions(_ cellData: MXKRoomBubbleCellDataStoring!, forEventId eventId: String!) {
+        super.updateCellDataReactions(cellData, forEventId: eventId)
+        
+        self.setNeedsUpdateAdditionalContentHeightForCellData(cellData)
+    }
+    
+    override func update(_ cellData: MXKRoomBubbleCellData!, withReadReceipts readReceipts: [MXReceiptData]!, forEventId eventId: String!) {
+        super.update(cellData, withReadReceipts: readReceipts, forEventId: eventId)
+        
+        self.setNeedsUpdateAdditionalContentHeightForCellData(cellData)
     }
     
     override func didReceiveReceiptEvent(_ receiptEvent: MXEvent?, roomState: MXRoomState?) {
@@ -242,6 +264,7 @@ class CKRoomDataSource: MXKRoomDataSource {
         }
         
         return count
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -266,6 +289,8 @@ class CKRoomDataSource: MXKRoomDataSource {
                 bubbleCell.addDateLabel(true)
             }
             
+            let temporaryViews = NSMutableArray()
+            
             let isCollapsableCellCollapsed: Bool = cellData?.collapsable != nil && cellData?.collapsed != nil
 
             // Display timestamp of the last message
@@ -276,23 +301,64 @@ class CKRoomDataSource: MXKRoomDataSource {
             // Handle read receipts and read marker display.
             // Ignore the read receipts on the bubble without actual display.
             // Ignore the read receipts on collapsed bubbles
-            if (self.showBubbleReceipts && (cellData?.readReceipts.count ?? 0) > 0 && !isCollapsableCellCollapsed)
-                || showReadMarker {
+            if (self.showBubbleReceipts && (cellData?.readReceipts.count ?? 0) > 0 && !isCollapsableCellCollapsed) || showReadMarker {
                 
                 // Read receipts container are inserted here on the right side into the content view.
                 // Some vertical whitespaces are added in message text view (see RoomBubbleCellData class) to insert correctly multiple receipts.
-
-                var index = (bubbleComponents?.count ?? 0) - 1
-                var bottomPositionY: CGFloat = bubbleCell.frame.size.height
                 
-                while index >= 0 {
-                    let component = bubbleComponents![index]
+                for (index, component) in (bubbleComponents ?? []).enumerated() {
+                    let componentEventId = component.event.eventId
                     
                     if component.event?.sentState != MXEventSentStateFailed {
+                        var bottomPositionY: CGFloat = 0
+                        
+                        let bubbleComponentFrame = bubbleCell.componentFrameInContentView(for: index)
+                        
+                        if bubbleComponentFrame.equalTo(CGRect.null) {
+                            bottomPositionY = bubbleComponentFrame.origin.y + bubbleComponentFrame.size.height;
+                        } else {
+                            continue
+                        }
+                        
+                        var reactionsView: BubbleReactionsView?
+                        if let reactions = cellData?.reactions[componentEventId ?? ""] as? MXAggregatedReactions, !isCollapsableCellCollapsed {
+                            let showAllReactions = cellData?.showAllReactions(forEvent: componentEventId) ?? false
+                            let bubbleReactionsViewModel = BubbleReactionsViewModel(aggregatedReactions: reactions, eventId: componentEventId ?? "", showAll: showAllReactions)
+                            
+                            reactionsView = BubbleReactionsView()
+                            reactionsView?.viewModel = bubbleReactionsViewModel
+                            reactionsView?.updateTheme()
+                            
+                            temporaryViews.add(reactionsView!)
+                            bubbleReactionsViewModel.viewModelDelegate = self
+                            
+                            reactionsView?.translatesAutoresizingMaskIntoConstraints = false
+                            bubbleCell.contentView.addSubview(reactionsView!)
+                            
+                            if !(bubbleCell.tmpSubviews != nil) {
+                                bubbleCell.tmpSubviews = NSMutableArray()
+                            }
+                            
+                            var leftMargin = RoomBubbleCellLayout.reactionsViewLeftMargin;
+                            if self.room.summary.isEncrypted {
+                                leftMargin += RoomBubbleCellLayout.encryptedContentLeftMargin;
+                            }
+                            
+                            if let reactionsView = reactionsView {
+                                bubbleCell.tmpSubviews.add(reactionsView)
+                                
+//                                // Force receipts container position
+                                let leadingConstraint = NSLayoutConstraint(item: reactionsView, attribute: .leading, relatedBy: .equal, toItem: reactionsView.superview, attribute: .leading, multiplier: 1.0, constant: leftMargin)
+                                let trailingConstraint = NSLayoutConstraint(item: reactionsView, attribute: .trailing, relatedBy: .equal, toItem: reactionsView.superview, attribute: .trailing, multiplier: 1.0, constant: -RoomBubbleCellLayout.reactionsViewRightMargin)
+                                let topConstraint = NSLayoutConstraint(item: reactionsView, attribute: .top, relatedBy: .equal, toItem: reactionsView.superview, attribute: .top, multiplier: 1.0, constant: bottomPositionY + RoomBubbleCellLayout.reactionsViewTopMargin)
+//
+//                                // Available on iOS 8 and later
+                                NSLayoutConstraint.activate([leadingConstraint, trailingConstraint, topConstraint])
+                            }
+                        }
+                        
                         // Handle read receipts (if any)
-                        if showBubbleReceipts
-                            && (cellData?.readReceipts.count ?? 0) > 0
-                            && !isCollapsableCellCollapsed {
+                        if showBubbleReceipts && (cellData?.readReceipts.count ?? 0) > 0 && !isCollapsableCellCollapsed {
                             
                             // Get the events receipts by ignoring the current user receipt.
                             let receipts = cellData?.readReceipts[component.event.eventId] as? [MXReceiptData]
@@ -302,7 +368,7 @@ class CKRoomDataSource: MXKRoomDataSource {
                             // Check whether some receipts are found
                             if (receipts ?? []).count > 0 {
                                 // Retrieve the corresponding room members
-
+                                
                                 for data in receipts! {
                                     let roomMember: MXRoomMember? = roomState.members.member(withUserId: data.userId)
                                     if let roomMember = roomMember {
@@ -316,14 +382,14 @@ class CKRoomDataSource: MXKRoomDataSource {
                             if roomMembers.count > 0 {
                                 // Define the read receipts container, positioned on the right border of the bubble cell (Note the right margin 6 pts).
                                 let avatarsContainer = MXKReceiptSendersContainer(frame: CGRect(x: bubbleCell.frame.size.width - 156, y: bottomPositionY - 13, width: 150, height: 12), andMediaManager: mxSession.mediaManager)
-
+                                
                                 // Custom avatar display
                                 avatarsContainer?.maxDisplayedAvatars = 5
                                 avatarsContainer?.avatarMargin = 6
-
+                                
                                 // Set the container tag to be able to retrieve read receipts container from component index (see component selection in MXKRoomBubbleTableViewCell (Vector) category).
                                 avatarsContainer?.tag = index
-
+                                
                                 avatarsContainer?.refreshReceiptSenders(roomMembers, withPlaceHolders: placeholders, andAlignment: ReadReceiptsAlignment.receiptAlignmentRight)
                                 avatarsContainer?.readReceipts = receipts
                                 
@@ -332,10 +398,12 @@ class CKRoomDataSource: MXKRoomDataSource {
                                 tapRecognizer.numberOfTouchesRequired = 1
                                 avatarsContainer?.addGestureRecognizer(tapRecognizer)
                                 avatarsContainer?.isUserInteractionEnabled = true
-
+                                
                                 avatarsContainer?.translatesAutoresizingMaskIntoConstraints = false
                                 avatarsContainer?.accessibilityIdentifier = "readReceiptsContainer"
-
+                                
+                                temporaryViews.add(avatarsContainer!)
+                                
                                 // Add this read receipts container in the content view
                                 if bubbleCell.tmpSubviews == nil {
                                     if let avatarsContainer = avatarsContainer {
@@ -375,41 +443,43 @@ class CKRoomDataSource: MXKRoomDataSource {
                             bubbleCell.bubbleOverlayContainer.alpha = 1
                             bubbleCell.bubbleOverlayContainer.isUserInteractionEnabled = false
                             bubbleCell.bubbleOverlayContainer.isHidden = false
-
+                            
                             if component.event.eventId == self.room.accountData.readMarkerEventId {
                                 bubbleCell.readMarkerView = UIView(frame: CGRect(x: 0, y: bottomPositionY - 2, width: bubbleCell.bubbleOverlayContainer.frame.size.width, height: 2))
                                 bubbleCell.readMarkerView.backgroundColor = kRiotColorGreen
                                 // Hide by default the marker, it will be shown and animated when the cell will be rendered.
                                 bubbleCell.readMarkerView.isHidden = true
                                 bubbleCell.readMarkerView.tag = index
-
+                                
                                 bubbleCell.readMarkerView.translatesAutoresizingMaskIntoConstraints = false
                                 bubbleCell.readMarkerView.accessibilityIdentifier = "readMarker"
                                 bubbleCell.bubbleOverlayContainer.addSubview(bubbleCell.readMarkerView)
-
+                                
                                 // Force read marker constraints
                                 bubbleCell.readMarkerViewTopConstraint = NSLayoutConstraint(item: bubbleCell.readMarkerView, attribute: .top, relatedBy: .equal, toItem: bubbleCell.bubbleOverlayContainer, attribute: .top, multiplier: 1.0, constant: bottomPositionY - 2)
                                 bubbleCell.readMarkerViewLeadingConstraint = NSLayoutConstraint(item: bubbleCell.readMarkerView, attribute: .leading, relatedBy: .equal, toItem: bubbleCell.bubbleOverlayContainer, attribute: .leading, multiplier: 1.0, constant: 0)
-
+                                
                                 bubbleCell.readMarkerViewTrailingConstraint = NSLayoutConstraint(item: bubbleCell.bubbleOverlayContainer, attribute: .trailing, relatedBy: .equal, toItem: bubbleCell.readMarkerView, attribute: .trailing, multiplier: 1.0, constant: 0)
                                 bubbleCell.readMarkerViewHeightConstraint = NSLayoutConstraint(item: bubbleCell.readMarkerView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 2)
-
+                                
                                 NSLayoutConstraint.activate([
                                     bubbleCell.readMarkerViewTopConstraint,
                                     bubbleCell.readMarkerViewLeadingConstraint,
                                     bubbleCell.readMarkerViewTrailingConstraint,
                                     bubbleCell.readMarkerViewHeightConstraint
-                                ])
-
+                                    ])
+                                
                             }
                         }
                     }
-                    
-                    // Prepare the bottom position for the next read receipt container (if any)
-                    bottomPositionY = (bubbleCell.msgTextViewTopConstraint?.constant ?? 0) + component.position.y;
-                    
-                    index -= 1
                 }
+            }
+            
+            // Update attachmentView bottom constraint to display reactions and read receipts if needed
+            if bubbleCell.attachmentView != nil, let attachmentViewBottomConstraint = bubbleCell.attachViewBottomConstraint, temporaryViews.count > 0 {
+                attachmentViewBottomConstraint.constant = roomBubbleCellData?.additionalContentHeight ?? 0
+            } else if bubbleCell.attachmentView != nil {
+                bubbleCell.resetAttachmentViewBottomConstraintConstant()
             }
             
             // Check whether an event is currently selected: the other messages are then blurred
@@ -471,5 +541,57 @@ class CKRoomDataSource: MXKRoomDataSource {
         }
 
         return nil
+    }
+    
+    func sendVideo(_ videoLocalURL: URL, success: @escaping (_ eventId: String?) -> Void, failure: @escaping (_ error: Error?) -> Void) {
+        let videoThumbnail: UIImage? = MXKVideoThumbnailGenerator.shared.generateThumbnail(from: videoLocalURL)
+        sendVideo(videoLocalURL, withThumbnail: videoThumbnail, success: success, failure: failure)
+    }
+    
+    func setNeedsUpdateAdditionalContentHeightForCellData(_ cellData: MXKRoomBubbleCellDataStoring) {
+        if let roomBubbleCellData = cellData as? RoomBubbleCellData {
+            roomBubbleCellData.setNeedsUpdateAdditionalContentHeight()
+        }
+    }
+    
+}
+
+// MARK: - BubbleReactionsViewModelDelegate
+extension CKRoomDataSource: BubbleReactionsViewModelDelegate {
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didAddReaction reactionCount: MXReactionCount, forEventId eventId: String) {
+        self.addReaction(reactionCount.reaction, forEventId: eventId, success: {
+            
+        }) { error in
+            
+        }
+    }
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didRemoveReaction reactionCount: MXReactionCount, forEventId eventId: String) {
+        self.removeReaction(reactionCount.reaction, forEventId: eventId, success: {
+            
+        }) { error in
+            
+        }
+    }
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didShowAllTappedForEventId eventId: String) {
+        self.setShowAllReactions(true, forEvent: eventId)
+    }
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didShowLessTappedForEventId eventId: String) {
+        self.setShowAllReactions(false, forEvent: eventId)
+    }
+    
+    private func setShowAllReactions(_ showAllReactions: Bool, forEvent eventId: String?) {
+        weak var cellData = cellDataOfEvent(withEventId: eventId)
+        if (cellData is RoomBubbleCellData) {
+            let roomBubbleCellData = cellData as? RoomBubbleCellData
+            
+            roomBubbleCellData?.setShowAllReactions(showAllReactions, forEvent: eventId)
+            updateCellDataReactions(roomBubbleCellData, forEventId: eventId)
+            
+            delegate.dataSource(self, didCellChange: nil)
+        }
     }
 }
