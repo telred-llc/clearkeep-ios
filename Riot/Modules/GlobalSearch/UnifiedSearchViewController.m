@@ -34,6 +34,7 @@
 #import "AppDelegate.h"
 
 #import "GBDeviceInfo_iOS.h"
+#import "Riot-Swift.h"
 
 @interface UnifiedSearchViewController ()
 {
@@ -41,7 +42,7 @@
     UnifiedSearchRecentsDataSource *recentsDataSource;
 
     HomeMessagesSearchViewController *messagesSearchViewController;
-    HomeMessagesSearchDataSource *messagesSearchDataSource;
+    CKHomeMessagesSearchDataSource *messagesSearchDataSource;
     
     HomeFilesSearchViewController *filesSearchViewController;
     MXKSearchDataSource *filesSearchDataSource;
@@ -207,7 +208,7 @@
         [recentsViewController displayList:recentsDataSource];
         
         // Init the search for messages
-        messagesSearchDataSource = [[HomeMessagesSearchDataSource alloc] initWithMatrixSession:mainSession];
+        messagesSearchDataSource = [[CKHomeMessagesSearchDataSource alloc] initWithMatrixSession:mainSession];
         [messagesSearchViewController displaySearch:messagesSearchDataSource];
         
         // Init the search for messages

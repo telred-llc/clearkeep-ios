@@ -316,6 +316,9 @@ class CKAccountProfileViewController: MXKViewController {
                 // Enable the button and stop activity indicator
                 button.isEnabled = true
                 self?.stopActivityIndicator()
+
+                // Clear all cached rooms
+                CKRoomCacheManager.shared.clearAllCachedData()
             }
         }
     }

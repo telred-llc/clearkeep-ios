@@ -29,6 +29,7 @@
 #import "RoomIncomingTextMsgBubbleCell.h"
 
 #import "EventFormatter.h"
+#import "Riot-Swift.h"
 
 @interface HomeMessagesSearchViewController ()
 {

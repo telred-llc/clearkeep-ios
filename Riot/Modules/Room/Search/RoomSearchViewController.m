@@ -23,11 +23,12 @@
 #import "FilesSearchCellData.h"
 
 #import "AppDelegate.h"
+#import "Riot-Swift.h"
 
 @interface RoomSearchViewController ()
 {
     RoomMessagesSearchViewController *messagesSearchViewController;
-    RoomSearchDataSource *messagesSearchDataSource;
+    CKRoomMessagesSearchDataSource *messagesSearchDataSource;
     
     RoomFilesSearchViewController *filesSearchViewController;
     MXKSearchDataSource *filesSearchDataSource;
@@ -92,7 +93,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     // Let's child display the loading not this view controller
     if (self.activityIndicator)
     {
@@ -148,7 +149,7 @@
     if (mainSession && _roomDataSource)
     {
         // Init the search for messages
-        messagesSearchDataSource = [[RoomSearchDataSource alloc] initWithRoomDataSource:_roomDataSource];
+        messagesSearchDataSource = [CKRoomMessagesSearchDataSource initWithRoomDataSource:_roomDataSource];
         [messagesSearchViewController displaySearch:messagesSearchDataSource];
         
         // Init the search for attachments
@@ -289,7 +290,7 @@
         
         if (selectedSearchEvent)
         {
-            RoomViewController *roomViewController = segue.destinationViewController;
+            CKRoomViewController *roomViewController = segue.destinationViewController;
 
             [RoomDataSource loadRoomDataSourceWithRoomId:selectedSearchEvent.roomId
                                           initialEventId:selectedSearchEvent.eventId

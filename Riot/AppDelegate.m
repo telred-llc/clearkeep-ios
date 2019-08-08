@@ -1331,7 +1331,12 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                 
                 // Update app icon badge number
                 [self refreshApplicationIconBadgeNumber];
-                
+
+                // Sync all room with cached storage
+                MXSession *mainSession = self.mxSessions.firstObject;
+                if (mainSession) {
+                    [CKRoomCacheManager.shared syncAllRoomsWithMxSession: mainSession];
+                }
             } failure:^(NSError *error) {
                 
                 NSLog(@"[AppDelegate][Push] launchBackgroundSync: the background sync failed. Error: %@ (%@). incomingPushEventIdsCopy: %@ - self.incomingPushEventIds: %@", error.domain, @(error.code), incomingPushEventIdsCopy, incomingPushEventIds);
