@@ -20,7 +20,7 @@ class CKRoomSettingsTopicCell: CKRoomSettingsBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         topicLabel.text = "Topic"
-        topicTextLabel.text = "A SARE Topic Room is an organized collection of mostly SARE-based"
+        topicTextLabel.text = "The channel topic appears in the channel header, and anyone in the channel can modify it."
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
