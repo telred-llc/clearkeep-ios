@@ -26,4 +26,7 @@
 
 @property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *callerImageViewWidthConstraint;
 
+//CK
+- (void)setMxCall:(MXCall *)call;
+
 @end
