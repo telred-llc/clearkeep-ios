@@ -104,7 +104,9 @@ final class CKCallViewController: CallViewController {
         super.call(call, stateDidChange: state, reason: event)
         print("")
         if state == .connected {
-            self.callerImageView.isHidden = true
+            if  call.isVideoCall {
+                self.callerImageView.isHidden = true
+            }
             self.pulseView.isHidden = true
         } else {
             self.callerImageView.isHidden = false
