@@ -614,6 +614,10 @@
 		E54A5AEF21FF0D5E0094461E /* CKContactListSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54A5AEC21FF0D5E0094461E /* CKContactListSearchCell.xib */; };
 		E54A5AF021FF0D5E0094461E /* CKContactListMatrixCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54A5AED21FF0D5E0094461E /* CKContactListMatrixCell.xib */; };
 		E56DF676222945C500D54DBD /* CKCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E56DF675222945C500D54DBD /* CKCallViewController.xib */; };
+		E5705F8D22F93B9600D44B74 /* CKSearchContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5705F8C22F93B9600D44B74 /* CKSearchContactViewController.swift */; };
+		E5705F8E22F93B9600D44B74 /* CKSearchContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5705F8C22F93B9600D44B74 /* CKSearchContactViewController.swift */; };
+		E5705F9022F93C7C00D44B74 /* CKSearchContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5705F8F22F93C7C00D44B74 /* CKSearchContactViewController.xib */; };
+		E5705F9122F93C7C00D44B74 /* CKSearchContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5705F8F22F93C7C00D44B74 /* CKSearchContactViewController.xib */; };
 		E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */; };
 		E5720EDC21ACFA1F0093D99A /* CkMasterTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */; };
 		E5720EDE21ACFB390093D99A /* CkAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */; };
@@ -1960,6 +1964,8 @@
 		E54A5AED21FF0D5E0094461E /* CKContactListMatrixCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKContactListMatrixCell.xib; sourceTree = "<group>"; };
 		E569BCC122154AE4004F71F1 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E56DF675222945C500D54DBD /* CKCallViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKCallViewController.xib; sourceTree = "<group>"; };
+		E5705F8C22F93B9600D44B74 /* CKSearchContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSearchContactViewController.swift; sourceTree = "<group>"; };
+		E5705F8F22F93C7C00D44B74 /* CKSearchContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKSearchContactViewController.xib; sourceTree = "<group>"; };
 		E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAppDelegate.swift; sourceTree = "<group>"; };
 		E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkMasterTabBarController.swift; sourceTree = "<group>"; };
 		E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkAuthenticationViewController.swift; sourceTree = "<group>"; };
@@ -4146,9 +4152,19 @@
 			path = Call;
 			sourceTree = "<group>";
 		};
+		E5705F8B22F93B7500D44B74 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E5705F8C22F93B9600D44B74 /* CKSearchContactViewController.swift */,
+				E5705F8F22F93C7C00D44B74 /* CKSearchContactViewController.xib */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		E5720EDF21ACFB5F0093D99A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E5705F8B22F93B7500D44B74 /* Search */,
 				8511E1462230C7670059ABC0 /* Setting */,
 				E56DF674222945AF00D54DBD /* Call */,
 				85E57515220499690076FFAE /* Favourite */,
@@ -4808,6 +4824,7 @@
 				E5E7DC73229BC7D300AB7CF3 /* RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				E5E7DC74229BC7D300AB7CF3 /* CKAccountEditProfileAvatarCell.xib in Resources */,
 				E5E7DC75229BC7D300AB7CF3 /* TableViewCellWithCollectionView.xib in Resources */,
+				E5705F9122F93C7C00D44B74 /* CKSearchContactViewController.xib in Resources */,
 				E5E7DC76229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				E5E7DC77229BC7D300AB7CF3 /* RoomOutgoingTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				E520C5C722E719BC003101BA /* PasswordStrengthView.xib in Resources */,
@@ -5040,6 +5057,7 @@
 				A000B6EA21F876740002EBB3 /* CKAccountEditProfileAvatarCell.xib in Resources */,
 				B1B5594420EF7BD000210D55 /* TableViewCellWithCollectionView.xib in Resources */,
 				B1B558D520EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
+				E5705F9022F93C7C00D44B74 /* CKSearchContactViewController.xib in Resources */,
 				B1B5590020EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				9C3AC4D722D73B6A00DD179F /* KeyBackupRecoverFromPassphraseViewController.storyboard in Resources */,
 				9C3AC4BE22D73B6A00DD179F /* PasswordStrengthView.xib in Resources */,
@@ -5509,6 +5527,7 @@
 				E5E7DB7D229BC7D300AB7CF3 /* CKOtherProfileActionCell.swift in Sources */,
 				E5E7DB7E229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5E7DB7F229BC7D300AB7CF3 /* WidgetViewController.m in Sources */,
+				E5705F8E22F93B9600D44B74 /* CKSearchContactViewController.swift in Sources */,
 				E5E7DB80229BC7D300AB7CF3 /* MediaPickerViewController.m in Sources */,
 				E520C5CF22E719CA003101BA /* KeyBackupRecoverFromPassphraseCoordinatorType.swift in Sources */,
 				E5E7DB81229BC7D300AB7CF3 /* RageShakeManager.m in Sources */,
@@ -6068,6 +6087,7 @@
 				85E5751B2204C6A30076FFAE /* CKCallViewController.swift in Sources */,
 				B1B5575120EE6C4D00210D55 /* AuthenticationViewController.m in Sources */,
 				9C3AC4D522D73B6A00DD179F /* KeyBackupRecoverFromRecoveryKeyViewController.swift in Sources */,
+				E5705F8D22F93B9600D44B74 /* CKSearchContactViewController.swift in Sources */,
 				B1B5571820EE6C4D00210D55 /* CountryPickerViewController.m in Sources */,
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
 				B1B5575A20EE6C4D00210D55 /* UnifiedSearchViewController.m in Sources */,
@@ -6274,6 +6294,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -6316,6 +6337,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -6344,6 +6366,7 @@
 				PROVISIONING_PROFILE = "6037c68f-d55b-4ef6-97a8-83cb3abe03cf";
 				PROVISIONING_PROFILE_SPECIFIER = "Riot Siri Developer";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -6374,6 +6397,7 @@
 				PROVISIONING_PROFILE = "6037c68f-d55b-4ef6-97a8-83cb3abe03cf";
 				PROVISIONING_PROFILE_SPECIFIER = "CK-Riot Siri Distr";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -6414,6 +6438,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RiotShareExtension/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -6454,6 +6479,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RiotShareExtension/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -6502,7 +6528,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Riot/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -6549,7 +6575,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep Appstore";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Riot/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -6710,7 +6736,7 @@
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -6763,7 +6789,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
