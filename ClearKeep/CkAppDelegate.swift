@@ -226,4 +226,8 @@ import Foundation
             self.showNotificationAlert(self.keyBackupAlert)
         }
     }
+    
+    @objc public func detailToContact(_ contact: MXKContact) {
+        
+    }
 } 

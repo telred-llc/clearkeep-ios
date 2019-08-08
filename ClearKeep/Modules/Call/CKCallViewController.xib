@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,6 +33,7 @@
                 <outlet property="localPreviewContainerViewTopConstraint" destination="VUy-XN-XzH" id="Yvn-O3-0Dm"/>
                 <outlet property="localPreviewContainerViewWidthConstraint" destination="gyu-kv-SLy" id="urn-uo-hnt"/>
                 <outlet property="overlayContainerView" destination="JAR-tn-sGN" id="09u-3G-1UA"/>
+                <outlet property="pulseView" destination="RGy-x9-xql" id="G0a-KF-gE3"/>
                 <outlet property="rejectCallButton" destination="nuB-Jc-MFa" id="Y3k-kg-IgD"/>
                 <outlet property="remotePreviewContainerView" destination="Tjb-57-yB1" id="MaR-IC-ZKw"/>
                 <outlet property="speakerButton" destination="Yq6-d2-Ea2" id="4TU-8w-3FG"/>
@@ -55,6 +56,13 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" identifier="CallVCRejectCallButton"/>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RGy-x9-xql">
+                    <rect key="frame" x="36.5" y="116" width="302" height="302"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="RGy-x9-xql" secondAttribute="height" id="FgF-HM-sF0"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v1I-LH-wvv" customClass="MXKImageView">
                     <rect key="frame" x="37.5" y="117" width="300" height="300"/>
                     <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -365,6 +373,8 @@
                 <constraint firstAttribute="bottom" secondItem="STO-VX-5VW" secondAttribute="bottom" id="DhB-zy-SJA"/>
                 <constraint firstAttribute="trailing" secondItem="JAR-tn-sGN" secondAttribute="trailing" id="IGf-YS-JEj"/>
                 <constraint firstItem="xrI-Qo-z0K" firstAttribute="bottom" secondItem="JAR-tn-sGN" secondAttribute="bottom" constant="20" id="KDu-Kr-vji"/>
+                <constraint firstItem="RGy-x9-xql" firstAttribute="width" secondItem="v1I-LH-wvv" secondAttribute="width" constant="2" id="Nas-Pf-eUf"/>
+                <constraint firstItem="RGy-x9-xql" firstAttribute="centerX" secondItem="v1I-LH-wvv" secondAttribute="centerX" id="OKO-lg-TDC"/>
                 <constraint firstItem="STO-VX-5VW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Tyh-Du-Ztt"/>
                 <constraint firstItem="6gQ-zo-2Zw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="750" constant="420" id="VUy-XN-XzH"/>
                 <constraint firstAttribute="trailing" secondItem="STO-VX-5VW" secondAttribute="trailing" id="X0Q-UU-v3g"/>
@@ -375,6 +385,7 @@
                 <constraint firstItem="6gQ-zo-2Zw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="dq3-4E-bhT"/>
                 <constraint firstItem="STO-VX-5VW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="e4c-aG-jOB"/>
                 <constraint firstItem="Tjb-57-yB1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mW3-RA-hx2"/>
+                <constraint firstItem="RGy-x9-xql" firstAttribute="centerY" secondItem="v1I-LH-wvv" secondAttribute="centerY" id="nNs-jQ-YSv"/>
                 <constraint firstItem="JAR-tn-sGN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pei-Ab-VHX"/>
                 <constraint firstAttribute="trailing" secondItem="Tjb-57-yB1" secondAttribute="trailing" id="rXn-dm-69F"/>
             </constraints>
