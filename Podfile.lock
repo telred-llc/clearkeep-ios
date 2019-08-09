@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - Cache (5.2.0)
   - cmark (0.24.1)
   - DTCoreText (1.6.22):
     - DTCoreText/Core (= 1.6.22)
@@ -37,7 +38,7 @@ PODS:
     - DTFoundation/Core
   - DTFoundation/UIKit (1.7.13):
     - DTFoundation/Core
-  - FloatingPanel (1.6.2)
+  - FloatingPanel (1.6.3)
   - GBDeviceInfo (5.2.0):
     - GBDeviceInfo/Core (= 5.2.0)
   - GBDeviceInfo/Core (5.2.0)
@@ -47,25 +48,26 @@ PODS:
   - JitsiMeetSDK (2.1.0)
   - libbase58 (0.1.4)
   - libPhoneNumber-iOS (0.9.15)
-  - MatrixKit/AppExtension (0.9.9):
+  - MatrixKit/AppExtension (0.10.1):
     - cmark (~> 0.24.1)
     - DTCoreText (~> 1.6.21)
     - DTCoreText/Extension
     - HPGrowingTextView (~> 1.1)
     - libPhoneNumber-iOS (~> 0.9.13)
-    - MatrixSDK (= 0.12.5)
-  - MatrixSDK (0.12.5):
-    - MatrixSDK/Core (= 0.12.5)
-  - MatrixSDK/Core (0.12.5):
+    - MatrixSDK (= 0.13.0)
+    - SwiftUTI (~> 1.0.6)
+  - MatrixSDK (0.13.0):
+    - MatrixSDK/Core (= 0.13.0)
+  - MatrixSDK/Core (0.13.0):
     - AFNetworking (~> 3.2.0)
     - GZIP (~> 1.2.2)
     - libbase58 (~> 0.1.4)
     - OLMKit (~> 3.1.0)
     - Realm (~> 3.13.1)
-  - MatrixSDK/JingleCallStack (0.12.5):
+  - MatrixSDK/JingleCallStack (0.13.0):
     - JitsiMeetSDK (~> 2.1.0)
     - MatrixSDK/Core
-  - MatrixSDK/SwiftSupport (0.12.5):
+  - MatrixSDK/SwiftSupport (0.13.0):
     - MatrixSDK/Core
   - OLMKit (3.1.0):
     - OLMKit/olmc (= 3.1.0)
@@ -102,6 +104,7 @@ PODS:
   - SwiftGen (6.1.0)
   - SwiftImagePicker (0.7.6)
   - SwiftLint (0.33.1)
+  - SwiftUTI (1.0.6)
   - XLActionController (4.0.1):
     - XLActionController/Core (= 4.0.1)
   - XLActionController/Core (4.0.1)
@@ -110,6 +113,7 @@ PODS:
   - zxcvbn-ios (1.0.4)
 
 DEPENDENCIES:
+  - Cache
   - cmark
   - DTCoreText
   - FloatingPanel
@@ -134,6 +138,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - Cache
     - cmark
     - DTCoreText
     - DTFoundation
@@ -156,6 +161,7 @@ SPEC REPOS:
     - RxTheme
     - SwiftGen
     - SwiftLint
+    - SwiftUTI
     - XLActionController
     - zxcvbn-ios
 
@@ -171,7 +177,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MatrixKit:
-    :commit: 0e37e82f5dfe734fbf0e5bfef79df0ef5a5fbbb8
+    :commit: 3383a79dd717ab3f5a082e1e6d703a9680161602
     :git: https://github.com/sinbadflyce/matrix-ios-kit.git
   PiwikTracker:
     :commit: dfb048f25f4eefbe13ff7515c3c1c2cad5d94491
@@ -182,10 +188,11 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   cmark: 1d9ad0375e3b9fa281732e992467903606015520
   DTCoreText: ad5135357a0e792f735970ed67d3ecda8b602d3d
   DTFoundation: f03be9fd786f11e505bb8fc44e2a3732bf0917df
-  FloatingPanel: 87207ad540c8188621791349c66fe41f35ec3602
+  FloatingPanel: a318d2f98eeb44e09c336d920f0eabc7c7b1579d
   GBDeviceInfo: 2c65ceb9404f9079264d4c238f5b81916fdfc5e2
   GZIP: af5c90ef903776a7e9afe6ebebd794a84a2929d4
   HPGrowingTextView: 88a716d97fb853bcb08a4a08e4727da17efc9b19
@@ -193,8 +200,8 @@ SPEC CHECKSUMS:
   JitsiMeetSDK: 3e66564af7f38a19142338955dd7f581801852b3
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
-  MatrixKit: 6f553797e1ad42794b5336afb5cecb975ec69daa
-  MatrixSDK: ed0d0cee4877955052f19730bb3ee727e01ec948
+  MatrixKit: 4fe7cc40c63181f422330e41ab849c83cd25de5e
+  MatrixSDK: 6886e7234c650408db5876b44a7f7608c865ce30
   OLMKit: 4ee0159d63feeb86d836fdcfefe418e163511639
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   PiwikTracker: 42862c7b13028065c3dfd36b4dc38db8a5765acf
@@ -205,11 +212,12 @@ SPEC CHECKSUMS:
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   RxTheme: 40fdcdeba539402beface070d8472e8d0db78d66
   SwiftGen: f872ca75cbd17bf7103c17f13dcfa0d9a15667b0
-  SwiftImagePicker: a39e3882155e7c5788c33c830dd4cc922b5c144c
+  SwiftImagePicker: dc859f1dfefa00d52a96666f58aff7fbe6a90a2c
   SwiftLint: 9fc1143bbacec37f94994a7d0d2a85b2154b6294
+  SwiftUTI: e83d65dbe9fba0a0ff7cc9031cd30b2d82acebef
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: 0ba22945142fa40d8c2321851b6ac36e812dc403
+PODFILE CHECKSUM: 5c3a0e5592abc911d9ce1ff712e4675f13bc3256
 
-COCOAPODS: 1.7.0.beta.1
+COCOAPODS: 1.7.3

@@ -94,6 +94,9 @@ abstract_target 'RiotPods' do
     pod 'SwiftGen', '~> 6.1'
     pod 'SwiftLint', '~> 0.33.0'
 
+    # Cache
+    pod 'Cache'
+
     target "Riot" do
         import_MatrixKit
     end

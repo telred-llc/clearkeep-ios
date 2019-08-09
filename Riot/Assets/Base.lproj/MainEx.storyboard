@@ -80,7 +80,7 @@
         <!--Room Context Timeline-->
         <scene sceneID="Htr-h8-baq">
             <objects>
-                <viewController title="Room Context Timeline" hidesBottomBarWhenPushed="YES" id="Too-LV-OLW" customClass="RoomViewController" sceneMemberID="viewController">
+                <viewController title="Room Context Timeline" hidesBottomBarWhenPushed="YES" id="Too-LV-OLW" customClass="CKRoomViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yLe-Hk-Sol">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="djN-zB-Vni" userLabel="Room title view container">
@@ -454,7 +454,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="6LG-qc-7jf">
-                                <rect key="frame" x="130.5" y="292.5" width="114" height="82"/>
+                                <rect key="frame" x="179.5" y="325.5" width="16" height="16"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -643,8 +643,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="mhb-l9-pM3"/>
         <segue reference="fIR-e3-ssz"/>
-        <segue reference="f5u-Y1-7nt"/>
-        <segue reference="HSg-jN-pbo"/>
-        <segue reference="cUw-vU-gJq"/>
+        <segue reference="ziz-Xl-QVg"/>
+        <segue reference="mFs-HA-7Oo"/>
+        <segue reference="fNQ-S3-DbZ"/>
     </inferredMetricsTieBreakers>
 </document>

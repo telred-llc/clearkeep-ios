@@ -42,10 +42,10 @@
     UnifiedSearchRecentsDataSource *recentsDataSource;
 
     HomeMessagesSearchViewController *messagesSearchViewController;
-    HomeMessagesSearchDataSource *messagesSearchDataSource;
+    CKHomeMessagesSearchDataSource *messagesSearchDataSource;
     
     HomeFilesSearchViewController *filesSearchViewController;
-    MXKSearchDataSource *filesSearchDataSource;
+    CKHomeFilesSearchDataSource *filesSearchDataSource;
     
     CKSearchContactViewController *peopleSearchViewController;
     ContactsDataSource *peopleSearchDataSource;
@@ -210,14 +210,14 @@
         [recentsViewController displayList:recentsDataSource];
         
         // Init the search for messages
-        messagesSearchDataSource = [[HomeMessagesSearchDataSource alloc] initWithMatrixSession:mainSession];
+        messagesSearchDataSource = [[CKHomeMessagesSearchDataSource alloc] initWithMatrixSession:mainSession];
         [messagesSearchViewController displaySearch:messagesSearchDataSource];
         
         // Init the search for messages
-        filesSearchDataSource = [[MXKSearchDataSource alloc] initWithMatrixSession:mainSession];
+        filesSearchDataSource = [[CKHomeFilesSearchDataSource alloc] initWithMatrixSession:mainSession];
         filesSearchDataSource.roomEventFilter.containsURL = YES;
         filesSearchDataSource.shouldShowRoomDisplayName = YES;
-        [filesSearchDataSource registerCellDataClass:FilesSearchCellData.class forCellIdentifier:kMXKSearchCellDataIdentifier];
+        [filesSearchDataSource registerCellDataClass:CKFilesSearchCellData.class forCellIdentifier:kMXKSearchCellDataIdentifier];
         [filesSearchViewController displaySearch:filesSearchDataSource];
         
         // Init the search for people
