@@ -153,12 +153,14 @@ import Foundation
                     return messageBody
                 }
             case .media:
-                if msgtype == kMXMessageTypeFile ||
-                    msgtype == kMXMessageTypeAudio ||
-                    msgtype == kMXMessageTypeVideo ||
-                    msgtype == kMXMessageTypeImage {
-                    let messageBody = eventContent["body"] as? String
-                    return messageBody
+                if event.isMediaAttachment() {
+                    if msgtype == kMXMessageTypeFile ||
+                        msgtype == kMXMessageTypeAudio ||
+                        msgtype == kMXMessageTypeVideo ||
+                        msgtype == kMXMessageTypeImage {
+                        let messageBody = eventContent["body"] as? String
+                        return messageBody
+                    }
                 }
             }
         }
@@ -174,7 +176,8 @@ import Foundation
             guard let roomId = room.roomId else { return }
 
             if let cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) {
-                cachedRoom.messages.forEach { (message) in
+                let messages = cachedRoom.messages.compactMap{ $0.copy() as? CKStoredMessage }
+                messages.forEach { (message) in
                     if let event = self.mxSession.store.event(withEventId: message.eventId, inRoom: message.roomId) {
 
                         // Check eventType

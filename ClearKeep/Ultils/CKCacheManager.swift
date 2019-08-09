@@ -9,12 +9,22 @@
 import Foundation
 import Cache
 
-struct CKStoredRoom: Codable {
+class CKStoredRoom: Codable, NSCopying {
     var id: String
     var messages: [CKStoredMessage]
+
+    init(id: String, messages: [CKStoredMessage]) {
+        self.id = id
+        self.messages = messages
+    }
+
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = CKStoredRoom.init(id: id, messages: messages)
+        return copy
+    }
 }
 
-struct CKStoredMessage: Codable {
+class CKStoredMessage: Codable, NSCopying {
     var eventId: String
     var roomId: String
     var senderId: String
@@ -41,7 +51,12 @@ struct CKStoredMessage: Codable {
         self.isEncrypted = isEncrypted
     }
 
-    init(from decoder: Decoder) throws
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = CKStoredMessage.init(eventId: eventId, roomId: roomId, senderId: senderId, eventType: eventType, content: content, isEncrypted: isEncrypted)
+        return copy
+    }
+
+    required init(from decoder: Decoder) throws
     {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         eventId = try values.decode(String.self, forKey: .eventId)
@@ -92,12 +107,12 @@ public class CKRoomCacheManager: NSObject {
      Do cache a message in room.
      */
     func doCacheMessage(_ message: CKStoredMessage, roomId: String) {
-        var storedRoom = getStoredRoom(roomId: roomId) ?? CKStoredRoom.init(id: roomId, messages: [])
-        if let index = storedRoom.messages.firstIndex(where: { $0.eventId == message.eventId }) {
-            storedRoom.messages[index] = message
-        } else {
+        let storedRoom = getStoredRoom(roomId: roomId) ?? CKStoredRoom.init(id: roomId, messages: [])
+
+        if !storedRoom.messages.contains(where: { $0.eventId == message.eventId }) {
             storedRoom.messages.append(message)
         }
+
         try? storage.setObject(storedRoom, forKey: roomId)
     }
 
@@ -211,7 +226,7 @@ private extension CKRoomCacheManager {
      Do cache events list.
      */
     func doCache(events: [MXEvent], roomId: String) {
-        var cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) ?? CKStoredRoom.init(id: roomId, messages: [])
+        let cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) ?? CKStoredRoom.init(id: roomId, messages: [])
         events.forEach({ (event) in
             var content = ""
             if let contentData = try?  JSONSerialization.data(withJSONObject: event.content, options: .prettyPrinted) {
@@ -219,9 +234,7 @@ private extension CKRoomCacheManager {
             }
 
             let message = CKStoredMessage.init(eventId: event.eventId, roomId: event.roomId, senderId: event.sender, eventType: event.eventType, content: content, isEncrypted: event.isEncrypted)
-            if let index = cachedRoom.messages.firstIndex(where: { $0.eventId == message.eventId }) {
-                cachedRoom.messages[index] = message
-            } else {
+            if !cachedRoom.messages.contains(where: { $0.eventId == message.eventId }) {
                 cachedRoom.messages.append(message)
             }
         })

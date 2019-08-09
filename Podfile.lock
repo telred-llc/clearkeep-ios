@@ -177,7 +177,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MatrixKit:
-    :commit: 250e55362f053fe067dca3d88776ea73c8c63d72
+    :commit: 3383a79dd717ab3f5a082e1e6d703a9680161602
     :git: https://github.com/sinbadflyce/matrix-ios-kit.git
   PiwikTracker:
     :commit: dfb048f25f4eefbe13ff7515c3c1c2cad5d94491
@@ -200,7 +200,7 @@ SPEC CHECKSUMS:
   JitsiMeetSDK: 3e66564af7f38a19142338955dd7f581801852b3
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
-  MatrixKit: dd89ffced417b491108acb6473c8940a7a835e5f
+  MatrixKit: 4fe7cc40c63181f422330e41ab849c83cd25de5e
   MatrixSDK: 6886e7234c650408db5876b44a7f7608c865ce30
   OLMKit: 4ee0159d63feeb86d836fdcfefe418e163511639
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
