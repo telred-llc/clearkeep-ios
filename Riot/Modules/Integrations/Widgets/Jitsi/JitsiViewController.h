@@ -16,8 +16,6 @@
 
 #import <MatrixKit/MatrixKit.h>
 
-#import <JitsiMeet/JitsiMeet.h>
-
 #import "WidgetManager.h"
 
 @protocol JitsiViewControllerDelegate;
@@ -32,6 +30,7 @@
 
 /**
  Returns the `UINib` object initialized for a `JitsiViewController`.
+
  @return The initialized `UINib` object or `nil` if there were errors during initialization
  or the nib file could not be located.
  */
@@ -39,7 +38,9 @@
 
 /**
  Creates and returns a new `JitsiViewController` object.
+
  @discussion This is the designated initializer for programmatic instantiation.
+
  @return An initialized `JitsiViewController` object if successful, `nil` otherwise.
  */
 + (instancetype)jitsiViewController;
@@ -49,6 +50,7 @@
  
  @param widget the jitsi widget.
  @param video to indicate voice or video call.
+
  @param success A block object called when the operation succeeds.
  @param failure A block object called when the operation fails.
  */
@@ -81,6 +83,7 @@
 
 /**
  Tells the delegate to dismiss the jitsi view controller.
+
  @param jitsiViewController the jitsi view controller.
  @param completion the block to execute at the end of the operation.
  */
@@ -88,6 +91,7 @@
 
 /**
  Tells the delegate to put the jitsi view controller in background.
+
  @param jitsiViewController the jitsi view controller.
  @param completion the block to execute at the end of the operation.
  */

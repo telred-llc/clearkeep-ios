@@ -1,5 +1,6 @@
 /*
  Copyright 2017 Vector Creations Ltd
+ Copyright 2019 New Vector Ltd
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,6 +18,9 @@
 #import "IntegrationManagerViewController.h"
 
 #import "WidgetManager.h"
+
+#import "AppDelegate.h"
+#import "Riot-Swift.h"
 
 NSString *const kIntegrationManagerMainScreen = nil;
 NSString *const kIntegrationManagerAddIntegrationScreen = @"add_integ";
@@ -73,7 +77,7 @@ NSString *const kIntegrationManagerAddIntegrationScreen = @"add_integ";
 
         // Make sure we have a scalar token
         MXWeakify(self);
-        operation = [[WidgetManager sharedManager] getScalarTokenForMXSession:mxSession success:^(NSString *theScalarToken) {
+        operation = [[WidgetManager sharedManager] getScalarTokenForMXSession:mxSession validate:YES  success:^(NSString *theScalarToken) {
             MXStrongifyAndReturnIfNil(self);
 
             self->operation = nil;
@@ -85,8 +89,14 @@ NSString *const kIntegrationManagerAddIntegrationScreen = @"add_integ";
         } failure:^(NSError *error) {
             MXStrongifyAndReturnIfNil(self);
 
+            NSLog(@"[IntegraionManagerVS] Cannot open due to missing scalar token. Error: %@", error);
+
             self->operation = nil;
             [self stopActivityIndicator];
+
+            [self withdrawViewControllerAnimated:YES completion:^{
+                [[AppDelegate theDelegate] showErrorAsAlert:error];
+            }];
         }];
     }
 }
@@ -100,24 +110,26 @@ NSString *const kIntegrationManagerAddIntegrationScreen = @"add_integ";
 {
     NSMutableString *url;
 
+    NSString *integrationsUiUrl = [[WidgetManager sharedManager] configForUser:mxSession.myUser.userId].uiUrl;
+
     if (scalarToken)
     {
         url = [NSMutableString stringWithFormat:@"%@?scalar_token=%@&room_id=%@",
-               [[NSUserDefaults standardUserDefaults] objectForKey:@"integrationsUiUrl"],
-               [scalarToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-               [roomId stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+               integrationsUiUrl,
+               [MXTools encodeURIComponent:scalarToken],
+               [MXTools encodeURIComponent:roomId]
                ];
 
         if (screen)
         {
             [url appendString:@"&screen="];
-            [url appendString:[screen stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            [url appendString:[MXTools encodeURIComponent:screen]];
         }
 
         if (widgetId)
         {
             [url appendString:@"&integ_id="];
-            [url appendString:[widgetId stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            [url appendString:[MXTools encodeURIComponent:widgetId]];
         }
     }
     

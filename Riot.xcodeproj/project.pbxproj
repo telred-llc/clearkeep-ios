@@ -295,12 +295,6 @@
 		B1B5575A20EE6C4D00210D55 /* UnifiedSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5571120EE6C4C00210D55 /* UnifiedSearchViewController.m */; };
 		B1B5575B20EE6C4D00210D55 /* HomeFilesSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5571420EE6C4C00210D55 /* HomeFilesSearchViewController.m */; };
 		B1B5575C20EE6C4D00210D55 /* DirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5571620EE6C4C00210D55 /* DirectoryViewController.m */; };
-		B1B5576F20EE702800210D55 /* IntegrationManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576020EE702800210D55 /* IntegrationManagerViewController.m */; };
-		B1B5577020EE702800210D55 /* WidgetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576220EE702800210D55 /* WidgetPickerViewController.m */; };
-		B1B5577120EE702800210D55 /* StickerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576820EE702800210D55 /* StickerPickerViewController.m */; };
-		B1B5577220EE702800210D55 /* JitsiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5576B20EE702800210D55 /* JitsiViewController.xib */; };
-		B1B5577320EE702800210D55 /* JitsiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576C20EE702800210D55 /* JitsiViewController.m */; };
-		B1B5577420EE702900210D55 /* WidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576D20EE702800210D55 /* WidgetViewController.m */; };
 		B1B5577D20EE84BF00210D55 /* CircleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5577B20EE84BE00210D55 /* CircleButton.m */; };
 		B1B5577E20EE84BF00210D55 /* IncomingCallView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5577C20EE84BF00210D55 /* IncomingCallView.m */; };
 		B1B5578520EF564900210D55 /* GroupTableViewCellWithSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5578320EF564900210D55 /* GroupTableViewCellWithSwitch.xib */; };
@@ -463,8 +457,6 @@
 		B1B5597620EFB02A00210D55 /* InviteRecentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5597320EFB02900210D55 /* InviteRecentTableViewCell.xib */; };
 		B1B5598520EFC3E000210D55 /* RageShakeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5597E20EFC3DF00210D55 /* RageShakeManager.m */; };
 		B1B5598620EFC3E000210D55 /* RiotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B5597F20EFC3DF00210D55 /* RiotSettings.swift */; };
-		B1B5598720EFC3E000210D55 /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598320EFC3DF00210D55 /* Widget.m */; };
-		B1B5598820EFC3E000210D55 /* WidgetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598420EFC3DF00210D55 /* WidgetManager.m */; };
 		B1B5599220EFC5E400210D55 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598C20EFC5E400210D55 /* Analytics.m */; };
 		B1B5599320EFC5E400210D55 /* DecryptionFailure.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598D20EFC5E400210D55 /* DecryptionFailure.m */; };
 		B1B5599420EFC5E400210D55 /* DecryptionFailureTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5599120EFC5E400210D55 /* DecryptionFailureTracker.m */; };
@@ -640,6 +632,26 @@
 		E5774823222690CA0047D9AC /* CKRoomInvitationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5774822222690CA0047D9AC /* CKRoomInvitationController.swift */; };
 		E57814FC21A7B6A8001BF40D /* MainEx.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57814FA21A7B6A8001BF40D /* MainEx.storyboard */; };
 		E57814FE21A7B773001BF40D /* CkSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57814FD21A7B773001BF40D /* CkSplitViewController.swift */; };
+		E579FDB722FD21EA00B26814 /* WidgetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDB222FD21E900B26814 /* WidgetManager.m */; };
+		E579FDB822FD21EA00B26814 /* WidgetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDB222FD21E900B26814 /* WidgetManager.m */; };
+		E579FDB922FD21EA00B26814 /* WidgetManagerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E579FDB322FD21E900B26814 /* WidgetManagerConfig.swift */; };
+		E579FDBA22FD21EA00B26814 /* WidgetManagerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E579FDB322FD21E900B26814 /* WidgetManagerConfig.swift */; };
+		E579FDBB22FD21EA00B26814 /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDB422FD21E900B26814 /* Widget.m */; };
+		E579FDBC22FD21EA00B26814 /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDB422FD21E900B26814 /* Widget.m */; };
+		E579FDCE22FD22F900B26814 /* IntegrationManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDBF22FD22F800B26814 /* IntegrationManagerViewController.m */; };
+		E579FDCF22FD22F900B26814 /* IntegrationManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDBF22FD22F800B26814 /* IntegrationManagerViewController.m */; };
+		E579FDD022FD22F900B26814 /* WidgetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDC222FD22F800B26814 /* WidgetPickerViewController.m */; };
+		E579FDD122FD22F900B26814 /* WidgetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDC222FD22F800B26814 /* WidgetPickerViewController.m */; };
+		E579FDD222FD22F900B26814 /* JitsiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E579FDC522FD22F800B26814 /* JitsiService.swift */; };
+		E579FDD322FD22F900B26814 /* JitsiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E579FDC522FD22F800B26814 /* JitsiService.swift */; };
+		E579FDD422FD22F900B26814 /* JitsiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDC722FD22F800B26814 /* JitsiViewController.m */; };
+		E579FDD522FD22F900B26814 /* JitsiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDC722FD22F800B26814 /* JitsiViewController.m */; };
+		E579FDD622FD22F900B26814 /* JitsiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E579FDC822FD22F800B26814 /* JitsiViewController.xib */; };
+		E579FDD722FD22F900B26814 /* JitsiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E579FDC822FD22F800B26814 /* JitsiViewController.xib */; };
+		E579FDD822FD22F900B26814 /* StickerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDCB22FD22F800B26814 /* StickerPickerViewController.m */; };
+		E579FDD922FD22F900B26814 /* StickerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDCB22FD22F800B26814 /* StickerPickerViewController.m */; };
+		E579FDDA22FD22F900B26814 /* WidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDCD22FD22F800B26814 /* WidgetViewController.m */; };
+		E579FDDB22FD22F900B26814 /* WidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDCD22FD22F800B26814 /* WidgetViewController.m */; };
 		E5ABA73221E6FA7B005EFE0C /* ClearKeep.strings in Resources */ = {isa = PBXBuildFile; fileRef = E5ABA73021E6FA7B005EFE0C /* ClearKeep.strings */; };
 		E5ABA73621E6FD49005EFE0C /* CKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABA73521E6FD49005EFE0C /* CKLocalization.swift */; };
 		E5ABA74A21E73CBC005EFE0C /* CKRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABA73821E73CBC005EFE0C /* CKRoomViewController.swift */; };
@@ -692,7 +704,6 @@
 		E5E27FE121F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E27FDF21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib */; };
 		E5E27FE421F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E27FE221F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift */; };
 		E5E27FE521F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E27FE321F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib */; };
-		E5E7DB33229677D300AB7CF3 /* JitsiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7DB32229677D300AB7CF3 /* JitsiService.swift */; };
 		E5E7DB3B229BC7D300AB7CF3 /* CkSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57814FD21A7B773001BF40D /* CkSplitViewController.swift */; };
 		E5E7DB3C229BC7D300AB7CF3 /* MediaAlbumTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B557CE20EF5E3500210D55 /* MediaAlbumTableCell.m */; };
 		E5E7DB3D229BC7D300AB7CF3 /* RiotDesignValues.m in Sources */ = {isa = PBXBuildFile; fileRef = B16932AB20F3A7B000746532 /* RiotDesignValues.m */; };
@@ -712,7 +723,6 @@
 		E5E7DB4B229BC7D300AB7CF3 /* RoomAvatarTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5580F20EF625700210D55 /* RoomAvatarTitleView.m */; };
 		E5E7DB4C229BC7D300AB7CF3 /* ContactsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = B169330620F3CA0D00746532 /* ContactsDataSource.m */; };
 		E5E7DB4D229BC7D300AB7CF3 /* MediaAlbumContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556F020EE6C4C00210D55 /* MediaAlbumContentViewController.m */; };
-		E5E7DB4E229BC7D300AB7CF3 /* WidgetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598420EFC3DF00210D55 /* WidgetManager.m */; };
 		E5E7DB4F229BC7D300AB7CF3 /* RoomSearchDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = B16932AF20F3AC9200746532 /* RoomSearchDataSource.m */; };
 		E5E7DB50229BC7D300AB7CF3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B169329F20F3A21B00746532 /* main.m */; };
 		E5E7DB51229BC7D300AB7CF3 /* StartChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556E220EE6C4C00210D55 /* StartChatViewController.m */; };
@@ -722,15 +732,12 @@
 		E5E7DB55229BC7D300AB7CF3 /* PeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556E820EE6C4C00210D55 /* PeopleViewController.m */; };
 		E5E7DB56229BC7D300AB7CF3 /* CkHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABD65921D616520017D93E /* CkHomeViewController.swift */; };
 		E5E7DB57229BC7D300AB7CF3 /* CKAccountProfileAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0043FB721F8489F0051AAE1 /* CKAccountProfileAvatarCell.swift */; };
-		E5E7DB58229BC7D300AB7CF3 /* JitsiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7DB32229677D300AB7CF3 /* JitsiService.swift */; };
-		E5E7DB59229BC7D300AB7CF3 /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598320EFC3DF00210D55 /* Widget.m */; };
 		E5E7DB5A229BC7D300AB7CF3 /* MessagesSearchResultAttachmentBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B557E020EF60B900210D55 /* MessagesSearchResultAttachmentBubbleCell.m */; };
 		E5E7DB5B229BC7D300AB7CF3 /* CkAuthIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B35FE421D1DC17000C12C7 /* CkAuthIndicatorViewController.swift */; };
 		E5E7DB5C229BC7D300AB7CF3 /* CKAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853E996A21E4A73600D005F4 /* CKAppTheme.swift */; };
 		E5E7DB5D229BC7D300AB7CF3 /* CallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556DF20EE6C4C00210D55 /* CallViewController.m */; };
 		E5E7DB5E229BC7D300AB7CF3 /* CKContactListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54A5ADC21FEE78C0094461E /* CKContactListViewController.swift */; };
 		E5E7DB5F229BC7D300AB7CF3 /* RoomSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5569220EE6C4C00210D55 /* RoomSettingsViewController.m */; };
-		E5E7DB60229BC7D300AB7CF3 /* JitsiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576C20EE702800210D55 /* JitsiViewController.m */; };
 		E5E7DB61229BC7D300AB7CF3 /* PublicRoomsDirectoryDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = B169331220F3CAFC00746532 /* PublicRoomsDirectoryDataSource.m */; };
 		E5E7DB62229BC7D300AB7CF3 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABD65621D1C98C0017D93E /* MulticastDelegate.swift */; };
 		E5E7DB63229BC7D300AB7CF3 /* RoomIncomingAttachmentWithPaginationTitleBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5588720EF768E00210D55 /* RoomIncomingAttachmentWithPaginationTitleBubbleCell.m */; };
@@ -760,7 +767,6 @@
 		E5E7DB7C229BC7D300AB7CF3 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598C20EFC5E400210D55 /* Analytics.m */; };
 		E5E7DB7D229BC7D300AB7CF3 /* CKOtherProfileActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01DCDE321FEC0780069CA4A /* CKOtherProfileActionCell.swift */; };
 		E5E7DB7E229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5585020EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m */; };
-		E5E7DB7F229BC7D300AB7CF3 /* WidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576D20EE702800210D55 /* WidgetViewController.m */; };
 		E5E7DB80229BC7D300AB7CF3 /* MediaPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556EF20EE6C4C00210D55 /* MediaPickerViewController.m */; };
 		E5E7DB81229BC7D300AB7CF3 /* RageShakeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5597E20EFC3DF00210D55 /* RageShakeManager.m */; };
 		E5E7DB82229BC7D300AB7CF3 /* CKRoomSettingsMoreActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5233120221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift */; };
@@ -880,7 +886,6 @@
 		E5E7DBF4229BC7D300AB7CF3 /* CKRoomFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6917A3162248B04F001F2D9D /* CKRoomFilesViewController.swift */; };
 		E5E7DBF5229BC7D300AB7CF3 /* RecentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556D920EE6C4C00210D55 /* RecentsViewController.m */; };
 		E5E7DBF6229BC7D300AB7CF3 /* RoomPredecessorBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D250D72118AA0A000F4E93 /* RoomPredecessorBubbleCell.m */; };
-		E5E7DBF7229BC7D300AB7CF3 /* StickerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576820EE702800210D55 /* StickerPickerViewController.m */; };
 		E5E7DBF8229BC7D300AB7CF3 /* DesignableUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D996B321CB417E00AD8135 /* DesignableUI.swift */; };
 		E5E7DBF9229BC7D300AB7CF3 /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5568C20EE6C4C00210D55 /* ContactsTableViewController.m */; };
 		E5E7DBFA229BC7D300AB7CF3 /* RoomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5580820EF625600210D55 /* RoomTitleView.m */; };
@@ -948,9 +953,7 @@
 		E5E7DC38229BC7D300AB7CF3 /* DirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5571620EE6C4C00210D55 /* DirectoryViewController.m */; };
 		E5E7DC39229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5584620EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m */; };
 		E5E7DC3A229BC7D300AB7CF3 /* CkAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */; };
-		E5E7DC3B229BC7D300AB7CF3 /* WidgetPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576220EE702800210D55 /* WidgetPickerViewController.m */; };
 		E5E7DC3C229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5586620EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m */; };
-		E5E7DC3D229BC7D300AB7CF3 /* IntegrationManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5576020EE702800210D55 /* IntegrationManagerViewController.m */; };
 		E5E7DC3E229BC7D300AB7CF3 /* CKSignoutButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853CBDEE2232788000404DBC /* CKSignoutButtonTableViewCell.swift */; };
 		E5E7DC3F229BC7D300AB7CF3 /* DeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B557AA20EF5A6C00210D55 /* DeviceView.m */; };
 		E5E7DC40229BC7D300AB7CF3 /* CKRoomDirectCreatingSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E27FE221F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift */; };
@@ -1135,7 +1138,6 @@
 		E5E7DCF9229BC7D300AB7CF3 /* CKSettingButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8542618522316D9200F24395 /* CKSettingButtonCell.xib */; };
 		E5E7DCFA229BC7D300AB7CF3 /* RoomParticipantsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B556AB20EE6C4C00210D55 /* RoomParticipantsViewController.xib */; };
 		E5E7DCFB229BC7D300AB7CF3 /* CkForgotPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5C0B9A521CA717F00910D8B /* CkForgotPasswordViewController.xib */; };
-		E5E7DCFC229BC7D300AB7CF3 /* JitsiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5576B20EE702800210D55 /* JitsiViewController.xib */; };
 		E5E7DCFD229BC7D300AB7CF3 /* CKRoomSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5ABA73B21E73CBC005EFE0C /* CKRoomSettingsViewController.xib */; };
 		E5E7DCFE229BC7D300AB7CF3 /* RoomActivitiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B557D520EF5EA900210D55 /* RoomActivitiesView.xib */; };
 		E5E7DCFF229BC7D300AB7CF3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F083BBEF1E7009EC00A9B29C /* Images.xcassets */; };
@@ -1636,17 +1638,6 @@
 		B1B5571420EE6C4C00210D55 /* HomeFilesSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeFilesSearchViewController.m; sourceTree = "<group>"; };
 		B1B5571620EE6C4C00210D55 /* DirectoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectoryViewController.m; sourceTree = "<group>"; };
 		B1B5571720EE6C4C00210D55 /* DirectoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryViewController.h; sourceTree = "<group>"; };
-		B1B5576020EE702800210D55 /* IntegrationManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationManagerViewController.m; sourceTree = "<group>"; };
-		B1B5576220EE702800210D55 /* WidgetPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetPickerViewController.m; sourceTree = "<group>"; };
-		B1B5576320EE702800210D55 /* WidgetPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetPickerViewController.h; sourceTree = "<group>"; };
-		B1B5576420EE702800210D55 /* IntegrationManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegrationManagerViewController.h; sourceTree = "<group>"; };
-		B1B5576720EE702800210D55 /* StickerPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerPickerViewController.h; sourceTree = "<group>"; };
-		B1B5576820EE702800210D55 /* StickerPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickerPickerViewController.m; sourceTree = "<group>"; };
-		B1B5576A20EE702800210D55 /* JitsiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JitsiViewController.h; sourceTree = "<group>"; };
-		B1B5576B20EE702800210D55 /* JitsiViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JitsiViewController.xib; sourceTree = "<group>"; };
-		B1B5576C20EE702800210D55 /* JitsiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JitsiViewController.m; sourceTree = "<group>"; };
-		B1B5576D20EE702800210D55 /* WidgetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetViewController.m; sourceTree = "<group>"; };
-		B1B5576E20EE702800210D55 /* WidgetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetViewController.h; sourceTree = "<group>"; };
 		B1B5577920EE84BC00210D55 /* CircleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleButton.h; sourceTree = "<group>"; };
 		B1B5577A20EE84BD00210D55 /* IncomingCallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomingCallView.h; sourceTree = "<group>"; };
 		B1B5577B20EE84BE00210D55 /* CircleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleButton.m; sourceTree = "<group>"; };
@@ -1891,10 +1882,6 @@
 		B1B5597D20EFC3DF00210D55 /* RageShakeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RageShakeManager.h; sourceTree = "<group>"; };
 		B1B5597E20EFC3DF00210D55 /* RageShakeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RageShakeManager.m; sourceTree = "<group>"; };
 		B1B5597F20EFC3DF00210D55 /* RiotSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiotSettings.swift; sourceTree = "<group>"; };
-		B1B5598120EFC3DF00210D55 /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
-		B1B5598220EFC3DF00210D55 /* WidgetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetManager.h; sourceTree = "<group>"; };
-		B1B5598320EFC3DF00210D55 /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
-		B1B5598420EFC3DF00210D55 /* WidgetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetManager.m; sourceTree = "<group>"; };
 		B1B5598C20EFC5E400210D55 /* Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
 		B1B5598D20EFC5E400210D55 /* DecryptionFailure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecryptionFailure.m; sourceTree = "<group>"; };
 		B1B5598E20EFC5E400210D55 /* DecryptionFailureTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecryptionFailureTracker.h; sourceTree = "<group>"; };
@@ -1988,6 +1975,23 @@
 		E5774822222690CA0047D9AC /* CKRoomInvitationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomInvitationController.swift; sourceTree = "<group>"; };
 		E57814FB21A7B6A8001BF40D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Riot/Assets/Base.lproj/MainEx.storyboard; sourceTree = SOURCE_ROOT; };
 		E57814FD21A7B773001BF40D /* CkSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CkSplitViewController.swift; sourceTree = "<group>"; };
+		E579FDB222FD21E900B26814 /* WidgetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetManager.m; sourceTree = "<group>"; };
+		E579FDB322FD21E900B26814 /* WidgetManagerConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetManagerConfig.swift; sourceTree = "<group>"; };
+		E579FDB422FD21E900B26814 /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
+		E579FDB522FD21E900B26814 /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
+		E579FDB622FD21EA00B26814 /* WidgetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetManager.h; sourceTree = "<group>"; };
+		E579FDBE22FD22F800B26814 /* IntegrationManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegrationManagerViewController.h; sourceTree = "<group>"; };
+		E579FDBF22FD22F800B26814 /* IntegrationManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationManagerViewController.m; sourceTree = "<group>"; };
+		E579FDC122FD22F800B26814 /* WidgetPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetPickerViewController.h; sourceTree = "<group>"; };
+		E579FDC222FD22F800B26814 /* WidgetPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetPickerViewController.m; sourceTree = "<group>"; };
+		E579FDC522FD22F800B26814 /* JitsiService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JitsiService.swift; sourceTree = "<group>"; };
+		E579FDC622FD22F800B26814 /* JitsiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JitsiViewController.h; sourceTree = "<group>"; };
+		E579FDC722FD22F800B26814 /* JitsiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JitsiViewController.m; sourceTree = "<group>"; };
+		E579FDC822FD22F800B26814 /* JitsiViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JitsiViewController.xib; sourceTree = "<group>"; };
+		E579FDCA22FD22F800B26814 /* StickerPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerPickerViewController.h; sourceTree = "<group>"; };
+		E579FDCB22FD22F800B26814 /* StickerPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickerPickerViewController.m; sourceTree = "<group>"; };
+		E579FDCC22FD22F800B26814 /* WidgetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetViewController.h; sourceTree = "<group>"; };
+		E579FDCD22FD22F800B26814 /* WidgetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetViewController.m; sourceTree = "<group>"; };
 		E5ABA73121E6FA7B005EFE0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ClearKeep.strings; sourceTree = "<group>"; };
 		E5ABA73521E6FD49005EFE0C /* CKLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKLocalization.swift; sourceTree = "<group>"; };
 		E5ABA73821E73CBC005EFE0C /* CKRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomViewController.swift; sourceTree = "<group>"; };
@@ -2040,7 +2044,6 @@
 		E5E27FDF21F8713B00532610 /* CKRoomSettingsParticipantSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomSettingsParticipantSearchCell.xib; sourceTree = "<group>"; };
 		E5E27FE221F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomDirectCreatingSearchCell.swift; sourceTree = "<group>"; };
 		E5E27FE321F87B0F00532610 /* CKRoomDirectCreatingSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRoomDirectCreatingSearchCell.xib; sourceTree = "<group>"; };
-		E5E7DB32229677D300AB7CF3 /* JitsiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiService.swift; sourceTree = "<group>"; };
 		E5E7DD40229BC7D300AB7CF3 /* Riot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Riot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5E7DD42229BC8D800AB7CF3 /* Riot-Prod-Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Riot-Prod-Defaults.plist"; sourceTree = "<group>"; };
 		E5E9062921523EDC00155DD5 /* AuthWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthWebViewController.h; sourceTree = "<group>"; };
@@ -2978,7 +2981,7 @@
 				B1B556E020EE6C4C00210D55 /* StartChat */,
 				B169330C20F3CA6000746532 /* PublicRoomList */,
 				B1B5568E20EE6C4C00210D55 /* Room */,
-				B1B5575F20EE702800210D55 /* Integrations */,
+				E579FDBD22FD22F800B26814 /* Integrations */,
 				B1B556DC20EE6C4C00210D55 /* Call */,
 				B1B5568720EE6C4C00210D55 /* Contacts */,
 				B1B556ED20EE6C4C00210D55 /* MediaPicker */,
@@ -3437,57 +3440,6 @@
 				B1B5571620EE6C4C00210D55 /* DirectoryViewController.m */,
 			);
 			path = Rooms;
-			sourceTree = "<group>";
-		};
-		B1B5575F20EE702800210D55 /* Integrations */ = {
-			isa = PBXGroup;
-			children = (
-				B1B5576420EE702800210D55 /* IntegrationManagerViewController.h */,
-				B1B5576020EE702800210D55 /* IntegrationManagerViewController.m */,
-				B1B5576120EE702800210D55 /* WidgetPicker */,
-				B1B5576520EE702800210D55 /* Widgets */,
-			);
-			path = Integrations;
-			sourceTree = "<group>";
-		};
-		B1B5576120EE702800210D55 /* WidgetPicker */ = {
-			isa = PBXGroup;
-			children = (
-				B1B5576220EE702800210D55 /* WidgetPickerViewController.m */,
-				B1B5576320EE702800210D55 /* WidgetPickerViewController.h */,
-			);
-			path = WidgetPicker;
-			sourceTree = "<group>";
-		};
-		B1B5576520EE702800210D55 /* Widgets */ = {
-			isa = PBXGroup;
-			children = (
-				B1B5576E20EE702800210D55 /* WidgetViewController.h */,
-				B1B5576D20EE702800210D55 /* WidgetViewController.m */,
-				B1B5576620EE702800210D55 /* StickerPicker */,
-				B1B5576920EE702800210D55 /* Jitsi */,
-			);
-			path = Widgets;
-			sourceTree = "<group>";
-		};
-		B1B5576620EE702800210D55 /* StickerPicker */ = {
-			isa = PBXGroup;
-			children = (
-				B1B5576720EE702800210D55 /* StickerPickerViewController.h */,
-				B1B5576820EE702800210D55 /* StickerPickerViewController.m */,
-			);
-			path = StickerPicker;
-			sourceTree = "<group>";
-		};
-		B1B5576920EE702800210D55 /* Jitsi */ = {
-			isa = PBXGroup;
-			children = (
-				B1B5576A20EE702800210D55 /* JitsiViewController.h */,
-				B1B5576B20EE702800210D55 /* JitsiViewController.xib */,
-				B1B5576C20EE702800210D55 /* JitsiViewController.m */,
-				E5E7DB32229677D300AB7CF3 /* JitsiService.swift */,
-			);
-			path = Jitsi;
 			sourceTree = "<group>";
 		};
 		B1B5577620EE70D200210D55 /* Details */ = {
@@ -4013,10 +3965,11 @@
 		B1B5598020EFC3DF00210D55 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				B1B5598220EFC3DF00210D55 /* WidgetManager.h */,
-				B1B5598420EFC3DF00210D55 /* WidgetManager.m */,
-				B1B5598120EFC3DF00210D55 /* Widget.h */,
-				B1B5598320EFC3DF00210D55 /* Widget.m */,
+				E579FDB522FD21E900B26814 /* Widget.h */,
+				E579FDB422FD21E900B26814 /* Widget.m */,
+				E579FDB622FD21EA00B26814 /* WidgetManager.h */,
+				E579FDB222FD21E900B26814 /* WidgetManager.m */,
+				E579FDB322FD21E900B26814 /* WidgetManagerConfig.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -4288,6 +4241,57 @@
 				E569BCC122154AE4004F71F1 /* Playground.playground */,
 			);
 			path = ClearKeep;
+			sourceTree = "<group>";
+		};
+		E579FDBD22FD22F800B26814 /* Integrations */ = {
+			isa = PBXGroup;
+			children = (
+				E579FDBE22FD22F800B26814 /* IntegrationManagerViewController.h */,
+				E579FDBF22FD22F800B26814 /* IntegrationManagerViewController.m */,
+				E579FDC022FD22F800B26814 /* WidgetPicker */,
+				E579FDC322FD22F800B26814 /* Widgets */,
+			);
+			path = Integrations;
+			sourceTree = "<group>";
+		};
+		E579FDC022FD22F800B26814 /* WidgetPicker */ = {
+			isa = PBXGroup;
+			children = (
+				E579FDC122FD22F800B26814 /* WidgetPickerViewController.h */,
+				E579FDC222FD22F800B26814 /* WidgetPickerViewController.m */,
+			);
+			path = WidgetPicker;
+			sourceTree = "<group>";
+		};
+		E579FDC322FD22F800B26814 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				E579FDC422FD22F800B26814 /* Jitsi */,
+				E579FDC922FD22F800B26814 /* StickerPicker */,
+				E579FDCC22FD22F800B26814 /* WidgetViewController.h */,
+				E579FDCD22FD22F800B26814 /* WidgetViewController.m */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		E579FDC422FD22F800B26814 /* Jitsi */ = {
+			isa = PBXGroup;
+			children = (
+				E579FDC522FD22F800B26814 /* JitsiService.swift */,
+				E579FDC622FD22F800B26814 /* JitsiViewController.h */,
+				E579FDC722FD22F800B26814 /* JitsiViewController.m */,
+				E579FDC822FD22F800B26814 /* JitsiViewController.xib */,
+			);
+			path = Jitsi;
+			sourceTree = "<group>";
+		};
+		E579FDC922FD22F800B26814 /* StickerPicker */ = {
+			isa = PBXGroup;
+			children = (
+				E579FDCA22FD22F800B26814 /* StickerPickerViewController.h */,
+				E579FDCB22FD22F800B26814 /* StickerPickerViewController.m */,
+			);
+			path = StickerPicker;
 			sourceTree = "<group>";
 		};
 		E57F0BBA21E89D9700DE36E5 /* Views */ = {
@@ -4964,7 +4968,6 @@
 				E5E7DCFA229BC7D300AB7CF3 /* RoomParticipantsViewController.xib in Resources */,
 				E520C5E322E719DA003101BA /* KeyBackupBannerCell.xib in Resources */,
 				E5E7DCFB229BC7D300AB7CF3 /* CkForgotPasswordViewController.xib in Resources */,
-				E5E7DCFC229BC7D300AB7CF3 /* JitsiViewController.xib in Resources */,
 				E5E7DCFD229BC7D300AB7CF3 /* CKRoomSettingsViewController.xib in Resources */,
 				E5E7DCFE229BC7D300AB7CF3 /* RoomActivitiesView.xib in Resources */,
 				E5E7DCFF229BC7D300AB7CF3 /* Images.xcassets in Resources */,
@@ -5026,6 +5029,7 @@
 				E5E7DD33229BC7D300AB7CF3 /* CKAccountProfileEditViewController.xib in Resources */,
 				E5E7DD34229BC7D300AB7CF3 /* CKRoomSettingsMembersCell.xib in Resources */,
 				E5E7DD35229BC7D300AB7CF3 /* RoomIncomingAttachmentBubbleCell.xib in Resources */,
+				E579FDD722FD22F900B26814 /* JitsiViewController.xib in Resources */,
 				E5E7DD36229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				E5E7DD37229BC7D300AB7CF3 /* RoomMemberDetailsViewController.xib in Resources */,
 				E5E7DD38229BC7D300AB7CF3 /* RoomIncomingEncryptedAttachmentBubbleCell.xib in Resources */,
@@ -5195,7 +5199,6 @@
 				8542618722316D9200F24395 /* CKSettingButtonCell.xib in Resources */,
 				B1B5572D20EE6C4D00210D55 /* RoomParticipantsViewController.xib in Resources */,
 				E5C0B9A621CA717F00910D8B /* CkForgotPasswordViewController.xib in Resources */,
-				B1B5577220EE702800210D55 /* JitsiViewController.xib in Resources */,
 				E5ABA74C21E73CBC005EFE0C /* CKRoomSettingsViewController.xib in Resources */,
 				B1B557D720EF5EA900210D55 /* RoomActivitiesView.xib in Resources */,
 				F083BDF31E7009ED00A9B29C /* Images.xcassets in Resources */,
@@ -5259,6 +5262,7 @@
 				A06949A621F85B8A002ABA27 /* CKAccountProfileEditViewController.xib in Resources */,
 				E5ABA75221E73CBC005EFE0C /* CKRoomSettingsMembersCell.xib in Resources */,
 				B1B558FD20EF768F00210D55 /* RoomIncomingAttachmentBubbleCell.xib in Resources */,
+				E579FDD622FD22F900B26814 /* JitsiViewController.xib in Resources */,
 				B1B558DB20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				B1B5572B20EE6C4D00210D55 /* RoomMemberDetailsViewController.xib in Resources */,
 				B1B558C620EF768F00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.xib in Resources */,
@@ -5447,6 +5451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E520C5DE22E719D0003101BA /* KeyBackupRecoverFromRecoveryKeyViewController.swift in Sources */,
+				E579FDD122FD22F900B26814 /* WidgetPickerViewController.m in Sources */,
 				E5E7DB3B229BC7D300AB7CF3 /* CkSplitViewController.swift in Sources */,
 				E5E7DB3C229BC7D300AB7CF3 /* MediaAlbumTableCell.m in Sources */,
 				E5E7DB3D229BC7D300AB7CF3 /* RiotDesignValues.m in Sources */,
@@ -5470,7 +5475,6 @@
 				E5E7DB4C229BC7D300AB7CF3 /* ContactsDataSource.m in Sources */,
 				E5E7DB4D229BC7D300AB7CF3 /* MediaAlbumContentViewController.m in Sources */,
 				E520C5B722E719AA003101BA /* SettingsKeyBackupViewModelType.swift in Sources */,
-				E5E7DB4E229BC7D300AB7CF3 /* WidgetManager.m in Sources */,
 				E520C5C022E719B8003101BA /* KeyBackupSetupPassphraseViewModelType.swift in Sources */,
 				E5E7DB4F229BC7D300AB7CF3 /* RoomSearchDataSource.m in Sources */,
 				E5E7DB50229BC7D300AB7CF3 /* main.m in Sources */,
@@ -5481,8 +5485,6 @@
 				E5E7DB55229BC7D300AB7CF3 /* PeopleViewController.m in Sources */,
 				E5E7DB56229BC7D300AB7CF3 /* CkHomeViewController.swift in Sources */,
 				E5E7DB57229BC7D300AB7CF3 /* CKAccountProfileAvatarCell.swift in Sources */,
-				E5E7DB58229BC7D300AB7CF3 /* JitsiService.swift in Sources */,
-				E5E7DB59229BC7D300AB7CF3 /* Widget.m in Sources */,
 				E5E7DB5A229BC7D300AB7CF3 /* MessagesSearchResultAttachmentBubbleCell.m in Sources */,
 				E5E7DB5B229BC7D300AB7CF3 /* CkAuthIndicatorViewController.swift in Sources */,
 				E520C5DA22E719D0003101BA /* KeyBackupRecoverFromRecoveryKeyViewState.swift in Sources */,
@@ -5491,13 +5493,13 @@
 				E5E7DB5D229BC7D300AB7CF3 /* CallViewController.m in Sources */,
 				E5E7DB5E229BC7D300AB7CF3 /* CKContactListViewController.swift in Sources */,
 				E5E7DB5F229BC7D300AB7CF3 /* RoomSettingsViewController.m in Sources */,
-				E5E7DB60229BC7D300AB7CF3 /* JitsiViewController.m in Sources */,
 				E5E7DB61229BC7D300AB7CF3 /* PublicRoomsDirectoryDataSource.m in Sources */,
 				E5E7DB62229BC7D300AB7CF3 /* MulticastDelegate.swift in Sources */,
 				E520C5E222E719DA003101BA /* KeyBackupBannerCell.swift in Sources */,
 				E5E7DB63229BC7D300AB7CF3 /* RoomIncomingAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				E520C5C322E719B8003101BA /* KeyBackupSetupPassphraseViewAction.swift in Sources */,
 				E5E7DB64229BC7D300AB7CF3 /* RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.m in Sources */,
+				E579FDD522FD22F900B26814 /* JitsiViewController.m in Sources */,
 				E5E7DB65229BC7D300AB7CF3 /* CKLayoutSize.swift in Sources */,
 				E5E7DB66229BC7D300AB7CF3 /* CustomVideoCell.swift in Sources */,
 				E5E7DB67229BC7D300AB7CF3 /* CKLocalization.swift in Sources */,
@@ -5521,12 +5523,12 @@
 				E5E7DB77229BC7D300AB7CF3 /* CKRoomSettingsFilesCell.swift in Sources */,
 				E5E7DB78229BC7D300AB7CF3 /* CKAccountProfileEditViewController.swift in Sources */,
 				E5E7DB7A229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
+				E579FDCF22FD22F900B26814 /* IntegrationManagerViewController.m in Sources */,
 				E520C5D022E719CA003101BA /* KeyBackupRecoverFromPassphraseCoordinator.swift in Sources */,
 				E5E7DB7B229BC7D300AB7CF3 /* Contact.m in Sources */,
 				E5E7DB7C229BC7D300AB7CF3 /* Analytics.m in Sources */,
 				E5E7DB7D229BC7D300AB7CF3 /* CKOtherProfileActionCell.swift in Sources */,
 				E5E7DB7E229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
-				E5E7DB7F229BC7D300AB7CF3 /* WidgetViewController.m in Sources */,
 				E5705F8E22F93B9600D44B74 /* CKSearchContactViewController.swift in Sources */,
 				E5E7DB80229BC7D300AB7CF3 /* MediaPickerViewController.m in Sources */,
 				E520C5CF22E719CA003101BA /* KeyBackupRecoverFromPassphraseCoordinatorType.swift in Sources */,
@@ -5542,6 +5544,7 @@
 				853174C822BDF09D0092F73D /* CKSearchBar+Extension.swift in Sources */,
 				E520C5BB22E719AE003101BA /* KeyBackupSetupCoordinatorBridgePresenter.swift in Sources */,
 				E5E7DB8A229BC7D300AB7CF3 /* CKRoomCreatingBaseCell.swift in Sources */,
+				E579FDD922FD22F900B26814 /* StickerPickerViewController.m in Sources */,
 				E5E7DB8B229BC7D300AB7CF3 /* CKFavouriteViewController.swift in Sources */,
 				E520C5BA22E719AE003101BA /* KeyBackupSetupCoordinator.swift in Sources */,
 				E520C5DB22E719D0003101BA /* KeyBackupRecoverFromRecoveryKeyCoordinator.swift in Sources */,
@@ -5552,6 +5555,7 @@
 				E5E7DB8F229BC7D300AB7CF3 /* RiotNavigationController.m in Sources */,
 				E5E7DB90229BC7D300AB7CF3 /* CKAttachmentsViewController.swift in Sources */,
 				E520C5ED22E71D90003101BA /* PasswordStrength.swift in Sources */,
+				E579FDBC22FD21EA00B26814 /* Widget.m in Sources */,
 				E5E7DB91229BC7D300AB7CF3 /* TableViewCellWithCheckBoxAndLabel.m in Sources */,
 				E5E7DB92229BC7D300AB7CF3 /* CKImageView.swift in Sources */,
 				E5E7DB93229BC7D300AB7CF3 /* ExpandedRoomTitleView.m in Sources */,
@@ -5674,7 +5678,6 @@
 				E5E7DBF5229BC7D300AB7CF3 /* RecentsViewController.m in Sources */,
 				E520C5B522E719AA003101BA /* SettingsKeyBackupTableViewSection.swift in Sources */,
 				E5E7DBF6229BC7D300AB7CF3 /* RoomPredecessorBubbleCell.m in Sources */,
-				E5E7DBF7229BC7D300AB7CF3 /* StickerPickerViewController.m in Sources */,
 				E520C5B322E71660003101BA /* SignOutAlertPresenter.swift in Sources */,
 				E5E7DBF8229BC7D300AB7CF3 /* DesignableUI.swift in Sources */,
 				E5E7DBF9229BC7D300AB7CF3 /* ContactsTableViewController.m in Sources */,
@@ -5726,6 +5729,7 @@
 				E520C5E722E71D57003101BA /* Images.swift in Sources */,
 				E5E7DC1F229BC7D300AB7CF3 /* CKRecentItemTableViewCell.swift in Sources */,
 				E520C5D322E719CA003101BA /* KeyBackupRecoverFromPassphraseViewAction.swift in Sources */,
+				E579FDB822FD21EA00B26814 /* WidgetManager.m in Sources */,
 				E5E7DC20229BC7D300AB7CF3 /* CKRoomSettingsMoreAdvancedViewController.swift in Sources */,
 				E5E7DC21229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				E520C5EB22E71D7D003101BA /* OperationQueue.swift in Sources */,
@@ -5757,10 +5761,8 @@
 				E5E7DC38229BC7D300AB7CF3 /* DirectoryViewController.m in Sources */,
 				E5E7DC39229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5E7DC3A229BC7D300AB7CF3 /* CkAppDelegate.swift in Sources */,
-				E5E7DC3B229BC7D300AB7CF3 /* WidgetPickerViewController.m in Sources */,
 				E5E7DC3C229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				E520C5DF22E719D5003101BA /* KeyBackupRecoverSuccessViewController.swift in Sources */,
-				E5E7DC3D229BC7D300AB7CF3 /* IntegrationManagerViewController.m in Sources */,
 				E520C5F222E71DF5003101BA /* UIColor+Extension.swift in Sources */,
 				E5FB45E822BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */,
 				E5E7DC3E229BC7D300AB7CF3 /* CKSignoutButtonTableViewCell.swift in Sources */,
@@ -5780,6 +5782,7 @@
 				E5E7DC4C229BC7D300AB7CF3 /* RoomOutgoingAttachmentBubbleCell.m in Sources */,
 				E5E7DC4D229BC7D300AB7CF3 /* CKRoomSettingsEditViewController.swift in Sources */,
 				E520C5BC22E719B3003101BA /* KeyBackupSetupIntroViewController.swift in Sources */,
+				E579FDBA22FD21EA00B26814 /* WidgetManagerConfig.swift in Sources */,
 				E5E7DC4E229BC7D300AB7CF3 /* RiotSplitViewController.m in Sources */,
 				E5E7DC4F229BC7D300AB7CF3 /* DirectoryServerPickerViewController.m in Sources */,
 				E5E7DC50229BC7D300AB7CF3 /* CKSearchBarContainerView.swift in Sources */,
@@ -5788,6 +5791,7 @@
 				E520C5EA22E71D6A003101BA /* Storyboards.swift in Sources */,
 				E5E7DC52229BC7D300AB7CF3 /* CKRoomSettingsParticipantSearchCell.swift in Sources */,
 				E5E7DC53229BC7D300AB7CF3 /* RoomOutgoingTextMsgWithPaginationTitleBubbleCell.m in Sources */,
+				E579FDDB22FD22F900B26814 /* WidgetViewController.m in Sources */,
 				E5E7DC54229BC7D300AB7CF3 /* CKSettingButtonCell.swift in Sources */,
 				E5E7DC55229BC7D300AB7CF3 /* RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				E5E7DC56229BC7D300AB7CF3 /* CKColor.swift in Sources */,
@@ -5800,6 +5804,7 @@
 				E520C5EC22E71D7D003101BA /* UIControl.swift in Sources */,
 				E5E7DC5C229BC7D300AB7CF3 /* CKRoomSettingsViewController.swift in Sources */,
 				E5E7DC5D229BC7D300AB7CF3 /* CkMasterauthViewController.swift in Sources */,
+				E579FDD322FD22F900B26814 /* JitsiService.swift in Sources */,
 				E5E7DC5E229BC7D300AB7CF3 /* IconWithTextCell.swift in Sources */,
 				E520C5C622E719BC003101BA /* PasswordStrengthView.swift in Sources */,
 			);
@@ -5816,6 +5821,7 @@
 				B1B557A120EF58AD00210D55 /* ContactTableViewCell.m in Sources */,
 				9C3AC4DE22D73B6A00DD179F /* KeyBackupRecoverCoordinatorType.swift in Sources */,
 				9C3AC4D922D73B6A00DD179F /* KeyBackupRecoverFromPassphraseCoordinator.swift in Sources */,
+				E579FDBB22FD21EA00B26814 /* Widget.m in Sources */,
 				9CF635EB22D85E1B00790297 /* PasswordStrengthManager.swift in Sources */,
 				9C3AC4B822D73B6900DD179F /* KeyBackupSetupIntroViewController.swift in Sources */,
 				A06949AB21F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift in Sources */,
@@ -5837,7 +5843,6 @@
 				B169330820F3CA0E00746532 /* ContactsDataSource.m in Sources */,
 				B1B5574B20EE6C4D00210D55 /* MediaAlbumContentViewController.m in Sources */,
 				9CBD7CB322DD841F00F60628 /* SettingsKeyBackupViewModelType.swift in Sources */,
-				B1B5598820EFC3E000210D55 /* WidgetManager.m in Sources */,
 				B16932B120F3AC9200746532 /* RoomSearchDataSource.m in Sources */,
 				B16932A320F3A21C00746532 /* main.m in Sources */,
 				B1B5574520EE6C4D00210D55 /* StartChatViewController.m in Sources */,
@@ -5845,13 +5850,12 @@
 				E54A5AE421FEEBA10094461E /* CKBaseCell.swift in Sources */,
 				9C3AC4CC22D73B6A00DD179F /* KeyBackupRecoverSuccessViewController.swift in Sources */,
 				B1B558DE20EF768F00210D55 /* RoomIncomingAttachmentBubbleCell.m in Sources */,
+				E579FDCE22FD22F900B26814 /* IntegrationManagerViewController.m in Sources */,
 				9C3AC4CA22D73B6A00DD179F /* KeyBackupBannerPreferences.swift in Sources */,
 				B1B5574820EE6C4D00210D55 /* PeopleViewController.m in Sources */,
 				E5ABD65A21D616520017D93E /* CkHomeViewController.swift in Sources */,
 				A0043FB921F8489F0051AAE1 /* CKAccountProfileAvatarCell.swift in Sources */,
 				9C3AC4F222D746A200DD179F /* Images.swift in Sources */,
-				E5E7DB33229677D300AB7CF3 /* JitsiService.swift in Sources */,
-				B1B5598720EFC3E000210D55 /* Widget.m in Sources */,
 				B1B557E320EF60B900210D55 /* MessagesSearchResultAttachmentBubbleCell.m in Sources */,
 				9C3AC4DB22D73B6A00DD179F /* KeyBackupRecoverFromPassphraseViewAction.swift in Sources */,
 				A0B35FE621D1DC17000C12C7 /* CkAuthIndicatorViewController.swift in Sources */,
@@ -5859,7 +5863,6 @@
 				B1B5574420EE6C4D00210D55 /* CallViewController.m in Sources */,
 				E54A5ADD21FEE78C0094461E /* CKContactListViewController.swift in Sources */,
 				B1B5572220EE6C4D00210D55 /* RoomSettingsViewController.m in Sources */,
-				B1B5577320EE702800210D55 /* JitsiViewController.m in Sources */,
 				B169331620F3CAFC00746532 /* PublicRoomsDirectoryDataSource.m in Sources */,
 				E5ABD65721D1C98C0017D93E /* MulticastDelegate.swift in Sources */,
 				B1B558E820EF768F00210D55 /* RoomIncomingAttachmentWithPaginationTitleBubbleCell.m in Sources */,
@@ -5876,6 +5879,7 @@
 				9CBD7CB222DD841F00F60628 /* SettingsKeyBackupViewModel.swift in Sources */,
 				8511E15A2230DE1A0059ABC0 /* CKNotificationSettingViewController.swift in Sources */,
 				B1B5572320EE6C4D00210D55 /* AttachmentsViewController.m in Sources */,
+				E579FDD222FD22F900B26814 /* JitsiService.swift in Sources */,
 				F083BDEE1E7009ED00A9B29C /* MXRoom+Riot.m in Sources */,
 				B1B5598620EFC3E000210D55 /* RiotSettings.swift in Sources */,
 				B1B5581720EF625800210D55 /* PreviewRoomTitleView.m in Sources */,
@@ -5893,7 +5897,6 @@
 				B1B5599220EFC5E400210D55 /* Analytics.m in Sources */,
 				A01DCDE521FEC0780069CA4A /* CKOtherProfileActionCell.swift in Sources */,
 				B1B558C320EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
-				B1B5577420EE702900210D55 /* WidgetViewController.m in Sources */,
 				B1B5574A20EE6C4D00210D55 /* MediaPickerViewController.m in Sources */,
 				B1B5598520EFC3E000210D55 /* RageShakeManager.m in Sources */,
 				E5233121221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift in Sources */,
@@ -5913,6 +5916,7 @@
 				B1B558C120EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				B1B5573E20EE6C4D00210D55 /* RiotNavigationController.m in Sources */,
 				6917A322224A11E1001F2D9D /* CKAttachmentsViewController.swift in Sources */,
+				E579FDD422FD22F900B26814 /* JitsiViewController.m in Sources */,
 				B1B5593B20EF7BAC00210D55 /* TableViewCellWithCheckBoxAndLabel.m in Sources */,
 				A01DCDE121FEBCA30069CA4A /* CKImageView.swift in Sources */,
 				B1B5581A20EF625800210D55 /* ExpandedRoomTitleView.m in Sources */,
@@ -5920,11 +5924,13 @@
 				853CBDE2223205B700404DBC /* CKReportSettingViewController.swift in Sources */,
 				9CEEB4DB22C62D260031AB36 /* CKRecentHeaderView.swift in Sources */,
 				B1B558DF20EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
+				E579FDB922FD21EA00B26814 /* WidgetManagerConfig.swift in Sources */,
 				9C3AC4DC22D73B6A00DD179F /* KeyBackupRecoverFromPassphraseViewModelType.swift in Sources */,
 				F083BE041E7009ED00A9B29C /* Tools.m in Sources */,
 				3275FD8C21A5A2C500B9C13D /* TermsView.swift in Sources */,
 				B1B5573D20EE6C4D00210D55 /* WebViewViewController.m in Sources */,
 				E5C0B9A821CA76A400910D8B /* CkSignUpViewController.swift in Sources */,
+				E579FDDA22FD22F900B26814 /* WidgetViewController.m in Sources */,
 				E5399072221D5AE30014F26D /* CKRoomSettingsMoreSecurityRadioCell.swift in Sources */,
 				A0043FB621F848520051AAE1 /* CKAccountProfileBaseCell.swift in Sources */,
 				B1B5572720EE6C4D00210D55 /* RoomSearchViewController.m in Sources */,
@@ -6000,6 +6006,7 @@
 				B1B5574020EE6C4D00210D55 /* SegmentedViewController.m in Sources */,
 				E5774823222690CA0047D9AC /* CKRoomInvitationController.swift in Sources */,
 				B1B5599320EFC5E400210D55 /* DecryptionFailure.m in Sources */,
+				E579FDB722FD21EA00B26814 /* WidgetManager.m in Sources */,
 				A01DCDE921FEC1980069CA4A /* CKOtherProfileViewController.swift in Sources */,
 				9CA8780A22DA160200A28C95 /* OperationQueue.swift in Sources */,
 				9C3AC4C222D73B6A00DD179F /* KeyBackupSetupPassphraseViewModel.swift in Sources */,
@@ -6010,6 +6017,7 @@
 				B1B558BE20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				9C3AC4D222D73B6A00DD179F /* KeyBackupRecoverFromRecoveryKeyCoordinator.swift in Sources */,
 				F083BDED1E7009ED00A9B29C /* MXKRoomBubbleTableViewCell+Riot.m in Sources */,
+				E579FDD822FD22F900B26814 /* StickerPickerViewController.m in Sources */,
 				E5C0B9A421CA381800910D8B /* CkForgotPasswordViewController.swift in Sources */,
 				B1B557A820EF5A1B00210D55 /* DeviceTableViewCell.m in Sources */,
 				B1B5572620EE6C4D00210D55 /* RoomFilesSearchViewController.m in Sources */,
@@ -6037,7 +6045,6 @@
 				6917A3182248B04F001F2D9D /* CKRoomFilesViewController.swift in Sources */,
 				B1B5574120EE6C4D00210D55 /* RecentsViewController.m in Sources */,
 				B1D250D82118AA0A000F4E93 /* RoomPredecessorBubbleCell.m in Sources */,
-				B1B5577120EE702800210D55 /* StickerPickerViewController.m in Sources */,
 				A0D996B421CB417E00AD8135 /* DesignableUI.swift in Sources */,
 				B1B5572020EE6C4D00210D55 /* ContactsTableViewController.m in Sources */,
 				9C3AC4BD22D73B6A00DD179F /* KeyBackupSetupPassphraseViewAction.swift in Sources */,
@@ -6126,10 +6133,8 @@
 				B1B5575C20EE6C4D00210D55 /* DirectoryViewController.m in Sources */,
 				B1B558BD20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */,
-				B1B5577020EE702800210D55 /* WidgetPickerViewController.m in Sources */,
 				B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				9CF635E022D81ECA00790297 /* ActivityIndicatorPresenter.swift in Sources */,
-				B1B5576F20EE702800210D55 /* IntegrationManagerViewController.m in Sources */,
 				E5FB45E722BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */,
 				853CBDF02232788000404DBC /* CKSignoutButtonTableViewCell.swift in Sources */,
 				B1B557AC20EF5A6D00210D55 /* DeviceView.m in Sources */,
@@ -6163,6 +6168,7 @@
 				B1B558FF20EF768F00210D55 /* RoomIncomingTextMsgBubbleCell.m in Sources */,
 				B1B5591020EF782800210D55 /* TableViewCellWithPhoneNumberTextField.m in Sources */,
 				E5ABA74B21E73CBC005EFE0C /* CKRoomSettingsViewController.swift in Sources */,
+				E579FDD022FD22F900B26814 /* WidgetPickerViewController.m in Sources */,
 				9C3AC4BF22D73B6A00DD179F /* KeyBackupSetupPassphraseViewModelType.swift in Sources */,
 				E5C0B9A021CA353700910D8B /* CkMasterauthViewController.swift in Sources */,
 				E5233147221C5507008FC772 /* IconWithTextCell.swift in Sources */,
