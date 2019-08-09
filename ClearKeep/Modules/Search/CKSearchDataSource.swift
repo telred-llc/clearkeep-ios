@@ -82,6 +82,7 @@ import Foundation
                     let patternFont = roomDataSource.eventFormatter.bingTextFont
 
                     if let cellData = RoomBubbleCellData.init(event: roomEvent, andRoomState: roomDataSource.roomState, andRoomDataSource: roomDataSource) {
+
                         cellData.highlightPattern(inTextMessage: self?.searchText, withForegroundColor: kRiotColorGreen, andFont: patternFont)
 
                         // Use profile information as data to display
@@ -92,11 +93,6 @@ import Foundation
                             cellData.senderDisplayName = roomDataSource.room.summary.displayname
                             cellData.senderAvatarUrl = nil
                         }
-
-                        // Show decrypted message
-                        let decryptedMessage = self?.getBodyMessage(event: roomEvent)
-                        cellData.textMessage = decryptedMessage
-                        cellData.attributedTextMessage = self?.eventFormatter.renderString(decryptedMessage ?? "", for: roomEvent)
 
                         self?.cellDataArray?.add(cellData)
                     }
@@ -126,11 +122,11 @@ import Foundation
     }
 
     /**
-     Extract decrypted message content form an event.
+     Extract event content form an event.
      - parameters:
-        - event: an item of MXEvent
+     - event: an item of MXEvent
      */
-    func getBodyMessage(event: MXEvent) -> String? {
+    func getEventContent(event: MXEvent) -> [String: Any] {
         var eventContent: [String: Any] = [:]
         if event.isEncrypted {
             if let clearEvent = try? self.mxSession.crypto?.decryptEvent(event, inTimeline: nil).clearEvent,
@@ -145,6 +141,15 @@ import Foundation
             }
         }
 
+        return eventContent
+    }
+
+    /**
+     Extract decrypted message body content form an event.
+     - parameters:
+     - event: an item of MXEvent
+     */
+    func getBodyMessage(eventContent: [String: Any], isMediaAttachment: Bool) -> String? {
         if let msgtype = eventContent["msgtype"] as? String {
             switch getSearchType() {
             case .message:
@@ -153,7 +158,7 @@ import Foundation
                     return messageBody
                 }
             case .media:
-                if event.isMediaAttachment() {
+                if isMediaAttachment {
                     if msgtype == kMXMessageTypeFile ||
                         msgtype == kMXMessageTypeAudio ||
                         msgtype == kMXMessageTypeVideo ||
@@ -178,18 +183,25 @@ import Foundation
             if let cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) {
                 let messages = cachedRoom.messages.compactMap{ $0.copy() as? CKStoredMessage }
                 messages.forEach { (message) in
-                    if let event = self.mxSession.store.event(withEventId: message.eventId, inRoom: message.roomId) {
+                    if let event = self.mxSession.store.event(withEventId: message.eventId, inRoom: message.roomId),
+                        let coppiedEvent = MXEvent.init(fromJSON: event.jsonDictionary()) {
 
                         // Check eventType
-                        if event.eventType == __MXEventTypeRoomEncrypted ||
-                            event.eventType == __MXEventTypeRoomMessage {
+                        if coppiedEvent.eventType == __MXEventTypeRoomEncrypted ||
+                            coppiedEvent.eventType == __MXEventTypeRoomMessage {
+
+                            let decryptedEventContent = self.getEventContent(event: coppiedEvent)
+
+                            // Set event as is decrypted event
+                            coppiedEvent.wireEventType = __MXEventTypeRoomMessage
+                            coppiedEvent.wireContent = decryptedEventContent
 
                             // extract body message
-                            let bodyMessage = getBodyMessage(event: event)
+                            let bodyMessage = getBodyMessage(eventContent: decryptedEventContent, isMediaAttachment: coppiedEvent.isMediaAttachment())
 
                             // match body message with search text
                             if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true {
-                                filteredEvents.append(event)
+                                filteredEvents.append(coppiedEvent)
                             }
                         }
                     }
@@ -217,8 +229,7 @@ extension CKSearchDataSource {
         if cell.isKind(of: MXKRoomBubbleTableViewCell.self), let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
             bubbleCell.addDateLabel(false)
         } else if cell.isKind(of: FilesSearchTableViewCell.self), let fileSearchCell = cell as? FilesSearchTableViewCell {
-
-            if (self.cellDataArray?.count ?? 0)  > indexPath.row,
+            if (self.cellDataArray?.count ?? 0) > indexPath.row,
                 let cellData = self.cellDataArray?[indexPath.row] as? CKFilesSearchCellData,
                 let attachment = cellData.attachment {
 
