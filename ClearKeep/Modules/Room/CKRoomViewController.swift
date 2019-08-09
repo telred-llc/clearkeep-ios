@@ -1396,6 +1396,19 @@ extension CKRoomViewController {
                     // Restore the potential message partially typed before jump to last unread messages.
                     self?.inputToolbarView.textMessage = roomDataSource?.partialTextMessage
                 }
+
+                // Sync room members from server to fix bug:
+                // The membersCount is differrent between before and after load from MXKRoomDataSourceManager
+                roomDataSource?.room.members({ (members) in
+                    if let newJoinedCount = members?.joinedMembers.count {
+                        roomDataSource?.room.summary.membersCount.joined = UInt(newJoinedCount)
+                        roomDataSource?.delegate.dataSource(roomDataSource, didCellChange: nil)
+                    }
+                }, lazyLoadedMembers: { (_) in
+                    //
+                }, failure: { (error) in
+                    print("Sync room members failed")
+                })
             })
         }
     }
