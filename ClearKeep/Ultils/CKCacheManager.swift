@@ -74,6 +74,10 @@ public class CKRoomCacheManager: NSObject {
 
     private var storage: HybridStorage<CKStoredRoom>!
     private let maxFirstFetchingMessagesCount: UInt = 10000
+
+    /**
+     Keep the roomIds which is requesting.
+    */
     private var roomsInSyncing: [String] = []
 
     private override init() {
@@ -84,6 +88,9 @@ public class CKRoomCacheManager: NSObject {
         storage = HybridStorage(memoryStorage: memory, diskStorage: disk)
     }
 
+    /**
+     Do cache a message in room.
+     */
     func doCacheMessage(_ message: CKStoredMessage, roomId: String) {
         var storedRoom = getStoredRoom(roomId: roomId) ?? CKStoredRoom.init(id: roomId, messages: [])
         if let index = storedRoom.messages.firstIndex(where: { $0.eventId == message.eventId }) {
@@ -94,14 +101,23 @@ public class CKRoomCacheManager: NSObject {
         try? storage.setObject(storedRoom, forKey: roomId)
     }
 
+    /**
+     Do cache a room.
+     */
     func doCacheRoom(_ room: CKStoredRoom) {
         try? storage.setObject(room, forKey: room.id)
     }
 
+    /**
+     Get a room by roomId.
+     */
     func getStoredRoom(roomId: String) -> CKStoredRoom? {
         return try? storage.object(forKey: roomId)
     }
 
+    /**
+     Get a message by eventId in room.
+     */
     func getStoredMessage(eventId: String, roomId: String) -> CKStoredMessage? {
         let storedRoom = getStoredRoom(roomId: roomId)
         if let message = storedRoom?.messages.first(where: { $0.eventId == eventId }) {
@@ -111,6 +127,9 @@ public class CKRoomCacheManager: NSObject {
         }
     }
 
+    /**
+     Sync all rooms.
+     */
     func syncAllRooms(mxSession: MXSession?) {
         guard let mxSession = mxSession else {
             return
@@ -121,6 +140,9 @@ public class CKRoomCacheManager: NSObject {
         }
     }
 
+    /**
+     Sync a room. If the app hasn't first fetched from server, if YES - will sync from server and if NO - will sync from local room.
+     */
     func syncRoom(room: MXRoom, mxSession: MXSession?) {
         guard let mxSession = mxSession else {
             return
@@ -139,7 +161,7 @@ public class CKRoomCacheManager: NSObject {
             self.doCache(events: events, roomId: room.roomId)
         } else {
             // If the room is syncing then return here
-            if !roomsInSyncing.contains(room.roomId) {
+            if roomsInSyncing.contains(room.roomId) {
                 return
             }
 
@@ -154,6 +176,9 @@ public class CKRoomCacheManager: NSObject {
         }
     }
 
+    /**
+     Clear all cached data.
+     */
     func clearAllCachedData() {
         try? storage.removeAll()
     }
@@ -162,6 +187,10 @@ public class CKRoomCacheManager: NSObject {
 // MARK: - Private methods
 
 private extension CKRoomCacheManager {
+
+    /**
+     Sync room from server.
+     */
     func syncRoomFromServer(roomId: String, mxSession: MXSession?, onComplete: @escaping (() -> Void)) {
         guard let mxSession = mxSession else {
             onComplete()
@@ -178,6 +207,9 @@ private extension CKRoomCacheManager {
         })
     }
 
+    /**
+     Do cache events list.
+     */
     func doCache(events: [MXEvent], roomId: String) {
         var cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) ?? CKStoredRoom.init(id: roomId, messages: [])
         events.forEach({ (event) in

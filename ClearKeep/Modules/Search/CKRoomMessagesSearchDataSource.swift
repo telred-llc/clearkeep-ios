@@ -30,9 +30,9 @@ public class CKRoomMessagesSearchDataSource: CKSearchDataSource {
     }
 
     /**
-     Initialize a new `RoomSearchDataSource` instance.
+     Initialize a new `CKRoomMessagesSearchDataSource` instance.
 
-     @param roomDataSource a datasource to be able to reuse `RoomViewController` processing and rendering.
+     @param roomDataSource a datasource to be able to rendering.
      @return the newly created instance.
      */
     @objc class func initWithRoomDataSource(_ roomDataSource: RoomDataSource?) -> CKRoomMessagesSearchDataSource? {

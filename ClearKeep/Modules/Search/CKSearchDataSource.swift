@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class CKSearchDataSource: MXKSearchDataSource {
+@objc public class CKSearchDataSource: MXKSearchDataSource {
 
     /**
      List of results retrieved from the server.
@@ -25,7 +25,9 @@ public class CKSearchDataSource: MXKSearchDataSource {
     }
 
     /**
-     Type of content for searching
+     Type of content for searching.
+     - message: plaintext
+     - media: image, video, file, location
     */
     enum SearchType {
         case message
@@ -42,10 +44,16 @@ public class CKSearchDataSource: MXKSearchDataSource {
         return .message
     }
 
+    // Override this method in your subclass
     func getRoomsForSearching() -> [MXRoom] {
         return self.mxSession?.rooms ?? []
     }
 
+    /**
+     Get room data source by id
+     - parameters:
+        - roomId: The id of room
+     */
     func getRoomDataSource(roomId: String, onComplete: @escaping ((MXKRoomDataSource?) -> Void)) {
         let roomDataSourceManager = MXKRoomDataSourceManager.sharedManager(forMatrixSession: self.mxSession)
 
@@ -55,52 +63,14 @@ public class CKSearchDataSource: MXKSearchDataSource {
         })
     }
 
-    public override func finalizeInitialization() {
-        super.finalizeInitialization()
-    }
-    override public func doSearch() {
-        let searchRooms = getRoomsForSearching()
-        var filteredEvents: [MXEvent] = []
-
-        for room in searchRooms {
-            guard let roomId = room.roomId else { return }
-
-            if let cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) {
-                cachedRoom.messages.forEach { (message) in
-                    if let event = self.mxSession.store.event(withEventId: message.eventId, inRoom: message.roomId) {
-
-                        // Check eventType
-                        if event.eventType == __MXEventTypeRoomEncrypted ||
-                            event.eventType == __MXEventTypeRoomMessage {
-
-                            // extract body message
-                            let bodyMessage = getBodyMessage(event: event)
-
-                            // match body message with search text
-                            if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true {
-                                filteredEvents.append(event)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        convertSearchedResultsIntoCells(roomEvents: filteredEvents, onComplete: { [weak self] in
-            self?.setState(MXKDataSourceStateReady)
-            // Provide changes information to the delegate
-            var insertedIndexes: NSIndexSet?
-            if filteredEvents.count > 0 {
-                insertedIndexes = NSIndexSet.init(indexesIn: NSMakeRange(0, filteredEvents.count))
-            }
-
-            self?.delegate.dataSource(self, didCellChange: insertedIndexes)
-        })
-    }
-
-    private func convertSearchedResultsIntoCells(roomEvents: [MXEvent], onComplete: @escaping (() -> Void)) {
+    /**
+     Convert searched results into cells
+     - parameters:
+        - roomEvents: array of MXEvent
+        - onComplete: closure for completion
+     */
+    func convertSearchedResultsIntoCells(roomEvents: [MXEvent], onComplete: @escaping (() -> Void)) {
         let dispatchGroup = DispatchGroup()
-
         for roomEvent in roomEvents {
             guard let roomId = roomEvent.roomId else { return }
 
@@ -111,10 +81,6 @@ public class CKSearchDataSource: MXKSearchDataSource {
                     // Prepare text font used to highlight the search pattern.
                     let patternFont = roomDataSource.eventFormatter.bingTextFont
 
-                    // Let the `RoomViewController` ecosystem do the job
-                    // The search result contains only room message events, no state events.
-                    // Thus, passing the current room state is not a huge problem. Only
-                    // the user display name and his avatar may be wrong.
                     if let cellData = RoomBubbleCellData.init(event: roomEvent, andRoomState: roomDataSource.roomState, andRoomDataSource: roomDataSource) {
                         cellData.highlightPattern(inTextMessage: self?.searchText, withForegroundColor: kRiotColorGreen, andFont: patternFont)
 
@@ -159,7 +125,12 @@ public class CKSearchDataSource: MXKSearchDataSource {
         }
     }
 
-    private func getBodyMessage(event: MXEvent) -> String? {
+    /**
+     Extract decrypted message content form an event.
+     - parameters:
+        - event: an item of MXEvent
+     */
+    func getBodyMessage(event: MXEvent) -> String? {
         var eventContent: [String: Any] = [:]
         if event.isEncrypted {
             if let clearEvent = try? self.mxSession.crypto?.decryptEvent(event, inTimeline: nil).clearEvent,
@@ -182,9 +153,9 @@ public class CKSearchDataSource: MXKSearchDataSource {
                     return messageBody
                 }
             case .media:
-                if msgtype == kMXMessageTypeFile,
-                    msgtype == kMXMessageTypeAudio,
-                    msgtype == kMXMessageTypeVideo,
+                if msgtype == kMXMessageTypeFile ||
+                    msgtype == kMXMessageTypeAudio ||
+                    msgtype == kMXMessageTypeVideo ||
                     msgtype == kMXMessageTypeImage {
                     let messageBody = eventContent["body"] as? String
                     return messageBody
@@ -194,6 +165,46 @@ public class CKSearchDataSource: MXKSearchDataSource {
 
         return nil
     }
+
+    override public func doSearch() {
+        let searchRooms = getRoomsForSearching()
+        var filteredEvents: [MXEvent] = []
+
+        for room in searchRooms {
+            guard let roomId = room.roomId else { return }
+
+            if let cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) {
+                cachedRoom.messages.forEach { (message) in
+                    if let event = self.mxSession.store.event(withEventId: message.eventId, inRoom: message.roomId) {
+
+                        // Check eventType
+                        if event.eventType == __MXEventTypeRoomEncrypted ||
+                            event.eventType == __MXEventTypeRoomMessage {
+
+                            // extract body message
+                            let bodyMessage = getBodyMessage(event: event)
+
+                            // match body message with search text
+                            if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true {
+                                filteredEvents.append(event)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        convertSearchedResultsIntoCells(roomEvents: filteredEvents, onComplete: { [weak self] in
+            self?.setState(MXKDataSourceStateReady)
+            // Provide changes information to the delegate
+            var insertedIndexes: NSIndexSet?
+            if filteredEvents.count > 0 {
+                insertedIndexes = NSIndexSet.init(indexesIn: NSMakeRange(0, filteredEvents.count))
+            }
+
+            self?.delegate.dataSource(self, didCellChange: insertedIndexes)
+        })
+    }
 }
 
 extension CKSearchDataSource {
@@ -202,6 +213,36 @@ extension CKSearchDataSource {
 
         if cell.isKind(of: MXKRoomBubbleTableViewCell.self), let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
             bubbleCell.addDateLabel(false)
+        } else if cell.isKind(of: FilesSearchTableViewCell.self), let fileSearchCell = cell as? FilesSearchTableViewCell {
+
+            if (self.cellDataArray?.count ?? 0)  > indexPath.row,
+                let cellData = self.cellDataArray?[indexPath.row] as? CKFilesSearchCellData,
+                let attachment = cellData.attachment {
+
+                fileSearchCell.title.text = attachment.originalFileName
+
+                if cellData.isAttachmentWithThumbnail {
+                    fileSearchCell.attachmentImageView.backgroundColor = kRiotPrimaryBgColor
+                    fileSearchCell.attachmentImageView.setAttachmentThumb(attachment)
+                } else {
+                    fileSearchCell.attachmentImageView.image = nil
+                    fileSearchCell.attachmentImageView.backgroundColor = UIColor.clear
+                }
+
+                fileSearchCell.message.text = cellData.message
+                fileSearchCell.iconImage.image = cellData.attachmentIcon
+
+                // Disable any interactions defined in the cell
+                // because we want [tableView didSelectRowAtIndexPath:] to be called
+                fileSearchCell.contentView.isUserInteractionEnabled = false
+            } else {
+                fileSearchCell.title.text = nil
+                fileSearchCell.date.text = nil
+                fileSearchCell.message.text = ""
+
+                fileSearchCell.attachmentImageView.image = nil;
+                fileSearchCell.iconImage.image = nil;
+            }
         }
         return cell
     }

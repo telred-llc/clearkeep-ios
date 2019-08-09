@@ -31,7 +31,7 @@
     CKRoomMessagesSearchDataSource *messagesSearchDataSource;
     
     RoomFilesSearchViewController *filesSearchViewController;
-    MXKSearchDataSource *filesSearchDataSource;
+    CKRoomFilesSearchDataSource *filesSearchDataSource;
 }
 
 @end
@@ -153,7 +153,7 @@
         [messagesSearchViewController displaySearch:messagesSearchDataSource];
         
         // Init the search for attachments
-        filesSearchDataSource = [[MXKSearchDataSource alloc] initWithMatrixSession:mainSession];
+        filesSearchDataSource = [CKRoomFilesSearchDataSource initWithRoomDataSource:_roomDataSource];
         filesSearchDataSource.roomEventFilter.rooms = @[_roomDataSource.roomId];
         filesSearchDataSource.roomEventFilter.containsURL = YES;
         filesSearchDataSource.shouldShowRoomDisplayName = NO;

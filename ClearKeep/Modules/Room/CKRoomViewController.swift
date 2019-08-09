@@ -608,7 +608,11 @@ extension CKRoomViewController {
             self.hangupCall()
         }
     }
-    
+
+    @objc func navigationStartChatBarButtonPressed(_ sender: UIBarButtonItem) {
+        self.goBackToLive()
+    }
+
     override func startActivityIndicator() {
         // TODO: don't use start activity indicator
     }
@@ -808,9 +812,8 @@ extension CKRoomViewController {
                         (self.titleView as? RoomTitleView)?.displayNameTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
                     }
                 } else {
-                    
-                    // Remove the search button temporarily
-                    navigationItem.rightBarButtonItems = nil
+                    let startChatButton = UIBarButtonItem.init(title: "Chat", style: .plain, target: self, action: #selector(navigationStartChatBarButtonPressed(_:)))
+                    navigationItem.rightBarButtonItems = [startChatButton]
                     
                     if isRefreshRoomTitle {
                         self.setRoomTitleViewClass(SimpleRoomTitleView.self)
@@ -2200,7 +2203,7 @@ extension CKRoomViewController {
          checkReadMarkerVisibility()
 
         // Switch back to the live mode when the user scrolls to the bottom of the non live timeline.
-        if !roomDataSource.isLive && !isRoomPreview() {
+        if let roomDataSource = roomDataSource, !roomDataSource.isLive, !isRoomPreview() {
             let contentBottomPosY: CGFloat = bubblesTableView.contentOffset.y + bubblesTableView.frame.size.height - bubblesTableView.mxk_adjustedContentInset.bottom
 
             if contentBottomPosY >= bubblesTableView.contentSize.height && !roomDataSource.timeline.canPaginate(MXTimelineDirection.forwards) {

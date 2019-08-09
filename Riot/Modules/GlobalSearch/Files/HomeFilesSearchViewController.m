@@ -25,6 +25,7 @@
 #import "FilesSearchTableViewCell.h"
 
 #import "EventFormatter.h"
+#import "Riot-Swift.h"
 
 @interface HomeFilesSearchViewController()
 {
@@ -176,8 +177,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Data in the cells are actually Vector RoomBubbleCellData
-    FilesSearchCellData *cellData = (FilesSearchCellData*)[self.dataSource cellDataAtIndex:indexPath.row];
-    _selectedEvent = cellData.searchResult.result;
+    CKFilesSearchCellData *cellData = (CKFilesSearchCellData*)[self.dataSource cellDataAtIndex:indexPath.row];
+
+    // CK: get _selectedEvent from cellData's event
+//    _selectedEvent = cellData.searchResult.result;
+    _selectedEvent = cellData.event;
 
     // Hide the keyboard handled by the search text input which belongs to HomeViewController
     [((HomeViewController*)self.parentViewController).searchBar resignFirstResponder];
