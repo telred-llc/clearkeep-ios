@@ -1,5 +1,6 @@
 /*
  Copyright 2017 Vector Creations Ltd
+ Copyright 2019 New Vector Ltd
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -15,6 +16,8 @@
  */
 
 #import "WidgetManager.h"
+
+#import "Riot-Swift.h"
 
 #import <MatrixKit/MatrixKit.h>
 
@@ -46,7 +49,7 @@ NSString *const WidgetManagerErrorDomain = @"WidgetManagerErrorDomain";
         NSMutableDictionary<NSString*, void (^)(NSError *error)>*> *failureBlockForWidgetCreation;
 
     // User id -> scalar token
-    NSMutableDictionary<NSString*, NSString*> *scalarTokens;
+    NSMutableDictionary<NSString*, WidgetManagerConfig*> *configs;
 }
 
 @end
@@ -74,12 +77,7 @@ NSString *const WidgetManagerErrorDomain = @"WidgetManagerErrorDomain";
         successBlockForWidgetCreation = [NSMutableDictionary dictionary];
         failureBlockForWidgetCreation = [NSMutableDictionary dictionary];
 
-        [self load];
-
-        if (!scalarTokens)
-        {
-            scalarTokens = [NSMutableDictionary dictionary];
-        }
+        [self loadConfigs];
     }
     return self;
 }
@@ -261,6 +259,15 @@ NSString *const WidgetManagerErrorDomain = @"WidgetManagerErrorDomain";
                                      success:(void (^)(Widget *jitsiWidget))success
                                      failure:(void (^)(NSError *error))failure
 {
+    NSString *userId = room.mxSession.myUser.userId;
+    WidgetManagerConfig *config = [self configForUser:userId];
+    if (!config.hasUrls)
+    {
+        NSLog(@"[WidgetManager] createJitsiWidgetInRoom: Error: no Integrations Manager API URL for user %@", userId);
+        failure(self.errorForNonConfiguredIntegrationManager);
+        return nil;
+    }
+
     // Build data for a jitsi widget
     NSString *widgetId = [NSString stringWithFormat:@"%@_%@_%@", kWidgetTypeJitsi, room.mxSession.myUser.userId, @((uint64_t)([[NSDate date] timeIntervalSince1970] * 1000))];
 
@@ -274,8 +281,7 @@ NSString *const WidgetManagerErrorDomain = @"WidgetManagerErrorDomain";
     // TODO: This url should come from modular API
     // Note: this url can be used as is inside a web container (like iframe for Riot-web)
     // Riot-iOS does not directly use it but extracts params from it (see `[JitsiViewController openWidget:withVideo:]`)
-    NSString *modularRestUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"integrationsJitsiWidgetUrl"];
-    NSString *url = [NSString stringWithFormat:@"%@?confId=%@&isAudioConf=%@&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&email=$matrix_user_id@", modularRestUrl, confId, video ? @"false" : @"true"];
+    NSString *url = [NSString stringWithFormat:@"%@/widgets/jitsi.html?confId=%@&isAudioConf=%@&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&email=$matrix_user_id@", config.apiUrl, confId, video ? @"false" : @"true"];
 
     return [self createWidget:widgetId
                   withContent:@{
@@ -435,13 +441,32 @@ NSString *const WidgetManagerErrorDomain = @"WidgetManagerErrorDomain";
 
 - (void)deleteDataForUser:(NSString *)userId
 {
-    [scalarTokens removeObjectForKey:userId];
-    [self save];
+    [configs removeObjectForKey:userId];
+    [self saveConfigs];
 }
 
 #pragma mark - Modular interface
 
+- (WidgetManagerConfig*)configForUser:(NSString*)userId
+{
+    // Return a default config by default
+    return configs[userId] ? configs[userId] : [WidgetManagerConfig new];
+}
+
+- (BOOL)hasIntegrationManagerForUser:(NSString*)userId
+{
+    return [self configForUser:userId].hasUrls;
+}
+
+- (void)setConfig:(WidgetManagerConfig*)config forUser:(NSString*)userId
+{
+    configs[userId] = config;
+    [self saveConfigs];
+}
+
+
 - (MXHTTPOperation *)getScalarTokenForMXSession:(MXSession*)mxSession
+                                       validate:(BOOL)validate
                                         success:(void (^)(NSString *scalarToken))success
                                         failure:(void (^)(NSError *error))failure;
 {
@@ -450,83 +475,246 @@ NSString *const WidgetManagerErrorDomain = @"WidgetManagerErrorDomain";
     __block NSString *scalarToken = [self scalarTokenForMXSession:mxSession];
     if (scalarToken)
     {
-        success(scalarToken);
+        if (!validate)
+        {
+            success(scalarToken);
+        }
+        else
+        {
+            operation = [self validateScalarToken:scalarToken forMXSession:mxSession complete:^(BOOL valid) {
+
+                if (valid)
+                {
+                    success(scalarToken);
+                }
+                else
+                {
+                    NSLog(@"[WidgetManager] getScalarTokenForMXSession: Invalid stored token. Need to register for a new token");
+                    MXHTTPOperation *operation2 = [self registerForScalarToken:mxSession success:success failure:failure];
+                    [operation mutateTo:operation2];
+                }
+
+            } failure:failure];
+        }
     }
     else
     {
-        NSLog(@"[WidgetManager] getScalarTokenForMXSession: Need to register to get a token");
-
-        __weak __typeof__(self) weakSelf = self;
-        operation = [mxSession.matrixRestClient openIdToken:^(MXOpenIdToken *tokenObject) {
-
-            typeof(self) self = weakSelf;
-
-            if (self)
-            {
-                // Exchange the token for a scalar token
-                NSString *modularRestUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"integrationsRestUrl"];
-
-                MXHTTPClient *httpClient = [[MXHTTPClient alloc] initWithBaseURL:modularRestUrl andOnUnrecognizedCertificateBlock:nil];
-
-                MXHTTPOperation *operation2 = [httpClient requestWithMethod:@"POST"
-                                                                       path:@"register"
-                                                                 parameters:tokenObject.JSONDictionary
-                                                                    success:^(NSDictionary *JSONResponse) {
-
-                                                                        MXJSONModelSetString(scalarToken, JSONResponse[@"scalar_token"])
-                                                                        self->scalarTokens[mxSession.myUser.userId] = scalarToken;
-
-                                                                        [self save];
-
-                                                                        if (success)
-                                                                        {
-                                                                            success(scalarToken);
-                                                                        }
-
-                                                                    } failure:^(NSError *error) {
-                                                                        NSLog(@"[WidgetManager] getScalarTokenForMXSession. Error in modular/register request");
-
-                                                                        if (failure)
-                                                                        {
-                                                                            failure(error);
-                                                                        }
-                                                                    }];
-
-                [operation mutateTo:operation2];
-
-            }
-
-        } failure:^(NSError *error) {
-            NSLog(@"[WidgetManager] getScalarTokenForMXSession. Error in openIdToken request");
-
-            if (failure)
-            {
-                failure(error);
-            }
-        }];
+        NSLog(@"[WidgetManager] getScalarTokenForMXSession: Need to register for a token");
+        operation = [self registerForScalarToken:mxSession success:success failure:failure];
     }
 
     return operation;
+}
+
+- (MXHTTPOperation *)registerForScalarToken:(MXSession*)mxSession
+                                    success:(void (^)(NSString *scalarToken))success
+                                    failure:(void (^)(NSError *error))failure
+{
+    MXHTTPOperation *operation;
+    NSString *userId = mxSession.myUser.userId;
+
+    WidgetManagerConfig *config = [self configForUser:userId];
+    if (!config.hasUrls)
+    {
+        NSLog(@"[WidgetManager] registerForScalarToken: Error: no Integrations Manager API URL for user %@", mxSession.myUser.userId);
+        failure(self.errorForNonConfiguredIntegrationManager);
+        return nil;
+    }
+
+    MXWeakify(self);
+    operation = [mxSession.matrixRestClient openIdToken:^(MXOpenIdToken *tokenObject) {
+        MXStrongifyAndReturnIfNil(self);
+
+        // Exchange the token for a scalar token
+        MXHTTPClient *httpClient = [[MXHTTPClient alloc] initWithBaseURL:config.apiUrl andOnUnrecognizedCertificateBlock:nil];
+
+        MXHTTPOperation *operation2 =
+        [httpClient requestWithMethod:@"POST"
+                                 path:@"register?v=1.1"
+                           parameters:tokenObject.JSONDictionary
+                              success:^(NSDictionary *JSONResponse)
+         {
+
+             NSString *scalarToken;
+             MXJSONModelSetString(scalarToken, JSONResponse[@"scalar_token"])
+             config.scalarToken = scalarToken;
+
+             self->configs[userId] = config;
+             [self saveConfigs];
+
+             if (success)
+             {
+                 success(scalarToken);
+             }
+
+         } failure:^(NSError *error) {
+             NSLog(@"[WidgetManager] registerForScalarToken: Failed to register. Error: %@", error);
+
+             if (failure)
+             {
+                 // Specialise the error
+                 NSError *error = [NSError errorWithDomain:WidgetManagerErrorDomain
+                                                      code:WidgetManagerErrorCodeFailedToConnectToIntegrationsServer
+                                                  userInfo:@{
+                                                             NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"widget_integrations_server_failed_to_connect", @"Vector", nil)
+                                                             }];
+
+                 failure(error);
+             }
+         }];
+
+        [operation mutateTo:operation2];
+
+    } failure:^(NSError *error) {
+        NSLog(@"[WidgetManager] registerForScalarToken. Error in openIdToken request");
+
+        if (failure)
+        {
+            failure(error);
+        }
+    }];
+
+    return operation;
+}
+
+- (MXHTTPOperation *)validateScalarToken:(NSString*)scalarToken forMXSession:(MXSession*)mxSession
+                                complete:(void (^)(BOOL valid))complete
+                                 failure:(void (^)(NSError *error))failure
+{
+    NSString *userId = mxSession.myUser.userId;
+
+    WidgetManagerConfig *config = [self configForUser:userId];
+    if (!config.hasUrls)
+    {
+        NSLog(@"[WidgetManager] validateScalarToken: Error: no Integrations Manager API URL for user %@", mxSession.myUser.userId);
+        failure(self.errorForNonConfiguredIntegrationManager);
+        return nil;
+    }
+
+    MXHTTPClient *httpClient = [[MXHTTPClient alloc] initWithBaseURL:config.apiUrl andOnUnrecognizedCertificateBlock:nil];
+
+    return [httpClient requestWithMethod:@"GET"
+                                    path:[NSString stringWithFormat:@"account?v=1.1&scalar_token=%@", scalarToken]
+                              parameters:nil
+                                 success:^(NSDictionary *JSONResponse) {
+
+                                     NSString *userId;
+                                     MXJSONModelSetString(userId, JSONResponse[@"user_id"])
+
+                                     if ([userId isEqualToString:mxSession.myUser.userId])
+                                     {
+                                         complete(YES);
+                                     }
+                                     else
+                                     {
+                                         NSLog(@"[WidgetManager] validateScalarToken. Unexpected modular/account response: %@", JSONResponse);
+                                         complete(NO);
+                                     }
+
+                                 } failure:^(NSError *error) {
+                                     NSHTTPURLResponse *urlResponse = [MXHTTPOperation urlResponseFromError:error];
+
+                                     NSLog(@"[WidgetManager] validateScalarToken. Error in modular/account request. statusCode: %@", @(urlResponse.statusCode));
+
+                                     if (urlResponse &&  urlResponse.statusCode / 100 != 2)
+                                     {
+                                         complete(NO);
+                                     }
+                                     else if (failure)
+                                     {
+                                         failure(error);
+                                     }
+                                 }];
+}
+
+- (BOOL)isScalarUrl:(NSString *)urlString forUser:(NSString*)userId
+{
+    BOOL isScalarUrl = NO;
+
+    // TODO: Do we need to add `integrationsWidgetsUrls` to `WidgetManagerConfig`?
+    NSArray<NSString*> *scalarUrlStrings = [[NSUserDefaults standardUserDefaults] objectForKey:@"integrationsWidgetsUrls"];
+    if (scalarUrlStrings.count == 0)
+    {
+        NSString *apiUrl = [self configForUser:userId].apiUrl;
+        if (apiUrl)
+        {
+            scalarUrlStrings = @[apiUrl];
+        }
+    }
+
+    for (NSString *scalarUrlString in scalarUrlStrings)
+    {
+        if ([urlString hasPrefix:scalarUrlString])
+        {
+            isScalarUrl = YES;
+            break;
+        }
+    }
+
+    return isScalarUrl;
 }
 
 #pragma mark - Private methods
 
 - (NSString *)scalarTokenForMXSession:(MXSession *)mxSession
 {
-    return scalarTokens[mxSession.myUser.userId];
+    return configs[mxSession.myUser.userId].scalarToken;
 }
 
-- (void)load
-{
-    NSUserDefaults *userDefaults = [MXKAppSettings standardAppSettings].sharedUserDefaults;
-    scalarTokens = [NSMutableDictionary dictionaryWithDictionary:[userDefaults objectForKey:@"scalarTokens"]];
-}
-
-- (void)save
+- (void)loadConfigs
 {
     NSUserDefaults *userDefaults = [MXKAppSettings standardAppSettings].sharedUserDefaults;
 
-    [userDefaults setObject:scalarTokens forKey:@"scalarTokens"];
+    NSDictionary<NSString*, NSString*> *scalarTokens = [userDefaults objectForKey:@"scalarTokens"];
+    if (scalarTokens)
+    {
+        // Manage migration to WidgetManagerConfig
+        configs = [NSMutableDictionary dictionary];
+        for (NSString *userId in scalarTokens)
+        {
+            NSString *scalarToken = scalarTokens[userId];
+
+            NSLog(@"[WidgetManager] migrate scalarTokens to integrationManagerConfigs for %@", userId);
+
+            WidgetManagerConfig *config = [WidgetManagerConfig new];
+            config.scalarToken = scalarToken;
+
+            configs[userId] = config;
+        }
+
+        [self saveConfigs];
+        [userDefaults removeObjectForKey:@"scalarTokens"];
+    }
+    else
+    {
+        NSData *configsData = [userDefaults objectForKey:@"integrationManagerConfigs"];
+        if (configsData)
+        {
+            configs = [NSMutableDictionary dictionaryWithDictionary:[NSKeyedUnarchiver unarchiveObjectWithData:configsData]];
+        }
+
+        if (!configs)
+        {
+            configs = [NSMutableDictionary dictionary];
+        }
+    }
+}
+
+- (void)saveConfigs
+{
+    NSUserDefaults *userDefaults = [MXKAppSettings standardAppSettings].sharedUserDefaults;
+    [userDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:configs]
+                     forKey:@"integrationManagerConfigs"];
+}
+
+
+#pragma mark - Errors
+
+- (NSError*)errorForNonConfiguredIntegrationManager
+{
+    return [NSError errorWithDomain:WidgetManagerErrorDomain
+                               code:WidgetManagerErrorCodeNoIntegrationsServerConfigured
+                           userInfo:@{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"widget_no_integrations_server_configured", @"Vector", nil)}];
 }
 
 @end
