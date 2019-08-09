@@ -30,10 +30,17 @@ final public class CkMasterTabBarController: MasterTabBarController {
         return themeService.attrs.statusBarStyle
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupNavigationBar()
         bindingTheme()
+
+        // Observe server sync at room data source level too
+        NotificationCenter.default.addObserver(self, selector: #selector(onSyncNotification), name: NSNotification.Name.mxSessionDidSync, object: nil)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -46,9 +53,6 @@ final public class CkMasterTabBarController: MasterTabBarController {
         
         // Observe wrong backup version
         NotificationCenter.default.addObserver(self, selector: #selector(keyBackupStateDidChange(_:)), name: NSNotification.Name.mxKeyBackupDidStateChange, object: nil)
-
-        // Observe server sync at room data source level too
-        NotificationCenter.default.addObserver(self, selector: #selector(onSyncNotification), name: NSNotification.Name.mxSessionDidSync, object: nil)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -58,7 +62,6 @@ final public class CkMasterTabBarController: MasterTabBarController {
         navigationController?.navigationBar.shadowImage = nil
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxKeyBackupDidStateChange, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxSessionDidSync, object: nil)
     }
     
     public override func showAuthenticationScreen() {
