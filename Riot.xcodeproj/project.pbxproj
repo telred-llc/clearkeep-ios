@@ -624,8 +624,6 @@
 		E54A5AEF21FF0D5E0094461E /* CKContactListSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54A5AEC21FF0D5E0094461E /* CKContactListSearchCell.xib */; };
 		E54A5AF021FF0D5E0094461E /* CKContactListMatrixCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54A5AED21FF0D5E0094461E /* CKContactListMatrixCell.xib */; };
 		E56DF676222945C500D54DBD /* CKCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E56DF675222945C500D54DBD /* CKCallViewController.xib */; };
-		E5705F8E22F93B9600D44B74 /* CKSearchContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5705F8C22F93B9600D44B74 /* CKSearchContactViewController.swift */; };
-		E5705F9122F93C7C00D44B74 /* CKSearchContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5705F8F22F93C7C00D44B74 /* CKSearchContactViewController.xib */; };
 		E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */; };
 		E5720EDC21ACFA1F0093D99A /* CkMasterTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720EDB21ACFA1F0093D99A /* CkMasterTabBarController.swift */; };
 		E5720EDE21ACFB390093D99A /* CkAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720EDD21ACFB390093D99A /* CkAuthenticationViewController.swift */; };
@@ -4862,7 +4860,6 @@
 				E5E7DC73229BC7D300AB7CF3 /* RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				E5E7DC74229BC7D300AB7CF3 /* CKAccountEditProfileAvatarCell.xib in Resources */,
 				E5E7DC75229BC7D300AB7CF3 /* TableViewCellWithCollectionView.xib in Resources */,
-				E5705F9122F93C7C00D44B74 /* CKSearchContactViewController.xib in Resources */,
 				E5E7DC76229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				E5E7DC77229BC7D300AB7CF3 /* RoomOutgoingTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				E520C5C722E719BC003101BA /* PasswordStrengthView.xib in Resources */,
@@ -5564,7 +5561,6 @@
 				E5E7DB7C229BC7D300AB7CF3 /* Analytics.m in Sources */,
 				E5E7DB7D229BC7D300AB7CF3 /* CKOtherProfileActionCell.swift in Sources */,
 				E5E7DB7E229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
-				E5705F8E22F93B9600D44B74 /* CKSearchContactViewController.swift in Sources */,
 				E5E7DB80229BC7D300AB7CF3 /* MediaPickerViewController.m in Sources */,
 				E520C5CF22E719CA003101BA /* KeyBackupRecoverFromPassphraseCoordinatorType.swift in Sources */,
 				E5E7DB81229BC7D300AB7CF3 /* RageShakeManager.m in Sources */,
