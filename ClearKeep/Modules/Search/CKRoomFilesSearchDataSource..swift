@@ -30,10 +30,7 @@ import Foundation
             getRoomDataSource(roomId: roomId) { [weak self] (roomDataSource) in
                 if let _ = roomDataSource {
                     let cellData = CKFilesSearchCellData.init(event: roomEvent, searchDataSource: self)
-
                     // Custom cell data here
-                    // default: shouldShowRoomDisplayName is false
-                    cellData.shouldShowRoomDisplayName = false
 
                     self?.cellDataArray?.add(cellData)
                 }

@@ -118,7 +118,12 @@ import Foundation
         self.event = event
         
         // Title is here the file name stored in event body
-        title = (searchDataSource as? CKSearchDataSource)?.getBodyMessage(event: event)
+        if let searchDataSource = searchDataSource as? CKSearchDataSource {
+            let decryptedEventContent = searchDataSource.getEventContent(event: event)
+            title = searchDataSource.getBodyMessage(eventContent: decryptedEventContent, isMediaAttachment: event.isMediaAttachment())
+        } else {
+            title = nil
+        }
 
         roomId = event.roomId
 
