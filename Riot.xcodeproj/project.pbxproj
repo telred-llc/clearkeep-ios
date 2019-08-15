@@ -666,6 +666,7 @@
 		E579FDD922FD22F900B26814 /* StickerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDCB22FD22F800B26814 /* StickerPickerViewController.m */; };
 		E579FDDA22FD22F900B26814 /* WidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDCD22FD22F800B26814 /* WidgetViewController.m */; };
 		E579FDDB22FD22F900B26814 /* WidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E579FDCD22FD22F800B26814 /* WidgetViewController.m */; };
+		E57F8B1B23053B7600E451FC /* Info-Prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = E57F8B1A23053B7500E451FC /* Info-Prod.plist */; };
 		E5ABA73221E6FA7B005EFE0C /* ClearKeep.strings in Resources */ = {isa = PBXBuildFile; fileRef = E5ABA73021E6FA7B005EFE0C /* ClearKeep.strings */; };
 		E5ABA73621E6FD49005EFE0C /* CKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABA73521E6FD49005EFE0C /* CKLocalization.swift */; };
 		E5ABA74A21E73CBC005EFE0C /* CKRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ABA73821E73CBC005EFE0C /* CKRoomViewController.swift */; };
@@ -1938,7 +1939,6 @@
 		E520894021DC730400591830 /* CkAvatarTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CkAvatarTopView.swift; sourceTree = "<group>"; };
 		E520C58D22E711B6003101BA /* Riot-Prod.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Riot-Prod.entitlements"; path = "Riot/SupportingFiles/Riot-Prod.entitlements"; sourceTree = SOURCE_ROOT; };
 		E520C5AC22E7136B003101BA /* RiotShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RiotShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		E520C5AD22E7136C003101BA /* Info-Prod.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-Prod.plist"; path = "/Volumes/Data/PROJECTS/Riots/riot-ios/Info-Prod.plist"; sourceTree = "<absolute>"; };
 		E520C5AF22E71482003101BA /* RiotShareExtension-Prod.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RiotShareExtension-Prod.entitlements"; sourceTree = "<group>"; };
 		E5233116221BA961008FC772 /* CKRoomSettingsMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreViewController.swift; sourceTree = "<group>"; };
 		E5233118221BA96C008FC772 /* CKRoomSettingsMoreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreViewController.xib; sourceTree = "<group>"; };
@@ -2015,6 +2015,7 @@
 		E579FDCB22FD22F800B26814 /* StickerPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickerPickerViewController.m; sourceTree = "<group>"; };
 		E579FDCC22FD22F800B26814 /* WidgetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetViewController.h; sourceTree = "<group>"; };
 		E579FDCD22FD22F800B26814 /* WidgetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetViewController.m; sourceTree = "<group>"; };
+		E57F8B1A23053B7500E451FC /* Info-Prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Prod.plist"; sourceTree = "<group>"; };
 		E5ABA73121E6FA7B005EFE0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ClearKeep.strings; sourceTree = "<group>"; };
 		E5ABA73521E6FD49005EFE0C /* CKLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKLocalization.swift; sourceTree = "<group>"; };
 		E5ABA73821E73CBC005EFE0C /* CKRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomViewController.swift; sourceTree = "<group>"; };
@@ -2822,7 +2823,7 @@
 				B1664BD120F4E82700808783 /* RiotShareExtension-Bridging-Header.h */,
 				E520C5AF22E71482003101BA /* RiotShareExtension-Prod.entitlements */,
 				B1664BD220F4E82800808783 /* RiotShareExtension.entitlements */,
-				E520C5AD22E7136C003101BA /* Info-Prod.plist */,
+				E57F8B1A23053B7500E451FC /* Info-Prod.plist */,
 				B1664BD320F4E82800808783 /* Info.plist */,
 			);
 			path = SupportingFiles;
@@ -4832,6 +4833,7 @@
 				E520C5A622E7136B003101BA /* SharedImages.xcassets in Resources */,
 				E520C5A722E7136B003101BA /* FallbackViewController.xib in Resources */,
 				E520C5A822E7136B003101BA /* RecentRoomTableViewCell.xib in Resources */,
+				E57F8B1B23053B7600E451FC /* Info-Prod.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6476,7 +6478,7 @@
 					"COCOAPODS=1",
 					"IS_SHARE_EXTENSION=1",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Info-Prod.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/RiotShareExtension/SupportingFiles/Info-Prod.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6517,7 +6519,7 @@
 					"COCOAPODS=1",
 					"IS_SHARE_EXTENSION=1",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Info-Prod.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/RiotShareExtension/SupportingFiles/Info-Prod.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
