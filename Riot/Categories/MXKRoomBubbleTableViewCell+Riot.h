@@ -52,6 +52,15 @@ extern NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer;
 - (void)selectComponent:(NSUInteger)componentIndex;
 
 /**
+ Highlight a component in receiver and show or not edit button.
+ 
+ @param componentIndex index of the component in bubble message data
+ @param showEditButton true to show edit button
+ @param showTimestamp true to show timestamp label
+ */
+- (void)selectComponent:(NSUInteger)componentIndex showEditButton:(BOOL)showEditButton showTimestamp:(BOOL)showTimestamp;
+
+/**
  Mark a component in receiver.
 
  @param componentIndex index of the component in bubble message data
@@ -69,19 +78,17 @@ extern NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer;
 - (IBAction)onReceiptContainerTap:(UITapGestureRecognizer *)sender;
 
 /**
- Blur the view by adding a transparent overlay. Default is NO.
+ Update username label color based on bubble data sender ID.
  */
-@property(nonatomic) BOOL blurred;
+- (void)updateUserNameColor;
 
 /**
- The 'edit' button displayed at in the top-right corner of the selected component (if any). Default is nil.
+ Calculate component frame in table view.
+ 
+ @param componentIndex index of the component in bubble message data
+ @return component frame in table view if component exist or CGRectNull.
  */
-@property(nonatomic) UIButton *editButton;
-
-/**
- The marker view displayed in front of the marked component (if any).
- */
-@property (nonatomic) UIView *markerView;
+- (CGRect)componentFrameInTableViewForIndex:(NSInteger)componentIndex;
 
 /**
  Calculate surrounding component frame in table view. This frame goes over user name for first visible component for example.
@@ -98,5 +105,29 @@ extern NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer;
  @return component frame in the contentView if the component exists or CGRectNull.
  */
 - (CGRect)componentFrameInContentViewForIndex:(NSInteger)componentIndex;
+
+/**
+ Give the correct cell height for a bubble cell with an attachment view. Handle reactions and read receipts views.
+ 
+ @param cellData The data object to render.
+ @param maxWidth The maximum available width.
+ @return The cell height.
+ */
++ (CGFloat)attachmentBubbleCellHeightForCellData:(MXKCellData *)cellData withMaximumWidth:(CGFloat)maxWidth;
+
+/**
+ Blur the view by adding a transparent overlay. Default is NO.
+ */
+@property(nonatomic) BOOL blurred;
+
+/**
+ The 'edit' button displayed at in the top-right corner of the selected component (if any). Default is nil.
+ */
+@property(nonatomic) UIButton *editButton;
+
+/**
+ The marker view displayed in front of the marked component (if any).
+ */
+@property (nonatomic) UIView *markerView;
 
 @end

@@ -362,8 +362,7 @@ extension CKRoomViewController {
         }
         
         // Cancel potential selected event (to leave edition mode)
-        if customizedRoomDataSource?.selectedEventId != nil
-        {
+        if customizedRoomDataSource?.selectedEventId != nil  {
             self.cancelEventSelection()
         }
         
@@ -804,7 +803,7 @@ extension CKRoomViewController {
     
     func setInputToolBarSendMode(_ sendMode: RoomInputToolbarViewSendMode) {
         if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
-            inputToolBarView.setSendMode(sendMode: sendMode)
+            inputToolBarView.sendMode = sendMode
         }
     }
     
@@ -824,12 +823,17 @@ extension CKRoomViewController {
         }
     }
     
-    func sendTextMessage(_ msgTxt: String?) {
+    override func sendTextMessage(_ msgTxt: String?) {
         if self.inputToolBarSendMode() == RoomInputToolbarViewSendMode.reply, let selectedEventId = customizedRoomDataSource?.selectedEventId {
             roomDataSource?.sendReplyToEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil, failure: { error in
                 // Just log the error. The message will be displayed in red in the room history
-                print("[MXKRoomViewController] sendTextMessage failed.")
+                print("[MXKRoomViewController] sendTextMessage reply failed.")
             })
+        } else if self.inputToolBarSendMode() == RoomInputToolbarViewSendMode.edit, let selectedEventId = customizedRoomDataSource?.selectedEventId {
+            self.roomDataSource.replaceTextMessageForEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil) { error in
+                // Just log the error. The message will be displayed in red
+                print("[MXKRoomViewController] sendTextMessage edit failed.")
+            }
         } else {
             // Let the datasource send it and manage the local echo
             roomDataSource.sendTextMessage(msgTxt, success: nil, failure: { error in
@@ -838,7 +842,7 @@ extension CKRoomViewController {
             })
         }
 
-        cancelEventSelection()
+        self.cancelEventSelection()
     }
     
     func refreshRoomNavigationBar(_ isRefreshRoomTitle: Bool = true) {
@@ -2006,7 +2010,6 @@ extension CKRoomViewController {
         let attachment = roomBubbleTableViewCell.bubbleData.attachment
         
         // Add actions for text message
-        // Handle this case to add "Quote" action.
         if attachment == nil {
             self.dismissKeyboard()
             guard let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent else {
@@ -2367,6 +2370,7 @@ extension CKRoomViewController: MXServerNoticesDelegate {
 // MARK: - RoomInputToolbarViewDelegate
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
+    
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?) {
 
         func highlightMentionButton(highlight: Bool) {
@@ -2873,7 +2877,7 @@ extension CKRoomViewController {
             bubbleComponentFrameInOverlayView = self.bubblesTableView.convert(bubbleComponentFrame, to: self.overlayContainerView)
             let roomId = self.roomDataSource.roomId ?? ""
             let aggregations = self.mainSession.aggregations
-            let aggregatedReactions = aggregations?.aggregatedReactions(onEvent: selectedEventId, inRoom: roomId)
+            let aggregatedReactions: MXAggregatedReactions? = aggregations?.aggregatedReactions(onEvent: selectedEventId, inRoom: roomId)
             
             reactionsMenuViewModel = ReactionsMenuViewModel(aggregatedReactions: aggregatedReactions, eventId: selectedEventId)
             reactionsMenuViewModel?.coordinatorDelegate = self

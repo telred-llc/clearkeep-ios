@@ -95,6 +95,8 @@
 		926FA53F1F4C132000F826C2 /* MXSession+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = 926FA53E1F4C132000F826C2 /* MXSession+Riot.m */; };
 		92726A471F58737A004AD26F /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 92726A461F58737A004AD26F /* IntentHandler.m */; };
 		92726A511F587410004AD26F /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92726A501F587410004AD26F /* Intents.framework */; };
+		9C05C8F822FF269500BA23D1 /* UserNameColorGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05C8F722FF269500BA23D1 /* UserNameColorGenerator.swift */; };
+		9C05C8F922FF269500BA23D1 /* UserNameColorGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05C8F722FF269500BA23D1 /* UserNameColorGenerator.swift */; };
 		9C0771A822F31189009DF510 /* RoomBubbleCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0771A622F31188009DF510 /* RoomBubbleCellData.m */; };
 		9C0771A922F31189009DF510 /* RoomBubbleCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0771A622F31188009DF510 /* RoomBubbleCellData.m */; };
 		9C3AC4B422D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC47E22D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.swift */; };
@@ -1515,6 +1517,7 @@
 		92726A481F58737A004AD26F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92726A4F1F587393004AD26F /* SiriIntents.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SiriIntents.entitlements; sourceTree = "<group>"; };
 		92726A501F587410004AD26F /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		9C05C8F722FF269500BA23D1 /* UserNameColorGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNameColorGenerator.swift; sourceTree = "<group>"; };
 		9C0771A622F31188009DF510 /* RoomBubbleCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomBubbleCellData.m; sourceTree = "<group>"; };
 		9C0771A722F31188009DF510 /* RoomBubbleCellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomBubbleCellData.h; sourceTree = "<group>"; };
 		9C3AC47E22D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyBackupSetupSuccessFromRecoveryKeyViewController.swift; sourceTree = "<group>"; };
@@ -4880,6 +4883,7 @@
 				F083BC131E7009EC00A9B29C /* EventFormatter.m */,
 				F083BC141E7009EC00A9B29C /* Tools.h */,
 				F083BC151E7009EC00A9B29C /* Tools.m */,
+				9C05C8F722FF269500BA23D1 /* UserNameColorGenerator.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -5942,6 +5946,7 @@
 				E520C5D022E719CA003101BA /* KeyBackupRecoverFromPassphraseCoordinator.swift in Sources */,
 				E5E7DB7B229BC7D300AB7CF3 /* Contact.m in Sources */,
 				E5E7DB7C229BC7D300AB7CF3 /* Analytics.m in Sources */,
+				9C05C8F922FF269500BA23D1 /* UserNameColorGenerator.swift in Sources */,
 				E5E7DB7D229BC7D300AB7CF3 /* CKOtherProfileActionCell.swift in Sources */,
 				9CEBD5B522EF6114008D333A /* BubbleReactionActionViewCell.swift in Sources */,
 				E5E7DB7E229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
@@ -6404,6 +6409,7 @@
 				B1B5573E20EE6C4D00210D55 /* RiotNavigationController.m in Sources */,
 				6917A322224A11E1001F2D9D /* CKAttachmentsViewController.swift in Sources */,
 				B1B5593B20EF7BAC00210D55 /* TableViewCellWithCheckBoxAndLabel.m in Sources */,
+				9C05C8F822FF269500BA23D1 /* UserNameColorGenerator.swift in Sources */,
 				A01DCDE121FEBCA30069CA4A /* CKImageView.swift in Sources */,
 				B1B5581A20EF625800210D55 /* ExpandedRoomTitleView.m in Sources */,
 				B1B558E920EF768F00210D55 /* RoomSelectedStickerBubbleCell.m in Sources */,

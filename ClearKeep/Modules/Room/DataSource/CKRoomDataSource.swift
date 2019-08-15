@@ -284,13 +284,14 @@ class CKRoomDataSource: MXKRoomDataSource {
             let cellData = bubbleCell.bubbleData as? RoomBubbleCellData
             let bubbleComponents = cellData?.bubbleComponents
             
+            debugPrint("[CKRoomDataSource] bubbleComponents \(bubbleComponents?.count ?? -1)")
+            
             // Display time for each message
             if bubbleCell.bubbleInfoContainer != nil {
                 bubbleCell.addDateLabel(true)
             }
             
             let temporaryViews = NSMutableArray()
-            
             let isCollapsableCellCollapsed: Bool = cellData?.collapsable != nil && cellData?.collapsed != nil
 
             // Display timestamp of the last message
@@ -301,8 +302,9 @@ class CKRoomDataSource: MXKRoomDataSource {
             // Handle read receipts and read marker display.
             // Ignore the read receipts on the bubble without actual display.
             // Ignore the read receipts on collapsed bubbles
-            if (self.showBubbleReceipts && (cellData?.readReceipts.count ?? 0) > 0 && !isCollapsableCellCollapsed) || showReadMarker {
-                
+//            if (self.showBubbleReceipts && (cellData?.readReceipts.count ?? 0) > 0 && !isCollapsableCellCollapsed) || showReadMarker {
+            if ((((showBubbleReceipts && ((cellData?.readReceipts.count) != nil)) || ((cellData?.reactions.count) != nil)) && !isCollapsableCellCollapsed) || showReadMarker) {
+            
                 // Read receipts container are inserted here on the right side into the content view.
                 // Some vertical whitespaces are added in message text view (see RoomBubbleCellData class) to insert correctly multiple receipts.
                 
@@ -474,7 +476,7 @@ class CKRoomDataSource: MXKRoomDataSource {
                     }
                 }
             }
-            
+            debugPrint("[CKRoomDataSource] temporaryViews \(temporaryViews.count)")
             // Update attachmentView bottom constraint to display reactions and read receipts if needed
             if bubbleCell.attachmentView != nil, let attachmentViewBottomConstraint = bubbleCell.attachViewBottomConstraint, temporaryViews.count > 0 {
                 attachmentViewBottomConstraint.constant = roomBubbleCellData?.additionalContentHeight ?? 0

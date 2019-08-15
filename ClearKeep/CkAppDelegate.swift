@@ -189,27 +189,6 @@ import Foundation
     
     // MARK - Application layout handling
     
-    //- (UIAlertController*)showAlertWithTitle:(NSString*)title message:(NSString*)message
-    //{
-    //    [_errorNotification dismissViewControllerAnimated:NO completion:nil];
-    //
-    //    _errorNotification = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    //    [_errorNotification addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
-    //                                                           style:UIAlertActionStyleDefault
-    //                                                         handler:^(UIAlertAction * action) {
-    //
-    //                                                             [AppDelegate theDelegate].errorNotification = nil;
-    //
-    //                                                         }]];
-    //    // Display the error notification
-    //    if (!isErrorNotificationSuspended)
-    //    {
-    //        [_errorNotification mxk_setAccessibilityIdentifier:@"AppDelegateErrorAlert"];
-    //        [self showNotificationAlert:_errorNotification];
-    //    }
-    //
-    //    return self.errorNotification;
-    //}
     public func showAlertWithTitle(title: String, message: String) {
         if self.errorNotification != nil {
             self.errorNotification.dismiss(animated: false, completion: nil)
@@ -256,5 +235,5 @@ import Foundation
             
             self.showNotificationAlert(self.keyBackupAlert)
         }
-    }
+    } 
 } 

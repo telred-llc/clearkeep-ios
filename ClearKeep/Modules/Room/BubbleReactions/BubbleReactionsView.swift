@@ -121,6 +121,7 @@ extension BubbleReactionsView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // "Show all" or "Show less" is a cell in the same section as reactions cells
         let additionalItems = self.showAllButtonState == .none ? 0 : 1
+        debugPrint("[BubbleReactionsView] numberOfItemsInSection additionalItems \(additionalItems)")
 
         return self.reactionsViewData.count + additionalItems
     }

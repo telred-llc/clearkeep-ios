@@ -74,6 +74,7 @@
 #endif
 #ifdef CALL_STACK_JINGLE
 #import <MatrixSDK/MXJingleCallStack.h>
+#import <UserNotifications/UserNotifications.h>
 #endif
 
 #define CALL_STATUS_BAR_HEIGHT 44
@@ -1112,6 +1113,42 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound |UIUserNotificationTypeAlert) categories:notificationCategories];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     }
+    
+    NSLog(@"[AppDelegate][Push] registerUserNotificationSettings: isPushRegistered: %@", @(isPushRegistered));
+    
+    if (!isPushRegistered)
+    {
+        UNTextInputNotificationAction *quickReply = [UNTextInputNotificationAction
+                                                     actionWithIdentifier:@"inline-reply"
+                                                     title:NSLocalizedStringFromTable(@"room_message_short_placeholder", @"Vector", nil)
+                                                     options:UNNotificationActionOptionAuthenticationRequired
+                                                     ];
+        
+        UNNotificationCategory *quickReplyCategory = [UNNotificationCategory
+                                                      categoryWithIdentifier:@"QUICK_REPLY"
+                                                      actions:@[quickReply]
+                                                      intentIdentifiers:@[]
+                                                      options:UNNotificationCategoryOptionNone];
+        
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center setNotificationCategories:[[NSSet alloc] initWithArray:@[quickReplyCategory]]];
+        [center setDelegate:self]; // commenting this out will fall back to using the same AppDelegate methods as the iOS 9 way of doing this
+        
+        UNAuthorizationOptions authorizationOptions = (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
+        
+        [center requestAuthorizationWithOptions:authorizationOptions
+                              completionHandler:^(BOOL granted, NSError *error)
+         { // code here is equivalent to self:application:didRegisterUserNotificationSettings:
+             if (granted) {
+                 [self registerForRemoteNotificationsWithCompletion:nil];
+             }
+             else
+             {
+                 // Clear existing token
+                 [self clearPushNotificationToken];
+             }
+         }];
+    }
 }
 
 - (void)registerForRemoteNotificationsWithCompletion:(nullable void (^)(NSError *))completion
@@ -1122,6 +1159,111 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     self.pushRegistry.delegate = self;
     self.pushRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
 }
+
+// iOS 10+, see application:handleActionWithIdentifier:forLocalNotification:withResponseInfo:completionHandler:
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
+{
+    UNNotification *notification = response.notification;
+    UNNotificationContent *content = notification.request.content;
+    NSString *actionIdentifier = [response actionIdentifier];
+    NSString *roomId = content.userInfo[@"room_id"];
+    
+    if ([actionIdentifier isEqualToString:@"inline-reply"])
+    {
+        if ([response isKindOfClass:[UNTextInputNotificationResponse class]])
+        {
+            UNTextInputNotificationResponse *textInputNotificationResponse = (UNTextInputNotificationResponse *)response;
+            NSString *responseText = [textInputNotificationResponse userText];
+            
+            [self handleNotificationInlineReplyForRoomId:roomId withResponseText:responseText success:^(NSString *eventId) {
+                completionHandler();
+            } failure:^(NSError *error) {
+                
+                UNMutableNotificationContent *failureNotificationContent = [[UNMutableNotificationContent alloc] init];
+                failureNotificationContent.userInfo = content.userInfo;
+                failureNotificationContent.body = NSLocalizedStringFromTable(@"room_event_failed_to_send", @"Vector", nil);
+                failureNotificationContent.threadIdentifier = roomId;
+                
+                NSString *uuid = [[NSUUID UUID] UUIDString];
+                UNNotificationRequest *failureNotificationRequest = [UNNotificationRequest requestWithIdentifier:uuid
+                                                                                                         content:failureNotificationContent
+                                                                                                         trigger:nil];
+                
+                [center addNotificationRequest:failureNotificationRequest withCompletionHandler:nil];
+                NSLog(@"[AppDelegate][Push] didReceiveNotificationResponse: error sending text message: %@", error);
+                
+                completionHandler();
+            }];
+        }
+        else
+        {
+            NSLog(@"[AppDelegate][Push] didReceiveNotificationResponse: error, expect a response of type UNTextInputNotificationResponse");
+            completionHandler();
+        }
+    }
+    else if ([actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier])
+    {
+        [self navigateToRoomById:roomId];
+        completionHandler();
+    }
+    else
+    {
+        NSLog(@"[AppDelegate][Push] didReceiveNotificationResponse: unhandled identifier %@", actionIdentifier);
+        completionHandler();
+    }
+}
+
+// iOS 10+, this is called when a notification is about to display in foreground.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+    NSLog(@"[AppDelegate][Push] willPresentNotification: applicationState: %@", @([UIApplication sharedApplication].applicationState));
+    
+    completionHandler(UNNotificationPresentationOptionNone);
+}
+
+- (void)navigateToRoomById:(NSString *)roomId
+{
+    if (roomId.length)
+    {
+        // TODO retrieve the right matrix session
+        // We can use the "user_id" value in notification.userInfo
+        
+        //**************
+        // Patch consider the first session which knows the room id
+        MXKAccount *dedicatedAccount = nil;
+        
+        NSArray *mxAccounts = [MXKAccountManager sharedManager].activeAccounts;
+        
+        if (mxAccounts.count == 1)
+        {
+            dedicatedAccount = mxAccounts.firstObject;
+        }
+        else
+        {
+            for (MXKAccount *account in mxAccounts)
+            {
+                if ([account.mxSession roomWithRoomId:roomId])
+                {
+                    dedicatedAccount = account;
+                    break;
+                }
+            }
+        }
+        
+        // sanity checks
+        if (dedicatedAccount && dedicatedAccount.mxSession)
+        {
+            NSLog(@"[AppDelegate][Push] navigateToRoomById: open the roomViewController %@", roomId);
+            
+            [self showRoom:roomId andEventId:nil withMatrixSession:dedicatedAccount.mxSession];
+        }
+        else
+        {
+            NSLog(@"[AppDelegate][Push] navigateToRoomById : no linked session / account has been found.");
+        }
+    }
+}
+
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
@@ -1750,6 +1892,68 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     NSLog(@"[AppDelegate] refreshApplicationIconBadgeNumber: %tu", count);
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = count;
+}
+
+- (void)handleNotificationInlineReplyForRoomId:(NSString*)roomId
+                              withResponseText:(NSString*)responseText
+                                       success:(void(^)(NSString *eventId))success
+                                       failure:(void(^)(NSError *error))failure
+{
+    if (!roomId.length)
+    {
+        failure(nil);
+        return;
+    }
+    
+    NSArray* mxAccounts = [MXKAccountManager sharedManager].activeAccounts;
+    
+    MXKRoomDataSourceManager* manager;
+    
+    for (MXKAccount* account in mxAccounts)
+    {
+        MXRoom* room = [account.mxSession roomWithRoomId:roomId];
+        if (room)
+        {
+            manager = [MXKRoomDataSourceManager sharedManagerForMatrixSession:account.mxSession];
+            if (manager)
+            {
+                break;
+            }
+        }
+    }
+    
+    if (manager == nil)
+    {
+        NSLog(@"[AppDelegate][Push] didReceiveNotificationResponse: room with id %@ not found", roomId);
+        failure(nil);
+    }
+    else
+    {
+        [manager roomDataSourceForRoom:roomId create:YES onComplete:^(MXKRoomDataSource *roomDataSource) {
+            if (responseText != nil && responseText.length != 0)
+            {
+                NSLog(@"[AppDelegate][Push] didReceiveNotificationResponse: sending message to room: %@", roomId);
+                [roomDataSource sendTextMessage:responseText success:^(NSString* eventId) {
+                    success(eventId);
+                } failure:^(NSError* error) {
+                    failure(error);
+                }];
+            }
+            else
+            {
+                failure(nil);
+            }
+        }];
+    }
+}
+
+- (void)clearPushNotificationToken
+{
+    NSLog(@"[AppDelegate][Push] clearPushNotificationToken: Clear existing token");
+    
+    // Clear existing token
+    MXKAccountManager* accountManager = [MXKAccountManager sharedManager];
+    [accountManager setPushDeviceToken:nil withPushOptions:nil];
 }
 
 #pragma mark - Universal link

@@ -36,8 +36,7 @@ import Foundation
     
     // MARK: - Setup
     
-    @objc init(aggregatedReactions: MXAggregatedReactions?,
-               eventId: String) {
+    @objc init(aggregatedReactions: MXAggregatedReactions?, eventId: String) {
         self.aggregatedReactions = aggregatedReactions
         self.eventId = eventId
     }

@@ -227,12 +227,12 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     
     // MARK: - Private functions
 
-    func setSendMode(sendMode: RoomInputToolbarViewSendMode) {
-        self.sendMode = sendMode
-        
-        self.updatePlaceholder()
-        self.updateToolbarButtonLabel()
-    }
+//    func setSendMode(sendMode: RoomInputToolbarViewSendMode) {
+//        self.sendMode = sendMode
+//        
+//        self.updatePlaceholder()
+//        self.updateToolbarButtonLabel()
+//    }
     
     func updatePlaceholder() {
         // Consider the default placeholder

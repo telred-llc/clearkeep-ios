@@ -436,9 +436,12 @@ static NSAttributedString *timestampVerticalWhitespace = nil;
         NSString *eventId = bubbleComponent.event.eventId;
         
         height+= [self reactionHeightForEventId:eventId];
+        NSLog(@"[RoomBubbleCellData] reaction Height %f", [self reactionHeightForEventId:eventId]);
         height+= [self readReceiptHeightForEventId:eventId];
+        NSLog(@"[RoomBubbleCellData] read Receipt Height %f", [self reactionHeightForEventId:eventId]);
     }
-    
+    NSLog(@"[RoomBubbleCellData] height %f", height);
+
     return height;
 }
 
@@ -481,7 +484,7 @@ static NSAttributedString *timestampVerticalWhitespace = nil;
     NSUInteger reactionCount = self.reactions[eventId].reactions.count;
     
     MXAggregatedReactions *aggregatedReactions = self.reactions[eventId];
-    
+    NSLog(@"[RoomBubbleCellData] reactionCount %lu", reactionCount);
     if (reactionCount)
     {
         CGFloat bubbleReactionsViewWidth = self.maxTextViewWidth - 4;
@@ -681,7 +684,7 @@ static NSAttributedString *timestampVerticalWhitespace = nil;
 
 #pragma mark - Show all reactions
 
-- (BOOL)showAllReactionsForEvent:(NSString*)eventId
+- (BOOL)showAllReactionsForEvent:(NSString *)eventId
 {
     return [self.eventsToShowAllReactions containsObject:eventId];
 }
