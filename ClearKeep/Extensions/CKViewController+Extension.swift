@@ -78,7 +78,7 @@ extension UIViewController {
 
 // MARK: - MXKViewController extension
 
-extension MXKViewController {
+@objc extension MXKViewController {
 
     override open var preferredStatusBarStyle: UIStatusBarStyle {
         return themeService.attrs.statusBarStyle
@@ -174,7 +174,7 @@ extension MXKViewController {
 
 // MARK: - MXKTableViewController Extension
 
-extension MXKTableViewController {
+@objc extension MXKTableViewController {
     
     /**
      By our pattern, class name is same nib name
@@ -190,7 +190,7 @@ extension MXKTableViewController {
         return UINib.init(nibName: self.nibName, bundle: nil)
     }
     
-    class func instance() -> Self {
+    @objc class func instance() -> Self {
         return self.init(nibName: self.nibName, bundle: nil)
     }
     

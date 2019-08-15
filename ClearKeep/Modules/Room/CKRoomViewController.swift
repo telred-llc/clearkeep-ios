@@ -300,7 +300,10 @@ extension CKRoomViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
+        navigationController?.view.setNeedsLayout() // force update layout
+        navigationController?.view.layoutIfNeeded() // to fix height of the navigation bar
+
         self.refreshRoomNavigationBar()
         
         // listen notifications
@@ -425,6 +428,9 @@ extension CKRoomViewController {
         }).disposed(by: disposeBag)
         
         
+
+        // Don't subscrible theme change
+        self.navigationController?.view.backgroundColor = themeService.attrs.secondBgColor
     }
     
     private func setupBubblesTableView() {
@@ -647,6 +653,17 @@ extension CKRoomViewController {
     }
     
     @objc func navigationSearchBarButtonPressed(_ sender: UIBarButtonItem) {
+        // If the beforeLastVC is RoomSearchViewController, will need to pop
+        let stackViewControllers = navigationController?.viewControllers ?? []
+        if stackViewControllers.count > 1 {
+            let beforeLastVC = stackViewControllers[stackViewControllers.count - 2]
+            if beforeLastVC.isKind(of: RoomSearchViewController.self) {
+                self.navigationController?.popViewController(animated: true)
+                return
+            }
+        }
+
+        // show RoomSearchViewController
         performSegue(withIdentifier: kShowRoomSearchSegue, sender: self)
     }
     
@@ -675,7 +692,11 @@ extension CKRoomViewController {
             self.hangupCall()
         }
     }
-    
+
+    @objc func navigationStartChatBarButtonPressed(_ sender: UIBarButtonItem) {
+        self.goBackToLive()
+    }
+
     override func startActivityIndicator() {
         // TODO: don't use start activity indicator
     }
@@ -712,7 +733,7 @@ extension CKRoomViewController {
         // Check the user has enough power to post message
         if roomDataSource?.roomState != nil {
             let powerLevels: MXRoomPowerLevels? = roomDataSource.roomState.powerLevels
-            let userPowerLevel: Int? = powerLevels?.powerLevelOfUser(withUserID: mainSession.myUser.userId)
+            let userPowerLevel: Int? = powerLevels?.powerLevelOfUser(withUserID: roomDataSource.mxSession?.myUser?.userId)
 
             let canSend: Bool = (userPowerLevel ?? 0) >= powerLevels?.__minimumPowerLevelForSendingEvent(asMessage: kMXEventTypeStringRoomMessage) ?? 0
             let isRoomObsolete: Bool = roomDataSource.roomState.isObsolete
@@ -822,9 +843,9 @@ extension CKRoomViewController {
             super.setRoomActivitiesViewClass(roomActivitiesViewClass)
         }
     }
-    
-    override func sendTextMessage(_ msgTxt: String?) {
-        if self.inputToolBarSendMode() == RoomInputToolbarViewSendMode.reply, let selectedEventId = customizedRoomDataSource?.selectedEventId {
+
+    func sendTextMessage(_ msgTxt: String?) {
+        if isInReplyMode, let selectedEventId = customizedRoomDataSource?.selectedEventId {
             roomDataSource?.sendReplyToEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil, failure: { error in
                 // Just log the error. The message will be displayed in red in the room history
                 print("[MXKRoomViewController] sendTextMessage reply failed.")
@@ -909,9 +930,8 @@ extension CKRoomViewController {
                         (self.titleView as? RoomTitleView)?.displayNameTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
                     }
                 } else {
-                    
-                    // Remove the search button temporarily
-                    navigationItem.rightBarButtonItems = nil
+                    let startChatButton = UIBarButtonItem.init(title: "Chat", style: .plain, target: self, action: #selector(navigationStartChatBarButtonPressed(_:)))
+                    navigationItem.rightBarButtonItems = [startChatButton]
                     
                     if isRefreshRoomTitle {
                         self.setRoomTitleViewClass(SimpleRoomTitleView.self)
@@ -1205,7 +1225,7 @@ extension CKRoomViewController {
         if let roomDataSource = self.roomDataSource {
             // Remove the previous live listener
             if typingNotifListener != nil {
-                roomDataSource.room.liveTimeline({ [weak self] liveTimeline in
+                roomDataSource.room?.liveTimeline({ [weak self] liveTimeline in
                     if let strongSelf = self {
                         liveTimeline?.removeListener(strongSelf.typingNotifListener)
                         strongSelf.typingNotifListener = nil
@@ -1419,7 +1439,7 @@ extension CKRoomViewController {
                 if roomDataSource?.isLive != true || (currentEventIdAtTableBottom != nil && isBubblesTableScrollViewAtTheBottom() == false) {
 
                     // Retrieve the unread messages count
-                    let unreadCount = roomDataSource.room.summary?.localUnreadEventCount ?? 0
+                    let unreadCount = roomDataSource?.room?.summary?.localUnreadEventCount ?? 0
 
                     if unreadCount == 0 {
                         // Refresh the typing notification here
@@ -1495,6 +1515,19 @@ extension CKRoomViewController {
                     // Restore the potential message partially typed before jump to last unread messages.
                     self?.inputToolbarView.textMessage = roomDataSource?.partialTextMessage
                 }
+
+                // Sync room members from server to fix bug:
+                // The membersCount is differrent between before and after load from MXKRoomDataSourceManager
+                roomDataSource?.room.members({ (members) in
+                    if let newJoinedCount = members?.joinedMembers.count {
+                        roomDataSource?.room.summary.membersCount.joined = UInt(newJoinedCount)
+                        roomDataSource?.delegate.dataSource(roomDataSource, didCellChange: nil)
+                    }
+                }, lazyLoadedMembers: { (_) in
+                    //
+                }, failure: { (error) in
+                    print("Sync room members failed")
+                })
             })
         }
     }
@@ -2541,13 +2574,12 @@ extension CKRoomViewController: CKRoomSettingsViewControllerDelegate {
 extension CKRoomViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
-
-        // TODO: Implement this function if needed
-        // checkReadMarkerVisibility()
+         checkReadMarkerVisibility()
 
         // Switch back to the live mode when the user scrolls to the bottom of the non live timeline.
-        if !roomDataSource.isLive && !isRoomPreview() {
+        if let roomDataSource = roomDataSource, !roomDataSource.isLive, !isRoomPreview() {
             let contentBottomPosY: CGFloat = bubblesTableView.contentOffset.y + bubblesTableView.frame.size.height - bubblesTableView.mxk_adjustedContentInset.bottom
+
             if contentBottomPosY >= bubblesTableView.contentSize.height && !roomDataSource.timeline.canPaginate(MXTimelineDirection.forwards) {
                 goBackToLive()
             }

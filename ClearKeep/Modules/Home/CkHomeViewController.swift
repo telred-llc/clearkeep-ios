@@ -470,3 +470,9 @@ extension CkHomeViewController: CKContactListViewControllerDelegate {
         self.processDirectChat(userId, completion: completion)
     }
 }
+
+extension CkHomeViewController: CKSearchContactViewControllerDelegate {
+    func contactCreating(withUserId userId: String, completion: ((Bool) -> Void)?) {
+        self.processDirectChat(userId, completion: completion)
+    }
+}

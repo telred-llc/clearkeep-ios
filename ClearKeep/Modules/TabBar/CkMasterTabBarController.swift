@@ -30,10 +30,17 @@ final public class CkMasterTabBarController: MasterTabBarController {
         return themeService.attrs.statusBarStyle
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupNavigationBar()
         bindingTheme()
+
+        // Observe server sync at room data source level too
+        NotificationCenter.default.addObserver(self, selector: #selector(onSyncNotification), name: NSNotification.Name.mxSessionDidSync, object: nil)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -69,15 +76,19 @@ final public class CkMasterTabBarController: MasterTabBarController {
     
     public override func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         self.view.endEditing(true)
-        
-        if let searchVC = UIStoryboard.init(name: "MainEx", bundle: nil).instantiateViewController(withIdentifier: "UnifiedSearchViewController") as? UnifiedSearchViewController {
-            searchVC.searchBar.setTextFieldColor(color: themeService.attrs.secondBgColor)
-            searchVC.barTitleColor = themeService.attrs.primaryTextColor
-            searchVC.defaultBarTintColor = themeService.attrs.primaryBgColor
-            searchVC.importSession(self.mxSessions)
-            self.navigationController?.pushViewController(searchVC, animated: false)
-        }
+        self.performSegue(withIdentifier: "showUnifiedSearch", sender: nil)
         return false
+    }
+
+    public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+
+        if segue.identifier == "showUnifiedSearch", let unifiedSearchViewController = segue.destination as? UnifiedSearchViewController {
+            unifiedSearchViewController.searchBar.setTextFieldColor(color: themeService.attrs.secondBgColor)
+            unifiedSearchViewController.barTitleColor = themeService.attrs.primaryTextColor
+            unifiedSearchViewController.defaultBarTintColor = themeService.attrs.primaryBgColor
+            unifiedSearchViewController.navigationController?.view.backgroundColor = themeService.attrs.secondBgColor
+        }
     }
     
     public override func reflectingBadges() {
@@ -116,7 +127,10 @@ final public class CkMasterTabBarController: MasterTabBarController {
             self?.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: disposeBag)
     }
-    
+
+    @objc func onSyncNotification() {
+        CKRoomCacheManager.shared.syncAllRooms(mxSession: self.mxSessions?.first as? MXSession)
+    }
 }
 
 extension CkMasterTabBarController {

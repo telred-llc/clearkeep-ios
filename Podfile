@@ -9,7 +9,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 # Different flavours of pods to MatrixKit
 # The current MatrixKit pod version
-$matrixKitVersion = '0.10.1'
+$matrixKitVersion = '0.10.2'
 
 # The develop branch version
 #$matrixKitVersion = 'develop'
@@ -93,14 +93,12 @@ abstract_target 'RiotPods' do
     # Tools
     pod 'SwiftGen', '~> 6.1'
     pod 'SwiftLint', '~> 0.33.0'
-    
+
+    # Cache
+    pod 'Cache'
+
     target "Riot" do
         import_MatrixKit
-        pod 'DGCollectionViewLeftAlignFlowLayout', '~> 1.0.4'
-        
-        target 'RiotTests' do
-          inherit! :search_paths
-        end
     end
 
     target "Riot-Prod" do

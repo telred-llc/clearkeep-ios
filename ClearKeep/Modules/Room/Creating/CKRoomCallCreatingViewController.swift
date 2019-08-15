@@ -91,7 +91,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         
         // fetch matrix contacts
         let mxcts = MXKContactManager.shared().directMatrixContacts
-            
+        
         // loop all mxc
         for c in mxcts {
             

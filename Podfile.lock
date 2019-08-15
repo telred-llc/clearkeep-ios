@@ -14,8 +14,8 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - Cache (5.2.0)
   - cmark (0.24.1)
-  - DGCollectionViewLeftAlignFlowLayout (1.0.4)
   - DTCoreText (1.6.22):
     - DTCoreText/Core (= 1.6.22)
     - DTFoundation/Core (~> 1.7.5)
@@ -113,8 +113,8 @@ PODS:
   - zxcvbn-ios (1.0.4)
 
 DEPENDENCIES:
+  - Cache
   - cmark
-  - DGCollectionViewLeftAlignFlowLayout (~> 1.0.4)
   - DTCoreText
   - FloatingPanel
   - GBDeviceInfo (~> 5.2.0)
@@ -138,8 +138,8 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - Cache
     - cmark
-    - DGCollectionViewLeftAlignFlowLayout
     - DTCoreText
     - DTFoundation
     - FloatingPanel
@@ -177,7 +177,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MatrixKit:
-    :commit: 250e55362f053fe067dca3d88776ea73c8c63d72
+    :commit: 3383a79dd717ab3f5a082e1e6d703a9680161602
     :git: https://github.com/sinbadflyce/matrix-ios-kit.git
   PiwikTracker:
     :commit: dfb048f25f4eefbe13ff7515c3c1c2cad5d94491
@@ -188,8 +188,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   cmark: 1d9ad0375e3b9fa281732e992467903606015520
-  DGCollectionViewLeftAlignFlowLayout: a0fa58797373ded039cafba8133e79373d048399
   DTCoreText: ad5135357a0e792f735970ed67d3ecda8b602d3d
   DTFoundation: f03be9fd786f11e505bb8fc44e2a3732bf0917df
   FloatingPanel: a318d2f98eeb44e09c336d920f0eabc7c7b1579d
@@ -200,7 +200,7 @@ SPEC CHECKSUMS:
   JitsiMeetSDK: 3e66564af7f38a19142338955dd7f581801852b3
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
-  MatrixKit: 6f76c903aad329a3c2d31e2704097a8ea0dd2d63
+  MatrixKit: 4fe7cc40c63181f422330e41ab849c83cd25de5e
   MatrixSDK: 6886e7234c650408db5876b44a7f7608c865ce30
   OLMKit: 4ee0159d63feeb86d836fdcfefe418e163511639
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
@@ -212,12 +212,12 @@ SPEC CHECKSUMS:
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   RxTheme: 40fdcdeba539402beface070d8472e8d0db78d66
   SwiftGen: f872ca75cbd17bf7103c17f13dcfa0d9a15667b0
-  SwiftImagePicker: a39e3882155e7c5788c33c830dd4cc922b5c144c
+  SwiftImagePicker: dc859f1dfefa00d52a96666f58aff7fbe6a90a2c
   SwiftLint: 9fc1143bbacec37f94994a7d0d2a85b2154b6294
   SwiftUTI: e83d65dbe9fba0a0ff7cc9031cd30b2d82acebef
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: 828628d2f5f8c6edf0eb2915de84265ab3694eeb
+PODFILE CHECKSUM: 5c3a0e5592abc911d9ce1ff712e4675f13bc3256
 
-COCOAPODS: 1.7.0.beta.1
+COCOAPODS: 1.7.3
