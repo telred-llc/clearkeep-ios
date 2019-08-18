@@ -20,7 +20,6 @@
 		5EDD03A7221E531E0013A82F /* CKAlertSettingRoomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EDD03A5221E531E0013A82F /* CKAlertSettingRoomCell.xib */; };
 		5EF8B5E1221D58B4007B431C /* CKMenuRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF8B5DF221D58B4007B431C /* CKMenuRoomViewController.swift */; };
 		5EF8B5E2221D58B4007B431C /* CKMenuRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EF8B5E0221D58B4007B431C /* CKMenuRoomViewController.xib */; };
-		609077CC4289C8F19AC22786 /* Pods_RiotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40ABC09DE6992BAE274F45DA /* Pods_RiotTests.framework */; };
 		6917A3182248B04F001F2D9D /* CKRoomFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6917A3162248B04F001F2D9D /* CKRoomFilesViewController.swift */; };
 		6917A3202248D60E001F2D9D /* CKRoomFilesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6917A31A2248C594001F2D9D /* CKRoomFilesViewController.xib */; };
 		6917A322224A11E1001F2D9D /* CKAttachmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6917A321224A11E1001F2D9D /* CKAttachmentsViewController.swift */; };
@@ -151,6 +150,25 @@
 		9C3AC4F222D746A200DD179F /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC4EE22D746A100DD179F /* Images.swift */; };
 		9C5B460B22F3D28100FD64D1 /* RoomBubbleCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B460A22F3D28000FD64D1 /* RoomBubbleCellLayout.swift */; };
 		9C5B460C22F3D28100FD64D1 /* RoomBubbleCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B460A22F3D28000FD64D1 /* RoomBubbleCellLayout.swift */; };
+		9C8820692306EBCF0075753C /* WidgetManagerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8820682306EBCF0075753C /* WidgetManagerConfig.swift */; };
+		9C8820732306F0820075753C /* CKHomeFilesSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88206B2306F0820075753C /* CKHomeFilesSearchDataSource.swift */; };
+		9C8820742306F0820075753C /* CKSearchContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88206C2306F0820075753C /* CKSearchContactViewController.swift */; };
+		9C8820752306F0820075753C /* CKFilesSearchCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88206D2306F0820075753C /* CKFilesSearchCellData.swift */; };
+		9C8820762306F0820075753C /* CKSearchContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C88206E2306F0820075753C /* CKSearchContactViewController.xib */; };
+		9C8820772306F0820075753C /* CKRoomMessagesSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88206F2306F0820075753C /* CKRoomMessagesSearchDataSource.swift */; };
+		9C8820782306F0820075753C /* CKSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8820702306F0820075753C /* CKSearchDataSource.swift */; };
+		9C8820792306F0820075753C /* CKHomeMessagesSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8820712306F0820075753C /* CKHomeMessagesSearchDataSource.swift */; };
+		9C88207A2306F0820075753C /* CKRoomFilesSearchDataSource..swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8820722306F0820075753C /* CKRoomFilesSearchDataSource..swift */; };
+		9C88207C2306F2C10075753C /* CKCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88207B2306F2C10075753C /* CKCacheManager.swift */; };
+		9C88207D2306F2C10075753C /* CKCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88207B2306F2C10075753C /* CKCacheManager.swift */; };
+		9C88207E2306F2CE0075753C /* CKHomeFilesSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88206B2306F0820075753C /* CKHomeFilesSearchDataSource.swift */; };
+		9C88207F2306F2D00075753C /* CKSearchContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88206C2306F0820075753C /* CKSearchContactViewController.swift */; };
+		9C8820802306F2D30075753C /* CKFilesSearchCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88206D2306F0820075753C /* CKFilesSearchCellData.swift */; };
+		9C8820812306F2DB0075753C /* CKSearchContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C88206E2306F0820075753C /* CKSearchContactViewController.xib */; };
+		9C8820822306F2DE0075753C /* CKRoomMessagesSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C88206F2306F0820075753C /* CKRoomMessagesSearchDataSource.swift */; };
+		9C8820832306F2E10075753C /* CKSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8820702306F0820075753C /* CKSearchDataSource.swift */; };
+		9C8820842306F2E40075753C /* CKHomeMessagesSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8820712306F0820075753C /* CKHomeMessagesSearchDataSource.swift */; };
+		9C8820852306F2E70075753C /* CKRoomFilesSearchDataSource..swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8820722306F0820075753C /* CKRoomFilesSearchDataSource..swift */; };
 		9C89A91722F53DA00016C1BC /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C89A91622F53DA00016C1BC /* UIApplication+Extension.swift */; };
 		9C89A91822F53DA00016C1BC /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C89A91622F53DA00016C1BC /* UIApplication+Extension.swift */; };
 		9CA8780A22DA160200A28C95 /* OperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA8780922DA160200A28C95 /* OperationQueue.swift */; };
@@ -1433,7 +1451,6 @@
 		3275FD8B21A5A2C500B9C13D /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		3284A35020A07C210044F922 /* postMessageAPI.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = postMessageAPI.js; sourceTree = "<group>"; };
 		32B1FEDA21A46F2C00637127 /* TermsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TermsView.xib; sourceTree = "<group>"; };
-		40ABC09DE6992BAE274F45DA /* Pods_RiotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42BF1D0E600917AD1E2B42E2 /* Pods-RiotPods-RiotShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension/Pods-RiotPods-RiotShareExtension.release.xcconfig"; sourceTree = "<group>"; };
 		5EDD03A4221E531E0013A82F /* CKAlertSettingRoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAlertSettingRoomCell.swift; sourceTree = "<group>"; };
 		5EDD03A5221E531E0013A82F /* CKAlertSettingRoomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAlertSettingRoomCell.xib; sourceTree = "<group>"; };
@@ -1444,7 +1461,6 @@
 		6917A321224A11E1001F2D9D /* CKAttachmentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAttachmentsViewController.swift; sourceTree = "<group>"; };
 		69ED3E3522434D3C0096F34D /* CKAssignAdminButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAssignAdminButtonTableViewCell.swift; sourceTree = "<group>"; };
 		69ED3E3622434D3C0096F34D /* CKAssignAdminButtonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAssignAdminButtonTableViewCell.xib; sourceTree = "<group>"; };
-		748E39B42B90503288BC9B40 /* Pods-RiotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotTests/Pods-RiotTests.release.xcconfig"; sourceTree = "<group>"; };
 		7BC38D3D17033F503D594C33 /* Pods_RiotPods_Riot_Prod.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_Riot_Prod.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8511E1472230C7840059ABC0 /* CKSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKSettingsViewController.swift; sourceTree = "<group>"; };
 		8511E1482230C7840059ABC0 /* CKSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKSettingsViewController.xib; sourceTree = "<group>"; };
@@ -1508,7 +1524,6 @@
 		85E57517220499DA0076FFAE /* CKFavouriteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKFavouriteViewController.xib; sourceTree = "<group>"; };
 		85E5751A2204C6A30076FFAE /* CKCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKCallViewController.swift; sourceTree = "<group>"; };
 		8936DCEDDA1166CAD71CADC2 /* Pods-RiotPods-RiotShareExtension-Prod.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension-Prod.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension-Prod/Pods-RiotPods-RiotShareExtension-Prod.debug.xcconfig"; sourceTree = "<group>"; };
-		89C9610BA19D1CE52FF58CB1 /* Pods-RiotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotTests/Pods-RiotTests.debug.xcconfig"; sourceTree = "<group>"; };
 		926FA53D1F4C132000F826C2 /* MXSession+Riot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MXSession+Riot.h"; sourceTree = "<group>"; };
 		926FA53E1F4C132000F826C2 /* MXSession+Riot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MXSession+Riot.m"; sourceTree = "<group>"; };
 		92726A431F58737A004AD26F /* SiriIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SiriIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1571,6 +1586,16 @@
 		9C3AC4ED22D746A100DD179F /* Storyboards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboards.swift; sourceTree = "<group>"; };
 		9C3AC4EE22D746A100DD179F /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		9C5B460A22F3D28000FD64D1 /* RoomBubbleCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomBubbleCellLayout.swift; sourceTree = "<group>"; };
+		9C8820682306EBCF0075753C /* WidgetManagerConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetManagerConfig.swift; sourceTree = "<group>"; };
+		9C88206B2306F0820075753C /* CKHomeFilesSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKHomeFilesSearchDataSource.swift; sourceTree = "<group>"; };
+		9C88206C2306F0820075753C /* CKSearchContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKSearchContactViewController.swift; sourceTree = "<group>"; };
+		9C88206D2306F0820075753C /* CKFilesSearchCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKFilesSearchCellData.swift; sourceTree = "<group>"; };
+		9C88206E2306F0820075753C /* CKSearchContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKSearchContactViewController.xib; sourceTree = "<group>"; };
+		9C88206F2306F0820075753C /* CKRoomMessagesSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomMessagesSearchDataSource.swift; sourceTree = "<group>"; };
+		9C8820702306F0820075753C /* CKSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKSearchDataSource.swift; sourceTree = "<group>"; };
+		9C8820712306F0820075753C /* CKHomeMessagesSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKHomeMessagesSearchDataSource.swift; sourceTree = "<group>"; };
+		9C8820722306F0820075753C /* CKRoomFilesSearchDataSource..swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKRoomFilesSearchDataSource..swift; sourceTree = "<group>"; };
+		9C88207B2306F2C10075753C /* CKCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCacheManager.swift; sourceTree = "<group>"; };
 		9C89A91622F53DA00016C1BC /* UIApplication+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		9CA8780922DA160200A28C95 /* OperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationQueue.swift; sourceTree = "<group>"; };
 		9CBD7CAB22DD841F00F60628 /* SettingsKeyBackupViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsKeyBackupViewState.swift; sourceTree = "<group>"; };
@@ -2355,7 +2380,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				609077CC4289C8F19AC22786 /* Pods_RiotTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2405,7 +2429,6 @@
 				BC0B9DB497F579AB1084E3DC /* Pods_RiotPods_SiriIntents.framework */,
 				7BC38D3D17033F503D594C33 /* Pods_RiotPods_Riot_Prod.framework */,
 				B7A12927B721FB448F55C132 /* Pods_RiotPods_RiotShareExtension_Prod.framework */,
-				40ABC09DE6992BAE274F45DA /* Pods_RiotTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2780,6 +2803,22 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
+		9C88206A2306F0820075753C /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				9C88206B2306F0820075753C /* CKHomeFilesSearchDataSource.swift */,
+				9C88206C2306F0820075753C /* CKSearchContactViewController.swift */,
+				9C88206D2306F0820075753C /* CKFilesSearchCellData.swift */,
+				9C88206E2306F0820075753C /* CKSearchContactViewController.xib */,
+				9C88206F2306F0820075753C /* CKRoomMessagesSearchDataSource.swift */,
+				9C8820702306F0820075753C /* CKSearchDataSource.swift */,
+				9C8820712306F0820075753C /* CKHomeMessagesSearchDataSource.swift */,
+				9C8820722306F0820075753C /* CKRoomFilesSearchDataSource..swift */,
+			);
+			name = Search;
+			path = ClearKeep/Modules/Search;
+			sourceTree = SOURCE_ROOT;
+		};
 		9CBD7CAA22DD841F00F60628 /* KeyBackup */ = {
 			isa = PBXGroup;
 			children = (
@@ -3034,6 +3073,7 @@
 				E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */,
 				851F40172204555400326BBE /* CKSearchBarContainerView.swift */,
 				85743491221566B10009E618 /* CKMessageContentManagement.swift */,
+				9C88207B2306F2C10075753C /* CKCacheManager.swift */,
 			);
 			path = Ultils;
 			sourceTree = "<group>";
@@ -3049,8 +3089,6 @@
 				42BF1D0E600917AD1E2B42E2 /* Pods-RiotPods-RiotShareExtension.release.xcconfig */,
 				8936DCEDDA1166CAD71CADC2 /* Pods-RiotPods-RiotShareExtension-Prod.debug.xcconfig */,
 				EEA8C388C8D9C949CAAF25DC /* Pods-RiotPods-RiotShareExtension-Prod.release.xcconfig */,
-				89C9610BA19D1CE52FF58CB1 /* Pods-RiotTests.debug.xcconfig */,
-				748E39B42B90503288BC9B40 /* Pods-RiotTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -4382,6 +4420,7 @@
 				B1B5598420EFC3DF00210D55 /* WidgetManager.m */,
 				B1B5598120EFC3DF00210D55 /* Widget.h */,
 				B1B5598320EFC3DF00210D55 /* Widget.m */,
+				9C8820682306EBCF0075753C /* WidgetManagerConfig.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -4670,6 +4709,7 @@
 		E5ABA73721E73CBC005EFE0C /* Room */ = {
 			isa = PBXGroup;
 			children = (
+				9C88206A2306F0820075753C /* Search */,
 				9CEBD52322EF5F09008D333A /* EditHistory */,
 				9CEBD59A22EF6113008D333A /* BubbleReactions */,
 				9CEBD5B622EF615D008D333A /* ContextualMenu */,
@@ -5022,7 +5062,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F094A9CB1B78D8F000B1FBBF /* Build configuration list for PBXNativeTarget "RiotTests" */;
 			buildPhases = (
-				D4CEA57CD413186FAB9822C7 /* [CP] Check Pods Manifest.lock */,
 				F094A9BA1B78D8F000B1FBBF /* Sources */,
 				F094A9BB1B78D8F000B1FBBF /* Frameworks */,
 				F094A9BC1B78D8F000B1FBBF /* Resources */,
@@ -5398,6 +5437,7 @@
 				E5E7DD31229BC7D300AB7CF3 /* CKRoomSettingsParticipantViewController.xib in Resources */,
 				E5E7DD33229BC7D300AB7CF3 /* CKAccountProfileEditViewController.xib in Resources */,
 				E5E7DD34229BC7D300AB7CF3 /* CKRoomSettingsMembersCell.xib in Resources */,
+				9C8820812306F2DB0075753C /* CKSearchContactViewController.xib in Resources */,
 				E5E7DD35229BC7D300AB7CF3 /* RoomIncomingAttachmentBubbleCell.xib in Resources */,
 				E5E7DD36229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				E5E7DD37229BC7D300AB7CF3 /* RoomMemberDetailsViewController.xib in Resources */,
@@ -5643,6 +5683,7 @@
 				E574335921F32A1600989FF3 /* CKRoomSettingsParticipantViewController.xib in Resources */,
 				A06949A621F85B8A002ABA27 /* CKAccountProfileEditViewController.xib in Resources */,
 				E5ABA75221E73CBC005EFE0C /* CKRoomSettingsMembersCell.xib in Resources */,
+				9C8820762306F0820075753C /* CKSearchContactViewController.xib in Resources */,
 				B1B558FD20EF768F00210D55 /* RoomIncomingAttachmentBubbleCell.xib in Resources */,
 				B1B558DB20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.xib in Resources */,
 				B1B5572B20EE6C4D00210D55 /* RoomMemberDetailsViewController.xib in Resources */,
@@ -5756,28 +5797,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D4CEA57CD413186FAB9822C7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RiotTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E34E30CD2CEE4A42FF8081D6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -5863,6 +5882,7 @@
 				E5E7DB3F229BC7D300AB7CF3 /* ContactTableViewCell.m in Sources */,
 				E5E7DB40229BC7D300AB7CF3 /* CKAccountEditProfileAvatarCell.swift in Sources */,
 				9CEBD5AB22EF6114008D333A /* BubbleReactionsViewModelType.swift in Sources */,
+				9C88207F2306F2D00075753C /* CKSearchContactViewController.swift in Sources */,
 				E5E7DB41229BC7D300AB7CF3 /* CKRecentItemFirstChatCell.swift in Sources */,
 				E5E7DB42229BC7D300AB7CF3 /* AvatarGenerator.m in Sources */,
 				E520C5CD22E719C6003101BA /* KeyBackupRecoverCoordinator.swift in Sources */,
@@ -5878,6 +5898,7 @@
 				E5E7DB4A229BC7D300AB7CF3 /* GroupsDataSource.m in Sources */,
 				E5E7DB4B229BC7D300AB7CF3 /* RoomAvatarTitleView.m in Sources */,
 				E5E7DB4C229BC7D300AB7CF3 /* ContactsDataSource.m in Sources */,
+				9C8820852306F2E70075753C /* CKRoomFilesSearchDataSource..swift in Sources */,
 				E5E7DB4D229BC7D300AB7CF3 /* MediaAlbumContentViewController.m in Sources */,
 				E520C5B722E719AA003101BA /* SettingsKeyBackupViewModelType.swift in Sources */,
 				E5E7DB4E229BC7D300AB7CF3 /* WidgetManager.m in Sources */,
@@ -5950,6 +5971,7 @@
 				E5E7DB7D229BC7D300AB7CF3 /* CKOtherProfileActionCell.swift in Sources */,
 				9CEBD5B522EF6114008D333A /* BubbleReactionActionViewCell.swift in Sources */,
 				E5E7DB7E229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
+				9C8820832306F2E10075753C /* CKSearchDataSource.swift in Sources */,
 				9CEBD58722EF5F0A008D333A /* EmojiPickerCoordinatorBridgePresenter.swift in Sources */,
 				E5E7DB7F229BC7D300AB7CF3 /* WidgetViewController.m in Sources */,
 				E5E7DB80229BC7D300AB7CF3 /* MediaPickerViewController.m in Sources */,
@@ -6136,6 +6158,7 @@
 				E5E7DBFB229BC7D300AB7CF3 /* RoomInputToolbarView.m in Sources */,
 				9CEBD5E622EF615E008D333A /* RoomContextualMenuViewController.swift in Sources */,
 				9CDD255122EFE97D00CD08BD /* Character+Extension.swift in Sources */,
+				9C8820842306F2E40075753C /* CKHomeMessagesSearchDataSource.swift in Sources */,
 				E5E7DBFC229BC7D300AB7CF3 /* CKRoomBaseCell.swift in Sources */,
 				E5E7DBFD229BC7D300AB7CF3 /* CKRecentItemFirstFavouriteCell.swift in Sources */,
 				E5E7DBFE229BC7D300AB7CF3 /* CKAccountEditProfileBaseCell.swift in Sources */,
@@ -6168,6 +6191,7 @@
 				E5E7DC14229BC7D300AB7CF3 /* CKAssignAdminButtonTableViewCell.swift in Sources */,
 				E5E7DC15229BC7D300AB7CF3 /* CKRoomSettingsMoreRoleCell.swift in Sources */,
 				E5E7DC16229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
+				9C88207D2306F2C10075753C /* CKCacheManager.swift in Sources */,
 				E520C5DC22E719D0003101BA /* KeyBackupRecoverFromRecoveryKeyViewModel.swift in Sources */,
 				E5E7DC17229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				E5E7DC18229BC7D300AB7CF3 /* CKCallViewController.swift in Sources */,
@@ -6198,6 +6222,7 @@
 				9CEBD55922EF5F0A008D333A /* EditHistoryCoordinator.swift in Sources */,
 				E5E7DC2A229BC7D300AB7CF3 /* RoomEmptyBubbleCell.m in Sources */,
 				E520C5F522E71E70003101BA /* ActivityIndicatorView.swift in Sources */,
+				9C8820802306F2D30075753C /* CKFilesSearchCellData.swift in Sources */,
 				E5E7DC2B229BC7D300AB7CF3 /* UsersDevicesViewController.m in Sources */,
 				E5E7DC2C229BC7D300AB7CF3 /* RoomEncryptedDataBubbleCell.m in Sources */,
 				E5E7DC2D229BC7D300AB7CF3 /* RoomMembershipBubbleCell.m in Sources */,
@@ -6239,6 +6264,7 @@
 				E520C5C122E719B8003101BA /* KeyBackupSetupPassphraseViewModel.swift in Sources */,
 				9CEBD5CC22EF615E008D333A /* ContextualMenuItemView.swift in Sources */,
 				E5E7DC48229BC7D300AB7CF3 /* RoomEmailInvitation.m in Sources */,
+				9C88207E2306F2CE0075753C /* CKHomeFilesSearchDataSource.swift in Sources */,
 				E5E7DC49229BC7D300AB7CF3 /* RoomParticipantsViewController.m in Sources */,
 				E5E7DC4B229BC7D300AB7CF3 /* CKMentionDataSource.swift in Sources */,
 				E5E7DC4C229BC7D300AB7CF3 /* RoomOutgoingAttachmentBubbleCell.m in Sources */,
@@ -6247,6 +6273,7 @@
 				E520C5BC22E719B3003101BA /* KeyBackupSetupIntroViewController.swift in Sources */,
 				E5E7DC4E229BC7D300AB7CF3 /* RiotSplitViewController.m in Sources */,
 				E5E7DC4F229BC7D300AB7CF3 /* DirectoryServerPickerViewController.m in Sources */,
+				9C8820822306F2DE0075753C /* CKRoomMessagesSearchDataSource.swift in Sources */,
 				E5E7DC50229BC7D300AB7CF3 /* CKSearchBarContainerView.swift in Sources */,
 				E520C5C422E719B8003101BA /* KeyBackupSetupPassphraseViewController.swift in Sources */,
 				E5E7DC51229BC7D300AB7CF3 /* HomeFilesSearchViewController.m in Sources */,
@@ -6459,6 +6486,7 @@
 				B1B5582C20EF666100210D55 /* DirectoryRecentTableViewCell.m in Sources */,
 				9CEBD5AE22EF6114008D333A /* BubbleReactionViewData.swift in Sources */,
 				B1B558E420EF768F00210D55 /* RoomMembershipWithPaginationTitleBubbleCell.m in Sources */,
+				9C8820792306F0820075753C /* CKHomeMessagesSearchDataSource.swift in Sources */,
 				B1B5573620EE6C4D00210D55 /* GroupsViewController.m in Sources */,
 				B1B5572A20EE6C4D00210D55 /* RoomMemberDetailsViewController.m in Sources */,
 				B1B5590120EF768F00210D55 /* RoomMembershipExpandedWithPaginationTitleBubbleCell.m in Sources */,
@@ -6499,6 +6527,7 @@
 				9CDD254D22EFE72F00CD08BD /* UIGestureRecognizer+Extension.swift in Sources */,
 				9CEBD56422EF5F0A008D333A /* EditHistorySection.swift in Sources */,
 				B1B558CC20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.m in Sources */,
+				9C8820772306F0820075753C /* CKRoomMessagesSearchDataSource.swift in Sources */,
 				9C3AC4B722D73B6900DD179F /* KeyBackupSetupSuccessFromPassphraseViewController.swift in Sources */,
 				B1B5571D20EE6C4D00210D55 /* HomeViewController.m in Sources */,
 				9C3AC4E822D742F300DD179F /* NavigationRouter.swift in Sources */,
@@ -6522,6 +6551,7 @@
 				B1B558BE20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.m in Sources */,
 				9C3AC4D222D73B6A00DD179F /* KeyBackupRecoverFromRecoveryKeyCoordinator.swift in Sources */,
 				F083BDED1E7009ED00A9B29C /* MXKRoomBubbleTableViewCell+Riot.m in Sources */,
+				9C8820732306F0820075753C /* CKHomeFilesSearchDataSource.swift in Sources */,
 				E5C0B9A421CA381800910D8B /* CkForgotPasswordViewController.swift in Sources */,
 				B1B557A820EF5A1B00210D55 /* DeviceTableViewCell.m in Sources */,
 				B1B5572620EE6C4D00210D55 /* RoomFilesSearchViewController.m in Sources */,
@@ -6532,13 +6562,16 @@
 				E5233126221BDDCE008FC772 /* CKRoomSettingsGalleryViewController.swift in Sources */,
 				B1B557B420EF5AEF00210D55 /* EventDetailsView.m in Sources */,
 				E5026CA621F5DE96009D1B86 /* CKRoomDirectCreatingViewController.swift in Sources */,
+				9C8820742306F0820075753C /* CKSearchContactViewController.swift in Sources */,
 				B1B5577E20EE84BF00210D55 /* IncomingCallView.m in Sources */,
 				8520DFAA2216B20E000833A1 /* CKHomePagingMenuBubbleView.swift in Sources */,
 				E5E9062B21523EDC00155DD5 /* AuthWebViewController.m in Sources */,
 				E5E27FD721F6CA5700532610 /* CKRoomAddingMembersCell.swift in Sources */,
 				B1B5578F20EF568D00210D55 /* GroupTableViewCell.m in Sources */,
+				9C8820692306EBCF0075753C /* WidgetManagerConfig.swift in Sources */,
 				E5720EDE21ACFB390093D99A /* CkAuthenticationViewController.swift in Sources */,
 				B1B5573220EE6C4D00210D55 /* GroupHomeViewController.m in Sources */,
+				9C8820752306F0820075753C /* CKFilesSearchCellData.swift in Sources */,
 				E5DB12B4221E9AC8009B07B0 /* CKRoomSettingsMoreAdvancedCell.swift in Sources */,
 				9C3AC4D022D73B6A00DD179F /* KeyBackupRecoverFromRecoveryKeyCoordinatorType.swift in Sources */,
 				8520DFAE2216BA2E000833A1 /* CKIndexedPagingItem.swift in Sources */,
@@ -6603,6 +6636,7 @@
 				B1B558D020EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				B1B558CF20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */,
 				9CEBD56E22EF5F0A008D333A /* EmojiPickerViewState.swift in Sources */,
+				9C88207A2306F0820075753C /* CKRoomFilesSearchDataSource..swift in Sources */,
 				85E5751B2204C6A30076FFAE /* CKCallViewController.swift in Sources */,
 				9CEBD57222EF5F0A008D333A /* EmojiPickerItemViewData.swift in Sources */,
 				B1B5575120EE6C4D00210D55 /* AuthenticationViewController.m in Sources */,
@@ -6643,9 +6677,11 @@
 				B1B557E920EF60F500210D55 /* MessagesSearchResultTextMsgBubbleCell.m in Sources */,
 				E5C701C22202C79F00843843 /* CKRoomSettingsLeaveCell.swift in Sources */,
 				B1B557CC20EF5D8000210D55 /* DirectoryServerTableViewCell.m in Sources */,
+				9C8820782306F0820075753C /* CKSearchDataSource.swift in Sources */,
 				9C3AC4D322D73B6A00DD179F /* KeyBackupRecoverFromRecoveryKeyViewModel.swift in Sources */,
 				B1B5575C20EE6C4D00210D55 /* DirectoryViewController.m in Sources */,
 				B1B558BD20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
+				9C88207C2306F2C10075753C /* CKCacheManager.swift in Sources */,
 				E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */,
 				B1B5577020EE702800210D55 /* WidgetPickerViewController.m in Sources */,
 				B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
@@ -7316,7 +7352,6 @@
 		};
 		F094A9CC1B78D8F000B1FBBF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C9610BA19D1CE52FF58CB1 /* Pods-RiotTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -7343,7 +7378,6 @@
 		};
 		F094A9CD1B78D8F000B1FBBF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 748E39B42B90503288BC9B40 /* Pods-RiotTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

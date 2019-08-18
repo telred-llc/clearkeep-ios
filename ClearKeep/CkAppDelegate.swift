@@ -189,6 +189,16 @@ import Foundation
     
     // MARK - Application layout handling
     
+    public func showAlertWithTitle(title: String, message: String) {
+        if self.errorNotification != nil {
+            self.errorNotification.dismiss(animated: false, completion: nil)
+        }
+        self.errorNotification = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        self.errorNotification.addAction(UIAlertAction(title: CKLocalization.string(byKey: "ok"), style: .default, handler: { action in
+            self.errorNotification = nil
+        }))
+    } 
+    
     public func showNotificationAlert(_ alert: UIAlertController?) {
         if window.rootViewController?.presentedViewController != nil {
             alert?.popoverPresentationController?.sourceView = window.rootViewController?.presentedViewController?.view
