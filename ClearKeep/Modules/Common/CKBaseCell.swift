@@ -33,10 +33,10 @@ class CKBaseCell: UITableViewCell {
         return nil
     }
     
-    public func setAvatarUri(_ uri: String!, identifyText: String, session: MXSession!, cropped: Bool = false) {
+    public func setAvatarUri(_ uri: String!, identifyText: String, session: MXSession!, cropped: Bool = true) {
         self.getMXKImageView()?.enableInMemoryCache = true
         
-        if cropped {
+        if !cropped {
             self.getMXKImageView()?.setImageURI(uri,
                                        withType: nil,
                                        andImageOrientation: UIImageOrientation.up,
