@@ -204,7 +204,8 @@ class CKAccountProfileViewController: MXKViewController {
                 cell.setAvatarUri(
                     myUser.avatarUrl,
                     identifyText: myUser.userId,
-                    session: self.mainSession)
+                    session: self.mainSession,
+                    cropped: false)
                 if let powerLevels = mxRoomPowerLevels, powerLevels.powerLevelOfUser(withUserID: myUser.userId) == kCkRoomAdminLevel {
                     cell.adminStatusView.isHidden = false
                 }
