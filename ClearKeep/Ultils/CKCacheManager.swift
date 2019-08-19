@@ -173,7 +173,10 @@ public class CKRoomCacheManager: NSObject {
                 events.append(event)
             }
 
-            self.doCache(events: events, roomId: room.roomId)
+            // Cache in background to improve performance
+            DispatchQueue.global(qos: .background).async {
+                self.doCache(events: events, roomId: room.roomId)
+            }
         } else {
             // If the room is syncing then return here
             if roomsInSyncing.contains(room.roomId) {
@@ -216,7 +219,10 @@ private extension CKRoomCacheManager {
             onComplete()
             if response.isSuccess, let roomResponse = response.value {
                 if let events = roomResponse.messages?.chunk {
-                    self?.doCache(events: events, roomId: roomId)
+                    // Cache in background to improve performance
+                    DispatchQueue.global(qos: .background).async {
+                        self?.doCache(events: events, roomId: roomId)
+                    }
                 }
             }
         })
