@@ -33,12 +33,23 @@ class CKBaseCell: UITableViewCell {
         return nil
     }
     
-    public func setAvatarUri(_ uri: String!, identifyText: String, session: MXSession!) {
+    public func setAvatarUri(_ uri: String!, identifyText: String, session: MXSession!, cropped: Bool = false) {
         self.getMXKImageView()?.enableInMemoryCache = true
-        self.getMXKImageView()?.setImageURI(uri,
-                                   withType: nil,
-                                   andImageOrientation: UIImageOrientation.up,
-                                   previewImage: AvatarGenerator.generateAvatar(forText: identifyText),
-                                   mediaManager: session.mediaManager)
+        
+        if cropped {
+            self.getMXKImageView()?.setImageURI(uri,
+                                       withType: nil,
+                                       andImageOrientation: UIImageOrientation.up,
+                                       previewImage: AvatarGenerator.generateAvatar(forText: identifyText),
+                                       mediaManager: session.mediaManager)
+        } else {
+            self.getMXKImageView()?.setImageURI(uri,
+                                                withType: nil,
+                                                andImageOrientation: UIImageOrientation.up,
+                                                toFitViewSize: self.getMXKImageView()?.frame.size ?? CGSize.zero,
+                                                with: MXThumbnailingMethodCrop,
+                                                previewImage: AvatarGenerator.generateAvatar(forText: identifyText),
+                                                mediaManager: session.mediaManager)
+        }
     }
 }

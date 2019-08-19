@@ -225,22 +225,22 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
         self.sendingTextColor = kRiotSecondaryTextColor;
         self.errorTextColor = kRiotColorRed;
         
-        self.defaultTextFont = [UIFont systemFontOfSize:15];
-        self.prefixTextFont = [UIFont boldSystemFontOfSize:15];
+        self.defaultTextFont = [UIFont systemFontOfSize:17];
+        self.prefixTextFont = [UIFont boldSystemFontOfSize:17];
         if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)])
         {
-            self.bingTextFont = [UIFont systemFontOfSize:15 weight:UIFontWeightMedium];
+            self.bingTextFont = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
         }
         else
         {
-            self.bingTextFont = [UIFont systemFontOfSize:15];
+            self.bingTextFont = [UIFont systemFontOfSize:17];
         }
         
         // CK - modified
-        self.stateEventTextFont = [UIFont italicSystemFontOfSize:13];
-        self.callNoticesTextFont = [UIFont italicSystemFontOfSize:13];
+        self.stateEventTextFont = [UIFont italicSystemFontOfSize:15];
+        self.callNoticesTextFont = [UIFont italicSystemFontOfSize:15];
         
-        self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:15];
+        self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:17];
         self.emojiOnlyTextFont = [UIFont systemFontOfSize:48];
     }
     return self;
