@@ -144,8 +144,7 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
     
     NSAttributedString *attributedString = [super attributedStringFromEvent:event withRoomState:roomState error:error];
 
-    if (event.sentState == MXEventSentStateSent
-        && [event.decryptionError.domain isEqualToString:MXDecryptingErrorDomain])
+    if (event.sentState == MXEventSentStateSent && [event.decryptionError.domain isEqualToString:MXDecryptingErrorDomain])
     {
         // Track e2e failures
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -180,26 +179,26 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
 
             attributedString = attributedStringWithRerequestMessage;
         }
-        else if (self.showEditionMention && event.contentHasBeenEdited)
-        {
-            NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
-            
-            NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", EventFormatterEditedEventLinkAction,
-                                          EventFormatterLinkActionSeparator,
-                                          event.eventId];
-            
-            [attributedStringWithEditMention appendAttributedString:
-             [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
-                                             attributes:@{
-                                                          NSLinkAttributeName: linkActionString,
-                                                          // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
-                                                          // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
-                                                          NSForegroundColorAttributeName: self.editionMentionTextColor,
-                                                          NSFontAttributeName: self.editionMentionTextFont
-                                                          }]];
-            
-            attributedString = attributedStringWithEditMention;
-        }
+    }
+    else if (self.showEditionMention && event.contentHasBeenEdited)
+    {
+        NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
+        
+        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", EventFormatterEditedEventLinkAction,
+                                      EventFormatterLinkActionSeparator,
+                                      event.eventId];
+        
+        [attributedStringWithEditMention appendAttributedString:
+         [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
+                                         attributes:@{
+                                                      NSLinkAttributeName: linkActionString,
+                                                      // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
+                                                      // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
+                                                      NSForegroundColorAttributeName: self.editionMentionTextColor,
+                                                      NSFontAttributeName: self.editionMentionTextFont
+                                                      }]];
+        
+        attributedString = attributedStringWithEditMention;
     }
 
     return attributedString;
@@ -255,6 +254,8 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
         self.encryptingTextColor = kRiotColorGreen;
         self.sendingTextColor = kRiotSecondaryTextColor;
         self.errorTextColor = kRiotColorRed;
+        self.showEditionMention = YES;
+        self.editionMentionTextColor = kRiotSecondaryTextColor;
         
         self.defaultTextFont = [UIFont systemFontOfSize:15];
         self.prefixTextFont = [UIFont boldSystemFontOfSize:15];

@@ -90,7 +90,7 @@ static NSAttributedString *timestampVerticalWhitespace = nil;
         // Reset attributedTextMessage to force reset MXKRoomCellData parameters
         self.attributedTextMessage = nil;
         
-        self.displayTimestampForSelectedComponentOnLeftWhenPossible = YES;
+        self.displayTimestampForSelectedComponentOnLeftWhenPossible = NO;
     }
     
     return self;

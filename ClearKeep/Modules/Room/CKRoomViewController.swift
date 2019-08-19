@@ -420,7 +420,7 @@ extension CKRoomViewController {
 
             self?.view.backgroundColor = themeService.attrs.secondBgColor
 //            self?.bubblesTableView?.backgroundColor = themeService.attrs.secondBgColor
-            self?.bubblesTableView.backgroundColor = self?.bubblesTableView.style == .plain ? themeService.attrs.backgroundColor : themeService.attrs.headerBackgroundColor
+            self?.bubblesTableView?.backgroundColor = self?.bubblesTableView.style == .plain ? themeService.attrs.backgroundColor : themeService.attrs.headerBackgroundColor
             self?.mentionListTableView?.backgroundColor = themeService.attrs.primaryBgColor
 
             // Fix: has a white subview of view
@@ -844,22 +844,19 @@ extension CKRoomViewController {
         }
     }
 
-    func sendTextMessage(_ msgTxt: String?) {
+    override func sendTextMessage(_ msgTxt: String) {
         if isInReplyMode, let selectedEventId = customizedRoomDataSource?.selectedEventId {
             roomDataSource?.sendReplyToEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil, failure: { error in
                 // Just log the error. The message will be displayed in red in the room history
-                print("[MXKRoomViewController] sendTextMessage reply failed.")
             })
         } else if self.inputToolBarSendMode() == RoomInputToolbarViewSendMode.edit, let selectedEventId = customizedRoomDataSource?.selectedEventId {
             self.roomDataSource.replaceTextMessageForEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil) { error in
                 // Just log the error. The message will be displayed in red
-                print("[MXKRoomViewController] sendTextMessage edit failed.")
             }
         } else {
             // Let the datasource send it and manage the local echo
             roomDataSource.sendTextMessage(msgTxt, success: nil, failure: { error in
                 // Just log the error. The message will be displayed in red in the room history
-                print("[MXKRoomViewController] sendTextMessage failed.")
             })
         }
 
@@ -1844,6 +1841,7 @@ extension CKRoomViewController {
                     if bubbleData?.collapsed ?? false {
                         self.selectEventWithId(withId: tappedEvent?.eventId)
                     } else {
+                        self.dismissKeyboard()
                         self.showContextualMenuForEvent(event: tappedEvent, fromSingleTapGesture: true, cell: cell, animated: true)
                     }
                 }
@@ -1886,10 +1884,7 @@ extension CKRoomViewController {
             
             self.roomDataSource.collapseRoomBubble(bubbleData, collapsed: true)
         } else if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent {
-            longPressBubbleTableViewCell(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
-            //            if let tappedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent, !(bubbleData?.collapsed != nil) {
-            //                self.handleLongPressFromCell(cell: cell, withTappedEvent: tappedEvent)
-            //            }
+            self.longPressBubbleTableViewCell(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         } else {
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         }
@@ -2703,63 +2698,36 @@ extension CKRoomViewController {
 
 extension CKRoomViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if MXKRoomViewController.instancesRespond(to: #selector(self.tableView(_:willDisplay:forRowAt:))) {
-//            super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
-//        }
-//
-//        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-//
-//        // Update the selected background view
-//        if themeService.attrs.selectedBgColor != nil {
-//            cell.selectedBackgroundView = UIView()
-//            cell.selectedBackgroundView?.theme.backgroundColor = themeService.attrStream{ $0.selectedBgColor }
-//        } else {
-//            if tableView.style == .plain {
-//                cell.selectedBackgroundView = nil
-//            } else {
-//                cell.selectedBackgroundView?.backgroundColor = nil
-//            }
-//        }
-//
-//        if cell.isKind(of: MXKRoomBubbleTableViewCell.self),
-//            let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
-//            if roomBubbleTableViewCell.messageTextView != nil {
-//                roomBubbleTableViewCell.messageTextView.textColor = themeService.attrs.secondTextColor
-//                roomBubbleTableViewCell.userNameLabel?.textColor = themeService.attrs.primaryTextColor
-//                roomBubbleTableViewCell.statsLabel?.textColor = themeService.attrs.secondTextColor
-//
-//                // we don't want to select text
-//                roomBubbleTableViewCell.messageTextView?.gestureRecognizers?.forEach({ (recognizer: UIGestureRecognizer) in
-//                    if let recognizer = recognizer as? UILongPressGestureRecognizer {
-//                        if let name = recognizer.name {
-//                            if name == "UITextInteractionNameLoupe" ||
-//                                name == "_UIKeyboardTextSelectionGestureForcePress" ||
-//                                name == "UITextInteractionNameTapAndHold" {
-//                                recognizer.isEnabled = false
-//                            }
-//                        }
-//                    }
-//                })
-//            }
-//
-//            if roomBubbleTableViewCell.readMarkerView != nil {
-//                readMarkerTableViewCell = roomBubbleTableViewCell
-//                checkReadMarkerVisibility()
-//            }
-//        }
+        if MXKRoomViewController.instancesRespond(to: #selector(self.tableView(_:willDisplay:forRowAt:))) {
+            super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
+        }
 
-        cell.backgroundColor = themeService.attrs.backgroundColor
-        
+        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+
         // Update the selected background view
-        cell.selectedBackgroundView = UIView()
-        cell.selectedBackgroundView?.backgroundColor = themeService.attrs.selectedBackgroundColor
-        
-        if let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
-            if roomBubbleTableViewCell.readMarkerView != nil {
-                readMarkerTableViewCell = roomBubbleTableViewCell
-                self.checkReadMarkerVisibility()
+        if themeService.attrs.selectedBgColor != nil {
+            cell.selectedBackgroundView = UIView()
+            cell.selectedBackgroundView?.theme.backgroundColor = themeService.attrStream{ $0.selectedBgColor }
+        } else {
+            if tableView.style == .plain {
+                cell.selectedBackgroundView = nil
+            } else {
+                cell.selectedBackgroundView?.backgroundColor = nil
             }
         }
+
+//        cell.backgroundColor = themeService.attrs.backgroundColor
+//
+//        // Update the selected background view
+//        cell.selectedBackgroundView = UIView()
+//        cell.selectedBackgroundView?.backgroundColor = themeService.attrs.selectedBackgroundColor
+//
+//        if let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
+//            if roomBubbleTableViewCell.readMarkerView != nil {
+//                readMarkerTableViewCell = roomBubbleTableViewCell
+//                self.checkReadMarkerVisibility()
+//            }
+//        }
     }
     
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -2877,11 +2845,10 @@ extension CKRoomViewController {
         moreMenuItem.isEnabled = self.roomDataSource.canReplyToEvent(withId: eventId)
         moreMenuItem.action = {
             self.hideContextualMenu(true, completion: {})
-//            self.longPressBubbleTableViewCell
 //            self.showAdditionalActionsMenuForEvent
         }
         
-        return [copyMenuItem, replyMenuItem, editMenuItem, moreMenuItem];
+        return [copyMenuItem, replyMenuItem, editMenuItem];
     }
     
     func showContextualMenuForEvent(event: MXEvent?, fromSingleTapGesture usedSingleTapGesture: Bool, cell: MXKCellRendering?, animated: Bool) {

@@ -67,7 +67,7 @@ final class RoomContextualMenuViewController: UIViewController {
     }
     
     private var shouldPresentReactionsMenu: Bool {
-        return self.reactionsMenuContainerView.isHidden == false
+        return self.reactionsMenuContainerView.isHidden == false 
     }
     
     // MARK: Public
@@ -156,7 +156,8 @@ final class RoomContextualMenuViewController: UIViewController {
         self.reactionsMenuViewBottomStartConstraintConstant = reactionsMenuViewBottomStartConstraintConstant
         self.reactionsMenuViewBottomEndConstraintConstant = reactionsMenuViewBottomEndConstraintConstant
         
-        self.reactionsMenuContainerView.isHidden = false
+//        self.reactionsMenuContainerView.isHidden = false
+        self.reactionsMenuContainerView.isHidden = true
     }
     
     func showReactionsMenu() {
@@ -197,7 +198,6 @@ final class RoomContextualMenuViewController: UIViewController {
     
     func updateTheme() {
         self.menuToolbarView.updateTheme()
-        self.reactionsMenuView?.updateTheme()
     }
     
     // MARK: - Private
@@ -214,7 +214,8 @@ final class RoomContextualMenuViewController: UIViewController {
             hideReactionMenu = true
         }
         
-        self.reactionsMenuContainerView.isHidden = hideReactionMenu
+//        self.reactionsMenuContainerView.isHidden = hideReactionMenu
+        self.reactionsMenuContainerView.isHidden = true
     }
     
     private func updateReactionsMenu(with viewModel: ReactionsMenuViewModel) {
@@ -222,7 +223,6 @@ final class RoomContextualMenuViewController: UIViewController {
         if self.reactionsMenuContainerView.subviews.isEmpty {
             let reactionsMenuView = ReactionsMenuView.loadFromNib()
             self.reactionsMenuContainerView.vc_addSubViewMatchingParent(reactionsMenuView)
-            reactionsMenuView.updateTheme()
             self.reactionsMenuView = reactionsMenuView
         }
         

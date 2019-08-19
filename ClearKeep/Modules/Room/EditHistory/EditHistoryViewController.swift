@@ -113,7 +113,7 @@ final class EditHistoryViewController: UIViewController {
     }
     
     private func setupViews() {
-        let closeBarButtonItem = MXKBarButtonItem(title: "", style: .plain) { [weak self] in
+        let closeBarButtonItem = MXKBarButtonItem(title: CKLocalization.string(byKey: "close"), style: .plain) { [weak self] in
             self?.closeButtonAction()
         }
         
