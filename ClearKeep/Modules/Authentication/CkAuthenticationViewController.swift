@@ -14,12 +14,15 @@ protocol CkAuthenticationViewControllerDelegate: class {
     func authentication(_ authentication: CkAuthenticationViewController, onSuccessfulAuthCredentials credentials: MXCredentials)
     func authentication(_ authentication: CkAuthenticationViewController, onFailureDuringAuthError error: Error)
     func authenticationCancelSigningUp(_ authentication: CkAuthenticationViewController)
+    func authenticationCancelResetPass(_ authentication: CkAuthenticationViewController)
     
     func authenticationFailStartSigningIn(withMessage message: String)
     func authenticationFailStartSigningUp(withMessage message: String)
+    func authenticationFailStartResetPass(withMessage message: String)
     
     func authenticationWillStartSigningIn()
     func authenticationWillStartSigningUp()
+    func authenticationWillStartResetPass()
 }
 
 public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDelegate {
@@ -27,6 +30,7 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     @IBOutlet weak var authenticationScrollView: UIScrollView!
     @IBOutlet weak var welcomeImageView: UIImageView!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var forgotPassButton: UIButton!
     private var cancelSignupAlert: UIAlertController?
     
     /**
@@ -124,17 +128,45 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
         }
     }
     
-    /// Cancel signup request
-    @IBAction func cancelSignUp() {
+    @IBAction func tappedForgotPassButton(_ sender: UIButton) {
+        print("forgot pass")
+        self.delegate?.authentication(self, requestAction: "forgot")
+        
+        if self.isKind(of: CkForgotPasswordViewController.self) {
+            
+            if let message = self.validateParameters() {
+                self.delegate?.authenticationFailStartResetPass(withMessage: message)
+                return
+            }
+            
+            self.askForUpdating { (parameters: [String : Any]) in
+                if let email = parameters["email"] as? String, let password = parameters["password"] as? String {
+                    self.authorizer?.update(withUserId: email, password: password)
+                }
+                self.delegate?.authenticationWillStartResetPass()
+                self.authorizer?.startResetPass()
+            }
+        }
+    }
+    
+    /// Cancel  request
+    @IBAction func cancelRequest() {
         /// Show alert to confirm action
+        
+        let messageKey = authorizer?.authType == MXKAuthenticationTypeForgotPassword  ? "auth_cancel_reset_pass" : "auth_cancel_registration"
         cancelSignupAlert = UIAlertController(title: nil,
-                                              message: "Are you sure to cancel this registration?",
+                                              message: CKLocalization.string(byKey: messageKey),
                                               preferredStyle: .alert)
         guard  let alertController = cancelSignupAlert else {
             return
         }
         let okAction = UIAlertAction(title: "Yes", style: .destructive) { _ in
-            self.delegate?.authenticationCancelSigningUp(self)
+            if self.authorizer?.authType == MXKAuthenticationTypeForgotPassword {
+                self.delegate?.authenticationCancelResetPass(self)
+            } else {
+                self.delegate?.authenticationCancelSigningUp(self)
+            }
+            
         }
         let cancelAction = UIAlertAction(title: "No", style: .default, handler: nil)
         
@@ -156,6 +188,9 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     public func validateParameters() -> String? { return nil }
     
     public func isRegisteringWithEmail() -> Bool { return false }
+    
+    public func isResetPassword() -> Bool { return false }
+    
 }
 
 extension CkAuthenticationViewController {
@@ -185,4 +220,19 @@ extension CkAuthenticationViewController {
             self.delegate?.authentication(self, onSuccessfulAuthCredentials: credentials)
         }
     }
+    
+    internal func resetPassSuccess() {
+        if self.isVisible() {
+            dismissCancelAlert()
+        }
+        
+        let message = NSLocalizedString("auth_reset_password_success_message", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
+        DispatchQueue.main.async {
+            self.showAlert(message) {
+                self.onSignIn()
+            }
+        }
+        
+    }
+
 }

@@ -12,6 +12,7 @@ import MatrixKit
 protocol CkAuthorizerDelegate: class {        
     func authorizer(_ authorizer: CkAuthorizer, onSuccessfulAuthCredentials credentials: MXCredentials)
     func authorizer(_ authorizer: CkAuthorizer, onFailureDuringAuthError error: Error)
+    func resetPassSuccess()
 }
 
 public class CkAuthorizer {
@@ -40,6 +41,11 @@ public class CkAuthorizer {
      Registration Timer
      */
     private var registrationTimer: Timer! = nil
+    
+    /**
+     Reset password Timer
+     */
+    private var resetPassTimer: Timer! = nil
     
     /**
      Delegates
@@ -228,6 +234,41 @@ public class CkAuthorizer {
         })
     }
     
+    internal func resetPass(withParameters parameters: [String : Any]) {
+        
+        if self.resetPassTimer != nil {
+            self.resetPassTimer.invalidate()
+            self.resetPassTimer = nil
+        }
+        
+        self.mxCurrentOperation = self.mxRestClient.resetPassword(parameters: parameters, completion: { (response) in
+            if let error = response.error, response.isFailure == true {
+                
+                if let mxError = MXError(nsError: error) {
+                    
+                    if mxError.errcode == kMXErrCodeStringUnauthorized {
+                        self.resetPassTimer = Timer.scheduledTimer(
+                            timeInterval: 10,
+                            target: self,
+                            selector: #selector(self.resetPassTimerFireMethod(timer:)),
+                            userInfo: parameters,
+                            repeats: false)
+                        return
+                    }
+                }
+                
+                self.onFailureDuringAuthRequest(withError: error as NSError)
+            } else if response.isSuccess {
+                self.delegates.invoke { (agent: CkAuthorizerDelegate) in
+                    agent.resetPassSuccess()
+                }
+            } else {
+                self.onFailureDuringAuthRequest(
+                    withError: self.error(withMessage: Bundle.mxk_localizedString(forKey: "not_supported_yet")))
+            }
+        })
+    }
+    
     internal func refreshAuthenticationSession(completion: @escaping (MXAuthenticationSession?) -> Void) {
 
         if self.mxCurrentOperation != nil {
@@ -253,6 +294,17 @@ public class CkAuthorizer {
                 mxCurrentOperation = mxRestClient.getLoginSession(
                     completion: { (response: MXResponse<MXAuthenticationSession>) in
 
+                        if response.isSuccess {
+                            self.handleAuthentication(withSession: response.value)
+                            completion(response.value)
+                        } else {
+                            self.onFailureDuringMXOperation(withError: response.error)
+                        }
+                })
+            } else if self.authType == MXKAuthenticationTypeForgotPassword{
+                mxCurrentOperation = mxRestClient.getLoginSession(
+                    completion: { (response: MXResponse<MXAuthenticationSession>) in
+                        
                         if response.isSuccess {
                             self.handleAuthentication(withSession: response.value)
                             completion(response.value)
@@ -292,6 +344,15 @@ public class CkAuthorizer {
             }
         }
     }
+    
+    @objc internal func resetPassTimerFireMethod(timer: Timer) {
+        if timer == self.resetPassTimer && timer.isValid {
+            if let parameters = timer.userInfo as? [String: Any] {
+                self.resetPass(withParameters: parameters)
+            }
+        }
+    }
+    
 }
 
 extension CkAuthorizer {
@@ -315,6 +376,19 @@ extension CkAuthorizer {
             self.prepareParameters { (parameters: [String : Any], error: Error?) in
                 if parameters.keys.count > 0 {
                     self.register(withParameters: parameters)
+                } else if let err = error {
+                    self.onFailureDuringAuthRequest(withError: err)
+                }
+            }
+        }
+    }
+    
+    public func startResetPass() {
+        self.authType = MXKAuthenticationTypeForgotPassword
+        self.refreshAuthenticationSession { (_) in
+            self.prepareParameters { (parameters: [String : Any], error: Error?) in
+                if parameters.keys.count > 0 {
+                    self.resetPass(withParameters: parameters)
                 } else if let err = error {
                     self.onFailureDuringAuthRequest(withError: err)
                 }
@@ -407,6 +481,23 @@ extension CkAuthorizer {
                 
                 completion(parameters, nil)
 
+            }
+        } else if self.authType == MXKAuthenticationTypeForgotPassword {
+            if let submittedEmail = MXK3PID(medium: kMX3PIDMediumEmail, andAddress: self.userId) {
+                mxRestClient.forgetPassword(forEmail: self.userId, clientSecret: submittedEmail.clientSecret, sendAttempt: 1, success: { (response) in
+                    if let identServerURL = NSURL(string: self.identityServer) {
+                        if let pid = response {
+                            parameters = ["auth": ["type": kMXLoginFlowTypeEmailIdentity,
+                                                   "threepid_creds": ["client_secret": submittedEmail.clientSecret,
+                                                                      "id_server": identServerURL.host,
+                                                                      "sid": pid]],
+                                          "new_password": self.password]
+                            completion(parameters, nil)
+                        }
+                    }
+                }) { (error) in
+                    print("error \(error.debugDescription)")
+                }
             }
         }
     }

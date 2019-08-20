@@ -90,28 +90,28 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
         if displayStyle == .login {
             remove(asChildViewController: forgotPwdViewController)
             remove(asChildViewController: registerViewController)
-            
-            // reset verification
-            indicatorViewController.isVerification = false
+            indicatorViewController.displayType = .indicator
             add(asChildViewController: loginViewController)
         } else if displayStyle == .forgot {
             remove(asChildViewController: loginViewController)
             remove(asChildViewController: registerViewController)
-            
-            // reset verification
-            indicatorViewController.isVerification = false
+            indicatorViewController.displayType = .indicator
             add(asChildViewController: forgotPwdViewController)
         } else if displayStyle == .register {
             remove(asChildViewController: loginViewController)
             remove(asChildViewController: forgotPwdViewController)
+            indicatorViewController.displayType = .indicator
             add(asChildViewController: registerViewController)
         } else if displayStyle == .indicator {
             remove(asChildViewController: loginViewController)
             remove(asChildViewController: forgotPwdViewController)
             remove(asChildViewController: registerViewController)
             
-            // maybe the registration of user email
-            indicatorViewController.isVerification = registerViewController.isRegisteringWithEmail()
+            if registerViewController.isRegisteringWithEmail() {
+                indicatorViewController.displayType = .register
+            } else if forgotPwdViewController.isResetPassword() {
+                indicatorViewController.displayType = .forgot
+            }
             add(asChildViewController: indicatorViewController)
         }
     }
@@ -176,14 +176,21 @@ extension CkMasterauthViewController {
     
     func authenticationWillStartSigningUp() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
-            self.displayStyle = . indicator
+            self.displayStyle = .indicator
             self.updateView()
         }
     }
     
     func authenticationWillStartSigningIn() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
-            self.displayStyle = . indicator
+            self.displayStyle = .indicator
+            self.updateView()
+        }
+    }
+    
+    func authenticationWillStartResetPass() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
+            self.displayStyle = .indicator
             self.updateView()
         }
     }
@@ -196,8 +203,16 @@ extension CkMasterauthViewController {
         self.alert(withMessage: message)
     }
     
+    func authenticationFailStartResetPass(withMessage message: String) {
+        self.alert(withMessage: message)
+    }
+    
     func authenticationCancelSigningUp(_ authentication: CkAuthenticationViewController) {
         self.authentication(authentication, requestAction: "register")
+    }
+    
+    func authenticationCancelResetPass(_ authentication: CkAuthenticationViewController) {
+        self.authentication(authentication, requestAction: "forgot")
     }
     
     func authentication(_ authentication: CkAuthenticationViewController, onFailureDuringAuthError error: Error) {
@@ -208,6 +223,8 @@ extension CkMasterauthViewController {
             self.authentication(authentication, requestAction: "login")
         } else if self.lastStyle == .register {
             self.authentication(authentication, requestAction: "register")
+        } else if self.lastStyle == .forgot {
+            self.authentication(authentication, requestAction: "forgot")
         }
     }
     
