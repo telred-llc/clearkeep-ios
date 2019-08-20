@@ -46,13 +46,14 @@ class CkAvatarTopView: MXKView {
         
         let previewImage = AvatarGenerator.generateAvatar(forText: userId)
         
-        imgAvatar.enableInMemoryCache = true
-        imgAvatar.setImageURI(
-            uri,
-            withType: nil,
-            andImageOrientation: UIImageOrientation.up,
-            previewImage: previewImage,
-            mediaManager: session.mediaManager)
+        imgAvatar.enableInMemoryCache = true        
+        imgAvatar.setImageURI(uri,
+                    withType: nil,
+                    andImageOrientation: UIImageOrientation.up,
+                    toFitViewSize: imgAvatar.frame.size,
+                    with: MXThumbnailingMethodCrop,
+                    previewImage: previewImage,
+                    mediaManager: session.mediaManager)
     }
     
     func setImage(image: UIImage?)  {
