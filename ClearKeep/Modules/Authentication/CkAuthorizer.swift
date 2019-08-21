@@ -248,7 +248,7 @@ public class CkAuthorizer {
                     
                     if mxError.errcode == kMXErrCodeStringUnauthorized {
                         self.resetPassTimer = Timer.scheduledTimer(
-                            timeInterval: 10,
+                            timeInterval: 5,
                             target: self,
                             selector: #selector(self.resetPassTimerFireMethod(timer:)),
                             userInfo: parameters,
