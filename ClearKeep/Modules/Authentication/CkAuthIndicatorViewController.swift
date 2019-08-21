@@ -22,6 +22,12 @@ public class CkAuthIndicatorViewController: CkAuthenticationViewController {
         verificationLabel.isHidden = true
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        cancelButton.isHidden = true
+        verificationLabel.isHidden = true
+    }
+    
     public override func finalizeInit() {
         super.finalizeInit()
     }
