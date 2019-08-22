@@ -105,6 +105,11 @@
         // Add the search bar
         self.navigationItem.titleView = self.searchBar;
         
+        // from ios 11, searchbar set size differrent follow navigationbar large
+        if (@available(iOS 11.0, *)) {
+            [self.searchBar.heightAnchor constraintEqualToConstant:44].active = YES;
+        }
+        
         // On iPad, there is no cancel button inside the UISearchBar
         // So, add a classic cancel right bar button
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
