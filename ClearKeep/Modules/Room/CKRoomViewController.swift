@@ -777,7 +777,7 @@ extension CKRoomViewController {
             let videoCallButton : UIButton = UIButton.init(type: .custom)
             videoCallButton.setImage(#imageLiteral(resourceName: "ic_video_call_new").withRenderingMode(.alwaysOriginal), for: .normal)
             videoCallButton.addTarget(self, action: #selector(navigationVideoCallBarButtonPressed(_:)), for: .touchUpInside)
-            searchButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            videoCallButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
             let videoCallBarButton = UIBarButtonItem(customView: videoCallButton)
 
             // hangupCallBarButton
@@ -1697,8 +1697,9 @@ extension CKRoomViewController {
                 let components = roomBubbleTableViewCell.bubbleData.bubbleComponents ?? [MXKRoomBubbleComponent]()
                 let selectedComponent: MXKRoomBubbleComponent? = components.first(where: {$0.event.eventId == selectedEvent.eventId})
                 
-                if let currentAlert = currentAlert {
-                    currentAlert.dismiss(animated: false, completion: nil)
+                if currentAlert != nil {
+//                    currentAlert?.dismiss(animated: false, completion: nil)
+                    
                     
                     // Cancel potential text selection in other bubbles
                     for cell in self.bubblesTableView.visibleCells {
@@ -1850,7 +1851,12 @@ extension CKRoomViewController {
                 currentAlert?.popoverPresentationController?.sourceView = roomBubbleTableViewCell
                 currentAlert?.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
                 if let currentAlert = self.currentAlert {
-                    self.present(currentAlert, animated: true, completion: nil)
+                    
+                    self.present(currentAlert, animated: true) {
+                        let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
+                        currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+                        currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
+                    }
                 }
             } else {
                 // call to super
@@ -1858,15 +1864,15 @@ extension CKRoomViewController {
             }
             
             // current alert is available
-            if let currentAlert = self.currentAlert {
-                
-                // delay for presenting action sheet completed
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
-                    currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
-                    currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
-                }
-            }
+//            if let currentAlert = self.currentAlert {
+//
+//                // delay for presenting action sheet completed
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                    let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
+//                    currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+//                    currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
+//                }
+//            }
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
             
             // click user avatar in room go to  view info profile
@@ -1907,7 +1913,13 @@ extension CKRoomViewController {
     }
     
     @objc private func dismissCurrentAlert(_ gesture: UITapGestureRecognizer) {
-        self.currentAlert?.dismiss(animated: true, completion: nil)
+        
+        guard currentAlert != nil else {
+            self.cancelEventSelection()
+            return
+        }
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func showRoomSettings() {
