@@ -1863,16 +1863,6 @@ extension CKRoomViewController {
                 super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
             }
             
-            // current alert is available
-//            if let currentAlert = self.currentAlert {
-//
-//                // delay for presenting action sheet completed
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                    let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
-//                    currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
-//                    currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
-//                }
-//            }
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
             
             // click user avatar in room go to  view info profile
