@@ -50,6 +50,8 @@
  */
 @property (nonatomic) id<RoomTitleViewTapGestureDelegate> tapGestureDelegate;
 
+@property (nonatomic) int numberBarButtonItem;
+
 /**
  The method used to handle the gesture recognized by a receiver.
  */
