@@ -32,6 +32,24 @@ FOUNDATION_EXPORT NSString *const kEventFormatterOnReRequestKeysLinkActionSepara
 @interface EventFormatter : MXKEventFormatter
 
 /**
+ Add a "(edited)" mention to edited message.
+ Default is YES.
+ */
+@property (nonatomic) BOOL showEditionMention;
+
+/**
+ Text color used to display message edited mention.
+ Default is `textSecondaryColor`.
+ */
+@property (nonatomic) UIColor *editionMentionTextColor;
+
+/**
+ Text font used to display message edited mention.
+ Default is system font 12.
+ */
+@property (nonatomic) UIFont *editionMentionTextFont;
+
+/**
  String attributes for event timestamp displayed in chat history.
  */
 - (NSDictionary*)stringAttributesForEventTimestamp;

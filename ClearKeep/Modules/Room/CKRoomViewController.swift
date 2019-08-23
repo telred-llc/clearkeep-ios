@@ -18,10 +18,10 @@ import MatrixKit
     @IBOutlet weak var previewHeaderContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mentionListTableView: UITableView!
     @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet var invitationController: CKRoomInvitationController!
-    
     @IBOutlet weak var activityCHeight: NSLayoutConstraint!
-    
+
+    @IBOutlet var invitationController: CKRoomInvitationController!
+
     // MARK: - Constants
     
     private let kShowRoomSearchSegue = "showRoomSearch"
@@ -75,6 +75,11 @@ import MatrixKit
      */
     var savedInputToolbarPlaceholder: String?
     
+    /**
+     The original message text before being edited
+     */
+    var textMessageBeforeEditing: String?
+
     override var keyboardHeight: CGFloat {
         didSet {
             if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
@@ -731,18 +736,25 @@ extension CKRoomViewController {
         }
     }
 
-    func sendTextMessage(_ msgTxt: String?) {
+    func sendTextMessage(_ msgTxt: String?, isEdit: Bool = false) {
         if isInReplyMode, let selectedEventId = customizedRoomDataSource?.selectedEventId {
             roomDataSource?.sendReplyToEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil, failure: { error in
                 // Just log the error. The message will be displayed in red in the room history
                 print("[MXKRoomViewController] sendTextMessage failed.")
             })
         } else {
-            // Let the datasource send it and manage the local echo
-            roomDataSource.sendTextMessage(msgTxt, success: nil, failure: { error in
-                // Just log the error. The message will be displayed in red in the room history
-                print("[MXKRoomViewController] sendTextMessage failed.")
-            })
+            if isEdit, let selectedEventId = customizedRoomDataSource?.selectedEventId {
+                roomDataSource?.replaceTextMessageForEvent(withId: selectedEventId, withTextMessage: msgTxt, success:nil, failure: { error in
+                    // Just log the error. The message will be displayed in red in the room history
+                    print("[MXKRoomViewController] editTextMessage failed.")
+                })
+            } else {
+                // Let the datasource send it and manage the local echo
+                roomDataSource.sendTextMessage(msgTxt, success: nil, failure: { error in
+                    // Just log the error. The message will be displayed in red in the room history
+                    print("[MXKRoomViewController] sendTextMessage failed.")
+                })
+            }
         }
 
         cancelEventSelection()
@@ -1765,6 +1777,14 @@ extension CKRoomViewController {
                     UIPasteboard.general.string = selectedComponent.textMessage
                 }))
                 
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_edit", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                    guard let weakSelf = self, let _ = selectedComponent else {
+                        return
+                    }
+                    weakSelf.cancelEventSelection()
+                    weakSelf.editEvent(with: selectedEvent.eventId)
+                }))
+                
                 // Add action for room message only
                 if selectedEvent.eventType == __MXEventTypeRoomMessage {
                     currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_quote", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
@@ -1795,7 +1815,6 @@ extension CKRoomViewController {
                     activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
                     
                     weakSelf.present(activityViewController, animated: true, completion: nil)
-
                 }))
                 
                 if components.count > 1 {
@@ -1920,7 +1939,7 @@ extension CKRoomViewController {
                     vc.initWith(self.roomDataSource.mxSession, andRoomId: self.roomDataSource.roomId)
                 }
             }
-            
+
             // present nvc
             self.present(nvc, animated: true, completion: nil)
         }
@@ -1944,8 +1963,33 @@ extension CKRoomViewController {
 
         customizedRoomDataSource?.selectedEventId = nil
 
+        restoreTextBeforeEditing()
+
         // Force table refresh
         dataSource(roomDataSource, didCellChange: nil)
+    }
+    
+    private func editEvent(with eventId: String?) {
+        guard let event = roomDataSource.event(withEventId: eventId),
+            let toolbarView = inputToolbarView as? CKRoomInputToolbarView else {
+            return
+        }
+        
+        textMessageBeforeEditing = toolbarView.textMessage
+        customizedRoomDataSource?.selectedEventId = eventId
+        toolbarView.textMessage = roomDataSource.editableTextMessage(for: event)
+        toolbarView.sendMode = .edit
+        toolbarView.becomeFirstResponder()
+    }
+    
+    private func restoreTextBeforeEditing() {
+        guard let toolbarView = inputToolbarView as? CKRoomInputToolbarView,
+            let originalText = textMessageBeforeEditing else {
+                return
+        }
+        
+        toolbarView.textMessage = originalText
+        textMessageBeforeEditing = nil
     }
     
     // MARK: - Unsent Messages Handling
@@ -2016,7 +2060,7 @@ extension CKRoomViewController {
         let nvc = CKAccountProfileViewController.instanceNavigation { (vc: MXKViewController) in
             vc.importSession(self.mxSessions)
             (vc as? CKAccountProfileViewController)?.isForcedPresenting = true
-            if let roomDataSource = self.roomDataSource, roomDataSource.roomState != nil, let room = roomDataSource.room {
+            if let roomDataSource = self.roomDataSource, roomDataSource.roomState != nil, let _ = roomDataSource.room {
                 (vc as? CKAccountProfileViewController)?.mxRoomPowerLevels = roomDataSource.roomState.powerLevels
             }
         }
@@ -2048,6 +2092,10 @@ extension CKRoomViewController: MXServerNoticesDelegate {
 // MARK: - RoomInputToolbarViewDelegate
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
+    func sendTextButtonDidPress(_ message: String, isEdit: Bool) {
+        self.sendTextMessage(message, isEdit: isEdit)
+    }
+    
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?) {
 
         func highlightMentionButton(highlight: Bool) {
@@ -2112,7 +2160,6 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             }
         }
     }
-
 }
 
 // MARK: - CKMentionDataSourceDelegate

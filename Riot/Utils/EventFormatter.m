@@ -28,6 +28,9 @@
 
 NSString *const kEventFormatterOnReRequestKeysLinkAction = @"kEventFormatterOnReRequestKeysLinkAction";
 NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
+NSString *const kEventFormatterEditedEventLinkAction = @"kEventFormatterEditedEventLinkAction";
+
+static NSString *const kEventFormatterTimeFormat = @"HH:mm";
 
 @interface EventFormatter ()
 {
@@ -39,6 +42,14 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
 @end
 
 @implementation EventFormatter
+
+- (void)initDateTimeFormatters
+{
+    [super initDateTimeFormatters];
+    
+    timeFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [timeFormatter setDateFormat:kEventFormatterTimeFormat];
+}
 
 - (NSAttributedString *)attributedStringFromEvent:(MXEvent *)event withRoomState:(MXRoomState *)roomState error:(MXKEventFormatterError *)error
 {
@@ -143,7 +154,7 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
 
         if (event.decryptionError.code == MXDecryptingErrorUnknownInboundSessionIdCode)
         {
-            // Append to the displayed error an attibuted string with a tappable link
+            // Append to the displayed error an attributed string with a tappable link
             // so that the user can try to fix the UTD
             NSMutableAttributedString *attributedStringWithRerequestMessage = [attributedString mutableCopy];
             [attributedStringWithRerequestMessage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
@@ -168,6 +179,26 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
                                                           }]];
 
             attributedString = attributedStringWithRerequestMessage;
+        }
+        else if (self.showEditionMention && event.contentHasBeenEdited)
+        {
+            NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
+            
+            NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
+                                          kEventFormatterOnReRequestKeysLinkActionSeparator,
+                                          event.eventId];
+            
+            [attributedStringWithEditMention appendAttributedString:
+             [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
+                                             attributes:@{
+                                                          NSLinkAttributeName: linkActionString,
+                                                          // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
+                                                          // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
+                                                          NSForegroundColorAttributeName: self.editionMentionTextColor,
+                                                          NSFontAttributeName: self.editionMentionTextFont
+                                                          }]];
+            
+            attributedString = attributedStringWithEditMention;
         }
     }
 
@@ -224,15 +255,14 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
         self.encryptingTextColor = kRiotColorGreen;
         self.sendingTextColor = kRiotSecondaryTextColor;
         self.errorTextColor = kRiotColorRed;
-        
+        self.showEditionMention = YES;
+        self.editionMentionTextColor = kRiotSecondaryTextColor;
+
         self.defaultTextFont = [UIFont systemFontOfSize:17];
         self.prefixTextFont = [UIFont boldSystemFontOfSize:17];
-        if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)])
-        {
+        if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)]) {
             self.bingTextFont = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
-        }
-        else
-        {
+        } else {
             self.bingTextFont = [UIFont systemFontOfSize:17];
         }
         
@@ -242,6 +272,7 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
         
         self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:17];
         self.emojiOnlyTextFont = [UIFont systemFontOfSize:48];
+        self.editionMentionTextFont = [UIFont systemFontOfSize:15];
     }
     return self;
 }
