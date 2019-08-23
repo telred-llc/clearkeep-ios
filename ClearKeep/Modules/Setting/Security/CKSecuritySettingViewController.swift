@@ -12,7 +12,11 @@ class CKSecuritySettingViewController: MXKViewController {
 
     // MARK: - IBOutlets
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            self.setupTableView()
+        }
+    }
     
     // MARK: - Enums
     
@@ -28,8 +32,9 @@ class CKSecuritySettingViewController: MXKViewController {
     }
     
     // MARK: - Properties
-    
-    // MARK: Private
+    var keyBackupSection: SettingsKeyBackupTableViewSection?
+    var keyBackupSetupCoordinatorBridgePresenter: KeyBackupSetupCoordinatorBridgePresenter?
+    var keyBackupRecoverCoordinatorBridgePresenter: KeyBackupRecoverCoordinatorBridgePresenter?
     
     private let sections: [[CellType]] = [[.exportKeys]]
     
@@ -50,29 +55,22 @@ class CKSecuritySettingViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupInitization()
+        
+        self.bindingTheme()
+        
+        if (self.mainSession.crypto.backup != nil) {
+            let deviceInfo = self.mainSession.crypto.deviceList.storedDevice(self.mainSession.matrixRestClient.credentials.userId, deviceId: self.mainSession.matrixRestClient.credentials.deviceId)
+            if (deviceInfo != nil) {
+                self.keyBackupSection = SettingsKeyBackupTableViewSection(withKeyBackup: self.mainSession.crypto.backup, userDevice: deviceInfo!)
+                self.keyBackupSection?.delegate = self
+            }
+        
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Security"
-    }
-    
-    private func setupInitization() {
-        setupTableView()
-        bindingTheme()
-    }
-
-    func bindingTheme() {
-        // Binding navigation bar color
-        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
-        }).disposed(by: disposeBag)
-
-        themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
-            .disposed(by: disposeBag)
     }
     
     override func onMatrixSessionStateDidChange(_ notif: Notification?) {
@@ -86,18 +84,34 @@ class CKSecuritySettingViewController: MXKViewController {
             }
         }
     }
+    
+    // MARK: Private
+
+    private func bindingTheme() {
+        // Binding navigation bar color
+        themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+        }).disposed(by: disposeBag)
+
+        themeService.rx
+            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupTableView() {
+        tableView.register(UINib.init(nibName: "CKSettingToggleItemTableViewCell", bundle: Bundle.init(for: CKSettingToggleItemTableViewCell.self)), forCellReuseIdentifier: "CKSettingToggleItemTableViewCell")
+        tableView.register(UINib.init(nibName: "CKSettingButtonCell", bundle: Bundle.init(for: CKSettingButtonCell.self)), forCellReuseIdentifier: "CKSettingButtonCell")
+        tableView.register(UINib(nibName: "MXKTableViewCellWithTextView", bundle: Bundle.init(for: MXKTableViewCellWithTextView.self)), forCellReuseIdentifier: "MXKTableViewCellWithTextView") 
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
 }
 
 // MARK: - Private Methods
 
 private extension CKSecuritySettingViewController {
-    func setupTableView() {
-        tableView.register(UINib.init(nibName: "CKSettingToggleItemTableViewCell", bundle: Bundle.init(for: CKSettingToggleItemTableViewCell.self)), forCellReuseIdentifier: "CKSettingToggleItemTableViewCell")
-        tableView.register(UINib.init(nibName: "CKSettingButtonCell", bundle: Bundle.init(for: CKSettingButtonCell.self)), forCellReuseIdentifier: "CKSettingButtonCell")
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-    }
     
     // Cells
     
@@ -181,85 +195,97 @@ private extension CKSecuritySettingViewController {
             }
         })
 
-    }
+    } 
 }
 
 // MARK: - UITableViewDataSource
 
 extension CKSecuritySettingViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return sections.count
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].count
+//        return sections[section].count
+        if self.keyBackupSection != nil {
+            return self.keyBackupSection?.numberOfRows() ?? 0
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellType = sections[indexPath.section][indexPath.row]
-        
-        switch cellType {
-        case .exportKeys:
-            return cellForButton(tableView, indexPath: indexPath)
+        if self.keyBackupSection != nil {
+            return self.keyBackupSection?.cellForRow(atRow: indexPath.row) ?? UITableViewCell()
         }
+        return UITableViewCell()
+        
+//        let cellType = sections[indexPath.section][indexPath.row]
+//        switch cellType {
+//        case .exportKeys:
+//            return cellForButton(tableView, indexPath: indexPath)
+//        }
     }
 }
 
 // MARK: - UITableViewDelegate
 
 extension CKSecuritySettingViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CKLayoutSize.Table.row44px
-    }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.selectionStyle = .none
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return CKLayoutSize.Table.row44px
+//    }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellType = sections[indexPath.section][indexPath.row]
-        
-        switch cellType {
-        case .exportKeys:
-            self.exportEncryptionKeys()
-        }
-    }
-    
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        cell.selectionStyle = .none
+//    }
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let cellType = sections[indexPath.section][indexPath.row]
+//
+//        switch cellType {
+//        case .exportKeys:
+//            self.exportEncryptionKeys()
+//        }
+//    }
+//
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return 45
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if sections[section].contains(where: { $0 == .exportKeys }) {
-            let label = UILabel.init()
-            label.numberOfLines = 0
-            label.font = UIFont.systemFont(ofSize: 14)
-            label.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
 
-            label.text = "You should export your key which is useful to decrypt the messages in the next login."
-            
-            let headerView = UIView.init()
-            headerView.addSubview(label)
-            
-            label.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                headerView.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -15),
-                headerView.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 15),
-                headerView.topAnchor.constraint(equalTo: label.topAnchor, constant: -5),
-                headerView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8)
-                ])
-            
-            return headerView
-        }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        if sections[section].contains(where: { $0 == .exportKeys }) {
+//            return createHeaderView(title: "\nYou should export your key which is useful to decrypt the messages in the next login.")
+//        } 
         
-        return nil
+        return createHeaderView(title: CKLocalization.string(byKey: "settings_key_backup"))
     }
 
+    private func createHeaderView(title: String) -> UIView {
+        let label = UILabel.init()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        
+        label.text = title
+        
+        let headerView = UIView.init()
+        headerView.addSubview(label)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            headerView.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -15),
+            headerView.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 15),
+            headerView.topAnchor.constraint(equalTo: label.topAnchor, constant: -20),
+            headerView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8)
+            ])
+        
+        return headerView
+    }
 }
 
 // MARK: - UIDocumentInteractionControllerDelegate
@@ -272,5 +298,121 @@ extension CKSecuritySettingViewController: UIDocumentInteractionControllerDelega
 
     func documentInteractionControllerDidDismissOptionsMenu(_ controller: UIDocumentInteractionController) {
         documentInteractionController = nil
+    }
+}
+
+extension CKSecuritySettingViewController: SettingsKeyBackupTableViewSectionDelegate {
+    
+    func settingsKeyBackupTableViewSectionDidUpdate(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection) {
+        self.tableView.beginUpdates()
+        self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        self.tableView.endUpdates()
+    }
+    
+    func settingsKeyBackupTableViewSection(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection, textCellForRow: Int) -> MXKTableViewCellWithTextView {
+        return textViewCellForTableView(tableView: self.tableView, atIndexPath: IndexPath())
+    }
+    
+    func settingsKeyBackupTableViewSection(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection, buttonCellForRow: Int) -> MXKTableViewCellWithButton {
+        if let cell = self.tableView.dequeueReusableCell(withIdentifier: MXKTableViewCellWithButton.defaultReuseIdentifier()) as? MXKTableViewCellWithButton {
+            cell.mxkButton.titleLabel?.text = nil;
+            cell.mxkButton.tintColor = CKColor.Text.tint
+            return cell
+        }
+        return MXKTableViewCellWithButton()
+    }
+    
+    func settingsKeyBackupTableViewSectionShowKeyBackupSetup(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection) {
+        self.showKeyBackupSetupFromSignOutFlow(showFromSignOutFlow: false)
+    }
+    
+    func settingsKeyBackup(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection, showKeyBackupRecover keyBackupVersion: MXKeyBackupVersion) {
+        self.showKeyBackupRecover(keyBackupVersion: keyBackupVersion)
+    }
+    
+    func settingsKeyBackup(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection, showKeyBackupDeleteConfirm keyBackupVersion: MXKeyBackupVersion) {
+        self.currentAlert?.dismiss(animated: false, completion: nil)
+        
+        self.currentAlert = UIAlertController(title: CKLocalization.string(byKey: "settings_key_backup_delete_confirmation_prompt_title"), message: CKLocalization.string(byKey: "settings_key_backup_delete_confirmation_prompt_msg"), preferredStyle: .alert)
+        self.currentAlert?.addAction(UIAlertAction(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { action in
+            self.currentAlert = nil
+        }))
+        self.currentAlert?.addAction(UIAlertAction(title: CKLocalization.string(byKey: "settings_key_backup_button_delete"), style: .default, handler: { action in
+            self.currentAlert = nil
+            self.keyBackupSection?.delete(keyBackupVersion: keyBackupVersion)
+        }))
+        self.currentAlert?.mxk_setAccessibilityIdentifier("SettingsVCDeleteKeyBackup")
+        self.present(self.currentAlert!, animated: true, completion: nil)
+    }
+    
+    func settingsKeyBackup(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection, showActivityIndicator show: Bool) {
+        if (show) {
+            self.startActivityIndicator()
+        } else {
+            self.stopActivityIndicator()
+        }
+    }
+    
+    func settingsKeyBackup(_ settingsKeyBackupTableViewSection: SettingsKeyBackupTableViewSection, showError error: Error) {
+        AppDelegate.the()?.showError(asAlert: error)
+    }
+    
+    private func textViewCellForTableView(tableView: UITableView, atIndexPath indexPath: IndexPath) -> MXKTableViewCellWithTextView {
+        if let textViewCell = tableView.dequeueReusableCell(withIdentifier: MXKTableViewCellWithTextView.defaultReuseIdentifier(), for: indexPath) as? MXKTableViewCellWithTextView {
+            textViewCell.mxkTextView.textColor = themeService.attrs.primaryTextColor
+            textViewCell.mxkTextView.font = UIFont.systemFont(ofSize: 17)
+            textViewCell.mxkTextView.backgroundColor = .clear
+            textViewCell.mxkTextViewLeadingConstraint.constant = tableView.separatorInset.left
+            textViewCell.mxkTextViewTrailingConstraint.constant = tableView.separatorInset.right
+            textViewCell.mxkTextView.accessibilityIdentifier = nil
+            return textViewCell;
+        }
+        return MXKTableViewCellWithTextView()
+    }
+    
+    private func showKeyBackupSetupFromSignOutFlow(showFromSignOutFlow: Bool) {
+        self.keyBackupSetupCoordinatorBridgePresenter = KeyBackupSetupCoordinatorBridgePresenter(session: self.mainSession)
+        self.keyBackupSetupCoordinatorBridgePresenter?.present(from: self, isStartedFromSignOut: showFromSignOutFlow, animated: true)
+        self.keyBackupSetupCoordinatorBridgePresenter?.delegate = self
+    }
+    
+    private func showKeyBackupRecover(keyBackupVersion: MXKeyBackupVersion) {
+        self.keyBackupRecoverCoordinatorBridgePresenter = KeyBackupRecoverCoordinatorBridgePresenter(session: self.mainSession, keyBackupVersion: keyBackupVersion)
+        self.keyBackupRecoverCoordinatorBridgePresenter?.present(from: self, animated: true)
+        self.keyBackupRecoverCoordinatorBridgePresenter?.delegate = self
+    }
+}
+
+extension CKSecuritySettingViewController: KeyBackupSetupCoordinatorBridgePresenterDelegate {
+    func keyBackupSetupCoordinatorBridgePresenterDelegateDidCancel(_ keyBackupSetupCoordinatorBridgePresenter: KeyBackupSetupCoordinatorBridgePresenter) {
+        if self.keyBackupSetupCoordinatorBridgePresenter != nil {
+            self.keyBackupSetupCoordinatorBridgePresenter?.dismiss(animated: true)
+            self.keyBackupSetupCoordinatorBridgePresenter = nil
+        }
+        
+    }
+    
+    func keyBackupSetupCoordinatorBridgePresenterDelegateDidSetupRecoveryKey(_ keyBackupSetupCoordinatorBridgePresenter: KeyBackupSetupCoordinatorBridgePresenter) {
+        if self.keyBackupSetupCoordinatorBridgePresenter != nil {
+            self.keyBackupSetupCoordinatorBridgePresenter?.dismiss(animated: true)
+            self.keyBackupSetupCoordinatorBridgePresenter = nil
+        }
+    }
+}
+
+extension CKSecuritySettingViewController: KeyBackupRecoverCoordinatorBridgePresenterDelegate {
+    
+    func keyBackupRecoverCoordinatorBridgePresenterDidCancel(_ keyBackupRecoverCoordinatorBridgePresenter: KeyBackupRecoverCoordinatorBridgePresenter) {
+        if self.keyBackupRecoverCoordinatorBridgePresenter != nil {
+            self.keyBackupRecoverCoordinatorBridgePresenter?.dismiss(animated: true)
+            self.keyBackupRecoverCoordinatorBridgePresenter = nil
+        }
+    }
+    
+    func keyBackupRecoverCoordinatorBridgePresenterDidRecover(_ keyBackupRecoverCoordinatorBridgePresenter: KeyBackupRecoverCoordinatorBridgePresenter) {
+        if self.keyBackupRecoverCoordinatorBridgePresenter != nil {
+            self.keyBackupRecoverCoordinatorBridgePresenter?.dismiss(animated: true)
+            self.keyBackupRecoverCoordinatorBridgePresenter = nil
+        }
     }
 }

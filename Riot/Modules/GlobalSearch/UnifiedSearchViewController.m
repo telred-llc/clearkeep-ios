@@ -34,6 +34,7 @@
 #import "AppDelegate.h"
 
 #import "GBDeviceInfo_iOS.h"
+#import "Riot-Swift.h"
 
 @interface UnifiedSearchViewController ()
 {
@@ -41,13 +42,14 @@
     UnifiedSearchRecentsDataSource *recentsDataSource;
 
     HomeMessagesSearchViewController *messagesSearchViewController;
-    HomeMessagesSearchDataSource *messagesSearchDataSource;
+    CKHomeMessagesSearchDataSource *messagesSearchDataSource;
     
     HomeFilesSearchViewController *filesSearchViewController;
-    MXKSearchDataSource *filesSearchDataSource;
+    CKHomeFilesSearchDataSource *filesSearchDataSource;
     
-    ContactsTableViewController *peopleSearchViewController;
+    CKSearchContactViewController *peopleSearchViewController;
     ContactsDataSource *peopleSearchDataSource;
+    
     
     // Current alert (if any).
     UIAlertController *currentAlert;
@@ -82,8 +84,9 @@
 
     // Add search People tab
     [titles addObject: NSLocalizedStringFromTable(@"search_people", @"Vector", nil)];
-    peopleSearchViewController = [ContactsTableViewController contactsTableViewController];
-    peopleSearchViewController.contactsTableViewControllerDelegate = self;
+    peopleSearchViewController = [CKSearchContactViewController objInstance];
+    [peopleSearchViewController importSession:self.mxSessions];
+    [peopleSearchViewController setDelegate:[AppDelegate theDelegate].masterTabBarController.homeViewController];
     [viewControllers addObject:peopleSearchViewController];
     
     // add Files tab
@@ -207,14 +210,14 @@
         [recentsViewController displayList:recentsDataSource];
         
         // Init the search for messages
-        messagesSearchDataSource = [[HomeMessagesSearchDataSource alloc] initWithMatrixSession:mainSession];
+        messagesSearchDataSource = [[CKHomeMessagesSearchDataSource alloc] initWithMatrixSession:mainSession];
         [messagesSearchViewController displaySearch:messagesSearchDataSource];
         
         // Init the search for messages
-        filesSearchDataSource = [[MXKSearchDataSource alloc] initWithMatrixSession:mainSession];
+        filesSearchDataSource = [[CKHomeFilesSearchDataSource alloc] initWithMatrixSession:mainSession];
         filesSearchDataSource.roomEventFilter.containsURL = YES;
         filesSearchDataSource.shouldShowRoomDisplayName = YES;
-        [filesSearchDataSource registerCellDataClass:FilesSearchCellData.class forCellIdentifier:kMXKSearchCellDataIdentifier];
+        [filesSearchDataSource registerCellDataClass:CKFilesSearchCellData.class forCellIdentifier:kMXKSearchCellDataIdentifier];
         [filesSearchViewController displaySearch:filesSearchDataSource];
         
         // Init the search for people
@@ -222,7 +225,7 @@
         peopleSearchDataSource.areSectionsShrinkable = YES;
         peopleSearchDataSource.displaySearchInputInContactsList = YES;
         peopleSearchDataSource.contactCellAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        [peopleSearchViewController displayList:peopleSearchDataSource];
+        //[peopleSearchViewController displayList:peopleSearchDataSource];
         
         // Check whether there are others sessions
         NSArray* mxSessions = self.mxSessions;
@@ -349,7 +352,7 @@
     }
     else if (self.selectedViewController == peopleSearchViewController)
     {
-        self.backgroundImageView.hidden = (([peopleSearchViewController.contactsTableView numberOfSections] != 0) || (self.keyboardHeight == 0));
+        self.backgroundImageView.hidden = (([peopleSearchViewController.tableView numberOfSections] != 0) || (self.keyboardHeight == 0));
     }
     else if (self.selectedViewController == filesSearchViewController)
     {
@@ -400,7 +403,8 @@
     // TODO: Manage other children than recents
     [recentsViewController refreshCurrentSelectedCell:forceVisible];
     
-    [peopleSearchViewController refreshCurrentSelectedCell:forceVisible];
+    // CK is no longer to use it
+    //[peopleSearchViewController refreshCurrentSelectedCell:forceVisible];
 }
 
 #pragma mark - Navigation
@@ -459,7 +463,9 @@
         }
         else if (self.selectedViewController == peopleSearchViewController)
         {
-            [peopleSearchDataSource searchWithPattern:self.searchBar.text forceReset:NO];
+            // CK is no longer to use this
+            //[peopleSearchDataSource searchWithPattern:self.searchBar.text forceReset:NO];
+            [peopleSearchViewController search:self.searchBar.text];
         }
         else if (self.selectedViewController == filesSearchViewController)
         {
@@ -493,6 +499,8 @@
         {
             [filesSearchDataSource searchMessages:nil force:NO];
         }
+        
+        [peopleSearchViewController search:@""];
     }
     
     [self checkAndShowBackgroundImage];

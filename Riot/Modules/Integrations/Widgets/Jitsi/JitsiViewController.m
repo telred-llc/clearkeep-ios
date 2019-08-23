@@ -15,8 +15,7 @@
  */
 
 #import "JitsiViewController.h"
-
-static const NSString *kJitsiServerUrl = @"https://meet.jit.si/";
+@import JitsiMeet;
 
 static const NSString *kJitsiDataErrorKey = @"error";
 
@@ -43,7 +42,7 @@ static const NSString *kJitsiDataErrorKey = @"error";
 + (instancetype)jitsiViewController
 {
     JitsiViewController *jitsiViewController = [[[self class] alloc] initWithNibName:NSStringFromClass(self.class)
-                                                                              bundle:[NSBundle bundleForClass:self.class]];
+                                          bundle:[NSBundle bundleForClass:self.class]];
     return jitsiViewController;
 }
 
@@ -59,7 +58,7 @@ static const NSString *kJitsiDataErrorKey = @"error";
 }
 
 - (BOOL)prefersStatusBarHidden
-{
+{    
     return YES;
 }
 
@@ -78,11 +77,11 @@ static const NSString *kJitsiDataErrorKey = @"error";
     _widget = widget;
     
     MXWeakify(self);
-    
+
     [_widget widgetUrl:^(NSString * _Nonnull widgetUrl) {
         
         MXStrongifyAndReturnIfNil(self);
-        
+
         // Extract the jitsi conference id from the widget url
         NSString *confId;
         NSURL *url = [NSURL URLWithString:widgetUrl];
@@ -90,7 +89,7 @@ static const NSString *kJitsiDataErrorKey = @"error";
         {
             NSURLComponents *components = [[NSURLComponents new] initWithURL:url resolvingAgainstBaseURL:NO];
             NSArray *queryItems = [components queryItems];
-            
+
             for (NSURLQueryItem *item in queryItems)
             {
                 if ([item.name isEqualToString:@"confId"])
@@ -102,7 +101,7 @@ static const NSString *kJitsiDataErrorKey = @"error";
         }
         
         self.conferenceId = confId;
-        
+
         if (confId)
         {
             if (success)
@@ -113,17 +112,17 @@ static const NSString *kJitsiDataErrorKey = @"error";
         else
         {
             NSLog(@"[JitsiVC] Failed to load widget: %@. Widget event: %@", widget, widget.widgetEvent);
-            
+
             if (failure)
             {
                 failure(nil);
             }
         }
-        
+
     } failure:^(NSError * _Nonnull error) {
-        
+
         NSLog(@"[JitsiVC] Failed to load widget 2: %@. Widget event: %@", widget, widget.widgetEvent);
-        
+
         if (failure)
         {
             failure(nil);

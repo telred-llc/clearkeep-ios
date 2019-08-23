@@ -12,6 +12,12 @@ import Foundation
 
 extension UIViewController {
     
+    /// Remove back bar button title when pushing a view controller.
+    /// This method should be called on the previous controller in UINavigationController stack.
+    func vc_removeBackTitle() {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
     /**
      This allows you change navigation color
      */
@@ -26,16 +32,18 @@ extension UIViewController {
     /**
      Show alert in Self
      */
-    func showAlert(_ message: String) {
+    func showAlert(_ message: String, onComplete: (() -> Void)? = nil) {
         let alert = UIAlertController(title: "ClearKeep", message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: UIAlertActionStyle.default) { (_) in
+            onComplete?()
+            })
         self.present(alert, animated: true, completion: nil)
     }
 }
 
 // MARK: - MXKViewController extension
 
-extension MXKViewController {
+@objc extension MXKViewController {
 
     override open var preferredStatusBarStyle: UIStatusBarStyle {
         return themeService.attrs.statusBarStyle
@@ -131,7 +139,7 @@ extension MXKViewController {
 
 // MARK: - MXKTableViewController Extension
 
-extension MXKTableViewController {
+@objc extension MXKTableViewController {
     
     /**
      By our pattern, class name is same nib name
@@ -147,7 +155,7 @@ extension MXKTableViewController {
         return UINib.init(nibName: self.nibName, bundle: nil)
     }
     
-    class func instance() -> Self {
+    @objc class func instance() -> Self {
         return self.init(nibName: self.nibName, bundle: nil)
     }
     

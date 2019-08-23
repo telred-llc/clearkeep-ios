@@ -15,7 +15,11 @@ final class CkHomeViewController: CKRecentListViewController {
     // MARK: Properties
     var avatarTapGestureRecognizer: UITapGestureRecognizer?
     var recentsDataSource: RecentsDataSource?
-    var missedDiscussionsCount: Int = 0
+    var missedDiscussionsCount: UInt {
+        get { 
+            return (self.recentsDataSource?.missedFavouriteDiscussionsCount ?? 0) + (self.recentsDataSource?.missedDirectDiscussionsCount ?? 0) + (self.recentsDataSource?.missedGroupDiscussionsCount ?? 0)
+        }
+    }
     
     // MARK: LifeCycle
     deinit {
@@ -28,7 +32,7 @@ final class CkHomeViewController: CKRecentListViewController {
         self.delegate = self
         
         // Listen to the user info did changed
-        NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil) 
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -336,10 +340,10 @@ final class CkHomeViewController: CKRecentListViewController {
 
         self.present(nvc, animated: true, completion: nil)
     }
-
 }
 
 extension CkHomeViewController {
+    
     @objc override func onMatrixSessionChange() {
         super.onMatrixSessionChange()
         
@@ -368,7 +372,7 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         self.reloadDataSource()
         
         // reflect Badge
-        AppDelegate.the()?.masterTabBarController.reflectingBadges()
+        AppDelegate.the()?.masterTabBarController.reflectingBadges() 
     }
     
     func dataSource(_ dataSource: MXKDataSource!, didAddMatrixSession mxSession: MXSession!) {
@@ -381,20 +385,15 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     
     private func reloadDataSource() {
         var rooms: [[MXKRecentCellData]] = []
-        
-        if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
-            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
-                for invite in invitesArray.reversed() {
-                    if invite.roomSummary.isDirect == false {
-                        roomsArray.insert(invite, at: 0)
-                    }
-                }
-            }
-            rooms.append(roomsArray)
+
+        // Favourite chat
+        if let favouritesArray = self.recentsDataSource?.favoriteCellDataArray as? [MXKRecentCellData] {
+            rooms.append(favouritesArray)
         } else {
             rooms.append([])
         }
         
+        // Direct chat
         if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
                 for invite in invitesArray.reversed() {
@@ -407,7 +406,20 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         } else {
             rooms.append([])
         }
-        self.missedDiscussionsCount = rooms.reduce(0, { $0 + $1.filter({ $0.roomSummary.membership == MXMembership.invite || $0.hasUnread || $0.notificationCount > 0 }).count })
+        
+        // Room chat
+        if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
+            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+                for invite in invitesArray.reversed() {
+                    if invite.roomSummary.isDirect == false {
+                        roomsArray.insert(invite, at: 0)
+                    }
+                }
+            }
+            rooms.append(roomsArray)
+        } else {
+            rooms.append([])
+        }
         self.reloadData(rooms: rooms)
     }
     
@@ -418,34 +430,24 @@ extension CkHomeViewController: MXKDataSourceDelegate {
     }
 }
 
-extension CkHomeViewController: CKRecentListViewControllerDelegate {
-    
-    func recentListView(_ controller: CKRecentListViewController, didOpenRoomSettingWithRoomCellData roomCellData: MXKRecentCellData) {
-        
-        // init nvc
-        let nvc = CKRoomSettingsViewController.instanceNavigation { (vc: MXKTableViewController) in
-            
-            // completed vc
-            if let vc = vc as? CKRoomSettingsViewController {
-                
-                // init
-                vc.initWith(roomCellData.roomSummary.mxSession, andRoomId: roomCellData.roomSummary.roomId)
-            }
-        }
-        
-        // present
-        self.present(nvc, animated: true, completion: nil)
-    } 
+extension CkHomeViewController: CKRecentListViewControllerDelegate { 
     
     /**
      Delegate of Recent List view controller
      */
     func recentListViewDidTapStartChat(_ section: Int) {
-        if section == SectionRecent.room.rawValue {
-            self.showRoomChatVC()
-        } else if section == SectionRecent.direct.rawValue {
+        let sectionRecent = SectionRecent(rawValue: section)
+        if sectionRecent == .direct {
             self.showDirectChatVC()
-        }
+        } else if sectionRecent == .room {
+            self.showRoomChatVC()
+
+        } 
+//        if section == SectionRecent.room.rawValue {
+//            self.showRoomChatVC()
+//        } else if section == SectionRecent.direct.rawValue {
+//            self.showDirectChatVC()
+//        }
     }
 }
 
@@ -465,6 +467,12 @@ extension CkHomeViewController: CKRoomDirectCreatingViewControllerDelegate {
 extension CkHomeViewController: CKContactListViewControllerDelegate {
 
     func contactListCreating(withUserId userId: String, completion: ((Bool) -> Void)?) {
+        self.processDirectChat(userId, completion: completion)
+    }
+}
+
+extension CkHomeViewController: CKSearchContactViewControllerDelegate {
+    func contactCreating(withUserId userId: String, completion: ((Bool) -> Void)?) {
         self.processDirectChat(userId, completion: completion)
     }
 }

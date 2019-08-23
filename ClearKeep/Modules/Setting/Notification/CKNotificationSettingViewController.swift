@@ -156,7 +156,11 @@ private extension CKNotificationSettingViewController {
                     
                     if accountManager?.pushDeviceToken != nil {
                         DispatchQueue.main.async {
-                            account.enablePushKitNotifications = !account.isPushKitNotificationActive
+                            account.enablePushKitNotifications(!account.isPushKitNotificationActive, success: {
+                                // TODO
+                            }, failure: { (_) in
+                                // TODO
+                            })
                         }
                     } else {
                         // Obtain device token when user has just enabled access to notifications from system settings
@@ -169,7 +173,11 @@ private extension CKNotificationSettingViewController {
                                         sender.setOn(false, animated: true)
                                     }
                                 } else {
-                                    account.enablePushKitNotifications = true
+                                    account.enablePushKitNotifications(true, success: {
+                                        // TODO
+                                    }, failure: { (_) in
+                                        // TODO
+                                    })
                                 }
                             })
                         }

@@ -47,10 +47,7 @@
     RecentsDataSource *recentsDataSource;
     
     // The current unified search screen if any
-    UnifiedSearchViewController *unifiedSearchViewController;
-    
-    // Current alert (if any).
-    UIAlertController *currentAlert;
+    UnifiedSearchViewController *unifiedSearchViewController; 
     
     // Keep reference on the pushed view controllers to release them correctly
     NSMutableArray *childViewControllers;
@@ -75,10 +72,10 @@
 
     // Retrieve the all view controllers
     _homeViewController = [self.viewControllers objectAtIndex:TABBAR_HOME_INDEX];
-    _favouritesViewController = [self.viewControllers objectAtIndex:TABBAR_FAVOURITES_INDEX];
     _peopleViewController = [self.viewControllers objectAtIndex:TABBAR_PEOPLE_INDEX];
     
     //-- CK: removed
+    //_favouritesViewController = [self.viewControllers objectAtIndex:TABBAR_FAVOURITES_INDEX];
     // _roomsViewController = [self.viewControllers objectAtIndex:TABBAR_ROOMS_INDEX];
     //_groupsViewController = [self.viewControllers objectAtIndex:TABBAR_GROUPS_INDEX];
     
@@ -86,14 +83,13 @@
     [_settingsBarButtonItem setAccessibilityLabel:NSLocalizedStringFromTable(@"settings_title", @"Vector", nil)];
     [_searchBarButtonIem setAccessibilityLabel:NSLocalizedStringFromTable(@"search_default_placeholder", @"Vector", nil)];
     [_homeViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_home", @"Vector", nil)];
-    [_favouritesViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_favourites", @"Vector", nil)];
     [_peopleViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_people", @"Vector", nil)];
     [_roomsViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_rooms", @"Vector", nil)];
     [_groupsViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_groups", @"Vector", nil)];
         
     // Sanity check
     //-- CK: unused _groupsViewController
-    NSAssert(_homeViewController && _favouritesViewController && _peopleViewController /*&& _roomsViewController && _groupsViewController*/, @"Something wrong in Main.storyboard");
+    NSAssert(_homeViewController && _peopleViewController /* && _favouritesViewController && _roomsViewController && _groupsViewController*/, @"Something wrong in Main.storyboard");
 
     // Adjust the display of the icons in the tabbar.
     for (UITabBarItem *tabBarItem in self.tabBar.items)
@@ -205,15 +201,14 @@
     mxSessionArray = nil;
     
     _homeViewController = nil;
-    _favouritesViewController = nil;
     _peopleViewController = nil;
     _roomsViewController = nil;
     _groupsViewController = nil;
     
-    if (currentAlert)
+    if (self.currentAlert)
     {
-        [currentAlert dismissViewControllerAnimated:NO completion:nil];
-        currentAlert = nil;
+        [self.currentAlert dismissViewControllerAnimated:NO completion:nil];
+        self.currentAlert = nil;
     }
     
     if (authViewControllerObserver)
@@ -250,7 +245,6 @@
         recentsDataSource = [[RecentsDataSource alloc] initWithMatrixSession:mainSession];
         
         [_homeViewController displayList:recentsDataSource];
-        [_favouritesViewController displayList:recentsDataSource];
         [_peopleViewController displayList:recentsDataSource];
         [_roomsViewController displayList:recentsDataSource];
         
@@ -262,8 +256,9 @@
             case TABBAR_HOME_INDEX:
                 break;
             case TABBAR_FAVOURITES_INDEX:
-                recentsDataSourceDelegate = _favouritesViewController;
-                recentsDataSourceMode = RecentsDataSourceModeFavourites;
+                //-- CK removed
+                // recentsDataSourceDelegate = _favouritesViewController;
+                // recentsDataSourceMode = RecentsDataSourceModeFavourites;
                 break;
             case TABBAR_PEOPLE_INDEX:
                 recentsDataSourceDelegate = _peopleViewController;
@@ -274,7 +269,6 @@
                 // recentsDataSourceDelegate = _roomsViewController;
                 // recentsDataSourceMode = RecentsDataSourceModeRooms;
                 break;
-                
             default:
                 break;
         }
@@ -347,7 +341,6 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:kMXSessionStateDidChangeNotification object:nil];
         
         [_homeViewController displayList:nil];
-        [_favouritesViewController displayList:nil];
         [_peopleViewController displayList:nil];
         [_roomsViewController displayList:nil];
         
@@ -800,8 +793,9 @@
 
 - (void)refreshTabBarBadges
 {
+    //-- CK Remove
     // Use a middle dot to signal missed notif in favourites
-    [self setMissedDiscussionsMark:(recentsDataSource.missedFavouriteDiscussionsCount? @"\u00B7": nil) onTabBarItem:TABBAR_FAVOURITES_INDEX withBadgeColor:(recentsDataSource.missedHighlightFavouriteDiscussionsCount ? kRiotColorPinkRed : kRiotColorGreen)];
+    // [self setMissedDiscussionsMark:(recentsDataSource.missedFavouriteDiscussionsCount? @"\u00B7": nil) onTabBarItem:TABBAR_FAVOURITES_INDEX withBadgeColor:(recentsDataSource.missedHighlightFavouriteDiscussionsCount ? kRiotColorPinkRed : kRiotColorGreen)];
     
     //-- CK Remove
     // Update the badge on People and Rooms tabs
@@ -871,17 +865,17 @@
 
 - (void)promptUserBeforeUsingAnalytics
 {
-    NSLog(@"[MasterTabBarController]: Invite the user to send crash reports");
+    NSLog(@"[CkMasterTabBarController]: present Invite the user to send crash reports");
     
     __weak typeof(self) weakSelf = self;
     
-    [currentAlert dismissViewControllerAnimated:NO completion:nil];
+    [self.currentAlert dismissViewControllerAnimated:NO completion:nil];
     
     NSString *appDisplayName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
     
-    currentAlert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTable(@"google_analytics_use_prompt", @"Vector", nil), appDisplayName] message:nil preferredStyle:UIAlertControllerStyleAlert];
+    self.currentAlert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:NSLocalizedStringFromTable(@"google_analytics_use_prompt", @"Vector", nil), appDisplayName] message:nil preferredStyle:UIAlertControllerStyleAlert];
     
-    [currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"no"]
+    [self.currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"no"]
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                        
@@ -890,12 +884,12 @@
                                                        if (weakSelf)
                                                        {
                                                            typeof(self) self = weakSelf;
-                                                           self->currentAlert = nil;
+                                                           self.currentAlert = nil;
                                                        }
                                                        
                                                    }]];
     
-    [currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"yes"]
+    [self.currentAlert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"yes"]
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                                                                               
@@ -904,15 +898,15 @@
                                                        if (weakSelf)
                                                        {
                                                            typeof(self) self = weakSelf;
-                                                           self->currentAlert = nil;
+                                                           self.currentAlert = nil;
                                                        }
 
                                                        [[Analytics sharedInstance] start];
                                                        
                                                    }]];
     
-    [currentAlert mxk_setAccessibilityIdentifier: @"HomeVCUseAnalyticsAlert"];
-    [self presentViewController:currentAlert animated:YES completion:nil];
+    [self.currentAlert mxk_setAccessibilityIdentifier: @"HomeVCUseAnalyticsAlert"];
+    [self presentViewController:self.currentAlert animated:YES completion:nil];
 }
 
 #pragma mark - UITabBarDelegate
@@ -931,10 +925,11 @@
         {
             [self.peopleViewController scrollToNextRoomWithMissedNotifications];
         }
-        else if (item.tag == TABBAR_FAVOURITES_INDEX)
-        {
-            [self.favouritesViewController scrollToNextRoomWithMissedNotifications];
-        }
+        //-- CK removed
+        // else if (item.tag == TABBAR_FAVOURITES_INDEX)
+        // {
+        //    [self.favouritesViewController scrollToNextRoomWithMissedNotifications];
+        // }
     }
 }
 

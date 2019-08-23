@@ -9,10 +9,25 @@
 import UIKit
 
 extension UIView {
+    
     func getViewElement<T>(type: T.Type) -> T? {
 
         let svs = subviews.flatMap { $0.subviews }
         guard let element = (svs.filter { $0 is T }).first as? T else { return nil }
         return element
+    }
+    
+    /// Add a subview matching parent view using autolayout
+    func vc_addSubViewMatchingParent(_ subView: UIView) {
+        self.addSubview(subView)
+        subView.translatesAutoresizingMaskIntoConstraints = false
+        let views = ["view": subView]
+        ["H:|[view]|", "V:|[view]|"].forEach { vfl in
+            let constraints = NSLayoutConstraint.constraints(withVisualFormat: vfl,
+                                                             options: [],
+                                                             metrics: nil,
+                                                             views: views)
+            constraints.forEach { $0.isActive = true }
+        }
     }
 }

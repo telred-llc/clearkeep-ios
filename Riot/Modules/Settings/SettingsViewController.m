@@ -2826,7 +2826,11 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)(void);
         
         if (accountManager.pushDeviceToken)
         {
-            [account setEnablePushKitNotifications:!account.isPushKitNotificationActive];
+            [account enablePushKitNotifications:!account.isPushKitNotificationActive success:^{
+                // TODO
+            } failure:^(NSError * error) {
+                // TODO
+            }];
         }
         else
         {
@@ -2839,7 +2843,12 @@ typedef void (^blockSettingsViewController_onReadyToDestroy)(void);
                 }
                 else
                 {
-                    [account setEnablePushKitNotifications:YES];
+                    [account enablePushKitNotifications:YES success:^{
+                        // TODO
+                    } failure:^(NSError *error) {
+                        // TODO
+                    }];
+
                 }
             }];
         }

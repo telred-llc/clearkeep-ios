@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>homeserverurl</key>
-	<string>https://ck.furoute.com</string>
+	<string>https://s.clearkeep.me</string>
 	<key>pinRoomsWithMissedNotif</key>
 	<true/>
 	<key>pinRoomsWithUnread</key>
 	<true/>
 	<key>pushGatewayURL</key>
-	<string>http://ck.furoute.com:5000/_matrix/push/v1/notify</string>
+	<string>https://push.clearkeep.me/_matrix/push/v1/notify</string>
 	<key>pusherAppIdDev</key>
-	<string>im.vector.vmodev.app</string>
+	<string>com.telred.clearkeep</string>
 	<key>pusherAppIdProd</key>
-	<string>im.vector.vmodev.app.prod</string>
+	<string>com.telred.clearkeep</string>
 	<key>pushKitAppIdProd</key>
-	<string>im.vector.vmodev.app</string>
+	<string>com.telred.clearkeep.ios</string>
 	<key>identityserverurl</key>
-	<string>https://matrix.org</string>
+	<string>https://id.clearkeep.me</string>
 	<key>webAppUrlDev</key>
 	<string>https://riot.im/develop</string>
 	<key>webAppUrlBeta</key>
@@ -27,11 +27,11 @@
 	<key>matrixApps</key>
 	<true/>
 	<key>integrationsUiUrl</key>
-	<string>https://scalar.sinbadflyce.com/riot/</string>
+	<string>https://scalar.clearkeep.me/riot/</string>
 	<key>integrationsRestUrl</key>
-	<string>https://scalar.sinbadflyce.com/api/v1/scalar</string>
+	<string>https://scalar.clearkeep.me/api/v1/scalar</string>
 	<key>integrationsJitsiWidgetUrl</key>
-	<string>https://scalar.sinbadflyce.com/widgets/jitsi</string>
+	<string>https://scalar.clearkeep.me/widgets/jitsi</string>
 	<key>piwik</key>
 	<dict>
 		<key>url</key>
@@ -69,7 +69,7 @@
 	<string>riot-ios</string>
 	<key>roomDirectoryServers</key>
 	<dict>
-		<key>matrix.org</key>
+		<key>s.clearkeep.me</key>
 		<string></string>
 	</dict>
 </dict>

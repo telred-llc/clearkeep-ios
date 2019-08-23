@@ -35,8 +35,9 @@
 @class CKFavouriteViewController;
 
 #define TABBAR_HOME_INDEX         0
-#define TABBAR_FAVOURITES_INDEX   1
-#define TABBAR_PEOPLE_INDEX       2
+#define TABBAR_PEOPLE_INDEX       1
+
+#define TABBAR_FAVOURITES_INDEX   2
 #define TABBAR_ROOMS_INDEX        3
 #define TABBAR_GROUPS_INDEX       4
 #define TABBAR_COUNT              5
@@ -48,6 +49,9 @@
 
 // Associated matrix sessions (empty by default).
 @property (nonatomic, readonly) NSArray *mxSessions;
+
+// Current alert (if any).
+@property (strong, nonatomic) UIAlertController *currentAlert;
 
 // Add a matrix session. This session is propagated to all view controllers handled by the tab bar controller.
 - (void)addMatrixSession:(MXSession*)mxSession;
@@ -143,8 +147,10 @@
 // Reference to the current auth VC. It is not nil only when the auth screen is displayed.
 @property (nonatomic, readonly) CkMasterauthViewController *authViewController;
 
+//-- CK removed
+// @property (nonatomic, readonly) CKFavouriteViewController *favouritesViewController;
+
 @property (nonatomic, readonly) CkHomeViewController *homeViewController;
-@property (nonatomic, readonly) CKFavouriteViewController *favouritesViewController;
 @property (nonatomic, readonly) CKContactListViewController *peopleViewController;
 @property (nonatomic, readonly) RoomsViewController *roomsViewController;
 @property (nonatomic, readonly) GroupsViewController *groupsViewController;

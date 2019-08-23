@@ -41,7 +41,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor
         self.statusView.layer.borderWidth = 2
-
+        
         self.roomNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
         self.timeLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
     }
@@ -114,7 +114,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
                 }
                 
                 lastMessageLabel!.text = lastMessage
-                lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 14)
+                lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 15)
                 lastMessageLabel!.theme.textColor = themeService.attrStream{ $0.secondTextColor }
             } else {
                 if let lastMessageLabel = lastMessageLabel {
@@ -165,12 +165,13 @@ private extension CKRecentItemTableViewCell {
             let defaultAvatar = AvatarGenerator.generateAvatar(forMatrixItem: roomId, withDisplayName: displayname)
             if let avatarUrl = roomCellData?.roomSummary.avatar {
                 avatarImage.enableInMemoryCache = true
-                avatarImage.setImageURI(
-                    avatarUrl,
-                    withType: nil,
-                    andImageOrientation: UIImageOrientation.up,
-                    previewImage: defaultAvatar,
-                    mediaManager: roomCellData?.roomSummary?.mxSession?.mediaManager)
+                avatarImage.setImageURI(avatarUrl,
+                                        withType: nil,
+                                        andImageOrientation: UIImageOrientation.up,
+                                        toFitViewSize: avatarImage.frame.size,
+                                        with: MXThumbnailingMethodCrop,
+                                        previewImage: defaultAvatar,
+                                        mediaManager: roomCellData?.roomSummary?.mxSession?.mediaManager)
 
             } else {
                 avatarImage.image = defaultAvatar

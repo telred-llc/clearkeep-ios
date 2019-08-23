@@ -14,19 +14,20 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - Cache (5.2.0)
   - cmark (0.24.1)
-  - DTCoreText (1.6.21):
-    - DTCoreText/Core (= 1.6.21)
+  - DTCoreText (1.6.22):
+    - DTCoreText/Core (= 1.6.22)
     - DTFoundation/Core (~> 1.7.5)
     - DTFoundation/DTAnimatedGIF (~> 1.7.5)
     - DTFoundation/DTHTMLParser (~> 1.7.5)
     - DTFoundation/UIKit (~> 1.7.5)
-  - DTCoreText/Core (1.6.21):
+  - DTCoreText/Core (1.6.22):
     - DTFoundation/Core (~> 1.7.5)
     - DTFoundation/DTAnimatedGIF (~> 1.7.5)
     - DTFoundation/DTHTMLParser (~> 1.7.5)
     - DTFoundation/UIKit (~> 1.7.5)
-  - DTCoreText/Extension (1.6.21):
+  - DTCoreText/Extension (1.6.22):
     - DTFoundation/Core (~> 1.7.5)
     - DTFoundation/DTAnimatedGIF (~> 1.7.5)
     - DTFoundation/DTHTMLParser (~> 1.7.5)
@@ -37,35 +38,36 @@ PODS:
     - DTFoundation/Core
   - DTFoundation/UIKit (1.7.13):
     - DTFoundation/Core
-  - FloatingPanel (1.5.1)
+  - FloatingPanel (1.6.4)
   - GBDeviceInfo (5.2.0):
     - GBDeviceInfo/Core (= 5.2.0)
   - GBDeviceInfo/Core (5.2.0)
-  - GZIP (1.2.2)
+  - GZIP (1.2.3)
   - HPGrowingTextView (1.1)
   - IQKeyboardManagerSwift (6.2.1)
   - JitsiMeetSDK (2.1.0)
   - libbase58 (0.1.4)
-  - libPhoneNumber-iOS (0.9.13)
-  - MatrixKit/AppExtension (0.9.9):
+  - libPhoneNumber-iOS (0.9.15)
+  - MatrixKit/AppExtension (0.10.2):
     - cmark (~> 0.24.1)
     - DTCoreText (~> 1.6.21)
     - DTCoreText/Extension
     - HPGrowingTextView (~> 1.1)
     - libPhoneNumber-iOS (~> 0.9.13)
-    - MatrixSDK (= 0.12.5)
-  - MatrixSDK (0.12.5):
-    - MatrixSDK/Core (= 0.12.5)
-  - MatrixSDK/Core (0.12.5):
+    - MatrixSDK (= 0.13.1)
+    - SwiftUTI (~> 1.0.6)
+  - MatrixSDK (0.13.1):
+    - MatrixSDK/Core (= 0.13.1)
+  - MatrixSDK/Core (0.13.1):
     - AFNetworking (~> 3.2.0)
     - GZIP (~> 1.2.2)
     - libbase58 (~> 0.1.4)
     - OLMKit (~> 3.1.0)
     - Realm (~> 3.13.1)
-  - MatrixSDK/JingleCallStack (0.12.5):
+  - MatrixSDK/JingleCallStack (0.13.1):
     - JitsiMeetSDK (~> 2.1.0)
     - MatrixSDK/Core
-  - MatrixSDK/SwiftSupport (0.12.5):
+  - MatrixSDK/SwiftSupport (0.13.1):
     - MatrixSDK/Core
   - OLMKit (3.1.0):
     - OLMKit/olmc (= 3.1.0)
@@ -76,14 +78,14 @@ PODS:
   - PiwikTracker (4.4.2):
     - PiwikTracker/Core (= 4.4.2)
   - PiwikTracker/Core (4.4.2)
-  - PromiseKit (6.8.4):
-    - PromiseKit/CorePromise (= 6.8.4)
-    - PromiseKit/Foundation (= 6.8.4)
-    - PromiseKit/UIKit (= 6.8.4)
-  - PromiseKit/CorePromise (6.8.4)
-  - PromiseKit/Foundation (6.8.4):
+  - PromiseKit (6.10.0):
+    - PromiseKit/CorePromise (= 6.10.0)
+    - PromiseKit/Foundation (= 6.10.0)
+    - PromiseKit/UIKit (= 6.10.0)
+  - PromiseKit/CorePromise (6.10.0)
+  - PromiseKit/Foundation (6.10.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.8.4):
+  - PromiseKit/UIKit (6.10.0):
     - PromiseKit/CorePromise
   - Realm (3.13.1):
     - Realm/Headers (= 3.13.1)
@@ -99,14 +101,19 @@ PODS:
   - RxTheme (3.3.0):
     - RxCocoa (>= 4.4.2, ~> 4.4)
     - RxSwift (>= 4.4.2, ~> 4.4)
+  - SwiftGen (6.1.0)
   - SwiftImagePicker (0.7.6)
+  - SwiftLint (0.33.1)
+  - SwiftUTI (1.0.6)
   - XLActionController (4.0.1):
     - XLActionController/Core (= 4.0.1)
   - XLActionController/Core (4.0.1)
   - XLActionController/Youtube (4.0.1):
     - XLActionController/Core
+  - zxcvbn-ios (1.0.4)
 
 DEPENDENCIES:
+  - Cache
   - cmark
   - DTCoreText
   - FloatingPanel
@@ -121,13 +128,17 @@ DEPENDENCIES:
   - PromiseKit
   - Reusable (~> 4.0)
   - RxTheme (~> 3.0)
+  - SwiftGen (~> 6.1)
   - SwiftImagePicker (from `https://github.com/sinbadflyce/image-picker.git`)
+  - SwiftLint (~> 0.33.0)
   - XLActionController (= 4.0.1)
   - XLActionController/Youtube
+  - zxcvbn-ios
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - Cache
     - cmark
     - DTCoreText
     - DTFoundation
@@ -148,7 +159,11 @@ SPEC REPOS:
     - RxCocoa
     - RxSwift
     - RxTheme
+    - SwiftGen
+    - SwiftLint
+    - SwiftUTI
     - XLActionController
+    - zxcvbn-ios
 
 EXTERNAL SOURCES:
   MatrixKit:
@@ -162,7 +177,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MatrixKit:
-    :commit: 0e37e82f5dfe734fbf0e5bfef79df0ef5a5fbbb8
+    :commit: 7d8c03a12609140274615cdca77af3b38e0a4c26
     :git: https://github.com/sinbadflyce/matrix-ios-kit.git
   PiwikTracker:
     :commit: dfb048f25f4eefbe13ff7515c3c1c2cad5d94491
@@ -173,31 +188,36 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   cmark: 1d9ad0375e3b9fa281732e992467903606015520
-  DTCoreText: e5d688cffc9f6a61eddd1a4f94e2046851230de3
+  DTCoreText: ad5135357a0e792f735970ed67d3ecda8b602d3d
   DTFoundation: f03be9fd786f11e505bb8fc44e2a3732bf0917df
-  FloatingPanel: b2f4fb6f8fea7877954beff8f3f03bb6595ab354
+  FloatingPanel: 062e0500e3b9848e3eb91595367fc6d579e428df
   GBDeviceInfo: 2c65ceb9404f9079264d4c238f5b81916fdfc5e2
-  GZIP: 12374d285e3b5d46cfcd480700fcfc7e16caf4f1
+  GZIP: af5c90ef903776a7e9afe6ebebd794a84a2929d4
   HPGrowingTextView: 88a716d97fb853bcb08a4a08e4727da17efc9b19
   IQKeyboardManagerSwift: 0f0ae8935360b4003e6ea1ac7c19898f01e2f7c7
   JitsiMeetSDK: 3e66564af7f38a19142338955dd7f581801852b3
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
-  libPhoneNumber-iOS: e444379ac18bbfbdefad571da735b2cd7e096caa
-  MatrixKit: 6f553797e1ad42794b5336afb5cecb975ec69daa
-  MatrixSDK: ed0d0cee4877955052f19730bb3ee727e01ec948
+  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
+  MatrixKit: 45370f964a069ac3cf12ea32b68f759b00095589
+  MatrixSDK: 16c8c4b530a7f9fb264baced52b6b0948b1d0a98
   OLMKit: 4ee0159d63feeb86d836fdcfefe418e163511639
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   PiwikTracker: 42862c7b13028065c3dfd36b4dc38db8a5765acf
-  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
+  PromiseKit: 1fdaeb6c0a94a5114fcb814ff3d772b86886ad4e
   Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
   Reusable: 82be188f29d96dc5eff0db7b2393bcc08d2cdd5b
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   RxTheme: 40fdcdeba539402beface070d8472e8d0db78d66
+  SwiftGen: f872ca75cbd17bf7103c17f13dcfa0d9a15667b0
   SwiftImagePicker: dc859f1dfefa00d52a96666f58aff7fbe6a90a2c
+  SwiftLint: 9fc1143bbacec37f94994a7d0d2a85b2154b6294
+  SwiftUTI: e83d65dbe9fba0a0ff7cc9031cd30b2d82acebef
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
+  zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: e71ef6d3f6178fceec39b69a895cdb49108194dd
+PODFILE CHECKSUM: a2062bd95780244b1577e697c1d1a94fc0afe948
 
 COCOAPODS: 1.7.3

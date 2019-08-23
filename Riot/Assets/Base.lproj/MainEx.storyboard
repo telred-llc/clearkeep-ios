@@ -80,7 +80,7 @@
         <!--Room Context Timeline-->
         <scene sceneID="Htr-h8-baq">
             <objects>
-                <viewController title="Room Context Timeline" hidesBottomBarWhenPushed="YES" id="Too-LV-OLW" customClass="RoomViewController" sceneMemberID="viewController">
+                <viewController title="Room Context Timeline" hidesBottomBarWhenPushed="YES" id="Too-LV-OLW" customClass="CKRoomViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yLe-Hk-Sol">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="djN-zB-Vni" userLabel="Room title view container">
@@ -202,7 +202,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1rS-hy-ED0">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -313,7 +313,6 @@
                         <segue destination="ZlD-EU-ncw" kind="presentation" identifier="showAuth" id="fpJ-zM-Qpo"/>
                         <segue destination="pBa-To-3YT" kind="relationship" relationship="viewControllers" id="Sfs-mh-GOz"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showContactDetails" id="p4M-yR-DLA"/>
-                        <segue destination="HnD-LA-psC" kind="relationship" relationship="viewControllers" id="zON-Qp-EVq"/>
                         <segue destination="IGB-jr-yFz" kind="relationship" relationship="viewControllers" id="CeF-yL-aO0"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showGroupDetails" id="fIR-e3-ssz"/>
                         <segue destination="nJt-uq-tV9" kind="show" identifier="showUnifiedSearch" id="nfU-Xx-w6C"/>
@@ -455,7 +454,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="6LG-qc-7jf">
-                                <rect key="frame" x="130.5" y="292.5" width="114" height="82"/>
+                                <rect key="frame" x="179.5" y="325.5" width="16" height="16"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -643,9 +642,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mhb-l9-pM3"/>
-        <segue reference="0ws-cL-0tk"/>
-        <segue reference="f5u-Y1-7nt"/>
-        <segue reference="HSg-jN-pbo"/>
-        <segue reference="cUw-vU-gJq"/>
+        <segue reference="fIR-e3-ssz"/>
+        <segue reference="ziz-Xl-QVg"/>
+        <segue reference="mFs-HA-7Oo"/>
+        <segue reference="fNQ-S3-DbZ"/>
     </inferredMetricsTieBreakers>
 </document>

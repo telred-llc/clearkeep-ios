@@ -1875,6 +1875,8 @@
 
 - (void)joinARoom
 {
+    // CK is no longer use that code
+    /*
     [currentAlert dismissViewControllerAnimated:NO completion:nil];
     
     __weak typeof(self) weakSelf = self;
@@ -1942,6 +1944,7 @@
     
     [currentAlert mxk_setAccessibilityIdentifier:@"RecentsVCJoinARoomAlert"];
     [self presentViewController:currentAlert animated:YES completion:nil];
+    */
 }
 
 #pragma mark - Table view scrolling

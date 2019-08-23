@@ -242,7 +242,7 @@ extension CKContactListViewController {
     @objc private func reloadLocalContacts() {
         
         // shared locals
-        if let localcs = MXKContactManager.shared()?.localContactsSplitByContactMethod as? [MXKContact] {
+        if let localcs = MXKContactManager.shared().localContactsSplitByContactMethod as? [MXKContact] {
             
             // reset
             self.originalLocalSource.removeAll()
@@ -269,7 +269,7 @@ extension CKContactListViewController {
     private func reloadMatrixContacts() {
         
         // matrix contacts
-        if let matrixcs = MXKContactManager.shared()?.directMatrixContacts as? [MXKContact] {
+        if let matrixcs = MXKContactManager.shared().directMatrixContacts as? [MXKContact] {
             
             // reset
             self.originalMatrixSource.removeAll()

@@ -102,17 +102,16 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         self.suggestedDataSource.removeAll()
         
         // load them from ...
-        if let ds = MXKContactManager.shared()?.directMatrixContacts {
+        let ds = MXKContactManager.shared().directMatrixContacts
             
-            // loop in each
-            for c in ds {
+        // loop in each
+        for c in ds {
+            
+            // catch op
+            if let c = c as? MXKContact {
                 
-                // catch op
-                if let c = c as? MXKContact {
-                    
-                    // add
-                    self.suggestedDataSource.append(c)
-                }
+                // add
+                self.suggestedDataSource.append(c)
             }
         }
         
