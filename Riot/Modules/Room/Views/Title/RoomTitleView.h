@@ -50,6 +50,7 @@
  */
 @property (nonatomic) id<RoomTitleViewTapGestureDelegate> tapGestureDelegate;
 
+// CK: Manage number of bar buttons
 @property (nonatomic) int numberBarButtonItem;
 
 /**

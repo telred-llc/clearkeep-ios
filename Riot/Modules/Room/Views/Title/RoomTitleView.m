@@ -91,6 +91,7 @@
                                                                                 multiplier:1.0f
                                                                                   constant:0.0f];
             
+            // CK: Manage number of bar buttons and change layout
             NSLayoutConstraint *width2button = [NSLayoutConstraint constraintWithItem:self
                                                                             attribute:NSLayoutAttributeWidth
                                                                             relatedBy:NSLayoutRelationEqual
@@ -106,7 +107,7 @@
                                                                                attribute:NSLayoutAttributeWidth
                                                                               multiplier:0.4f
                                                                                 constant:0.0f];
-            
+            // CK: Manage number of bar buttons and change layout
             // -- trick width navigationbar follow case 1,2,3 right barbuttonitems
             // -- fix bug ios 11 titleview, right barbuttonitem change size when update subview
             
