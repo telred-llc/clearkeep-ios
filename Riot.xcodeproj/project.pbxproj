@@ -1511,7 +1511,6 @@
 		B1664BC320F4E67600808783 /* ShareExtensionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareExtensionManager.h; sourceTree = "<group>"; };
 		B1664BC420F4E67600808783 /* ShareExtensionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareExtensionManager.m; sourceTree = "<group>"; };
 		B1664BD120F4E82700808783 /* RiotShareExtension-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RiotShareExtension-Bridging-Header.h"; sourceTree = "<group>"; };
-		B1664BD220F4E82800808783 /* RiotShareExtension.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = RiotShareExtension.entitlements; sourceTree = "<group>"; };
 		B1664BD320F4E82800808783 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1664D5A20F4EBEC00808783 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B1664D6C20F4EBF100808783 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Vector.strings; sourceTree = "<group>"; };
@@ -1955,6 +1954,7 @@
 		E5233140221C5506008FC772 /* CustomVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomVideoCell.xib; sourceTree = "<group>"; };
 		E5233141221C5506008FC772 /* IconWithTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconWithTextCell.swift; sourceTree = "<group>"; };
 		E5233142221C5506008FC772 /* IconWithTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconWithTextCell.xib; sourceTree = "<group>"; };
+		E5387A1923139D04009139AD /* RiotShareExtension-Dev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RiotShareExtension-Dev.entitlements"; sourceTree = "<group>"; };
 		E539906C221D582D0014F26D /* CKRoomSettingsMoreSecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreSecurityViewController.swift; sourceTree = "<group>"; };
 		E539906E221D587B0014F26D /* CKRoomSettingsMoreSecurityViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomSettingsMoreSecurityViewController.xib; sourceTree = "<group>"; };
 		E5399071221D5AE30014F26D /* CKRoomSettingsMoreSecurityRadioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomSettingsMoreSecurityRadioCell.swift; sourceTree = "<group>"; };
@@ -2821,8 +2821,8 @@
 			isa = PBXGroup;
 			children = (
 				B1664BD120F4E82700808783 /* RiotShareExtension-Bridging-Header.h */,
+				E5387A1923139D04009139AD /* RiotShareExtension-Dev.entitlements */,
 				E520C5AF22E71482003101BA /* RiotShareExtension-Prod.entitlements */,
-				B1664BD220F4E82800808783 /* RiotShareExtension.entitlements */,
 				E57F8B1A23053B7500E451FC /* Info-Prod.plist */,
 				B1664BD320F4E82800808783 /* Info.plist */,
 			);
@@ -4765,6 +4765,9 @@
 							com.apple.Push = {
 								enabled = 1;
 							};
+							com.apple.Siri = {
+								enabled = 0;
+							};
 						};
 					};
 					F094A9BD1B78D8F000B1FBBF = {
@@ -6322,10 +6325,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CODE_SIGN_ENTITLEMENTS = RiotShareExtension/SupportingFiles/RiotShareExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "RiotShareExtension/SupportingFiles/RiotShareExtension-Dev.entitlements";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 5KH4V6747U;
+				DEVELOPMENT_TEAM = PTFP2KAXC5;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -6340,10 +6343,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.shareExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmodev.clearkeep.ios.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE = "98782c1e-eaae-4170-a224-9811ff2902cf";
-				PROVISIONING_PROFILE_SPECIFIER = "Riot Extension Developer";
+				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep Extension Development";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
@@ -6363,12 +6366,12 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CODE_SIGN_ENTITLEMENTS = RiotShareExtension/SupportingFiles/RiotShareExtension.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = "RiotShareExtension/SupportingFiles/RiotShareExtension-Dev.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5KH4V6747U;
+				DEVELOPMENT_TEAM = PTFP2KAXC5;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -6383,10 +6386,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app.shareExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmodev.clearkeep.ios.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE = "98782c1e-eaae-4170-a224-9811ff2902cf";
-				PROVISIONING_PROFILE_SPECIFIER = "CK-Riot Extension Distr";
+				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep Extension Development";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
@@ -6751,7 +6754,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 5KH4V6747U;
+				DEVELOPMENT_TEAM = PTFP2KAXC5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6782,10 +6785,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmodev.clearkeep.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE = "16dd2361-9d36-450a-b8fc-d93a1c5fca60";
-				PROVISIONING_PROFILE_SPECIFIER = "Riot App Developer";
+				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -6803,9 +6806,9 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 5KH4V6747U;
+				DEVELOPMENT_TEAM = PTFP2KAXC5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6836,10 +6839,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = im.vector.vmodev.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vmodev.clearkeep.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE = "16dd2361-9d36-450a-b8fc-d93a1c5fca60";
-				PROVISIONING_PROFILE_SPECIFIER = "CK-Riot App Distr";
+				PROVISIONING_PROFILE_SPECIFIER = "ClearKeep Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_VERSION = 4.0;
