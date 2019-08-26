@@ -70,7 +70,7 @@ typedef NS_ENUM(NSInteger, ImageCompressionMode)
         MXSDKOptions *sdkOptions = [MXSDKOptions sharedInstance];
         // Apply the application group
 #ifdef TARGET_DEV
-        sdkOptions.applicationGroupIdentifier = @"group.im.vector.vmodev";
+        sdkOptions.applicationGroupIdentifier = @"group.vmodev.clearkeep.ios";
 #else
         sdkOptions.applicationGroupIdentifier = @"group.com.telred.clearkeep";
 #endif
