@@ -740,7 +740,7 @@ extension CKRoomViewController {
         if isInReplyMode, let selectedEventId = customizedRoomDataSource?.selectedEventId {
             roomDataSource?.sendReplyToEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil, failure: { error in
                 // Just log the error. The message will be displayed in red in the room history
-                print("[MXKRoomViewController] sendTextMessage failed.")
+                print("[MXKRoomViewController] replyTextMessage failed.")
             })
         } else {
             if isEdit, let selectedEventId = customizedRoomDataSource?.selectedEventId {
@@ -1777,13 +1777,15 @@ extension CKRoomViewController {
                     UIPasteboard.general.string = selectedComponent.textMessage
                 }))
                 
-                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_edit", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                    guard let weakSelf = self, let _ = selectedComponent else {
-                        return
-                    }
-                    weakSelf.cancelEventSelection()
-                    weakSelf.editEvent(with: selectedEvent.eventId)
-                }))
+                if self.roomDataSource.canEditEvent(withId: selectedEvent.eventId) {
+                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_edit", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self, let _ = selectedComponent else {
+                            return
+                        }
+                        weakSelf.cancelEventSelection()
+                        weakSelf.editEvent(with: selectedEvent.eventId)
+                    }))
+                }
                 
                 // Add action for room message only
                 if selectedEvent.eventType == __MXEventTypeRoomMessage {

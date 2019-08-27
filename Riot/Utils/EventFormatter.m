@@ -59,13 +59,13 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
             || [event.type isEqualToString:kWidgetModularEventTypeString]))
     {
         NSString *displayText;
-
+        
         Widget *widget = [[Widget alloc] initWithWidgetEvent:event inMatrixSession:mxSession];
         if (widget)
         {
             // Prepare the display name of the sender
             NSString *senderDisplayName = roomState ? [self senderDisplayNameForEvent:event withRoomState:roomState] : event.sender;
-
+            
             if (widget.isActive)
             {
                 if ([widget.type isEqualToString:kWidgetTypeJitsi])
@@ -88,7 +88,7 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
                 // Get all widgets state events in the room
                 NSMutableArray<MXEvent*> *widgetStateEvents = [NSMutableArray arrayWithArray:[roomState stateEventsWithType:kWidgetMatrixEventTypeString]];
                 [widgetStateEvents addObjectsFromArray:[roomState stateEventsWithType:kWidgetModularEventTypeString]];
-
+                
                 for (MXEvent *widgetStateEvent in widgetStateEvents)
                 {
                     if ([widgetStateEvent.stateKey isEqualToString:widget.widgetId])
@@ -113,14 +113,14 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
                 }
             }
         }
-
+        
         if (displayText)
         {
             if (error)
             {
                 *error = MXKEventFormatterErrorNone;
             }
-
+            
             // Build the attributed string with the right font and color for the events
             return [self renderString:displayText forEvent:event];
         }
@@ -143,7 +143,7 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
     }
     
     NSAttributedString *attributedString = [super attributedStringFromEvent:event withRoomState:roomState error:error];
-
+    
     if (event.sentState == MXEventSentStateSent
         && [event.decryptionError.domain isEqualToString:MXDecryptingErrorDomain])
     {
@@ -151,18 +151,18 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
         dispatch_async(dispatch_get_main_queue(), ^{
             [[DecryptionFailureTracker sharedInstance] reportUnableToDecryptErrorForEvent:event withRoomState:roomState myUser:mxSession.myUser.userId];
         });
-
+        
         if (event.decryptionError.code == MXDecryptingErrorUnknownInboundSessionIdCode)
         {
             // Append to the displayed error an attributed string with a tappable link
             // so that the user can try to fix the UTD
             NSMutableAttributedString *attributedStringWithRerequestMessage = [attributedString mutableCopy];
             [attributedStringWithRerequestMessage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-
+            
             NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterOnReRequestKeysLinkAction,
                                           kEventFormatterOnReRequestKeysLinkActionSeparator,
                                           event.eventId];
-
+            
             [attributedStringWithRerequestMessage appendAttributedString:
              [[NSAttributedString alloc] initWithString:NSLocalizedStringFromTable(@"event_formatter_rerequest_keys_part1_link", @"Vector", nil)
                                              attributes:@{
@@ -170,38 +170,38 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
                                                           NSForegroundColorAttributeName: self.sendingTextColor,
                                                           NSFontAttributeName: self.encryptedMessagesTextFont
                                                           }]];
-
+            
             [attributedStringWithRerequestMessage appendAttributedString:
              [[NSAttributedString alloc] initWithString:NSLocalizedStringFromTable(@"event_formatter_rerequest_keys_part2", @"Vector", nil)
                                              attributes:@{
                                                           NSForegroundColorAttributeName: self.sendingTextColor,
                                                           NSFontAttributeName: self.encryptedMessagesTextFont
                                                           }]];
-
+            
             attributedString = attributedStringWithRerequestMessage;
         }
-        else if (self.showEditionMention && event.contentHasBeenEdited)
-        {
-            NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
-            
-            NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
-                                          kEventFormatterOnReRequestKeysLinkActionSeparator,
-                                          event.eventId];
-            
-            [attributedStringWithEditMention appendAttributedString:
-             [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
-                                             attributes:@{
-                                                          NSLinkAttributeName: linkActionString,
-                                                          // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
-                                                          // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
-                                                          NSForegroundColorAttributeName: self.editionMentionTextColor,
-                                                          NSFontAttributeName: self.editionMentionTextFont
-                                                          }]];
-            
-            attributedString = attributedStringWithEditMention;
-        }
     }
-
+    else if (self.showEditionMention && event.contentHasBeenEdited)
+    {
+        NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
+        
+        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
+                                      kEventFormatterOnReRequestKeysLinkActionSeparator,
+                                      event.eventId];
+        
+        [attributedStringWithEditMention appendAttributedString:
+         [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
+                                         attributes:@{
+                                                      NSLinkAttributeName: linkActionString,
+                                                      // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
+                                                      // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
+                                                      NSForegroundColorAttributeName: self.editionMentionTextColor,
+                                                      NSFontAttributeName: self.editionMentionTextFont
+                                                      }]];
+        
+        attributedString = attributedStringWithEditMention;
+    }
+    
     return attributedString;
 }
 
