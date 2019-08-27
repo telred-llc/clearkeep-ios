@@ -34,7 +34,7 @@
     if (self)
     {
 #ifdef TARGET_DEV
-        [MXSDKOptions sharedInstance].applicationGroupIdentifier = @"group.im.vector.vmodev";
+        [MXSDKOptions sharedInstance].applicationGroupIdentifier = @"group.vmodev.clearkeep.ios";
 #else
         [MXSDKOptions sharedInstance].applicationGroupIdentifier = @"group.com.telred.clearkeep";
 #endif
