@@ -157,7 +157,7 @@ public class CkAuthorizer {
     
     internal func login(withParameters parameters: [String : Any]) {
         
-        self.mxCurrentOperation = self.mxRestClient.login(
+        self.mxCurrentOperation = self.mxRestClient.login (
             parameters: parameters,
             completion: { (jsonResponse: MXResponse<[String : Any]>) in
                 
@@ -353,6 +353,9 @@ public class CkAuthorizer {
         }
     }
     
+    internal func getPassphrase() {
+//        self.mxCurrentOperation = self.mxRestClient.get
+    }
 }
 
 extension CkAuthorizer {
