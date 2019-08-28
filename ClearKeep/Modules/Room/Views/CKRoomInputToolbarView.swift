@@ -13,6 +13,7 @@ import MobileCoreServices
 @objc protocol CKRoomInputToolbarViewDelegate: MXKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
     func sendTextButtonDidPress(_ message: String, isEdit: Bool)
+    func closeEditButtonDidPress()
 }
 
 enum RoomInputToolbarViewSendMode: Int {
@@ -27,10 +28,12 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     
     @IBOutlet weak var mainToolbarMinHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainToolbarHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var closeEditButtonWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainToolbarView: UIView!
     @IBOutlet weak var separatorView: UIView!
     @IBOutlet weak var sendImageButton: UIButton!
     @IBOutlet weak var mentionButton: UIButton!
+    @IBOutlet weak var closeEditButton: UIButton!
 
     // MARK: - Enums
     
@@ -185,6 +188,12 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         }
     }
     
+    func setSendMode(mode: RoomInputToolbarViewSendMode) {
+        self.sendMode = mode
+        self.updatePlaceholderText()
+        self.updateSendButtonLabel()
+    }
+    
     // MARK: - IBActions
     
     @IBAction func clickedOnMentionButton(_ sender: Any) {
@@ -218,6 +227,15 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
 
                 self.addImagePickerAsInputView(true)
             }
+        }
+    }
+    
+    @IBAction func closeEditButtonDidPress(_ sender: Any) {
+        growingTextView?.text = ""
+        growingTextView?.becomeFirstResponder()
+        setSendMode(mode: .send)
+        if let del = self.ckDelegate {
+            del.closeEditButtonDidPress()
         }
     }
 }
@@ -353,15 +371,15 @@ private extension CKRoomInputToolbarView {
             triggerMentionUser(false, text: nil)
         }
     }
-    
-    func setSendMode(mode: RoomInputToolbarViewSendMode) {
-        self.sendMode = mode
-        self.updatePlaceholderText()
-        self.updateSendButtonLabel()
-    }
-    
-    func updateSendButtonLabel() {
-        // TO-DO
+
+    private func updateSendButtonLabel() {
+        switch sendMode {
+        case .edit:
+            closeEditButtonWidthConstraint.constant = 40
+        default:
+            closeEditButtonWidthConstraint.constant = 0
+        }
+        self.updateConstraints()
     }
     
     func updatePlaceholderText() {

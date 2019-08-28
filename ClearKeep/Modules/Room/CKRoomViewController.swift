@@ -743,7 +743,7 @@ extension CKRoomViewController {
                 print("[MXKRoomViewController] replyTextMessage failed.")
             })
         } else {
-            if isEdit, let selectedEventId = customizedRoomDataSource?.selectedEventId {
+            if isEdit, let selectedEventId = customizedRoomDataSource?.selectedEventId, self.isValidEditMessage(text: msgTxt ?? "") {
                 roomDataSource?.replaceTextMessageForEvent(withId: selectedEventId, withTextMessage: msgTxt, success:nil, failure: { error in
                     // Just log the error. The message will be displayed in red in the room history
                     print("[MXKRoomViewController] editTextMessage failed.")
@@ -1980,7 +1980,7 @@ extension CKRoomViewController {
         textMessageBeforeEditing = toolbarView.textMessage
         customizedRoomDataSource?.selectedEventId = eventId
         toolbarView.textMessage = roomDataSource.editableTextMessage(for: event)
-        toolbarView.sendMode = .edit
+        toolbarView.setSendMode(mode: .edit)
         toolbarView.becomeFirstResponder()
     }
     
@@ -1992,6 +1992,23 @@ extension CKRoomViewController {
         
         toolbarView.textMessage = originalText
         textMessageBeforeEditing = nil
+    }
+
+    private func isValidEditMessage(text: String) -> Bool {
+        guard let toolbarView = inputToolbarView as? CKRoomInputToolbarView else {
+                return false
+        }
+        if text.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
+            toolbarView.textMessage = ""
+            toolbarView.setSendMode(mode: .send)
+
+            return true
+        } else {
+            toolbarView.textMessage = ""
+            toolbarView.setSendMode(mode: .send)
+
+            return false
+        }
     }
     
     // MARK: - Unsent Messages Handling
@@ -2094,6 +2111,10 @@ extension CKRoomViewController: MXServerNoticesDelegate {
 // MARK: - RoomInputToolbarViewDelegate
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
+    func closeEditButtonDidPress() {
+        self.textMessageBeforeEditing = nil
+    }
+    
     func sendTextButtonDidPress(_ message: String, isEdit: Bool) {
         self.sendTextMessage(message, isEdit: isEdit)
     }

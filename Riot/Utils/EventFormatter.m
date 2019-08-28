@@ -185,14 +185,14 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
     {
         NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
         
-        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
-                                      kEventFormatterOnReRequestKeysLinkActionSeparator,
-                                      event.eventId];
+//        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
+//                                      kEventFormatterOnReRequestKeysLinkActionSeparator,
+//                                      event.eventId];
         
         [attributedStringWithEditMention appendAttributedString:
          [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
                                          attributes:@{
-                                                      NSLinkAttributeName: linkActionString,
+//                                                      NSLinkAttributeName: linkActionString,
                                                       // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
                                                       // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
                                                       NSForegroundColorAttributeName: self.editionMentionTextColor,
