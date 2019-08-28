@@ -256,6 +256,9 @@ extension CKRoomViewController {
         self.invitationController.delegate = self
 
         bindingTheme()
+        
+        // -- fix bug sync room members from server
+        forceUpdateMemberInRoom()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -801,8 +804,10 @@ extension CKRoomViewController {
             
             if isSupportCallOption() {
                 if isCallingInRoom() {
+                    (self.titleView as? RoomTitleView)?.numberBarButtonItem = 2;
                     navigationItem.rightBarButtonItems = [searchBarButton, hangupCallBarButton]
                 } else {
+                    (self.titleView as? RoomTitleView)?.numberBarButtonItem = 3;
                     navigationItem.rightBarButtonItems = [searchBarButton, voiceCallBarButton, videoCallBarButton]
                 }
             } else {
@@ -2605,6 +2610,26 @@ extension CKRoomViewController {
     
 }
 
+
+extension CKRoomViewController {
+    
+    private func forceUpdateMemberInRoom() {
+        
+        // Sync room members from server to fix bug:
+        // The membersCount is differrent between before and after load from MXKRoomDataSourceManager
+        roomDataSource?.room.members({ [weak self] (members) in
+            if let newJoinedCount = members?.joinedMembers.count {
+                self?.roomDataSource?.room.summary.membersCount.joined = UInt(newJoinedCount)
+                self?.roomDataSource?.delegate.dataSource(self?.roomDataSource, didCellChange: nil)
+            }
+            }, lazyLoadedMembers: { (_) in
+                //
+        }, failure: { (error) in
+            print("Sync room members failed ")
+        })
+    }
+    
+}
 
 //extension UITextView {
 //    override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
