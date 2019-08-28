@@ -91,7 +91,33 @@
                                                                                 multiplier:1.0f
                                                                                   constant:0.0f];
             
-            [NSLayoutConstraint activateConstraints:@[topConstraint, centerXConstraint]];
+            // CK: Manage number of bar buttons and change layout
+            NSLayoutConstraint *width2button = [NSLayoutConstraint constraintWithItem:self
+                                                                            attribute:NSLayoutAttributeWidth
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:self.superview
+                                                                            attribute:NSLayoutAttributeWidth
+                                                                           multiplier:0.6f
+                                                                             constant:0.0f];
+            
+            NSLayoutConstraint *width3button = [NSLayoutConstraint constraintWithItem:self
+                                                                               attribute:NSLayoutAttributeWidth
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                               toItem:self.superview
+                                                                               attribute:NSLayoutAttributeWidth
+                                                                              multiplier:0.4f
+                                                                                constant:0.0f];
+            // CK: Manage number of bar buttons and change layout
+            // -- trick width navigationbar follow case 1,2,3 right barbuttonitems
+            // -- fix bug ios 11 titleview, right barbuttonitem change size when update subview
+            
+            if (self.numberBarButtonItem == 2) {
+                [NSLayoutConstraint activateConstraints:@[topConstraint, width2button]];
+            } else if (self.numberBarButtonItem == 3) {
+                [NSLayoutConstraint activateConstraints:@[topConstraint, width3button]];
+            } else {
+               [NSLayoutConstraint activateConstraints:@[topConstraint, centerXConstraint]];
+            }
             
         }
         else
