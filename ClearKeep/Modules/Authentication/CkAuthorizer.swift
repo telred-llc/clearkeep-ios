@@ -171,6 +171,7 @@ public class CkAuthorizer {
                             self.onFailureDuringAuthRequest(
                                 withError: self.error(withMessage: Bundle.mxk_localizedString(forKey: "not_supported_yet")))
                         } else {
+                            CKAppManager.shared.setup(with: credentials)
                             credentials.homeServer = self.homeServer
                             credentials.allowedCertificate = self.mxRestClient.allowedCertificate
                             self.onSuccessfulAuthRequest(withCredentials: credentials)

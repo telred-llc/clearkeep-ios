@@ -1,5 +1,5 @@
 //
-//  CKRoomCacheManager.swift
+//  CKManagers.swift
 //  Riot
 //
 //  Created by Pham Hoa on 8/6/19.
@@ -8,6 +8,7 @@
 
 import Foundation
 import Cache
+import Alamofire
 
 class CKStoredRoom: Codable, NSCopying {
     var id: String
@@ -248,3 +249,46 @@ private extension CKRoomCacheManager {
         CKRoomCacheManager.shared.doCacheRoom(cachedRoom)
     }
 }
+
+@objcMembers
+public class CKAppManager: NSObject {
+    static let shared = CKAppManager()
+    private (set) var apiClient: CKAPIClient!
+    private override init() {
+        super.init()
+        setup()
+    }
+    
+    func setup() {
+        apiClient = CKAPIClient(baseURLString: CKEnvironment.target.serviceURL)
+        if let account = MXKAccountManager.shared()?.accounts.first {
+            apiClient.authenticator = {(headers: inout HTTPHeaders, params: inout Parameters) in
+                if let accessToken = account.mxCredentials.accessToken {
+                    headers["Authorization"] = "Bearer \(accessToken)"
+                }
+            }
+        }
+    }
+
+    func setup(with credential: MXCredentials) {
+        if let homeServer = credential.homeServer {
+            apiClient = CKAPIClient(baseURLString: homeServer)
+        } else {
+            apiClient = CKAPIClient(baseURLString: CKEnvironment.target.serviceURL)
+        }
+        apiClient.authenticator = {(headers: inout HTTPHeaders, params: inout Parameters) in
+            if let accessToken = credential.accessToken {
+                headers["Authorization"] = "Bearer \(accessToken)"
+            }
+        }
+    }
+    
+    func preloadData() {
+        // TO-DO
+    }
+    
+    func preloadStaticData() {
+        // TO-DO
+    }
+}
+

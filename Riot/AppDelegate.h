@@ -51,6 +51,11 @@ extern NSString *const kAppDelegateNetworkStatusDidChangeNotification;
  */
 @property (nonatomic, readonly) MasterTabBarController *masterTabBarController;
 
+/**
+ The launch animation container view
+ */
+@property (strong, nonatomic) UIView *launchAnimationContainerView;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) UIAlertController *errorNotification;
@@ -89,6 +94,8 @@ extern NSString *const kAppDelegateNetworkStatusDidChangeNotification;
 + (AppDelegate*)theDelegate;
 
 #pragma mark - Application layout handling
+
+- (void)handleLaunchAnimation;
 
 - (void)restoreInitialDisplay:(void (^)(void))completion;
 

@@ -14,8 +14,8 @@ extension CKAPIClient {
     func generatePassphraseAndBackupKey(_ model: CKPassphrase.Request, keyModel: CKPassphrase.Request, completion: @escaping(CKPassphrase.Response?, CKPassphrase.Response?, Error?) -> Void ) {
         firstly {
             when(fulfilled: generatePassphrase(model), generateBackupKey(keyModel))
-            }.done ({ tagsResponse, courseResponse in
-                completion(tagsResponse, courseResponse, nil)
+            }.done ({ pass, key in
+                completion(pass, key, nil)
             }).catch ({ error in
                 completion(nil, nil, error)
             })

@@ -93,8 +93,8 @@
 		8558894422C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */; };
 		855EEDF722F926BE0047B4AC /* CKHomeMessagesSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855EEDF622F926BE0047B4AC /* CKHomeMessagesSearchDataSource.swift */; };
 		855EEDF822F926BE0047B4AC /* CKHomeMessagesSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855EEDF622F926BE0047B4AC /* CKHomeMessagesSearchDataSource.swift */; };
-		855EEDFA22F954B00047B4AC /* CKCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855EEDF922F954B00047B4AC /* CKCacheManager.swift */; };
-		855EEDFB22F954B00047B4AC /* CKCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855EEDF922F954B00047B4AC /* CKCacheManager.swift */; };
+		855EEDFA22F954B00047B4AC /* CKManagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855EEDF922F954B00047B4AC /* CKManagers.swift */; };
+		855EEDFB22F954B00047B4AC /* CKManagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855EEDF922F954B00047B4AC /* CKManagers.swift */; };
 		85743492221566B10009E618 /* CKMessageContentManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85743491221566B10009E618 /* CKMessageContentManagement.swift */; };
 		858A532121F58AB200570D83 /* CKRoomDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A532021F58AB200570D83 /* CKRoomDataSource.swift */; };
 		858A7D7821E43E3100BB9737 /* CKRecentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */; };
@@ -490,6 +490,9 @@
 		BDB43F2823162A6F00F7CB00 /* CKServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2623162A6F00F7CB00 /* CKServiceError.swift */; };
 		BDB43F2C23162C8E00F7CB00 /* CKPassphrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */; };
 		BDB43F2D23162C8E00F7CB00 /* CKPassphrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */; };
+		BDB43F302316390E00F7CB00 /* CKConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2F2316390E00F7CB00 /* CKConstant.swift */; };
+		BDB43F312316390E00F7CB00 /* CKConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2F2316390E00F7CB00 /* CKConstant.swift */; };
+		BDB43F3423163A4400F7CB00 /* CKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F3223163A4400F7CB00 /* CKManager.swift */; };
 		DD9D49FA97BBD9A55F1695FA /* Pods_RiotPods_Riot_Prod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC38D3D17033F503D594C33 /* Pods_RiotPods_Riot_Prod.framework */; };
 		E5026CA221F5D601009D1B86 /* CKRoomHeaderInSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5026CA121F5D601009D1B86 /* CKRoomHeaderInSectionView.swift */; };
 		E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5026CA321F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib */; };
@@ -1382,7 +1385,7 @@
 		8554B71922171256008CB324 /* CKRecentItemInvitationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKRecentItemInvitationCell.xib; sourceTree = "<group>"; };
 		8558894222C45FFD00A97F25 /* CKTableViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKTableViewController+Extension.swift"; sourceTree = "<group>"; };
 		855EEDF622F926BE0047B4AC /* CKHomeMessagesSearchDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKHomeMessagesSearchDataSource.swift; sourceTree = "<group>"; };
-		855EEDF922F954B00047B4AC /* CKCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKCacheManager.swift; sourceTree = "<group>"; };
+		855EEDF922F954B00047B4AC /* CKManagers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKManagers.swift; sourceTree = "<group>"; };
 		85743491221566B10009E618 /* CKMessageContentManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKMessageContentManagement.swift; sourceTree = "<group>"; };
 		858A532021F58AB200570D83 /* CKRoomDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomDataSource.swift; sourceTree = "<group>"; };
 		858A7D7721E43E3100BB9737 /* CKRecentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRecentListViewController.swift; sourceTree = "<group>"; };
@@ -1931,6 +1934,8 @@
 		BDB43F232316294300F7CB00 /* CKRequest+Concurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKRequest+Concurrency.swift"; sourceTree = "<group>"; };
 		BDB43F2623162A6F00F7CB00 /* CKServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKServiceError.swift; sourceTree = "<group>"; };
 		BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKPassphrase.swift; sourceTree = "<group>"; };
+		BDB43F2F2316390E00F7CB00 /* CKConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKConstant.swift; sourceTree = "<group>"; };
+		BDB43F3223163A4400F7CB00 /* CKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKManager.swift; sourceTree = "<group>"; };
 		E5026CA121F5D601009D1B86 /* CKRoomHeaderInSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomHeaderInSectionView.swift; sourceTree = "<group>"; };
 		E5026CA321F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomHeaderInSectionView.xib; sourceTree = "<group>"; };
 		E5026CA521F5DE96009D1B86 /* CKRoomDirectCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomDirectCreatingViewController.swift; sourceTree = "<group>"; };
@@ -2732,7 +2737,7 @@
 				E54A5AD321F99F5D0094461E /* CKLayoutSize.swift */,
 				851F40172204555400326BBE /* CKSearchBarContainerView.swift */,
 				85743491221566B10009E618 /* CKMessageContentManagement.swift */,
-				855EEDF922F954B00047B4AC /* CKCacheManager.swift */,
+				855EEDF922F954B00047B4AC /* CKManagers.swift */,
 			);
 			path = Ultils;
 			sourceTree = "<group>";
@@ -4068,6 +4073,7 @@
 				BDB43F202316291D00F7CB00 /* CKRequest.swift */,
 				BDB43F232316294300F7CB00 /* CKRequest+Concurrency.swift */,
 				BDB43F2623162A6F00F7CB00 /* CKServiceError.swift */,
+				BDB43F3223163A4400F7CB00 /* CKManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -4086,6 +4092,14 @@
 				BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */,
 			);
 			path = LoginModel;
+			sourceTree = "<group>";
+		};
+		BDB43F2E231638F200F7CB00 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				BDB43F2F2316390E00F7CB00 /* CKConstant.swift */,
+			);
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 		E51891E621EF2F5E00DFBCA5 /* Editing */ = {
@@ -4304,6 +4318,7 @@
 		E57814F921A7B582001BF40D /* ClearKeep */ = {
 			isa = PBXGroup;
 			children = (
+				BDB43F2E231638F200F7CB00 /* Configurations */,
 				BDB43F2923162C4400F7CB00 /* Models */,
 				BDB43F1C2316211900F7CB00 /* Services */,
 				8519E71121DF0C0D006C055F /* Extensions */,
@@ -5715,6 +5730,7 @@
 				E520C5E822E71D66003101BA /* NavigationRouterType.swift in Sources */,
 				E5E7DBCE229BC7D300AB7CF3 /* RoomMessagesSearchViewController.m in Sources */,
 				E5E7DBCF229BC7D300AB7CF3 /* GroupInviteTableViewCell.m in Sources */,
+				BDB43F3423163A4400F7CB00 /* CKManager.swift in Sources */,
 				E5E7DBD0229BC7D300AB7CF3 /* CKRoomInputToolbarView.swift in Sources */,
 				E5E7DBD1229BC7D300AB7CF3 /* ForgotPasswordInputsView.m in Sources */,
 				E520C5B422E719AA003101BA /* SettingsKeyBackupViewState.swift in Sources */,
@@ -5768,7 +5784,7 @@
 				E520C5B322E71660003101BA /* SignOutAlertPresenter.swift in Sources */,
 				E5E7DBF8229BC7D300AB7CF3 /* DesignableUI.swift in Sources */,
 				E5E7DBF9229BC7D300AB7CF3 /* ContactsTableViewController.m in Sources */,
-				855EEDFB22F954B00047B4AC /* CKCacheManager.swift in Sources */,
+				855EEDFB22F954B00047B4AC /* CKManagers.swift in Sources */,
 				853174CB22BDF1200092F73D /* CKView+Extension.swift in Sources */,
 				E5E7DBFA229BC7D300AB7CF3 /* RoomTitleView.m in Sources */,
 				853174C522BDE5280092F73D /* BinderExtensions.swift in Sources */,
@@ -5790,6 +5806,7 @@
 				E5E7DC07229BC7D300AB7CF3 /* CKRoomDataSource.swift in Sources */,
 				E5E7DC08229BC7D300AB7CF3 /* CkMasterTabBarController.swift in Sources */,
 				E5E7DC09229BC7D300AB7CF3 /* OnBoardingManager.swift in Sources */,
+				BDB43F312316390E00F7CB00 /* CKConstant.swift in Sources */,
 				E5E7DC0A229BC7D300AB7CF3 /* CKMessageContentManagement.swift in Sources */,
 				E5E7DC0B229BC7D300AB7CF3 /* CKRoomCallCreatingViewController.swift in Sources */,
 				E5E7DC0C229BC7D300AB7CF3 /* GroupDetailsViewController.m in Sources */,
@@ -6117,6 +6134,7 @@
 				9C3AC4D222D73B6A00DD179F /* KeyBackupRecoverFromRecoveryKeyCoordinator.swift in Sources */,
 				F083BDED1E7009ED00A9B29C /* MXKRoomBubbleTableViewCell+Riot.m in Sources */,
 				E579FDD822FD22F900B26814 /* StickerPickerViewController.m in Sources */,
+				BDB43F302316390E00F7CB00 /* CKConstant.swift in Sources */,
 				E5C0B9A421CA381800910D8B /* CkForgotPasswordViewController.swift in Sources */,
 				B1B557A820EF5A1B00210D55 /* DeviceTableViewCell.m in Sources */,
 				B1B5572620EE6C4D00210D55 /* RoomFilesSearchViewController.m in Sources */,
@@ -6256,7 +6274,7 @@
 				85B6ED2221F959A4000D99CE /* CKMentionDataSource.swift in Sources */,
 				B1B558EE20EF768F00210D55 /* RoomOutgoingAttachmentBubbleCell.m in Sources */,
 				E51891E321EF120000DFBCA5 /* CKRoomSettingsEditViewController.swift in Sources */,
-				855EEDFA22F954B00047B4AC /* CKCacheManager.swift in Sources */,
+				855EEDFA22F954B00047B4AC /* CKManagers.swift in Sources */,
 				B1B5574920EE6C4D00210D55 /* RiotSplitViewController.m in Sources */,
 				9C3AC4CB22D73B6A00DD179F /* EncryptionKeysExportPresenter.swift in Sources */,
 				B1B5574E20EE6C4D00210D55 /* DirectoryServerPickerViewController.m in Sources */,

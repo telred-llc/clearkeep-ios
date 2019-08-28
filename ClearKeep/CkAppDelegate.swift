@@ -9,7 +9,6 @@
 import Foundation
 
 @objc extension AppDelegate {
-        
     public func useCkStoryboard(_ application: UIApplication) {
         // get theme
         let isDarkMode = RiotSettings.shared.userInterfaceTheme == ThemeType.dark.typeName
@@ -229,5 +228,27 @@ import Foundation
     
     @objc public func detailToContact(_ contact: MXKContact) {
         
+    }
+    
+    @objc func handleKeyBackupProcess() {
+        guard let session = self.mxSessions.first as? MXSession else {
+            return
+        }
+        
+        var isLaunching = false
+        
+        switch session.state {
+        case MXSessionStateClosed, MXSessionStateInitialised:
+            isLaunching = true
+        case MXSessionStateStoreDataReady, MXSessionStateSyncInProgress:
+            // Stay in launching during the first server sync if the store is empty.
+            isLaunching = (session.rooms.count == 0 && (self.launchAnimationContainerView != nil))
+        default:
+            break
+        }
+
+        if isLaunching {
+            self.handleLaunchAnimation()
+        }
     }
 } 
