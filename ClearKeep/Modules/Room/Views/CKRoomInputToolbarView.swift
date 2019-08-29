@@ -12,6 +12,14 @@ import MobileCoreServices
 
 @objc protocol CKRoomInputToolbarViewDelegate: MXKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
+    func sendTextButtonDidPress(_ message: String, isEdit: Bool)
+    func closeEditButtonDidPress()
+}
+
+enum RoomInputToolbarViewSendMode: Int {
+    case send
+    case reply
+    case edit
 }
 
 final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
@@ -20,10 +28,12 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     
     @IBOutlet weak var mainToolbarMinHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainToolbarHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var closeEditButtonWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainToolbarView: UIView!
     @IBOutlet weak var separatorView: UIView!
     @IBOutlet weak var sendImageButton: UIButton!
     @IBOutlet weak var mentionButton: UIButton!
+    @IBOutlet weak var closeEditButton: UIButton!
 
     // MARK: - Enums
     
@@ -32,7 +42,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         case photo(asset: PHAsset?)
         case file(url: URL?)
     }
-    
+
     // MARK: - Constants
     
     
@@ -65,6 +75,8 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
             self.growingTextView?.refreshHeight()
         }
     }
+    
+    var sendMode: RoomInputToolbarViewSendMode = .send
     
     // MARK: Private
     
@@ -153,8 +165,15 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         if button == self.rightInputToolbarButton {
             switch typingMessage {
             case .text(msg: let msg):
-                if let msg = msg {
+                guard let msg = msg else {
+                    return
+                }
+
+                switch sendMode {
+                case .send, .reply:
                     self.sendText(message: msg)
+                case .edit:
+                    self.sendText(message: msg, isEdit: true)
                 }
             case .photo(asset: let asset):
                 self.addImagePickerAsInputView(false)
@@ -167,6 +186,12 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         } else {
             super.onTouchUp(inside: button)
         }
+    }
+    
+    func setSendMode(mode: RoomInputToolbarViewSendMode) {
+        self.sendMode = mode
+        self.updatePlaceholderText()
+        self.updateSendButtonLabel()
     }
     
     // MARK: - IBActions
@@ -202,6 +227,15 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
 
                 self.addImagePickerAsInputView(true)
             }
+        }
+    }
+    
+    @IBAction func closeEditButtonDidPress(_ sender: Any) {
+        growingTextView?.text = ""
+        growingTextView?.becomeFirstResponder()
+        setSendMode(mode: .send)
+        if let del = self.ckDelegate {
+            del.closeEditButtonDidPress()
         }
     }
 }
@@ -285,15 +319,15 @@ private extension CKRoomInputToolbarView {
         return img
     }
     
-    func sendText(message: String) {
+    func sendText(message: String, isEdit: Bool = false) {
         // Reset message, disable view animation during the update to prevent placeholder distorsion.
         UIView.setAnimationsEnabled(false)
         textMessage = nil
         UIView.setAnimationsEnabled(true)
 
         // Send button has been pressed
-        if message.count > 0 {
-            ckDelegate?.roomInputToolbarView?(self, sendTextMessage: message)
+        if message.count > 0, let del = ckDelegate {
+            del.sendTextButtonDidPress(message, isEdit: isEdit)
         }
     }
     
@@ -336,6 +370,20 @@ private extension CKRoomInputToolbarView {
         } else {
             triggerMentionUser(false, text: nil)
         }
+    }
+
+    private func updateSendButtonLabel() {
+        switch sendMode {
+        case .edit:
+            closeEditButtonWidthConstraint.constant = 40
+        default:
+            closeEditButtonWidthConstraint.constant = 0
+        }
+        self.updateConstraints()
+    }
+    
+    func updatePlaceholderText() {
+        // TO-DO
     }
 }
 

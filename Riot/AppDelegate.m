@@ -246,7 +246,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     MXSDKOptions *sdkOptions = [MXSDKOptions sharedInstance];
     
 #ifdef TARGET_DEV
-    sdkOptions.applicationGroupIdentifier = @"group.im.vector.vmodev";
+    sdkOptions.applicationGroupIdentifier = @"group.vmodev.clearkeep.ios";
 #else
     sdkOptions.applicationGroupIdentifier = @"group.com.telred.clearkeep";
 #endif
@@ -1452,7 +1452,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                                                    @"event_id": event.eventId,
                                                    @"user_id": account.mxCredentials.userId
                                                    };
-
+ 
                     BOOL isNotificationContentShown = !event.isEncrypted || RiotSettings.shared.showDecryptedContentInNotifications;
 
                     if ((event.eventType == MXEventTypeRoomMessage || event.eventType == MXEventTypeRoomEncrypted) && isNotificationContentShown)
