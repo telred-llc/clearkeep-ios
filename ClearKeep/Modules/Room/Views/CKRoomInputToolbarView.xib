@@ -29,17 +29,30 @@
                             <rect key="frame" x="0.0" y="1" width="409" height="45"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mev-Nz-c1s" customClass="HPGrowingTextView">
-                                    <rect key="frame" x="6" y="4" width="397" height="41"/>
+                                    <rect key="frame" x="6" y="4" width="395" height="41"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="GrowingTextView"/>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W5z-7l-phK">
+                                    <rect key="frame" x="409" y="4" width="0.0" height="41"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" id="R3D-VY-2YV"/>
+                                    </constraints>
+                                    <state key="normal" image="close_banner"/>
+                                    <connections>
+                                        <action selector="closeEditButtonDidPress:" destination="iN0-l3-epB" eventType="touchUpInside" id="0ER-li-o3X"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
+                                <constraint firstItem="W5z-7l-phK" firstAttribute="leading" secondItem="Mev-Nz-c1s" secondAttribute="trailing" constant="8" id="2Pe-aP-DOy"/>
                                 <constraint firstItem="Mev-Nz-c1s" firstAttribute="leading" secondItem="8Re-dA-XD0" secondAttribute="leading" constant="6" id="Sjv-bQ-zIw"/>
                                 <constraint firstItem="Mev-Nz-c1s" firstAttribute="top" secondItem="8Re-dA-XD0" secondAttribute="top" constant="4" id="Sys-Pv-4Be"/>
-                                <constraint firstAttribute="trailing" secondItem="Mev-Nz-c1s" secondAttribute="trailing" constant="6" id="jHV-di-fK5"/>
+                                <constraint firstItem="W5z-7l-phK" firstAttribute="centerY" secondItem="Mev-Nz-c1s" secondAttribute="centerY" id="dui-jf-XYv"/>
                                 <constraint firstAttribute="bottom" secondItem="Mev-Nz-c1s" secondAttribute="bottom" id="kic-cE-Lhs"/>
+                                <constraint firstAttribute="trailing" secondItem="W5z-7l-phK" secondAttribute="trailing" id="sVa-LN-LvK"/>
+                                <constraint firstItem="W5z-7l-phK" firstAttribute="height" secondItem="Mev-Nz-c1s" secondAttribute="height" id="vYs-Db-88H"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oL1-AL-sDn">
@@ -133,6 +146,8 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="closeEditButton" destination="W5z-7l-phK" id="B5V-u7-9aE"/>
+                <outlet property="closeEditButtonWidthConstraint" destination="R3D-VY-2YV" id="CPr-qB-xC0"/>
                 <outlet property="growingTextView" destination="Mev-Nz-c1s" id="abb-Fs-b9F"/>
                 <outlet property="mainToolbarHeightConstraint" destination="Evd-ed-PWb" id="gGq-B7-x06"/>
                 <outlet property="mainToolbarMinHeightConstraint" destination="r16-oX-c59" id="fGx-Ma-MDM"/>
@@ -145,10 +160,11 @@
                 <outlet property="sendImageButton" destination="AXz-33-8LG" id="fhJ-Jg-741"/>
                 <outlet property="separatorView" destination="jU2-ci-Yac" id="6VX-oD-4BS"/>
             </connections>
-            <point key="canvasLocation" x="505" y="-281"/>
+            <point key="canvasLocation" x="504.80000000000001" y="-281.55922038980509"/>
         </view>
     </objects>
     <resources>
+        <image name="close_banner" width="10" height="10"/>
         <image name="ic_send_image_disabled" width="25" height="25"/>
         <image name="ic_tagging" width="25" height="25"/>
     </resources>
