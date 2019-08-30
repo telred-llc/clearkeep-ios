@@ -256,6 +256,7 @@
 "room_prompt_cancel" = "cancel all";
 "room_resend_unsent_messages" = "Resend unsent messages";
 "room_delete_unsent_messages" = "Delete unsent messages";
+"room_event_action_edit" = "Edit";
 "room_event_action_copy" = "Copy";
 "room_event_action_quote" = "Quote";
 "room_event_action_redact" = "Redact";
@@ -543,6 +544,7 @@
 "event_formatter_jitsi_widget_removed" = "VoIP conference removed by %@";
 "event_formatter_rerequest_keys_part1_link" = "Re-request encryption keys";
 "event_formatter_rerequest_keys_part2" = " from your other devices.";
+"event_formatter_message_edited_mention" = "(Edited)";
 
 // Others
 "or" = "or";
