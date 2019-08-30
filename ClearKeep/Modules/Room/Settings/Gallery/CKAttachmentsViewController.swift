@@ -31,14 +31,10 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
             .disposed(by: disposeBag)
     }
     
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         // fixbug: CK 309 - app crash when touch search button
-        // -- release MXKAttachmentsViewController before dismiss display imageview
-        self.delegate = nil
+        // -- release CKAttachmentsViewController before dismiss display
         self.destroy()
-    
     }
 }
