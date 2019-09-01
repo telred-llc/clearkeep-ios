@@ -211,6 +211,7 @@ public class CkAuthorizer {
                             credentials.allowedCertificate = self.mxRestClient.allowedCertificate
                             self.onSuccessfulAuthRequest(withCredentials: credentials)
                         }
+                        CKAppManager.shared.setup(with: credentials)
                     }
                 } else {
                     

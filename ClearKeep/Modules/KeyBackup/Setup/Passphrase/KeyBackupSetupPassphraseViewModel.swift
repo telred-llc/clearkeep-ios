@@ -93,18 +93,14 @@ final class KeyBackupSetupPassphraseViewModel: KeyBackupSetupPassphraseViewModel
         guard let passphrase = self.passphrase else {
             return
         }
-        
-        self.update(viewState: .loading)
-        
+
         self.keyBackup.prepareKeyBackupVersion(withPassword: passphrase, success: { [weak self] (megolmBackupCreationInfo) in
             guard let sself = self else {
                 return
             }
             
             sself.createKeyBackupOperation = sself.keyBackup.createKeyBackupVersion(megolmBackupCreationInfo, success: { (_) in
-
                 sself.update(viewState: .loaded)
-                
                 sself.coordinatorDelegateQueue.addOperation {
                     DispatchQueue.main.async {
                         sself.coordinatorDelegate?.keyBackupSetupPassphraseViewModel(sself, didCreateBackupFromPassphraseWithResultingRecoveryKey: megolmBackupCreationInfo.recoveryKey)
@@ -130,7 +126,6 @@ final class KeyBackupSetupPassphraseViewModel: KeyBackupSetupPassphraseViewModel
             sself.createKeyBackupOperation = sself.keyBackup.createKeyBackupVersion(megolmBackupCreationInfo, success: { (_) in
 
                 sself.update(viewState: .loaded)
-                
                 sself.coordinatorDelegateQueue.addOperation {
                     DispatchQueue.main.async {
                         sself.coordinatorDelegate?.keyBackupSetupPassphraseViewModel(sself, didCreateBackupFromRecoveryKey: megolmBackupCreationInfo.recoveryKey)

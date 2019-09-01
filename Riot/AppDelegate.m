@@ -694,7 +694,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         [application keyWindow].accessibilityIgnoresInvertColors = YES;
     }
     
-    [self handleKeyBackupProcess];
+    [self handleLaunchAnimation];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -2353,7 +2353,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             }
         }
         
-        [self handleKeyBackupProcess];
+        [self handleLaunchAnimation];
     }];
     
     // Register an observer in order to handle new account
@@ -2830,28 +2830,28 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 
 - (void)handleLaunchAnimation
 {
-//    MXSession *mainSession = self.mxSessions.firstObject;
-//
-//    if (mainSession)
-//    {
-//        BOOL isLaunching = NO;
-//
-//        switch (mainSession.state)
-//        {
-//            case MXSessionStateClosed:
-//            case MXSessionStateInitialised:
-//                isLaunching = YES;
-//                break;
-//            case MXSessionStateStoreDataReady:
-//            case MXSessionStateSyncInProgress:
-//                // Stay in launching during the first server sync if the store is empty.
-//                isLaunching = (mainSession.rooms.count == 0 && _launchAnimationContainerView);
-//            default:
-//                break;
-//        }
-//
-//        if (isLaunching)
-//        {
+    MXSession *mainSession = self.mxSessions.firstObject;
+
+    if (mainSession)
+    {
+        BOOL isLaunching = NO;
+
+        switch (mainSession.state)
+        {
+            case MXSessionStateClosed:
+            case MXSessionStateInitialised:
+                isLaunching = YES;
+                break;
+            case MXSessionStateStoreDataReady:
+            case MXSessionStateSyncInProgress:
+                // Stay in launching during the first server sync if the store is empty.
+                isLaunching = (mainSession.rooms.count == 0 && _launchAnimationContainerView);
+            default:
+                break;
+        }
+
+        if (isLaunching)
+        {
             UIWindow *window = [[UIApplication sharedApplication] keyWindow];
             
             if (!_launchAnimationContainerView && window)
@@ -2913,9 +2913,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                 launchAnimationStart = [NSDate date];
             }
             
-//            return;
-//        }
-//    }
+            return;
+        }
+    }
 
     if (_launchAnimationContainerView)
     {

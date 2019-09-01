@@ -95,8 +95,6 @@ extern NSString *const kAppDelegateNetworkStatusDidChangeNotification;
 
 #pragma mark - Application layout handling
 
-- (void)handleLaunchAnimation;
-
 - (void)restoreInitialDisplay:(void (^)(void))completion;
 
 /**

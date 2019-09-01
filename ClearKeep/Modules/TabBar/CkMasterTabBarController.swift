@@ -52,7 +52,8 @@ final public class CkMasterTabBarController: MasterTabBarController {
         navigationController?.view.layoutIfNeeded() // to fix height of the navigation bar
         
         // Observe wrong backup version
-        NotificationCenter.default.addObserver(self, selector: #selector(keyBackupStateDidChange(_:)), name: NSNotification.Name.mxKeyBackupDidStateChange, object: nil)
+        // Commenting out, now using auto-backup feature
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyBackupStateDidChange(_:)), name: NSNotification.Name.mxKeyBackupDidStateChange, object: nil)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -176,7 +177,7 @@ extension CkMasterTabBarController {
             }
             return
         }
-        
+
         if keyBackup.state == MXKeyBackupStateNotTrusted, let keyBackupVersion = keyBackup.keyBackupVersion {
             if self.keyBackupAlert != nil {
                 self.keyBackupAlert?.dismiss(animated: false)

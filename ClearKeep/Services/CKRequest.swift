@@ -12,15 +12,15 @@ import PromiseKit
 extension CKAPIClient {
     // MARK: Get passphrase
     @discardableResult
-    func getPassphrase(_ model: CKPassphrase.Request) -> Promise<CKPassphrase.Response> {
+    func getPassphrase() -> Promise<CKPassphrase.Response> {
         return request(.get, "/api/user/get-passphrase", parameters: nil, encoding: JSONEncoding.default).responseTask()
     }
     
     // MARK: create passphrase
     @discardableResult
-    func generatePassphrase(_ model: CKPassphrase.Request) -> Promise<CKPassphrase.Response> {
+    func generatePassphrase() -> Promise<CKPassphrase.Response> {
         // Pseudo code, will be updated
-        return request(.post, "/api/user/create-passphrase", parameters: model.toParams(), encoding: JSONEncoding.default).responseTask()
+        return request(.post, "/api/user/create-passphrase", parameters: CKPassphrase.Request().toParams(), encoding: JSONEncoding.default).responseTask()
     }
     
     // MARK: create backup key

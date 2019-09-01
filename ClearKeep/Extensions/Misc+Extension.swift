@@ -120,3 +120,23 @@ extension MXEvent {
         return Date(timeIntervalSince1970: TimeInterval(self.ageLocalTs / 1000))
     }
 }
+
+extension String {
+    public var int: Int? {
+        return Int(self)
+    }
+    
+    func base64Encoded() -> String? {
+        return data(using: .utf8)?.base64EncodedString()
+    }
+    
+    func base64Decoded() -> String? {
+        guard let data = Data(base64Encoded: self) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+    
+    func rawBase64Decoded() -> Data? {
+        guard let data = Data(base64Encoded: self) else { return nil }
+        return data
+    }
+}

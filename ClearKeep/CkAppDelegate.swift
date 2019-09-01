@@ -208,47 +208,21 @@ import Foundation
         guard let keyBackup = notification?.object as? MXKeyBackup else {
             return
         }
-                
-        if keyBackup.state == MXKeyBackupStateWrongBackUpVersion {
-            if self.keyBackupAlert != nil {
-                self.keyBackupAlert?.dismiss(animated: false)
-            }
-            
-            self.keyBackupAlert = UIAlertController(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_title"), message: CKLocalization.string(byKey: "e2e_key_backup_wrong_version"), preferredStyle: .alert)
-            self.keyBackupAlert.addAction(UIAlertAction(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_button_settings"), style: .default, handler: { action in
-                self.keyBackupAlert = nil
-            }))
-            self.keyBackupAlert.addAction(UIAlertAction(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_button_wasme"), style: .default, handler: { action in
-                self.keyBackupAlert = nil
-            }))
-            
-            self.showNotificationAlert(self.keyBackupAlert)
-        }
+        
+        handleKeyBackupProcess(for: keyBackup.state, keyBackup: keyBackup)
     }
     
     @objc public func detailToContact(_ contact: MXKContact) {
         
     }
     
-    @objc func handleKeyBackupProcess() {
-        guard let session = self.mxSessions.first as? MXSession else {
+    @objc func handleKeyBackupProcess(for state: MXKeyBackupState, keyBackup: MXKeyBackup) {
+        guard let _ = self.mxSessions.first as? MXSession else {
             return
         }
         
-        var isLaunching = false
-        
-        switch session.state {
-        case MXSessionStateClosed, MXSessionStateInitialised:
-            isLaunching = true
-        case MXSessionStateStoreDataReady, MXSessionStateSyncInProgress:
-            // Stay in launching during the first server sync if the store is empty.
-            isLaunching = (session.rooms.count == 0 && (self.launchAnimationContainerView != nil))
-        default:
-            break
-        }
-
-        if isLaunching {
-            self.handleLaunchAnimation()
-        }
+        CKKeyBackupRecoverManager.shared.setup(keyBackup)
+        CKKeyBackupRecoverManager.shared.startBackupProcess()
     }
-} 
+
+}

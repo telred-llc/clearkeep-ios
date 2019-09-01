@@ -10,26 +10,25 @@ import Alamofire
 
 struct CKPassphrase {
     struct Request {
-        let email: String
-        let password: String
-        
         func toParams() -> Parameters {
-            let params: Parameters = ["email": email, "password": password]
+            let params: Parameters = ["passphrase": CKAppManager.shared.generatedPassphrase()]
             
             return params
         }
+
     }
-    
     struct Response: Codable {
-        let authorization: String?
-        
+        let id: String?
+        let passphrase: String?
+
         enum CodingKeys: String, CodingKey {
-            case authorization
+            case id
+            case passphrase
         }
     }
     
     struct ViewModel {
-        let isSuccess: Bool
+        let passphrase: Bool
         let token: String
         let error: Error?
     }
