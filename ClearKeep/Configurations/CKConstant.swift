@@ -13,7 +13,7 @@ struct CKEnvironment {
     let serviceURL: String
     
     static let develop = CKEnvironment(name: "DEVELOP", serviceURL: "https://ck-server-demo.herokuapp.com")
-    static let production = CKEnvironment(name: "PRODUCTION", serviceURL: "https://op.clearkeep.me.")
+    static let production = CKEnvironment(name: "PRODUCTION", serviceURL: "https://op.clearkeep.me")
 
     #if DEVELOP
     static var target = develop

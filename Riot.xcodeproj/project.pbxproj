@@ -6865,6 +6865,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DDEVELOP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmodev.clearkeep.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE = "16dd2361-9d36-450a-b8fc-d93a1c5fca60";
@@ -6919,6 +6920,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DDEVELOP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vmodev.clearkeep.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE = "16dd2361-9d36-450a-b8fc-d93a1c5fca60";
