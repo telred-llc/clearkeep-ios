@@ -49,7 +49,11 @@ class CKRoomDataSource: MXKRoomDataSource {
      */
     private var bubbles: [RoomBubbleCellData] {
         get {
-            return self.value(forKey: "bubbles") as! [RoomBubbleCellData]
+            // -- fixbug CK 296, cast optional object
+            guard let bubbles = self.value(forKey: "bubbles") as? [RoomBubbleCellData] else {
+                return []
+            }
+            return bubbles
         }
         set {
             self.setValue(bubbles, forKey: "bubbles")
