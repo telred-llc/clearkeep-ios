@@ -71,12 +71,15 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
         if let roomId = roomCellData?.roomSummary.roomId,
             let displayname = roomCellData?.roomSummary.displayname {
             let defaultAvatar = AvatarGenerator.generateAvatar(forMatrixItem: roomId, withDisplayName: displayname)
-            avatarImage.setImageURI(
-                roomCellData?.roomSummary.avatar,
-                withType: nil,
-                andImageOrientation: UIImageOrientation.up,
-                previewImage: defaultAvatar,
-                mediaManager: roomCellData?.roomSummary.mxSession.mediaManager)                        
+            
+            // -- fixbug CK 318: fill avatar (remove black background of avatar)
+            avatarImage.setImageURI(roomCellData?.roomSummary.avatar,
+                                    withType: nil,
+                                    andImageOrientation: UIImageOrientation.up,
+                                    toFitViewSize: avatarImage.frame.size,
+                                    with: MXThumbnailingMethodCrop,
+                                    previewImage: defaultAvatar,
+                                    mediaManager: roomCellData?.roomSummary.mxSession.mediaManager)
             
         } else {
             avatarImage.image = nil
