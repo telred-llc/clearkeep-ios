@@ -367,7 +367,6 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 {
     //-- CK
     [self useCkStoryboard:application];
-    [[CKAppManager shared] setup];
     NSDate *startDate = [NSDate date];
     
 #ifdef DEBUG

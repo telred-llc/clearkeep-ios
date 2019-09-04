@@ -39,11 +39,11 @@ class CKAPIClient {
         return baseURLString + path
     }
     
-    func request ( _ method: HTTPMethod,
-                   _ path: String,
-                   parameters: Parameters? = nil,
-                   encoding: ParameterEncoding = JSONEncoding.default,
-                   headers: HTTPHeaders? = nil) -> DataRequest {
+    func request (_ method: HTTPMethod,
+                  _ path: String,
+                  parameters: Parameters? = nil,
+                  encoding: ParameterEncoding = JSONEncoding.default,
+                  headers: HTTPHeaders? = nil) -> DataRequest {
         let requestURL = URL(string: fullPath(path)) ?? URL(fileURLWithPath: "")
         var requestHeaders = HTTPHeaders()
         var requestParams = Parameters()

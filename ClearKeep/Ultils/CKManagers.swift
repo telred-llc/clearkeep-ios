@@ -254,6 +254,7 @@ private extension CKRoomCacheManager {
 public class CKAppManager: NSObject {
     static let shared = CKAppManager()
     private (set) var userID: String?
+    private (set) var userPassword: String?
     private (set) var apiClient: CKAPIClient!
     private override init() {
         super.init()
@@ -262,12 +263,13 @@ public class CKAppManager: NSObject {
     
     func setup() {
         if let account = MXKAccountManager.shared()?.accounts.first {
-            self.setup(with: account.mxCredentials)
+            self.setup(with: account.mxCredentials, password: "")
         }
     }
 
-    func setup(with credential: MXCredentials) {
+    func setup(with credential: MXCredentials, password: String) {
         self.userID = credential.userId
+        self.userPassword = password
         apiClient = CKAPIClient(baseURLString: CKEnvironment.target.serviceURL)
         apiClient.authenticator = {(headers: inout HTTPHeaders, params: inout Parameters) in
             if let accessToken = credential.accessToken {
@@ -275,18 +277,22 @@ public class CKAppManager: NSObject {
             }
         }
     }
+    
+    func updatePassword(_ password: String) {
+        self.userPassword = password
+    }
 
     func generatedPassphrase() -> String {
-        guard let userId = self.userID else {
+        guard let userId = self.userID, let password = self.userPassword else {
             return ""
         }
-        let passphraseString = userId + "COLIAKIP"
+        let passphraseString = "@koko002:study.sinbadflyce.com" + "COLIAKIP"
         let saltData = CKDeriver.shared.ckSalt.data(using: .utf8)!
-        if let derivedKeyData = CKDeriver.shared.pbkdf2SHA256(password: userId,
-                                                              salt: saltData,
-                                                              keyByteCount: CKCryptoConfig.saltLength,
-                                                              rounds: CKCryptoConfig.round),
-            let encryptedPassphrase = CKAES.init(keyData: derivedKeyData)?.encrypt(string: passphraseString) {
+        if let derivedKeyData = CKDeriver.shared.pbkdf2SHA1(password: passphraseString,
+                                                            salt: saltData,
+                                                            keyByteCount: CKCryptoConfig.keyLength,
+                                                            rounds: CKCryptoConfig.round),
+            let encryptedPassphrase = CKAES.init(keyData: derivedKeyData)?.encrypt(string: password) {
             
             let base64SaltKey = derivedKeyData.base64EncodedString()
             let base64EncryptedPassphrase = encryptedPassphrase.base64EncodedString()
@@ -295,11 +301,11 @@ public class CKAppManager: NSObject {
             return ""
         }
     }
-    
+
     func preloadData() {
         // TO-DO
     }
-    
+
     func preloadStaticData() {
         // TO-DO
     }

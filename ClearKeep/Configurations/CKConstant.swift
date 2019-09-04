@@ -27,5 +27,13 @@ struct CKCryptoConfig {
     static let saltLength = 32
     
     /// Iterations
-    static let round = 500000
+    static let round = 10000
+    
+    /// Key's lenghth
+    static let keyLength = 32
+}
+
+extension Notification.Name {
+    static let ckBackUpKeyDidFail = Notification.Name("CKBackUpKeyDidFail")
+    static let ckBackUpKeyDidSuccess = Notification.Name("CKBackUpKeyDidSuccess")
 }

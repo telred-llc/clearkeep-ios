@@ -10,20 +10,19 @@ import Alamofire
 import PromiseKit
 
 extension CKAPIClient {
-    // MARK: Get passphrase
+    /// Get passphrase
     @discardableResult
     func getPassphrase() -> Promise<CKPassphrase.Response> {
         return request(.get, "/api/user/get-passphrase", parameters: nil, encoding: JSONEncoding.default).responseTask()
     }
     
-    // MARK: create passphrase
+    /// create passphrase
     @discardableResult
     func generatePassphrase() -> Promise<CKPassphrase.Response> {
-        // Pseudo code, will be updated
         return request(.post, "/api/user/create-passphrase", parameters: CKPassphrase.Request().toParams(), encoding: JSONEncoding.default).responseTask()
     }
     
-    // MARK: create backup key
+    /// create backup key
     @discardableResult
     func generateBackupKey(_ model: CKPassphrase.Request) -> Promise<CKPassphrase.Response> {
         // Pseudo code, will be updated

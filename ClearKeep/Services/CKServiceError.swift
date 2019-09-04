@@ -41,3 +41,13 @@ public struct CKServiceError: LocalizedError {
         }
     }
 }
+
+extension CKServiceError {
+    public enum BackupProcessError: Int {
+        case none = 0
+        case createPassphrase
+        case getPassphrase
+        case createKey
+        case restoreKey
+    }
+}

@@ -136,7 +136,9 @@ extension String {
     }
     
     func rawBase64Decoded() -> Data? {
-        guard let data = Data(base64Encoded: self) else { return nil }
+        guard let data = Data(base64Encoded: self) else {
+            return nil
+        }
         return data
     }
 }

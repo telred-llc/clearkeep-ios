@@ -76,22 +76,11 @@ struct CKAES {
         self.iv = ivData
     }
     
-    init?(key: String) {
-        guard key.count == kCCKeySizeAES128 || key.count == kCCKeySizeAES256, let keyData = key.data(using: .utf8) else {
-            debugPrint("Error: Failed to set a key.")
-            return nil
-        }
-        
-        self.key = keyData
-        self.iv = NSMutableData(length: kCCBlockSizeAES128)! as Data
-    }
-    
     init?(keyData: Data) {
         self.key = keyData
-        self.iv = NSMutableData(length: kCCBlockSizeAES128)! as Data
+        self.iv = NSMutableData(length: 16)! as Data
     }
 
-    
     // MARK: - Function
     // MARK: Public
     func encrypt(string: String) -> Data? {
@@ -99,17 +88,20 @@ struct CKAES {
     }
     
     func decrypt(data: Data?) -> String? {
-        guard let decryptedData = crypt(data: data, option: CCOperation(kCCDecrypt)) else { return nil }
-        return String(bytes: decryptedData, encoding: .utf8)
+        guard let decryptedData = crypt(data: data, option: CCOperation(kCCDecrypt)) else {
+            return nil
+        }
+        let rest = String(bytes: decryptedData, encoding: .utf8)
+        return rest
     }
-    
+
     func crypt(data: Data?, option: CCOperation) -> Data? {
         guard let data = data else { return nil }
         
         let cryptLength = [UInt8](repeating: 0, count: data.count + kCCBlockSizeAES128).count
         var cryptData   = Data(count: cryptLength)
         
-        let keyLength = [UInt8](repeating: 0, count: kCCBlockSizeAES128).count
+        let keyLength = [UInt8](repeating: 0, count: CKCryptoConfig.keyLength).count
         let options   = CCOptions(kCCOptionPKCS7Padding)
         
         var bytesLength = Int(0)
@@ -124,7 +116,7 @@ struct CKAES {
             }
         }
         
-        guard UInt32(status) == UInt32(kCCSuccess) else {
+        guard status >= 0 && UInt32(status) == UInt32(kCCSuccess) else {
             debugPrint("Error: Failed to crypt data. Status \(status)")
             return nil
         }
