@@ -320,6 +320,7 @@ class CKAccountProfileViewController: MXKViewController {
 
                 // Clear all cached rooms
                 CKRoomCacheManager.shared.clearAllCachedData()
+                CKKeyBackupRecoverManager.shared.destroy()
             }
         }
     }
@@ -418,6 +419,7 @@ extension CKAccountProfileViewController: SignOutAlertPresenterDelegate {
             // Enable the button and stop activity indicator
             self?.stopActivityIndicator()
             self?.signOutButton?.isEnabled = true
+            CKKeyBackupRecoverManager.shared.destroy()
         }
     }
     

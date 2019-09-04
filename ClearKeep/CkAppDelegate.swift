@@ -209,14 +209,19 @@ import Foundation
             return
         }
         
-        handleKeyBackupProcess(for: keyBackup.state, keyBackup: keyBackup)
+        switch keyBackup.state {
+        case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion, MXKeyBackupStateDisabled:
+            handleKeyBackupProcess(for: keyBackup)
+        default:
+            return
+        }
     }
     
     @objc public func detailToContact(_ contact: MXKContact) {
         
     }
     
-    @objc func handleKeyBackupProcess(for state: MXKeyBackupState, keyBackup: MXKeyBackup) {
+    @objc func handleKeyBackupProcess(for keyBackup: MXKeyBackup) {
         guard let _ = self.mxSessions.first as? MXSession else {
             return
         }

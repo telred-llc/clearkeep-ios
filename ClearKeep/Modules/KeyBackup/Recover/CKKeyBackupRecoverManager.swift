@@ -44,6 +44,14 @@ public class CKKeyBackupRecoverManager: NSObject {
         }
     }
 
+    /// Reset properties
+    func destroy() {
+        self.currentHTTPOperation?.cancel()
+        self.isShowingAlert = false
+        self.passphrase = nil
+        self.keyBackup = nil
+    }
+    
     /// Set the manager with a backup key
     func setup(_ key: MXKeyBackup) {
         keyBackup = key
@@ -90,9 +98,11 @@ private extension CKKeyBackupRecoverManager {
                     })
             } else {
                 // Show errror message
+                self.display(error)
             }
         } else {
             // Show errror message
+            self.display(error)
         }
     }
 
@@ -135,6 +145,7 @@ private extension CKKeyBackupRecoverManager {
                 print("restoreKeyBackupVersion success to trust!")
             }, failure: { error in
                 print("restoreKeyBackupVersion failed to trust!")
+                sself.display(error)
             })
             }, failure: { error in
                 print("restoreKeyBackupVersion failed!")
@@ -143,38 +154,72 @@ private extension CKKeyBackupRecoverManager {
                         return
                     }
 
-                    key.deleteVersion(version.version ?? "", success: { () in
-                        print("delete KeyBackupVersion success!")
-                        }, failure: { error in
-                            print("delete KeyBackupVersion failed! \nReason: \(error.localizedDescription)")
-                    })
+                    if CKAppManager.shared.userPassword == nil {
+                        let alert = UIAlertController(title: "Restore backup key failed!", message: "Please sign out, then sign in and enter your passphrase to recover your old messages", preferredStyle: .alert)
+                        
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in
+//                            AppDelegate.the().logout(withConfirmation: false) {_ in
+//                            }
+                        }))
 
-                    let alert = UIAlertController(title: "Restore backup key failed!", message: "Please enter your current password to create new backup key\n(You will be signed out automatically)", preferredStyle: .alert)
-                    alert.addTextField(configurationHandler: { (textField) in
-                        textField.placeholder = "Password"
-                    })
+                        alert.show()
+                    } else {
+                        let alert = UIAlertController(title: "Restore backup key failed!", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
+                        alert.addTextField(configurationHandler: { (textField) in
+                            textField.placeholder = "Password"
+                        })
 
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                        let textField = alert?.textFields![0]
-                        if let pwd = textField?.text, pwd.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
-                            CKAppManager.shared.updatePassword(pwd)
-                            self.passphrase = pwd
-                            self.createKey()
-                            AppDelegate.the().logout(withConfirmation: false) {isLoggedOut in
-                                if !isLoggedOut {
-                                    // Clear all cached rooms
-                                    CKRoomCacheManager.shared.clearAllCachedData()
-                                }
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                            let textField = alert?.textFields![0]
+                            if let pass = textField?.text, pass.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
+                                self.restoreKey(from: pass)
                             }
-                        }
-                    }))
-                    alert.show()
+                        }))
+                        alert.show()
+                    }
+
                     self.isShowingAlert = true
+                } else {
+                    self.display(error)
                 }
         })
     }
 
-    func createKey() {
+    func restoreKey(from oldPassphrase: String) {
+        guard let key = self.keyBackup, let version = key.keyBackupVersion else {
+                return
+        }
+        
+        self.currentHTTPOperation = key.restore(version, withPassword: oldPassphrase, room: nil, session: nil, success: { [weak self] (_, _) in
+            guard let sself = self else {
+                return
+            }
+            print("restoreKeyBackupVersion success!")
+            
+            // Trust on decrypt
+            sself.currentHTTPOperation = key.trust(version, trust: true, success: { [weak self] () in
+                print("restoreKeyBackupVersion success to trust!")
+                guard let sself = self, let versionString = version.version else {
+                    return
+                }
+                
+                // Delete the old key
+                sself.currentHTTPOperation = key.deleteVersion(versionString, success: {
+                    print("Delete eyBackupVersion success!")
+                }, failure: { (error) in
+                    sself.display(error)
+                })
+            }, failure: { error in
+                print("restoreKeyBackupVersion failed to trust!")
+                sself.display(error)
+            })
+            }, failure: { error in
+                print("restoreKeyBackupVersion failed!")
+                self.display(error)
+        })
+    }
+
+    func createKey(_ firstKey: Bool = true) {
         guard let passphrase = self.passphrase, let key = self.keyBackup else {
             return
         }
@@ -182,9 +227,33 @@ private extension CKKeyBackupRecoverManager {
         key.prepareKeyBackupVersion(withPassword: passphrase, success: { (megolmBackupCreationInfo) in
             self.currentHTTPOperation = key.createKeyBackupVersion(megolmBackupCreationInfo, success: { (_) in
                 print("createKeyBackupVersion success")
+                if firstKey {
+                    return
+                }
+                self.display(nil, message: "Create Key Success!")
             },failure: { (error) in
                 print("createKeyBackupVersion failed")
             })
         })
     }
+    
+    func display(_ error: Error?, message: String? = nil) {
+        if let err = error, err.localizedDescription.contains("Invalid recovery key or password") {
+            let alert = UIAlertController(title: "Invalid passphrase", message: "Sign out to try again or using new key (Old data will be lost)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Sign Out", style: .default, handler: { (_) in
+            }))
+            alert.addAction(UIAlertAction(title: "New Key", style: .default, handler: { (_) in
+                self.createKey(false)
+            }))
+
+            alert.show()
+        } else if let msg = message {
+            let alert = UIAlertController(title: msg, message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            }))
+            
+            alert.show()
+        }
+    }
 }
+

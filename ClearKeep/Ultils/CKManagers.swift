@@ -253,8 +253,8 @@ private extension CKRoomCacheManager {
 @objcMembers
 public class CKAppManager: NSObject {
     static let shared = CKAppManager()
-    private (set) var userID: String?
     private (set) var userPassword: String?
+    private (set) var passphrase: String?
     private (set) var apiClient: CKAPIClient!
     private override init() {
         super.init()
@@ -263,13 +263,13 @@ public class CKAppManager: NSObject {
     
     func setup() {
         if let account = MXKAccountManager.shared()?.accounts.first {
-            self.setup(with: account.mxCredentials, password: "")
+            self.setup(with: account.mxCredentials, password: nil)
         }
     }
 
-    func setup(with credential: MXCredentials, password: String) {
-        self.userID = credential.userId
+    func setup(with credential: MXCredentials, password: String?) {
         self.userPassword = password
+        self.passphrase = (credential.userId != nil) ? (credential.userId! + "COLIAKIP") : credential.userId
         apiClient = CKAPIClient(baseURLString: CKEnvironment.target.serviceURL)
         apiClient.authenticator = {(headers: inout HTTPHeaders, params: inout Parameters) in
             if let accessToken = credential.accessToken {
@@ -278,15 +278,14 @@ public class CKAppManager: NSObject {
         }
     }
     
-    func updatePassword(_ password: String) {
-        self.userPassword = password
+    func updatePassphrase(_ passphrase: String) {
+        self.passphrase = passphrase
     }
 
     func generatedPassphrase() -> String {
-        guard let userId = self.userID, let password = self.userPassword else {
+        guard let passphraseString = self.passphrase, let password = self.userPassword else {
             return ""
         }
-        let passphraseString = "@koko002:study.sinbadflyce.com" + "COLIAKIP"
         let saltData = CKDeriver.shared.ckSalt.data(using: .utf8)!
         if let derivedKeyData = CKDeriver.shared.pbkdf2SHA1(password: passphraseString,
                                                             salt: saltData,
