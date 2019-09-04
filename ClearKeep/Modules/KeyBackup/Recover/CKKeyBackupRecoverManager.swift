@@ -164,18 +164,7 @@ private extension CKKeyBackupRecoverManager {
 
                         alert.show()
                     } else {
-                        let alert = UIAlertController(title: "Restore backup key failed!", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
-                        alert.addTextField(configurationHandler: { (textField) in
-                            textField.placeholder = "Password"
-                        })
-
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                            let textField = alert?.textFields![0]
-                            if let pass = textField?.text, pass.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
-                                self.restoreKey(from: pass)
-                            }
-                        }))
-                        alert.show()
+                        self.showPassphraseAlert()
                     }
 
                     self.isShowingAlert = true
@@ -230,19 +219,21 @@ private extension CKKeyBackupRecoverManager {
                 if firstKey {
                     return
                 }
-                self.display(nil, message: "Create Key Success!")
+                self.display(nil, message: "Create key success!")
             },failure: { (error) in
                 print("createKeyBackupVersion failed")
             })
         })
     }
-    
+
     func display(_ error: Error?, message: String? = nil) {
-        if let err = error, err.localizedDescription.contains("Invalid recovery key or password") {
-            let alert = UIAlertController(title: "Invalid passphrase", message: "Sign out to try again or using new key (Old data will be lost)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Sign Out", style: .default, handler: { (_) in
+        if let err = error, err.localizedDescription.contains("Invalid recovery key") {
+            let alert = UIAlertController(title: "Invalid passphrase", message: "Try again or using new key (Old data will be lost)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
+                self.isShowingAlert = false
+                self.showPassphraseAlert()
             }))
-            alert.addAction(UIAlertAction(title: "New Key", style: .default, handler: { (_) in
+            alert.addAction(UIAlertAction(title: "New key", style: .default, handler: { (_) in
                 self.createKey(false)
             }))
 
@@ -254,6 +245,22 @@ private extension CKKeyBackupRecoverManager {
             
             alert.show()
         }
+    }
+    
+    func showPassphraseAlert() {
+        let alert = UIAlertController(title: "", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "Password"
+        })
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0]
+            if let pass = textField?.text, pass.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
+                self.restoreKey(from: pass)
+            }
+        }))
+        self.isShowingAlert = true
+        alert.show()
     }
 }
 
