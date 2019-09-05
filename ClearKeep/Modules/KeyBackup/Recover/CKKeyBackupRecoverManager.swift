@@ -113,10 +113,16 @@ private extension CKKeyBackupRecoverManager {
         guard let key = self.keyBackup else {
             return
         }
-
+        
         if let passData = String(passphrase.filter{!" \n\t\r\\".contains($0)}).rawBase64Decoded(),
             let saltData = String(salt.filter{!" \n\t\r\\".contains($0)}).rawBase64Decoded() {
-            if let passString = CKAES.init(keyData: saltData)?.decrypt(data: passData) {
+            if let hashString = CKAppManager.shared.passphrase,
+                let derivedKeyData = CKDeriver.shared.pbkdf2SHA1(password: hashString,
+                                                                 salt: saltData,
+                                                                 keyByteCount: CKCryptoConfig.keyLength,
+                                                                 rounds: CKCryptoConfig.round),
+                let passString = CKAES.init(keyData: derivedKeyData)?.decrypt(data: passData) {
+                
                 self.passphrase = passString
                 switch key.state {
                 case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion:
@@ -129,7 +135,7 @@ private extension CKKeyBackupRecoverManager {
             }
         }
     }
-
+    
     func restoreKey() {
         guard let passphrase = self.passphrase,
             let key = self.keyBackup,

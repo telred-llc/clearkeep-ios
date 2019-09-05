@@ -286,17 +286,17 @@ public class CKAppManager: NSObject {
     }
 
     func generatedPassphrase() -> String? {
-        guard let passphraseString = self.passphrase, let password = self.userPassword else {
+        guard let hashString = self.passphrase, let password = self.userPassword else {
             return nil
         }
         let saltData = CKDeriver.shared.ckSalt.data(using: .utf8)!
-        if let derivedKeyData = CKDeriver.shared.pbkdf2SHA1(password: passphraseString,
+        let passPhraseString = password + "COLIAKIP"
+        if let derivedKeyData = CKDeriver.shared.pbkdf2SHA1(password: hashString,
                                                             salt: saltData,
                                                             keyByteCount: CKCryptoConfig.keyLength,
                                                             rounds: CKCryptoConfig.round),
-            let encryptedPassphrase = CKAES.init(keyData: derivedKeyData)?.encrypt(string: password) {
-            
-            let base64SaltKey = derivedKeyData.base64EncodedString()
+            let encryptedPassphrase = CKAES.init(keyData: derivedKeyData)?.encrypt(string: passPhraseString) {
+            let base64SaltKey = saltData.base64EncodedString()
             let base64EncryptedPassphrase = encryptedPassphrase.base64EncodedString()
             return "\(base64SaltKey):\(base64EncryptedPassphrase)"
         } else {
