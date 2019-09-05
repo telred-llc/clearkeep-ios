@@ -11,7 +11,7 @@ import Alamofire
 struct CKPassphrase {
     struct Request {
         func toParams() -> Parameters {
-            let params: Parameters = ["passphrase": CKAppManager.shared.generatedPassphrase()]
+            let params: Parameters = ["passphrase": CKAppManager.shared.generatedPassphrase() as Any]
             
             return params
         }

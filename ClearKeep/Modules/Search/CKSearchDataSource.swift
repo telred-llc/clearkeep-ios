@@ -40,11 +40,6 @@ import Foundation
     }
 
     // Override this method in your subclass
-    func getSearchTyp() -> SearchType {
-        return .message
-    }
-
-    // Override this method in your subclass
     func getRoomsForSearching() -> [MXRoom] {
         return self.mxSession?.rooms ?? []
     }
@@ -195,12 +190,13 @@ import Foundation
                             // Set event as is decrypted event
                             coppiedEvent.wireEventType = __MXEventTypeRoomMessage
                             coppiedEvent.wireContent = decryptedEventContent
-
                             // extract body message
                             let bodyMessage = getBodyMessage(eventContent: decryptedEventContent, isMediaAttachment: coppiedEvent.isMediaAttachment())
-
+//                            if coppiedEvent.relatesTo
                             // match body message with search text
-                            if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true {
+                            if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true,
+//                                !coppiedEvent.contentHasBeenEdited(),
+                                coppiedEvent.relatesTo?.relationType == MXEventRelationTypeReplace {
                                 filteredEvents.append(coppiedEvent)
                             }
                         }

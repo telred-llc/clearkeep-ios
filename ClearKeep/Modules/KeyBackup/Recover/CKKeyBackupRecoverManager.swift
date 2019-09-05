@@ -20,6 +20,7 @@ public class CKKeyBackupRecoverManager: NSObject {
     private var passphrase: String?
     private var currentHTTPOperation: MXHTTPOperation?
     private var isShowingAlert: Bool = false
+    private var isProcessingKey: Bool = false
 
     private override init() {
         super.init()
@@ -51,7 +52,7 @@ public class CKKeyBackupRecoverManager: NSObject {
         self.passphrase = nil
         self.keyBackup = nil
     }
-    
+
     /// Set the manager with a backup key
     func setup(_ key: MXKeyBackup) {
         keyBackup = key
@@ -83,7 +84,7 @@ private extension CKKeyBackupRecoverManager {
     func handleError(_ error: Error) {
         if let serviceError = error as? CKServiceError {
             // passphrase not exist
-            if serviceError.errorCode == CKServiceError.entityNotFound.errorCode {
+            if serviceError.errorCode == CKServiceError.entityNotFound.errorCode, CKAppManager.shared.isPasswordAvailable() {
                 CKAppManager.shared.apiClient.generatePassphrase()
                     .done({ [weak self] response in
                         if let passphrase = response.passphrase {
@@ -96,8 +97,10 @@ private extension CKKeyBackupRecoverManager {
                     .catch({ error in
                         self.handleError(error)
                     })
-            } else {
+            } else if !CKAppManager.shared.isPasswordAvailable(){
                 // Show errror message
+                self.display(nil, message: "Please re-login to create backup key!")
+            } else {
                 self.display(error)
             }
         } else {
@@ -130,10 +133,12 @@ private extension CKKeyBackupRecoverManager {
     func restoreKey() {
         guard let passphrase = self.passphrase,
             let key = self.keyBackup,
-            let version = key.keyBackupVersion else {
+            let version = key.keyBackupVersion,
+            !self.isProcessingKey else {
                 return
         }
-
+        
+        self.isProcessingKey = true
         self.currentHTTPOperation = key.restore(version, withPassword: passphrase, room: nil, session: nil, success: { [weak self] (_, _) in
             guard let sself = self else {
                 return
@@ -142,12 +147,15 @@ private extension CKKeyBackupRecoverManager {
 
             // Trust on decrypt
             sself.currentHTTPOperation = key.trust(version, trust: true, success: { () in
+                sself.isProcessingKey = false
                 print("restoreKeyBackupVersion success to trust!")
             }, failure: { error in
+                sself.isProcessingKey = false
                 print("restoreKeyBackupVersion failed to trust!")
                 sself.display(error)
             })
             }, failure: { error in
+                self.isProcessingKey = false
                 print("restoreKeyBackupVersion failed!")
                 if error.localizedDescription.contains("Invalid recovery key") {
                     if self.isShowingAlert {
@@ -175,10 +183,11 @@ private extension CKKeyBackupRecoverManager {
     }
 
     func restoreKey(from oldPassphrase: String) {
-        guard let key = self.keyBackup, let version = key.keyBackupVersion else {
-                return
+        guard let key = self.keyBackup, let version = key.keyBackupVersion, !self.isProcessingKey else {
+            return
         }
-        
+        self.isProcessingKey = true
+
         self.currentHTTPOperation = key.restore(version, withPassword: oldPassphrase, room: nil, session: nil, success: { [weak self] (_, _) in
             guard let sself = self else {
                 return
@@ -194,33 +203,40 @@ private extension CKKeyBackupRecoverManager {
                 
                 // Delete the old key
                 sself.currentHTTPOperation = key.deleteVersion(versionString, success: {
+                    sself.isProcessingKey = false
                     print("Delete eyBackupVersion success!")
                 }, failure: { (error) in
+                    sself.isProcessingKey = false
                     sself.display(error)
                 })
             }, failure: { error in
+                sself.isProcessingKey = false
                 print("restoreKeyBackupVersion failed to trust!")
                 sself.display(error)
             })
             }, failure: { error in
+                self.isProcessingKey = false
                 print("restoreKeyBackupVersion failed!")
                 self.display(error)
         })
     }
 
     func createKey(_ firstKey: Bool = true) {
-        guard let passphrase = self.passphrase, let key = self.keyBackup else {
+        guard let passphrase = self.passphrase, let key = self.keyBackup, !self.isProcessingKey else {
             return
         }
-        
+        self.isProcessingKey = true
+
         key.prepareKeyBackupVersion(withPassword: passphrase, success: { (megolmBackupCreationInfo) in
             self.currentHTTPOperation = key.createKeyBackupVersion(megolmBackupCreationInfo, success: { (_) in
                 print("createKeyBackupVersion success")
+                self.isProcessingKey = false
                 if firstKey {
                     return
                 }
                 self.display(nil, message: "Create key success!")
             },failure: { (error) in
+                self.isProcessingKey = false
                 print("createKeyBackupVersion failed")
             })
         })

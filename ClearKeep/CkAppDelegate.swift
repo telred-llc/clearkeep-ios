@@ -21,7 +21,7 @@ import Foundation
         }
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        
+
         let storyboard = UIStoryboard(name: "MainEx", bundle: nil)        
         let initialViewController = storyboard.instantiateViewController(withIdentifier: "CkSplitViewController") as! UISplitViewController
         initialViewController.delegate = self
@@ -208,10 +208,12 @@ import Foundation
         guard let keyBackup = notification?.object as? MXKeyBackup else {
             return
         }
-        
+        print("\(keyBackup.state)==2314=12=41=1=5")
         switch keyBackup.state {
         case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion, MXKeyBackupStateDisabled:
             handleKeyBackupProcess(for: keyBackup)
+        case MXKeyBackupStateCheckingBackUpOnHomeserver:
+            break
         default:
             return
         }

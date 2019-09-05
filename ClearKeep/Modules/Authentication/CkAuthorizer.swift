@@ -210,8 +210,10 @@ public class CkAuthorizer {
                             credentials.homeServer = self.homeServer
                             credentials.allowedCertificate = self.mxRestClient.allowedCertificate
                             self.onSuccessfulAuthRequest(withCredentials: credentials)
+                            if let password = parameters["password"] as? String {
+                                CKAppManager.shared.setup(with: credentials, password: password)
+                            }
                         }
-                        CKAppManager.shared.setup(with: credentials, password: parameters["password"] as? String)
                     }
                 } else {
                     

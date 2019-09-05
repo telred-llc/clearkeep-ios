@@ -256,11 +256,12 @@ public class CKAppManager: NSObject {
     private (set) var userPassword: String?
     private (set) var passphrase: String?
     private (set) var apiClient: CKAPIClient!
+
     private override init() {
         super.init()
         setup()
     }
-    
+
     func setup() {
         if let account = MXKAccountManager.shared()?.accounts.first {
             self.setup(with: account.mxCredentials, password: nil)
@@ -268,7 +269,9 @@ public class CKAppManager: NSObject {
     }
 
     func setup(with credential: MXCredentials, password: String?) {
-        self.userPassword = password
+        if let pwd = password {
+            self.userPassword = pwd
+        }
         self.passphrase = (credential.userId != nil) ? (credential.userId! + "COLIAKIP") : credential.userId
         apiClient = CKAPIClient(baseURLString: CKEnvironment.target.serviceURL)
         apiClient.authenticator = {(headers: inout HTTPHeaders, params: inout Parameters) in
@@ -282,9 +285,9 @@ public class CKAppManager: NSObject {
         self.passphrase = passphrase
     }
 
-    func generatedPassphrase() -> String {
+    func generatedPassphrase() -> String? {
         guard let passphraseString = self.passphrase, let password = self.userPassword else {
-            return ""
+            return nil
         }
         let saltData = CKDeriver.shared.ckSalt.data(using: .utf8)!
         if let derivedKeyData = CKDeriver.shared.pbkdf2SHA1(password: passphraseString,
@@ -297,7 +300,7 @@ public class CKAppManager: NSObject {
             let base64EncryptedPassphrase = encryptedPassphrase.base64EncodedString()
             return "\(base64SaltKey):\(base64EncryptedPassphrase)"
         } else {
-            return ""
+            return nil
         }
     }
 
@@ -307,6 +310,10 @@ public class CKAppManager: NSObject {
 
     func preloadStaticData() {
         // TO-DO
+    }
+    
+    func isPasswordAvailable() -> Bool {
+        return (self.userPassword != nil)
     }
 }
 
