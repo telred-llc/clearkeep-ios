@@ -226,6 +226,9 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
                 del.sendFileDidSelect()
             }
         }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: { (action) in
+        }))
 
         optionAlert.show()
     }
