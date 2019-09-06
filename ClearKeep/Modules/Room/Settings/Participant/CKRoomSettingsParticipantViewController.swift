@@ -477,10 +477,6 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
                 self.filteredParticipants = self.originalDataSource
             }
             
-//            DispatchQueue.main.async(execute: {
-//                self.tableView.reloadSections(
-//                    IndexSet([Section.participants.rawValue]), with: .none)
-//            })
         }
 
         cell.backgroundColor = UIColor.clear
