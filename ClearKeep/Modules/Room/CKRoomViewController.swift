@@ -281,7 +281,7 @@ extension CKRoomViewController {
 
         })
          
-        self.roomDataSource?.reload()
+//        self.roomDataSource?.reload() // fix bug CK 270, app has feature auto backup key
     }
     
     override func viewDidAppear(_ animated: Bool) {
