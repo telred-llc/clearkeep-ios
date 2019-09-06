@@ -165,3 +165,15 @@ extension UIViewController {
         return UINavigationController(rootViewController: vc)
     }
 }
+
+public extension UIAlertController {
+    func show() {
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .clear
+        window.rootViewController = viewController
+        window.windowLevel = UIWindowLevelAlert + 1  // Swift 5: UIWindow.Level.alert + 1
+        window.makeKeyAndVisible()
+        viewController.present(self, animated: true, completion: nil)
+    }
+}

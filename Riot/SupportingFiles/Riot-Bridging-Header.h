@@ -24,6 +24,7 @@
 #import "RoomActivitiesView.h"
 #import <HPGrowingTextView/HPGrowingTextView.h>
 #import "RoomInputToolbarView.h"
+#import <CommonCrypto/CommonCrypto.h>
 
 // BubbleCell
 #import "RoomIncomingTextMsgBubbleCell.h"

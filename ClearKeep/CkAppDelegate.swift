@@ -9,7 +9,6 @@
 import Foundation
 
 @objc extension AppDelegate {
-        
     public func useCkStoryboard(_ application: UIApplication) {
         // get theme
         let isDarkMode = RiotSettings.shared.userInterfaceTheme == ThemeType.dark.typeName
@@ -22,7 +21,7 @@ import Foundation
         }
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        
+
         let storyboard = UIStoryboard(name: "MainEx", bundle: nil)        
         let initialViewController = storyboard.instantiateViewController(withIdentifier: "CkSplitViewController") as! UISplitViewController
         initialViewController.delegate = self
@@ -209,25 +208,28 @@ import Foundation
         guard let keyBackup = notification?.object as? MXKeyBackup else {
             return
         }
-                
-        if keyBackup.state == MXKeyBackupStateWrongBackUpVersion {
-            if self.keyBackupAlert != nil {
-                self.keyBackupAlert?.dismiss(animated: false)
-            }
-            
-            self.keyBackupAlert = UIAlertController(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_title"), message: CKLocalization.string(byKey: "e2e_key_backup_wrong_version"), preferredStyle: .alert)
-            self.keyBackupAlert.addAction(UIAlertAction(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_button_settings"), style: .default, handler: { action in
-                self.keyBackupAlert = nil
-            }))
-            self.keyBackupAlert.addAction(UIAlertAction(title: CKLocalization.string(byKey: "e2e_key_backup_wrong_version_button_wasme"), style: .default, handler: { action in
-                self.keyBackupAlert = nil
-            }))
-            
-            self.showNotificationAlert(self.keyBackupAlert)
+        print("\(keyBackup.state)==2314=12=41=1=5")
+        switch keyBackup.state {
+        case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion, MXKeyBackupStateDisabled:
+            handleKeyBackupProcess(for: keyBackup)
+        case MXKeyBackupStateCheckingBackUpOnHomeserver:
+            break
+        default:
+            return
         }
     }
     
     @objc public func detailToContact(_ contact: MXKContact) {
         
     }
-} 
+    
+    @objc func handleKeyBackupProcess(for keyBackup: MXKeyBackup) {
+        guard let _ = self.mxSessions.first as? MXSession else {
+            return
+        }
+        
+        CKKeyBackupRecoverManager.shared.setup(keyBackup)
+        CKKeyBackupRecoverManager.shared.startBackupProcess()
+    }
+
+}

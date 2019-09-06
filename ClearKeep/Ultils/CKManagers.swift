@@ -1,5 +1,5 @@
 //
-//  CKRoomCacheManager.swift
+//  CKManagers.swift
 //  Riot
 //
 //  Created by Pham Hoa on 8/6/19.
@@ -8,6 +8,7 @@
 
 import Foundation
 import Cache
+import Alamofire
 
 class CKStoredRoom: Codable, NSCopying {
     var id: String
@@ -248,3 +249,71 @@ private extension CKRoomCacheManager {
         CKRoomCacheManager.shared.doCacheRoom(cachedRoom)
     }
 }
+
+@objcMembers
+public class CKAppManager: NSObject {
+    static let shared = CKAppManager()
+    private (set) var userPassword: String?
+    private (set) var passphrase: String?
+    private (set) var apiClient: CKAPIClient!
+
+    private override init() {
+        super.init()
+        setup()
+    }
+
+    func setup() {
+        if let account = MXKAccountManager.shared()?.accounts.first {
+            self.setup(with: account.mxCredentials, password: nil)
+        }
+    }
+
+    func setup(with credential: MXCredentials, password: String?) {
+        if let pwd = password {
+            self.userPassword = pwd
+        }
+        self.passphrase = (credential.userId != nil) ? (credential.userId! + "COLIAKIP") : credential.userId
+        apiClient = CKAPIClient(baseURLString: CKEnvironment.target.serviceURL)
+        apiClient.authenticator = {(headers: inout HTTPHeaders, params: inout Parameters) in
+            if let accessToken = credential.accessToken {
+                headers["Authorization"] = "Bearer \(accessToken)"
+            }
+        }
+    }
+    
+    func updatePassphrase(_ passphrase: String) {
+        self.passphrase = passphrase
+    }
+
+    func generatedPassphrase() -> String? {
+        guard let hashString = self.passphrase, let password = self.userPassword else {
+            return nil
+        }
+        let saltData = CKDeriver.shared.ckSalt.data(using: .utf8)!
+        let passPhraseString = password + "COLIAKIP"
+        if let derivedKeyData = CKDeriver.shared.pbkdf2SHA1(password: hashString,
+                                                            salt: saltData,
+                                                            keyByteCount: CKCryptoConfig.keyLength,
+                                                            rounds: CKCryptoConfig.round),
+            let encryptedPassphrase = CKAES.init(keyData: derivedKeyData)?.encrypt(string: passPhraseString) {
+            let base64SaltKey = saltData.base64EncodedString()
+            let base64EncryptedPassphrase = encryptedPassphrase.base64EncodedString()
+            return "\(base64SaltKey):\(base64EncryptedPassphrase)"
+        } else {
+            return nil
+        }
+    }
+
+    func preloadData() {
+        // TO-DO
+    }
+
+    func preloadStaticData() {
+        // TO-DO
+    }
+    
+    func isPasswordAvailable() -> Bool {
+        return (self.userPassword != nil)
+    }
+}
+
