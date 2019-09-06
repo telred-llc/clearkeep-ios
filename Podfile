@@ -24,6 +24,7 @@ def import_MatrixKit
     pod 'IQKeyboardManagerSwift','~> 6.2.0'
     pod 'Parchment', '~> 1.5.0'
     pod 'XLActionController', '4.0.1'
+    pod 'Alamofire', '4.8.1'
     pod 'XLActionController/Youtube'
     pod 'PromiseKit'
     pod 'SwiftImagePicker', :git => 'https://github.com/sinbadflyce/image-picker.git', :inhibit_warnings => true

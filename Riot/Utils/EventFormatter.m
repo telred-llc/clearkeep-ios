@@ -28,6 +28,9 @@
 
 NSString *const kEventFormatterOnReRequestKeysLinkAction = @"kEventFormatterOnReRequestKeysLinkAction";
 NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
+NSString *const kEventFormatterEditedEventLinkAction = @"kEventFormatterEditedEventLinkAction";
+
+static NSString *const kEventFormatterTimeFormat = @"HH:mm";
 
 @interface EventFormatter ()
 {
@@ -40,6 +43,14 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
 
 @implementation EventFormatter
 
+- (void)initDateTimeFormatters
+{
+    [super initDateTimeFormatters];
+    
+    timeFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    [timeFormatter setDateFormat:kEventFormatterTimeFormat];
+}
+
 - (NSAttributedString *)attributedStringFromEvent:(MXEvent *)event withRoomState:(MXRoomState *)roomState error:(MXKEventFormatterError *)error
 {
     // Build strings for widget events
@@ -48,13 +59,13 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
             || [event.type isEqualToString:kWidgetModularEventTypeString]))
     {
         NSString *displayText;
-
+        
         Widget *widget = [[Widget alloc] initWithWidgetEvent:event inMatrixSession:mxSession];
         if (widget)
         {
             // Prepare the display name of the sender
             NSString *senderDisplayName = roomState ? [self senderDisplayNameForEvent:event withRoomState:roomState] : event.sender;
-
+            
             if (widget.isActive)
             {
                 if ([widget.type isEqualToString:kWidgetTypeJitsi])
@@ -77,7 +88,7 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
                 // Get all widgets state events in the room
                 NSMutableArray<MXEvent*> *widgetStateEvents = [NSMutableArray arrayWithArray:[roomState stateEventsWithType:kWidgetMatrixEventTypeString]];
                 [widgetStateEvents addObjectsFromArray:[roomState stateEventsWithType:kWidgetModularEventTypeString]];
-
+                
                 for (MXEvent *widgetStateEvent in widgetStateEvents)
                 {
                     if ([widgetStateEvent.stateKey isEqualToString:widget.widgetId])
@@ -102,14 +113,14 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
                 }
             }
         }
-
+        
         if (displayText)
         {
             if (error)
             {
                 *error = MXKEventFormatterErrorNone;
             }
-
+            
             // Build the attributed string with the right font and color for the events
             return [self renderString:displayText forEvent:event];
         }
@@ -132,7 +143,7 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
     }
     
     NSAttributedString *attributedString = [super attributedStringFromEvent:event withRoomState:roomState error:error];
-
+    
     if (event.sentState == MXEventSentStateSent
         && [event.decryptionError.domain isEqualToString:MXDecryptingErrorDomain])
     {
@@ -140,18 +151,18 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
         dispatch_async(dispatch_get_main_queue(), ^{
             [[DecryptionFailureTracker sharedInstance] reportUnableToDecryptErrorForEvent:event withRoomState:roomState myUser:mxSession.myUser.userId];
         });
-
+        
         if (event.decryptionError.code == MXDecryptingErrorUnknownInboundSessionIdCode)
         {
-            // Append to the displayed error an attibuted string with a tappable link
+            // Append to the displayed error an attributed string with a tappable link
             // so that the user can try to fix the UTD
             NSMutableAttributedString *attributedStringWithRerequestMessage = [attributedString mutableCopy];
             [attributedStringWithRerequestMessage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-
+            
             NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterOnReRequestKeysLinkAction,
                                           kEventFormatterOnReRequestKeysLinkActionSeparator,
                                           event.eventId];
-
+            
             [attributedStringWithRerequestMessage appendAttributedString:
              [[NSAttributedString alloc] initWithString:NSLocalizedStringFromTable(@"event_formatter_rerequest_keys_part1_link", @"Vector", nil)
                                              attributes:@{
@@ -159,18 +170,38 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
                                                           NSForegroundColorAttributeName: self.sendingTextColor,
                                                           NSFontAttributeName: self.encryptedMessagesTextFont
                                                           }]];
-
+            
             [attributedStringWithRerequestMessage appendAttributedString:
              [[NSAttributedString alloc] initWithString:NSLocalizedStringFromTable(@"event_formatter_rerequest_keys_part2", @"Vector", nil)
                                              attributes:@{
                                                           NSForegroundColorAttributeName: self.sendingTextColor,
                                                           NSFontAttributeName: self.encryptedMessagesTextFont
                                                           }]];
-
+            
             attributedString = attributedStringWithRerequestMessage;
         }
     }
-
+    else if (self.showEditionMention && event.contentHasBeenEdited)
+    {
+        NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
+        
+//        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
+//                                      kEventFormatterOnReRequestKeysLinkActionSeparator,
+//                                      event.eventId];
+        
+        [attributedStringWithEditMention appendAttributedString:
+         [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
+                                         attributes:@{
+//                                                      NSLinkAttributeName: linkActionString,
+                                                      // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
+                                                      // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
+                                                      NSForegroundColorAttributeName: self.editionMentionTextColor,
+                                                      NSFontAttributeName: self.editionMentionTextFont
+                                                      }]];
+        
+        attributedString = attributedStringWithEditMention;
+    }
+    
     return attributedString;
 }
 
@@ -224,15 +255,14 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
         self.encryptingTextColor = kRiotColorGreen;
         self.sendingTextColor = kRiotSecondaryTextColor;
         self.errorTextColor = kRiotColorRed;
-        
+        self.showEditionMention = YES;
+        self.editionMentionTextColor = kRiotSecondaryTextColor;
+
         self.defaultTextFont = [UIFont systemFontOfSize:17];
         self.prefixTextFont = [UIFont boldSystemFontOfSize:17];
-        if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)])
-        {
+        if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)]) {
             self.bingTextFont = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
-        }
-        else
-        {
+        } else {
             self.bingTextFont = [UIFont systemFontOfSize:17];
         }
         
@@ -242,6 +272,7 @@ NSString *const kEventFormatterOnReRequestKeysLinkActionSeparator = @"/";
         
         self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:17];
         self.emojiOnlyTextFont = [UIFont systemFontOfSize:48];
+        self.editionMentionTextFont = [UIFont systemFontOfSize:15];
     }
     return self;
 }

@@ -18,14 +18,15 @@ import MatrixKit
     @IBOutlet weak var previewHeaderContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mentionListTableView: UITableView!
     @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet var invitationController: CKRoomInvitationController!
-    
     @IBOutlet weak var activityCHeight: NSLayoutConstraint!
-    
+
+    @IBOutlet var invitationController: CKRoomInvitationController!
+
     // MARK: - Constants
     
     private let kShowRoomSearchSegue = "showRoomSearch"
-    
+    private let documentPickerPresenter = MXKDocumentPickerPresenter()
+
     // MARK: - Properties
     
     // MARK: Public
@@ -75,6 +76,11 @@ import MatrixKit
      */
     var savedInputToolbarPlaceholder: String?
     
+    /**
+     The original message text before being edited
+     */
+    var textMessageBeforeEditing: String?
+
     override var keyboardHeight: CGFloat {
         didSet {
             if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
@@ -251,6 +257,9 @@ extension CKRoomViewController {
         self.invitationController.delegate = self
 
         bindingTheme()
+        
+        // -- fix bug sync room members from server
+        forceUpdateMemberInRoom()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -273,7 +282,7 @@ extension CKRoomViewController {
 
         })
          
-        self.roomDataSource?.reload()
+//        self.roomDataSource?.reload() // fix bug CK 270, app has feature auto backup key
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -731,18 +740,25 @@ extension CKRoomViewController {
         }
     }
 
-    func sendTextMessage(_ msgTxt: String?) {
+    func sendTextMessage(_ msgTxt: String?, isEdit: Bool = false) {
         if isInReplyMode, let selectedEventId = customizedRoomDataSource?.selectedEventId {
             roomDataSource?.sendReplyToEvent(withId: selectedEventId, withTextMessage: msgTxt, success: nil, failure: { error in
                 // Just log the error. The message will be displayed in red in the room history
-                print("[MXKRoomViewController] sendTextMessage failed.")
+                print("[MXKRoomViewController] replyTextMessage failed.")
             })
         } else {
-            // Let the datasource send it and manage the local echo
-            roomDataSource.sendTextMessage(msgTxt, success: nil, failure: { error in
-                // Just log the error. The message will be displayed in red in the room history
-                print("[MXKRoomViewController] sendTextMessage failed.")
-            })
+            if isEdit, let selectedEventId = customizedRoomDataSource?.selectedEventId, self.isValidEditMessage(text: msgTxt ?? "") {
+                roomDataSource?.replaceTextMessageForEvent(withId: selectedEventId, withTextMessage: msgTxt, success:nil, failure: { error in
+                    // Just log the error. The message will be displayed in red in the room history
+                    print("[MXKRoomViewController] editTextMessage failed.")
+                })
+            } else {
+                // Let the datasource send it and manage the local echo
+                roomDataSource.sendTextMessage(msgTxt, success: nil, failure: { error in
+                    // Just log the error. The message will be displayed in red in the room history
+                    print("[MXKRoomViewController] sendTextMessage failed.")
+                })
+            }
         }
 
         cancelEventSelection()
@@ -789,8 +805,10 @@ extension CKRoomViewController {
             
             if isSupportCallOption() {
                 if isCallingInRoom() {
+                    (self.titleView as? RoomTitleView)?.numberBarButtonItem = 2;
                     navigationItem.rightBarButtonItems = [searchBarButton, hangupCallBarButton]
                 } else {
+                    (self.titleView as? RoomTitleView)?.numberBarButtonItem = 3;
                     navigationItem.rightBarButtonItems = [searchBarButton, voiceCallBarButton, videoCallBarButton]
                 }
             } else {
@@ -1765,6 +1783,16 @@ extension CKRoomViewController {
                     UIPasteboard.general.string = selectedComponent.textMessage
                 }))
                 
+                if self.roomDataSource.canEditEvent(withId: selectedEvent.eventId) {
+                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_edit", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self, let _ = selectedComponent else {
+                            return
+                        }
+                        weakSelf.cancelEventSelection()
+                        weakSelf.editEvent(with: selectedEvent.eventId)
+                    }))
+                }
+                
                 // Add action for room message only
                 if selectedEvent.eventType == __MXEventTypeRoomMessage {
                     currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_quote", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
@@ -1795,7 +1823,6 @@ extension CKRoomViewController {
                     activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
                     
                     weakSelf.present(activityViewController, animated: true, completion: nil)
-
                 }))
                 
                 if components.count > 1 {
@@ -1920,7 +1947,7 @@ extension CKRoomViewController {
                     vc.initWith(self.roomDataSource.mxSession, andRoomId: self.roomDataSource.roomId)
                 }
             }
-            
+
             // present nvc
             self.present(nvc, animated: true, completion: nil)
         }
@@ -1944,8 +1971,50 @@ extension CKRoomViewController {
 
         customizedRoomDataSource?.selectedEventId = nil
 
+        restoreTextBeforeEditing()
+
         // Force table refresh
         dataSource(roomDataSource, didCellChange: nil)
+    }
+    
+    private func editEvent(with eventId: String?) {
+        guard let event = roomDataSource.event(withEventId: eventId),
+            let toolbarView = inputToolbarView as? CKRoomInputToolbarView else {
+            return
+        }
+        
+        textMessageBeforeEditing = toolbarView.textMessage
+        customizedRoomDataSource?.selectedEventId = eventId
+        toolbarView.textMessage = roomDataSource.editableTextMessage(for: event)
+        toolbarView.setSendMode(mode: .edit)
+        toolbarView.becomeFirstResponder()
+    }
+    
+    private func restoreTextBeforeEditing() {
+        guard let toolbarView = inputToolbarView as? CKRoomInputToolbarView,
+            let originalText = textMessageBeforeEditing else {
+                return
+        }
+        
+        toolbarView.textMessage = originalText
+        textMessageBeforeEditing = nil
+    }
+
+    private func isValidEditMessage(text: String) -> Bool {
+        guard let toolbarView = inputToolbarView as? CKRoomInputToolbarView else {
+                return false
+        }
+        if text.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
+            toolbarView.textMessage = ""
+            toolbarView.setSendMode(mode: .send)
+
+            return true
+        } else {
+            toolbarView.textMessage = ""
+            toolbarView.setSendMode(mode: .send)
+
+            return false
+        }
     }
     
     // MARK: - Unsent Messages Handling
@@ -2016,7 +2085,7 @@ extension CKRoomViewController {
         let nvc = CKAccountProfileViewController.instanceNavigation { (vc: MXKViewController) in
             vc.importSession(self.mxSessions)
             (vc as? CKAccountProfileViewController)?.isForcedPresenting = true
-            if let roomDataSource = self.roomDataSource, roomDataSource.roomState != nil, let room = roomDataSource.room {
+            if let roomDataSource = self.roomDataSource, roomDataSource.roomState != nil, let _ = roomDataSource.room {
                 (vc as? CKAccountProfileViewController)?.mxRoomPowerLevels = roomDataSource.roomState.powerLevels
             }
         }
@@ -2048,6 +2117,18 @@ extension CKRoomViewController: MXServerNoticesDelegate {
 // MARK: - RoomInputToolbarViewDelegate
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
+    func sendFileDidSelect() {
+        self.openDocumentWindow()
+    }
+    
+    func closeEditButtonDidPress() {
+        self.textMessageBeforeEditing = nil
+    }
+    
+    func sendTextButtonDidPress(_ message: String, isEdit: Bool) {
+        self.sendTextMessage(message, isEdit: isEdit)
+    }
+    
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?) {
 
         func highlightMentionButton(highlight: Bool) {
@@ -2112,7 +2193,6 @@ extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
             }
         }
     }
-
 }
 
 // MARK: - CKMentionDataSourceDelegate
@@ -2536,13 +2616,91 @@ extension CKRoomViewController {
 }
 
 
-//extension UITextView {
-//    override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//        if isEditable == false {
-//            if let gesture =  gestureRecognizer as? UILongPressGestureRecognizer, gesture.minimumPressDuration == 0.5 {
-//                return false
-//            }
-//        }
-//        return true
-//    }
-//}
+extension CKRoomViewController {
+    
+    private func forceUpdateMemberInRoom() {
+        
+        // Sync room members from server to fix bug:
+        // The membersCount is differrent between before and after load from MXKRoomDataSourceManager
+        roomDataSource?.room.members({ [weak self] (members) in
+            if let newJoinedCount = members?.joinedMembers.count {
+                self?.roomDataSource?.room.summary.membersCount.joined = UInt(newJoinedCount)
+                self?.roomDataSource?.delegate.dataSource(self?.roomDataSource, didCellChange: nil)
+            }
+            }, lazyLoadedMembers: { (_) in
+                //
+        }, failure: { (error) in
+            print("Sync room members failed ")
+        })
+    }
+    
+    private func openDocumentWindow() {
+        documentPickerPresenter.delegate = self
+        documentPickerPresenter.presentDocumentPicker(with: [MXKUTI.data], from: self, animated: true) {
+        }
+    }
+}
+
+extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
+    func documentPickerPresenterWasCancelled(_ presenter: MXKDocumentPickerPresenter) {
+        print("cancel picking")
+    }
+    
+    func documentPickerPresenter(_ presenter: MXKDocumentPickerPresenter, didPickDocumentsAt url: URL) {
+        guard let fileUTI = MXKUTI.init(localFileURL: url) else {
+            let alert = UIAlertController.init(title: nil, message: "Cannot load file", preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: "OK", style: .default, handler: { (action) in
+            }))
+            alert.show()
+
+            return
+        }
+        guard let mimeType = fileUTI.mimeType else {
+            let alert = UIAlertController.init(title: nil, message: "Unsupported file", preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: "OK", style: .default, handler: { (action) in
+            }))
+            alert.show()
+            
+            return
+        }
+        if let data = try? Data(contentsOf: url) {
+            if fileUTI.isImage {
+                self.customizedRoomDataSource?.sendImage(data, mimeType: mimeType, success: nil, failure: { (error) in
+                    print("Send image failed")
+                })
+            } else if fileUTI.isVideo {
+                self.getThumbnailImageFromVideoUrl(url: url) { (image) in
+                    let thumbnail = (image != nil) ? image : UIImage()
+                    self.customizedRoomDataSource?.sendVideo(url, withThumbnail: thumbnail, success: nil, failure: { (error) in
+                        print("Send video failed")
+                    })
+                }
+            } else if fileUTI.isFile {
+                self.customizedRoomDataSource?.sendFile(url, mimeType: mimeType, success: nil, failure: { (error) in
+                    print("Send file failed")
+                })
+            }
+        }
+    }
+    
+    func getThumbnailImageFromVideoUrl(url: URL, completion: @escaping ((_ image: UIImage?)->Void)) {
+        DispatchQueue.global().async {
+            let asset = AVAsset(url: url)
+            let avAssetImageGenerator = AVAssetImageGenerator(asset: asset)
+            avAssetImageGenerator.appliesPreferredTrackTransform = true
+            let thumnailTime = CMTimeMake(2, 1)
+            do {
+                let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
+                let thumbImage = UIImage(cgImage: cgThumbImage)
+                DispatchQueue.main.async {
+                    completion(thumbImage)
+                }
+            } catch {
+                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
+    }
+}

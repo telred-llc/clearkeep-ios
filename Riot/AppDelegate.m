@@ -207,17 +207,11 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
      */
     UIAlertController *cryptoDataCorruptedAlert; 
     
-    /**
-     The launch animation container view
-     */
-    UIView *launchAnimationContainerView;
     NSDate *launchAnimationStart;
 }
 
 @property (strong, nonatomic) UIAlertController *mxInAppNotification;
-
 @property (strong, nonatomic) UIAlertController *logoutConfirmation;
-
 @property (weak, nonatomic) UIAlertController *gdprConsentNotGivenAlertController;
 @property (weak, nonatomic) UIViewController *gdprConsentController;
 
@@ -246,7 +240,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     MXSDKOptions *sdkOptions = [MXSDKOptions sharedInstance];
     
 #ifdef TARGET_DEV
-    sdkOptions.applicationGroupIdentifier = @"group.im.vector.vmodev";
+    sdkOptions.applicationGroupIdentifier = @"group.vmodev.clearkeep.ios";
 #else
     sdkOptions.applicationGroupIdentifier = @"group.com.telred.clearkeep";
 #endif
@@ -373,7 +367,6 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 {
     //-- CK
     [self useCkStoryboard:application];
-    
     NSDate *startDate = [NSDate date];
     
 #ifdef DEBUG
@@ -1452,7 +1445,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                                                    @"event_id": event.eventId,
                                                    @"user_id": account.mxCredentials.userId
                                                    };
-
+ 
                     BOOL isNotificationContentShown = !event.isEncrypted || RiotSettings.shared.showDecryptedContentInNotifications;
 
                     if ((event.eventType == MXEventTypeRoomMessage || event.eventType == MXEventTypeRoomEncrypted) && isNotificationContentShown)
@@ -2837,11 +2830,11 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 - (void)handleLaunchAnimation
 {
     MXSession *mainSession = self.mxSessions.firstObject;
-    
+
     if (mainSession)
     {
         BOOL isLaunching = NO;
-        
+
         switch (mainSession.state)
         {
             case MXSessionStateClosed:
@@ -2851,36 +2844,36 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             case MXSessionStateStoreDataReady:
             case MXSessionStateSyncInProgress:
                 // Stay in launching during the first server sync if the store is empty.
-                isLaunching = (mainSession.rooms.count == 0 && launchAnimationContainerView);
+                isLaunching = (mainSession.rooms.count == 0 && _launchAnimationContainerView);
             default:
                 break;
         }
-        
+
         if (isLaunching)
         {
             UIWindow *window = [[UIApplication sharedApplication] keyWindow];
             
-            if (!launchAnimationContainerView && window)
+            if (!_launchAnimationContainerView && window)
             {
                 
                 // CK -- update
-                if( (launchAnimationContainerView = [self createLaunchAnimation]) != nil) {
+                if( (_launchAnimationContainerView = [self createLaunchAnimation]) != nil) {
                     return;
                 }
                 
-                launchAnimationContainerView = [[UIView alloc] initWithFrame:window.bounds];
-                launchAnimationContainerView.backgroundColor = kRiotPrimaryBgColor;
-                launchAnimationContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-                [window addSubview:launchAnimationContainerView];
+                _launchAnimationContainerView = [[UIView alloc] initWithFrame:window.bounds];
+                _launchAnimationContainerView.backgroundColor = kRiotPrimaryBgColor;
+                _launchAnimationContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+                [window addSubview:_launchAnimationContainerView];
                 
                 // Add animation view
                 UIImageView *animationView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 170, 170)];
                 animationView.image = [UIImage animatedImageNamed:@"animatedLogo-" duration:0.8];
                 
-                animationView.center = CGPointMake(launchAnimationContainerView.center.x, 3 * launchAnimationContainerView.center.y / 4);
+                animationView.center = CGPointMake(_launchAnimationContainerView.center.x, 3 * _launchAnimationContainerView.center.y / 4);
                 
                 animationView.translatesAutoresizingMaskIntoConstraints = NO;
-                [launchAnimationContainerView addSubview:animationView];
+                [_launchAnimationContainerView addSubview:animationView];
                 
                 NSLayoutConstraint* widthConstraint = [NSLayoutConstraint constraintWithItem:animationView
                                                                                    attribute:NSLayoutAttributeWidth
@@ -2901,7 +2894,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                 NSLayoutConstraint* centerXConstraint = [NSLayoutConstraint constraintWithItem:animationView
                                                                                      attribute:NSLayoutAttributeCenterX
                                                                                      relatedBy:NSLayoutRelationEqual
-                                                                                        toItem:launchAnimationContainerView
+                                                                                        toItem:_launchAnimationContainerView
                                                                                      attribute:NSLayoutAttributeCenterX
                                                                                     multiplier:1
                                                                                       constant:0];
@@ -2909,7 +2902,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                 NSLayoutConstraint* centerYConstraint = [NSLayoutConstraint constraintWithItem:animationView
                                                                                      attribute:NSLayoutAttributeCenterY
                                                                                      relatedBy:NSLayoutRelationEqual
-                                                                                        toItem:launchAnimationContainerView
+                                                                                        toItem:_launchAnimationContainerView
                                                                                      attribute:NSLayoutAttributeCenterY
                                                                                     multiplier:3.0/4.0
                                                                                       constant:0];
@@ -2922,8 +2915,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             return;
         }
     }
-    
-    if (launchAnimationContainerView)
+
+    if (_launchAnimationContainerView)
     {
         NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:launchAnimationStart];
         NSLog(@"[AppDelegate] LaunchAnimation was shown for %.3fms", duration * 1000);
@@ -2934,8 +2927,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
         // TODO: Send durationMs to Piwik
         // Such information should be the same on all platforms
         
-        [launchAnimationContainerView removeFromSuperview];
-        launchAnimationContainerView = nil;
+        [_launchAnimationContainerView removeFromSuperview];
+        _launchAnimationContainerView = nil;
     }
 }
 

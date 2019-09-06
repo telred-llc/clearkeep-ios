@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - Alamofire (4.8.1)
   - Cache (5.2.0)
   - cmark (0.24.1)
   - DTCoreText (1.6.22):
@@ -113,6 +114,7 @@ PODS:
   - zxcvbn-ios (1.0.4)
 
 DEPENDENCIES:
+  - Alamofire (= 4.8.1)
   - Cache
   - cmark
   - DTCoreText
@@ -138,6 +140,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - Alamofire
     - Cache
     - cmark
     - DTCoreText
@@ -188,6 +191,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   cmark: 1d9ad0375e3b9fa281732e992467903606015520
   DTCoreText: ad5135357a0e792f735970ed67d3ecda8b602d3d
@@ -200,7 +204,7 @@ SPEC CHECKSUMS:
   JitsiMeetSDK: 3e66564af7f38a19142338955dd7f581801852b3
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
-  MatrixKit: 45370f964a069ac3cf12ea32b68f759b00095589
+  MatrixKit: 680267bc31cce686d5538b324884df2cd8411472
   MatrixSDK: 16c8c4b530a7f9fb264baced52b6b0948b1d0a98
   OLMKit: 4ee0159d63feeb86d836fdcfefe418e163511639
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
@@ -218,6 +222,6 @@ SPEC CHECKSUMS:
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: a2062bd95780244b1577e697c1d1a94fc0afe948
+PODFILE CHECKSUM: 56b26e7188a94afc0b2c983a41e82fe04ba02f91
 
 COCOAPODS: 1.7.3

@@ -17,6 +17,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     private enum Section: Int {
         case search = 0
         case participants = 1
+        case invited = 2
         
         static func count() -> Int {
             return 2
@@ -39,7 +40,19 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     /**
      filtered out participants
      */
-    private var filteredParticipants: [MXRoomMember]! = [MXRoomMember]()
+    private var filteredParticipants: [MXRoomMember]! = [MXRoomMember]() {
+        didSet {
+            listInvited = filteredParticipants.filter { $0.membership.identifier == __MXMembershipInvite }
+            
+            listParticipant = filteredParticipants.filter { $0.membership.identifier == __MXMembershipJoin }
+            
+            tableView.reloadData()
+        }
+    }
+    
+    private var listParticipant: [MXRoomMember] = []
+    
+    private var listInvited: [MXRoomMember] = []
     
     // List admin in room
     private var adminList = [String]()
@@ -229,11 +242,13 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     private func finalizeReloadingParticipants(_ state: MXRoomState) {
         DispatchQueue.main.async {
             self.originalDataSource = self.filteredParticipants
-            self.tableView.reloadData()
         }
     }
     
     private func handle(roomMember member: MXRoomMember) {
+      
+        self.filteredParticipants = self.filteredParticipants.filter { $0.userId != member.userId }
+        
         self.filteredParticipants.append(member)
     }
     
@@ -273,7 +288,9 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         case .search:
             return ""
         case .participants:
-            return "PARTICIPANTS"
+            return self.listParticipant.isEmpty ? "INVITED" : "PARTICIPANTS"
+        case .invited:
+            return "INVITED"
         }
     }
 
@@ -306,10 +323,21 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let mxMember = filteredParticipants[indexPath.row]
-        if mxMember.userId == mainSession.myUser.userId {
-            self.showPersonalAccountProfile()
-        } else {
+
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        
+        switch section {
+        case .search:
+            return
+        case .participants:
+            let mxMember = self.listParticipant.isEmpty ? listInvited[indexPath.row]: listParticipant[indexPath.row]
+            if mxMember.userId == mainSession.myUser.userId {
+                self.showPersonalAccountProfile()
+            } else {
+                self.showOthersAccountProfile(mxMember: mxMember)
+            }
+        case .invited:
+            let mxMember = listInvited[indexPath.row]
             self.showOthersAccountProfile(mxMember: mxMember)
         }
     }
@@ -350,7 +378,18 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
 extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.count()
+        
+        var result: Int = 1
+        
+        if !listParticipant.isEmpty {
+            result += 1
+        }
+        
+        if !listInvited.isEmpty {
+            result += 1
+        }
+        
+        return result
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -359,7 +398,9 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
         case .search:
             return 1
         case .participants:
-            return filteredParticipants != nil ? filteredParticipants.count : 0
+            return listParticipant.isEmpty ? listInvited.count : listParticipant.count
+        case .invited:
+            return listInvited.count
         }
     }
     
@@ -370,11 +411,14 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
         case .search:
             return cellForParticipantSearch(atIndexPath: indexPath)
         case .participants:
-            return cellForParticipant(atIndexPath: indexPath)
+            let flagInvited: Bool = listParticipant.isEmpty
+            return cellForParticipant(atIndexPath: indexPath, isInvited: flagInvited)
+        case .invited:
+            return cellForParticipant(atIndexPath: indexPath, isInvited: true)
         }
     }
     
-    private func cellForParticipant(atIndexPath indexPath: IndexPath) -> CKRoomSettingsParticipantCell {
+    private func cellForParticipant(atIndexPath indexPath: IndexPath, isInvited: Bool = false) -> CKRoomSettingsParticipantCell {
         
         // de-cell
         if let cell = self.tableView.dequeueReusableCell(
@@ -382,7 +426,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             for: indexPath) as? CKRoomSettingsParticipantCell {
             
             // pick index of member
-            let mxMember = self.filteredParticipants[indexPath.row]
+            let mxMember = isInvited ? self.listInvited[indexPath.row] : self.listParticipant[indexPath.row]
             
             // fill fields to cell
             cell.participantLabel.text = mxMember.displayname ?? mxMember.userId
@@ -433,10 +477,6 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
                 self.filteredParticipants = self.originalDataSource
             }
             
-            DispatchQueue.main.async(execute: {
-                self.tableView.reloadSections(
-                    IndexSet([Section.participants.rawValue]), with: .none)
-            })
         }
 
         cell.backgroundColor = UIColor.clear

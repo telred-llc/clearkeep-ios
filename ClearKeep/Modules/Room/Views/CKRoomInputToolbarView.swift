@@ -12,6 +12,15 @@ import MobileCoreServices
 
 @objc protocol CKRoomInputToolbarViewDelegate: MXKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
+    func sendTextButtonDidPress(_ message: String, isEdit: Bool)
+    func closeEditButtonDidPress()
+    func sendFileDidSelect()
+}
+
+enum RoomInputToolbarViewSendMode: Int {
+    case send
+    case reply
+    case edit
 }
 
 final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
@@ -20,10 +29,12 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     
     @IBOutlet weak var mainToolbarMinHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainToolbarHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var closeEditButtonWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var mainToolbarView: UIView!
     @IBOutlet weak var separatorView: UIView!
     @IBOutlet weak var sendImageButton: UIButton!
     @IBOutlet weak var mentionButton: UIButton!
+    @IBOutlet weak var closeEditButton: UIButton!
 
     // MARK: - Enums
     
@@ -32,7 +43,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         case photo(asset: PHAsset?)
         case file(url: URL?)
     }
-    
+
     // MARK: - Constants
     
     
@@ -66,10 +77,14 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         }
     }
     
+    var sendMode: RoomInputToolbarViewSendMode = .send
+    
     // MARK: Private
     
+    private var imagePicker: ImagePickerController?
+
     private var shadowTextView: UITextView = UITextView.init()
-    
+
     private weak var ckDelegate: CKRoomInputToolbarViewDelegate? {
         get {
             return self.delegate as? CKRoomInputToolbarViewDelegate
@@ -153,8 +168,15 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         if button == self.rightInputToolbarButton {
             switch typingMessage {
             case .text(msg: let msg):
-                if let msg = msg {
+                guard let msg = msg else {
+                    return
+                }
+
+                switch sendMode {
+                case .send, .reply:
                     self.sendText(message: msg)
+                case .edit:
+                    self.sendText(message: msg, isEdit: true)
                 }
             case .photo(asset: let asset):
                 self.addImagePickerAsInputView(false)
@@ -167,6 +189,12 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         } else {
             super.onTouchUp(inside: button)
         }
+    }
+    
+    func setSendMode(mode: RoomInputToolbarViewSendMode) {
+        self.sendMode = mode
+        self.updatePlaceholderText()
+        self.updateSendButtonLabel()
     }
     
     // MARK: - IBActions
@@ -189,19 +217,30 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     }
         
     @IBAction func clickedOnShareImageButton(_ sender: Any) {
-        if self.growingTextView?.isFirstResponder() != true && self.shadowTextView.isFirstResponder != true {
-            shadowTextView.becomeFirstResponder()
-            
-            // delay for showing keyboard completed
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.addImagePickerAsInputView(true)
+        let optionAlert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        optionAlert.addAction(UIAlertAction.init(title: "Send photo or video", style: .default, handler: { [weak self] (action) in
+            self?.sendImageDidSelect()
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: "Send file", style: .default, handler: { [weak self] (action) in
+            if let del = self?.ckDelegate {
+                del.sendFileDidSelect()
             }
-        } else {
-            if !shadowTextView.isFirstResponder {
-                shadowTextView.becomeFirstResponder()
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: { (action) in
+        }))
 
-                self.addImagePickerAsInputView(true)
-            }
+        optionAlert.show()
+    }
+    
+    @IBAction func closeEditButtonDidPress(_ sender: Any) {
+        growingTextView?.text = ""
+        growingTextView?.becomeFirstResponder()
+        setSendMode(mode: .send)
+        if let del = self.ckDelegate {
+            del.closeEditButtonDidPress()
         }
     }
 }
@@ -209,32 +248,49 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
 // MARK: - Private functions
 
 private extension CKRoomInputToolbarView {
+    func sendImageDidSelect() {
+        if self.growingTextView?.isFirstResponder() != true && self.shadowTextView.isFirstResponder != true {
+            shadowTextView.becomeFirstResponder()
+            
+            // delay for showing keyboard completed
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.addImagePickerAsInputView(true)
+            }
+        } else {
+            if !shadowTextView.isFirstResponder {
+                shadowTextView.becomeFirstResponder()
+                self.addImagePickerAsInputView(true)
+            }
+        }
+    }
+
     func triggerMentionUser(_ flag: Bool, text: String?) {
         ckDelegate?.roomInputToolbarView(self, triggerMention: flag, mentionText: text)
     }
-    
+
     func addImagePickerAsInputView(_ adding: Bool) {
         if adding {
-            // create new instance
-            let imagePicker = ImagePickerController()
-            
+            if let _ = self.imagePicker {
+            } else {
+                self.imagePicker = ImagePickerController()
+            }
             // set data source and delegate
-            imagePicker.delegate = self
-            imagePicker.dataSource = self
+            imagePicker?.delegate = self
+            imagePicker?.dataSource = self
             
-            imagePicker.layoutConfiguration.showsFirstActionItem = true
-            imagePicker.layoutConfiguration.showsSecondActionItem = true
-            imagePicker.layoutConfiguration.showsCameraItem = true
+            imagePicker?.layoutConfiguration.showsFirstActionItem = true
+            imagePicker?.layoutConfiguration.showsSecondActionItem = true
+            imagePicker?.layoutConfiguration.showsCameraItem = true
             
             // number of items in a row (supported values > 0)
-            imagePicker.layoutConfiguration.numberOfAssetItemsInRow = 2
+            imagePicker?.layoutConfiguration.numberOfAssetItemsInRow = 2
             
-            imagePicker.captureSettings.cameraMode = .photo
+            imagePicker?.captureSettings.cameraMode = .photo
             
             // save capture assets to photo library?
-            imagePicker.captureSettings.savesCapturedPhotosToPhotoLibrary = true
+            imagePicker?.captureSettings.savesCapturedPhotosToPhotoLibrary = true
             
-            imagePicker.collectionView.allowsMultipleSelection = false
+            imagePicker?.collectionView.allowsMultipleSelection = false
             
             // presentation
             // before we present VC we can ask for authorization to photo library,
@@ -242,13 +298,13 @@ private extension CKRoomInputToolbarView {
             // after it's presented.
             PHPhotoLibrary.requestAuthorization({ [unowned self] (_) in
                 DispatchQueue.main.async {
-                    imagePicker.layoutConfiguration.scrollDirection = .horizontal
+                    self.imagePicker?.layoutConfiguration.scrollDirection = .horizontal
                     
                     //if you want to present view as input view, you have to set flexible height
                     //to adopt natural keyboard height or just set an layout constraint height
                     //for specific height.
-                    imagePicker.view.autoresizingMask = .flexibleHeight
-                    self.shadowTextView.inputView = imagePicker.view
+                    self.imagePicker?.view.autoresizingMask = .flexibleHeight
+                    self.shadowTextView.inputView = self.imagePicker?.view
                     self.shadowTextView.reloadInputViews()
                     self.typingMessage = .photo(asset: nil)
                 }
@@ -285,15 +341,15 @@ private extension CKRoomInputToolbarView {
         return img
     }
     
-    func sendText(message: String) {
+    func sendText(message: String, isEdit: Bool = false) {
         // Reset message, disable view animation during the update to prevent placeholder distorsion.
         UIView.setAnimationsEnabled(false)
         textMessage = nil
         UIView.setAnimationsEnabled(true)
 
         // Send button has been pressed
-        if message.count > 0 {
-            ckDelegate?.roomInputToolbarView?(self, sendTextMessage: message)
+        if message.count > 0, let del = ckDelegate {
+            del.sendTextButtonDidPress(message, isEdit: isEdit)
         }
     }
     
@@ -337,6 +393,20 @@ private extension CKRoomInputToolbarView {
             triggerMentionUser(false, text: nil)
         }
     }
+
+    private func updateSendButtonLabel() {
+        switch sendMode {
+        case .edit:
+            closeEditButtonWidthConstraint.constant = 40
+        default:
+            closeEditButtonWidthConstraint.constant = 0
+        }
+        self.updateConstraints()
+    }
+    
+    func updatePlaceholderText() {
+        // TO-DO
+    }
 }
 
 // MARK: - UITextViewDelegate
@@ -346,7 +416,7 @@ extension CKRoomInputToolbarView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return false
     }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
         self.addImagePickerAsInputView(false)
     }
@@ -551,7 +621,12 @@ extension CKRoomInputToolbarView {
     
     override func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         if self.mediaPicker != nil {
-            self.mediaPicker?.dismiss(animated: true, completion: nil)
+            
+            self.mediaPicker?.dismiss(animated: true, completion: {
+                self.mediaPicker?.delegate = nil
+                self.mediaPicker = nil
+                self.imagePicker = nil
+            })
         }
     }
 }

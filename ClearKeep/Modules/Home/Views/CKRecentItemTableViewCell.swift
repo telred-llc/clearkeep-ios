@@ -113,7 +113,12 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
                     contentStackView.addArrangedSubview(lastMessageLabel!)
                 }
                 
-                lastMessageLabel!.text = lastMessage
+                if roomCellData?.lastEvent?.contentHasBeenEdited() ?? false {
+                    lastMessageLabel?.text = roomCellData?.lastEvent?.content?["body"] as? String
+                } else {                
+                    lastMessageLabel!.text = lastMessage
+                }
+                
                 lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 15)
                 lastMessageLabel!.theme.textColor = themeService.attrStream{ $0.secondTextColor }
             } else {

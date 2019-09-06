@@ -30,4 +30,11 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
             .bind({ $0.secondBgColor }, to: view.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // fixbug: CK 309 - app crash when touch search button
+        // -- release CKAttachmentsViewController before dismiss display
+        self.destroy()
+    }
 }

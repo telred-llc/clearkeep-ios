@@ -122,12 +122,7 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
 
         // CK: Disbale syncWithLazyLoadOfRoomMembers as default
         MXKAppSettings.standard()?.syncWithLazyLoadOfRoomMembers = false
-
-        if let nc = self.navigationController {
-            nc.popViewController(animated: true)
-        } else {
-            self.dismiss(animated: true, completion: nil)
-        }
+        self.processBackupKey()
     }
     
     private func alert(withMessage message: String) {
@@ -139,6 +134,14 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func processBackupKey() {
+        if let nc = self.navigationController {
+            nc.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     // MARK: - Public
