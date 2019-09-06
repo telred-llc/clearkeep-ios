@@ -270,7 +270,7 @@ private extension CKKeyBackupRecoverManager {
     }
     
     func showPassphraseAlert() {
-        let alert = UIAlertController(title: "", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
+        let alert = UIAlertController(title: "", message: "Please enter your current passphrase to restore your old messages.\n(You only need to do this once, data will be restored automatically from next time)", preferredStyle: .alert)
         alert.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "Password"
             textField.isSecureTextEntry = true
