@@ -2648,11 +2648,19 @@ extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
     
     func documentPickerPresenter(_ presenter: MXKDocumentPickerPresenter, didPickDocumentsAt url: URL) {
         guard let fileUTI = MXKUTI.init(localFileURL: url) else {
-            UIAlertController.init(title: nil, message: "Cannot load file", preferredStyle: .alert).show()
+            let alert = UIAlertController.init(title: nil, message: "Cannot load file", preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: "OK", style: .default, handler: { (action) in
+            }))
+            alert.show()
+
             return
         }
         guard let mimeType = fileUTI.mimeType else {
-            UIAlertController.init(title: nil, message: "Unsupported file", preferredStyle: .alert).show()
+            let alert = UIAlertController.init(title: nil, message: "Unsupported file", preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: "OK", style: .default, handler: { (action) in
+            }))
+            alert.show()
+            
             return
         }
         if let data = try? Data(contentsOf: url) {
