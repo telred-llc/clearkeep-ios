@@ -79,14 +79,14 @@ PODS:
   - PiwikTracker (4.4.2):
     - PiwikTracker/Core (= 4.4.2)
   - PiwikTracker/Core (4.4.2)
-  - PromiseKit (6.10.0):
-    - PromiseKit/CorePromise (= 6.10.0)
-    - PromiseKit/Foundation (= 6.10.0)
-    - PromiseKit/UIKit (= 6.10.0)
-  - PromiseKit/CorePromise (6.10.0)
-  - PromiseKit/Foundation (6.10.0):
+  - PromiseKit (6.11.0):
+    - PromiseKit/CorePromise (= 6.11.0)
+    - PromiseKit/Foundation (= 6.11.0)
+    - PromiseKit/UIKit (= 6.11.0)
+  - PromiseKit/CorePromise (6.11.0)
+  - PromiseKit/Foundation (6.11.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.10.0):
+  - PromiseKit/UIKit (6.11.0):
     - PromiseKit/CorePromise
   - Realm (3.13.1):
     - Realm/Headers (= 3.13.1)
@@ -209,7 +209,7 @@ SPEC CHECKSUMS:
   OLMKit: 4ee0159d63feeb86d836fdcfefe418e163511639
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   PiwikTracker: 42862c7b13028065c3dfd36b4dc38db8a5765acf
-  PromiseKit: 1fdaeb6c0a94a5114fcb814ff3d772b86886ad4e
+  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
   Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
   Reusable: 82be188f29d96dc5eff0db7b2393bcc08d2cdd5b
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
