@@ -25,7 +25,8 @@ import MatrixKit
     // MARK: - Constants
     
     private let kShowRoomSearchSegue = "showRoomSearch"
-    
+    private let documentPickerPresenter = MXKDocumentPickerPresenter()
+
     // MARK: - Properties
     
     // MARK: Public
@@ -2116,6 +2117,10 @@ extension CKRoomViewController: MXServerNoticesDelegate {
 // MARK: - RoomInputToolbarViewDelegate
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
+    func sendFileDidSelect() {
+        self.openDocumentWindow()
+    }
+    
     func closeEditButtonDidPress() {
         self.textMessageBeforeEditing = nil
     }
@@ -2629,15 +2634,65 @@ extension CKRoomViewController {
         })
     }
     
+    private func openDocumentWindow() {
+        documentPickerPresenter.delegate = self
+        documentPickerPresenter.presentDocumentPicker(with: [MXKUTI.data], from: self, animated: true) {
+        }
+    }
 }
 
-//extension UITextView {
-//    override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//        if isEditable == false {
-//            if let gesture =  gestureRecognizer as? UILongPressGestureRecognizer, gesture.minimumPressDuration == 0.5 {
-//                return false
-//            }
-//        }
-//        return true
-//    }
-//}
+extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
+    func documentPickerPresenterWasCancelled(_ presenter: MXKDocumentPickerPresenter) {
+        print("cancel picking")
+    }
+    
+    func documentPickerPresenter(_ presenter: MXKDocumentPickerPresenter, didPickDocumentsAt url: URL) {
+        guard let fileUTI = MXKUTI.init(localFileURL: url) else {
+            UIAlertController.init(title: nil, message: "Cannot load file", preferredStyle: .alert).show()
+            return
+        }
+        guard let mimeType = fileUTI.mimeType else {
+            UIAlertController.init(title: nil, message: "Unsupported file", preferredStyle: .alert).show()
+            return
+        }
+        if let data = try? Data(contentsOf: url) {
+            if fileUTI.isImage {
+                self.customizedRoomDataSource?.sendImage(data, mimeType: mimeType, success: nil, failure: { (error) in
+                    print("Send image failed")
+                })
+            } else if fileUTI.isVideo {
+                self.getThumbnailImageFromVideoUrl(url: url) { (image) in
+                    let thumbnail = (image != nil) ? image : UIImage()
+                    self.customizedRoomDataSource?.sendVideo(url, withThumbnail: thumbnail, success: nil, failure: { (error) in
+                        print("Send video failed")
+                    })
+                }
+            } else if fileUTI.isFile {
+                self.customizedRoomDataSource?.sendFile(url, mimeType: mimeType, success: nil, failure: { (error) in
+                    print("Send file failed")
+                })
+            }
+        }
+    }
+    
+    func getThumbnailImageFromVideoUrl(url: URL, completion: @escaping ((_ image: UIImage?)->Void)) {
+        DispatchQueue.global().async {
+            let asset = AVAsset(url: url)
+            let avAssetImageGenerator = AVAssetImageGenerator(asset: asset)
+            avAssetImageGenerator.appliesPreferredTrackTransform = true
+            let thumnailTime = CMTimeMake(2, 1)
+            do {
+                let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
+                let thumbImage = UIImage(cgImage: cgThumbImage)
+                DispatchQueue.main.async {
+                    completion(thumbImage)
+                }
+            } catch {
+                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
+    }
+}

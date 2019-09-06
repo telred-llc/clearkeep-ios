@@ -14,6 +14,7 @@ import MobileCoreServices
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
     func sendTextButtonDidPress(_ message: String, isEdit: Bool)
     func closeEditButtonDidPress()
+    func sendFileDidSelect()
 }
 
 enum RoomInputToolbarViewSendMode: Int {
@@ -214,20 +215,19 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     }
         
     @IBAction func clickedOnShareImageButton(_ sender: Any) {
-        if self.growingTextView?.isFirstResponder() != true && self.shadowTextView.isFirstResponder != true {
-            shadowTextView.becomeFirstResponder()
-            
-            // delay for showing keyboard completed
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.addImagePickerAsInputView(true)
+        let optionAlert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        optionAlert.addAction(UIAlertAction.init(title: "Send photo or video", style: .default, handler: { [weak self] (action) in
+            self?.sendImageDidSelect()
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: "Send file", style: .default, handler: { [weak self] (action) in
+            if let del = self?.ckDelegate {
+                del.sendFileDidSelect()
             }
-        } else {
-            if !shadowTextView.isFirstResponder {
-                shadowTextView.becomeFirstResponder()
+        }))
 
-                self.addImagePickerAsInputView(true)
-            }
-        }
+        optionAlert.show()
     }
     
     @IBAction func closeEditButtonDidPress(_ sender: Any) {
@@ -243,10 +243,26 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
 // MARK: - Private functions
 
 private extension CKRoomInputToolbarView {
+    func sendImageDidSelect() {
+        if self.growingTextView?.isFirstResponder() != true && self.shadowTextView.isFirstResponder != true {
+            shadowTextView.becomeFirstResponder()
+            
+            // delay for showing keyboard completed
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.addImagePickerAsInputView(true)
+            }
+        } else {
+            if !shadowTextView.isFirstResponder {
+                shadowTextView.becomeFirstResponder()
+                self.addImagePickerAsInputView(true)
+            }
+        }
+    }
+
     func triggerMentionUser(_ flag: Bool, text: String?) {
         ckDelegate?.roomInputToolbarView(self, triggerMention: flag, mentionText: text)
     }
-    
+
     func addImagePickerAsInputView(_ adding: Bool) {
         if adding {
             // create new instance
