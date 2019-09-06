@@ -61,6 +61,12 @@ final class CKRoomCreatingViewController: MXKViewController {
     private var request: MXHTTPOperation!
     private let disposeBag = DisposeBag()
     
+    private var stateCreateRoom: Bool = false {
+        didSet {
+            self.navigationItem.rightBarButtonItem?.isEnabled = stateCreateRoom
+        }
+    }
+    
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -143,6 +149,7 @@ final class CKRoomCreatingViewController: MXKViewController {
         // standard ux
         self.view.endEditing(true)
         self.startActivityIndicator()
+        self.stateCreateRoom = false // update state button create room
         
         // starting to attemp creating room
         self.request = mxMainSession.createRoom(
@@ -165,6 +172,9 @@ final class CKRoomCreatingViewController: MXKViewController {
                         vc.importSession(self.mxSessions)
                         vc.mxRoom = room
                         vc.isNewStarting = true
+                        
+                        self.stateCreateRoom = true // update state button create room
+                        
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
@@ -288,7 +298,7 @@ final class CKRoomCreatingViewController: MXKViewController {
 
     private func updateControls() {
         // create button is enable or disable
-        self.navigationItem.rightBarButtonItem?.isEnabled = creatingData.isValidated()
+        self.stateCreateRoom = creatingData.isValidated()
     }
     
     private func titleForHeader(atSection section: Int) -> String {

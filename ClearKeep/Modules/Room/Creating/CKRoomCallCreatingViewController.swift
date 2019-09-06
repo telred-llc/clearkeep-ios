@@ -44,6 +44,12 @@ final class CKRoomCallCreatingViewController: MXKViewController {
      */
     public var isNewStarting: Bool = false
     
+    private var stateCreateRoom: Bool = false {
+        didSet {
+            self.navigationItem.rightBarButtonItem?.isEnabled = stateCreateRoom
+        }
+    }
+    
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
@@ -193,7 +199,8 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                 break
             }
         }
-        self.navigationItem.rightBarButtonItem?.isEnabled = result
+
+        self.stateCreateRoom = result // update state button
     }
     
     private func promiseInvite(mxContact contact: MXKContact!) -> Promise<Bool> {
@@ -224,6 +231,8 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         
         // start indicator
         self.startActivityIndicator()
+        
+        self.stateCreateRoom = false // update state button create room
         
         // finaly creating room
         let finalizeCreatingRoom = { (_ room: MXRoom?) -> Void in
@@ -257,6 +266,8 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                     DispatchQueue.main.async {
                         self.dismiss(animated: true, completion: {
                             
+                            self.stateCreateRoom = true // update state button create room
+
                             // in new room?
                             if self.isNewStarting {
                                 AppDelegate.the().masterTabBarController.selectRoom(withId: self.mxRoom.roomId, andEventId: nil, inMatrixSession: self.mxRoom.summary.mxSession) {}
