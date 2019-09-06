@@ -273,6 +273,7 @@ private extension CKKeyBackupRecoverManager {
         let alert = UIAlertController(title: "", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
         alert.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "Password"
+            textField.isSecureTextEntry = true
         })
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
