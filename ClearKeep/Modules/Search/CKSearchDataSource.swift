@@ -144,13 +144,20 @@ import Foundation
      - parameters:
      - event: an item of MXEvent
      */
-    func getBodyMessage(eventContent: [String: Any], isMediaAttachment: Bool) -> String? {
+    func getBodyMessage(eventContent: [String: Any], isMediaAttachment: Bool, isSearching: Bool = false) -> String? {
         if let msgtype = eventContent["msgtype"] as? String {
             switch getSearchType() {
             case .message:
                 if msgtype == kMXMessageTypeText {
-                    let messageBody = eventContent["body"] as? String
-                    return messageBody
+                    if isSearching {
+                        if let newContent = eventContent["m.new_content"] as? [String: Any], let newBody = newContent["body"] as? String {
+                            return newBody
+                        } else {
+                            return eventContent["body"] as? String
+                        }
+                    } else {
+                        return eventContent["body"] as? String
+                    }
                 }
             case .media:
                 if isMediaAttachment {
@@ -171,10 +178,10 @@ import Foundation
     override public func doSearch() {
         let searchRooms = getRoomsForSearching()
         var filteredEvents: [MXEvent] = []
+        var relatesEvent = [MXEvent]()
 
         for room in searchRooms {
             guard let roomId = room.roomId else { return }
-
             if let cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) {
                 let messages = cachedRoom.messages.compactMap{ $0.copy() as? CKStoredMessage }
                 messages.forEach { (message) in
@@ -192,17 +199,23 @@ import Foundation
                             coppiedEvent.wireContent = decryptedEventContent
                             // extract body message
                             let bodyMessage = getBodyMessage(eventContent: decryptedEventContent, isMediaAttachment: coppiedEvent.isMediaAttachment())
-//                            if coppiedEvent.relatesTo
                             // match body message with search text
-                            if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true,
-//                                !coppiedEvent.contentHasBeenEdited(),
-                                coppiedEvent.relatesTo?.relationType == MXEventRelationTypeReplace {
+                            if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true {
+                                relatesEvent.append(event)
                                 filteredEvents.append(coppiedEvent)
                             }
                         }
                     }
                 }
             }
+        }
+
+        if let filterEdited = self.filterOldEditedEvent(for: relatesEvent), filterEdited.count > 0 {
+            filteredEvents = filteredEvents.filter( { (event: MXEvent) -> Bool in
+                return filterEdited.contains{ (nextEvent: MXEvent) -> Bool in
+                    return event.eventId == nextEvent.eventId
+                }
+            })
         }
 
         convertSearchedResultsIntoCells(roomEvents: filteredEvents, onComplete: { [weak self] in
@@ -255,5 +268,22 @@ extension CKSearchDataSource {
             }
         }
         return cell
+    }
+}
+
+private extension CKSearchDataSource {
+    // Get unique & lastest edited event from given array
+    func filterOldEditedEvent(for events: [MXEvent]) -> [MXEvent]? {
+        var filteredEvents = [MXEvent]()
+        for event in events {
+            // Check if the event is 'replace' type
+            if let relateInfo = event.relatesTo, relateInfo.relationType == MXEventRelationTypeReplace {
+                continue
+            } else {
+                filteredEvents.append(event)
+            }
+        }
+
+        return filteredEvents
     }
 }

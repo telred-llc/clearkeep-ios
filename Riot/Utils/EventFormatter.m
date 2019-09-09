@@ -183,12 +183,19 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
     }
     else if (self.showEditionMention && event.contentHasBeenEdited)
     {
+        
+        NSDictionary *newContent = event.content[@"m.new_content"];
+        if (newContent) {
+            NSString *newBody = newContent[@"body"];
+            if (newBody) {
+                attributedString = [[NSAttributedString alloc] initWithString:newBody];
+            }
+        }
         NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
         
 //        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
 //                                      kEventFormatterOnReRequestKeysLinkActionSeparator,
 //                                      event.eventId];
-        
         [attributedStringWithEditMention appendAttributedString:
          [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
                                          attributes:@{
