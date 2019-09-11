@@ -496,8 +496,8 @@
 		BDB43F2D23162C8E00F7CB00 /* CKPassphrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */; };
 		BDB43F302316390E00F7CB00 /* CKConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2F2316390E00F7CB00 /* CKConstant.swift */; };
 		BDB43F312316390E00F7CB00 /* CKConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2F2316390E00F7CB00 /* CKConstant.swift */; };
-		BDFBA06E232907F100DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA06D232907F100DE721C /* GoogleService-Info.plist */; };
-		BDFBA06F232907F100DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA06D232907F100DE721C /* GoogleService-Info.plist */; };
+		BDFBA07423292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
+		BDFBA07523292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
 		DD9D49FA97BBD9A55F1695FA /* Pods_RiotPods_Riot_Prod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC38D3D17033F503D594C33 /* Pods_RiotPods_Riot_Prod.framework */; };
 		E5026CA221F5D601009D1B86 /* CKRoomHeaderInSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5026CA121F5D601009D1B86 /* CKRoomHeaderInSectionView.swift */; };
 		E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5026CA321F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib */; };
@@ -1940,7 +1940,7 @@
 		BDB43F2623162A6F00F7CB00 /* CKServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKServiceError.swift; sourceTree = "<group>"; };
 		BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKPassphrase.swift; sourceTree = "<group>"; };
 		BDB43F2F2316390E00F7CB00 /* CKConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKConstant.swift; sourceTree = "<group>"; };
-		BDFBA06D232907F100DE721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BDFBA07323292AB400DE721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E5026CA121F5D601009D1B86 /* CKRoomHeaderInSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomHeaderInSectionView.swift; sourceTree = "<group>"; };
 		E5026CA321F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomHeaderInSectionView.xib; sourceTree = "<group>"; };
 		E5026CA521F5DE96009D1B86 /* CKRoomDirectCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomDirectCreatingViewController.swift; sourceTree = "<group>"; };
@@ -2869,7 +2869,6 @@
 		B169329D20F3A21B00746532 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				BDFBA06D232907F100DE721C /* GoogleService-Info.plist */,
 				B169329E20F3A21B00746532 /* Riot-Bridging-Header.h */,
 				B169329F20F3A21B00746532 /* main.m */,
 				E520C58D22E711B6003101BA /* Riot-Prod.entitlements */,
@@ -4336,6 +4335,7 @@
 				9C3AC4EB22D746A100DD179F /* Generated */,
 				E57814FA21A7B6A8001BF40D /* MainEx.storyboard */,
 				E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */,
+				BDFBA07323292AB400DE721C /* GoogleService-Info.plist */,
 				E569BCC122154AE4004F71F1 /* Playground.playground */,
 			);
 			path = ClearKeep;
@@ -5049,7 +5049,6 @@
 				E5E7DCE8229BC7D300AB7CF3 /* CKRoomSettingsEditableCell.xib in Resources */,
 				E5E7DCE9229BC7D300AB7CF3 /* RoomMembershipExpandedBubbleCell.xib in Resources */,
 				E5E7DCEA229BC7D300AB7CF3 /* CKRoomSettingsEditViewController.xib in Resources */,
-				BDFBA06F232907F100DE721C /* GoogleService-Info.plist in Resources */,
 				E5E7DCEB229BC7D300AB7CF3 /* RoomIncomingTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
 				E5E7DCEC229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.xib in Resources */,
 				E5E7DCED229BC7D300AB7CF3 /* CKRoomSettingsTopicCell.xib in Resources */,
@@ -5086,6 +5085,7 @@
 				E5E7DD0B229BC7D300AB7CF3 /* CKCallViewController.xib in Resources */,
 				E5E7DD0C229BC7D300AB7CF3 /* InviteRecentTableViewCell.xib in Resources */,
 				E5E7DD0D229BC7D300AB7CF3 /* CKRoomHeaderInSectionView.xib in Resources */,
+				BDFBA07523292AB400DE721C /* GoogleService-Info.plist in Resources */,
 				E5E7DD0E229BC7D300AB7CF3 /* RoomIncomingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				E520C5E022E719D5003101BA /* KeyBackupRecoverSuccessViewController.storyboard in Resources */,
 				E5E7DD0F229BC7D300AB7CF3 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -5282,7 +5282,6 @@
 				B1B5590B20EF768F00210D55 /* RoomMembershipExpandedBubbleCell.xib in Resources */,
 				E51891E521EF120C00DFBCA5 /* CKRoomSettingsEditViewController.xib in Resources */,
 				B1B558E720EF768F00210D55 /* RoomIncomingTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
-				BDFBA06E232907F100DE721C /* GoogleService-Info.plist in Resources */,
 				B1B558DC20EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleBubbleCell.xib in Resources */,
 				E5ABA75821E73CBC005EFE0C /* CKRoomSettingsTopicCell.xib in Resources */,
 				B1B5572E20EE6C4D00210D55 /* ReadReceiptsViewController.xib in Resources */,
@@ -5319,6 +5318,7 @@
 				E56DF676222945C500D54DBD /* CKCallViewController.xib in Resources */,
 				B1B5597620EFB02A00210D55 /* InviteRecentTableViewCell.xib in Resources */,
 				E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */,
+				BDFBA07423292AB400DE721C /* GoogleService-Info.plist in Resources */,
 				B1B558FB20EF768F00210D55 /* RoomIncomingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				9C3AC4B522D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.storyboard in Resources */,
 				B1B558BB20EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
