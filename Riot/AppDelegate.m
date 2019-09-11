@@ -369,6 +369,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     [self useCkStoryboard:application];
     NSDate *startDate = [NSDate date];
     
+    //-- Firebase Analytics
+    [FIRApp configure];
+    
 #ifdef DEBUG
     // log the full launchOptions only in DEBUG
     NSLog(@"[AppDelegate] didFinishLaunchingWithOptions: %@", launchOptions);
