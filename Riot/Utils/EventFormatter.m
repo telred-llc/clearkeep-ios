@@ -183,23 +183,22 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
     }
     else if (self.showEditionMention && event.contentHasBeenEdited)
     {
-        
+        NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
         NSDictionary *newContent = event.content[@"m.new_content"];
         if (newContent) {
             NSString *newBody = newContent[@"body"];
             if (newBody) {
-                attributedString = [[NSAttributedString alloc] initWithString:newBody];
+                [attributedStringWithEditMention.mutableString setString:newBody];
             }
         }
-        NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
         
-//        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
-//                                      kEventFormatterOnReRequestKeysLinkActionSeparator,
-//                                      event.eventId];
+        //        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
+        //                                      kEventFormatterOnReRequestKeysLinkActionSeparator,
+        //                                      event.eventId];
         [attributedStringWithEditMention appendAttributedString:
          [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
                                          attributes:@{
-//                                                      NSLinkAttributeName: linkActionString,
+                                                      //                                                      NSLinkAttributeName: linkActionString,
                                                       // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
                                                       // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
                                                       NSForegroundColorAttributeName: self.editionMentionTextColor,
@@ -207,7 +206,26 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
                                                       }]];
         
         attributedString = attributedStringWithEditMention;
+    } else if (self.showEditionMention && (event.content[@"m.new_content"] != nil)) {
+        NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
+        NSDictionary *newContent = event.content[@"m.new_content"];
+        if (newContent) {
+            NSString *newBody = newContent[@"body"];
+            if (newBody) {
+                [attributedStringWithEditMention.mutableString setString:newBody];
+            }
+        }
+        [attributedStringWithEditMention appendAttributedString:
+         [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
+                                         attributes:@{
+                                                      NSForegroundColorAttributeName: self.editionMentionTextColor,
+                                                      NSFontAttributeName: self.editionMentionTextFont
+                                                      }]];
+        
+        attributedString = attributedStringWithEditMention;
+        
     }
+
     
     return attributedString;
 }
@@ -279,7 +297,7 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
         
         self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:17];
         self.emojiOnlyTextFont = [UIFont systemFontOfSize:48];
-        self.editionMentionTextFont = [UIFont systemFontOfSize:15];
+        self.editionMentionTextFont = [UIFont italicSystemFontOfSize:12];
     }
     return self;
 }

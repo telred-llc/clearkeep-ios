@@ -178,8 +178,6 @@ import Foundation
     override public func doSearch() {
         let searchRooms = getRoomsForSearching()
         var filteredEvents: [MXEvent] = []
-        var relatesEvent = [MXEvent]()
-
         for room in searchRooms {
             guard let roomId = room.roomId else { return }
             if let cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) {
@@ -192,16 +190,21 @@ import Foundation
                         if coppiedEvent.eventType == __MXEventTypeRoomEncrypted ||
                             coppiedEvent.eventType == __MXEventTypeRoomMessage {
 
-                            let decryptedEventContent = self.getEventContent(event: coppiedEvent)
+                            var decryptedEventContent = self.getEventContent(event: event)
+
+                            if let relates = event.content["m.relates_to"] {
+                                decryptedEventContent["m.relates_to"] = relates
+                            }
 
                             // Set event as is decrypted event
                             coppiedEvent.wireEventType = __MXEventTypeRoomMessage
                             coppiedEvent.wireContent = decryptedEventContent
+                            
                             // extract body message
                             let bodyMessage = getBodyMessage(eventContent: decryptedEventContent, isMediaAttachment: coppiedEvent.isMediaAttachment())
+                            
                             // match body message with search text
                             if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true {
-                                relatesEvent.append(event)
                                 filteredEvents.append(coppiedEvent)
                             }
                         }
@@ -210,13 +213,13 @@ import Foundation
             }
         }
 
-        if let filterEdited = self.filterOldEditedEvent(for: relatesEvent), filterEdited.count > 0 {
-            filteredEvents = filteredEvents.filter( { (event: MXEvent) -> Bool in
-                return filterEdited.contains{ (nextEvent: MXEvent) -> Bool in
-                    return event.eventId == nextEvent.eventId
-                }
-            })
-        }
+        filteredEvents = filteredEvents.filter({ (event) -> Bool in
+            if let relateInfo = event.relatesTo, relateInfo.relationType == MXEventRelationTypeReplace {
+                return false
+            } else {
+                return true
+            }
+        })
 
         convertSearchedResultsIntoCells(roomEvents: filteredEvents, onComplete: { [weak self] in
             self?.setState(MXKDataSourceStateReady)
@@ -268,22 +271,5 @@ extension CKSearchDataSource {
             }
         }
         return cell
-    }
-}
-
-private extension CKSearchDataSource {
-    // Get unique & lastest edited event from given array
-    func filterOldEditedEvent(for events: [MXEvent]) -> [MXEvent]? {
-        var filteredEvents = [MXEvent]()
-        for event in events {
-            // Check if the event is 'replace' type
-            if let relateInfo = event.relatesTo, relateInfo.relationType == MXEventRelationTypeReplace {
-                continue
-            } else {
-                filteredEvents.append(event)
-            }
-        }
-
-        return filteredEvents
     }
 }
