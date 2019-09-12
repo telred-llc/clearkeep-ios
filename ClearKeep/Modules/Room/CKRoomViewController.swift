@@ -205,7 +205,7 @@ extension CKRoomViewController {
             customizedRoomDataSource?.selectedEventId = nil;
             customizedRoomDataSource = nil;
         }
-        
+
         if kAppDelegateDidTapStatusBarNotificationObserver != nil {
             NotificationCenter.default.removeObserver(kAppDelegateDidTapStatusBarNotificationObserver!)
             kAppDelegateDidTapStatusBarNotificationObserver = nil

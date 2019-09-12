@@ -144,13 +144,20 @@ import Foundation
      - parameters:
      - event: an item of MXEvent
      */
-    func getBodyMessage(eventContent: [String: Any], isMediaAttachment: Bool) -> String? {
+    func getBodyMessage(eventContent: [String: Any], isMediaAttachment: Bool, isSearching: Bool = false) -> String? {
         if let msgtype = eventContent["msgtype"] as? String {
             switch getSearchType() {
             case .message:
                 if msgtype == kMXMessageTypeText {
-                    let messageBody = eventContent["body"] as? String
-                    return messageBody
+                    if isSearching {
+                        if let newContent = eventContent["m.new_content"] as? [String: Any], let newBody = newContent["body"] as? String {
+                            return newBody
+                        } else {
+                            return eventContent["body"] as? String
+                        }
+                    } else {
+                        return eventContent["body"] as? String
+                    }
                 }
             case .media:
                 if isMediaAttachment {
@@ -171,10 +178,8 @@ import Foundation
     override public func doSearch() {
         let searchRooms = getRoomsForSearching()
         var filteredEvents: [MXEvent] = []
-
         for room in searchRooms {
             guard let roomId = room.roomId else { return }
-
             if let cachedRoom = CKRoomCacheManager.shared.getStoredRoom(roomId: roomId) {
                 let messages = cachedRoom.messages.compactMap{ $0.copy() as? CKStoredMessage }
                 messages.forEach { (message) in
@@ -185,18 +190,21 @@ import Foundation
                         if coppiedEvent.eventType == __MXEventTypeRoomEncrypted ||
                             coppiedEvent.eventType == __MXEventTypeRoomMessage {
 
-                            let decryptedEventContent = self.getEventContent(event: coppiedEvent)
+                            var decryptedEventContent = self.getEventContent(event: event)
+
+                            if let relates = event.content["m.relates_to"] {
+                                decryptedEventContent["m.relates_to"] = relates
+                            }
 
                             // Set event as is decrypted event
                             coppiedEvent.wireEventType = __MXEventTypeRoomMessage
                             coppiedEvent.wireContent = decryptedEventContent
+                            
                             // extract body message
                             let bodyMessage = getBodyMessage(eventContent: decryptedEventContent, isMediaAttachment: coppiedEvent.isMediaAttachment())
-//                            if coppiedEvent.relatesTo
+                            
                             // match body message with search text
-                            if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true,
-//                                !coppiedEvent.contentHasBeenEdited(),
-                                coppiedEvent.relatesTo?.relationType == MXEventRelationTypeReplace {
+                            if bodyMessage?.lowercased().contains(self.searchText.lowercased()) == true {
                                 filteredEvents.append(coppiedEvent)
                             }
                         }
@@ -204,6 +212,14 @@ import Foundation
                 }
             }
         }
+
+        filteredEvents = filteredEvents.filter({ (event) -> Bool in
+            if let relateInfo = event.relatesTo, relateInfo.relationType == MXEventRelationTypeReplace {
+                return false
+            } else {
+                return true
+            }
+        })
 
         convertSearchedResultsIntoCells(roomEvents: filteredEvents, onComplete: { [weak self] in
             self?.setState(MXKDataSourceStateReady)
