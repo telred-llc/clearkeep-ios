@@ -25,7 +25,8 @@
 #import "Analytics.h"
 
 #import "RiotDesignValues.h"
- 
+@import Firebase;
+
 
 #pragma mark - Notifications
 /**

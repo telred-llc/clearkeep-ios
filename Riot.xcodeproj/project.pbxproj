@@ -496,6 +496,8 @@
 		BDB43F2D23162C8E00F7CB00 /* CKPassphrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */; };
 		BDB43F302316390E00F7CB00 /* CKConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2F2316390E00F7CB00 /* CKConstant.swift */; };
 		BDB43F312316390E00F7CB00 /* CKConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2F2316390E00F7CB00 /* CKConstant.swift */; };
+		BDFBA07423292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
+		BDFBA07523292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
 		DD9D49FA97BBD9A55F1695FA /* Pods_RiotPods_Riot_Prod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC38D3D17033F503D594C33 /* Pods_RiotPods_Riot_Prod.framework */; };
 		E5026CA221F5D601009D1B86 /* CKRoomHeaderInSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5026CA121F5D601009D1B86 /* CKRoomHeaderInSectionView.swift */; };
 		E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5026CA321F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib */; };
@@ -1098,7 +1100,6 @@
 		E5E7DCB1229BC7D300AB7CF3 /* ringback.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F083BBDF1E7009EC00A9B29C /* ringback.mp3 */; };
 		E5E7DCB2229BC7D300AB7CF3 /* CKMenuRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EF8B5E0221D58B4007B431C /* CKMenuRoomViewController.xib */; };
 		E5E7DCB3229BC7D300AB7CF3 /* CKRoomCreatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E574336221F366B100989FF3 /* CKRoomCreatingViewController.xib */; };
-		E5E7DCB4229BC7D300AB7CF3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F083BBEE1E7009EC00A9B29C /* GoogleService-Info.plist */; };
 		E5E7DCB5229BC7D300AB7CF3 /* CustomImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E523313E221C5506008FC772 /* CustomImageCell.xib */; };
 		E5E7DCB6229BC7D300AB7CF3 /* RoomEmptyBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5587F20EF768E00210D55 /* RoomEmptyBubbleCell.xib */; };
 		E5E7DCB7229BC7D300AB7CF3 /* CK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7C9E21DDF5C7000331AC /* CK.xcassets */; };
@@ -1245,7 +1246,6 @@
 		F083BDEE1E7009ED00A9B29C /* MXRoom+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBE81E7009EC00A9B29C /* MXRoom+Riot.m */; };
 		F083BDEF1E7009ED00A9B29C /* UINavigationController+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBEA1E7009EC00A9B29C /* UINavigationController+Riot.m */; };
 		F083BDF01E7009ED00A9B29C /* UIViewController+RiotSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBEC1E7009EC00A9B29C /* UIViewController+RiotSearch.m */; };
-		F083BDF21E7009ED00A9B29C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F083BBEE1E7009EC00A9B29C /* GoogleService-Info.plist */; };
 		F083BDF31E7009ED00A9B29C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F083BBEF1E7009EC00A9B29C /* Images.xcassets */; };
 		F083BDF91E7009ED00A9B29C /* RoomEmailInvitation.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBFC1E7009EC00A9B29C /* RoomEmailInvitation.m */; };
 		F083BDFA1E7009ED00A9B29C /* RoomPreviewData.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBFE1E7009EC00A9B29C /* RoomPreviewData.m */; };
@@ -1940,6 +1940,7 @@
 		BDB43F2623162A6F00F7CB00 /* CKServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKServiceError.swift; sourceTree = "<group>"; };
 		BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKPassphrase.swift; sourceTree = "<group>"; };
 		BDB43F2F2316390E00F7CB00 /* CKConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKConstant.swift; sourceTree = "<group>"; };
+		BDFBA07323292AB400DE721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E5026CA121F5D601009D1B86 /* CKRoomHeaderInSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomHeaderInSectionView.swift; sourceTree = "<group>"; };
 		E5026CA321F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKRoomHeaderInSectionView.xib; sourceTree = "<group>"; };
 		E5026CA521F5DE96009D1B86 /* CKRoomDirectCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRoomDirectCreatingViewController.swift; sourceTree = "<group>"; };
@@ -2119,7 +2120,6 @@
 		F083BBEA1E7009EC00A9B29C /* UINavigationController+Riot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Riot.m"; sourceTree = "<group>"; };
 		F083BBEB1E7009EC00A9B29C /* UIViewController+RiotSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RiotSearch.h"; sourceTree = "<group>"; };
 		F083BBEC1E7009EC00A9B29C /* UIViewController+RiotSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RiotSearch.m"; sourceTree = "<group>"; };
-		F083BBEE1E7009EC00A9B29C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F083BBEF1E7009EC00A9B29C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F083BBFB1E7009EC00A9B29C /* RoomEmailInvitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomEmailInvitation.h; sourceTree = "<group>"; };
 		F083BBFC1E7009EC00A9B29C /* RoomEmailInvitation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomEmailInvitation.m; sourceTree = "<group>"; };
@@ -4335,6 +4335,7 @@
 				9C3AC4EB22D746A100DD179F /* Generated */,
 				E57814FA21A7B6A8001BF40D /* MainEx.storyboard */,
 				E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */,
+				BDFBA07323292AB400DE721C /* GoogleService-Info.plist */,
 				E569BCC122154AE4004F71F1 /* Playground.playground */,
 			);
 			path = ClearKeep;
@@ -4554,7 +4555,6 @@
 				B169329320F39E6200746532 /* LaunchScreen.storyboard */,
 				B169329520F39E6300746532 /* Main.storyboard */,
 				F083BC0E1E7009EC00A9B29C /* third_party_licenses.html */,
-				F083BBEE1E7009EC00A9B29C /* GoogleService-Info.plist */,
 				E5E7DD42229BC8D800AB7CF3 /* Riot-Prod-Defaults.plist */,
 				F083BC181E7009EC00A9B29C /* Riot-Defaults.plist */,
 			);
@@ -4993,7 +4993,6 @@
 				E5E7DCB1229BC7D300AB7CF3 /* ringback.mp3 in Resources */,
 				E5E7DCB2229BC7D300AB7CF3 /* CKMenuRoomViewController.xib in Resources */,
 				E5E7DCB3229BC7D300AB7CF3 /* CKRoomCreatingViewController.xib in Resources */,
-				E5E7DCB4229BC7D300AB7CF3 /* GoogleService-Info.plist in Resources */,
 				E5E7DCB5229BC7D300AB7CF3 /* CustomImageCell.xib in Resources */,
 				E5E7DCB6229BC7D300AB7CF3 /* RoomEmptyBubbleCell.xib in Resources */,
 				E5E7DCB7229BC7D300AB7CF3 /* CK.xcassets in Resources */,
@@ -5086,6 +5085,7 @@
 				E5E7DD0B229BC7D300AB7CF3 /* CKCallViewController.xib in Resources */,
 				E5E7DD0C229BC7D300AB7CF3 /* InviteRecentTableViewCell.xib in Resources */,
 				E5E7DD0D229BC7D300AB7CF3 /* CKRoomHeaderInSectionView.xib in Resources */,
+				BDFBA07523292AB400DE721C /* GoogleService-Info.plist in Resources */,
 				E5E7DD0E229BC7D300AB7CF3 /* RoomIncomingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				E520C5E022E719D5003101BA /* KeyBackupRecoverSuccessViewController.storyboard in Resources */,
 				E5E7DD0F229BC7D300AB7CF3 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -5224,7 +5224,6 @@
 				F083BDEA1E7009ED00A9B29C /* ringback.mp3 in Resources */,
 				5EF8B5E2221D58B4007B431C /* CKMenuRoomViewController.xib in Resources */,
 				E574336321F366B100989FF3 /* CKRoomCreatingViewController.xib in Resources */,
-				F083BDF21E7009ED00A9B29C /* GoogleService-Info.plist in Resources */,
 				E5233144221C5507008FC772 /* CustomImageCell.xib in Resources */,
 				B1B558E320EF768F00210D55 /* RoomEmptyBubbleCell.xib in Resources */,
 				85CA7C9F21DDF5C7000331AC /* CK.xcassets in Resources */,
@@ -5319,6 +5318,7 @@
 				E56DF676222945C500D54DBD /* CKCallViewController.xib in Resources */,
 				B1B5597620EFB02A00210D55 /* InviteRecentTableViewCell.xib in Resources */,
 				E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */,
+				BDFBA07423292AB400DE721C /* GoogleService-Info.plist in Resources */,
 				B1B558FB20EF768F00210D55 /* RoomIncomingAttachmentWithoutSenderInfoBubbleCell.xib in Resources */,
 				9C3AC4B522D73B6900DD179F /* KeyBackupSetupSuccessFromRecoveryKeyViewController.storyboard in Resources */,
 				B1B558BB20EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
@@ -5467,13 +5467,15 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks.sh\"\n\"${PODS_ROOT}/Fabric/run\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E34E30CD2CEE4A42FF8081D6 /* [CP] Check Pods Manifest.lock */ = {
@@ -6407,7 +6409,7 @@
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = "RiotShareExtension/SupportingFiles/RiotShareExtension-Dev.entitlements";
 				CODE_SIGN_STYLE = Manual;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = PTFP2KAXC5;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -6553,7 +6555,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
