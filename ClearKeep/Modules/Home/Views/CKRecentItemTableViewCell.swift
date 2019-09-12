@@ -35,6 +35,14 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         }
     }
     
+    // CK 295: Flag hide the content of the last message in the chat list
+    var isShowContentMessage: Bool = false {
+        
+        didSet {
+            lastMessageLabel?.isHidden = !isShowContentMessage
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -144,6 +152,8 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
             encryptedIconImage.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
             encryptedIconImage.isHidden = (rcd.roomSummary.isEncrypted != true)
         }
+        
+        isShowContentMessage = false // add flag hidden show content message
         
         setupAvatar()
     }

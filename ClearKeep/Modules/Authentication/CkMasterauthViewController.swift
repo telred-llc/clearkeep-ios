@@ -131,6 +131,12 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
             message: message, preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Close", style: .default) { (action: UIAlertAction) in
+            
+            // CK 378: fixbug loading forever. update displayStyle when touch close button
+            if self.displayStyle == .indicator && self.lastStyle == .login {
+                self.displayStyle = .login
+                self.updateView()
+            }
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)

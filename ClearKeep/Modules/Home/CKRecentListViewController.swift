@@ -515,8 +515,11 @@ private extension CKRecentListViewController {
         // change text
         if indexPath.section == SectionRecent.room.rawValue {
             cell.startChatButton.setTitle("Start Room Chat", for: .normal)
+            cell.titleLabel.text = "You don't have any room chats yet." // CK 383 - edit description
+        
         } else if indexPath.section == SectionRecent.direct.rawValue {
             cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
+            cell.titleLabel.text = "You don't have any chats yet." // CK 383 - edit description
         }
         
         return cell

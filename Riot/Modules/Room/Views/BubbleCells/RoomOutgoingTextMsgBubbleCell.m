@@ -27,6 +27,9 @@
     
     self.userNameLabel.textColor = kRiotPrimaryTextColor;
     self.messageTextView.tintColor = kRiotColorGreen;
+    
+    // CK 337: Edit the font size for the "account name"
+    [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
 }
 
 @end
