@@ -238,6 +238,8 @@ private extension CKRecentListViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
                     self.showLeaveRoom(roomData: roomData)
                 })
+            default:
+                break
             }
             
             self.dismiss(animated: true, completion: nil)

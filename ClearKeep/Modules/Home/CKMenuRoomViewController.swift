@@ -8,6 +8,11 @@
 
 import UIKit
 
+internal enum CKMenuTableViewType: Int {
+    case recent
+    case message
+}
+
 internal enum CKMenuRoomCellType {
     case unMute
     case mute
@@ -15,7 +20,14 @@ internal enum CKMenuRoomCellType {
     case addToFavourite
     case setting
     case leave
-
+    case edit
+    case delete
+    case quote
+    case copy
+    case share
+    case selectAll
+    case showDetails
+    
     // title
     func title() -> String {
         switch self {
@@ -31,12 +43,29 @@ internal enum CKMenuRoomCellType {
             return "Setting"
         case .leave:
             return "Leave"
+        case .edit:
+            return "Edit"
+        case .delete:
+            return "Delete"
+        case .quote:
+            return "Quote"
+        case .copy:
+            return "Copy"
+        case .share:
+            return "Share"
+        case .selectAll:
+            return "Select all"
+        case .showDetails:
+            return "Show details"
+            
         }
     }
     
     // icon
     func icon() -> String {
         switch self {
+            
+        // Recent menu
         case .unMute:
             return "ic_room_bell_on"
         case .mute:
@@ -49,7 +78,24 @@ internal enum CKMenuRoomCellType {
             return "ic_room_settings"
         case .leave:
             return "ic_leave_room"
+            
+        // Message menu
+        case .edit:
+            return "ic_msg_edit"
+        case .delete:
+            return "ic_msg_delete"
+        case .quote:
+            return "ic_msg_quote"
+        case .copy:
+            return "ic_msg_copy"
+        case .share:
+            return "ic_msg_share"
+        case .selectAll:
+            return "ic_msg_select_all"
+        case .showDetails:
+            return "ic_msg_detail"
         }
+        
     }
 }
 
@@ -60,13 +106,16 @@ final class CKMenuRoomViewController: UIViewController {
     // MARK: - OUTLET
     
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var reactioncontainerView: UIView!
+    @IBOutlet weak var reactioncontrainerHeightConstraint: NSLayoutConstraint!
+
     // MARK: - PROPERTY
-    
+
     internal var datasourceTableView: [CKMenuRoomCellType] = []
     internal var callBackCKRecentListVC: ((_ result: CKMenuRoomCellType) -> Void)?
     internal var mute: CKMenuRoomCellType = .unMute
     internal var favourite: CKMenuRoomCellType = .removeFromFavourite
+    internal var menuType: CKMenuTableViewType = .recent
 
     private let disposeBag = DisposeBag()
 
@@ -79,17 +128,26 @@ final class CKMenuRoomViewController: UIViewController {
         self.tableView.estimatedRowHeight = 50
         self.tableView.separatorStyle = .singleLine
         self.tableView.bounces = false
-        
+
         tableView.register(
             UINib.init(nibName: "CKAlertSettingRoomCell", bundle: nil),
             forCellReuseIdentifier: "CKAlertSettingRoomCell")
 
         bindingTheme()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        datasourceTableView = [mute, favourite, .setting, .leave]
+
+        if menuType == .recent {
+            reactioncontainerView.isHidden = true
+            reactioncontrainerHeightConstraint.constant = 0
+            datasourceTableView = [mute, favourite, .setting, .leave]
+        } else {
+            reactioncontainerView.isHidden = false
+            reactioncontrainerHeightConstraint.constant = 40
+            datasourceTableView = [.copy, .edit, .quote, .share, .selectAll, .showDetails]
+        }
         self.tableView.reloadData()
     }
 
@@ -106,8 +164,10 @@ final class CKMenuRoomViewController: UIViewController {
             .disposed(by: disposeBag)
     }
 
-    // MARK: - PUBLIC
+    @IBAction func buttonMoreReactionDidPress(_ sender: UIButton) {
+    }
 
+    // MARK: - PUBLIC
 }
 
 extension CKMenuRoomViewController: UITableViewDelegate, UITableViewDataSource {
@@ -155,6 +215,20 @@ extension CKMenuRoomViewController: UITableViewDelegate, UITableViewDataSource {
             self.callBackCKRecentListVC?(.setting)
         case .leave:
             self.callBackCKRecentListVC?(.leave)
+        case .edit:
+            self.callBackCKRecentListVC?(.edit)
+        case .delete:
+            self.callBackCKRecentListVC?(.delete)
+        case .quote:
+            self.callBackCKRecentListVC?(.quote)
+        case .copy:
+            self.callBackCKRecentListVC?(.copy)
+        case .share:
+            self.callBackCKRecentListVC?(.share)
+        case .selectAll:
+            self.callBackCKRecentListVC?(.selectAll)
+        case .showDetails:
+            self.callBackCKRecentListVC?(.showDetails)
         }
         
         tableView.reloadData()
