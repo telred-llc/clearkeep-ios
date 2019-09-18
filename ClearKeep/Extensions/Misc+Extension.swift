@@ -42,6 +42,16 @@ extension String {
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: self)
     }
+    
+    var firstName: String {
+        
+        // trim space before components
+        var component = self.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: " ")
+        
+        if component.isEmpty { return self }
+        
+        return component[0]
+    }
 }
 
 extension UIView {
@@ -140,5 +150,15 @@ extension String {
             return nil
         }
         return data
+    }
+}
+
+extension UITableView {
+    
+    func scrollToBottom(_ adjustOffset: CGFloat = 53) {
+        
+        let offsetY: CGFloat = self.contentSize.height - self.bounds.size.height + self.contentInset.bottom + adjustOffset
+        
+        self.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false)
     }
 }
