@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -26,15 +26,17 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8A-B8-lWu">
-                        <rect key="frame" x="20" y="36.5" width="43" height="21"/>
+                        <rect key="frame" x="20" y="36.5" width="280" height="21"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="J8A-B8-lWu" secondAttribute="trailing" constant="20" id="0Ri-l4-OXo"/>
                     <constraint firstItem="j1B-3N-zv5" firstAttribute="top" secondItem="dgd-mO-Yi9" secondAttribute="top" constant="10" id="84q-0Q-2SY"/>
                     <constraint firstItem="J8A-B8-lWu" firstAttribute="leading" secondItem="j1B-3N-zv5" secondAttribute="leading" id="DFn-FT-eMB"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="j1B-3N-zv5" secondAttribute="trailing" constant="20" id="ahV-Te-Tq3"/>
                     <constraint firstItem="j1B-3N-zv5" firstAttribute="leading" secondItem="dgd-mO-Yi9" secondAttribute="leading" constant="20" id="nyU-7E-VOk"/>
                     <constraint firstAttribute="bottom" secondItem="J8A-B8-lWu" secondAttribute="bottom" constant="5" id="xIA-Mk-F9r"/>
                 </constraints>
