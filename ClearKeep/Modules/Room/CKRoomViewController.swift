@@ -178,6 +178,8 @@ import MatrixKit
     private var typingNotifListener: Any?
 
     private let disposeBag = DisposeBag()
+    
+    private var updatOffset: Bool = false
 }
 
 extension CKRoomViewController {
@@ -1225,6 +1227,8 @@ extension CKRoomViewController {
         
         var shallRVshowing = false
         
+        var unreadCount: UInt = 0
+        
         if self.activitiesView.isKind(of: RoomActivitiesView.self) {
             
             let roomActivitiesView = self.activitiesView as! RoomActivitiesView
@@ -1338,7 +1342,8 @@ extension CKRoomViewController {
                 if roomDataSource?.isLive != true || (currentEventIdAtTableBottom != nil && isBubblesTableScrollViewAtTheBottom() == false) {
 
                     // Retrieve the unread messages count
-                    let unreadCount = roomDataSource?.room?.summary?.localUnreadEventCount ?? 0
+//                    let unreadCount = roomDataSource?.room?.summary?.localUnreadEventCount ?? 0
+                    unreadCount = roomDataSource?.room?.summary?.localUnreadEventCount ?? 0
 
                     if unreadCount == 0 {
                         // Refresh the typing notification here
@@ -1376,10 +1381,20 @@ extension CKRoomViewController {
             swipe.numberOfTouchesRequired = 1
             swipe.direction = .down
             roomActivitiesView.addGestureRecognizer(swipe)
+            
                         
             if shallRVshowing {
                 roomActivitiesView.isHidden = false
                 self.roomActivitiesContainerHeightConstraint.constant = roomActivitiesView.height
+                
+                // check unread message and bool update layout finish ---> adjust content offset show last message
+                if unreadCount == 0 && self.updatOffset {
+                
+                    self.bubblesTableView.scrollToBottom(roomActivitiesView.height)
+                    
+                    self.updatOffset = false
+                }
+                
             } else {
                 roomActivitiesView.isHidden = true
                 self.roomActivitiesContainerHeightConstraint.constant = 0
@@ -1927,6 +1942,8 @@ extension CKRoomViewController {
         // refresh if did receive new message,...
         self.refreshActivitiesViewDisplay()
         self.refreshRoomNavigationBar()
+        
+        self.updatOffset = true //-- update state 
     }
     
     @objc private func dismissCurrentAlert(_ gesture: UITapGestureRecognizer) {
