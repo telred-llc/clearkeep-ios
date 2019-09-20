@@ -1881,30 +1881,40 @@ extension CKRoomViewController {
                     }))
                 }
                 self.showActionAlert(sourceView: roomBubbleTableViewCell)
-            } else if let fullPath = attachment?.cacheFilePath {
-                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                    guard let weakSelf = self else {
-                        return
-                    }
-                    
-                    weakSelf.cancelEventSelection()
-                    // Force unwrap since we checked "attachment == nil" of the first 'if' statement
-                    let activityViewController = UIActivityViewController(activityItems: [fullPath], applicationActivities: nil)
-                    
-                    activityViewController.modalTransitionStyle = .coverVertical
-                    activityViewController.popoverPresentationController?.sourceView = roomBubbleTableViewCell
-                    activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
-                    
-                    weakSelf.present(activityViewController, animated: true, completion: nil)
-                }))
+            } else if let fileName = attachment?.originalFileName {
+
+                attachment?.getData({ (data) in
+                    self.currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        weakSelf.cancelEventSelection()
+                        let tempDirectoryURL = URL.init(fileURLWithPath: NSTemporaryDirectory().appending(fileName))
+                        do {
+                            try data?.write(to: tempDirectoryURL)
+
+                            // Force unwrap since we checked "attachment == nil" of the first 'if' statement
+                            let activityViewController = UIActivityViewController(activityItems: [tempDirectoryURL], applicationActivities: nil)
+                            activityViewController.modalTransitionStyle = .coverVertical
+                            activityViewController.popoverPresentationController?.sourceView = roomBubbleTableViewCell
+                            activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
+                            weakSelf.present(activityViewController, animated: true, completion: nil)
+                        } catch let err {
+                            print(err.localizedDescription)
+                        }
+                    }))
+
+                }, failure: { (error) in
+                    print(error.debugDescription)
+                })
                 
                 if let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent {
                     currentAlert?.addAction(UIAlertAction(title: "Show Details", style: .default, handler: { [weak self] _ in
                         guard let weakSelf = self else {
                             return
                         }
-                        weakSelf.currentAlert = nil
-                        
+                        weakSelf.cancelEventSelection()
+
                         // Cancel event highlighting (if any)
                         roomBubbleTableViewCell.highlightTextMessage(forEvent: nil)
                         
