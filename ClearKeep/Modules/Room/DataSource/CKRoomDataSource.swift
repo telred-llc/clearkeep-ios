@@ -449,6 +449,11 @@ class CKRoomDataSource: MXKRoomDataSource {
             
             // Disable textview selecting
 //            bubbleCell.messageTextView?.isSelectable = false
+            
+            if bubbleCell.userNameLabel != nil {
+                
+                bubbleCell.userNameLabel.text = (cellData?.senderDisplayName ?? "").firstName
+            }
         }
  
         return cell

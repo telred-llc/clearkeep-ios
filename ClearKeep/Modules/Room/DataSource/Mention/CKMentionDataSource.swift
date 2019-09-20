@@ -66,12 +66,13 @@ extension CKMentionDataSource: UITableViewDataSource {
             if let userId = member.userId, let displayname = member.displayname {
                 let preview: UIImage? = AvatarGenerator.generateAvatar(forMatrixItem: userId, withDisplayName: displayname)
                 cell.avatarImageView.enableInMemoryCache = true
-                cell.avatarImageView.setImageURI(
-                    member.avatarUrl,
-                    withType: nil,
-                    andImageOrientation: UIImageOrientation.up,
-                    previewImage: preview,
-                    mediaManager: mxSession?.mediaManager)
+                cell.avatarImageView.setImageURI(member.avatarUrl,
+                                                 withType: nil,
+                                                 andImageOrientation: UIImageOrientation.up,
+                                                 toFitViewSize: cell.avatarImageView.frame.size,
+                                                 with: MXThumbnailingMethodCrop,
+                                                 previewImage: preview,
+                                                 mediaManager: mxSession?.mediaManager)
             } else {
                 cell.avatarImageView.image = nil
             }
