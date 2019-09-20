@@ -259,7 +259,9 @@ extension CKSearchContactViewController {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListMatrixCell.identifier, for: indexPath) as! CKContactListMatrixCell
         
         if let ds = self.filteredMatrixSource, !ds.isEmpty {
-                    cell.displayNameLabel.text = ds[indexPath.row].displayName
+            
+            cell.displayNameLabel.text = ds[indexPath.row].displayName
+            
             cell.setAvatarUri(
                 ds[indexPath.row].matrixAvatarURL,
                 identifyText: ds[indexPath.row].displayName,
