@@ -466,7 +466,7 @@ final class CKAccountProfileEditViewController: MXKViewController, UIImagePicker
             // Text value
             cell.edittingChangedHandler = { text in
                 if let text = text {
-                    self.savingData.displayName = text
+                    self.savingData.displayName = text.trimmingCharacters(in: .whitespacesAndNewlines)
                     self.updateSaveButtonStatus()
                 }
             }
