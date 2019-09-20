@@ -1881,16 +1881,15 @@ extension CKRoomViewController {
                     }))
                 }
                 self.showActionAlert(sourceView: roomBubbleTableViewCell)
-            } else {
+            } else if let fullPath = attachment?.cacheFilePath {
                 currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
                     guard let weakSelf = self else {
                         return
                     }
                     
                     weakSelf.cancelEventSelection()
-                    
                     // Force unwrap since we checked "attachment == nil" of the first 'if' statement
-                    let activityViewController = UIActivityViewController(activityItems: [attachment!], applicationActivities: nil)
+                    let activityViewController = UIActivityViewController(activityItems: [fullPath], applicationActivities: nil)
                     
                     activityViewController.modalTransitionStyle = .coverVertical
                     activityViewController.popoverPresentationController?.sourceView = roomBubbleTableViewCell
