@@ -1713,12 +1713,14 @@ extension CKRoomViewController {
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
             && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
             
-            guard let cell = cell,
-                let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
+            guard let cell = cell, let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
                     return
             }
             let attachment = roomBubbleTableViewCell.bubbleData.attachment
-            
+
+            // Create new AlertViewController
+            currentAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
             // Add actions for text message
             // Handle this case to add "Quote" action.
             if attachment == nil {
@@ -1741,10 +1743,7 @@ extension CKRoomViewController {
                         }
                     }
                 }
-                
-                // Create new AlertViewController
-                currentAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                
+
                 // Add actions for a failed event
                 if selectedEvent.sentState == MXEventSentStateFailed {
                     currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_resend", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
@@ -1881,28 +1880,41 @@ extension CKRoomViewController {
                         weakSelf.showEventDetails(selectedEvent)
                     }))
                 }
-                
-                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("cancel", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                self.showActionAlert(sourceView: roomBubbleTableViewCell)
+            } else {
+                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
                     guard let weakSelf = self else {
                         return
                     }
+                    
                     weakSelf.cancelEventSelection()
+                    
+                    // Force unwrap since we checked "attachment == nil" of the first 'if' statement
+                    let activityViewController = UIActivityViewController(activityItems: [attachment!], applicationActivities: nil)
+                    
+                    activityViewController.modalTransitionStyle = .coverVertical
+                    activityViewController.popoverPresentationController?.sourceView = roomBubbleTableViewCell
+                    activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
+                    
+                    weakSelf.present(activityViewController, animated: true, completion: nil)
                 }))
                 
-                currentAlert?.mxk_setAccessibilityIdentifier("RoomVCEventMenuAlert")
-                currentAlert?.popoverPresentationController?.sourceView = roomBubbleTableViewCell
-                currentAlert?.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
-                if let currentAlert = self.currentAlert {
-                    
-                    self.present(currentAlert, animated: true) {
-                        let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
-                        currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
-                        currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
-                    }
+                if let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent {
+                    currentAlert?.addAction(UIAlertAction(title: "Show Details", style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        weakSelf.currentAlert = nil
+                        
+                        // Cancel event highlighting (if any)
+                        roomBubbleTableViewCell.highlightTextMessage(forEvent: nil)
+                        
+                        // Display event details
+                        weakSelf.showEventDetails(selectedEvent)
+                    }))
                 }
-            } else {
-                // call to super
-                super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+                
+                self.showActionAlert(sourceView: roomBubbleTableViewCell)
             }
             
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
@@ -1926,6 +1938,26 @@ extension CKRoomViewController {
             // Do nothing
         } else { // call super
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
+        }
+    }
+    
+    private func showActionAlert(sourceView: MXKRoomBubbleTableViewCell) {
+        currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("cancel", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+            guard let weakSelf = self else {
+                return
+            }
+            weakSelf.cancelEventSelection()
+        }))
+        
+        currentAlert?.mxk_setAccessibilityIdentifier("RoomVCEventMenuAlert")
+        currentAlert?.popoverPresentationController?.sourceView = sourceView
+        currentAlert?.popoverPresentationController?.sourceRect = sourceView.bounds
+        if let currentAlert = self.currentAlert {
+            self.present(currentAlert, animated: true) {
+                let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.dismissCurrentAlert(_:)))
+                currentAlert.view.superview?.subviews.first?.isUserInteractionEnabled = true
+                currentAlert.view.superview?.subviews.first?.addGestureRecognizer(tap)
+            }
         }
     }
     
