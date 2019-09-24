@@ -39,7 +39,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
     var isShowContentMessage: Bool = false {
         
         didSet {
-            lastMessageLabel?.isHidden = !isShowContentMessage
+//            lastMessageLabel?.isHidden = !isShowContentMessage // revert PR 295: always show message
         }
     }
     
