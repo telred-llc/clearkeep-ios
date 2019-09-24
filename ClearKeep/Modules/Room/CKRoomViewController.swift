@@ -1882,6 +1882,22 @@ extension CKRoomViewController {
                 }
                 self.showActionAlert(sourceView: roomBubbleTableViewCell)
             } else if let fileName = attachment?.originalFileName {
+                self.dismissKeyboard()
+
+                if let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent {
+                    currentAlert?.addAction(UIAlertAction(title: "Show Details", style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        weakSelf.cancelEventSelection()
+                        
+                        // Cancel event highlighting (if any)
+                        roomBubbleTableViewCell.highlightTextMessage(forEvent: nil)
+                        
+                        // Display event details
+                        weakSelf.showEventDetails(selectedEvent)
+                    }))
+                }
 
                 attachment?.getData({ (data) in
                     self.currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
@@ -1904,28 +1920,11 @@ extension CKRoomViewController {
                         }
                     }))
 
+                    self.showActionAlert(sourceView: roomBubbleTableViewCell)
                 }, failure: { (error) in
                     print(error.debugDescription)
                 })
-                
-                if let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent {
-                    currentAlert?.addAction(UIAlertAction(title: "Show Details", style: .default, handler: { [weak self] _ in
-                        guard let weakSelf = self else {
-                            return
-                        }
-                        weakSelf.cancelEventSelection()
-
-                        // Cancel event highlighting (if any)
-                        roomBubbleTableViewCell.highlightTextMessage(forEvent: nil)
-                        
-                        // Display event details
-                        weakSelf.showEventDetails(selectedEvent)
-                    }))
-                }
-                
-                self.showActionAlert(sourceView: roomBubbleTableViewCell)
             }
-            
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
             
             // click user avatar in room go to  view info profile
