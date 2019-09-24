@@ -141,7 +141,7 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
             return nil;
         }
     }
-    
+
     NSAttributedString *attributedString = [super attributedStringFromEvent:event withRoomState:roomState error:error];
     
     if (event.sentState == MXEventSentStateSent
@@ -191,43 +191,42 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
                 [attributedStringWithEditMention.mutableString setString:newBody];
             }
         }
-        
-        //        NSString *linkActionString = [NSString stringWithFormat:@"%@%@%@", kEventFormatterEditedEventLinkAction,
-        //                                      kEventFormatterOnReRequestKeysLinkActionSeparator,
-        //                                      event.eventId];
         [attributedStringWithEditMention appendAttributedString:
          [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
                                          attributes:@{
-                                                      //                                                      NSLinkAttributeName: linkActionString,
-                                                      // NOTE: Color is curretly overidden by UIText.tintColor as we use `NSLinkAttributeName`.
-                                                      // If we use UITextView.linkTextAttributes to set link color we will also have the issue that color will be the same for all kind of links.
                                                       NSForegroundColorAttributeName: self.editionMentionTextColor,
                                                       NSFontAttributeName: self.editionMentionTextFont
                                                       }]];
         
         attributedString = attributedStringWithEditMention;
     } else if (self.showEditionMention && (event.content[@"m.new_content"] != nil)) {
-        NSMutableAttributedString *attributedStringWithEditMention = [attributedString mutableCopy];
         NSDictionary *newContent = event.content[@"m.new_content"];
-        if (newContent) {
-            NSString *newBody = newContent[@"body"];
-            if (newBody) {
-                [attributedStringWithEditMention.mutableString setString:newBody];
-            }
-        }
-        [attributedStringWithEditMention appendAttributedString:
-         [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
-                                         attributes:@{
-                                                      NSForegroundColorAttributeName: self.editionMentionTextColor,
-                                                      NSFontAttributeName: self.editionMentionTextFont
-                                                      }]];
-        
-        attributedString = attributedStringWithEditMention;
-        
+        attributedString = [self attributedStringFromContent:newContent attributedString:attributedString];
     }
 
-    
     return attributedString;
+}
+
+- (NSAttributedString*)attributedStringFromContent:(NSDictionary*)content attributedString:(NSAttributedString *)attString {
+    NSMutableAttributedString *mutableString = [attString mutableCopy];
+    if (content) {
+        NSString *newBody = content[@"body"];
+        if (newBody) {
+            if (mutableString) {
+                [mutableString.mutableString setString:newBody];
+            } else {
+                return attString;
+            }
+        }
+    }
+    [mutableString appendAttributedString:
+     [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", NSLocalizedStringFromTable(@"event_formatter_message_edited_mention", @"Vector", nil)]
+                                     attributes:@{
+                                                  NSForegroundColorAttributeName: self.editionMentionTextColor,
+                                                  NSFontAttributeName: self.editionMentionTextFont
+                                                  }]];
+    
+    return mutableString;
 }
 
 - (NSAttributedString*)attributedStringFromEvents:(NSArray<MXEvent*>*)events withRoomState:(MXRoomState*)roomState error:(MXKEventFormatterError*)error
@@ -283,21 +282,19 @@ static NSString *const kEventFormatterTimeFormat = @"HH:mm";
         self.showEditionMention = YES;
         self.editionMentionTextColor = kRiotSecondaryTextColor;
 
-        // CK 337: Edit the font size
-        
-        self.defaultTextFont = [UIFont systemFontOfSize:15]; 
-        self.prefixTextFont = [UIFont boldSystemFontOfSize:15];
+        self.defaultTextFont = [UIFont systemFontOfSize:17];
+        self.prefixTextFont = [UIFont boldSystemFontOfSize:17];
         if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)]) {
-            self.bingTextFont = [UIFont systemFontOfSize:15 weight:UIFontWeightMedium];
+            self.bingTextFont = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
         } else {
-            self.bingTextFont = [UIFont systemFontOfSize:15];
+            self.bingTextFont = [UIFont systemFontOfSize:17];
         }
         
         // CK - modified
         self.stateEventTextFont = [UIFont italicSystemFontOfSize:15];
         self.callNoticesTextFont = [UIFont italicSystemFontOfSize:15];
         
-        self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:15];
+        self.encryptedMessagesTextFont = [UIFont italicSystemFontOfSize:17];
         self.emojiOnlyTextFont = [UIFont systemFontOfSize:48];
         self.editionMentionTextFont = [UIFont italicSystemFontOfSize:12];
     }

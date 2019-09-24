@@ -481,7 +481,6 @@
     _selectedRoomSession = nil;
     _selectedRoomDataSource = nil;
     _selectedRoomPreviewData = nil;
-    
     _selectedContact = nil;
     
     _selectedGroup = nil;
@@ -683,7 +682,6 @@
 
                 // Give the data source ownership to the room view controller.
                 self.currentRoomViewController.hasRoomDataSourceOwnership = YES;
-
                 onComplete(roomDataSource);
             }];
         }
@@ -691,15 +689,15 @@
     else
     {
         // Search result: Create a temp timeline from the selected event
-        [RoomDataSource loadRoomDataSourceWithRoomId:selectedSearchEvent.roomId initialEventId:selectedSearchEvent.eventId andMatrixSession:selectedSearchEventSession onComplete:^(id roomDataSource) {
-
+        [CKRoomDataSource loadRoomDataSourceWithRoomId:selectedSearchEvent.roomId initialEventId:selectedSearchEvent.eventId andMatrixSession:selectedSearchEventSession onComplete:^(id roomDataSource) {
+            
             [roomDataSource finalizeInitialization];
-
-            ((RoomDataSource*)roomDataSource).markTimelineInitialEvent = YES;
-
+            
+            ((CKRoomDataSource*)roomDataSource).markTimelineInitialEvent = YES;
+            ((CKRoomDataSource*)roomDataSource).initialEvent = selectedSearchEvent;
             // Give the data source ownership to the room view controller.
             self.currentRoomViewController.hasRoomDataSourceOwnership = YES;
-
+            
             onComplete(roomDataSource);
         }];
     }
