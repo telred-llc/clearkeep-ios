@@ -12,5 +12,9 @@
 		<string>applinks:www.riot.im</string>
 		<string>webcredentials:riot.im</string>
 	</array>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.telred.clearkeep.dev</string>
+	</array>
 </dict>
 </plist>

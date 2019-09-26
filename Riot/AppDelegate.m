@@ -240,7 +240,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     MXSDKOptions *sdkOptions = [MXSDKOptions sharedInstance];
     
 #ifdef TARGET_DEV
-    sdkOptions.applicationGroupIdentifier = @"group.vmodev.clearkeep.ios";
+    sdkOptions.applicationGroupIdentifier = @"group.com.telred.clearkeep.dev";
 #else
     sdkOptions.applicationGroupIdentifier = @"group.com.telred.clearkeep";
 #endif
