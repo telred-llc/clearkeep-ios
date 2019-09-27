@@ -472,7 +472,7 @@
                 }
             }
         }
-        
+
         // Auto animate the sticker in case of animated gif
         bubbleCell.isAutoAnimatedGif = (cellData.attachment && cellData.attachment.type == MXKAttachmentTypeSticker);
     }

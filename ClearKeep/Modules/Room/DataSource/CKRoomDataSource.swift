@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CKRoomDataSource: MXKRoomDataSource {
+@objc class CKRoomDataSource: MXKRoomDataSource {
     /**
      The event id of the current selected event if any. Default is nil.
      */
@@ -38,6 +38,8 @@ class CKRoomDataSource: MXKRoomDataSource {
     // time sent messages
     var timeSent = ""
     
+    // Search event message
+    @objc var initialEvent: MXEvent?
     
     /**
      Tell whether the initial event of the timeline (if any) must be marked. Default is NO.
@@ -77,7 +79,17 @@ class CKRoomDataSource: MXKRoomDataSource {
     
     override init(roomId: String?, andMatrixSession matrixSession: MXSession?) {
         super.init(roomId: roomId, andMatrixSession: matrixSession)
-        
+
+        self.initData()
+    }
+    
+    override init(roomId: String?, initialEventId: String?, andMatrixSession matrixSession: MXSession?) {
+        super.init(roomId: roomId, initialEventId: initialEventId, andMatrixSession: matrixSession)
+
+        self.initData()
+    }
+    
+    private func initData() {
         // Replace default Cell data class
         registerCellDataClass(RoomBubbleCellData.self, forCellIdentifier: kMXKRoomBubbleCellDataIdentifier)
         
@@ -102,7 +114,6 @@ class CKRoomDataSource: MXKRoomDataSource {
             self.reload()
             
         })
-        
     }
     
     override func finalizeInitialization() {
@@ -440,6 +451,10 @@ class CKRoomDataSource: MXKRoomDataSource {
                         // If yes, mark the event
                         bubbleCell.markComponent(UInt(index))
                         break
+                    } else if let relateInfo = component.event.relatesTo,
+                        relateInfo.eventId == timeline.initialEventId {
+                        bubbleCell.markComponent(UInt(index))
+                        break
                     }
                 }
             }
@@ -471,6 +486,10 @@ class CKRoomDataSource: MXKRoomDataSource {
                     
                     if CKMessageContentManagement.shouldHideMessage(from: event, inRoomState: self.roomState) {
                         bubbleData.removeEvent(event.eventId)
+                    }
+
+                    if event.eventId == timeline.initialEventId, let newEvent = initialEvent {
+                        bubbleData.updateEvent(event.eventId, with: newEvent)
                     }
                 }
             }
