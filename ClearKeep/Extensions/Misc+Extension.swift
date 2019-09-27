@@ -89,7 +89,7 @@ extension MXRoomState {
             if rev.eventType == __MXEventTypeRoomCreate {
                 
                 // found created date
-                return Date(timeIntervalSince1970: TimeInterval(rev.ageLocalTs / 1000))
+                return Date(timeIntervalSince1970: TimeInterval(rev.originServerTs / 1000)) // CK 301: Get origin time sever
             }
         }
         

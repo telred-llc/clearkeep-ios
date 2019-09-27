@@ -220,20 +220,23 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             for: indexPath) as! CKRoomSettingsTopicCell
         
         // creator
-        let creator = self.mxRoomState?.creator?.components(separatedBy: ":").first
+        let createrID = self.mxRoomState?.creator ?? ""
+        
+        let createrName = self.mxRoom.mxSession.getOrCreateUser(createrID)?.displayname ?? "@unknown"
         
         // created date
         var dateString = "unknown"
+        
+        let eventFormat = EventFormatter(matrixSession: self.mxRoom.mxSession)
+        
         if let date = self.mxRoomState?.createdDate {
-            let df = DateFormatter()
-            df.dateFormat = "E, d MMM yyyy"
-            dateString = df.string(from: date)
+            dateString = eventFormat?.dateString(from: date, withTime: true) ?? "unknown"
         }
         
         // fill cell
         cell.topicLabel.text = "Created by"
         cell.topicTextLabel.font = UIFont.systemFont(ofSize: 14)
-        cell.topicTextLabel.text = "This room was created by " + (creator ?? "@unknown") + " on " + dateString
+        cell.topicTextLabel.text = "This room was created by " + createrName + " at " + dateString
 
         cell.topicLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
         cell.topicTextLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
