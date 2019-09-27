@@ -70,7 +70,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         }
     }
     
-    var maxNumberOfLines: Int32 = 3 {
+    var maxNumberOfLines: Int32 = 2 {
         didSet {
             self.growingTextView?.maxNumberOfLines = maxNumberOfLines
             self.growingTextView?.refreshHeight()
@@ -121,7 +121,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         super.awakeFromNib()
         self.addSubview(shadowTextView)
         shadowTextView.delegate = self
-        maxNumberOfLines = 3
+        maxNumberOfLines = 2
         typingMessage = .text(msg: nil)
         mentionButton.setImage(#imageLiteral(resourceName: "ic_tagging").withRenderingMode(.alwaysTemplate), for: .normal)
         sendImageButton.setImage(#imageLiteral(resourceName: "ic_send_image_enabled").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -259,7 +259,12 @@ private extension CKRoomInputToolbarView {
         } else {
             if !shadowTextView.isFirstResponder {
                 shadowTextView.becomeFirstResponder()
-                self.addImagePickerAsInputView(true)
+                
+                // delay for showing keyboard completed
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.addImagePickerAsInputView(true)
+                }
+                
             }
         }
     }
