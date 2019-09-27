@@ -12,11 +12,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CKRoomInputToolbarView" customModule="Riot" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="409" height="90"/>
+            <rect key="frame" x="0.0" y="0.0" width="409" height="96"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g3d-as-ewc" userLabel="MainToolBar View">
-                    <rect key="frame" x="0.0" y="0.0" width="409" height="90"/>
+                    <rect key="frame" x="0.0" y="0.0" width="409" height="96"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jU2-ci-Yac" userLabel="Separator View">
                             <rect key="frame" x="0.0" y="0.0" width="409" height="1"/>
@@ -26,15 +26,15 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Re-dA-XD0" userLabel="Message Composer Container">
-                            <rect key="frame" x="0.0" y="1" width="409" height="45"/>
+                            <rect key="frame" x="0.0" y="1" width="409" height="57"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mev-Nz-c1s" customClass="HPGrowingTextView">
-                                    <rect key="frame" x="6" y="4" width="395" height="41"/>
+                                    <rect key="frame" x="6" y="4" width="395" height="53"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="GrowingTextView"/>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W5z-7l-phK">
-                                    <rect key="frame" x="409" y="4" width="0.0" height="41"/>
+                                    <rect key="frame" x="409" y="4" width="0.0" height="53"/>
                                     <constraints>
                                         <constraint firstAttribute="width" id="R3D-VY-2YV"/>
                                     </constraints>
@@ -56,10 +56,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oL1-AL-sDn">
-                            <rect key="frame" x="0.0" y="46" width="409" height="36"/>
+                            <rect key="frame" x="0.0" y="58" width="409" height="30"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dbl-Hp-MrJ">
-                                    <rect key="frame" x="10" y="5.5" width="25" height="25"/>
+                                    <rect key="frame" x="10" y="2.5" width="25" height="25"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="854-Uj-lZg">
                                             <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
@@ -72,7 +72,7 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="fYB-Ed-fG0">
-                                    <rect key="frame" x="295" y="2" width="99" height="32"/>
+                                    <rect key="frame" x="295" y="-1" width="99" height="32"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXz-33-8LG">
                                             <rect key="frame" x="0.0" y="0.0" width="25" height="32"/>
@@ -123,16 +123,16 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="oL1-AL-sDn" secondAttribute="trailing" id="7uq-rT-uQZ"/>
                         <constraint firstItem="oL1-AL-sDn" firstAttribute="top" secondItem="8Re-dA-XD0" secondAttribute="bottom" id="9kM-6F-XII"/>
-                        <constraint firstAttribute="height" constant="90" id="Evd-ed-PWb"/>
+                        <constraint firstAttribute="height" constant="96" id="Evd-ed-PWb"/>
                         <constraint firstItem="jU2-ci-Yac" firstAttribute="top" secondItem="g3d-as-ewc" secondAttribute="top" id="IhN-aG-bto"/>
                         <constraint firstItem="jU2-ci-Yac" firstAttribute="leading" secondItem="g3d-as-ewc" secondAttribute="leading" id="Ny4-Pt-PlK"/>
                         <constraint firstAttribute="trailing" secondItem="jU2-ci-Yac" secondAttribute="trailing" id="O39-4K-TCc"/>
-                        <constraint firstAttribute="bottom" secondItem="8Re-dA-XD0" secondAttribute="bottom" constant="44" id="RDH-Z6-F87"/>
+                        <constraint firstAttribute="bottom" secondItem="8Re-dA-XD0" secondAttribute="bottom" constant="38" id="RDH-Z6-F87"/>
                         <constraint firstItem="oL1-AL-sDn" firstAttribute="leading" secondItem="g3d-as-ewc" secondAttribute="leading" id="TMf-Ez-FIa"/>
                         <constraint firstAttribute="bottom" secondItem="oL1-AL-sDn" secondAttribute="bottom" constant="8" id="ZTk-zU-P23"/>
                         <constraint firstAttribute="trailing" secondItem="8Re-dA-XD0" secondAttribute="trailing" id="ZuV-P8-Vci"/>
                         <constraint firstItem="8Re-dA-XD0" firstAttribute="leading" secondItem="g3d-as-ewc" secondAttribute="leading" id="oRO-HR-K4y"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="90" id="r16-oX-c59"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="96" id="r16-oX-c59"/>
                         <constraint firstItem="8Re-dA-XD0" firstAttribute="top" secondItem="jU2-ci-Yac" secondAttribute="bottom" id="rpB-BT-6lP"/>
                     </constraints>
                 </view>

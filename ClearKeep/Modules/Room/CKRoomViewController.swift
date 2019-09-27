@@ -19,6 +19,7 @@ import MatrixKit
     @IBOutlet weak var mentionListTableView: UITableView!
     @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityCHeight: NSLayoutConstraint!
+    @IBOutlet weak var bottomContainerViewConstraint: NSLayoutConstraint!
 
     @IBOutlet var invitationController: CKRoomInvitationController!
 
@@ -84,7 +85,11 @@ import MatrixKit
     override var keyboardHeight: CGFloat {
         didSet {
             if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
-                inputToolBarView.maxNumberOfLines = 3
+                inputToolBarView.maxNumberOfLines = 2
+            }
+            
+            if bottomContainerViewConstraint.constant != keyboardHeight {
+                bottomContainerViewConstraint.constant = keyboardHeight
             }
         }
     }
