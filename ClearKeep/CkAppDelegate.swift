@@ -208,7 +208,6 @@ import Foundation
         guard let keyBackup = notification?.object as? MXKeyBackup else {
             return
         }
-        print("\(keyBackup.state)==2314=12=41=1=5")
         switch keyBackup.state {
         case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion, MXKeyBackupStateDisabled:
             handleKeyBackupProcess(for: keyBackup)
