@@ -1708,23 +1708,22 @@ extension CKRoomViewController {
     }
     
     override func dataSource(_ dataSource: MXKDataSource!, shouldDoAction actionIdentifier: String!, inCell cell: MXKCellRendering!, userInfo: [AnyHashable : Any]! = [:], defaultValue: Bool) -> Bool {
-        if actionIdentifier == kMXKRoomBubbleCellShouldInteractWithURL {
+        
+        //if long click then type click = 1
+        let typeClick = userInfo?[kMXKRoomBubbleCellUrlItemInteraction] as? Int
+        //
+        if typeClick != 1 {
             let urlClicked = userInfo?[kMXKRoomBubbleCellUrl] as? URL
             AppUtils.openURL(url: urlClicked)
         }
-        
         return true
     }
     
     override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
-        
-        let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent
-        let textClicked = selectedEvent?.clear.wireContent["body"] as? String ?? ""
-        let isLink = textClicked.isValidEmail() || UIApplication.shared.canOpenURL(URL.init(fileURLWithPath: textClicked))
-        
+  
         // is long press event?
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
-            && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true && !isLink {
+            && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
             
             guard let cell = cell, let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
                     return
