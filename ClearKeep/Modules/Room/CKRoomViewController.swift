@@ -2619,6 +2619,13 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
     }
 }
 
+// MARK: - UITextViewDelegate
+extension CKRoomViewController : UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return false
+    }
+}
+
 // MARK: - Clipboard
 extension CKRoomViewController {
     
