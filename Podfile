@@ -135,10 +135,13 @@ post_install do |installer|
 
             if target.name == 'RxTheme'
               config.build_settings['SWIFT_VERSION'] = '4.2'
+            else if target.name == 'Cache'
+              config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
             else
               config.build_settings['SWIFT_VERSION'] = '4.0'     # Required for PiwikTracker. Should be removed
             end
         end
     end
+end
 end
 

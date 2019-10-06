@@ -5467,15 +5467,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks.sh\"\n\"${PODS_ROOT}/Fabric/run\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E34E30CD2CEE4A42FF8081D6 /* [CP] Check Pods Manifest.lock */ = {
@@ -6863,7 +6861,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DDEVELOP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = iOS_CK_Development_Provision;
+				PROVISIONING_PROFILE_SPECIFIER = "CK app dev provision";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -6883,7 +6881,7 @@
 				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6917,7 +6915,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DDEVELOP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "CK app dev provision";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_VERSION = 4.0;
