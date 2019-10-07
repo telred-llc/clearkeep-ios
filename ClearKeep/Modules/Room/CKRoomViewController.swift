@@ -87,9 +87,17 @@ import MatrixKit
             if let inputToolBarView = inputToolbarView as? CKRoomInputToolbarView {
                 inputToolBarView.maxNumberOfLines = 2
             }
-            
-            if bottomContainerViewConstraint.constant != keyboardHeight {
-                bottomContainerViewConstraint.constant = keyboardHeight
+        }
+        
+    }
+    
+    var currentInputView: UIView?
+    
+    var isPresentPhotoLibrary: Bool = false {
+        
+        didSet {
+            if !isPresentPhotoLibrary {
+               currentInputView = nil
             }
         }
     }
@@ -224,6 +232,9 @@ extension CKRoomViewController {
         }
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .presentPhotoLibrary, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+        
         
         self.removeTypingNotificationsListener()
         self.removeCallNotificationsListeners()
@@ -237,6 +248,10 @@ extension CKRoomViewController {
 
         // Listen to the event sent state changes
         NotificationCenter.default.addObserver(self, selector: #selector(self.eventDidChangeSentState(_:)), name: NSNotification.Name.mxEventDidChangeSentState, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.receivePresentPhotoLibrary(_:)), name: .presentPhotoLibrary, object: nil)
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.onKeyboardChangeFrame(_:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
 
     override func viewDidLoad() {
@@ -290,6 +305,10 @@ extension CKRoomViewController {
         })
          
 //        self.roomDataSource?.reload() // fix bug CK 270, app has feature auto backup key
+        
+        if self.roomInputToolbarContainerBottomConstraint.constant == 0 {
+            self.view.endEditing(true)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1731,7 +1750,10 @@ extension CKRoomViewController {
     }
     
     override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
-  
+        
+        isPresentPhotoLibrary = false
+        dismissKeyboard()
+        
         // is long press event?
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
             && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
@@ -2198,6 +2220,40 @@ extension CKRoomViewController: MXServerNoticesDelegate {
 // MARK: - RoomInputToolbarViewDelegate
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
+
+    
+    override func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView!, present alertController: UIAlertController!) {
+        super.roomInputToolbarView(toolbarView, present: alertController)
+        isPresentPhotoLibrary = false
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        
+        isPresentPhotoLibrary = false
+        
+        return super.resignFirstResponder()
+    }
+    
+    
+    override var inputView: UIView? {
+        return currentInputView
+    }
+    
+    @objc func receivePresentPhotoLibrary(_ notification: Notification) {
+        
+        currentInputView = nil
+        
+        if let photoPicker = notification.object as? ImagePickerController {
+            isPresentPhotoLibrary = true
+            self.becomeFirstResponder()
+            photoPicker.view.autoresizingMask = .flexibleHeight
+            currentInputView = photoPicker.view
+            
+        } else {
+            print("Don't cast ImagePickerController")
+        }
+    }
+    
     func sendFileDidSelect() {
         self.openDocumentWindow()
     }
@@ -2642,7 +2698,11 @@ extension CKRoomViewController {
     
     /// Selected all text message in cell
     func selectAllTextMessage(inCell cell: MXKRoomBubbleTableViewCell) {
-        selectedText = cell.bubbleData.textMessage
+        
+        guard let selectAllText = cell.bubbleData.textMessage else {
+            return
+        }
+        selectedText = selectAllText
         cell.allTextHighlighted = true
         DispatchQueue.main.async {
             self.UIMenuControllerDidHideMenuNotificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.UIMenuControllerDidHideMenu, object: nil, queue: OperationQueue.main, using: { (notifi) in
@@ -2694,11 +2754,12 @@ extension CKRoomViewController {
     
     // Need override to show UIMenuController
     override var canBecomeFirstResponder: Bool {
+        
         if let selectedText = selectedText, !selectedText.isEmpty {
-            return true
+            return !isPresentPhotoLibrary
         }
         
-        return false
+        return isPresentPhotoLibrary
     }
     
 }
@@ -2790,5 +2851,54 @@ extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
                 }
             }
         }
+    }
+}
+
+// MARK: Overight methed keyboard
+extension CKRoomViewController {
+    
+    @objc func onKeyboardChangeFrame(_ notification: Notification) {
+        
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let height = keyboardRectangle.height
+            
+            if self.roomInputToolbarContainerBottomConstraint.constant != height {
+                self.roomInputToolbarContainerBottomConstraint.constant = height - self.safeArea.bottom
+            }
+            
+        }
+    }
+    
+    @objc func onKeyboardWillShow(_ notification: Notification) {
+
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let height = keyboardRectangle.height
+            self.roomInputToolbarContainerBottomConstraint.constant = height - self.safeArea.bottom
+        }
+    }
+    
+    
+    @objc func onKeyboardWillHide(_ notification: Notification) {
+        
+        let curveValue = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
+        let animationCurve = UIView.AnimationCurve(rawValue: curveValue?.intValue ?? 0)
+        let animationDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.25
+        
+        self.keyboardView = nil
+
+        UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0,
+                       options: [.beginFromCurrentState, .layoutSubviews, .allowUserInteraction, .autoreverse], animations: {
+            self.roomInputToolbarContainerBottomConstraint.constant = 0
+        }) { (finish) in
+            self.view.endEditing(true)
+        }
+    }
+
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
     }
 }

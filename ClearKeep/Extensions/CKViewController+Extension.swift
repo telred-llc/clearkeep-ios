@@ -39,6 +39,17 @@ extension UIViewController {
             })
         self.present(alert, animated: true, completion: nil)
     }
+    
+    
+    var safeArea: UIEdgeInsets {
+        
+        if #available(iOS 11.0, *) {
+            return UIApplication.shared.keyWindow?.safeAreaInsets ?? .zero
+        }
+        
+        return .zero
+    }
+
 }
 
 // MARK: - MXKViewController extension
