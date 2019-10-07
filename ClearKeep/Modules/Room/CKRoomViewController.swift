@@ -1712,8 +1712,20 @@ extension CKRoomViewController {
         }
     }
     
-    override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
+    override func dataSource(_ dataSource: MXKDataSource!, shouldDoAction actionIdentifier: String!, inCell cell: MXKCellRendering!, userInfo: [AnyHashable : Any]! = [:], defaultValue: Bool) -> Bool {
         
+        //if long click then type click = 1
+        let typeClick = userInfo?[kMXKRoomBubbleCellUrlItemInteraction] as? Int
+        //
+        if typeClick != 1 {
+            let urlClicked = userInfo?[kMXKRoomBubbleCellUrl] as? URL
+            AppUtils.openURL(url: urlClicked)
+        }
+        return true
+    }
+    
+    override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
+  
         // is long press event?
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
             && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
@@ -2609,6 +2621,13 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
         
         // present
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+// MARK: - UITextViewDelegate
+extension CKRoomViewController : UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return false
     }
 }
 

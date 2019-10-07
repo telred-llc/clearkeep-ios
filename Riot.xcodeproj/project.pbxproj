@@ -16,6 +16,8 @@
 		358DB9429359F97520545D35 /* Pods_RiotPods_RiotShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5856BA7A55E53C0AEAFC084 /* Pods_RiotPods_RiotShareExtension.framework */; };
 		363B1D04D3577BC03F6D3C33 /* Pods_RiotPods_Riot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2510A69B4A681C1FEC36E848 /* Pods_RiotPods_Riot.framework */; };
 		42A6D9D92721760019D0521A /* Pods_RiotPods_RiotShareExtension_Prod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A12927B721FB448F55C132 /* Pods_RiotPods_RiotShareExtension_Prod.framework */; };
+		47C4FF9A233DB998002B1238 /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C4FF99233DB998002B1238 /* AppUtils.swift */; };
+		47C4FF9B233DB998002B1238 /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C4FF99233DB998002B1238 /* AppUtils.swift */; };
 		5EDD03A6221E531E0013A82F /* CKAlertSettingRoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD03A4221E531E0013A82F /* CKAlertSettingRoomCell.swift */; };
 		5EDD03A7221E531E0013A82F /* CKAlertSettingRoomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EDD03A5221E531E0013A82F /* CKAlertSettingRoomCell.xib */; };
 		5EF8B5E1221D58B4007B431C /* CKMenuRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF8B5DF221D58B4007B431C /* CKMenuRoomViewController.swift */; };
@@ -1322,6 +1324,7 @@
 		3284A35020A07C210044F922 /* postMessageAPI.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = postMessageAPI.js; sourceTree = "<group>"; };
 		32B1FEDA21A46F2C00637127 /* TermsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TermsView.xib; sourceTree = "<group>"; };
 		42BF1D0E600917AD1E2B42E2 /* Pods-RiotPods-RiotShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-RiotShareExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-RiotShareExtension/Pods-RiotPods-RiotShareExtension.release.xcconfig"; sourceTree = "<group>"; };
+		47C4FF99233DB998002B1238 /* AppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
 		5EDD03A4221E531E0013A82F /* CKAlertSettingRoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAlertSettingRoomCell.swift; sourceTree = "<group>"; };
 		5EDD03A5221E531E0013A82F /* CKAlertSettingRoomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKAlertSettingRoomCell.xib; sourceTree = "<group>"; };
 		5EF8B5DF221D58B4007B431C /* CKMenuRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKMenuRoomViewController.swift; sourceTree = "<group>"; };
@@ -2744,6 +2747,7 @@
 				85743491221566B10009E618 /* CKMessageContentManagement.swift */,
 				855EEDF922F954B00047B4AC /* CKManagers.swift */,
 				BD7A85772318BD2000658DB0 /* CKDeriver.swift */,
+				47C4FF99233DB998002B1238 /* AppUtils.swift */,
 			);
 			path = Ultils;
 			sourceTree = "<group>";
@@ -5666,6 +5670,7 @@
 				E5E7DB94229BC7D300AB7CF3 /* RoomSelectedStickerBubbleCell.m in Sources */,
 				E5E7DB95229BC7D300AB7CF3 /* CKReportSettingViewController.swift in Sources */,
 				E5E7DB96229BC7D300AB7CF3 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
+				47C4FF9B233DB998002B1238 /* AppUtils.swift in Sources */,
 				E5E7DB97229BC7D300AB7CF3 /* Tools.m in Sources */,
 				E5E7DB98229BC7D300AB7CF3 /* TermsView.swift in Sources */,
 				E5E7DB99229BC7D300AB7CF3 /* WebViewViewController.m in Sources */,
@@ -5953,6 +5958,7 @@
 				B1B558F920EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				B1B5573120EE6C4D00210D55 /* BugReportViewController.m in Sources */,
 				B16932A520F3A21C00746532 /* empty.mm in Sources */,
+				47C4FF9A233DB998002B1238 /* AppUtils.swift in Sources */,
 				B16932FA20F3C51A00746532 /* RecentCellData.m in Sources */,
 				E54A5ADA21FAF6020094461E /* Misc+Extension.swift in Sources */,
 				B16932F220F3C49E00746532 /* GroupsDataSource.m in Sources */,
