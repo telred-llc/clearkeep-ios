@@ -282,7 +282,7 @@
     {
         [self reset];
         
-        self.iconImageView.image = [UIImage imageNamed:@"newmessages"];
+        self.iconImageView.image = [UIImage imageNamed:@"ic_new_message_green"];
         
         NSString *notification;
         if (newMessagesCount > 1)
@@ -294,7 +294,7 @@
             notification = NSLocalizedStringFromTable(@"room_new_message_notification", @"Vector", nil);
         }
         self.messageLabel.text = [NSString stringWithFormat:notification, newMessagesCount];
-        self.messageLabel.textColor = kRiotColorPinkRed;
+        self.messageLabel.textColor = kRiotColorGreen;
         self.messageLabel.hidden = NO;
     }
     else
