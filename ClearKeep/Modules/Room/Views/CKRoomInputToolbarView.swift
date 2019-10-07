@@ -253,12 +253,9 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
 
 private extension CKRoomInputToolbarView {
     func sendImageDidSelect() {
-
         
         if let _ = self.imagePicker {
             self.imagePicker?.collectionView.reloadData()
-            self.typingMessage = .photo(asset: nil)
-            NotificationCenter.default.post(name: .presentPhotoLibrary, object: self.imagePicker)
         } else {
             self.imagePicker = ImagePickerController()
         }
