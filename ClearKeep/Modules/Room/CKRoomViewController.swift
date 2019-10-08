@@ -1208,11 +1208,19 @@ extension CKRoomViewController {
             } else if 1 == names.count {
                 text = String(format: NSLocalizedString("room_one_user_is_typing", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), names[0])
             } else if 2 == names.count {
-                text = String(format: NSLocalizedString("room_two_users_are_typing", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), names[0], names[1])
+                if count > 2 {
+                    text = String(format: NSLocalizedString("room_many_users_are_typing", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), names[0], names[1])
+                } else {
+                    text = String(format: NSLocalizedString("room_two_users_are_typing", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), names[0], names[1])
+                }
             } else {
                 text = String(format: NSLocalizedString("room_many_users_are_typing", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), names[0], names[1])
             }
-
+            if activitiesView.isHidden {
+                self.updatOffset = (text ?? "").count != 0
+            } else {
+                self.updatOffset = false
+            }
             (activitiesView as? RoomActivitiesView)?.displayTypingNotification(text)
             return (text ?? "").count != 0
         }
@@ -1394,9 +1402,7 @@ extension CKRoomViewController {
                 
                 // check unread message and bool update layout finish ---> adjust content offset show last message
                 if unreadCount == 0 && self.updatOffset {
-                
                     self.bubblesTableView.scrollToBottom(roomActivitiesView.height)
-                    
                     self.updatOffset = false
                 }
                 
