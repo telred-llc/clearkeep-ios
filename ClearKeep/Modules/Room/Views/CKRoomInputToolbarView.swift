@@ -99,7 +99,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         }
     }
     
-    private var typingMessage: MessageContentType = .text(msg: nil) {
+    var typingMessage: MessageContentType = .text(msg: nil) {
         didSet {
             switch typingMessage {
             case .text(msg: let msg):

@@ -97,7 +97,11 @@ import MatrixKit
         
         didSet {
             if !isPresentPhotoLibrary {
-               currentInputView = nil
+                currentInputView = nil
+                if let toolbarView = inputToolbarView as? CKRoomInputToolbarView {
+                    let lastMessage = toolbarView.growingTextView?.text ?? ""
+                    toolbarView.typingMessage = .text(msg: lastMessage)
+                }
             }
         }
     }
@@ -2862,12 +2866,14 @@ extension CKRoomViewController {
     @objc func onKeyboardWillShow(_ notification: Notification) {
 
         if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            
             let keyboardRectangle = keyboardFrame.cgRectValue
-            let height = keyboardRectangle.height
-            self.roomInputToolbarContainerBottomConstraint.constant = height - self.safeArea.bottom
+            let height = keyboardRectangle.height - self.safeArea.bottom
             
-            self.forceScrollBottom()
-            
+            if self.roomInputToolbarContainerBottomConstraint.constant != height {
+                self.roomInputToolbarContainerBottomConstraint.constant = height
+                self.forceScrollBottom()
+            }
         }
     }
     
