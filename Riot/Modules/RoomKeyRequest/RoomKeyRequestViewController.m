@@ -46,6 +46,17 @@
 
 - (void)show
 {
+    // Accept the received requests from this device
+    // As the device is now verified, all other key requests will be automatically accepted.
+    [self.mxSession.crypto acceptAllPendingKeyRequestsFromUser:self.device.userId andDevice:self.device.deviceId onComplete:^{
+        
+        onComplete();
+    }];
+
+    /*
+     - Commenting out due to auto-sharing feature
+     - Uncomment if necessary
+     
     // Show it modally on the root view controller
     UIViewController *rootViewController = [AppDelegate theDelegate].window.rootViewController;
     if (rootViewController)
@@ -118,6 +129,8 @@
 
         [rootViewController presentViewController:_alertController animated:YES completion:nil];
     }
+     
+     */
 }
 
 - (void)hide
