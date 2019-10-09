@@ -1810,6 +1810,15 @@ extension CKRoomViewController {
                         weakSelf.cancelEventSelection()
                         weakSelf.editEvent(with: selectedEvent.eventId)
                     }))
+                    
+                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("remove", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        weakSelf.cancelEventSelection()
+                        weakSelf.removeEvent(with: selectedEvent.eventId)
+                        
+                    }))
                 }
                 
                 // Add action for room message only
@@ -1842,15 +1851,6 @@ extension CKRoomViewController {
                     activityViewController.popoverPresentationController?.sourceRect = roomBubbleTableViewCell.bounds
                     
                     weakSelf.present(activityViewController, animated: true, completion: nil)
-                }))
-                
-                currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("remove", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                    guard let weakSelf = self else {
-                        return
-                    }
-                    weakSelf.cancelEventSelection()
-                    weakSelf.removeEvent(with: selectedEvent.eventId)
-                    
                 }))
                 
                 if components.count > 1 {
@@ -1936,14 +1936,16 @@ extension CKRoomViewController {
                         weakSelf.showEventDetails(selectedEvent)
                     }))
                     
-                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("remove", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
-                        guard let weakSelf = self else {
-                            return
-                        }
-                        weakSelf.cancelEventSelection()
-                        weakSelf.removeEvent(with: selectedEvent.eventId)
-                    }))
                     
+                    if self.roomDataSource.canEditEvent(withId: selectedEvent.eventId) {
+                        currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("remove", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                            guard let weakSelf = self else {
+                                return
+                            }
+                            weakSelf.cancelEventSelection()
+                            weakSelf.removeEvent(with: selectedEvent.eventId)
+                        }))
+                    }
                 }
                 
                 self.showActionAlert(sourceView: roomBubbleTableViewCell)
