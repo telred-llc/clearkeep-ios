@@ -1855,6 +1855,15 @@ extension CKRoomViewController {
                         weakSelf.cancelEventSelection()
                         weakSelf.editEvent(with: selectedEvent.eventId)
                     }))
+                    
+                    currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("remove", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                        guard let weakSelf = self else {
+                            return
+                        }
+                        weakSelf.cancelEventSelection()
+                        weakSelf.removeEvent(with: selectedEvent.eventId)
+                        
+                    }))
                 }
                 
                 // Add action for room message only
@@ -1971,6 +1980,17 @@ extension CKRoomViewController {
                         // Display event details
                         weakSelf.showEventDetails(selectedEvent)
                     }))
+                    
+                    
+                    if self.roomDataSource.canEditEvent(withId: selectedEvent.eventId) {
+                        currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("remove", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
+                            guard let weakSelf = self else {
+                                return
+                            }
+                            weakSelf.cancelEventSelection()
+                            weakSelf.removeEvent(with: selectedEvent.eventId)
+                        }))
+                    }
                 }
                 
                 self.showActionAlert(sourceView: roomBubbleTableViewCell)
@@ -2096,6 +2116,11 @@ extension CKRoomViewController {
         toolbarView.textMessage = roomDataSource.editableTextMessage(for: event)
         toolbarView.setSendMode(mode: .edit)
         toolbarView.becomeFirstResponder()
+    }
+    
+    private func removeEvent(with eventId : String?){
+        guard let eventId = eventId else {return}
+        roomDataSource.room.redactEvent(eventId, reason: nil) { _ in}
     }
     
     private func restoreTextBeforeEditing() {
