@@ -10,6 +10,11 @@ import UIKit
 import HPGrowingTextView
 import MobileCoreServices
 
+extension Notification.Name {
+    
+    static let presentPhotoLibrary = Notification.Name(rawValue: "presentPhotoLibrary")
+}
+
 @objc protocol CKRoomInputToolbarViewDelegate: MXKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
     func sendTextButtonDidPress(_ message: String, isEdit: Bool)
@@ -94,7 +99,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         }
     }
     
-    private var typingMessage: MessageContentType = .text(msg: nil) {
+    var typingMessage: MessageContentType = .text(msg: nil) {
         didSet {
             switch typingMessage {
             case .text(msg: let msg):
@@ -179,7 +184,6 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
                     self.sendText(message: msg, isEdit: true)
                 }
             case .photo(asset: let asset):
-                self.addImagePickerAsInputView(false)
                 if let asset = asset {
                     self.sendSelectedAssets([asset], with: MXKRoomInputToolbarCompressionModePrompt)
                 }
@@ -249,80 +253,39 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
 
 private extension CKRoomInputToolbarView {
     func sendImageDidSelect() {
-        if self.growingTextView?.isFirstResponder() != true && self.shadowTextView.isFirstResponder != true {
-            shadowTextView.becomeFirstResponder()
-            
-            // delay for showing keyboard completed
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.addImagePickerAsInputView(true)
-            }
+        
+        if let _ = self.imagePicker {
+            self.imagePicker?.collectionView.reloadData()
         } else {
-            if !shadowTextView.isFirstResponder {
-                shadowTextView.becomeFirstResponder()
-                
-                // delay for showing keyboard completed
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.addImagePickerAsInputView(true)
-                }
-                
-            }
+            self.imagePicker = ImagePickerController()
         }
+        // set data source and delegate
+        imagePicker?.delegate = self
+        imagePicker?.dataSource = self
+        
+        imagePicker?.layoutConfiguration.showsFirstActionItem = true
+        imagePicker?.layoutConfiguration.showsSecondActionItem = true
+        imagePicker?.layoutConfiguration.showsCameraItem = true
+
+        imagePicker?.layoutConfiguration.numberOfAssetItemsInRow = 2
+        
+        imagePicker?.captureSettings.cameraMode = .photo
+        
+        // save capture assets to photo library?
+        imagePicker?.captureSettings.savesCapturedPhotosToPhotoLibrary = true
+        
+        imagePicker?.collectionView.allowsMultipleSelection = false
+        
+        self.imagePicker?.layoutConfiguration.scrollDirection = .horizontal
+        
+        self.typingMessage = .photo(asset: nil)
+        
+        NotificationCenter.default.post(name: .presentPhotoLibrary, object: self.imagePicker)
+        
     }
 
     func triggerMentionUser(_ flag: Bool, text: String?) {
         ckDelegate?.roomInputToolbarView(self, triggerMention: flag, mentionText: text)
-    }
-
-    func addImagePickerAsInputView(_ adding: Bool) {
-        if adding {
-            if let _ = self.imagePicker {
-            } else {
-                self.imagePicker = ImagePickerController()
-            }
-            // set data source and delegate
-            imagePicker?.delegate = self
-            imagePicker?.dataSource = self
-            
-            imagePicker?.layoutConfiguration.showsFirstActionItem = true
-            imagePicker?.layoutConfiguration.showsSecondActionItem = true
-            imagePicker?.layoutConfiguration.showsCameraItem = true
-            
-            // number of items in a row (supported values > 0)
-            imagePicker?.layoutConfiguration.numberOfAssetItemsInRow = 2
-            
-            imagePicker?.captureSettings.cameraMode = .photo
-            
-            // save capture assets to photo library?
-            imagePicker?.captureSettings.savesCapturedPhotosToPhotoLibrary = true
-            
-            imagePicker?.collectionView.allowsMultipleSelection = false
-            
-            // presentation
-            // before we present VC we can ask for authorization to photo library,
-            // if we dont do it now, Image Picker will ask for it automatically
-            // after it's presented.
-            PHPhotoLibrary.requestAuthorization({ [unowned self] (_) in
-                DispatchQueue.main.async {
-                    self.imagePicker?.layoutConfiguration.scrollDirection = .horizontal
-                    
-                    //if you want to present view as input view, you have to set flexible height
-                    //to adopt natural keyboard height or just set an layout constraint height
-                    //for specific height.
-                    self.imagePicker?.view.autoresizingMask = .flexibleHeight
-                    self.shadowTextView.inputView = self.imagePicker?.view
-                    self.shadowTextView.reloadInputViews()
-                    self.typingMessage = .photo(asset: nil)
-                }
-            })
-        } else {
-            self.shadowTextView.inputView = nil
-            self.shadowTextView.reloadInputViews()
-            self.typingMessage = .text(msg: textMessage)
-            
-            if self.shadowTextView.isFirstResponder {
-                self.growingTextView?.becomeFirstResponder()
-            }
-        }
     }
     
     func getImageData(asset: PHAsset) -> Data? {
@@ -423,7 +386,7 @@ extension CKRoomInputToolbarView: UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        self.addImagePickerAsInputView(false)
+
     }
 }
 
@@ -433,8 +396,6 @@ extension CKRoomInputToolbarView {
     
     override func growingTextViewDidEndEditing(_ growingTextView: HPGrowingTextView!) {
         super.growingTextViewDidEndEditing(growingTextView)
-        
-        self.addImagePickerAsInputView(false)
     }
     
     override func growingTextViewDidChange(_ growingTextView: HPGrowingTextView!) {
