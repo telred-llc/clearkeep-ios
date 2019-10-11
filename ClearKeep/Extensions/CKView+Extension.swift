@@ -31,3 +31,10 @@ extension UIView {
         }
     }
 }
+
+extension UILabel {
+    func circle(){
+        self.layer.cornerRadius = self.frame.width/2
+        self.layer.masksToBounds = true
+    }
+}

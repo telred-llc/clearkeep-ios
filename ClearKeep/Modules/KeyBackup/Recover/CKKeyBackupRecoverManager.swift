@@ -249,7 +249,7 @@ private extension CKKeyBackupRecoverManager {
     }
 
     func display(_ error: Error?, message: String? = nil) {
-        if let err = error, err.localizedDescription.contains("Invalid recovery key") {
+        if let err = error, err.localizedDescription.contains("Invalid") {
             let alert = UIAlertController(title: "Invalid passphrase", message: "Try again or using new key (Old data will be lost)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
                 self.isShowingAlert = false

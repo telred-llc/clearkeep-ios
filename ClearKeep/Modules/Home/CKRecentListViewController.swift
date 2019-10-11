@@ -412,12 +412,12 @@ private extension CKRecentListViewController {
                 self.showAlert("Occur an error. Please try to join chat later.")
                 return
             }
-            
+
             session.joinRoom(cellData.roomSummary.roomId, completion: { (response: MXResponse<MXRoom>) in
                 
                 // main thread
                 DispatchQueue.main.async {
-                    
+
                     // got error
                     if let error = response.error {
                         let errorMessage = error.localizedDescription == "No known servers" ? Bundle.mxk_localizedString(forKey: "room_error_join_failed_empty_room") : error.localizedDescription
@@ -425,7 +425,9 @@ private extension CKRecentListViewController {
                     } else {
                         
                         // select room
-                        AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary?.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary?.mxSession)
+                        AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary?.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary?.mxSession) {
+                            cellData.roomSummary?.mxSession.markAllMessagesAsRead()
+                        }
                     }
                 }
             })
