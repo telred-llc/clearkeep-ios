@@ -198,7 +198,7 @@ import MatrixKit
 
     private let disposeBag = DisposeBag()
     
-    private var updatOffset: Bool = false
+    private var updatOffset: Bool = true
 }
 
 extension CKRoomViewController {
@@ -294,7 +294,6 @@ extension CKRoomViewController {
 
         navigationController?.view.setNeedsLayout() // force update layout
         navigationController?.view.layoutIfNeeded() // to fix height of the navigation bar
-
         self.refreshRoomNavigationBar()
         
         // listen notifications
@@ -785,10 +784,12 @@ extension CKRoomViewController {
                 })
             } else {
                 // Let the datasource send it and manage the local echo
-                roomDataSource.sendTextMessage(msgTxt, success: nil, failure: { error in
+                roomDataSource.sendTextMessage(msgTxt, success: { (response) in
+                    
+                }) { error in
                     // Just log the error. The message will be displayed in red in the room history
-                    print("[MXKRoomViewController] sendTextMessage failed.")
-                })
+                    print("[MXKRoomViewController] sendTextMessage failed: \(error?.localizedDescription ?? "Undefined")")
+                }
             }
         }
 
@@ -1242,8 +1243,6 @@ extension CKRoomViewController {
             }
             if activitiesView.isHidden {
                 self.updatOffset = (text ?? "").count != 0
-            } else {
-                self.updatOffset = false
             }
             (activitiesView as? RoomActivitiesView)?.displayTypingNotification(text)
             return (text ?? "").count != 0
@@ -1431,6 +1430,7 @@ extension CKRoomViewController {
                 }
                 
             } else {
+                self.updatOffset = true
                 roomActivitiesView.isHidden = true
                 self.roomActivitiesContainerHeightConstraint.constant = 0
             }
