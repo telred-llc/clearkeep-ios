@@ -2616,7 +2616,7 @@ extension CKRoomViewController {
                 roomBubbleTableViewCell.messageTextView.textColor = themeService.attrs.secondTextColor
                 roomBubbleTableViewCell.userNameLabel?.textColor = themeService.attrs.primaryTextColor
                 roomBubbleTableViewCell.statsLabel?.textColor = themeService.attrs.secondTextColor
-
+                roomBubbleTableViewCell.messageTextView.delegate = self
                 // we don't want to select text
                 roomBubbleTableViewCell.messageTextView?.gestureRecognizers?.forEach({ (recognizer: UIGestureRecognizer) in
                     if let recognizer = recognizer as? UILongPressGestureRecognizer {
