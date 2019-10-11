@@ -292,12 +292,13 @@
         {
             CKRoomViewController *roomViewController = segue.destinationViewController;
 
-            [RoomDataSource loadRoomDataSourceWithRoomId:selectedSearchEvent.roomId
+            [CKRoomDataSource loadRoomDataSourceWithRoomId:selectedSearchEvent.roomId
                                           initialEventId:selectedSearchEvent.eventId
-                                        andMatrixSession:selectedSearchEventSession onComplete:^(RoomDataSource *roomDataSource) {
+                                        andMatrixSession:selectedSearchEventSession onComplete:^(CKRoomDataSource *roomDataSource) {
 
                                             [roomDataSource finalizeInitialization];
                                             roomDataSource.markTimelineInitialEvent = YES;
+                                            roomDataSource.initialEvent = selectedSearchEvent;
 
                                             [roomViewController displayRoom:roomDataSource];
                                             roomViewController.hasRoomDataSourceOwnership = YES;
