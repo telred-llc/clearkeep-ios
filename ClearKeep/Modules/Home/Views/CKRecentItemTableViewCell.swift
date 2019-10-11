@@ -16,6 +16,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
     @IBOutlet weak var contentStackView: UIStackView!
     @IBOutlet weak var encryptedIconImage: UIImageView!
     @IBOutlet weak var statusView: UIView!
+    @IBOutlet weak var notifiCountLabel: UILabel!
     
     private var lastMessageLabel: UILabel?
     private var roomCellData: MXKRecentCellDataStoring?
@@ -141,17 +142,18 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         
         guard let rcd = roomCellData else {
             encryptedIconImage.isHidden = true
+            self.notifiCountLabel.isHidden = true
             return
         }
+        self.notifiCountLabel.isHidden = rcd.notificationCount > 0 || rcd.hasUnread ? false : true
+        self.notifiCountLabel.text = "\(rcd.notificationCount)"
+        self.notifiCountLabel.backgroundColor = CKColor.Text.warning
+        self.notifiCountLabel.circle()
         
-        if rcd.notificationCount > 0 || rcd.hasUnread {
-            encryptedIconImage.image = UIImage(named: "ic_cell_badge")
-            encryptedIconImage.isHidden = false
-        } else {
-            encryptedIconImage.image = UIImage(named: "ic_key_encrypted")?.withRenderingMode(.alwaysTemplate)
-            encryptedIconImage.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-            encryptedIconImage.isHidden = (rcd.roomSummary.isEncrypted != true)
-        }
+        encryptedIconImage.image = UIImage(named: "ic_key_encrypted")?.withRenderingMode(.alwaysTemplate)
+        encryptedIconImage.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+        encryptedIconImage.isHidden = (rcd.roomSummary.isEncrypted != true)
+        
         
         isShowContentMessage = false // add flag hidden show content message
         
