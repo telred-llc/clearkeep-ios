@@ -181,7 +181,7 @@ final class CKCallViewController: CallViewController {
             return
         }
         //Giving color to the layer
-        pulseArray[index].strokeColor = UIColor.gray.cgColor
+        pulseArray[index].strokeColor = CKColor.Misc.pulseCicleColor.cgColor
         
         //Creating scale animation for the layer, from and to value should be in range of 0.0 to 1.0
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
@@ -190,7 +190,7 @@ final class CKCallViewController: CallViewController {
         
         //Creating opacity animation for the layer, from and to value should be in range of 0.0 to 1.0
         let opacityAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
-        opacityAnimation.fromValue = 0.75
+        opacityAnimation.fromValue = 1.0
         opacityAnimation.toValue = 0.0
         
         // Grouping both animations and giving animation duration, animation repat count
