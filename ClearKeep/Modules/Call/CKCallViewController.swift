@@ -10,8 +10,8 @@ import Foundation
 
 final class CKCallViewController: CallViewController {
     
-    private let maxCallControlItemWidth: CGFloat = 55
-    private let minCallControlsSpacing: CGFloat = 10
+    private let maxCallControlItemWidth: CGFloat = 65
+    private let minCallControlsSpacing: CGFloat = 6
     private let disposeBag = DisposeBag()
     private var pulseArray = [CAShapeLayer]()
     
