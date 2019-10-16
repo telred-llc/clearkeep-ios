@@ -13,6 +13,7 @@ class CKRecentHeaderView: UIView {
     @IBOutlet weak var arrowImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var imageDescription: UIImageView!
     
     internal var addOnPressHandler: (() -> Void)?
     internal var onPressHandler: (() -> Void)?
@@ -24,17 +25,8 @@ class CKRecentHeaderView: UIView {
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-        self.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        
         self.arrowImageView.image = self.arrowImageView.image?.withRenderingMode(.alwaysTemplate)
         self.arrowImageView.theme.tintColor = themeService.attrStream { $0.primaryTextColor }
-        
-        let addImage = self.addButton.imageView?.image
-        let tintedAddImage = addImage?.withRenderingMode(.alwaysTemplate)
-        self.addButton.setImage(tintedAddImage, for: .normal)
-        self.addButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
         
         // add tap gesture to cell
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(onHeaderViewTap))
@@ -55,6 +47,10 @@ class CKRecentHeaderView: UIView {
     // MARK: - PUBLIC
     func setTitle(title: String, numberChat: Int) {
         self.titleLabel.text = "\(title) (\(numberChat))"
+    }
+    
+    func setImageDescription(nameImage : String){
+        self.imageDescription.image = UIImage(named: nameImage)
     }
     
     func tapHeader(isExpanded: Bool) {

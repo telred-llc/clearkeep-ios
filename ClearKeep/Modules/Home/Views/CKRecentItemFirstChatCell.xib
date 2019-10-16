@@ -1,57 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="8Jw-gp-h1Q" customClass="CKRecentItemFirstChatCell" customModule="Riot" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="540" id="8Jw-gp-h1Q" customClass="CKRecentItemFirstChatCell" customModule="Riot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="638" height="540"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8Jw-gp-h1Q" id="ueQ-7c-pUq">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8Jw-gp-h1Q" id="ueQ-7c-pUq">
+                <rect key="frame" x="0.0" y="0.0" width="638" height="539.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no chat here, tap to under button to start." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDt-Dt-HWp">
-                        <rect key="frame" x="0.0" y="10" width="375" height="17"/>
+                        <rect key="frame" x="153" y="339.5" width="332" height="17"/>
                         <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5S-Gh-4eS">
-                        <rect key="frame" x="46" y="35" width="283" height="30"/>
-                        <state key="normal" title="Start Chat"/>
+                        <rect key="frame" x="20" y="364.5" width="598" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="99J-4o-k0C"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                        <state key="normal" title="START ROOM CHAT" backgroundImage="bg_button_start_chat">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                 <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
-                            </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </button>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_empty_room" translatesAutoresizingMaskIntoConstraints="NO" id="4sW-WJ-LNK">
+                        <rect key="frame" x="244" y="181.5" width="150" height="150"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="atS-gV-DcE"/>
+                            <constraint firstAttribute="height" constant="150" id="xgK-hq-TGm"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="l5S-Gh-4eS" secondAttribute="trailing" constant="30" id="5YT-FG-HzN"/>
-                    <constraint firstItem="IDt-Dt-HWp" firstAttribute="top" secondItem="ueQ-7c-pUq" secondAttribute="top" constant="10" id="JGo-SI-qN1"/>
-                    <constraint firstAttribute="trailing" secondItem="IDt-Dt-HWp" secondAttribute="trailing" id="Pfr-VX-RTq"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="l5S-Gh-4eS" secondAttribute="bottom" constant="4" id="Txr-YB-Pdi"/>
-                    <constraint firstItem="l5S-Gh-4eS" firstAttribute="leading" secondItem="ueQ-7c-pUq" secondAttribute="leadingMargin" constant="30" id="bdr-p2-PBF"/>
-                    <constraint firstItem="IDt-Dt-HWp" firstAttribute="leading" secondItem="ueQ-7c-pUq" secondAttribute="leading" id="eVJ-Tp-u8Y"/>
-                    <constraint firstItem="l5S-Gh-4eS" firstAttribute="top" secondItem="IDt-Dt-HWp" secondAttribute="bottom" constant="8" id="nCq-cQ-ITX"/>
+                    <constraint firstAttribute="trailing" secondItem="l5S-Gh-4eS" secondAttribute="trailing" constant="20" id="F6L-yU-8qJ"/>
+                    <constraint firstItem="4sW-WJ-LNK" firstAttribute="top" secondItem="ueQ-7c-pUq" secondAttribute="topMargin" constant="150" id="RBw-g5-sFA"/>
+                    <constraint firstItem="IDt-Dt-HWp" firstAttribute="top" secondItem="4sW-WJ-LNK" secondAttribute="bottom" constant="8" id="Wlc-gq-Lup"/>
+                    <constraint firstItem="l5S-Gh-4eS" firstAttribute="leading" secondItem="ueQ-7c-pUq" secondAttribute="leading" constant="20" id="ZV5-qS-wWN"/>
+                    <constraint firstItem="l5S-Gh-4eS" firstAttribute="top" secondItem="IDt-Dt-HWp" secondAttribute="bottom" constant="8" id="bXn-oI-5ad"/>
+                    <constraint firstItem="IDt-Dt-HWp" firstAttribute="centerX" secondItem="ueQ-7c-pUq" secondAttribute="centerX" id="ePR-8v-zrD"/>
+                    <constraint firstAttribute="bottom" secondItem="l5S-Gh-4eS" secondAttribute="bottom" constant="150" id="qp7-vk-JF0"/>
+                    <constraint firstItem="4sW-WJ-LNK" firstAttribute="centerX" secondItem="ueQ-7c-pUq" secondAttribute="centerX" id="xmC-77-h9F"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="startChatButton" destination="l5S-Gh-4eS" id="nHk-cE-zvD"/>
                 <outlet property="titleLabel" destination="IDt-Dt-HWp" id="IBr-PH-To8"/>
             </connections>
-            <point key="canvasLocation" x="146.40000000000001" y="112.44377811094454"/>
+            <point key="canvasLocation" x="356.80000000000001" y="167.31634182908547"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="bg_button_start_chat" width="332" height="44"/>
+        <image name="ic_empty_room" width="135.5" height="146.5"/>
+    </resources>
 </document>

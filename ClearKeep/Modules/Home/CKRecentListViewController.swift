@@ -355,12 +355,15 @@ private extension CKRecentListViewController {
         switch sectionRecent {
         case .favourite:
             view.setTitle(title: String.ck_LocalizedString(key: "Favourites"), numberChat: self.dataSource[section].count)
+            view.setImageDescription(nameImage: "ic_favourites")
             view.addButton.isHidden = true
         case .direct:
             view.setTitle(title: String.ck_LocalizedString(key: "Direct Messages"), numberChat: self.dataSource[section].count)
+            view.setImageDescription(nameImage: "ic_direct_messages")
             view.addButton.isHidden = false
         case .room:
             view.setTitle(title: String.ck_LocalizedString(key: "Rooms"), numberChat: self.dataSource[section].count)
+            view.setImageDescription(nameImage: "ic_rooms")
             view.addButton.isHidden = false
         }
         
@@ -508,6 +511,7 @@ private extension CKRecentListViewController {
 
         // style
         cell.selectionStyle = .none
+        
 
         // action
         cell.startChattingHanlder = {
@@ -516,12 +520,12 @@ private extension CKRecentListViewController {
         
         // change text
         if indexPath.section == SectionRecent.room.rawValue {
-            cell.startChatButton.setTitle("Start Room Chat", for: .normal)
-            cell.titleLabel.text = "You don't have any room chats yet." // CK 383 - edit description
+            cell.startChatButton.setTitle("START ROOM CHAT", for: .normal)
+            cell.titleLabel.text = "You don't have any room chats yet. Start one now" // CK 383 - edit description
         
         } else if indexPath.section == SectionRecent.direct.rawValue {
-            cell.startChatButton.setTitle("Start Direct Chat", for: .normal)
-            cell.titleLabel.text = "You don't have any chats yet." // CK 383 - edit description
+            cell.startChatButton.setTitle("START DIRECT CHAT", for: .normal)
+            cell.titleLabel.text = "You don't have any chats yet. Start one now" // CK 383 - edit description
         }
         
         return cell
@@ -611,6 +615,10 @@ extension CKRecentListViewController: UITableViewDataSource {
         } else {
             return 0
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
