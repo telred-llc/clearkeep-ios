@@ -418,6 +418,25 @@ import Foundation
 
                             }
                         }
+                        
+                        // Reactions: tiemlv
+//                        var reactions: MXAggregatedReactions? = cellData?.reactions[component.event.eventId] as? MXAggregatedReactions
+                        
+                        if let reactions = cellData?.reactions {
+                            
+                            var aggregatedReactions: MXAggregatedReactions? = reactions[component.event.eventId] as? MXAggregatedReactions
+                            
+                            var reactionsView: BubbleReactionsView?
+                            
+                            if (!component.event.isRedactedEvent() && !isCollapsableCellCollapsed && ((aggregatedReactions?.withNonZeroCount()) != nil)) {
+                                
+//                                let showAllReactions = cellData.show
+                                
+                            }
+
+                        }
+                        
+                        
                     }
                     
                     // Prepare the bottom position for the next read receipt container (if any)
