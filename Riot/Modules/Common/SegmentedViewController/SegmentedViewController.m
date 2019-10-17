@@ -247,7 +247,7 @@
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont fontWithName:@"SFCompactDisplay-Medium" size:15];
         label.textColor = [UIColor colorWithRed:0.67 green:0.67 blue:0.67 alpha:1];
-        label.backgroundColor = [UIColor clearColor];
+        label.backgroundColor = [UIColor colorWithRed:240/255 green:240/255 blue:240/255 alpha:1.0];
         label.accessibilityIdentifier = [NSString stringWithFormat:@"SegmentedVCSectionLabel%tu", index];
         
         // the constraint defines the label frame
@@ -256,12 +256,11 @@
         
         // add the label before setting the constraints
         // CK: change selectionContainer's backgroundColor to clearColor
-        self.selectionContainer.backgroundColor = [UIColor clearColor];
+        self.selectionContainer.backgroundColor = [UIColor colorWithRed:240/255 green:240/255 blue:240/255 alpha:1.0];
         [self.selectionContainer addSubview:label];
     
         NSLayoutConstraint *leftConstraint;
-        if (labels.count)
-        {
+        if (labels.count) {
             leftConstraint = [NSLayoutConstraint constraintWithItem:label
                                                           attribute:NSLayoutAttributeLeading
                                                           relatedBy:NSLayoutRelationEqual
@@ -269,18 +268,16 @@
                                                           attribute:NSLayoutAttributeTrailing
                                                          multiplier:1.0
                                                            constant:0];
-        }
-        else
-        {
+        } else {
             leftConstraint = [NSLayoutConstraint constraintWithItem:label
-                                         attribute:NSLayoutAttributeLeading
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:self.selectionContainer
-                                         attribute:NSLayoutAttributeLeading
-                                        multiplier:1.0
-                                          constant:0];
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.selectionContainer
+                                                          attribute:NSLayoutAttributeLeading
+                                                         multiplier:1.0
+                                                           constant:0];
         }
-        
+
         NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:label
                                                                            attribute:NSLayoutAttributeWidth
                                                                            relatedBy:NSLayoutRelationEqual
@@ -288,7 +285,7 @@
                                                                            attribute:NSLayoutAttributeWidth
                                                                           multiplier:1.0 / count
                                                                             constant:0];
-        
+
         NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:label
                                                                          attribute:NSLayoutAttributeTop
                                                                          relatedBy:NSLayoutRelationEqual
@@ -296,9 +293,7 @@
                                                                          attribute:NSLayoutAttributeTop
                                                                         multiplier:1.0
                                                                           constant:0];
-        
-        
-        
+
         NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:label
                                                                             attribute:NSLayoutAttributeHeight
                                                                             relatedBy:NSLayoutRelationEqual
@@ -306,11 +301,9 @@
                                                                             attribute:NSLayoutAttributeHeight
                                                                            multiplier:1.0
                                                                              constant:0];
-        
-        
+
         // set the constraints
         [NSLayoutConstraint activateConstraints:@[leftConstraint, rightConstraint, topConstraint, heightConstraint]];
-        
         UITapGestureRecognizer *labelTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onLabelTouch:)];
         [labelTapGesture setNumberOfTouchesRequired:1];
         [labelTapGesture setNumberOfTapsRequired:1];
