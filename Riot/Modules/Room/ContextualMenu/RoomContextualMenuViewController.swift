@@ -84,6 +84,7 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
     
     class func instantiate() -> RoomContextualMenuViewController {
         let viewController = UIStoryboard(name: "RoomContextualMenuViewController", bundle: nil).instantiateViewController(withIdentifier: "RoomContextualMenuViewController") as! RoomContextualMenuViewController
+        viewController.loadViewIfNeeded()
 //        viewController.theme = ThemeService.shared().theme // tiemlv
         return viewController
 
@@ -92,6 +93,8 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
     // MARK: - Life cycle
     
     override func viewDidLoad() {
+        
+        print("AAAAAAA")
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.        
@@ -102,7 +105,7 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
         self.updateViews()
         
         self.registerThemeServiceDidChangeThemeNotification()
-        self.update(theme: self.theme)
+//        self.update(theme: self.theme)
     }
     
     // MARK: - Public
@@ -220,7 +223,7 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
             hideReactionMenu = false
             self.updateReactionsMenu(with: reactionsMenuViewModel)
         } else {
-            hideReactionMenu = true
+            hideReactionMenu = false
         }
         
         self.reactionsMenuContainerView.isHidden = hideReactionMenu
@@ -231,7 +234,7 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
         if self.reactionsMenuContainerView.subviews.isEmpty {
             let reactionsMenuView = ReactionsMenuView.loadFromNib()
             self.reactionsMenuContainerView.vc_addSubViewMatchingParent(reactionsMenuView)
-            reactionsMenuView.update(theme: self.theme)
+//            reactionsMenuView.update(theme: self.theme)
             self.reactionsMenuView = reactionsMenuView
         }
         

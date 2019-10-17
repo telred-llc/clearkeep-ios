@@ -420,23 +420,27 @@ import Foundation
                         }
                         
                         // Reactions: tiemlv
-//                        var reactions: MXAggregatedReactions? = cellData?.reactions[component.event.eventId] as? MXAggregatedReactions
-                        
                         if let reactions = cellData?.reactions {
                             
-                            var aggregatedReactions: MXAggregatedReactions? = reactions[component.event.eventId] as? MXAggregatedReactions
+                            let componentEventId: String = component.event.eventId
+                            
+                            var aggregatedReactions: MXAggregatedReactions? = reactions[componentEventId] as? MXAggregatedReactions
                             
                             var reactionsView: BubbleReactionsView?
                             
                             if (!component.event.isRedactedEvent() && !isCollapsableCellCollapsed && ((aggregatedReactions?.withNonZeroCount()) != nil)) {
                                 
-//                                let showAllReactions = cellData.show
+                                let showAllReactions: Bool = cellData?.showAllReactions(forEvent: componentEventId) ?? false
+                                
+//                                let bubbleReactionsViewModel: BubbleReactionsViewModel = BubbleReactionsViewModel(aggregatedReactions: reactions, eventId: componentEventId, showAll: showAllReactions)
+                                
+                                
                                 
                             }
 
                         }
                         
-                        
+                        // Reactions: tiemlv
                     }
                     
                     // Prepare the bottom position for the next read receipt container (if any)
