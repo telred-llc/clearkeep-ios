@@ -96,13 +96,10 @@ private extension CKSettingsViewController {
 
         switch cellType {
         case .markAllMessageAsRead:
-            cell.titleLabel.textColor = kRiotColorGreen
             cell.titleLabel.text =  NSLocalizedString("settings_mark_all_as_read", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
         case .clearCache:
-            cell.titleLabel.textColor = kRiotColorGreen
             cell.titleLabel.text =  NSLocalizedString("settings_clear_cache", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
         case .deactivateAccount:
-            cell.titleLabel.textColor = kRiotColorRed
             cell.titleLabel.text =  NSLocalizedString("settings_deactivate_my_account", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
         default:
             break
@@ -332,8 +329,13 @@ extension CKSettingsViewController: UITableViewDelegate {
         return 40
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return UITableViewAutomaticDimension
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 20))
+        view.backgroundColor = CKColor.Background.tableView
+        return view
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -364,8 +366,18 @@ extension CKSettingsViewController: UITableViewDelegate {
             return footerView
         }
         
-        return nil
+        return UIView.init()
     }
+    
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        let numberOfSections = tableView.numberOfSections
+        if section == numberOfSections - 1 {
+          return UITableViewAutomaticDimension
+        }
+        return 0.1
+    }
+    
 }
 
 // MARK: - DeactivateAccountViewControllerDelegate
