@@ -459,7 +459,7 @@ private extension CKRecentListViewController {
         cell.backgroundColor = themeService.attrs.secondBgColor
         cell.roomNameLabel.textColor = themeService.attrs.primaryTextColor
         cell.lastMessageLabel?.textColor = themeService.attrs.secondTextColor
-        cell.timeLabel.textColor = themeService.attrs.secondTextColor
+//        cell.timeLabel.textColor = themeService.attrs.secondTextColor
 
         return cell
     }
