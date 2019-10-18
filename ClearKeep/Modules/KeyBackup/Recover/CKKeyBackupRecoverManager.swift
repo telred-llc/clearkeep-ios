@@ -279,7 +279,7 @@ private extension CKKeyBackupRecoverManager {
 
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0]
-            if let pass = textField?.text, pass.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
+            if let pass = textField?.text {
                 self.restoreKey(from: pass)
             }
             self.isShowingAlert = false
