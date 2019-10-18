@@ -21,7 +21,7 @@ public class CKKeyBackupRecoverManager: NSObject {
     private var currentHTTPOperation: MXHTTPOperation?
     private var isShowingAlert: Bool = false
     private var isProcessingKey: Bool = false
-
+    private var alert = UIAlertController()
     private override init() {
         super.init()
         setup()
@@ -169,14 +169,14 @@ private extension CKKeyBackupRecoverManager {
                     }
 
                     if CKAppManager.shared.userPassword == nil {
-                        let alert = UIAlertController(title: "Restore backup key failed!", message: "Please sign out, then sign in and enter your passphrase to recover your old messages", preferredStyle: .alert)
+                        self.alert = UIAlertController(title: "Restore backup key failed!", message: "Please sign out, then sign in and enter your passphrase to recover your old messages", preferredStyle: .alert)
                         
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in
+                        self.alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in
 //                            AppDelegate.the().logout(withConfirmation: false) {_ in
 //                            }
                         }))
 
-                        alert.show()
+                        self.alert.show()
                     } else {
                         self.showPassphraseAlert()
                     }
@@ -250,7 +250,7 @@ private extension CKKeyBackupRecoverManager {
 
     func display(_ error: Error?, message: String? = nil) {
         if let err = error, err.localizedDescription.contains("Invalid") {
-            let alert = UIAlertController(title: "Invalid passphrase", message: "Try again or using new key (Old data will be lost)", preferredStyle: .alert)
+            alert = UIAlertController(title: "Invalid passphrase", message: "Try again or using new key (Old data will be lost)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
                 self.isShowingAlert = false
                 self.showPassphraseAlert()
@@ -261,28 +261,47 @@ private extension CKKeyBackupRecoverManager {
 
             alert.show()
         } else if let msg = message {
-            let alert = UIAlertController(title: msg, message: "", preferredStyle: .alert)
+            alert = UIAlertController(title: msg, message: "", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
             }))
-            
+
             alert.show()
         }
     }
-    
+
     func showPassphraseAlert() {
-        let alert = UIAlertController(title: "", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
+        alert = UIAlertController(title: "", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
         alert.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "Password"
+            textField.isSecureTextEntry = true
+            textField.delegate = self
         })
-        
+
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0]
-            if let pass = textField?.text, pass.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
+            if let pass = textField?.text {
                 self.restoreKey(from: pass)
             }
+            self.isShowingAlert = false
         }))
+
         self.isShowingAlert = true
+        self.alert.actions[0].isEnabled = false
         alert.show()
     }
 }
 
+extension CKKeyBackupRecoverManager: UITextFieldDelegate {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let fullString = textField.text ?? "" + string
+
+        // Textfield will become empty
+        if (string == "" && range.location == 0 && (range.length >= fullString.count)) {
+            self.alert.actions[0].isEnabled = false
+        } else {
+            self.alert.actions[0].isEnabled = true
+        }
+
+        return true
+    }
+}
