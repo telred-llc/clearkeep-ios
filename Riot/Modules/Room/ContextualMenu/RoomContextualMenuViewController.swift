@@ -83,9 +83,8 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
     // MARK: - Setup
     
     class func instantiate() -> RoomContextualMenuViewController {
-        let viewController = UIStoryboard(name: "RoomContextualMenuViewController", bundle: nil).instantiateViewController(withIdentifier: "RoomContextualMenuViewController") as! RoomContextualMenuViewController
-        viewController.loadViewIfNeeded()
-//        viewController.theme = ThemeService.shared().theme // tiemlv
+        let viewController = UIStoryboard(name: "RoomContextualMenuViewController", bundle: nil).instantiateInitialViewController() as! RoomContextualMenuViewController
+        viewController.theme = ThemeService.shared.theme
         return viewController
 
     }
@@ -94,7 +93,6 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
     
     override func viewDidLoad() {
         
-        print("AAAAAAA")
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.        
@@ -105,7 +103,7 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
         self.updateViews()
         
         self.registerThemeServiceDidChangeThemeNotification()
-//        self.update(theme: self.theme)
+        self.update(theme: self.theme)
     }
     
     // MARK: - Public
@@ -234,7 +232,7 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
         if self.reactionsMenuContainerView.subviews.isEmpty {
             let reactionsMenuView = ReactionsMenuView.loadFromNib()
             self.reactionsMenuContainerView.vc_addSubViewMatchingParent(reactionsMenuView)
-//            reactionsMenuView.update(theme: self.theme)
+            reactionsMenuView.update(theme: self.theme)
             self.reactionsMenuView = reactionsMenuView
         }
         
@@ -259,11 +257,11 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
     }
     
     private func registerThemeServiceDidChangeThemeNotification() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: .themeServiceDidChangeTheme, object: nil) // tiemlv
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: .themeServiceDidChangeTheme, object: nil)
     }
     
     @objc private func themeDidChange() {
-//        self.update(theme: ThemeService.shared().theme) // tiemlv
+        self.update(theme: ThemeService.shared.theme)
     }
 }
 

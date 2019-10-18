@@ -74,8 +74,10 @@ enum ThemeType: ThemeProvider {
     var typeName: String {
         switch self {
         case .light:
+            ThemeService.shared.setupTheme(.light)
             return "light"
         case .dark:
+            ThemeService.shared.setupTheme(.dark)
             return "dark"
         }
     }

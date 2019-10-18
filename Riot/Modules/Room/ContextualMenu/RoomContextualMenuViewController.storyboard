@@ -13,7 +13,7 @@
         <!--Room Contextual Menu View Controller-->
         <scene sceneID="I8V-hb-Jea">
             <objects>
-                <viewController storyboardIdentifier="RoomContextualMenuViewController" id="2eW-Ga-w3t" customClass="RoomContextualMenuViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="2eW-Ga-w3t" customClass="RoomContextualMenuViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X0o-r8-auN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -37,7 +37,7 @@
                                     <constraint firstItem="Vdy-rp-3g9" firstAttribute="centerX" secondItem="Szx-Dr-Ndt" secondAttribute="centerX" id="epY-Ub-0d5"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0GC-JU-rI3" customClass="RoomContextualMenuToolbarView" customModule="Riot" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0GC-JU-rI3" customClass="RoomContextualMenuToolbarView" customModule="Riot" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="793" width="414" height="69"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>

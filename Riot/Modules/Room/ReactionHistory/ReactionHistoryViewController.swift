@@ -47,9 +47,9 @@ final class ReactionHistoryViewController: UIViewController {
     // MARK: - Setup
     
     class func instantiate(with viewModel: ReactionHistoryViewModelType) -> ReactionHistoryViewController {
-        let viewController = UIStoryboard(name: "ReactionHistoryViewController", bundle: nil).instantiateViewController(withIdentifier: "ReactionHistoryViewController") as! ReactionHistoryViewController
+        let viewController = UIStoryboard(name: "ReactionHistoryViewController", bundle: nil).instantiateInitialViewController() as! ReactionHistoryViewController
         viewController.viewModel = viewModel
-        //        viewController.theme = ThemeService.shared().theme // tiemlv
+        viewController.theme = ThemeService.shared.theme
         return viewController
         
     }
@@ -102,11 +102,11 @@ final class ReactionHistoryViewController: UIViewController {
     }
     
     private func registerThemeServiceDidChangeThemeNotification() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: .themeServiceDidChangeTheme, object: nil) // tiemlv
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: .themeServiceDidChangeTheme, object: nil)
     }
     
     @objc private func themeDidChange() {
-//        self.update(theme: ThemeService.shared().theme) // tiemlv
+        self.update(theme: ThemeService.shared.theme)
     }
     
     private func setupTableView() {

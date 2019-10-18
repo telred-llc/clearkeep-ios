@@ -51,9 +51,9 @@ final class EmojiPickerViewController: UIViewController {
     // MARK: - Setup
     
     class func instantiate(with viewModel: EmojiPickerViewModelType) -> EmojiPickerViewController {
-        let viewController = UIStoryboard(name: "EmojiPickerViewController", bundle: nil).instantiateViewController(withIdentifier: "EmojiPickerViewController") as! EmojiPickerViewController
+        let viewController = UIStoryboard(name: "EmojiPickerViewController", bundle: nil).instantiateInitialViewController() as! EmojiPickerViewController
         viewController.viewModel = viewModel
-//        viewController.theme = ThemeService.shared().theme // tiemlv
+        viewController.theme = ThemeService.shared.theme
         return viewController
     }
     
@@ -123,11 +123,11 @@ final class EmojiPickerViewController: UIViewController {
     }
     
     private func registerThemeServiceDidChangeThemeNotification() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: .themeServiceDidChangeTheme, object: nil) // tiemlv
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: .themeServiceDidChangeTheme, object: nil)
     }
     
     @objc private func themeDidChange() {
-//        self.update(theme: ThemeService.shared().theme) // tiemlv
+        self.update(theme: ThemeService.shared.theme)
     }
     
     private func setupViews() {
@@ -258,7 +258,7 @@ extension EmojiPickerViewController: UICollectionViewDataSource {
         let emojiPickerCategory = self.emojiCategories[indexPath.section]
         
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, for: indexPath) as EmojiPickerHeaderView
-//        headerView.update(theme: self.theme) // tiemlv
+        headerView.update(theme: self.theme)
         headerView.fill(with: emojiPickerCategory.name)
         
         return headerView

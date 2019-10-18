@@ -20,3 +20,28 @@ import UIKit
 @objc protocol Themable: class {
     func update(theme: ThemeReaction)
 }
+
+@objcMembers
+class ThemeService {
+    
+    static let shared: ThemeService = ThemeService()
+    
+    var theme: ThemeReaction! {
+        didSet {
+            NotificationCenter.default.post(name: .themeServiceDidChangeTheme, object: nil)
+        }
+    }
+    
+    private init() {
+        setupTheme(.light)
+    }
+    
+    func setupTheme(_ theme: ThemeType) {
+        switch theme {
+        case .light:
+            self.theme = DefaultTheme()
+        case .dark:
+            self.theme = DarkThemeReaction()
+        }
+    }
+}

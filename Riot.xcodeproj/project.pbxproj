@@ -500,10 +500,18 @@
 		BDB43F312316390E00F7CB00 /* CKConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2F2316390E00F7CB00 /* CKConstant.swift */; };
 		BDFBA07423292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
 		BDFBA07523292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
+		D31A72A12358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
+		D31A72A22358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
 		D3C5A0D723587C1700DCBA8A /* RoomContextualMenuViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3FA9B342356EF8E00FB0BD1 /* RoomContextualMenuViewController.storyboard */; };
-		D3C5A0D823587C1700DCBA8A /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
 		D3C5A0D923587C1800DCBA8A /* RoomContextualMenuViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3FA9B342356EF8E00FB0BD1 /* RoomContextualMenuViewController.storyboard */; };
-		D3C5A0DA23587C1800DCBA8A /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
+		D3E5AF30235978D300D11110 /* DefaultTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E5AF2F235978D300D11110 /* DefaultTheme.swift */; };
+		D3E5AF31235978D300D11110 /* DefaultTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E5AF2F235978D300D11110 /* DefaultTheme.swift */; };
+		D3E5AF332359794E00D11110 /* UISearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E5AF322359794E00D11110 /* UISearchBar.swift */; };
+		D3E5AF342359794E00D11110 /* UISearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E5AF322359794E00D11110 /* UISearchBar.swift */; };
+		D3E5AF362359805700D11110 /* DarkThemeReaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E5AF352359805600D11110 /* DarkThemeReaction.swift */; };
+		D3E5AF372359805700D11110 /* DarkThemeReaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E5AF352359805600D11110 /* DarkThemeReaction.swift */; };
+		D3E5AF392359AAFE00D11110 /* apple_emojis_data.json in Resources */ = {isa = PBXBuildFile; fileRef = D3E5AF382359AAFE00D11110 /* apple_emojis_data.json */; };
+		D3E5AF3A2359AAFE00D11110 /* apple_emojis_data.json in Resources */ = {isa = PBXBuildFile; fileRef = D3E5AF382359AAFE00D11110 /* apple_emojis_data.json */; };
 		D3FA9B6B2356EF8E00FB0BD1 /* RoomContextualMenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B262356EF8D00FB0BD1 /* RoomContextualMenuAction.swift */; };
 		D3FA9B6C2356EF8E00FB0BD1 /* RoomContextualMenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B262356EF8D00FB0BD1 /* RoomContextualMenuAction.swift */; };
 		D3FA9B6D2356EF8E00FB0BD1 /* ContextualMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B272356EF8D00FB0BD1 /* ContextualMenuItemView.swift */; };
@@ -2090,6 +2098,10 @@
 		BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKPassphrase.swift; sourceTree = "<group>"; };
 		BDB43F2F2316390E00F7CB00 /* CKConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKConstant.swift; sourceTree = "<group>"; };
 		BDFBA07323292AB400DE721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D3E5AF2F235978D300D11110 /* DefaultTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTheme.swift; sourceTree = "<group>"; };
+		D3E5AF322359794E00D11110 /* UISearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISearchBar.swift; sourceTree = "<group>"; };
+		D3E5AF352359805600D11110 /* DarkThemeReaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkThemeReaction.swift; sourceTree = "<group>"; };
+		D3E5AF382359AAFE00D11110 /* apple_emojis_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = apple_emojis_data.json; sourceTree = "<group>"; };
 		D3FA9B262356EF8D00FB0BD1 /* RoomContextualMenuAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomContextualMenuAction.swift; sourceTree = "<group>"; };
 		D3FA9B272356EF8D00FB0BD1 /* ContextualMenuItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextualMenuItemView.swift; sourceTree = "<group>"; };
 		D3FA9B292356EF8D00FB0BD1 /* ReactionsMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsMenuView.swift; sourceTree = "<group>"; };
@@ -4450,6 +4462,8 @@
 		D3FA9BE72356F08D00FB0BD1 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
+				D3E5AF352359805600D11110 /* DarkThemeReaction.swift */,
+				D3E5AF2F235978D300D11110 /* DefaultTheme.swift */,
 				D3FA9BEB2356F15C00FB0BD1 /* Theme.swift */,
 				D3FA9BE82356F0A300FB0BD1 /* Themable.swift */,
 			);
@@ -4922,6 +4936,7 @@
 				32935CB21F628B98006888C8 /* js */,
 				F083BBEF1E7009EC00A9B29C /* Images.xcassets */,
 				B169328620F3954A00746532 /* SharedImages.xcassets */,
+				D3E5AF382359AAFE00D11110 /* apple_emojis_data.json */,
 				B169329320F39E6200746532 /* LaunchScreen.storyboard */,
 				B169329520F39E6300746532 /* Main.storyboard */,
 				F083BC0E1E7009EC00A9B29C /* third_party_licenses.html */,
@@ -4969,6 +4984,7 @@
 				9CBD7CB522DD869700F60628 /* UIControl.swift */,
 				D3FA9C172357127400FB0BD1 /* UITouch.swift */,
 				D3FA9BF42356F7B800FB0BD1 /* UIGestureRecognizer.swift */,
+				D3E5AF322359794E00D11110 /* UISearchBar.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -5493,6 +5509,7 @@
 				E5E7DD1D229BC7D300AB7CF3 /* RoomSelectedStickerBubbleCell.xib in Resources */,
 				E5E7DD1E229BC7D300AB7CF3 /* CKRoomSettingsMoreActionCell.xib in Resources */,
 				E520C5D622E719CA003101BA /* KeyBackupRecoverFromPassphraseViewController.storyboard in Resources */,
+				D3E5AF3A2359AAFE00D11110 /* apple_emojis_data.json in Resources */,
 				E520C5BD22E719B3003101BA /* KeyBackupSetupIntroViewController.storyboard in Resources */,
 				E5E7DD1F229BC7D300AB7CF3 /* CKAccountProfileActionCell.xib in Resources */,
 				E5E7DD20229BC7D300AB7CF3 /* SegmentedViewController.xib in Resources */,
@@ -5738,6 +5755,7 @@
 				B1B557DD20EF5FBB00210D55 /* FilesSearchTableViewCell.xib in Resources */,
 				B1B5590320EF768F00210D55 /* RoomSelectedStickerBubbleCell.xib in Resources */,
 				E5233123221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib in Resources */,
+				D3E5AF392359AAFE00D11110 /* apple_emojis_data.json in Resources */,
 				A0043FBE21F849240051AAE1 /* CKAccountProfileActionCell.xib in Resources */,
 				9C3AC4B922D73B6A00DD179F /* KeyBackupSetupIntroViewController.storyboard in Resources */,
 				B1B5573F20EE6C4D00210D55 /* SegmentedViewController.xib in Resources */,
@@ -6015,7 +6033,7 @@
 				D3FA9B9A2356EF8E00FB0BD1 /* BubbleReactionViewCell.swift in Sources */,
 				E520C5C322E719B8003101BA /* KeyBackupSetupPassphraseViewAction.swift in Sources */,
 				E5E7DB64229BC7D300AB7CF3 /* RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.m in Sources */,
-				D3C5A0DA23587C1800DCBA8A /* RoomContextualMenuViewController.swift in Sources */,
+				D31A72A22358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */,
 				D3FA9C1223570EB100FB0BD1 /* EmojiMartStore.swift in Sources */,
 				E579FDD522FD22F900B26814 /* JitsiViewController.m in Sources */,
 				E5E7DB65229BC7D300AB7CF3 /* CKLayoutSize.swift in Sources */,
@@ -6077,6 +6095,7 @@
 				D3FA9C1023570EB100FB0BD1 /* EmojiMartService.swift in Sources */,
 				E5E7DB8D229BC7D300AB7CF3 /* CKRoomSettingsBaseCell.swift in Sources */,
 				E5E7DB8E229BC7D300AB7CF3 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.m in Sources */,
+				D3E5AF342359794E00D11110 /* UISearchBar.swift in Sources */,
 				E5E7DB8F229BC7D300AB7CF3 /* RiotNavigationController.m in Sources */,
 				E5E7DB90229BC7D300AB7CF3 /* CKAttachmentsViewController.swift in Sources */,
 				E520C5ED22E71D90003101BA /* PasswordStrength.swift in Sources */,
@@ -6124,6 +6143,7 @@
 				E5E7DBAC229BC7D300AB7CF3 /* MasterTabBarController.m in Sources */,
 				E520C5D222E719CA003101BA /* KeyBackupRecoverFromPassphraseViewModel.swift in Sources */,
 				E5E7DBAD229BC7D300AB7CF3 /* CKRoomCreatingViewController.swift in Sources */,
+				D3E5AF372359805700D11110 /* DarkThemeReaction.swift in Sources */,
 				E5E7DBAE229BC7D300AB7CF3 /* TableViewCellWithButton.m in Sources */,
 				E520C5E522E71D3F003101BA /* Coordinator.swift in Sources */,
 				E5E7DBAF229BC7D300AB7CF3 /* RoomMemberTitleView.m in Sources */,
@@ -6282,6 +6302,7 @@
 				E5E7DC18229BC7D300AB7CF3 /* CKCallViewController.swift in Sources */,
 				E5E7DC19229BC7D300AB7CF3 /* AuthenticationViewController.m in Sources */,
 				E5E7DC1A229BC7D300AB7CF3 /* CountryPickerViewController.m in Sources */,
+				D3E5AF31235978D300D11110 /* DefaultTheme.swift in Sources */,
 				E5BEBA1722C9F2EE00B6D973 /* CKRecentHeaderView.swift in Sources */,
 				E5E7DC1B229BC7D300AB7CF3 /* GDPRConsentViewController.swift in Sources */,
 				E5E7DC1C229BC7D300AB7CF3 /* UnifiedSearchViewController.m in Sources */,
@@ -6622,6 +6643,7 @@
 				E5774823222690CA0047D9AC /* CKRoomInvitationController.swift in Sources */,
 				B1B5599320EFC5E400210D55 /* DecryptionFailure.m in Sources */,
 				E579FDB722FD21EA00B26814 /* WidgetManager.m in Sources */,
+				D3E5AF362359805700D11110 /* DarkThemeReaction.swift in Sources */,
 				A01DCDE921FEC1980069CA4A /* CKOtherProfileViewController.swift in Sources */,
 				9CA8780A22DA160200A28C95 /* OperationQueue.swift in Sources */,
 				9C3AC4C222D73B6A00DD179F /* KeyBackupSetupPassphraseViewModel.swift in Sources */,
@@ -6686,6 +6708,7 @@
 				B1B5573B20EE6C4D00210D55 /* FavouritesViewController.m in Sources */,
 				E5ABA75721E73CBC005EFE0C /* CKRoomSettingsTopicCell.swift in Sources */,
 				9C3AC4C622D73B6A00DD179F /* KeyBackupSetupCoordinatorType.swift in Sources */,
+				D3E5AF30235978D300D11110 /* DefaultTheme.swift in Sources */,
 				E574336C21F370DD00989FF3 /* CKRoomCreatingNameCell.swift in Sources */,
 				853CBDEC2232065F00404DBC /* CKSecuritySettingViewController.swift in Sources */,
 				9CF5B7FA22E16E8300ECF4B0 /* KeyboardNotification.swift in Sources */,
@@ -6697,7 +6720,7 @@
 				E5AC22C92163776C00AA76B1 /* NavigationItemImage.m in Sources */,
 				B1B5571E20EE6C4D00210D55 /* ContactDetailsViewController.m in Sources */,
 				858A532121F58AB200570D83 /* CKRoomDataSource.swift in Sources */,
-				D3C5A0D823587C1700DCBA8A /* RoomContextualMenuViewController.swift in Sources */,
+				D31A72A12358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */,
 				BDB43F212316291D00F7CB00 /* CKRequest.swift in Sources */,
 				E5720EDC21ACFA1F0093D99A /* CkMasterTabBarController.swift in Sources */,
 				9CF635E322D854EF00790297 /* UIButton+Extension.swift in Sources */,
@@ -6801,6 +6824,7 @@
 				85B6ED2221F959A4000D99CE /* CKMentionDataSource.swift in Sources */,
 				B1B558EE20EF768F00210D55 /* RoomOutgoingAttachmentBubbleCell.m in Sources */,
 				E51891E321EF120000DFBCA5 /* CKRoomSettingsEditViewController.swift in Sources */,
+				D3E5AF332359794E00D11110 /* UISearchBar.swift in Sources */,
 				855EEDFA22F954B00047B4AC /* CKManagers.swift in Sources */,
 				D3FA9C1123570EB100FB0BD1 /* EmojiMartStore.swift in Sources */,
 				D3FA9B732356EF8E00FB0BD1 /* ReactionsMenuButton.swift in Sources */,

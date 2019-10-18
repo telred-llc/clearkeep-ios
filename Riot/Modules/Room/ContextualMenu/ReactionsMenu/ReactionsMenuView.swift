@@ -60,11 +60,10 @@ final class ReactionsMenuView: UIView, Themable, NibLoadable {
         
         self.reactionsBackgroundView.layer.masksToBounds = true
         
-//        let moreReactionsImage = Asset.Images.moreReactions.image.withRenderingMode(.alwaysTemplate)
         let moreReactionsImage = UIImage(named: "more_reactions")?.withRenderingMode(.alwaysTemplate)
         self.moreReactionsButton.setImage(moreReactionsImage, for: .normal)
         
-//        self.update(theme: ThemeService.shared().theme) // tiemlv
+        self.update(theme: ThemeService.shared.theme)
     }
     
     override func layoutSubviews() {

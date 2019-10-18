@@ -18,6 +18,12 @@ import UIKit
 
 /// Provide color constant values defined by the designer
 /// https://app.zeplin.io/project/5c122fa790c5b4241ffa6be7/screen/5c619592daff2f1241d82e75
+
+extension Notification.Name {
+    
+    static let themeServiceDidChangeTheme = Notification.Name(rawValue: "themeServiceDidChangeTheme")
+}
+
 @objc protocol ThemeReaction {
 
     var backgroundColor: UIColor { get }

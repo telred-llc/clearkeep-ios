@@ -298,6 +298,9 @@ extension CKRoomViewController {
         
         // -- fix bug sync room members from server
         forceUpdateMemberInRoom()
+        
+        // -- init roomContextMenuPresent
+        self.roomContextualMenuPresenter = RoomContextualMenuPresenter()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -3027,7 +3030,7 @@ extension CKRoomViewController {
         
         let actionItems: [RoomContextualMenuItem] = [moreAction]
         
-        return actionItems
+        return []
     }
 
     func showContextualMenu(for event: MXEvent?, fromSingleTapGesture usedSingleTapGesture: Bool, cell: MXKCellRendering?, animated: Bool) {

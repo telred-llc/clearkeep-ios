@@ -54,7 +54,7 @@ class ReactionsMenuButton: UIButton, Themable {
     private func commonInit() {
         self.layer.masksToBounds = true
 
-//        self.update(theme: ThemeService.shared().theme) // tiemlv
+        self.update(theme: ThemeService.shared.theme)
 
         customizeViewRendering()
         updateView()

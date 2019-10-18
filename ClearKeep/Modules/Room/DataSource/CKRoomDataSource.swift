@@ -432,10 +432,36 @@ import Foundation
                                 
                                 let showAllReactions: Bool = cellData?.showAllReactions(forEvent: componentEventId) ?? false
                                 
-//                                let bubbleReactionsViewModel: BubbleReactionsViewModel = BubbleReactionsViewModel(aggregatedReactions: reactions, eventId: componentEventId, showAll: showAllReactions)
+                                let bubbleReactionsViewModel: BubbleReactionsViewModel = BubbleReactionsViewModel(aggregatedReactions: (aggregatedReactions?.withNonZeroCount())!, eventId: componentEventId, showAll: showAllReactions)
                                 
+                                reactionsView = BubbleReactionsView.init()
+                                reactionsView?.viewModel = bubbleReactionsViewModel
+                                reactionsView?.update(theme: ThemeService.shared.theme)
                                 
+                                bubbleCell.tmpSubviews.add(reactionsView)
                                 
+                                bubbleReactionsViewModel.viewModelDelegate = self
+                                
+                                reactionsView?.translatesAutoresizingMaskIntoConstraints = false
+                                
+                                bubbleCell.contentView.addSubview(reactionsView!)
+                                
+                                if !(bubbleCell.tmpSubviews != nil) {
+                                    bubbleCell.tmpSubviews = []
+                                }
+                                
+                                bubbleCell.tmpSubviews.add(reactionsView)
+                                
+                                var leftMargin = RoomBubbleCellLayout.reactionsViewLeftMargin
+                                
+                                if self.room.summary.isEncrypted {
+                                    leftMargin += RoomBubbleCellLayout.encryptedContentLeftMargin
+                                }
+                                
+                                reactionsView?.leadingAnchor.constraint(equalTo: reactionsView!.superview!.leadingAnchor, constant: leftMargin).isActive = true
+                                reactionsView?.trailingAnchor.constraint(equalTo: reactionsView!.superview!.trailingAnchor, constant: -RoomBubbleCellLayout.reactionsViewRightMargin).isActive = true
+                                reactionsView?.topAnchor.constraint(equalTo: reactionsView!.superview!.topAnchor, constant: RoomBubbleCellLayout.reactionsViewTopMargin).isActive = true
+//                                reactionsView?.leadingAnchor.constraint(equalTo: reactionsView!.superview!.leadingAnchor, constant: leftMargin).isActive = true
                             }
 
                         }
@@ -523,4 +549,59 @@ import Foundation
 
         return nil
     }
+}
+
+
+// MARK: BubbleReactionsViewModelDelegate
+extension CKRoomDataSource {
+    
+    func setShowAllReactions(_ showAllReactions: Bool, forEvent eventId: String?) {
+        weak var cellData = cellDataOfEvent(withEventId: eventId)
+        if (cellData is RoomBubbleCellData) {
+            let roomBubbleCellData = cellData as? RoomBubbleCellData
+
+            roomBubbleCellData?.setShowAllReactions(showAllReactions, forEvent: eventId)
+            updateCellDataReactions(roomBubbleCellData, forEventId: eventId)
+
+            delegate.dataSource(self, didCellChange: nil)
+        }
+    }
+
+}
+
+extension CKRoomDataSource: BubbleReactionsViewModelDelegate {
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didAddReaction reactionCount: MXReactionCount, forEventId eventId: String) {
+        
+        addReaction(reactionCount.reaction, forEventId: eventId, success: {
+            
+        }) { (error) in
+            print("------, ", error?.localizedDescription)
+        }
+    }
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didRemoveReaction reactionCount: MXReactionCount, forEventId eventId: String) {
+        
+        removeReaction(reactionCount.reaction, forEventId: eventId, success: {
+            
+        }) { (error) in
+            print("------, ", error?.localizedDescription)
+        }
+    }
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didShowAllTappedForEventId eventId: String) {
+        
+        setShowAllReactions(true, forEvent: eventId)
+    }
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didShowLessTappedForEventId eventId: String) {
+        
+        setShowAllReactions(false, forEvent: eventId)
+    }
+    
+    func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didLongPressForEventId eventId: String) {
+        
+    }
+    
+    
 }

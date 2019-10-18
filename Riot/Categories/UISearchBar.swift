@@ -14,19 +14,21 @@
  limitations under the License.
  */
 
-import Foundation
+import UIKit
 
-struct EmojiCategory {
+extension UISearchBar {
     
-    /// Emoji category identifier (e.g. "people")
-    let identifier: String
-    
-    /// Emoji list associated to category
-    let emojis: [EmojiItem]
-    
-    /// Emoji category localized name
-    var name: String {
-        let categoryNameLocalizationKey = "emoji_picker_\(self.identifier)_category"
-        return categoryNameLocalizationKey.localized()
+    /// Returns internal UITextField
+    @objc var vc_searchTextField: UITextField? {
+        // TODO: To remove once on XCode11/iOS13
+        #if swift(>=5.1)
+            if #available(iOS 13.0, *) {
+                return self.searchTextField
+            } else {
+                return self.value(forKey: "searchField") as? UITextField
+            }
+        #else
+            return self.value(forKey: "searchField") as? UITextField
+        #endif
     }
 }
