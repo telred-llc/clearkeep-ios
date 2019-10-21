@@ -599,7 +599,7 @@ extension CKRecentListViewController: UITableViewDataSource {
         if sectionRecent == .favourite && self.dataSource[section].count == 0 {
             return 0
         }
-        return CKLayoutSize.Table.header60px
+        return CKLayoutSize.Table.row44px
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

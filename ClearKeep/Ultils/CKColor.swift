@@ -28,7 +28,7 @@ class CKColor {
         static let darkGray: UIColor                = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
         static let lightGray: UIColor               = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         static let blue: UIColor                    = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
-        static let blueHeader : UIColor             = #colorLiteral(red: 0.9450980392, green: 0.9607843137, blue: 1, alpha: 1)
+        static let homeHeader : UIColor             = #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 1)
         static let blueTran : UIColor               = #colorLiteral(red: 0.7921568627, green: 0.9568627451, blue: 0.9843137255, alpha: 0.1453565141)
         static let newConver : UIColor              = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
     }
