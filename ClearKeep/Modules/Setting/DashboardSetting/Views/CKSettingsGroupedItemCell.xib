@@ -20,15 +20,15 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_members" translatesAutoresizingMaskIntoConstraints="NO" id="pLf-fh-yzQ">
-                        <rect key="frame" x="20" y="12" width="20" height="20"/>
+                        <rect key="frame" x="20" y="14.5" width="15" height="15"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="EcT-Xq-ic4"/>
-                            <constraint firstAttribute="width" constant="20" id="HhF-kI-PFS"/>
+                            <constraint firstAttribute="height" constant="15" id="EcT-Xq-ic4"/>
+                            <constraint firstAttribute="width" constant="15" id="HhF-kI-PFS"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIc-q1-gt2">
-                        <rect key="frame" x="48" y="11.5" width="350" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <rect key="frame" x="45" y="10.5" width="353" height="23"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -37,7 +37,7 @@
                     <constraint firstAttribute="trailing" secondItem="HIc-q1-gt2" secondAttribute="trailing" constant="20" id="6GY-eg-tKb"/>
                     <constraint firstItem="HIc-q1-gt2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ASd-PG-MgI"/>
                     <constraint firstItem="pLf-fh-yzQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Fgx-14-p4E"/>
-                    <constraint firstItem="HIc-q1-gt2" firstAttribute="leading" secondItem="pLf-fh-yzQ" secondAttribute="trailing" constant="8" id="dz1-tF-7Pw"/>
+                    <constraint firstItem="HIc-q1-gt2" firstAttribute="leading" secondItem="pLf-fh-yzQ" secondAttribute="trailing" constant="10" id="dz1-tF-7Pw"/>
                     <constraint firstItem="pLf-fh-yzQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jEH-ZG-hww"/>
                 </constraints>
             </tableViewCellContentView>

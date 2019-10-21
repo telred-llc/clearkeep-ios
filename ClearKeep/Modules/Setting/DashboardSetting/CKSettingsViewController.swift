@@ -47,6 +47,7 @@ final class CKSettingsViewController: MXKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupInitization()
+        self.tableView.separatorStyle = .none
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,7 +57,7 @@ final class CKSettingsViewController: MXKViewController {
     
     private func setupInitization() {
         // Init datasource
-        tblDatasource = [[.profile], [.notification, .calls, .report], [.security], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
+        tblDatasource = [[.profile], [.notification, .calls, .report , .security], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
         setupTableView()
         bindingTheme()
     }
@@ -93,7 +94,7 @@ private extension CKSettingsViewController {
     func cellForButton(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingButtonCell {
         let cellType = tblDatasource[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingButtonCell", for: indexPath) as! CKSettingButtonCell
-
+        cell.backgroundColor = .white
         switch cellType {
         case .markAllMessageAsRead:
             cell.titleLabel.text =  NSLocalizedString("settings_mark_all_as_read", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
@@ -111,7 +112,7 @@ private extension CKSettingsViewController {
     func cellForDarkMode(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingDarkModeCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingDarkModeCell", for: indexPath) as! CKSettingDarkModeCell
         cell.titleLabel.text = "Dark Mode"
-
+        cell.backgroundColor = .white
         let isDarkMode = RiotSettings.shared.userInterfaceTheme == ThemeType.dark.typeName
         cell.switchView.isOn = isDarkMode
 
@@ -135,7 +136,7 @@ private extension CKSettingsViewController {
     
     func cellForNormalItems(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingsGroupedItemCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingsGroupedItemCell", for: indexPath) as! CKSettingsGroupedItemCell
-        
+        cell.backgroundColor = .white
         let cellType = tblDatasource[indexPath.section][indexPath.row]
         switch cellType {
         case .profile:
@@ -322,6 +323,12 @@ extension CKSettingsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellType = tblDatasource[indexPath.section][indexPath.row]
+        if cellType == .profile {
+            return CKLayoutSize.Table.row70px
+        }else if cellType == .darkmode{
+            return CKLayoutSize.Table.row60px
+        }
         return CKLayoutSize.Table.row43px
     }
     
