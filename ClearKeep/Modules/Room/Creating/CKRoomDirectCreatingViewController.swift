@@ -65,8 +65,8 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
-        self.navigationItem.title = "New a conversation"
-        
+        self.navigationItem.title = "New Conversation"
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
         // first reload ds
         self.reloadDataSource()
         bindingTheme()
@@ -176,12 +176,6 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
 
-            cell.newGroupButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.newCallButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.newRoomLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.newCallLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-
             return cell
         }
         return CKRoomDirectCreatingActionCell()
@@ -231,6 +225,13 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
             withIdentifier: CKRoomDirectCreatingSearchCell.identifier,
             for: indexPath) as? CKRoomDirectCreatingSearchCell) ?? CKRoomDirectCreatingSearchCell()
         
+        
+        if let textfield = cell.searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.backgroundColor = CKColor.Background.blueLess
+        }
+        cell.searchBar.placeholder = "Search"
+        
+
         // handl serching
         cell.beginSearchingHandler = { text in
             
@@ -282,9 +283,9 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         case .search:
             return ""
         case .action:
-            return "PROBABLY YOU WANT"
+            return "Probably you want"
         case .suggested:
-            return "SUGGESTED (DIRECT MESSAGES)"
+            return "Suggested"
         }
     }
     
@@ -355,7 +356,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         case .search:
             return CKLayoutSize.Table.row44px
         case .action:
-            return CKLayoutSize.Table.row80px
+            return UITableViewAutomaticDimension
         case .suggested:
             return CKLayoutSize.Table.row60px
         }
@@ -363,8 +364,9 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+            view.backgroundColor = UIColor.white
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
+            view.descriptionLabel?.font = UIFont.systemFont(ofSize: 21)
             view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
             return view
         }
@@ -377,9 +379,9 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         case .search:
             return CGFloat.leastNonzeroMagnitude
         case .action:
-            return CKLayoutSize.Table.defaultHeader
+            return CKLayoutSize.Table.row43px
         case .suggested:
-            return CKLayoutSize.Table.defaultHeader
+            return CKLayoutSize.Table.row43px
         }
     }
     

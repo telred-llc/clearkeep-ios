@@ -12,7 +12,6 @@ final class CKRoomCreatingNameCell: CKRoomCreatingBaseCell {
     
     // MARK: - OUTLET
     
-    @IBOutlet weak var symbolLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     
     // MARK: - PROPERTY
@@ -25,7 +24,10 @@ final class CKRoomCreatingNameCell: CKRoomCreatingBaseCell {
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.nameTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)        
+        self.nameTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
+        self.nameTextField.rectangleBorder()
+        self.nameTextField.setLeftPaddingPoints(10)
+        self.nameTextField.borderColor = CKColor.Text.blue
     }
     
     // MARK: - ACTION

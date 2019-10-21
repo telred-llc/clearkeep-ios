@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CKRoomCallCreatingViewController" customModule="Riot" customModuleProvider="target">
             <connections>
+                <outlet property="btnCreate" destination="etE-dE-AaF" id="vos-nV-UZy"/>
                 <outlet property="tableView" destination="AIl-hf-MKU" id="jtc-YT-y8n"/>
                 <outlet property="view" destination="iN0-l3-epB" id="YOF-1E-P2E"/>
             </connections>
@@ -22,23 +23,42 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AIl-hf-MKU">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="583"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="4ba-SL-dZe"/>
                         <outlet property="delegate" destination="-1" id="gyn-zk-fNN"/>
                     </connections>
                 </tableView>
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etE-dE-AaF">
+                    <rect key="frame" x="10" y="603" width="355" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="Unx-hm-3ye"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                    <state key="normal" title="CREATE" backgroundImage="bg_btn_not_valid">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="onClickCreate:" destination="-1" eventType="touchUpInside" id="1YW-r2-nG6"/>
+                    </connections>
+                </button>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="AIl-hf-MKU" secondAttribute="bottom" id="1TB-ob-bG7"/>
                 <constraint firstItem="AIl-hf-MKU" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="2jZ-nk-2AV"/>
+                <constraint firstItem="etE-dE-AaF" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="B4f-0T-gO3"/>
                 <constraint firstItem="AIl-hf-MKU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="U8Q-d2-drM"/>
                 <constraint firstItem="AIl-hf-MKU" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="aAI-XO-fzH"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="etE-dE-AaF" secondAttribute="trailing" constant="10" id="aP3-Gr-7fh"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="etE-dE-AaF" secondAttribute="bottom" constant="20" id="hkh-0q-5KK"/>
+                <constraint firstItem="etE-dE-AaF" firstAttribute="top" secondItem="AIl-hf-MKU" secondAttribute="bottom" id="v0F-iF-zhD"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="138.40000000000001" y="112.89355322338831"/>
         </view>
     </objects>
+    <resources>
+        <image name="bg_btn_not_valid" width="292" height="40"/>
+    </resources>
 </document>

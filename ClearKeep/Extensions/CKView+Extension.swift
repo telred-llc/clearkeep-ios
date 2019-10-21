@@ -38,3 +38,17 @@ extension UILabel {
         self.layer.masksToBounds = true
     }
 }
+
+extension UITextField {
+    func rectangleBorder(){
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 1
+    }
+    
+    func setLeftPaddingPoints(_ amount:CGFloat){
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
+    }
+}

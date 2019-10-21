@@ -13,6 +13,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
     // MARK: - OUTLET
     
     @IBOutlet weak var tableView: UITableView!
+    var isEnableButtonCreate = true
     
     // MARK: - ENUM
     
@@ -31,14 +32,15 @@ final class CKRoomCallCreatingViewController: MXKViewController {
      A filtered data source that contains mx contacts
      */
     private var filteredDataSource = [CKContactInternal]()
-
+    
     private let disposeBag = DisposeBag()
-
+    
     /**
      Room object
      */
     public var mxRoom: MXRoom!
     
+    @IBOutlet weak var btnCreate: UIButton!
     /**
      This controller probably displayed while you create new a room or add people to an existing room
      */
@@ -46,7 +48,14 @@ final class CKRoomCallCreatingViewController: MXKViewController {
     
     private var stateCreateRoom: Bool = false {
         didSet {
-            self.navigationItem.rightBarButtonItem?.isEnabled = stateCreateRoom
+            let bgValid = UIImage(named: "bg_button_create")
+            let bgNotValid = UIImage(named: "bg_btn_not_valid")
+            btnCreate.isEnabled = stateCreateRoom
+            if stateCreateRoom {
+                btnCreate.setBackgroundImage(bgValid, for: .normal)
+            } else {
+                btnCreate.setBackgroundImage(bgNotValid, for: .normal)
+            }
         }
     }
     
@@ -57,23 +66,20 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         self.tableView.register(CKRoomAddingSearchCell.nib, forCellReuseIdentifier: CKRoomAddingSearchCell.identifier)
         self.tableView.register(CKRoomAddingMembersCell.nib, forCellReuseIdentifier: CKRoomAddingMembersCell.identifier)
         self.reloadDataSource()
-        self.navigationItem.title = "New Call"
-        
-        // Setup right button item
-        let rightItemButton = UIBarButtonItem.init(
-            title: "Create",
-            style: .plain, target: self,
-            action: #selector(clickedOnInviteButton(_:)))
-        
-        rightItemButton.isEnabled = false
-        
-        // assign right button
-        self.navigationItem.rightBarButtonItem = rightItemButton
+        self.navigationItem.title = "New Conversation"
         bindingTheme()
     }
     
     // MARK: - PRIVATE
-
+    
+    @IBAction func onClickCreate(_ sender: Any) {
+        if isEnableButtonCreate {
+            isEnableButtonCreate = false
+            self.invite()
+        }
+    }
+    
+    
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
@@ -81,12 +87,12 @@ final class CKRoomCallCreatingViewController: MXKViewController {
             self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
-
+        
         themeService.rx
             .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
-
+    
     /**
      Reloading data source
      */
@@ -120,6 +126,11 @@ final class CKRoomCallCreatingViewController: MXKViewController {
     private func cellForSearching(atIndexPath indexPath: IndexPath) -> CKRoomAddingSearchCell {
         let cell = (self.tableView.dequeueReusableCell(
             withIdentifier: CKRoomAddingSearchCell.identifier, for: indexPath) as? CKRoomAddingSearchCell) ?? CKRoomAddingSearchCell()
+        
+        if let textfield = cell.searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.backgroundColor = CKColor.Background.blueLess
+        }
+        cell.searchBar.placeholder = "Search"
         
         // handl serching
         cell.beginSearchingHandler = { text in
@@ -155,10 +166,10 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                 }
             })
         }
-
+        
         cell.backgroundColor = UIColor.clear
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
-
+        
         return cell
     }
     
@@ -167,14 +178,13 @@ final class CKRoomCallCreatingViewController: MXKViewController {
             withIdentifier: CKRoomAddingMembersCell.identifier, for: indexPath) as? CKRoomAddingMembersCell {
             
             let d = self.filteredDataSource[indexPath.row]
-            
+            cell.backgroundColor = UIColor.white
             cell.displayNameLabel.text = (d.mxContact.displayName != nil) ? d.mxContact.displayName : ((d.mxContact.emailAddresses.first) as! MXKEmail).emailAddress
             cell.isChecked = d.isSelected
             cell.changesBy(mxContact: d.mxContact, inSession: self.mainSession)
-
+            
             cell.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-
+            
             return cell
         }
         return CKRoomAddingMembersCell()
@@ -187,7 +197,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         case .search:
             return ""
         case .members:
-            return "SUGGESTED"
+            return "Suggested"
         }
     }
     
@@ -199,7 +209,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                 break
             }
         }
-
+        
         self.stateCreateRoom = result // update state button
     }
     
@@ -267,7 +277,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                         self.dismiss(animated: true, completion: {
                             
                             self.stateCreateRoom = true // update state button create room
-
+                            
                             // in new room?
                             if self.isNewStarting {
                                 AppDelegate.the().masterTabBarController.selectRoom(withId: self.mxRoom.roomId, andEventId: nil, inMatrixSession: self.mxRoom.summary.mxSession) {}
@@ -321,7 +331,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                 
                 // sure it finshed encryption
                 var isFinallyEncryption = false
-
+                
                 // 1 - 1 calling
                 if numberOfInvites <= 2 {
                     room.enableEncryption(
@@ -336,6 +346,9 @@ final class CKRoomCallCreatingViewController: MXKViewController {
                             
                             // finish
                             isFinallyEncryption = true
+                            
+                            //enable button create
+                            self.isEnableButtonCreate = true
                     })
                 } else { // video conferencing
                     finalizeCreatingRoom(room)
@@ -366,11 +379,6 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         }
     }
     
-    // MARK: - ACTION
-    @objc func clickedOnInviteButton(_ sender: Any?) {
-        self.invite()
-    }
-    
 }
 
 // MARK: - Delegate
@@ -392,19 +400,13 @@ extension CKRoomCallCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
+            view.backgroundColor = UIColor.white
             view.descriptionLabel.text = self.titleForHeader(atSection: section)
             view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+            view.descriptionLabel.font = UIFont.systemFont(ofSize: 21)
             return view
         }
         return UIView()
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UILabel()
-        view.backgroundColor = CKColor.Background.tableView
-        return view
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -413,7 +415,7 @@ extension CKRoomCallCreatingViewController: UITableViewDelegate {
         case .search:
             return CGFloat.leastNonzeroMagnitude
         default:
-            return CKLayoutSize.Table.defaultHeader
+            return CKLayoutSize.Table.header60px
         }
     }
     

@@ -43,11 +43,13 @@ final class CKRoomCreatingViewController: MXKViewController {
         case name   = 0
         case topic  = 1
         case option = 2
-        
-        static var count: Int { return 3}
+        case suggested = 3
+        static var count: Int { return 4}
     }
     
     // MARK: - PROPERTY        
+    
+    private var filteredDataSource = [CKContactInternal]()
     
     /**
      VAR room creating data
@@ -61,9 +63,19 @@ final class CKRoomCreatingViewController: MXKViewController {
     private var request: MXHTTPOperation!
     private let disposeBag = DisposeBag()
     
+    @IBOutlet weak var btnCreate: UIButton!
+
+    
     private var stateCreateRoom: Bool = false {
         didSet {
-            self.navigationItem.rightBarButtonItem?.isEnabled = stateCreateRoom
+            let bgValid = UIImage(named: "bg_button_create")
+            let bgNotValid = UIImage(named: "bg_btn_not_valid")
+            btnCreate.isEnabled = stateCreateRoom
+            if stateCreateRoom {
+                btnCreate.setBackgroundImage(bgValid, for: .normal)
+            } else {
+                btnCreate.setBackgroundImage(bgNotValid, for: .normal)
+            }
         }
     }
     
@@ -72,6 +84,8 @@ final class CKRoomCreatingViewController: MXKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.finalizeLoadView()
+        self.reloadDataSource()
+        self.hideKeyboardWhenTappedAround()
     }
     
     deinit {
@@ -92,7 +106,9 @@ final class CKRoomCreatingViewController: MXKViewController {
         self.tableView.register(CKRoomCreatingOptionsCell.nib, forCellReuseIdentifier: CKRoomCreatingOptionsCell.identifier)
         self.tableView.register(CKRoomCreatingTopicCell.nib, forCellReuseIdentifier: CKRoomCreatingTopicCell.identifier)
         self.tableView.register(CKRoomCreatingNameCell.nib, forCellReuseIdentifier: CKRoomCreatingNameCell.identifier)
-        self.tableView.allowsSelection = false
+        self.tableView.register(CKRoomAddingMembersCell.nib, forCellReuseIdentifier: CKRoomAddingMembersCell.identifier)
+        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
         // self is root view controller
         if self.navigationController?.viewControllers.first == self {
@@ -106,31 +122,56 @@ final class CKRoomCreatingViewController: MXKViewController {
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
         
-        // Setup right button item
-        let rightItemButton = UIBarButtonItem.init(
-            title: "Create",
-            style: .plain, target: self,
-            action: #selector(clickedOnCreateButton(_:)))
-        
-        rightItemButton.isEnabled = false
-
-        // assign back button
-        self.navigationItem.rightBarButtonItem = rightItemButton
-
         bindingTheme()
     }
-
+    
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.primaryBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
         }).disposed(by: disposeBag)
-
+        
         themeService.rx
             .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
+    
+    @IBAction func onClickCreate(_ sender: Any) {
+        self.createRoom()
+    }
+    
+    /**
+     Reloading data source
+     */
+    private func reloadDataSource() {
+        
+        // reset
+        self.filteredDataSource.removeAll()
+        
+        // fetch matrix contacts
+        let mxcts = MXKContactManager.shared().directMatrixContacts
+        
+        // loop all mxc
+        for c in mxcts {
+            
+            // sure it is mxkcontact type
+            if let c = c as? MXKContact {
+                
+                // ignore current user
+                if c.isMatchedMyUser(inSession: self.mainSession) { continue }
+                
+                // add each of them in the filtered
+                let ds = CKContactInternal(mxContact: c, isSelected: false)
+                self.filteredDataSource.append(ds)
+            }
+        }
+        
+        // reload table view
+        if self.filteredDataSource.count > 0 { self.tableView.reloadData() }
+    }
+    
+    
     
     /**
      This function to help our class make a new room
@@ -158,7 +199,7 @@ final class CKRoomCreatingViewController: MXKViewController {
             alias: nil,
             topic: creatingData.topic,
             preset: nil) { (response: MXResponse<MXRoom>) in
-
+                
                 // a closure finishing room
                 let finalizeCreatingRoom = { (_ room: MXRoom?) -> Void in
                     
@@ -209,35 +250,18 @@ final class CKRoomCreatingViewController: MXKViewController {
         if let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomCreatingOptionsCell.identifier,
             for: indexPath) as? CKRoomCreatingOptionsCell {
-            
+            cell.selectionStyle = .none
             // public or private room
             if indexPath.row == 0 {
-                cell.titleLabel.text = "Public"
-                cell.desciptpionLabel.text = "Anyone in the Directory can join"
-                cell.optionSwitch.isOn = creatingData.isPublic
+                cell.isChecked = creatingData.isPublic
                 
                 // bool value
                 cell.valueChangedHandler = { isOn in
                     self.creatingData.isPublic = isOn
                 }
                 
-            } else { // enable e2ee
-                #if false
-                cell.titleLabel.text = "Enable end to end encryption"
-                cell.desciptpionLabel.text = "Once you enable e2ee, you can not disable it"
-                cell.optionSwitch.isOn = creatingData.isE2ee
-                
-                // bool value
-                cell.valueChangedHandler = { isOn in
-                    self.creatingData.isE2ee = isOn
-                }
-                #endif
             }
-
-            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-            cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.desciptpionLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
-
+            
             return cell
         }
         
@@ -252,7 +276,7 @@ final class CKRoomCreatingViewController: MXKViewController {
             withIdentifier: CKRoomCreatingNameCell.identifier,
             for: indexPath) as? CKRoomCreatingNameCell {
             cell.nameTextField.text = creatingData.name
-            
+            cell.selectionStyle = .none
             // text value
             cell.edittingChangedHandler = { text in
                 if let text = text {
@@ -260,18 +284,13 @@ final class CKRoomCreatingViewController: MXKViewController {
                     self.updateControls()
                 }
             }
-
-            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-            cell.nameTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.nameTextField.attributedPlaceholder = NSAttributedString.init(string: "Name", attributes: [NSAttributedString.Key.foregroundColor: themeService.attrs.secondTextColor])
-
             return cell
         }
         
         // default
         return CKRoomCreatingNameCell()
     }
-
+    
     private func cellForTopic(atIndexPath indexPath: IndexPath) -> CKRoomCreatingTopicCell {
         
         // dequeue cell
@@ -279,23 +298,34 @@ final class CKRoomCreatingViewController: MXKViewController {
             withIdentifier: CKRoomCreatingTopicCell.identifier,
             for: indexPath) as? CKRoomCreatingTopicCell {
             cell.topicTextField.text = creatingData.topic
-            
+            cell.selectionStyle = .none
             // text value
             cell.edittingChangedHandler = { text in
                 if let text = text {self.creatingData.topic = text}
             }
-
-            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-            cell.topicTextField.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.topicTextField.attributedPlaceholder = NSAttributedString.init(string: "Briefly describle the topic of room", attributes: [NSAttributedString.Key.foregroundColor: themeService.attrs.secondTextColor])
-
             return cell
         }
         
         // default
         return CKRoomCreatingTopicCell()
     }
-
+    
+    private func cellForSuggested(atIndexPath indexPath: IndexPath) -> CKRoomAddingMembersCell{
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: CKRoomAddingMembersCell.identifier,
+            for: indexPath) as? CKRoomAddingMembersCell {
+            let d = self.filteredDataSource[indexPath.row]
+            cell.backgroundColor = UIColor.white
+            cell.displayNameLabel.text = (d.mxContact.displayName != nil) ? d.mxContact.displayName : ((d.mxContact.emailAddresses.first) as! MXKEmail).emailAddress
+            cell.isChecked = d.isSelected
+            cell.changesBy(mxContact: d.mxContact, inSession: self.mainSession)
+            cell.selectionStyle = .none
+            cell.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            return cell
+        }
+        return CKRoomAddingMembersCell()
+    }
+    
     private func updateControls() {
         // create button is enable or disable
         self.stateCreateRoom = creatingData.isValidated()
@@ -308,9 +338,11 @@ final class CKRoomCreatingViewController: MXKViewController {
         case .option:
             return ""
         case .name:
-            return "Room name (Required)"
+            return "Room Name (Required)"
         case .topic:
-            return "Room topic (Optional)"
+            return "Room Topic (Optional)"
+        case .suggested:
+            return "Suggested"
         }
     }
     
@@ -333,14 +365,31 @@ final class CKRoomCreatingViewController: MXKViewController {
 
 extension CKRoomCreatingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CKLayoutSize.Table.row60px
+        if Section(rawValue: indexPath.section) == Section.suggested {
+            return CKLayoutSize.Table.row60px
+        }
+        return CKLayoutSize.Table.row44px
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
-            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            
+            let s = Section(rawValue: section)
+            switch s {
+            case .name? :
+                view.descriptionLabel.textColor = CKColor.Text.blue
+                break
+            case .suggested?:
+                view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
+                view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
+                break
+            default :
+                view.descriptionLabel.textColor = CKColor.Text.lightGray
+                view.descriptionLabel.font = UIFont.systemFont(ofSize: 15)
+                break
+            }
+            view.backgroundColor = UIColor.white
             return view
         }
         return UIView()
@@ -379,6 +428,7 @@ extension CKRoomCreatingViewController: UITableViewDataSource {
         case .option: return 1
         case .name: return 1
         case .topic: return 1
+        case .suggested: return self.filteredDataSource.count
         }
     }
     
@@ -386,7 +436,7 @@ extension CKRoomCreatingViewController: UITableViewDataSource {
         
         // sure to work
         guard let s = Section(rawValue: indexPath.section) else { return CKRoomCreatingBaseCell() }
-
+        
         switch s {
         case .option:
             
@@ -400,7 +450,64 @@ extension CKRoomCreatingViewController: UITableViewDataSource {
             
             // room topic cell
             return cellForTopic(atIndexPath: indexPath)
+        case .suggested:
+            return cellForSuggested(atIndexPath: indexPath)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if Section(rawValue: indexPath.section) == Section.suggested {
+            let d = filteredDataSource[indexPath.row]
+            self.filteredDataSource[indexPath.row].isSelected = !d.isSelected
+            self.tableView.reloadRows(at: [indexPath], with: .none)
         }
     }
     
 }
+
+extension CKRoomCreatingViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+// MARK: - CKContact Internal
+
+fileprivate struct CKContactInternal {
+    var mxContact: MXKContact!
+    var isSelected: Bool = false
+}
+
+fileprivate extension MXKContact {
+    
+    /**
+     Is matched my user in a session
+     */
+    func isMatchedMyUser(inSession session: MXSession!) -> Bool {
+        
+        // session is sure
+        guard let session = session else {
+            return false
+        }
+        
+        // userId is sure
+        guard let userId = session.myUser.userId else {
+            return false
+        }
+        
+        // contact id is sure
+        guard let contactId = self.matrixIdentifiers.first as? String else {
+            return false
+        }
+        
+        // compare
+        return userId == contactId
+    }
+}
+

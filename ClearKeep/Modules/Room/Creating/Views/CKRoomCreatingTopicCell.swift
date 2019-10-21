@@ -25,6 +25,9 @@ final class CKRoomCreatingTopicCell: CKRoomCreatingBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.topicTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
+        self.topicTextField.rectangleBorder()
+        self.topicTextField.borderColor = CKColor.Text.lightGray
+        self.topicTextField.setLeftPaddingPoints(10)
     }
     
     // MARK: - ACTION

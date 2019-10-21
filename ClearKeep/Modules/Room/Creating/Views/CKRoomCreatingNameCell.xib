@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,40 +14,35 @@
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="kqd-oY-7mW" customClass="CKRoomCreatingNameCell" customModule="Riot" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kqd-oY-7mW" id="IM2-YF-8Oz">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kqd-oY-7mW" id="IM2-YF-8Oz">
                 <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KtV-cJ-XqL">
-                        <rect key="frame" x="20" y="0.0" width="14" height="59.5"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="14" id="qQu-Ea-MWV"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="YCj-QG-9vL">
-                        <rect key="frame" x="38" y="0.0" width="327" height="59.5"/>
-                        <nil key="textColor"/>
+                        <rect key="frame" x="20" y="0.0" width="335" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="Ecj-4B-Ev5"/>
+                        </constraints>
+                        <color key="textColor" red="0.3411764705882353" green="0.52941176470588236" blue="0.8901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                <color key="value" red="0.3411764705882353" green="0.52941176470588236" blue="0.8901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </textField>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="YCj-QG-9vL" firstAttribute="top" secondItem="IM2-YF-8Oz" secondAttribute="top" id="CJv-Ov-LJO"/>
-                    <constraint firstAttribute="bottom" secondItem="KtV-cJ-XqL" secondAttribute="bottom" id="FSm-6Q-aWK"/>
-                    <constraint firstItem="KtV-cJ-XqL" firstAttribute="leading" secondItem="IM2-YF-8Oz" secondAttribute="leading" constant="20" id="Kmo-mA-OQh"/>
-                    <constraint firstItem="KtV-cJ-XqL" firstAttribute="top" secondItem="IM2-YF-8Oz" secondAttribute="top" id="WlZ-ft-yJV"/>
-                    <constraint firstAttribute="trailing" secondItem="YCj-QG-9vL" secondAttribute="trailing" constant="10" id="aTu-2z-fIf"/>
-                    <constraint firstItem="YCj-QG-9vL" firstAttribute="leading" secondItem="KtV-cJ-XqL" secondAttribute="trailing" constant="4" id="dhY-s9-Qm5"/>
-                    <constraint firstItem="YCj-QG-9vL" firstAttribute="leading" secondItem="KtV-cJ-XqL" secondAttribute="trailing" constant="4" id="odB-Cy-tuL"/>
-                    <constraint firstAttribute="bottom" secondItem="YCj-QG-9vL" secondAttribute="bottom" id="uS8-kx-m6l"/>
+                    <constraint firstItem="YCj-QG-9vL" firstAttribute="top" secondItem="IM2-YF-8Oz" secondAttribute="top" id="9ju-Kk-O0C"/>
+                    <constraint firstAttribute="bottom" secondItem="YCj-QG-9vL" secondAttribute="bottom" id="Tdg-jn-iAV"/>
+                    <constraint firstAttribute="trailing" secondItem="YCj-QG-9vL" secondAttribute="trailing" constant="20" id="Wc9-iO-CEQ"/>
+                    <constraint firstItem="YCj-QG-9vL" firstAttribute="leading" secondItem="IM2-YF-8Oz" secondAttribute="leading" constant="20" id="lbl-bs-FHA"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="nameTextField" destination="YCj-QG-9vL" id="yTN-DA-m6N"/>
-                <outlet property="symbolLabel" destination="KtV-cJ-XqL" id="ffA-f2-XD2"/>
             </connections>
             <point key="canvasLocation" x="170.40000000000001" y="48.575712143928037"/>
         </tableViewCell>
