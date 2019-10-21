@@ -204,6 +204,7 @@ extension CKContactListViewController: UITableViewDelegate {
         label.text = sections[section].letter
         let headerView = UIView.init()
         headerView.addSubview(label)
+        headerView.backgroundColor = CKColor.Background.tableView
         
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
