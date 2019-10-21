@@ -28,9 +28,10 @@ limitations under the License.
 
 #pragma mark - Class methods
 @property (weak, nonatomic) IBOutlet UIView *selectionContainer;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionContainerTopConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionContainerHeightConstraint;
+//@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionContainerTopConstraint;
+//@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionContainerHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIView *viewControllerContainer;
+@property (nonatomic) IBOutletCollection(UIButton) NSArray *segmentButtons;
 
 /**
  The index of the view controller that currently has the focus.
@@ -57,7 +58,7 @@ limitations under the License.
 
  @return The initialized `UINib` object or `nil` if there were errors during initialization
  or the nib file could not be located.
- 
+
  @discussion You may override this method to provide a customized nib. If you do,
  you should also override `SegmentedViewController` to return your
  view controller loaded from your custom nib.

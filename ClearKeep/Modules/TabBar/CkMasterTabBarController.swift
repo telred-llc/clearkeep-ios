@@ -60,7 +60,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
         super.viewWillDisappear(animated)
         
         // show navigation bar shadow
-        navigationController?.navigationBar.shadowImage = nil
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxKeyBackupDidStateChange, object: nil)
     }
@@ -123,7 +123,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.navigationController?.navigationBar.isTranslucent = false
             self?.navigationController?.navigationBar.setBackgroundImage(UIImage.init(color: theme.primaryBgColor), for: .default)
-
+            self?.navigationController?.navigationBar.shadowImage = UIImage()
             self?.placeholderSearchBar.setTextFieldColor(color: theme.searchBarBgColor)
             self?.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: disposeBag)

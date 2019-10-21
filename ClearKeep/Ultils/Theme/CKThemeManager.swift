@@ -29,7 +29,7 @@ protocol Theme {
 }
 
 struct LightTheme: Theme {
-    var primaryBgColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
+    var primaryBgColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var secondBgColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
     var selectedBgColor: UIColor? = nil
     var primaryTextColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
