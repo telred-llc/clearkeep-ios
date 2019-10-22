@@ -32,8 +32,8 @@ extension UIViewController {
     /**
      Show alert in Self
      */
-    func showAlert(_ message: String, onComplete: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: "ClearKeep", message: message, preferredStyle: UIAlertControllerStyle.alert)
+    func showAlert(_ message: String, title: String = "ClearKeep", onComplete: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: UIAlertActionStyle.default) { (_) in
             onComplete?()
             })

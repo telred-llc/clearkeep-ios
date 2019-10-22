@@ -225,8 +225,12 @@ extension CkMasterauthViewController {
     }
     
     func authentication(_ authentication: CkAuthenticationViewController, onFailureDuringAuthError error: Error) {
-        
-        self.alert(withMessage: error.localizedDescription)
+        let err = error as NSError
+        if let errCode = err.userInfo["errcode"] as? String, errCode.contains(kMXErrCodeStringForbidden)  {
+            self.alert(withMessage:  Bundle.mxk_localizedString(forKey: "login_error_forbidden"))
+        } else {
+            self.alert(withMessage: error.localizedDescription)
+        }
         
         if self.lastStyle == .login {
             self.authentication(authentication, requestAction: "login")
