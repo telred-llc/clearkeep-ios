@@ -469,7 +469,7 @@ extension CKRoomCallCreatingViewController: UITableViewDataSource {
 
 // MARK: - CKContact Internal
 
-fileprivate struct CKContactInternal {
+struct CKContactInternal {
     var mxContact: MXKContact!
     var isSelected: Bool = false
 }

@@ -33,6 +33,8 @@ final class CKRoomAddingMembersViewController: MXKViewController {
      */
     private var filteredDataSource = [CKContactInternal]()
     
+    var selectedUser = [CKContactInternal]()
+    
     /**
      Room object
      */
@@ -107,7 +109,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         
         // fetch matrix contacts
         let mxcts = MXKContactManager.shared().directMatrixContacts
-            
+        
         // loop all mxc
         for c in mxcts {
             
@@ -169,7 +171,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         }
 
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
-        cell.backgroundColor = themeService.attrs.secondBgColor
+        cell.backgroundColor = .white
         return cell
     }
     
@@ -178,8 +180,19 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             withIdentifier: CKRoomAddingMembersCell.identifier, for: indexPath) as? CKRoomAddingMembersCell {
             
             let d = self.filteredDataSource[indexPath.row]
+            var checked = false
+            
+            let list = self.selectedUser.filter({ (user) -> Bool in
+                user.mxContact.matrixIdentifiers.first as? String ?? "" == d.mxContact.matrixIdentifiers.first as? String ?? ""
+            })
+            
+           if list.count > 0 {
+            checked = true
+            self.filteredDataSource[indexPath.row].isSelected = true
+            }
+            
             cell.displayNameLabel.text = d.mxContact.displayName
-            cell.isChecked = d.isSelected
+            cell.isChecked = checked
             cell.changesBy(mxContact: d.mxContact, inSession: self.mainSession)
             
             if let u = self.mainSession?.user(
@@ -202,7 +215,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         case .search:
             return ""
         case .members:
-            return "SUGGESTED"
+            return "Suggested"
         }
     }
     
@@ -213,7 +226,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
                 result = true
                 break
             }
-        }        
+        }
         self.navigationItem.rightBarButtonItem?.isEnabled = result
     }
     
@@ -239,7 +252,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         var thenables = [Promise<Bool>]()
         
         // build thenables
-        for c in self.filteredDataSource {
+        for c in self.selectedUser {
             if c.isSelected {
                 thenables.append(promiseInvite(mxContact: c.mxContact))
             }
@@ -334,8 +347,9 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
-            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+            view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
+            view.backgroundColor = .white
+            view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
             return view
         }
         return UIView()
@@ -343,7 +357,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UILabel()
-        view.backgroundColor = themeService.attrs.secondBgColor
+        view.backgroundColor = .white
         return view
     }
     
@@ -372,6 +386,15 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         case .members:
             let d = filteredDataSource[indexPath.row]
             self.filteredDataSource[indexPath.row].isSelected = !d.isSelected
+            if self.filteredDataSource[indexPath.row].isSelected {
+                self.selectedUser.append(self.filteredDataSource[indexPath.row])
+            }else {
+                if let index = self.selectedUser.firstIndex(where: { (contact) -> Bool in
+                    contact.mxContact.matrixIdentifiers.first as? String ?? "" == d.mxContact.matrixIdentifiers.first as? String ?? ""
+                }){
+                    self.selectedUser.remove(at: index)
+                }
+            }
             self.updateBarItems()
             self.tableView.reloadRows(at: [indexPath], with: .none)
             return
@@ -408,11 +431,6 @@ extension CKRoomAddingMembersViewController: UITableViewDataSource {
 }
 
 // MARK: - CKContact Internal
-
-fileprivate struct CKContactInternal {
-    var mxContact: MXKContact!
-    var isSelected: Bool = false
-}
 
 fileprivate extension MXKContact {
     
