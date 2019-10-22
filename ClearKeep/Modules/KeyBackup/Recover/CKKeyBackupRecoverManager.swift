@@ -75,7 +75,7 @@ private extension CKKeyBackupRecoverManager {
                         self?.handleEncryptedKeyBackupData(with: dataArray[0], passphrase: dataArray[1])
                     }
                 } else {
-                    self?.display(nil, message: "Invalid passphrase", title: "Data error")
+                    self?.display(nil, message: "Invalid passphrase data", title: "Data error")
                 }
             })
             .catch({ error in
@@ -94,6 +94,8 @@ private extension CKKeyBackupRecoverManager {
                             if dataArray.count > 1 {
                                 self?.handleEncryptedKeyBackupData(with: dataArray[0], passphrase: dataArray[1])
                             }
+                        } else {
+                            self?.display(nil, message: "Invalid passphrase", title: "Data error")
                         }
                     })
                     .catch({ error in
@@ -101,7 +103,7 @@ private extension CKKeyBackupRecoverManager {
                     })
             } else if !CKAppManager.shared.isPasswordAvailable() {
                 // Show errror message
-                self.display(nil, message: "If you don't remember your passphrase, consider not logging out because your encrypted messages might be lost", title: "Please re-login to create backup key!")
+                self.display(nil, message: "If you don't remember your passphrase, consider not logging out because your encrypted messages might be lost", title: "Please re-login to create new backup key!")
             } else {
                 self.display(error)
             }
@@ -165,13 +167,13 @@ private extension CKKeyBackupRecoverManager {
             }, failure: { error in
                 self.isProcessingKey = false
                 print("restoreKeyBackupVersion failed!")
-                if error.localizedDescription.contains("Invalid") {
+                if error.localizedDescription.contains("Invalid recovery key") {
                     if self.isShowingAlert {
                         return
                     }
 
                     if CKAppManager.shared.userPassword == nil {
-                        self.alert = UIAlertController(title: "Restore backup key failed!", message: "Please re-login to create backup key!\nIf you don't remember your passphrase, consider not logging out because your encrypted messages might be lost", preferredStyle: .alert)
+                        self.alert = UIAlertController(title: "Restore backup key failed!", message: "Please re-login to create new backup key!\nIf you don't remember your passphrase, consider not logging out because your encrypted messages might be lost", preferredStyle: .alert)
                         
                         self.alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in
                         }))
@@ -185,7 +187,6 @@ private extension CKKeyBackupRecoverManager {
                                 }
                             })
                         }))
-
 
                         self.alert.show()
                     } else {
@@ -221,7 +222,7 @@ private extension CKKeyBackupRecoverManager {
                 // Delete the old key
                 sself.currentHTTPOperation = key.deleteVersion(versionString, success: {
                     sself.isProcessingKey = false
-                    print("Delete eyBackupVersion success!")
+                    print("Delete keyBackupVersion success!")
                 }, failure: { (error) in
                     sself.isProcessingKey = false
                     sself.display(error)
