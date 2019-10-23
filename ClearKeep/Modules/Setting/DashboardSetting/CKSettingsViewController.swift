@@ -52,7 +52,21 @@ final class CKSettingsViewController: MXKViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.title = "Setting"
+        self.title = "Settings"
+        self.setNavigationBar()
+    }
+    
+    func setNavigationBar(){
+        let closeItemButton = UIBarButtonItem.init(
+            image: UIImage(named: "ic_back_navigation"),
+            style: .plain,
+            target: self, action: #selector(clickedOnBackButton))
+        closeItemButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        self.navigationItem.leftBarButtonItem = closeItemButton
+    }
+    
+    @objc func clickedOnBackButton(){
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func setupInitization() {
@@ -66,7 +80,7 @@ final class CKSettingsViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         }).disposed(by: disposeBag)
 
         themeService.rx
