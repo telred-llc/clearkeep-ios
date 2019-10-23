@@ -74,10 +74,8 @@ protocol CKRoomInvitationControllerDeletate: class {
         switch sender {
         case self.joinButton:
             self.onJoining()
-            break
         case self.declineButton:
             self.onDeclining()
-            break
         default:
             break
         }

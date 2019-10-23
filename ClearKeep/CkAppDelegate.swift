@@ -209,26 +209,23 @@ import Foundation
             return
         }
         switch keyBackup.state {
-        case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion, MXKeyBackupStateDisabled:
+        case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion, MXKeyBackupStateDisabled, MXKeyBackupStateReadyToBackUp:
             handleKeyBackupProcess(for: keyBackup)
-        case MXKeyBackupStateCheckingBackUpOnHomeserver:
-            break
         default:
             return
         }
     }
-    
+
     @objc public func detailToContact(_ contact: MXKContact) {
         
     }
-    
+
     @objc func handleKeyBackupProcess(for keyBackup: MXKeyBackup) {
         guard let _ = self.mxSessions.first as? MXSession else {
             return
         }
-        
+
         CKKeyBackupRecoverManager.shared.setup(keyBackup)
         CKKeyBackupRecoverManager.shared.startBackupProcess()
     }
-
 }
