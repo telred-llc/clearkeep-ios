@@ -70,6 +70,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         // first reload ds
         self.reloadDataSource()
         bindingTheme()
+        self.hideKeyboardWhenTappedAround()
     }
     
     // MARK: - ACTION
@@ -83,8 +84,8 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = .white
+            self?.barTitleColor = CKColor.Text.blueNavigation
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
@@ -227,7 +228,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         
         
         if let textfield = cell.searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = CKColor.Background.blueLess
+            textfield.backgroundColor = CKColor.Background.searchBar
         }
         cell.searchBar.placeholder = "Search"
         
@@ -404,6 +405,11 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         }
 
     }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !tableView.isDecelerating {
+            view.endEditing(true)
+        }
+    }
 }
 
 extension CKRoomDirectCreatingViewController: UITableViewDataSource {
@@ -440,3 +446,16 @@ extension CKRoomDirectCreatingViewController: UITableViewDataSource {
     
     
 }
+
+extension CKRoomDirectCreatingViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+

@@ -50,6 +50,7 @@ final class CKRoomCreatingViewController: MXKViewController {
     // MARK: - PROPERTY        
     
     private var filteredDataSource = [CKContactInternal]()
+    var selectedUser = [CKContactInternal]()
     
     /**
      VAR room creating data
@@ -64,7 +65,7 @@ final class CKRoomCreatingViewController: MXKViewController {
     private let disposeBag = DisposeBag()
     
     @IBOutlet weak var btnCreate: UIButton!
-
+    
     
     private var stateCreateRoom: Bool = false {
         didSet {
@@ -128,8 +129,8 @@ final class CKRoomCreatingViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = .white
+            self?.barTitleColor = CKColor.Text.blueNavigation
         }).disposed(by: disposeBag)
         
         themeService.rx
@@ -213,6 +214,7 @@ final class CKRoomCreatingViewController: MXKViewController {
                         vc.importSession(self.mxSessions)
                         vc.mxRoom = room
                         vc.isNewStarting = true
+                        vc.selectedUser = self.selectedUser
                         
                         self.stateCreateRoom = true // update state button create room
                         
@@ -408,6 +410,12 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNonzeroMagnitude
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !tableView.isDecelerating {
+            view.endEditing(true)
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -459,6 +467,16 @@ extension CKRoomCreatingViewController: UITableViewDataSource {
         if Section(rawValue: indexPath.section) == Section.suggested {
             let d = filteredDataSource[indexPath.row]
             self.filteredDataSource[indexPath.row].isSelected = !d.isSelected
+            if self.filteredDataSource[indexPath.row].isSelected {
+                self.selectedUser.append(self.filteredDataSource[indexPath.row])
+            }else {
+                if let index = self.selectedUser.firstIndex(where: { (contact) -> Bool in
+                    contact.mxContact.matrixIdentifiers.first as? String ?? "" == d.mxContact.matrixIdentifiers.first as? String ?? ""
+                }){
+                    self.selectedUser.remove(at: index)
+                }
+            }
+            
             self.tableView.reloadRows(at: [indexPath], with: .none)
         }
     }
@@ -478,8 +496,7 @@ extension CKRoomCreatingViewController {
 }
 
 // MARK: - CKContact Internal
-
-fileprivate struct CKContactInternal {
+struct CKContactInternal {
     var mxContact: MXKContact!
     var isSelected: Bool = false
 }

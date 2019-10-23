@@ -22,6 +22,10 @@ final class CKRoomAddingSearchCell: CKRoomBaseCell {
         super.awakeFromNib()
         self.searchBar.placeholder = "Search people on Directory"
         self.searchBar.delegate = self
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.backgroundColor = CKColor.Background.searchBar
+        }
+
     }    
 }
 

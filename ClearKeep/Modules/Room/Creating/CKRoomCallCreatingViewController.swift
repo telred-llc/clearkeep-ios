@@ -66,8 +66,9 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         self.tableView.register(CKRoomAddingSearchCell.nib, forCellReuseIdentifier: CKRoomAddingSearchCell.identifier)
         self.tableView.register(CKRoomAddingMembersCell.nib, forCellReuseIdentifier: CKRoomAddingMembersCell.identifier)
         self.reloadDataSource()
-        self.navigationItem.title = "New Conversation"
+        self.navigationItem.title = "New Call"
         bindingTheme()
+        self.hideKeyboardWhenTappedAround()
     }
     
     // MARK: - PRIVATE
@@ -83,8 +84,8 @@ final class CKRoomCallCreatingViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = .white
+            self?.barTitleColor = CKColor.Text.blueNavigation
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
         
@@ -128,7 +129,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
             withIdentifier: CKRoomAddingSearchCell.identifier, for: indexPath) as? CKRoomAddingSearchCell) ?? CKRoomAddingSearchCell()
         
         if let textfield = cell.searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = CKColor.Background.blueLess
+            textfield.backgroundColor = CKColor.Background.searchBar
         }
         cell.searchBar.placeholder = "Search"
         
@@ -467,14 +468,15 @@ extension CKRoomCallCreatingViewController: UITableViewDataSource {
             return self.cellForAddingMember(atIndexPath: indexPath)
         }
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !tableView.isDecelerating {
+            view.endEditing(true)
+        }
+    }
 }
 
 // MARK: - CKContact Internal
-
-fileprivate struct CKContactInternal {
-    var mxContact: MXKContact!
-    var isSelected: Bool = false
-}
 
 fileprivate extension MXKContact {
     
@@ -502,3 +504,16 @@ fileprivate extension MXKContact {
         return userId == contactId
     }
 }
+
+extension CKRoomCallCreatingViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+

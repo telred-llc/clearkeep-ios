@@ -25,6 +25,7 @@
                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     </textField>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="Eby-p9-Zpx" secondAttribute="trailing" constant="10" id="DEt-ZX-VxP"/>
                     <constraint firstItem="Eby-p9-Zpx" firstAttribute="leading" secondItem="MdL-Ya-AH8" secondAttribute="leading" constant="20" id="JC3-Zm-j7R"/>
