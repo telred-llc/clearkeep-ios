@@ -19,20 +19,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_check_no" translatesAutoresizingMaskIntoConstraints="NO" id="C7N-QH-P3C">
-                        <rect key="frame" x="27.5" y="22" width="16" height="16"/>
+                        <rect key="frame" x="27.5" y="13.5" width="16" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="iVe-xz-CHP"/>
                             <constraint firstAttribute="width" constant="16" id="yaI-1K-rDx"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public mode : Anyone in the Directory can join" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YcM-pm-rMX">
-                        <rect key="frame" x="48.5" y="22" width="278.5" height="16"/>
+                        <rect key="frame" x="48.5" y="13.5" width="278.5" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIC-D2-fm9">
-                        <rect key="frame" x="27.5" y="22" width="16" height="16"/>
+                        <rect key="frame" x="27.5" y="13.5" width="16" height="16"/>
                         <connections>
                             <action selector="clickCheckmark:" destination="jjF-TQ-9De" eventType="touchUpInside" id="bS3-3h-aYu"/>
                         </connections>
@@ -42,11 +42,11 @@
                 <constraints>
                     <constraint firstItem="YcM-pm-rMX" firstAttribute="centerX" secondItem="4PF-E0-YGo" secondAttribute="centerX" id="448-zW-YyF"/>
                     <constraint firstItem="YcM-pm-rMX" firstAttribute="leading" secondItem="C7N-QH-P3C" secondAttribute="trailing" constant="5" id="6Ob-ST-VbO"/>
-                    <constraint firstItem="C7N-QH-P3C" firstAttribute="centerY" secondItem="4PF-E0-YGo" secondAttribute="centerY" id="DN8-Qx-ZNK"/>
+                    <constraint firstAttribute="bottom" secondItem="YcM-pm-rMX" secondAttribute="bottom" constant="30" id="BRz-IF-wjk"/>
                     <constraint firstItem="nIC-D2-fm9" firstAttribute="trailing" secondItem="C7N-QH-P3C" secondAttribute="trailing" id="R6Z-2H-YZ3"/>
                     <constraint firstItem="nIC-D2-fm9" firstAttribute="leading" secondItem="C7N-QH-P3C" secondAttribute="leading" id="T3X-Jt-iFd"/>
-                    <constraint firstItem="YcM-pm-rMX" firstAttribute="centerY" secondItem="4PF-E0-YGo" secondAttribute="centerY" id="b5U-qj-JlF"/>
                     <constraint firstItem="nIC-D2-fm9" firstAttribute="top" secondItem="C7N-QH-P3C" secondAttribute="top" id="g9p-1M-9yn"/>
+                    <constraint firstItem="YcM-pm-rMX" firstAttribute="bottom" secondItem="C7N-QH-P3C" secondAttribute="bottom" id="geh-vq-0zX"/>
                     <constraint firstItem="nIC-D2-fm9" firstAttribute="bottom" secondItem="C7N-QH-P3C" secondAttribute="bottom" id="r1c-8q-7oK"/>
                 </constraints>
             </tableViewCellContentView>

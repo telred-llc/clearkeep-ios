@@ -19,16 +19,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Find a people" translatesAutoresizingMaskIntoConstraints="NO" id="zVz-ML-vSW">
-                        <rect key="frame" x="0.0" y="5" width="375" height="54.5"/>
+                        <rect key="frame" x="10" y="5" width="355" height="54.5"/>
                         <textInputTraits key="textInputTraits"/>
                     </searchBar>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="zVz-ML-vSW" firstAttribute="top" secondItem="KDk-oF-0he" secondAttribute="top" constant="5" id="8XY-ZZ-jfg"/>
-                    <constraint firstItem="zVz-ML-vSW" firstAttribute="leading" secondItem="KDk-oF-0he" secondAttribute="leading" id="f9K-6r-SrB"/>
+                    <constraint firstItem="zVz-ML-vSW" firstAttribute="leading" secondItem="KDk-oF-0he" secondAttribute="leading" constant="10" id="f9K-6r-SrB"/>
                     <constraint firstAttribute="bottom" secondItem="zVz-ML-vSW" secondAttribute="bottom" id="rbP-N5-FHG"/>
-                    <constraint firstAttribute="trailing" secondItem="zVz-ML-vSW" secondAttribute="trailing" id="wui-Ir-nAV"/>
+                    <constraint firstAttribute="trailing" secondItem="zVz-ML-vSW" secondAttribute="trailing" constant="10" id="wui-Ir-nAV"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

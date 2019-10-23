@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Input Text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eby-p9-Zpx">
-                        <rect key="frame" x="20" y="0.0" width="345" height="59.5"/>
+                        <rect key="frame" x="20" y="0.0" width="335" height="59.5"/>
                         <color key="textColor" red="0.74509803921568629" green="0.74509803921568629" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -27,7 +27,7 @@
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="Eby-p9-Zpx" secondAttribute="trailing" constant="10" id="DEt-ZX-VxP"/>
+                    <constraint firstAttribute="trailing" secondItem="Eby-p9-Zpx" secondAttribute="trailing" constant="20" id="DEt-ZX-VxP"/>
                     <constraint firstItem="Eby-p9-Zpx" firstAttribute="leading" secondItem="MdL-Ya-AH8" secondAttribute="leading" constant="20" id="JC3-Zm-j7R"/>
                     <constraint firstItem="Eby-p9-Zpx" firstAttribute="top" secondItem="MdL-Ya-AH8" secondAttribute="top" id="JaG-qd-ghN"/>
                     <constraint firstAttribute="bottom" secondItem="Eby-p9-Zpx" secondAttribute="bottom" id="P2A-Yw-S92"/>
