@@ -201,7 +201,7 @@ extension CKContactListViewController: UITableViewDelegate {
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = UIColor.blue
-        label.text = sections[section].letter
+        label.text = sections[section].letter.localizedUppercase
         let headerView = UIView.init()
         headerView.addSubview(label)
         headerView.backgroundColor = CKColor.Background.tableView
