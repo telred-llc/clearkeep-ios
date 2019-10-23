@@ -96,9 +96,9 @@
         // Customize search bar
         self.searchBar.barStyle = kRiotDesignSearchBarStyle;
         self.searchBar.tintColor = kRiotDesignSearchBarTintColor;
-        
+
         // Remove navigation buttons
-        self.navigationItem.hidesBackButton = YES;
+        self.navigationItem.hidesBackButton = NO;
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.leftBarButtonItem = nil;
         
@@ -109,19 +109,37 @@
         if (@available(iOS 11.0, *)) {
             [self.searchBar.heightAnchor constraintEqualToConstant:44].active = YES;
         }
-        
-        // On iPad, there is no cancel button inside the UISearchBar
-        // So, add a classic cancel right bar button
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onIPadCancelPressed:)];
-            [self.navigationItem setRightBarButtonItem: cancelButton animated:YES];
-        }
+
+        UIBarButtonItem *newRoomButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_new_chat"] style:UIBarButtonItemStylePlain target:self action:@selector(onPressRightMenuItem)];
+        [self.navigationItem setRightBarButtonItem: newRoomButton animated:YES];
     }
     
     // And display the keyboard
     [self.searchBar becomeFirstResponder];
 }
+
+- (void)onPressRightMenuItem {
+}
+
+
+/*
+ func showDirectChatVC() {
+ // init
+ let nvc = CKRoomDirectCreatingViewController.instanceNavigation { (vc: MXKViewController) in
+ 
+ // is class?
+ if let vc = vc as? CKRoomDirectCreatingViewController {
+ 
+ // setup vc
+ vc.delegate = self
+ vc.importSession(self.mxSessions)
+ }
+ }
+ 
+ self.present(nvc, animated: true, completion: nil)
+ }
+
+ */
 
 - (void)hideSearch:(BOOL)animated
 {
@@ -269,7 +287,7 @@
         searchInternals = [[UIViewControllerRiotSearchInternals alloc] init];
 
         UISearchBar *searchBar = [[UISearchBar alloc] init];
-        searchBar.showsCancelButton = YES;
+        searchBar.showsCancelButton = NO;
         searchBar.delegate = (id<UISearchBarDelegate>)self;
         searchInternals.searchBar = searchBar;
 

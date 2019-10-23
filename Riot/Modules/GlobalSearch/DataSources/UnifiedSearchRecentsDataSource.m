@@ -134,7 +134,7 @@
     }
     else if (section == self.directorySection)
     {
-        count = 1;
+        count = [super tableView:tableView numberOfRowsInSection:section];
     }
     else
     {
@@ -172,19 +172,24 @@
     }
     else if (indexPath.section == self.directorySection)
     {
-        // For the cell showing the public rooms directory search result,
-        // skip the MatrixKit mechanism and return directly the UITableViewCell
-        DirectoryRecentTableViewCell *directoryCell = [tableView dequeueReusableCellWithIdentifier:DirectoryRecentTableViewCell.defaultReuseIdentifier];
-        if (!directoryCell)
+        switch (self.publicRoomsDirectoryDataSource.state)
         {
-            directoryCell = [[DirectoryRecentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[DirectoryRecentTableViewCell defaultReuseIdentifier]];
+            case MXKDataSourceStateReady:
+                return [self.publicRoomsDirectoryDataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+            default: {
+                // For the cell showing the public rooms directory search result,
+                // skip the MatrixKit mechanism and return directly the UITableViewCell
+                DirectoryRecentTableViewCell *directoryCell = [tableView dequeueReusableCellWithIdentifier:DirectoryRecentTableViewCell.defaultReuseIdentifier];
+                if (!directoryCell)
+                {
+                    directoryCell = [[DirectoryRecentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[DirectoryRecentTableViewCell defaultReuseIdentifier]];
+                }
+                
+                [directoryCell render:self.publicRoomsDirectoryDataSource];
+                return directoryCell;
+            }
         }
-
-        [directoryCell render:self.publicRoomsDirectoryDataSource];
-
-        return directoryCell;
     }
-    
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 

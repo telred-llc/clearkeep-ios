@@ -507,6 +507,7 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
     else if (section == directorySection)
     {
         title = NSLocalizedStringFromTable(@"room_recents_directory_section", @"Vector", nil);
+        count = _publicRoomsDirectoryDataSource.roomsCount;
     }
     else if (section == lowPrioritySection)
     {
@@ -534,22 +535,23 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
     
     if (count)
     {
-        NSString *roomCount = [NSString stringWithFormat:@"   %tu", count];
+        NSString *roomCount = [NSString stringWithFormat:@" (%02tu)", count];
         
         NSMutableAttributedString *mutableSectionTitle = [[NSMutableAttributedString alloc] initWithString:title
                                                                                          attributes:@{NSForegroundColorAttributeName : kRiotPrimaryTextColor,
-                                                                                                      NSFontAttributeName: [UIFont boldSystemFontOfSize:15.0]}];
+                                                                                                      NSFontAttributeName: [UIFont systemFontOfSize:17.0]}];
         [mutableSectionTitle appendAttributedString:[[NSMutableAttributedString alloc] initWithString:roomCount
-                                                                                    attributes:@{NSForegroundColorAttributeName : kRiotAuxiliaryColor,
-                                                                                                 NSFontAttributeName: [UIFont boldSystemFontOfSize:15.0]}]];
+                                                                                    attributes:@{NSForegroundColorAttributeName : kRiotPrimaryTextColor,
+                                                                                                 NSFontAttributeName: [UIFont systemFontOfSize:17.0]}]];
         
         sectionTitle = mutableSectionTitle;
     }
     else if (title)
     {
+        title = [title stringByAppendingString:@" (0)"];
         sectionTitle = [[NSAttributedString alloc] initWithString:title
                                                attributes:@{NSForegroundColorAttributeName : kRiotPrimaryTextColor,
-                                                            NSFontAttributeName: [UIFont boldSystemFontOfSize:15.0]}];
+                                                            NSFontAttributeName: [UIFont systemFontOfSize:17.0]}];
     }
     
     return sectionTitle;

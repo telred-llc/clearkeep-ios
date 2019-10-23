@@ -36,5 +36,6 @@
  */
 @property (nonatomic, readonly) MXEvent *selectedSearchEvent;
 @property (nonatomic, readonly) MXSession *selectedSearchEventSession;
+@property (nonatomic, copy) void (^didSelectCreateNewRoom)();
 
 @end
