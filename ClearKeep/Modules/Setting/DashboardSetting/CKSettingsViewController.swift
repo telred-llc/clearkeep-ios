@@ -79,12 +79,13 @@ final class CKSettingsViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.defaultBarTintColor = themeService.attrs.searchBarBgColor
             self?.barTitleColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+            self?.changeNavigationBar(color: themeService.attrs.searchBarBgColor)
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 }
@@ -157,7 +158,7 @@ private extension CKSettingsViewController {
             cell.titleLabel.text = "Edit Profile"
             cell.iconImageView.image = #imageLiteral(resourceName: "ic_edit_profile_setting").withRenderingMode(.alwaysTemplate)
         case .notification:
-            cell.titleLabel.text = "Notification"
+            cell.titleLabel.text = "Notifications"
             cell.iconImageView.image = #imageLiteral(resourceName: "ic_notification_setting").withRenderingMode(.alwaysTemplate)
         case .calls:
             cell.titleLabel.text = "Calls"
