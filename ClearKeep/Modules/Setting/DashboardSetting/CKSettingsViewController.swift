@@ -47,16 +47,31 @@ final class CKSettingsViewController: MXKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupInitization()
+        self.tableView.separatorStyle = .none
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.title = "Setting"
+        self.title = "Settings"
+        self.setNavigationBar()
+    }
+    
+    func setNavigationBar(){
+        let closeItemButton = UIBarButtonItem.init(
+            image: UIImage(named: "ic_back_navigation"),
+            style: .plain,
+            target: self, action: #selector(clickedOnBackButton))
+        closeItemButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        self.navigationItem.leftBarButtonItem = closeItemButton
+    }
+    
+    @objc func clickedOnBackButton(){
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func setupInitization() {
         // Init datasource
-        tblDatasource = [[.profile], [.notification, .calls, .report], [.security], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
+        tblDatasource = [[.profile], [.notification, .calls, .report , .security], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
         setupTableView()
         bindingTheme()
     }
@@ -65,7 +80,7 @@ final class CKSettingsViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         }).disposed(by: disposeBag)
 
         themeService.rx
@@ -93,16 +108,13 @@ private extension CKSettingsViewController {
     func cellForButton(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingButtonCell {
         let cellType = tblDatasource[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingButtonCell", for: indexPath) as! CKSettingButtonCell
-
+        cell.backgroundColor = .white
         switch cellType {
         case .markAllMessageAsRead:
-            cell.titleLabel.textColor = kRiotColorGreen
             cell.titleLabel.text =  NSLocalizedString("settings_mark_all_as_read", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
         case .clearCache:
-            cell.titleLabel.textColor = kRiotColorGreen
             cell.titleLabel.text =  NSLocalizedString("settings_clear_cache", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
         case .deactivateAccount:
-            cell.titleLabel.textColor = kRiotColorRed
             cell.titleLabel.text =  NSLocalizedString("settings_deactivate_my_account", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
         default:
             break
@@ -114,7 +126,7 @@ private extension CKSettingsViewController {
     func cellForDarkMode(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingDarkModeCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingDarkModeCell", for: indexPath) as! CKSettingDarkModeCell
         cell.titleLabel.text = "Dark Mode"
-
+        cell.backgroundColor = .white
         let isDarkMode = RiotSettings.shared.userInterfaceTheme == ThemeType.dark.typeName
         cell.switchView.isOn = isDarkMode
 
@@ -138,7 +150,7 @@ private extension CKSettingsViewController {
     
     func cellForNormalItems(_ tableView: UITableView, indexPath: IndexPath) -> CKSettingsGroupedItemCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingsGroupedItemCell", for: indexPath) as! CKSettingsGroupedItemCell
-        
+        cell.backgroundColor = .white
         let cellType = tblDatasource[indexPath.section][indexPath.row]
         switch cellType {
         case .profile:
@@ -325,6 +337,12 @@ extension CKSettingsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellType = tblDatasource[indexPath.section][indexPath.row]
+        if cellType == .profile {
+            return CKLayoutSize.Table.row70px
+        }else if cellType == .darkmode{
+            return CKLayoutSize.Table.row60px
+        }
         return CKLayoutSize.Table.row43px
     }
     
@@ -332,8 +350,13 @@ extension CKSettingsViewController: UITableViewDelegate {
         return 40
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return UITableViewAutomaticDimension
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 20))
+        view.backgroundColor = CKColor.Background.tableView
+        return view
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -364,8 +387,18 @@ extension CKSettingsViewController: UITableViewDelegate {
             return footerView
         }
         
-        return nil
+        return UIView.init()
     }
+    
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        let numberOfSections = tableView.numberOfSections
+        if section == numberOfSections - 1 {
+          return UITableViewAutomaticDimension
+        }
+        return 0.1
+    }
+    
 }
 
 // MARK: - DeactivateAccountViewControllerDelegate
