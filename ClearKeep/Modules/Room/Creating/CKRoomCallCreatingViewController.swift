@@ -407,7 +407,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
             
             // re-load
             self.tableView.reloadData()
-            self.view.endEditing(true)
+            self.view.endEditing(false)
         }
     }
     

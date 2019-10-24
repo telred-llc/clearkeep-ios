@@ -38,7 +38,7 @@ final class CKRoomCreatingNameCell: CKRoomCreatingBaseCell {
     // MARK: - ACTION
     
     @objc func edittingChanged(textField: UITextField) {
-        edittingChangedHandler?(textField.text)
+        edittingChangedHandler?(textField.text?.uppercased())
     }
     
     @objc func edittingBegin(){

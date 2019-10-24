@@ -274,12 +274,14 @@ final class CKRoomCreatingViewController: MXKViewController {
         if let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomCreatingNameCell.identifier,
             for: indexPath) as? CKRoomCreatingNameCell {
-            cell.nameTextField.text = creatingData.name
+            cell.nameTextField.delegate = self
+            cell.nameTextField.tag = 1
             cell.selectionStyle = .none
             // text value
             cell.edittingChangedHandler = { text in
                 if let text = text {
                     self.creatingData.name = text
+                    cell.nameTextField.text = text
                     self.updateControls()
                 }
             }
@@ -298,6 +300,7 @@ final class CKRoomCreatingViewController: MXKViewController {
             for: indexPath) as? CKRoomCreatingTopicCell {
             cell.topicTextField.text = creatingData.topic
             cell.selectionStyle = .none
+            cell.topicTextField.tag = 99
             // text value
             cell.edittingChangedHandler = { text in
                 if let text = text {self.creatingData.topic = text}
@@ -495,6 +498,19 @@ extension CKRoomCreatingViewController: UITableViewDataSource {
         }
     }
     
+}
+
+extension CKRoomCreatingViewController : UITextFieldDelegate{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.tag == 1 {
+            let fieldNext = self.view.viewWithTag(99) as? UITextField
+            fieldNext?.becomeFirstResponder()
+        }
+        if textField.tag == 99 {
+            self.view.endEditing(true)
+        }
+        return true
+    }
 }
 
 extension CKRoomCreatingViewController {
