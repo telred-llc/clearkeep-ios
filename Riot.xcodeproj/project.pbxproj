@@ -6666,6 +6666,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep;
 				PRODUCT_NAME = Riot;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Riot/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -6713,6 +6714,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep;
 				PRODUCT_NAME = Riot;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Riot/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -6872,6 +6874,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE_SPECIFIER = "CK app dev provision";
+				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -6926,6 +6929,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
 				PROVISIONING_PROFILE_SPECIFIER = "CK app dev provision";
+				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
 				SWIFT_VERSION = 4.0;

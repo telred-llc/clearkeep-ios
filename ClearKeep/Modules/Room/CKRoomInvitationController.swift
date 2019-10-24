@@ -92,14 +92,15 @@ protocol CKRoomInvitationControllerDeletate: class {
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
     }
     
-    public func showIt(_ value: Bool, roomDataSource: MXKRoomDataSource!) {
+    public func showIt(_ value: Bool, roomDataSource: MXKRoomDataSource!, previewData: RoomPreviewData?) {
         
         self.view.isHidden = !value        
-        let title = "You have been invited you to this room, join to chat?"
-        
+        var title = "Would you like to join in order to participate in the discussion?"
+        if let preview = previewData, let invite = preview.emailInvitation, let _ = invite.email {
+            title = "You have been invited you to this room, join to chat?"
+        }
+        self.descriptionLabel.text = title
         if let ds = roomDataSource, value == true {
-            self.descriptionLabel.text = title
-            
             self.photoView?.setImageURI(
                 ds.room?.summary?.avatar,
                 withType: nil,

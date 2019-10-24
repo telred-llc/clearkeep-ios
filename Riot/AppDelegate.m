@@ -56,7 +56,6 @@
 #import "MXRoom+Riot.h"
 
 #import "Riot-Swift.h"
-
 #import <IQKeyboardManagerSwift/IQKeyboardManagerSwift-Swift.h>
 
 //#define MX_CALL_STACK_OPENWEBRTC
@@ -158,12 +157,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
      session to be running. Hence, this observer.
      */
     id universalLinkWaitingObserver;
-    
-    /**
-     Suspend the error notifications when the navigation stack of the root view controller is updating.
-     */
-    BOOL isErrorNotificationSuspended;
-    
+
     /**
      Completion block called when [self popToHomeViewControllerAnimated:] has been
      completed.
@@ -471,7 +465,8 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     NSAssert(_masterTabBarController, @"Something wrong in Main.storyboard");
     
     _isAppForeground = NO;
-    
+    _isErrorNotificationSuspended = NO;
+
     // Configure our analytics. It will indeed start if the option is enabled
     [MXSDKOptions sharedInstance].analyticsDelegate = [Analytics sharedInstance];
     [DecryptionFailureTracker sharedInstance].delegate = [Analytics sharedInstance];
@@ -790,7 +785,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
 - (void)restoreInitialDisplay:(void (^)(void))completion
 {
     // Suspend error notifications during navigation stack change.
-    isErrorNotificationSuspended = YES;
+    _isErrorNotificationSuspended = YES;
     
     // Dismiss potential view controllers that were presented modally (like the media picker).
     if (self.window.rootViewController.presentedViewController)
@@ -806,7 +801,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                 }
                 
                 // Enable error notifications
-                isErrorNotificationSuspended = NO;
+                _isErrorNotificationSuspended = NO;
                 
                 if (noCallSupportAlert)
                 {
@@ -844,7 +839,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             }
             
             // Enable error notification (Check whether a notification is pending)
-            isErrorNotificationSuspended = NO;
+            _isErrorNotificationSuspended = NO;
             if (_errorNotification)
             {
                 [self showNotificationAlert:_errorNotification];
@@ -933,7 +928,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                                                              
                                                          }]];
     // Display the error notification
-    if (!isErrorNotificationSuspended)
+    if (!_isErrorNotificationSuspended)
     {
         [_errorNotification mxk_setAccessibilityIdentifier:@"AppDelegateErrorAlert"];
         [self showNotificationAlert:_errorNotification];
@@ -1882,12 +1877,12 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     {
         if (accountManager.activeAccounts.count)
         {
+
             // Check there is an account that knows this room
             MXKAccount *account = [accountManager accountKnowingRoomWithRoomIdOrAlias:roomIdOrAlias];
             if (account)
             {
                 NSString *roomId = roomIdOrAlias;
-                
                 // Translate the alias into the room id
                 if ([roomIdOrAlias hasPrefix:@"#"])
                 {
@@ -1900,7 +1895,6 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                 
                 // Open the room page
                 [self showRoom:roomId andEventId:eventId withMatrixSession:account.mxSession];
-                
                 continueUserActivity = YES;
             }
             else
@@ -1912,11 +1906,13 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                     if ([_masterTabBarController.selectedViewController isKindOfClass:MXKViewController.class])
                     {
                         MXKViewController *homeViewController = (MXKViewController*)_masterTabBarController.selectedViewController;
-                        
                         [homeViewController startActivityIndicator];
-                        
+
                         if ([roomIdOrAlias hasPrefix:@"#"])
                         {
+                            UIViewController *topVC = [UIApplication topViewControllerWithController: [UIApplication sharedApplication].keyWindow.rootViewController];
+                            [topVC showSpinnerOnView:topVC.view];
+
                             // The alias may be not part of user's rooms states
                             // Ask the HS to resolve the room alias into a room id and then retry
                             universalLinkFragmentPending = fragment;
@@ -1931,16 +1927,24 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                                 {
                                     // Retry opening the link but with the returned room id
                                     NSString *newUniversalLinkFragment =
-                                    [fragment stringByReplacingOccurrencesOfString:[roomIdOrAlias stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                                                                        withString:[roomId stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                                    [fragment stringByReplacingOccurrencesOfString:[MXTools encodeURIComponent:roomIdOrAlias]
+                                                                        withString:[MXTools encodeURIComponent:roomId]
+                                     ];
                                     
                                     universalLinkFragmentPendingRoomAlias = @{roomId: roomIdOrAlias};
                                     
                                     [self handleUniversalLinkFragment:newUniversalLinkFragment];
                                 }
-                                
+                                [topVC removeSpinner];
                             } failure:^(NSError *error) {
-                                NSLog(@"[AppDelegate] Universal link: Error: The home server failed to resolve the room alias (%@)", roomIdOrAlias);
+                                [topVC removeSpinner];
+
+                                NSLog(@"[AppDelegate] Universal link: Error: The homeserver failed to resolve the room alias (%@)", roomIdOrAlias);
+                                
+                                [homeViewController stopActivityIndicator];
+                                
+                                NSString *errorMessage = [NSString stringWithFormat:@"%@ does not exist", roomIdOrAlias];
+                                [self showNotiAlert:nil message:errorMessage];
                             }];
                         }
                         else if ([roomIdOrAlias hasPrefix:@"!"] && ((MXKAccount*)accountManager.activeAccounts.firstObject).mxSession.state != MXSessionStateRunning)
@@ -1981,6 +1985,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
                                 [homeViewController stopActivityIndicator];
                                 
                                 roomPreviewData = [[RoomPreviewData alloc] initWithRoomId:roomIdOrAlias emailInvitationParams:queryParams andSession:account.mxSession];
+                                roomPreviewData.viaServers = queryParams[@"via"];
                                 [self showRoomPreview:roomPreviewData];
                             }
                             else
@@ -2145,7 +2150,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     NSArray<NSString*> *pathParams;
     NSMutableDictionary *queryParams;
-    
+    NSMutableArray<NSString*> *viaServers = [[NSMutableArray alloc] init];
     NSArray<NSString*> *fragments = [fragment componentsSeparatedByString:@"?"];
     
     // Extract path params
@@ -2178,16 +2183,53 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             if (value.length)
             {
                 value = [value stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-                value = [value stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                value = [value stringByRemovingPercentEncoding];
                 
-                queryParams[key] = value;
+                if ([key isEqualToString:@"via"])
+                {
+                    // Special case the via parameter
+                    // As we can have several of them, store each value into an array
+                    if (!queryParams[key])
+                    {
+                        queryParams[key] = [NSMutableArray array];
+                    }
+                    
+                    [queryParams[key] addObject:value];
+                }
+                else
+                {
+                    queryParams[key] = value;
+                }
             }
         }
     }
     
+    for (NSString* param in pathParams) {
+        if (![param isEqualToString:@"room"] && ([param hasPrefix:@"#"] || [param hasPrefix:@"!"])) {
+            NSArray<NSString*> *address = [param componentsSeparatedByString:@":"];
+            if (address.count > 1 && [self validateUrl:address[1]]) {
+                [viaServers addObject:address[1]];
+            }
+        }
+    }
+    
+    if ([viaServers count] > 0) {
+        queryParams = [[NSMutableDictionary alloc] init];
+        queryParams[@"via"] = viaServers;
+    }
+
     *outPathParams = pathParams;
     *outQueryParams = queryParams;
 }
+
+             
+- (BOOL)validateUrl: (NSString *) candidate {
+    NSString *urlRegEx =
+    @"((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
+    return [urlTest evaluateWithObject:candidate];
+}
+
 
 #pragma mark - Matrix sessions handling
 
@@ -3041,7 +3083,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     // In case of the app update for the e2e encryption, the app starts with
     // no device id provided by the homeserver.
     // Ask the user to login again in order to enable e2e. Ask it once
-    if (!isErrorNotificationSuspended && ![[NSUserDefaults standardUserDefaults] boolForKey:@"deviceIdAtStartupChecked"])
+    if (!_isErrorNotificationSuspended && ![[NSUserDefaults standardUserDefaults] boolForKey:@"deviceIdAtStartupChecked"])
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"deviceIdAtStartupChecked"];
         

@@ -190,6 +190,8 @@ public extension UIAlertController {
 }
 
 extension UIApplication {
+    
+    @objc
     class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)
@@ -203,5 +205,34 @@ extension UIApplication {
             return topViewController(controller: presented)
         }
         return controller
+    }
+}
+
+var topSpinner : UIView?
+
+extension UIViewController {
+
+    @objc
+    func showSpinner(onView : UIView) {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.25)
+        let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .gray)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        topSpinner = spinnerView
+    }
+
+    @objc
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            topSpinner?.removeFromSuperview()
+            topSpinner = nil
+        }
     }
 }
