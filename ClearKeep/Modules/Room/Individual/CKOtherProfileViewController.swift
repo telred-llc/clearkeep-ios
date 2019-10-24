@@ -127,7 +127,8 @@ class CKOtherProfileViewController: MXKViewController {
             
             let dispn = mxMember?.displayname ?? (mxMember?.userId?.components(separatedBy: ":").first ?? "Unknown")
             
-            cell.nameLabel.text = dispn
+            cell.currentDisplayName = dispn
+            
             cell.setAvatarUri(
                 mxMember.avatarUrl,
                 identifyText: dispn,
@@ -372,7 +373,7 @@ extension CKOtherProfileViewController: UITableViewDelegate {
         guard let section = Section(rawValue: indexPath.section) else { return 0}
         switch section {
         case .avatar:
-            return 250
+            return UITableViewAutomaticDimension
         case .setAdmin:
             return 100
         default:
@@ -397,7 +398,7 @@ extension CKOtherProfileViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
+        return CGFloat.leastNonzeroMagnitude
     }
     
 }

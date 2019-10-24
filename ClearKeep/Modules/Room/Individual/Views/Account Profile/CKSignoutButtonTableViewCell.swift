@@ -16,11 +16,8 @@ class CKSignoutButtonTableViewCell: CKBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        signOutButton.setTitleColor(kRiotColorRed, for: .normal)
+        signOutButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
         signOutButton.layer.cornerRadius = 3
-        signOutButton.layer.borderWidth = 1
-        signOutButton.layer.borderColor = CKColor.Misc.primaryGreenColor.cgColor
-
         self.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
     }
 
