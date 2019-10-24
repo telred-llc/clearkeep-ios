@@ -187,7 +187,23 @@ import Foundation
     }
     
     // MARK - Application layout handling
-    
+    public func showNotiAlert(_ title: String?, message: String) {
+        if let _ = self.errorNotification {
+            self.errorNotification.dismiss(animated: false, completion: nil)
+            self.errorNotification = nil
+        }
+        self.errorNotification = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default) { (act) in
+            AppDelegate.the()?.errorNotification = nil
+        }
+        self.errorNotification.addAction(action)
+        
+        if !isErrorNotificationSuspended {
+            self.errorNotification.mxk_setAccessibilityIdentifier("AppDelegateErrorAlert")
+            showNotificationAlert(self.errorNotification)
+        }
+    }
+
     public func showNotificationAlert(_ alert: UIAlertController?) {
         if window.rootViewController?.presentedViewController != nil {
             alert?.popoverPresentationController?.sourceView = window.rootViewController?.presentedViewController?.view
@@ -209,26 +225,23 @@ import Foundation
             return
         }
         switch keyBackup.state {
-        case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion, MXKeyBackupStateDisabled:
+        case MXKeyBackupStateNotTrusted, MXKeyBackupStateWrongBackUpVersion, MXKeyBackupStateDisabled, MXKeyBackupStateReadyToBackUp:
             handleKeyBackupProcess(for: keyBackup)
-        case MXKeyBackupStateCheckingBackUpOnHomeserver:
-            break
         default:
             return
         }
     }
-    
+
     @objc public func detailToContact(_ contact: MXKContact) {
         
     }
-    
+
     @objc func handleKeyBackupProcess(for keyBackup: MXKeyBackup) {
         guard let _ = self.mxSessions.first as? MXSession else {
             return
         }
-        
+
         CKKeyBackupRecoverManager.shared.setup(keyBackup)
         CKKeyBackupRecoverManager.shared.startBackupProcess()
     }
-
 }

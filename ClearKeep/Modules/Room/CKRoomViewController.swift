@@ -29,7 +29,8 @@ import MatrixKit
     
     private let kShowRoomSearchSegue = "showRoomSearch"
     private let documentPickerPresenter = MXKDocumentPickerPresenter()
-
+    lazy private var queue = DispatchQueue(label: "CKRoomQueue")
+    
     // MARK: - Properties
     
     // MARK: Public
@@ -585,17 +586,18 @@ extension CKRoomViewController {
 
     func isRoomPreview() -> Bool {
         // Check first whether some preview data are defined.
-        if roomPreviewData != nil {
+        if let _ = roomPreviewData {
             return true
         }
 
-        if roomDataSource != nil && roomDataSource.state == MXKDataSourceStateReady && roomDataSource.room.summary.membership == MXMembership.invite {
+        if let data = roomDataSource, data.state == MXKDataSourceStateReady, let rooms = data.room,
+            let sum = rooms.summary, sum.membership == MXMembership.invite {
             return true
         }
 
         return false
     }
-    
+
     func updateMentionTableView(mentionDataSource: CKMentionDataSource?) {
         self.mentionListTableView?.dataSource = mentionDataSource
         self.mentionListTableView?.delegate = mentionDataSource
@@ -1499,8 +1501,6 @@ extension CKRoomViewController {
     
     @objc func displayRoomPreview(_ previewData: RoomPreviewData?) {
         // Release existing room data source or preview
-
-        // Release existing room data source or preview
         displayRoom(nil)
 
         if previewData != nil {
@@ -1539,7 +1539,7 @@ extension CKRoomViewController {
 
     override func displayRoom(_ dataSource: MXKRoomDataSource?) {
         // Remove potential preview Data
-        if roomPreviewData != nil {
+        if let _ = roomPreviewData {
             roomPreviewData = nil
             removeMatrixSession(mainSession)
         }
@@ -1586,10 +1586,10 @@ extension CKRoomViewController {
             // invitation view
             self.titleView?.editable = false
             self.titleView?.refreshDisplay()
-            self.invitationController?.showIt(true, roomDataSource: self.roomDataSource)
+            self.invitationController?.showIt(true, roomDataSource: self.roomDataSource, previewData: self.roomPreviewData)
         } else {
             // invitation view
-            self.invitationController?.showIt(false, roomDataSource: self.roomDataSource)
+            self.invitationController?.showIt(false, roomDataSource: self.roomDataSource, previewData: self.roomPreviewData)
             
             navigationItem.rightBarButtonItem?.isEnabled = roomDataSource != nil
             titleView?.editable = false
@@ -1757,14 +1757,27 @@ extension CKRoomViewController {
     }
     
     override func dataSource(_ dataSource: MXKDataSource!, shouldDoAction actionIdentifier: String!, inCell cell: MXKCellRendering!, userInfo: [AnyHashable : Any]! = [:], defaultValue: Bool) -> Bool {
-        
-        //if long click then type click = 1
+
+        // if long press then typeClick == 1
         let typeClick = userInfo?[kMXKRoomBubbleCellUrlItemInteraction] as? Int
-        //
+        
+        // other press gestures
         if typeClick != 1 {
             let urlClicked = userInfo?[kMXKRoomBubbleCellUrl] as? URL
+
+            if let urlString = urlClicked?.absoluteString.removingPercentEncoding, actionIdentifier.contains(kMXKRoomBubbleCellShouldInteractWithURL),
+                MXTools.isMatrixRoomAlias(urlString) || MXTools.isMatrixRoomIdentifier(urlString) {
+                
+                // Open the room or preview it
+                let fragmentPath = "/room/\(MXTools.encodeURIComponent(urlString) ?? "")"
+                AppDelegate.the()?.handleUniversalLinkFragment(fragmentPath)
+
+                return false
+            }
+
             AppUtils.openURL(url: urlClicked)
         }
+
         return true
     }
     
@@ -2718,28 +2731,56 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
             ms = AppDelegate.the()?.mxSessions.first as? MXSession
         }
         
-        guard let session = ms else {
-            self.showAlert("Occur an error. Please try to join chat later.")
-            return
-        }
+//        guard let session = ms else {
+//            self.showAlert("Occur an error. Please try to join chat later.")
+//            return
+//        }
 
-        session.joinRoom(self.roomDataSource.roomId, completion: { (response: MXResponse<MXRoom>) in
-            if response.isSuccess {
-                // reload navbar
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.refreshRoomNavigationBar()
-                }
-            } else if let error = response.error {
-                // got error
-                DispatchQueue.main.async {
-                    self.showAlert(error.localizedDescription)
+        self.showSpinner(onView: UIApplication.topViewController()?.view ?? self.view)
+        if let previewData = roomPreviewData {
+            var roomIdOrAlias = previewData.roomId
+            if let aliases = previewData.roomAliases, aliases.count > 0 {
+                roomIdOrAlias = aliases.first
+            }
+            
+            var signURL: String?
+            if let email = previewData.emailInvitation, let sign = email.signUrl {
+                signURL = sign
+            } else {
+                signURL = nil
+            }
+
+            self.joinRoom(withRoomIdOrAlias: roomIdOrAlias, viaServers: previewData.viaServers, andSignUrl: signURL) {[weak self] (success) in
+                self?.removeSpinner()
+                if success {
+                    // reload navbar
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self?.refreshRoomNavigationBar()
+                    }
+                } else {
+                    // error: pre-handled in SDK
                 }
             }
-        })
+        } else {
+            self.joinRoom {[weak self] (success) in
+                self?.removeSpinner()
+                if success {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self?.refreshRoomNavigationBar()
+                    }
+                }
+            }
+        }
     }
     
     func invitationDidSelectDecline() {
         
+        // Enter by room's link
+        guard let preview = self.roomPreviewData, let invite = preview.emailInvitation, let _ = invite.email else {
+            AppDelegate.the()?.masterTabBarController?.navigationController?.popViewController(animated: true)
+            return
+        }
+
         guard let invitedRoom = self.roomDataSource?.room else {
             self.showAlert("Occur an error. Please try to it later.")
             return

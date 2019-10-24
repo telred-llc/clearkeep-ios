@@ -30,6 +30,13 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+            <key>op.clearkeep.xyz</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSExceptionRequiresForwardSecrecy</key>
+                <false/>
+            </dict>
 			<key>cas.openmarket.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
