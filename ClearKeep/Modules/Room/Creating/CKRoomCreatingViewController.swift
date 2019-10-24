@@ -111,19 +111,16 @@ final class CKRoomCreatingViewController: MXKViewController {
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
-        // self is root view controller
-        if self.navigationController?.viewControllers.first == self {
-            
-            // Setup close button item
-            let closeItemButton = UIBarButtonItem.init(
-                image: UIImage(named: "ic_x_close"),
-                style: .plain,
-                target: self, action: #selector(clickedOnBackButton(_:)))
-            
-            self.navigationItem.leftBarButtonItem = closeItemButton
-        }
-        
+        self.setNavigationBar()
         bindingTheme()
+    }
+    
+    func setNavigationBar(){
+        let closeItemButton = UIBarButtonItem.init(
+            image: UIImage(named: "ic_back_nav"),
+            style: .plain,
+            target: self, action: #selector(clickedOnBackButton))
+        self.navigationItem.leftBarButtonItem = closeItemButton
     }
     
     private func bindingTheme() {
@@ -134,7 +131,7 @@ final class CKRoomCreatingViewController: MXKViewController {
         }).disposed(by: disposeBag)
         
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     
@@ -340,9 +337,9 @@ final class CKRoomCreatingViewController: MXKViewController {
         case .option:
             return ""
         case .name:
-            return "Room Name (Required)"
+            return ""
         case .topic:
-            return "Room Topic (Optional)"
+            return ""
         case .suggested:
             return "Suggested"
         }
@@ -367,10 +364,18 @@ final class CKRoomCreatingViewController: MXKViewController {
 
 extension CKRoomCreatingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if Section(rawValue: indexPath.section) == Section.suggested {
+        guard let s = Section(rawValue: indexPath.section) else { return 0}
+
+        switch s {
+        case .suggested:
             return CKLayoutSize.Table.row60px
+        case .name:
+            return UITableViewAutomaticDimension
+        case .topic:
+            return UITableViewAutomaticDimension
+        default:
+            return CKLayoutSize.Table.row44px
         }
-        return CKLayoutSize.Table.row44px
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -404,7 +409,16 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.defaultHeader
+        guard let s = Section(rawValue: section) else { return 0}
+        switch s {
+        case .name , .topic:
+            return CGFloat.leastNonzeroMagnitude
+        case .suggested:
+            return CKLayoutSize.Table.row43px
+        default:
+            return CKLayoutSize.Table.defaultHeader
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

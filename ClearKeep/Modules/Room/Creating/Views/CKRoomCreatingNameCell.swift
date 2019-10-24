@@ -13,6 +13,7 @@ final class CKRoomCreatingNameCell: CKRoomCreatingBaseCell {
     // MARK: - OUTLET
     
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var lblHeader: UILabel!
     
     // MARK: - PROPERTY
     
@@ -25,14 +26,34 @@ final class CKRoomCreatingNameCell: CKRoomCreatingBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.nameTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
+        self.nameTextField.addTarget(self, action: #selector(edittingBegin), for: .editingDidBegin)
+        self.nameTextField.addTarget(self, action: #selector(edittingEnd), for: .editingDidEnd)
         self.nameTextField.rectangleBorder()
         self.nameTextField.setLeftPaddingPoints(10)
-        self.nameTextField.borderColor = CKColor.Text.blue
+        self.nameTextField.borderColor = CKColor.Text.lightGray
+        self.lblHeader.textColor = CKColor.Text.lightGray
+        self.nameTextField.autocapitalizationType = .allCharacters
     }
     
     // MARK: - ACTION
     
     @objc func edittingChanged(textField: UITextField) {
         edittingChangedHandler?(textField.text)
+    }
+    
+    @objc func edittingBegin(){
+        self.nameTextField.borderColor = CKColor.Text.blueNavigation
+        self.nameTextField.textColor = CKColor.Text.blueNavigation
+        self.lblHeader.textColor = CKColor.Text.blueNavigation
+        self.nameTextField.attributedPlaceholder = NSAttributedString(string: "Name",
+                                                               attributes: [NSAttributedStringKey.foregroundColor: CKColor.Text.blueNavigation])
+    }
+    
+    @objc func edittingEnd(){
+        self.nameTextField.borderColor = CKColor.Text.lightGray
+        self.nameTextField.textColor = CKColor.Text.lightGray
+        self.lblHeader.textColor = CKColor.Text.lightGray
+        self.nameTextField.attributedPlaceholder = NSAttributedString(string: "Name",
+                                                                      attributes: [NSAttributedStringKey.foregroundColor: CKColor.Text.lightGray])
     }
 }

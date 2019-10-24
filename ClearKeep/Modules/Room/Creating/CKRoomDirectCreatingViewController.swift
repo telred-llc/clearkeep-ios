@@ -59,14 +59,15 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         
         // Setup close button item
         let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_x_close"),
+            image: UIImage(named: "ic_back_nav"),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton(_:)))
         
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
         self.navigationItem.title = "New Conversation"
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
+        self.navigationController?.navigationBar.tintColor = CKColor.Text.blueNavigation
+        self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         // first reload ds
         self.reloadDataSource()
         bindingTheme()
@@ -90,7 +91,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 

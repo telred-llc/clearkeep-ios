@@ -71,6 +71,23 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         self.navigationItem.title = "New Call"
         bindingTheme()
         self.hideKeyboardWhenTappedAround()
+        self.setNavigationBar()
+    }
+    
+        func setNavigationBar(){
+        let closeItemButton = UIBarButtonItem.init(
+            image: UIImage(named: "ic_back_nav"),
+            style: .plain,
+            target: self, action: #selector(clickedOnBackButton))
+        self.navigationItem.leftBarButtonItem = closeItemButton
+    }
+    
+    @objc func clickedOnBackButton(_ sender: Any?) {
+        if self.navigationController?.viewControllers.first != self {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     // MARK: - PRIVATE
@@ -92,7 +109,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         }).disposed(by: disposeBag)
         
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     

@@ -19,21 +19,21 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-oB-utI" customClass="MXKImageView">
-                        <rect key="frame" x="20" y="10" width="39.5" height="39.5"/>
+                        <rect key="frame" x="20" y="5" width="49.5" height="49.5"/>
                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="8xh-oB-utI" secondAttribute="height" multiplier="1:1" id="IQI-5T-dBg"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Participant Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKK-Ff-tAd">
-                        <rect key="frame" x="69.5" y="0.0" width="295.5" height="59.5"/>
+                        <rect key="frame" x="79.5" y="0.0" width="285.5" height="59.5"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yck-RQ-BBp" userLabel="StatusView">
-                        <rect key="frame" x="46.5" y="36.5" width="12" height="12"/>
+                        <rect key="frame" x="56.5" y="41.5" width="12" height="12"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="yck-RQ-BBp" secondAttribute="height" multiplier="1:1" id="Ikt-v0-9NM"/>
@@ -43,13 +43,13 @@
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="8xh-oB-utI" secondAttribute="bottom" constant="10" id="4pI-D1-G7Y"/>
+                    <constraint firstAttribute="bottom" secondItem="8xh-oB-utI" secondAttribute="bottom" constant="5" id="4pI-D1-G7Y"/>
                     <constraint firstItem="yck-RQ-BBp" firstAttribute="trailing" secondItem="8xh-oB-utI" secondAttribute="trailing" constant="-1" id="Atw-oh-du7"/>
                     <constraint firstAttribute="bottom" secondItem="MKK-Ff-tAd" secondAttribute="bottom" id="RST-vy-4ko"/>
                     <constraint firstAttribute="trailing" secondItem="MKK-Ff-tAd" secondAttribute="trailing" constant="10" id="SW8-fw-9xU"/>
                     <constraint firstItem="yck-RQ-BBp" firstAttribute="bottom" secondItem="8xh-oB-utI" secondAttribute="bottom" constant="-1" id="T4y-BE-Z6o"/>
                     <constraint firstItem="MKK-Ff-tAd" firstAttribute="leading" secondItem="8xh-oB-utI" secondAttribute="trailing" constant="10" id="Ww7-14-M3B"/>
-                    <constraint firstItem="8xh-oB-utI" firstAttribute="top" secondItem="ujA-7e-3oN" secondAttribute="top" constant="10" id="oXG-sO-84X"/>
+                    <constraint firstItem="8xh-oB-utI" firstAttribute="top" secondItem="ujA-7e-3oN" secondAttribute="top" constant="5" id="oXG-sO-84X"/>
                     <constraint firstItem="MKK-Ff-tAd" firstAttribute="top" secondItem="ujA-7e-3oN" secondAttribute="top" id="sKO-oZ-JBm"/>
                     <constraint firstItem="8xh-oB-utI" firstAttribute="leading" secondItem="ujA-7e-3oN" secondAttribute="leading" constant="20" id="wdK-F7-4gw"/>
                 </constraints>

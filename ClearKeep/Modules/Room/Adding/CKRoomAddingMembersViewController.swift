@@ -65,7 +65,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             
             // Setup close button item
             let closeItemButton = UIBarButtonItem.init(
-                image: UIImage(named: "ic_x_close"),
+                image: UIImage(named: "ic_back_nav"),
                 style: .plain,
                 target: self, action: #selector(clickedOnBackButton(_:)))
             closeItemButton.tintColor = CKColor.Text.blueNavigation
@@ -80,7 +80,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = theme.primaryBgColor
+            self?.defaultBarTintColor = theme.searchBarBgColor
             self?.barTitleColor = CKColor.Text.blueNavigation
             self?.tableView?.backgroundColor = .white
             self?.tableView?.separatorColor = theme.separatorColor
@@ -88,7 +88,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 

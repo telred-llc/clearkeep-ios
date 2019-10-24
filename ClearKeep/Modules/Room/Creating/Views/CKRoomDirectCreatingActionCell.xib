@@ -22,16 +22,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="457" height="80"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ujs-NO-p43">
-                                <rect key="frame" x="15" y="20" width="40" height="40"/>
+                                <rect key="frame" x="15" y="29" width="22" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="5eC-bO-TNU"/>
-                                    <constraint firstAttribute="width" constant="40" id="oVr-kc-KeA"/>
+                                    <constraint firstAttribute="height" constant="22" id="5eC-bO-TNU"/>
+                                    <constraint firstAttribute="width" constant="22" id="oVr-kc-KeA"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                                 <state key="normal" backgroundImage="ic_new_call_ellipse"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Call" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="orP-W2-xIq">
-                                <rect key="frame" x="75" y="28.5" width="75" height="23"/>
+                                <rect key="frame" x="57" y="28.5" width="75" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -50,16 +50,16 @@
                         <rect key="frame" x="0.0" y="80" width="457" height="80"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vN2-vg-win">
-                                <rect key="frame" x="15" y="20" width="40" height="40"/>
+                                <rect key="frame" x="15" y="29.5" width="25" height="20.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="7Ww-sm-7SR"/>
-                                    <constraint firstAttribute="height" constant="40" id="uS8-97-lEv"/>
+                                    <constraint firstAttribute="width" constant="25.239999999999998" id="7Ww-sm-7SR"/>
+                                    <constraint firstAttribute="height" constant="20.41" id="uS8-97-lEv"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                                 <state key="normal" backgroundImage="ic_new_room_ellipse"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Rk-vg-EMM">
-                                <rect key="frame" x="75" y="28.5" width="92.5" height="23"/>
+                                <rect key="frame" x="60" y="28.5" width="92.5" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -110,7 +110,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_new_call_ellipse" width="39" height="39"/>
-        <image name="ic_new_room_ellipse" width="39" height="39"/>
+        <image name="ic_new_call_ellipse" width="21.5" height="21.5"/>
+        <image name="ic_new_room_ellipse" width="26.5" height="21"/>
     </resources>
 </document>
