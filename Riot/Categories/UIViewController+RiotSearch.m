@@ -16,7 +16,7 @@
  */
 
 #import "UIViewController+RiotSearch.h"
-
+#import "Riot-Swift.h"
 #import <objc/runtime.h>
 
 #import "RiotDesignValues.h"
@@ -96,6 +96,7 @@
         // Customize search bar
         self.searchBar.barStyle = kRiotDesignSearchBarStyle;
         self.searchBar.tintColor = kRiotDesignSearchBarTintColor;
+        [self.searchBar setTextFieldColorWithColor:kRiotSecondaryBgColor];
 
         // Remove navigation buttons
         self.navigationItem.hidesBackButton = NO;
@@ -113,7 +114,7 @@
         UIBarButtonItem *newRoomButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_new_chat"] style:UIBarButtonItemStylePlain target:self action:@selector(onPressRightMenuItem)];
         [self.navigationItem setRightBarButtonItem: newRoomButton animated:YES];
     }
-    
+
     // And display the keyboard
     [self.searchBar becomeFirstResponder];
 }
