@@ -314,10 +314,11 @@ final class CkHomeViewController: CKRecentListViewController {
 
             // is class?
             if let vc = vc as? CKRoomDirectCreatingViewController {
-
+                
                 // setup vc
                 vc.delegate = self
                 vc.importSession(self.mxSessions)
+                vc.navigationController?.navigationBar.tintColor = kRiotTopicTextColor;
             }
         }
 
@@ -337,6 +338,7 @@ final class CkHomeViewController: CKRecentListViewController {
 
                 // importing session
                 vc.importSession(self.mxSessions)
+                vc.navigationController?.navigationBar.tintColor = kRiotTopicTextColor;
             }
         }
 

@@ -646,7 +646,7 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
     }
     
     UIView *sectionHeader = [[UIView alloc] initWithFrame:frame];
-    sectionHeader.backgroundColor = kRiotSecondaryBgColor;
+    sectionHeader.backgroundColor = kRiotPrimaryHeaderColor;
     NSInteger sectionBitwise = 0;
     UIImageView *chevronView;
     UIView *accessoryView;

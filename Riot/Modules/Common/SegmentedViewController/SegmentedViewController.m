@@ -215,27 +215,26 @@
 - (void)createSegmentedViews
 {
     NSUInteger count = viewControllers.count;
-    
+
     for (NSUInteger index = 0; index < count; index++)
     {
         // Handle container view
         [_selectionContainer.layer setCornerRadius:5.0];
         _selectionContainer.clipsToBounds = YES;
         _selectionContainer.layer.masksToBounds = YES;
-        
+        _selectionContainer.backgroundColor = kRiotSecondaryBgColor;
         // create programmatically each label
         UIButton *button = _segmentButtons[index];
         [button setTitle:[sectionTitles objectAtIndex:index] forState:UIControlStateNormal];
-        [button setBackgroundColor: [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0]];
+        [button setBackgroundColor: kRiotSecondaryBgColor];
         [button setBackgroundImage:[UIImage imageNamed:@"btn_section_highlight"] forState:UIControlStateSelected];
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
         button.titleLabel.font = [UIFont fontWithName:@"SFCompactDisplay-Regular" size:15];
         button.titleLabel.textColor = [UIColor colorWithRed:68.0/255.0 green:68.0/255.0 blue:68.0/255.0 alpha:1];
         button.accessibilityIdentifier = [NSString stringWithFormat:@"SegmentedVCSectionLabel%tu", index];
-        [button setTitleColor:[UIColor colorWithRed:68.0/255.0 green:68.0/255.0 blue:68.0/255.0 alpha:1.0] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor colorWithRed:0.0/255.0 green:122.0/255.0 blue:255.0/255.0 alpha:1.0] forState:UIControlStateSelected];
+        [button setTitleColor:kRiotPrimaryTextColor forState:UIControlStateNormal];
+        [button setTitleColor:kRiotSelectedButtonTextColor forState:UIControlStateSelected];
         
-        self.selectionContainer.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0];
         UITapGestureRecognizer *labelTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onLabelTouch:)];
         [labelTapGesture setNumberOfTouchesRequired:1];
         [labelTapGesture setNumberOfTapsRequired:1];

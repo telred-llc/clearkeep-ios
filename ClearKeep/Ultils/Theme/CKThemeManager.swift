@@ -38,7 +38,7 @@ struct LightTheme: Theme {
     var separatorColor = UIColor.lightGray.withAlphaComponent(0.4)
     var secondTextColor = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
     var searchBarBgColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    var tblHeaderBgColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
+    var tblHeaderBgColor = #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 1)
 
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black]
     var statusBarStyle: UIStatusBarStyle = .default
@@ -48,7 +48,7 @@ struct DarkTheme: Theme {
     var primaryBgColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     var secondBgColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 1)
     var selectedBgColor: UIColor? = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-    var primaryTextColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    var primaryTextColor = #colorLiteral(red: 0.8666666667, green: 0.8666666667, blue: 0.8666666667, alpha: 1)
     var secondTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
     var placeholderTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
     var overlayColor = UIColor.init(white: 0.3, alpha: 0.5)

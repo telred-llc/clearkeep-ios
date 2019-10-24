@@ -15,7 +15,6 @@ struct CKPassphrase {
             
             return params
         }
-
     }
     struct Response: Codable {
         let id: String?

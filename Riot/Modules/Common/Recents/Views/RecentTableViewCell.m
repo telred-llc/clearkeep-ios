@@ -48,7 +48,7 @@ static const CGFloat kDirectRoomBorderWidth = 3.0;
     [super customizeTableViewCellRendering];
     
     self.roomTitle.textColor = kRiotPrimaryTextColor;
-    self.lastEventDescription.textColor = kRiotSecondaryTextColor;
+    self.lastEventDescription.textColor = kRiotSecondaryDescriptionColor;
     self.lastEventDate.textColor = kRiotSecondaryTextColor;
     self.missedNotifAndUnreadBadgeLabel.textColor = kRiotPrimaryBgColor;
     
@@ -93,7 +93,7 @@ static const CGFloat kDirectRoomBorderWidth = 3.0;
         {
             // Force the default text color for the last message (cancel highlighted message color)
             NSMutableAttributedString *lastEventDescription = [[NSMutableAttributedString alloc] initWithAttributedString:roomCellData.lastEventAttributedTextMessage];
-            [lastEventDescription addAttribute:NSForegroundColorAttributeName value:kRiotSecondaryTextColor range:NSMakeRange(0, lastEventDescription.length)];
+            [lastEventDescription addAttribute:NSForegroundColorAttributeName value:kRiotSecondaryDescriptionColor range:NSMakeRange(0, lastEventDescription.length)];
             self.lastEventDescription.attributedText = lastEventDescription;
         }
         else

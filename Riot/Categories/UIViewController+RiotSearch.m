@@ -98,8 +98,8 @@
         self.searchBar.tintColor = kRiotDesignSearchBarTintColor;
         [self.searchBar setTextFieldColorWithColor:kRiotSecondaryBgColor];
 
-        // Remove navigation buttons
         self.navigationItem.hidesBackButton = NO;
+        self.navigationController.navigationBar.tintColor = kRiotTopicTextColor;
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.leftBarButtonItem = nil;
         
@@ -111,7 +111,9 @@
             [self.searchBar.heightAnchor constraintEqualToConstant:44].active = YES;
         }
 
-        UIBarButtonItem *newRoomButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_new_chat"] style:UIBarButtonItemStylePlain target:self action:@selector(onPressRightMenuItem)];
+        UIImage *buttonImage = [[UIImage imageNamed:@"ic_new_chat"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIBarButtonItem *newRoomButton = [[UIBarButtonItem alloc] initWithImage:buttonImage style:UIBarButtonItemStylePlain target:self action:@selector(onPressRightMenuItem)];
+        newRoomButton.tintColor = kRiotTopicTextColor;
         [self.navigationItem setRightBarButtonItem: newRoomButton animated:YES];
     }
 
@@ -121,26 +123,6 @@
 
 - (void)onPressRightMenuItem {
 }
-
-
-/*
- func showDirectChatVC() {
- // init
- let nvc = CKRoomDirectCreatingViewController.instanceNavigation { (vc: MXKViewController) in
- 
- // is class?
- if let vc = vc as? CKRoomDirectCreatingViewController {
- 
- // setup vc
- vc.delegate = self
- vc.importSession(self.mxSessions)
- }
- }
- 
- self.present(nvc, animated: true, completion: nil)
- }
-
- */
 
 - (void)hideSearch:(BOOL)animated
 {

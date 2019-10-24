@@ -184,23 +184,37 @@ extension CKSearchContactViewController {
             self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.tableView?.backgroundColor = theme.secondBgColor
             self?.tableView.reloadData()
+            self?.view.backgroundColor = theme.secondBgColor
         }).disposed(by: disposeBag)
     }
     
     /**
      Get a title for the header
      */
-    private func titleForHeader(atSection section: Int) -> String {
-        guard let s = Section(rawValue: section) else { return ""}
-        
+    private func titleForHeader(atSection section: Int) -> NSAttributedString {
+        guard let s = Section(rawValue: section) else { return NSAttributedString(string: "")}
+
+        var titleString = ""
+        var count = 0
+
         switch s {
         case .matrix:
-            return "MATRIX CONTACTS"
+            count = self.filteredMatrixSource != nil ? filteredMatrixSource.count : 0
+            titleString = (count > 0) ? String.init(format: "Matrix contacts (%02d)", count) : "Matrix contacts (0)"
+
         case .directory:
-            return "USER DIRECTORY"
+            count = self.filteredDirectorySource != nil ? filteredDirectorySource.count : 0
+            titleString = (count > 0) ? String.init(format: "User directory (%02d)", count) : "Matrix contacts (0)"
+
         case .local:
-            return "INVITE FROM CONTACTS"
+            count = self.filteredLocalSource != nil ? filteredMatrixSource.count : 0
+            titleString = (count > 0) ? String.init(format: "Invite from contacts (%02d)", count) : "Matrix contacts (0)"
+
         }
+
+        let multipleAttributes: [NSAttributedString.Key : Any] = [NSAttributedStringKey.foregroundColor:kRiotPrimaryTextColor, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17.0)]
+
+        return NSAttributedString(string: titleString, attributes:multipleAttributes)
     }
     
     /**
@@ -480,7 +494,7 @@ extension CKSearchContactViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.descriptionLabel.text = self.titleForHeader(atSection: section)
+            view.descriptionLabel.attributedText = self.titleForHeader(atSection: section)
             view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
             return view
