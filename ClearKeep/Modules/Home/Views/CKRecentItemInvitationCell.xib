@@ -34,16 +34,16 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="kPU-0m-PJ0">
-                                        <rect key="frame" x="60" y="5" width="230" height="45"/>
+                                        <rect key="frame" x="60" y="5" width="228" height="45"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9I-R8-pNA">
-                                                <rect key="frame" x="0.0" y="0.0" width="230" height="23"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="228" height="23"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKs-eJ-wCf">
-                                                <rect key="frame" x="0.0" y="27" width="230" height="18"/>
+                                                <rect key="frame" x="0.0" y="27" width="228" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" red="0.3411764705882353" green="0.52941176470588236" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -51,10 +51,10 @@
                                         </subviews>
                                     </stackView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_invite_room" translatesAutoresizingMaskIntoConstraints="NO" id="9Gp-Wf-cjc">
-                                        <rect key="frame" x="310" y="22.5" width="15" height="15"/>
+                                        <rect key="frame" x="308" y="21.5" width="17" height="17"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="15" id="7qJ-s0-9AD"/>
-                                            <constraint firstAttribute="height" constant="15" id="dRR-L4-GJo"/>
+                                            <constraint firstAttribute="width" constant="17" id="7qJ-s0-9AD"/>
+                                            <constraint firstAttribute="height" constant="17" id="dRR-L4-GJo"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
