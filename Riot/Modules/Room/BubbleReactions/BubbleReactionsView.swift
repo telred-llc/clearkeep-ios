@@ -21,20 +21,20 @@ import DGCollectionViewLeftAlignFlowLayout
 
 @objcMembers
 final class BubbleReactionsView: UIView, NibOwnerLoadable {
-    
+
     // MARK: - Constants
-    
+
     private enum Constants {
         static let minimumInteritemSpacing: CGFloat = 6.0
         static let minimumLineSpacing: CGFloat = 2.0
     }
-    
+
     // MARK: - Properties
     
     // MARK: Outlets
 
     @IBOutlet private weak var collectionView: UICollectionView!
-    
+
     // MARK: Private
     
     private var reactionsViewData: [BubbleReactionViewData] = []
@@ -50,7 +50,7 @@ final class BubbleReactionsView: UIView, NibOwnerLoadable {
             self.viewModel?.process(viewAction: .loadData)
         }
     }
-    
+
     // MARK: - Setup
     
     private func commonInit() {
@@ -81,6 +81,10 @@ final class BubbleReactionsView: UIView, NibOwnerLoadable {
         self.collectionView.reloadData()
     }
 
+    func contentHeight() -> CGFloat {
+        return self.collectionView.collectionViewLayout.collectionViewContentSize.height
+    }
+    
     // MARK: - Private
     
     private func setupCollectionView() {
@@ -193,7 +197,7 @@ extension BubbleReactionsView: UICollectionViewDelegate {
 
 // MARK: - BubbleReactionsViewModelViewDelegate
 extension BubbleReactionsView: BubbleReactionsViewModelViewDelegate {
-    
+
     func bubbleReactionsViewModel(_ viewModel: BubbleReactionsViewModel, didUpdateViewState viewState: BubbleReactionsViewState) {
         switch viewState {
         case .loaded(reactionsViewData: let reactionsViewData, showAllButtonState: let showAllButtonState):

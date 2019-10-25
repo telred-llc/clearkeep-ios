@@ -484,6 +484,12 @@
 		B1D250D82118AA0A000F4E93 /* RoomPredecessorBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D250D72118AA0A000F4E93 /* RoomPredecessorBubbleCell.m */; };
 		BD7A85782318BD2000658DB0 /* CKDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7A85772318BD2000658DB0 /* CKDeriver.swift */; };
 		BD7A85792318BD2000658DB0 /* CKDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7A85772318BD2000658DB0 /* CKDeriver.swift */; };
+		BD83D6D62361BE1C00FF088A /* SerializationServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D6D42361BE1C00FF088A /* SerializationServiceType.swift */; };
+		BD83D6D72361BE1C00FF088A /* SerializationServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D6D42361BE1C00FF088A /* SerializationServiceType.swift */; };
+		BD83D6D82361BE1C00FF088A /* SerializationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D6D52361BE1C00FF088A /* SerializationService.swift */; };
+		BD83D6D92361BE1C00FF088A /* SerializationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D6D52361BE1C00FF088A /* SerializationService.swift */; };
+		BDA1FAB5236340CE005D910D /* AutosizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA1FAB4236340CE005D910D /* AutosizedCollectionView.swift */; };
+		BDA1FAB6236340CE005D910D /* AutosizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA1FAB4236340CE005D910D /* AutosizedCollectionView.swift */; };
 		BDA2B4CD2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA2B4CC2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift */; };
 		BDA2B4CE2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA2B4CC2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift */; };
 		BDB43F1E2316213F00F7CB00 /* CKAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F1D2316213F00F7CB00 /* CKAPIClient.swift */; };
@@ -636,10 +642,6 @@
 		D3FA9BFC23570B0800FB0BD1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9BFA23570B0700FB0BD1 /* String.swift */; };
 		D3FA9BFE23570B8300FB0BD1 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9BFD23570B8300FB0BD1 /* Character.swift */; };
 		D3FA9BFF23570B8300FB0BD1 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9BFD23570B8300FB0BD1 /* Character.swift */; };
-		D3FA9C0323570D1900FB0BD1 /* SerializationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C0123570D1900FB0BD1 /* SerializationService.swift */; };
-		D3FA9C0423570D1900FB0BD1 /* SerializationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C0123570D1900FB0BD1 /* SerializationService.swift */; };
-		D3FA9C0523570D1900FB0BD1 /* SerializationServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C0223570D1900FB0BD1 /* SerializationServiceType.swift */; };
-		D3FA9C0623570D1900FB0BD1 /* SerializationServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C0223570D1900FB0BD1 /* SerializationServiceType.swift */; };
 		D3FA9C0D23570EB100FB0BD1 /* EmojiItem+EmojiMart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C0823570EB100FB0BD1 /* EmojiItem+EmojiMart.swift */; };
 		D3FA9C0E23570EB100FB0BD1 /* EmojiItem+EmojiMart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C0823570EB100FB0BD1 /* EmojiItem+EmojiMart.swift */; };
 		D3FA9C0F23570EB100FB0BD1 /* EmojiMartService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C0923570EB100FB0BD1 /* EmojiMartService.swift */; };
@@ -2091,6 +2093,9 @@
 		BC0B9DB497F579AB1084E3DC /* Pods_RiotPods_SiriIntents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_SiriIntents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD13D97A235868B700C4BDB8 /* RiotShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RiotShareExtension.entitlements; sourceTree = "<group>"; };
 		BD7A85772318BD2000658DB0 /* CKDeriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKDeriver.swift; sourceTree = "<group>"; };
+		BD83D6D42361BE1C00FF088A /* SerializationServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializationServiceType.swift; sourceTree = "<group>"; };
+		BD83D6D52361BE1C00FF088A /* SerializationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializationService.swift; sourceTree = "<group>"; };
+		BDA1FAB4236340CE005D910D /* AutosizedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizedCollectionView.swift; sourceTree = "<group>"; };
 		BDA2B4CC2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKKeyBackupRecoverManager.swift; sourceTree = "<group>"; };
 		BDB43F1D2316213F00F7CB00 /* CKAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAPIClient.swift; sourceTree = "<group>"; };
 		BDB43F202316291D00F7CB00 /* CKRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRequest.swift; sourceTree = "<group>"; };
@@ -2167,8 +2172,6 @@
 		D3FA9BF42356F7B800FB0BD1 /* UIGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizer.swift; sourceTree = "<group>"; };
 		D3FA9BFA23570B0700FB0BD1 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		D3FA9BFD23570B8300FB0BD1 /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
-		D3FA9C0123570D1900FB0BD1 /* SerializationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializationService.swift; sourceTree = "<group>"; };
-		D3FA9C0223570D1900FB0BD1 /* SerializationServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializationServiceType.swift; sourceTree = "<group>"; };
 		D3FA9C0823570EB100FB0BD1 /* EmojiItem+EmojiMart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EmojiItem+EmojiMart.swift"; sourceTree = "<group>"; };
 		D3FA9C0923570EB100FB0BD1 /* EmojiMartService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiMartService.swift; sourceTree = "<group>"; };
 		D3FA9C0A23570EB100FB0BD1 /* EmojiMartStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiMartStore.swift; sourceTree = "<group>"; };
@@ -2980,6 +2983,7 @@
 				855EEDF922F954B00047B4AC /* CKManagers.swift */,
 				BD7A85772318BD2000658DB0 /* CKDeriver.swift */,
 				47C4FF99233DB998002B1238 /* AppUtils.swift */,
+				BDA1FAB4236340CE005D910D /* AutosizedCollectionView.swift */,
 			);
 			path = Ultils;
 			sourceTree = "<group>";
@@ -4474,8 +4478,8 @@
 		D3FA9C0023570D1900FB0BD1 /* Serialization */ = {
 			isa = PBXGroup;
 			children = (
-				D3FA9C0123570D1900FB0BD1 /* SerializationService.swift */,
-				D3FA9C0223570D1900FB0BD1 /* SerializationServiceType.swift */,
+				BD83D6D52361BE1C00FF088A /* SerializationService.swift */,
+				BD83D6D42361BE1C00FF088A /* SerializationServiceType.swift */,
 			);
 			name = Serialization;
 			path = "../../../../Downloads/riot-ios-develop/Riot/Managers/Serialization";
@@ -5985,6 +5989,7 @@
 				E5E7DB40229BC7D300AB7CF3 /* CKAccountEditProfileAvatarCell.swift in Sources */,
 				E5E7DB41229BC7D300AB7CF3 /* CKRecentItemFirstChatCell.swift in Sources */,
 				D3FA9BBA2356EF8E00FB0BD1 /* EmojiPickerViewState.swift in Sources */,
+				BDA1FAB6236340CE005D910D /* AutosizedCollectionView.swift in Sources */,
 				E5E7DB42229BC7D300AB7CF3 /* AvatarGenerator.m in Sources */,
 				E520C5CD22E719C6003101BA /* KeyBackupRecoverCoordinator.swift in Sources */,
 				E5E7DB43229BC7D300AB7CF3 /* CkAvatarTopView.swift in Sources */,
@@ -6187,11 +6192,11 @@
 				E5E7DBCB229BC7D300AB7CF3 /* GroupParticipantsViewController.m in Sources */,
 				E5E7DBCC229BC7D300AB7CF3 /* GroupRoomTableViewCell.m in Sources */,
 				E5E7DBCD229BC7D300AB7CF3 /* RoomsViewController.m in Sources */,
+				BD83D6D92361BE1C00FF088A /* SerializationService.swift in Sources */,
 				E520C5E822E71D66003101BA /* NavigationRouterType.swift in Sources */,
 				E5E7DBCE229BC7D300AB7CF3 /* RoomMessagesSearchViewController.m in Sources */,
 				E5E7DBCF229BC7D300AB7CF3 /* GroupInviteTableViewCell.m in Sources */,
 				D3FA9B762356EF8E00FB0BD1 /* ReactionsMenuViewModelType.swift in Sources */,
-				D3FA9C0423570D1900FB0BD1 /* SerializationService.swift in Sources */,
 				D3FA9BC02356EF8E00FB0BD1 /* EmojiPickerViewModel.swift in Sources */,
 				E5E7DBD0229BC7D300AB7CF3 /* CKRoomInputToolbarView.swift in Sources */,
 				E5E7DBD1229BC7D300AB7CF3 /* ForgotPasswordInputsView.m in Sources */,
@@ -6256,7 +6261,6 @@
 				855EEDFB22F954B00047B4AC /* CKManagers.swift in Sources */,
 				853174CB22BDF1200092F73D /* CKView+Extension.swift in Sources */,
 				E5E7DBFA229BC7D300AB7CF3 /* RoomTitleView.m in Sources */,
-				D3FA9C0623570D1900FB0BD1 /* SerializationServiceType.swift in Sources */,
 				853174C522BDE5280092F73D /* BinderExtensions.swift in Sources */,
 				E5E7DBFB229BC7D300AB7CF3 /* RoomInputToolbarView.m in Sources */,
 				E5E7DBFC229BC7D300AB7CF3 /* CKRoomBaseCell.swift in Sources */,
@@ -6304,6 +6308,7 @@
 				E5E7DC18229BC7D300AB7CF3 /* CKCallViewController.swift in Sources */,
 				E5E7DC19229BC7D300AB7CF3 /* AuthenticationViewController.m in Sources */,
 				E5E7DC1A229BC7D300AB7CF3 /* CountryPickerViewController.m in Sources */,
+				BD83D6D72361BE1C00FF088A /* SerializationServiceType.swift in Sources */,
 				D3E5AF31235978D300D11110 /* DefaultTheme.swift in Sources */,
 				E5BEBA1722C9F2EE00B6D973 /* CKRecentHeaderView.swift in Sources */,
 				E5E7DC1B229BC7D300AB7CF3 /* GDPRConsentViewController.swift in Sources */,
@@ -6598,6 +6603,7 @@
 				B1B5573620EE6C4D00210D55 /* GroupsViewController.m in Sources */,
 				B1B5572A20EE6C4D00210D55 /* RoomMemberDetailsViewController.m in Sources */,
 				B1B5590120EF768F00210D55 /* RoomMembershipExpandedWithPaginationTitleBubbleCell.m in Sources */,
+				BD83D6D82361BE1C00FF088A /* SerializationService.swift in Sources */,
 				D3FA9C1E235718EB00FB0BD1 /* UIViewController.swift in Sources */,
 				B1B558C920EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.m in Sources */,
 				E5ABA75121E73CBC005EFE0C /* CKRoomSettingsMembersCell.swift in Sources */,
@@ -6673,7 +6679,6 @@
 				D3FA9BB32356EF8E00FB0BD1 /* ReactionHistoryViewAction.swift in Sources */,
 				E5026CA621F5DE96009D1B86 /* CKRoomDirectCreatingViewController.swift in Sources */,
 				B1B5577E20EE84BF00210D55 /* IncomingCallView.m in Sources */,
-				D3FA9C0323570D1900FB0BD1 /* SerializationService.swift in Sources */,
 				D3FA9B6B2356EF8E00FB0BD1 /* RoomContextualMenuAction.swift in Sources */,
 				8520DFAA2216B20E000833A1 /* CKHomePagingMenuBubbleView.swift in Sources */,
 				D3FA9BA72356EF8E00FB0BD1 /* ReactionHistoryViewCell.swift in Sources */,
@@ -6761,6 +6766,7 @@
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
 				B1B5575A20EE6C4D00210D55 /* UnifiedSearchViewController.m in Sources */,
 				B1B5572820EE6C4D00210D55 /* RoomViewController.m in Sources */,
+				BDA1FAB5236340CE005D910D /* AutosizedCollectionView.swift in Sources */,
 				D3FA9BE12356EF8E00FB0BD1 /* EmojiCategory.swift in Sources */,
 				D3FA9BB12356EF8E00FB0BD1 /* ReactionHistoryCoordinator.swift in Sources */,
 				E539906D221D582D0014F26D /* CKRoomSettingsMoreSecurityViewController.swift in Sources */,
@@ -6800,6 +6806,7 @@
 				D3FA9BFE23570B8300FB0BD1 /* Character.swift in Sources */,
 				B1B557CC20EF5D8000210D55 /* DirectoryServerTableViewCell.m in Sources */,
 				9C3AC4D322D73B6A00DD179F /* KeyBackupRecoverFromRecoveryKeyViewModel.swift in Sources */,
+				BD83D6D62361BE1C00FF088A /* SerializationServiceType.swift in Sources */,
 				B1B5575C20EE6C4D00210D55 /* DirectoryViewController.m in Sources */,
 				B1B558BD20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */,
@@ -6846,7 +6853,6 @@
 				B1B558CE20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentBubbleCell.m in Sources */,
 				B1B5577D20EE84BF00210D55 /* CircleButton.m in Sources */,
 				B1B558FF20EF768F00210D55 /* RoomIncomingTextMsgBubbleCell.m in Sources */,
-				D3FA9C0523570D1900FB0BD1 /* SerializationServiceType.swift in Sources */,
 				B1B5591020EF782800210D55 /* TableViewCellWithPhoneNumberTextField.m in Sources */,
 				D3FA9C2123572AD400FB0BD1 /* RoomBubbleCellLayout.swift in Sources */,
 				E5ABA74B21E73CBC005EFE0C /* CKRoomSettingsViewController.swift in Sources */,

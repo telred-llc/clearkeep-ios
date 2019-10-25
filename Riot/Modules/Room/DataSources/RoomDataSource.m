@@ -52,12 +52,13 @@
         self.useCustomDateTimeLabel = YES;
         self.useCustomReceipts = YES;
         self.useCustomUnsentButton = YES;
-        
+
         // Set bubble pagination
         self.bubblesPagination = MXKRoomDataSourceBubblesPaginationPerDay;
         
         self.markTimelineInitialEvent = NO;
-        
+        self.showReactions = YES;
+
         // Observe user interface theme change.
         kRiotDesignValuesDidChangeThemeNotificationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kRiotDesignValuesDidChangeThemeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif) {
             
