@@ -30,6 +30,7 @@ final class CkHomeViewController: CKRecentListViewController {
         super.viewDidLoad()
         
         self.delegate = self
+        self.view.backgroundColor = UIColor.white
         
         // Listen to the user info did changed
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil)
@@ -105,8 +106,9 @@ final class CkHomeViewController: CKRecentListViewController {
     }
     
     func setupRightMenu(navigationItem: UINavigationItem) {
-        let newChatItem = UIBarButtonItem.init(image: UIImage.init(named: "ic_new_chat"), style: .plain, target: self, action: #selector(clickedOnRightMenuItem))
+        let newChatItem = UIBarButtonItem.init(image: UIImage.init(named: "ic_new_conversation"), style: .plain, target: self, action: #selector(clickedOnRightMenuItem))
         navigationItem.rightBarButtonItem = newChatItem
+        navigationItem.rightBarButtonItem?.tintColor = CKColor.Background.newConver
     }
     
     // MARK: Action

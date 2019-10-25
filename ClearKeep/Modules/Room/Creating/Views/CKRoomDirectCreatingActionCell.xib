@@ -31,7 +31,7 @@
                                 <state key="normal" backgroundImage="ic_new_call_ellipse"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Call" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="orP-W2-xIq">
-                                <rect key="frame" x="57" y="28.5" width="75" height="23"/>
+                                <rect key="frame" x="60" y="28.5" width="75" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -39,7 +39,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="orP-W2-xIq" firstAttribute="leading" secondItem="Ujs-NO-p43" secondAttribute="trailing" constant="20" id="4v8-ED-Yf5"/>
+                            <constraint firstItem="orP-W2-xIq" firstAttribute="leading" secondItem="Ujs-NO-p43" secondAttribute="trailing" constant="23" id="4v8-ED-Yf5"/>
                             <constraint firstAttribute="height" constant="80" id="Bap-at-sTG"/>
                             <constraint firstItem="Ujs-NO-p43" firstAttribute="leading" secondItem="Lgj-J0-KOI" secondAttribute="leading" constant="15" id="aeQ-Yd-LcS"/>
                             <constraint firstItem="Ujs-NO-p43" firstAttribute="centerY" secondItem="Lgj-J0-KOI" secondAttribute="centerY" id="mBL-EY-8CR"/>
