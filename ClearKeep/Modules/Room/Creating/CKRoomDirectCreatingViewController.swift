@@ -59,17 +59,19 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         
         // Setup close button item
         let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_x_close"),
+            image: UIImage(named: "ic_back_nav"),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton(_:)))
         
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
-        self.navigationItem.title = "New a conversation"
-        
+        self.navigationItem.title = "New Conversation"
+        self.navigationController?.navigationBar.tintColor = CKColor.Text.blueNavigation
+        self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         // first reload ds
         self.reloadDataSource()
         bindingTheme()
+        self.hideKeyboardWhenTappedAround()
     }
     
     // MARK: - ACTION
@@ -83,13 +85,13 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = .white
+            self?.barTitleColor = CKColor.Text.blueNavigation
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -176,12 +178,6 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
 
-            cell.newGroupButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.newCallButton.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.newRoomLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.newCallLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-
             return cell
         }
         return CKRoomDirectCreatingActionCell()
@@ -231,6 +227,13 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
             withIdentifier: CKRoomDirectCreatingSearchCell.identifier,
             for: indexPath) as? CKRoomDirectCreatingSearchCell) ?? CKRoomDirectCreatingSearchCell()
         
+        
+        if let textfield = cell.searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.backgroundColor = CKColor.Background.searchBar
+        }
+        cell.searchBar.placeholder = "Search"
+        
+
         // handl serching
         cell.beginSearchingHandler = { text in
             
@@ -282,9 +285,9 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         case .search:
             return ""
         case .action:
-            return "PROBABLY YOU WANT"
+            return "Probably you want"
         case .suggested:
-            return "SUGGESTED (DIRECT MESSAGES)"
+            return "Suggested"
         }
     }
     
@@ -355,7 +358,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         case .search:
             return CKLayoutSize.Table.row44px
         case .action:
-            return CKLayoutSize.Table.row80px
+            return UITableViewAutomaticDimension
         case .suggested:
             return CKLayoutSize.Table.row60px
         }
@@ -363,8 +366,9 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+            view.backgroundColor = UIColor.white
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
+            view.descriptionLabel?.font = UIFont.systemFont(ofSize: 21)
             view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
             return view
         }
@@ -377,9 +381,9 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         case .search:
             return CGFloat.leastNonzeroMagnitude
         case .action:
-            return CKLayoutSize.Table.defaultHeader
+            return CKLayoutSize.Table.row43px
         case .suggested:
-            return CKLayoutSize.Table.defaultHeader
+            return CKLayoutSize.Table.row43px
         }
     }
     
@@ -401,6 +405,11 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
             break
         }
 
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !tableView.isDecelerating {
+            view.endEditing(true)
+        }
     }
 }
 
@@ -438,3 +447,16 @@ extension CKRoomDirectCreatingViewController: UITableViewDataSource {
     
     
 }
+
+extension CKRoomDirectCreatingViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
