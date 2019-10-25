@@ -51,7 +51,7 @@ class CKRecentListViewController: MXKViewController {
 
     func bindingTheme() {
         themeService.rx
-            .bind({ $0.secondBgColor }, to: recentTableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: recentTableView.rx.backgroundColor , view.rx.backgroundColor)
             .disposed(by: disposeBag)
         
         // Binding navigation bar color
@@ -615,6 +615,20 @@ extension CKRecentListViewController: UITableViewDataSource {
         } else {
             return 0
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 0
+        } else {
+            return 10
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
