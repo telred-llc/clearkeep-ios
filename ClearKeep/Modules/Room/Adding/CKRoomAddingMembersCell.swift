@@ -35,10 +35,9 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
         set {
             __isChecking = newValue
 
-            let checkedImage = UIImage(named: "ic_check_yes")?.withRenderingMode(.alwaysTemplate)
+            let checkedImage = UIImage(named: "ic_check_yes")
             let unCheckedImage = UIImage(named: "ic_check_no")
             self.checkmarkImageView.image = __isChecking ? checkedImage : unCheckedImage
-            self.checkmarkImageView.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
         }
     }
     
@@ -53,9 +52,6 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.displayNameLabel.backgroundColor = UIColor.clear
-        self.displayNameLabel.textColor = UIColor.black
         
         self.photoView.defaultBackgroundColor = UIColor.clear
         self.photoView.layer.cornerRadius = (self.photoView.bounds.height) / 2
