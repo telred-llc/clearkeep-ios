@@ -2746,12 +2746,7 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
             // present
             self.present(alert, animated: true, completion: nil)
         } else {
-            if let _ = self.roomPreviewData {
-                self.showAlert("Occur an error. Please try to it later.")
-            } else {
-                // Enter room by link
-                AppDelegate.the()?.masterTabBarController?.navigationController?.popViewController(animated: true)
-            }
+            AppDelegate.the()?.masterTabBarController?.navigationController?.popViewController(animated: true)
         }
     }
 }

@@ -48,6 +48,8 @@ protocol CKRoomInvitationControllerDeletate: class {
         self.view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         self.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
         self.nameLabel.textColor = #colorLiteral(red: 0.3176470588, green: 0.3764705882, blue: 0.7607843137, alpha: 1)
+        
+        self.photoView.setImageURI("", withType: "", andImageOrientation: .up, previewImage: #imageLiteral(resourceName: "join_room_notification"), mediaManager: nil)
     }
     
     
@@ -92,7 +94,7 @@ protocol CKRoomInvitationControllerDeletate: class {
         
         self.view.isHidden = !value        
        
-        self.descriptionLabel.text = CKLocalization.string(byKey: "invited_room")
+        self.descriptionLabel.text = CKLocalization.string(byKey: "invited_default")
         var inviter: String = CKLocalization.string(byKey: "invited_unknow")
         
         if let ds = roomDataSource, value == true {
@@ -107,7 +109,7 @@ protocol CKRoomInvitationControllerDeletate: class {
             let inviters = ds.roomState.members.members.filter { $0.membership == .join }
             
             inviter = inviters.first?.displayname ?? (inviters.first?.originUserId ?? CKLocalization.string(byKey: "invited_unknow"))
-            
+            self.descriptionLabel.text = CKLocalization.string(byKey: "invited_room")
             self.nameLabel.text = inviter
         }
     }

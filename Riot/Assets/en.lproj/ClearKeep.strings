@@ -173,3 +173,4 @@
 // invited join
 "invited_room" = "invited you to this room";
 "invited_unknow" = "Unknow";
+"invited_default" = "Would you like to join in order to participate in the discussion?";
