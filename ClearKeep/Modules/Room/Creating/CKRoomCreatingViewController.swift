@@ -301,6 +301,7 @@ final class CKRoomCreatingViewController: MXKViewController {
             cell.topicTextField.text = creatingData.topic
             cell.selectionStyle = .none
             cell.topicTextField.tag = 99
+            cell.topicTextField.delegate = self
             // text value
             cell.edittingChangedHandler = { text in
                 if let text = text {self.creatingData.topic = text}
