@@ -19,6 +19,8 @@ class CKColor {
         static let white: UIColor                   = #colorLiteral(red: 0.9085063338, green: 0.9085063338, blue: 0.9085063338, alpha: 1)
         static let tint: UIColor                    = #colorLiteral(red: 0.01176470588, green: 0.7019607843, blue: 0.5058823529, alpha: 1)
         static let warning: UIColor                 = #colorLiteral(red: 1, green: 0.2941176471, blue: 0.3333333333, alpha: 1)
+        static let blue: UIColor                    = #colorLiteral(red: 0.3411764706, green: 0.5294117647, blue: 0.8901960784, alpha: 1)
+        static let blueNavigation                   = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
     }
     
     struct Background {
@@ -28,6 +30,7 @@ class CKColor {
         static let darkGray: UIColor                = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
         static let lightGray: UIColor               = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         static let blue: UIColor                    = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+        static let searchBar                        = #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 1)
     }
     
     struct Misc {
