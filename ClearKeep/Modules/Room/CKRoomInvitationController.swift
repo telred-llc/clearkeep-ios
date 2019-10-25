@@ -22,6 +22,7 @@ protocol CKRoomInvitationControllerDeletate: class {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
+    @IBOutlet weak var nameLabel: UILabel!
     
     // MARK: - PROPERTY
     
@@ -39,19 +40,16 @@ protocol CKRoomInvitationControllerDeletate: class {
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
         
         self.joinButton.layer.cornerRadius = 4
-        self.joinButton.layer.borderWidth = 1
-        self.joinButton.layer.borderColor = CKColor.Misc.primaryGreenColor.cgColor
-        self.joinButton.setTitleColor(UIColor.white, for: .normal)
+        self.joinButton.layer.masksToBounds = true
+        self.joinButton.setTitleColor(.white, for: .normal)
         
-        self.joinButton.applyGradient(colours: [#colorLiteral(red: 0.2392156863, green: 0.737254902, blue: 0.6823529412, alpha: 1), #colorLiteral(red: 0.01568627451, green: 0.7137254902, blue: 0.8156862745, alpha: 1)])
-        
-        self.declineButton.layer.cornerRadius = 4
-        self.declineButton.layer.borderWidth = 1
-        self.declineButton.layer.borderColor = CKColor.Misc.primaryGreenColor.cgColor
-        self.declineButton.setTitleColor(CKColor.Misc.primaryGreenColor, for: .normal)
+        self.declineButton.setTitleColor(#colorLiteral(red: 0.6039215686, green: 0.631372549, blue: 0.6784313725, alpha: 1), for: .normal)
 
         self.view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
         self.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        self.nameLabel.textColor = #colorLiteral(red: 0.3176470588, green: 0.3764705882, blue: 0.7607843137, alpha: 1)
+        
+        self.photoView.setImageURI("", withType: "", andImageOrientation: .up, previewImage: #imageLiteral(resourceName: "join_room_notification"), mediaManager: nil)
     }
     
     
@@ -74,10 +72,8 @@ protocol CKRoomInvitationControllerDeletate: class {
         switch sender {
         case self.joinButton:
             self.onJoining()
-            break
         case self.declineButton:
             self.onDeclining()
-            break
         default:
             break
         }
@@ -94,21 +90,27 @@ protocol CKRoomInvitationControllerDeletate: class {
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
     }
     
-    public func showIt(_ value: Bool, roomDataSource: MXKRoomDataSource!) {
+    public func showIt(_ value: Bool, roomDataSource: MXKRoomDataSource!, previewData: RoomPreviewData?) {
         
         self.view.isHidden = !value        
-        let title = "You have been invited you to this room, join to chat?"
+       
+        self.descriptionLabel.text = CKLocalization.string(byKey: "invited_default")
+        var inviter: String = CKLocalization.string(byKey: "invited_unknow")
         
         if let ds = roomDataSource, value == true {
-            self.descriptionLabel.text = title
-            
             self.photoView?.setImageURI(
                 ds.room?.summary?.avatar,
                 withType: nil,
                 andImageOrientation: UIImageOrientation.up,
-                previewImage: AvatarGenerator.generateAvatar(forText: ds.room?.summary?.displayname),
+                previewImage: #imageLiteral(resourceName: "join_room_notification"),
                 mediaManager: ds.mxSession.mediaManager)
-
+            
+            //-- binding data inviter
+            let inviters = ds.roomState.members.members.filter { $0.membership == .join }
+            
+            inviter = inviters.first?.displayname ?? (inviters.first?.originUserId ?? CKLocalization.string(byKey: "invited_unknow"))
+            self.descriptionLabel.text = CKLocalization.string(byKey: "invited_room")
+            self.nameLabel.text = inviter
         }
     }
 }

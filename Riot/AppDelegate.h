@@ -68,7 +68,7 @@ extern NSString *const kAppDelegateNetworkStatusDidChangeNotification;
 @property (nonatomic) BOOL isOffline;
 
 @property (nonatomic) BOOL isFirstLogin; 
-
+@property (nonatomic) BOOL isErrorNotificationSuspended;
 /**
  KeyBackup
  */

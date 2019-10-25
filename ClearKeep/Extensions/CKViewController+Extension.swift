@@ -32,8 +32,8 @@ extension UIViewController {
     /**
      Show alert in Self
      */
-    func showAlert(_ message: String, onComplete: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: "ClearKeep", message: message, preferredStyle: UIAlertControllerStyle.alert)
+    func showAlert(_ message: String, title: String = "ClearKeep", onComplete: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: UIAlertActionStyle.default) { (_) in
             onComplete?()
             })
@@ -190,6 +190,8 @@ public extension UIAlertController {
 }
 
 extension UIApplication {
+    
+    @objc
     class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)
@@ -229,5 +231,34 @@ extension UINavigationController {
         CATransaction.setCompletionBlock(completion)
         popToRootViewController(animated: animated)
         CATransaction.commit()
+    }
+}
+        
+var topSpinner : UIView?
+
+extension UIViewController {
+
+    @objc
+    func showSpinner(onView : UIView) {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.25)
+        let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .gray)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        topSpinner = spinnerView
+    }
+
+    @objc
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            topSpinner?.removeFromSuperview()
+            topSpinner = nil
+        }
     }
 }

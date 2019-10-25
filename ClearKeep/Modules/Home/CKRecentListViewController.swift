@@ -51,12 +51,12 @@ class CKRecentListViewController: MXKViewController {
 
     func bindingTheme() {
         themeService.rx
-            .bind({ $0.secondBgColor }, to: recentTableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: recentTableView.rx.backgroundColor , view.rx.backgroundColor)
             .disposed(by: disposeBag)
         
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.defaultBarTintColor = themeService.attrs.searchBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
         }).disposed(by: disposeBag)
     }

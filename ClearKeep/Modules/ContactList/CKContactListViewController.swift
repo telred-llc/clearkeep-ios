@@ -21,15 +21,12 @@ final class CKContactListViewController: MXKViewController {
     
     // MARK: - ENUM
     
-    private enum Section: Int {
-        case search = 0
-        case matrix = 1
-        case local = 2
-        
-        static func count() -> Int {
-            return 3
-        }
+    struct Section {
+        let letter : String
+        let contacts : [MXKContact]
     }
+    
+    var sections = [Section]()
     
     // MARK: - PROPERTY
     
@@ -39,16 +36,14 @@ final class CKContactListViewController: MXKViewController {
      Original data sources
      */
     private var originalMatrixSource = [MXKContact]()
-    private var originalLocalSource = [MXKContact]()
     
     /**
      Filtered data sources
      */
-    private var filteredLocalSource: [MXKContact]!
     private var filteredMatrixSource: [MXKContact]!
-
+    
     private var disposeBag = DisposeBag()
-
+    
     // MARK: - CLASS
     
     public class func nib() -> UINib? {
@@ -58,7 +53,7 @@ final class CKContactListViewController: MXKViewController {
     }
     
     // MARK: - OVERRIDE
-
+    
     override func loadView() {
         super.loadView()
         // load from xib
@@ -68,7 +63,7 @@ final class CKContactListViewController: MXKViewController {
             self.reloadData()
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bindingTheme()
@@ -76,7 +71,7 @@ final class CKContactListViewController: MXKViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         // Check whether the access to the local contacts has not been already asked.
         if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
             MXKAppSettings.standard()?.syncLocalContacts = true
@@ -91,7 +86,7 @@ final class CKContactListViewController: MXKViewController {
         guard let recentsDataSource = aRecentsDataSource else {
             return
         }
-
+        
         self.importSession(recentsDataSource.mxSessions)
     }
     
@@ -107,160 +102,30 @@ final class CKContactListViewController: MXKViewController {
 // MARK: - PRIVATE
 
 extension CKContactListViewController {
-
+    
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.defaultBarTintColor = themeService.attrs.searchBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
-            self?.tableView?.backgroundColor = theme.secondBgColor
+            self?.tableView?.backgroundColor = theme.searchBarBgColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
-    }
-
-    /**
-     Get a title for the header
-     */
-    private func titleForHeader(atSection section: Int) -> String {
-        guard let s = Section(rawValue: section) else { return ""}
-        
-        switch s {
-        case .search:
-            return ""
-        case .matrix:
-            return "MATRIX CONTACTS"
-        case .local:
-            return "INVITE FROM CONTACTS"
-        }
     }
     
     /**
      Register table view cell
      */
     private func registerCells() {
-        self.tableView.register(CKContactListSearchCell.nib, forCellReuseIdentifier: CKContactListSearchCell.identifier)
         self.tableView.register(CKContactListMatrixCell.nib, forCellReuseIdentifier: CKContactListMatrixCell.identifier)
-        self.tableView.register(CKContactListLocalCell.nib, forCellReuseIdentifier: CKContactListLocalCell.identifier)
         self.tableView.theme.separatorColor = themeService.attrStream{ $0.separatorColor }
     }
-    
-    /**
-     Cell for search
-     */
-    private func cellForSearch(_ indexPath: IndexPath) -> CKContactListSearchCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListSearchCell.identifier, for: indexPath) as! CKContactListSearchCell
-        
-        // filtering
-        cell.beginSearchingHandler = { text in
-            
-            // reload
-            if text.count == 0 {
-                self.reloadData()
-            } else { // filtering
-                
-                // filter local source
-                self.filteredLocalSource?.removeAll()
-                self.filteredLocalSource = self.originalLocalSource.filter({ (contact: MXKContact) -> Bool in
-                    let displayName = contact.displayName ?? ""
-                    return displayName.lowercased().contains(text.lowercased())
-                })
-                
-                // filter matrix source
-                self.filteredMatrixSource?.removeAll()
-                self.filteredMatrixSource = self.originalMatrixSource.filter({ (contact: MXKContact) -> Bool in
-                    let displayName = contact.displayName ?? ""
-                    return displayName.lowercased().contains(text.lowercased())
-                })
-                
-                // reload table view
-                DispatchQueue.main.async {
-                    self.tableView.reloadSections(
-                        IndexSet([Section.matrix.rawValue, Section.local.rawValue]), with: .none)
-                }
-            }
-        }
-
-        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
-        return cell
-    }
-    
-    /**
-     Cell for matrix contact
-     */
-    private func cellForMatrix(_ indexPath: IndexPath) -> CKContactListMatrixCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListMatrixCell.identifier, for: indexPath) as! CKContactListMatrixCell
-        
-        if let ds = self.filteredMatrixSource {
-            cell.displayNameLabel.text = ds[indexPath.row].displayName                        
-            cell.setAvatarUri(
-                ds[indexPath.row].matrixAvatarURL,
-                identifyText: ds[indexPath.row].displayName,
-                session: self.mainSession)
-            
-            // status
-            if let mid = ds[indexPath.row].matrixIdentifiers?.first as? String {
-                let u = self.mainSession.user(withUserId: mid)
-                cell.status = ((u?.presence ?? MXPresenceUnavailable) == MXPresenceOnline) ? 1 : 0
-            } else {
-                cell.status = 0
-            }
-        }
-        return cell
-    }
-    
-    /**
-     Cell for local contact
-     */
-    private func cellForLocal(_ indexPath: IndexPath) -> CKContactListLocalCell {
-        
-        // deque
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListLocalCell.identifier, for: indexPath) as! CKContactListLocalCell
-        
-        // ds
-        if let ds = self.filteredLocalSource {
-            
-            // setup cell
-            cell.setup(ds[indexPath.row])
-        }
-        
-        // return
-        return cell
-    }
-    
     /**
      Reload data
      */
     private func reloadData() {
-        self.reloadLocalContacts()
         self.reloadMatrixContacts()
         self.tableView.reloadData()
-    }
-    
-    /**
-     Reload local contact
-     */
-    @objc private func reloadLocalContacts() {
-        
-        // shared locals
-        if let localcs = MXKContactManager.shared().localContactsSplitByContactMethod as? [MXKContact] {
-            
-            // reset
-            self.originalLocalSource.removeAll()
-            
-            // loop
-            for c in localcs {
-                
-                // pick one, and it has email
-                if let eas = c.emailAddresses, eas.count > 0 {
-                    
-                    // append
-                    self.originalLocalSource.append(c)
-                }
-            }
-            
-            // assign fls to ols
-            self.filteredLocalSource = self.originalLocalSource
-        }
     }
     
     /**
@@ -280,7 +145,15 @@ extension CKContactListViewController {
             }
             
             // assign fms to oms
-            self.filteredMatrixSource = self.originalMatrixSource
+            self.filteredMatrixSource = self.originalMatrixSource.sorted(by: { (a, b) -> Bool in
+                a.displayName < b.displayName
+            })
+            
+            let groupedDictionary = Dictionary(grouping: self.filteredMatrixSource, by: {$0.displayName.uppercased().prefix(1)})
+            let keys = groupedDictionary.keys.sorted()
+            
+            self.sections = keys.map{ Section(letter: String($0), contacts: groupedDictionary[$0]!) }
+            
         }
     }
     
@@ -310,160 +183,105 @@ extension CKContactListViewController {
             }
         }
     }
-    
-    /**
-     Invite chat
-     */
-    private func inviteChat(atIndexPath indexPath: IndexPath) {
-        
-        // in range
-        if self.filteredLocalSource.count > indexPath.row {
-            
-            // contact
-            let c = self.filteredLocalSource[indexPath.row]
-            
-            // spin
-            self.startActivityIndicator()
-            
-            // invite chat
-            AppDelegate.the()?.inviteChat(c, completion: { (_) in
-                self.stopActivityIndicator()
-            })
-        }
-    }
-
-    private func confirmInvitation(_ indexPath: IndexPath) {
-        
-        // do nothing if out range
-        if self.filteredLocalSource.count <= indexPath.row {
-          return
-        }
-        
-        // contact
-        let c = self.filteredLocalSource[indexPath.row]
-        
-        let name = c.displayName ?? (c.matrixIdentifiers.first as! MXKEmail).emailAddress
-        
-        // alert obj
-        let alert = UIAlertController(
-            title: "You want to invite \(name!) ?",
-            message: nil,
-            preferredStyle: .actionSheet)
-        
-        // leave room
-        alert.addAction(UIAlertAction(title: "Invite", style: .default , handler:{ (_) in
-            self.inviteChat(atIndexPath: indexPath)
-        }))
-        
-        // cancel
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (_) in
-        }))
-        
-        // present
-        self.present(alert, animated: true, completion: nil)
-    }
 }
 
 // MARK: - UITableViewDelegate
 
 extension CKContactListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let s = Section(rawValue: indexPath.section) else { return 1 }
-        switch s {
-        case .search:
-            return CKLayoutSize.Table.row44px
-        default:
-            return CKLayoutSize.Table.row60px
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if let view = CKRoomHeaderInSectionView.instance() {
-            view.descriptionLabel.text = self.titleForHeader(atSection: section)
-            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
-            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            return view
-        }
-        return UIView()
+        return CKLayoutSize.Table.row60px
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel.init()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = UIColor.blue
+        label.text = sections[section].letter.localizedUppercase
+        let headerView = UIView.init()
+        headerView.addSubview(label)
+        headerView.backgroundColor = CKColor.Background.tableView
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            headerView.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -25),
+            headerView.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 0),
+            headerView.topAnchor.constraint(equalTo: label.topAnchor, constant: 0),
+            headerView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 0)
+            ])
+        
+        return headerView
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let s = Section(rawValue: section) else { return 1}
-        switch s {
-        case .search:
-            return CGFloat.leastNonzeroMagnitude
-        default:
-            return CKLayoutSize.Table.defaultHeader
-        }
+        return 20
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNonzeroMagnitude
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-
-        guard let s = Section(rawValue: indexPath.section) else { return}
-        switch s {
-        case .local:
-            (cell as? CKContactListLocalCell)?.updateDisplay()
-        default:
-            return
-        }
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         self.view.endEditing(true)
         
-        guard let s = Section(rawValue: indexPath.section) else { return}
-        switch s {
-        case .matrix:
-            self.directChat(atIndexPath: indexPath)
-        case .local:
-            self.confirmInvitation(indexPath)
-        default:
-            return
-        }
-    }
+        let section = sections[indexPath.section]
+        // in range
+        if section.contacts.count > indexPath.row {
+            
+            // index of
+            let c = section.contacts[indexPath.row]
+            
+            // first
+            if let userId = c.matrixIdentifiers.first as? String {
+                
+                // progress start
+                if self.delegate != nil { self.startActivityIndicator() }
+                
+                // invoke delegate
+                self.delegate?.contactListCreating(withUserId: userId, completion: { (success: Bool) in
+                    
+                    // progress stop
+                    self.stopActivityIndicator()
+                })
+            }
+        }    }
 }
 
 // MARK: - UITableViewDataSource
 
 extension CKContactListViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.count()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].contacts.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let s = Section(rawValue: section) else { return 0}
-        
-        switch s {
-        case .search:
-            return 1
-        case .matrix:
-            return self.filteredMatrixSource != nil ? filteredMatrixSource.count : 0
-        case .local:
-            return self.filteredLocalSource != nil ? self.filteredLocalSource.count : 0
-        }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.sections.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let s = Section(rawValue: indexPath.section) else { return UITableViewCell()}
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListMatrixCell.identifier, for: indexPath) as! CKContactListMatrixCell
+        let section = sections[indexPath.section]
+        let contacts = section.contacts[indexPath.row]
+        cell.displayNameLabel.text = contacts.displayName
+        cell.setAvatarUri(
+            contacts.matrixAvatarURL,
+            identifyText: contacts.displayName,
+            session: self.mainSession)
         
-        switch s {
-        case .search:
-            return cellForSearch(indexPath)
-        case .matrix:
-            return cellForMatrix(indexPath)
-        case .local:
-            return cellForLocal(indexPath)
+        if let mid = contacts.matrixIdentifiers?.first as? String {
+            let u = self.mainSession.user(withUserId: mid)
+            cell.status = ((u?.presence ?? MXPresenceUnavailable) == MXPresenceOnline) ? 1 : 0
+        } else {
+            cell.status = 0
         }
+        
+        return cell
     }
 }
