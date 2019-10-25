@@ -149,7 +149,7 @@ extension CKContactListViewController {
                 a.displayName < b.displayName
             })
             
-            let groupedDictionary = Dictionary(grouping: self.filteredMatrixSource, by: {$0.displayName.prefix(1)})
+            let groupedDictionary = Dictionary(grouping: self.filteredMatrixSource, by: {$0.displayName.uppercased().prefix(1)})
             let keys = groupedDictionary.keys.sorted()
             
             self.sections = keys.map{ Section(letter: String($0), contacts: groupedDictionary[$0]!) }
