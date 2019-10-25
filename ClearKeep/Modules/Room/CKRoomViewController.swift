@@ -2721,40 +2721,38 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
     
     func invitationDidSelectDecline() {
         
-        // Enter by room's link
-        guard let preview = self.roomPreviewData, let invite = preview.emailInvitation, let _ = invite.email else {
-            AppDelegate.the()?.masterTabBarController?.navigationController?.popViewController(animated: true)
-            return
+        if let invitedRoom = self.roomDataSource?.room {
+            // alert obj
+            let alert = UIAlertController(
+                title: "Are you sure to decline this room?",
+                message: nil,
+                preferredStyle: .actionSheet)
+            
+            // leave room
+            alert.addAction(UIAlertAction(title: "Decline", style: .default , handler:{ (_) in
+                invitedRoom.leave(completion: { (response: MXResponse<Void>) in
+                    if let error = response.error {
+                        self.showAlert(error.localizedDescription)
+                    } else {
+                        AppDelegate.the()?.masterTabBarController?.navigationController?.popViewController(animated: true)
+                    }
+                })
+            }))
+            
+            // cancel
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (_) in
+            }))
+            
+            // present
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            if let _ = self.roomPreviewData {
+                self.showAlert("Occur an error. Please try to it later.")
+            } else {
+                // Enter room by link
+                AppDelegate.the()?.masterTabBarController?.navigationController?.popViewController(animated: true)
+            }
         }
-
-        guard let invitedRoom = self.roomDataSource?.room else {
-            self.showAlert("Occur an error. Please try to it later.")
-            return
-        }
-        
-        // alert obj
-        let alert = UIAlertController(
-            title: "Are you sure to decline this room?",
-            message: nil,
-            preferredStyle: .actionSheet)
-        
-        // leave room
-        alert.addAction(UIAlertAction(title: "Decline", style: .default , handler:{ (_) in
-            invitedRoom.leave(completion: { (response: MXResponse<Void>) in
-                if let error = response.error {
-                    self.showAlert(error.localizedDescription)
-                } else {
-                    AppDelegate.the()?.masterTabBarController?.navigationController?.popViewController(animated: true)
-                }
-            })
-        }))
-        
-        // cancel
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (_) in
-        }))
-        
-        // present
-        self.present(alert, animated: true, completion: nil)
     }
 }
 
