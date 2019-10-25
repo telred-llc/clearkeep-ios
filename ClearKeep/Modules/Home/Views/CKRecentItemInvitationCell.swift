@@ -19,6 +19,7 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
     @IBOutlet weak var declineButton: UIButton!
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var lblDescription: UILabel!
+    @IBOutlet weak var lblTime: UILabel!
     
 
     // MARK: - PROPERTY
@@ -119,9 +120,11 @@ extension CKRecentItemInvitationCell: MXKCellRendering {
 
         roomCellData = cellData as? MXKRecentCellDataStoring
         roomNameLabel.text = roomCellData?.roomSummary.displayname
-        
+        lblTime.text = roomCellData?.lastEventDate
         // last message
-        let lastMessage = roomCellData?.roomSummary.lastMessageString
+        var lastMessage = roomCellData?.roomSummary.lastMessageString
+        let user = roomCellData?.lastEvent.wireContent["displayname"] as? String ?? ""
+        lastMessage = lastMessage?.replacingOccurrences(of: user, with: "you")
         self.lblDescription.text = lastMessage
     }
     
