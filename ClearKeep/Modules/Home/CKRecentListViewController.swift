@@ -56,7 +56,7 @@ class CKRecentListViewController: MXKViewController {
         
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.defaultBarTintColor = themeService.attrs.searchBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
         }).disposed(by: disposeBag)
     }
