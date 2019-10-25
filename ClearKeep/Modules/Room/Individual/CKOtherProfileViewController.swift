@@ -494,8 +494,6 @@ extension CKOtherProfileViewController {
         calling.tintColor = themeService.attrs.primaryTextColor
         
         navigationItem.rightBarButtonItems = [calling, message]
-        
-        addCustomBackButton()
     }
     
     
