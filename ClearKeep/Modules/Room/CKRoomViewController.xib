@@ -98,7 +98,7 @@
                                 <constraint firstAttribute="height" constant="96" id="5eD-Fm-RDb"/>
                             </constraints>
                         </view>
-                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="96H-Xh-me1" userLabel="InvitationView">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="96H-Xh-me1" userLabel="InvitationView">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                             <subviews>
                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PnZ-Ab-iqk">
@@ -108,26 +108,36 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                             <subviews>
                                                 <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="zEB-D5-eC4" userLabel="Avatar" customClass="MXKImageView">
-                                                    <rect key="frame" x="137.5" y="60" width="100" height="100"/>
+                                                    <rect key="frame" x="94" y="60" width="187.5" height="187.5"/>
                                                     <color key="backgroundColor" red="0.3921568627" green="0.80784313730000001" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="100" id="Hii-hC-Wvz"/>
-                                                        <constraint firstAttribute="width" constant="100" id="sfm-D9-D3U"/>
+                                                        <constraint firstAttribute="width" secondItem="zEB-D5-eC4" secondAttribute="height" multiplier="1:1" id="SD3-BJ-Zlo"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Someone invited you to this room, join to chat?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vk3-W4-8lH">
-                                                    <rect key="frame" x="8" y="190" width="359" height="19.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fiK-BJ-h1g">
+                                                    <rect key="frame" x="30" y="277.5" width="315" height="69.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AAAAA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MnA-1F-m0G">
+                                                            <rect key="frame" x="0.0" y="0.0" width="315" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" red="0.31764705882352939" green="0.37647058823529411" blue="0.76078431372549016" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Someone invited you to this room, join to chat?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vk3-W4-8lH">
+                                                            <rect key="frame" x="0.0" y="28.5" width="315" height="41"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iSR-Tj-TYV">
-                                                    <rect key="frame" x="30" y="229.5" width="315" height="100"/>
+                                                    <rect key="frame" x="30" y="377" width="315" height="100"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gj1-u3-wEI">
                                                             <rect key="frame" x="0.0" y="0.0" width="315" height="46"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                            <state key="normal" title="Join">
+                                                            <state key="normal" title="JOIN" backgroundImage="join_button">
                                                                 <color key="titleColor" red="0.3921568627" green="0.80784313730000001" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
                                                             <connections>
@@ -137,7 +147,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0IK-4e-p4u">
                                                             <rect key="frame" x="0.0" y="54" width="315" height="46"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                            <state key="normal" title="Decline">
+                                                            <state key="normal" title="DECLINE">
                                                                 <color key="titleColor" red="0.3921568627" green="0.80784313730000001" blue="0.62352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
                                                             <connections>
@@ -153,13 +163,13 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="zEB-D5-eC4" firstAttribute="centerX" secondItem="cyd-xY-yuY" secondAttribute="centerX" id="Bma-RG-n29"/>
-                                                <constraint firstItem="iSR-Tj-TYV" firstAttribute="top" secondItem="vk3-W4-8lH" secondAttribute="bottom" constant="20" id="C7h-aG-6jS"/>
-                                                <constraint firstAttribute="trailing" secondItem="vk3-W4-8lH" secondAttribute="trailing" constant="8" id="O8D-XB-IBF"/>
                                                 <constraint firstAttribute="trailing" secondItem="iSR-Tj-TYV" secondAttribute="trailing" constant="30" id="Tuc-x9-lFo"/>
-                                                <constraint firstItem="vk3-W4-8lH" firstAttribute="leading" secondItem="cyd-xY-yuY" secondAttribute="leading" constant="8" id="UKS-3S-U4T"/>
+                                                <constraint firstItem="fiK-BJ-h1g" firstAttribute="leading" secondItem="cyd-xY-yuY" secondAttribute="leading" constant="30" id="VXs-4m-hNC"/>
                                                 <constraint firstItem="iSR-Tj-TYV" firstAttribute="leading" secondItem="cyd-xY-yuY" secondAttribute="leading" constant="30" id="XQ4-lS-yw9"/>
-                                                <constraint firstItem="vk3-W4-8lH" firstAttribute="top" secondItem="zEB-D5-eC4" secondAttribute="bottom" constant="30" id="siQ-60-OmH"/>
+                                                <constraint firstItem="iSR-Tj-TYV" firstAttribute="top" secondItem="fiK-BJ-h1g" secondAttribute="bottom" constant="30" id="o9p-PU-wcg"/>
+                                                <constraint firstItem="fiK-BJ-h1g" firstAttribute="top" secondItem="zEB-D5-eC4" secondAttribute="bottom" constant="30" id="vhp-eT-o6q"/>
                                                 <constraint firstItem="zEB-D5-eC4" firstAttribute="top" secondItem="cyd-xY-yuY" secondAttribute="top" constant="60" id="wzW-Kz-yG2"/>
+                                                <constraint firstAttribute="trailing" secondItem="fiK-BJ-h1g" secondAttribute="trailing" constant="30" id="ysb-d6-1Dr"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -217,6 +227,7 @@
                 <constraint firstItem="iN0-l3-epB" firstAttribute="top" secondItem="gyd-c8-1CM" secondAttribute="top" id="CMO-kl-JRV"/>
                 <constraint firstItem="iN0-l3-epB" firstAttribute="bottom" secondItem="gyd-c8-1CM" secondAttribute="bottom" id="EhO-jB-hgf"/>
                 <constraint firstItem="iN0-l3-epB" firstAttribute="leading" secondItem="gyd-c8-1CM" secondAttribute="leading" id="Fma-8H-Jcs"/>
+                <constraint firstItem="zEB-D5-eC4" firstAttribute="width" secondItem="wY3-AG-Wzd" secondAttribute="width" multiplier="1:2" id="ehj-de-WF4"/>
                 <constraint firstItem="iN0-l3-epB" firstAttribute="trailing" secondItem="gyd-c8-1CM" secondAttribute="trailing" id="oQ7-t3-t18"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -228,9 +239,13 @@
                 <outlet property="declineButton" destination="0IK-4e-p4u" id="zT9-IH-BmF"/>
                 <outlet property="descriptionLabel" destination="vk3-W4-8lH" id="dhD-xQ-iRS"/>
                 <outlet property="joinButton" destination="gj1-u3-wEI" id="pKP-mE-n09"/>
+                <outlet property="nameLabel" destination="MnA-1F-m0G" id="8So-De-Qk8"/>
                 <outlet property="photoView" destination="zEB-D5-eC4" id="wPL-gH-iPr"/>
                 <outlet property="view" destination="96H-Xh-me1" id="EPP-zh-4dX"/>
             </connections>
         </customObject>
     </objects>
+    <resources>
+        <image name="join_button" width="294" height="44"/>
+    </resources>
 </document>
