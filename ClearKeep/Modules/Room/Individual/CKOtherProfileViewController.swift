@@ -75,7 +75,7 @@ class CKOtherProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : themeService.attrs.primaryTextColor]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CKColor.Icon.back]
         self.navigationController?.navigationBar.clearNavigationBar()
     }
     
@@ -229,7 +229,7 @@ class CKOtherProfileViewController: MXKViewController {
             }
 
             cell.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
-            cell.assignAdminButton.theme.titleColor(from: themeService.attrStream{ $0.newBackgroundColor }, for: .normal)
+//            cell.assignAdminButton.theme.titleColor(from: themeService.attrStream{ $0.newBackgroundColor }, for: .normal)
             return cell
         }
         
@@ -494,6 +494,8 @@ extension CKOtherProfileViewController {
         calling.tintColor = themeService.attrs.primaryTextColor
         
         navigationItem.rightBarButtonItems = [calling, message]
+        
+        addCustomBackButton()
     }
     
     

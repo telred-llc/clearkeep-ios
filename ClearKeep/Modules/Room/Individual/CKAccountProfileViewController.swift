@@ -111,7 +111,7 @@ class CKAccountProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : themeService.attrs.primaryTextColor]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CKColor.Icon.back]
         self.navigationController?.navigationBar.clearNavigationBar()
     }
     
