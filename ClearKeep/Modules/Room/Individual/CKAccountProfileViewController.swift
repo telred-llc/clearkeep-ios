@@ -111,7 +111,8 @@ class CKAccountProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CKColor.Text.titleNavigationBar]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : themeService.attrs.primaryTextColor]
+        self.navigationController?.navigationBar.clearNavigationBar()
     }
     
     deinit {
@@ -185,13 +186,13 @@ class CKAccountProfileViewController: MXKViewController {
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.newBackgroundColor
+            self?.barTitleColor = themeService.attrs.newBackgroundColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.newBackgroundColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -213,7 +214,7 @@ class CKAccountProfileViewController: MXKViewController {
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountProfileAvatarCell.identifier, for: indexPath) as? CKAccountProfileAvatarCell {
             
             cell.isCanEditDisplayName = true
-            cell.currentDisplayName = myUser?.displayname ?? ""
+            cell.currentDisplayName = myUser?.displayname.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
             cell.adminStatusView.isHidden = true
             
             if let myUser = self.myUser {
@@ -241,10 +242,7 @@ class CKAccountProfileViewController: MXKViewController {
             
             
             cell.editAvatar = {
-                let imagePickerController = UIImagePickerController()
-                imagePickerController.sourceType = .photoLibrary
-                imagePickerController.delegate = self
-                self.present(imagePickerController, animated: true, completion: nil)
+                self.handlerEditAvatar()
             }
             
             cell.editDisplayName = { newDisplayName in
@@ -308,7 +306,7 @@ class CKAccountProfileViewController: MXKViewController {
             case 0:
                 cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: myUser?.userId)
             case 1:
-                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "19 Duy Tan, Cau Giay, Ha Noi")
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
             case 2:
                 cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "+84 222 11 5550")
             default:
@@ -335,6 +333,36 @@ class CKAccountProfileViewController: MXKViewController {
     private func reloadAvatarCell() {
         self.removeSpinner()
         self.tableView.reloadSections([Section.avatar.rawValue], with: .automatic)
+    }
+    
+    
+    // -- show alert choose edit avatar: camera + photoLibrary
+    private func handlerEditAvatar() {
+        
+        let optionAlert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_take_photo"), style: .default, handler: { [weak self] (action) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                let myPickerController = UIImagePickerController()
+                myPickerController.sourceType = .camera
+                myPickerController.delegate = self;
+                self?.present(myPickerController, animated: true, completion: nil)
+            }
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_choose_from_library"), style: .default, handler: { [weak self] (action) in
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.sourceType = .photoLibrary
+            imagePickerController.delegate = self
+            self?.present(imagePickerController, animated: true, completion: nil)
+
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { (action) in
+        }))
+        
+        optionAlert.show()
     }
 }
 
@@ -382,13 +410,13 @@ extension CKAccountProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
         return view
     }
     
@@ -487,7 +515,6 @@ extension CKAccountProfileViewController: KeyBackupSetupCoordinatorBridgePresent
 
 
 // MARK: UIImagePickerControllerDelegate
-
 extension CKAccountProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -495,17 +522,10 @@ extension CKAccountProfileViewController: UIImagePickerControllerDelegate, UINav
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-//            self.imagePickedBlock?(image)
-//        }else{
-//            print("Something wrong")
-//        }
         
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
             return
         }
-        
-        
         
         self.dismiss(animated: true, completion: { [weak self] in
             self?.imagePickedBlock?(image)

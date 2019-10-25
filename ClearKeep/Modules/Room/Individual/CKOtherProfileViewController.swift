@@ -16,12 +16,11 @@ class CKOtherProfileViewController: MXKViewController {
     
     private enum Section: Int {
         case avatar     = 0
-        case action     = 1
-        case detail     = 2
-        case setAdmin   = 3
+        case detail     = 1
+        case setAdmin   = 2
         
-        static var memberCount: Int { return 3}
-        static var adminCount: Int { return 4}
+        static var memberCount: Int { return 2}
+        static var adminCount: Int { return 3}
     }
     
     // MARK: - CLASS
@@ -76,6 +75,8 @@ class CKOtherProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : themeService.attrs.primaryTextColor]
+        self.navigationController?.navigationBar.clearNavigationBar()
     }
     
     // MARK: - PRIVATE
@@ -85,7 +86,7 @@ class CKOtherProfileViewController: MXKViewController {
         // register cells
         self.tableView.register(CKAccountProfileAvatarCell.nib, forCellReuseIdentifier: CKAccountProfileAvatarCell.identifier)
         self.tableView.register(CKOtherProfileActionCell.nib, forCellReuseIdentifier: CKOtherProfileActionCell.identifier)
-        self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
+        self.tableView.register(CKUserProfileDetailCell.nib, forCellReuseIdentifier: CKUserProfileDetailCell.identifier)
         self.tableView.register(CKAssignAdminButtonTableViewCell.nib, forCellReuseIdentifier:CKAssignAdminButtonTableViewCell.identifier)
         self.tableView.allowsSelection = false
         
@@ -107,17 +108,20 @@ class CKOtherProfileViewController: MXKViewController {
         self.updateUserState()
 
         self.bindingTheme()
+        
+        self.setupItemBarButton()
+        
     }
-
+    
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.newBackgroundColor
+            self?.barTitleColor = themeService.attrs.newBackgroundColor
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.newBackgroundColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -128,6 +132,7 @@ class CKOtherProfileViewController: MXKViewController {
             let dispn = mxMember?.displayname ?? (mxMember?.userId?.components(separatedBy: ":").first ?? "Unknown")
             
             cell.currentDisplayName = dispn
+            cell.isCanEditDisplayName = false
             
             cell.setAvatarUri(
                 mxMember.avatarUrl,
@@ -154,7 +159,7 @@ class CKOtherProfileViewController: MXKViewController {
                 cell.settingStatus(online: false)
             }
 
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
 
             return cell
         }
@@ -190,32 +195,26 @@ class CKOtherProfileViewController: MXKViewController {
         return CKOtherProfileActionCell()
     }
     
-    private func cellForInfoPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileInfoCell {
+    private func cellForInfoPersonal(atIndexPath indexPath: IndexPath) -> CKUserProfileDetailCell {
         
         if let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKAccountProfileInfoCell.identifier,
-            for: indexPath) as? CKAccountProfileInfoCell {
-            
-            
-            // Title
-            cell.titleLabel.font = CKAppTheme.mainLightAppFont(size: 17)
-            cell.titleLabel.textColor = #colorLiteral(red: 0.4352941176, green: 0.431372549, blue: 0.4509803922, alpha: 1)
-
-            if indexPath.row == 0 {
-                cell.titleLabel.text = "Display name"
-                cell.contentLabel.text = mxMember?.displayname ?? (mxMember?.userId?.components(separatedBy: ":").first ?? "Unknown")
-            } else if indexPath.row == 1 {
-                cell.titleLabel.text = "User ID"
-                cell.contentLabel.text = mxMember.userId
-            } else {
-                cell.titleLabel.text = nil
-                cell.contentLabel.text = nil
+            withIdentifier: CKUserProfileDetailCell.identifier,
+            for: indexPath) as? CKUserProfileDetailCell {
+            switch indexPath.row {
+            case 0:
+                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: myUser?.userId)
+            case 1:
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
+            case 2:
+                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "+84 222 11 5550")
+            default:
+                break
             }
-
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            
             return cell
         }
-        return CKAccountProfileInfoCell()
+        
+        return CKUserProfileDetailCell()
     }
     
     private func cellForSetAdmin(indexPath: IndexPath) -> CKAssignAdminButtonTableViewCell {
@@ -229,8 +228,8 @@ class CKOtherProfileViewController: MXKViewController {
                 }
             }
 
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
-            cell.assignAdminButton.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+            cell.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+            cell.assignAdminButton.theme.titleColor(from: themeService.attrStream{ $0.newBackgroundColor }, for: .normal)
             return cell
         }
         
@@ -242,8 +241,6 @@ class CKOtherProfileViewController: MXKViewController {
         
         switch section {
         case .avatar:
-            return ""
-        case .action:
             return ""
         case .detail:
             return ""
@@ -377,19 +374,19 @@ extension CKOtherProfileViewController: UITableViewDelegate {
         case .setAdmin:
             return 100
         default:
-            return 60
+            return UITableViewAutomaticDimension
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
         return view
     }
     
@@ -420,8 +417,7 @@ extension CKOtherProfileViewController: UITableViewDataSource {
         // number rows in case
         switch section {
         case .avatar: return 1
-        case .action: return 1
-        case .detail: return 2
+        case .detail: return 3
         case .setAdmin: return 1
         }
     }
@@ -433,13 +429,8 @@ extension CKOtherProfileViewController: UITableViewDataSource {
         
         switch section {
         case .avatar:
-            
             // account profile avatar cell
             return cellForAvatarPersonal(atIndexPath: indexPath)
-        case .action:
-            
-            // account profile action cell
-            return cellForAction(atIndexPath: indexPath)
         case .detail:
             return cellForInfoPersonal(atIndexPath: indexPath)
         case .setAdmin:
@@ -486,6 +477,37 @@ extension CKOtherProfileViewController {
             }
         } else {
             self.updateUserState()
+        }
+    }
+}
+
+
+// MARK: Config Bar Button Message + Calling
+extension CKOtherProfileViewController {
+    
+    private func setupItemBarButton() {
+        
+        let message = UIBarButtonItem(image: #imageLiteral(resourceName: "message_profile").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handlerMessageRoom))
+        message.tintColor = themeService.attrs.primaryTextColor
+        
+        let calling = UIBarButtonItem(image: #imageLiteral(resourceName: "calling_profile").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handlerCallRoom))
+        calling.tintColor = themeService.attrs.primaryTextColor
+        
+        navigationItem.rightBarButtonItems = [calling, message]
+    }
+    
+    
+    @objc
+    private func handlerMessageRoom() {
+        if let userId = self.mxMember.userId {
+            self.displayDirectRoom(userId: userId)
+        }
+    }
+    
+    @objc
+    private func handlerCallRoom() {
+        if let userId = self.mxMember.userId {
+            self.callToRoom(userId: userId)
         }
     }
 }

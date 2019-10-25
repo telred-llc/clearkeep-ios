@@ -86,8 +86,10 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
         let cornerRadius = self.frame.width/4 //-- set width avatar = 1/2 width screen
         avaImage.cornerRadius = cornerRadius
         avaImage.layer.masksToBounds = true
+        avaImage.borderWidth = 6
+        avaImage.borderColor = #colorLiteral(red: 0.9098039216, green: 0.9529411765, blue: 0.9921568627, alpha: 1)
         
-        trailingStatusViewConstraints.constant = -(cornerRadius/4 - self.statusView.bounds.width/3)
+        trailingStatusViewConstraints.constant = -(cornerRadius/4 - self.statusView.bounds.width/3) - 3
         bottomStatusViewConstraints.constant = -(cornerRadius/4 - self.statusView.bounds.width/3)
     }
     
@@ -122,13 +124,13 @@ extension CKAccountProfileAvatarCell: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        let currentName = (textField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let currentName = (nameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         nameTextField.text = currentName
     }
     
     private func updateDisplayNameIfNeeded() {
         let newDisplayName = (nameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        isShowDoneButton = currentDisplayName != newDisplayName
+        isShowDoneButton = currentDisplayName != newDisplayName && !newDisplayName.isEmpty
     }
 }
 

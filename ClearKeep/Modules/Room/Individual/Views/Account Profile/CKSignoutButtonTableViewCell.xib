@@ -34,6 +34,7 @@
                         </connections>
                     </button>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="DqE-sq-kzg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="CRJ-SK-zQe"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="DqE-sq-kzg" secondAttribute="bottom" constant="20" id="EG5-ht-htM"/>
@@ -41,6 +42,7 @@
                     <constraint firstItem="DqE-sq-kzg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="xFQ-2T-Iv8"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="signOutButton" destination="DqE-sq-kzg" id="o3g-Za-3OI"/>
