@@ -11,70 +11,106 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="qua-eA-SKH" customClass="CKRoomDirectCreatingActionCell" customModule="Riot" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="187" id="qua-eA-SKH" customClass="CKRoomDirectCreatingActionCell" customModule="Riot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="457" height="187"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qua-eA-SKH" id="1dh-GO-0sL">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qua-eA-SKH" id="1dh-GO-0sL">
+                <rect key="frame" x="0.0" y="0.0" width="457" height="186.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vN2-vg-win">
-                        <rect key="frame" x="35" y="10" width="40" height="40"/>
-                        <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lgj-J0-KOI">
+                        <rect key="frame" x="0.0" y="0.0" width="457" height="80"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ujs-NO-p43">
+                                <rect key="frame" x="15" y="29" width="22" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="5eC-bO-TNU"/>
+                                    <constraint firstAttribute="width" constant="22" id="oVr-kc-KeA"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
+                                <state key="normal" backgroundImage="ic_new_call_ellipse"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Call" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="orP-W2-xIq">
+                                <rect key="frame" x="60" y="28.5" width="75" height="23"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="vN2-vg-win" secondAttribute="height" multiplier="1:1" id="Z4t-BS-zeE"/>
-                            <constraint firstAttribute="height" constant="40" id="ewc-eT-tgX"/>
+                            <constraint firstItem="orP-W2-xIq" firstAttribute="leading" secondItem="Ujs-NO-p43" secondAttribute="trailing" constant="23" id="4v8-ED-Yf5"/>
+                            <constraint firstAttribute="height" constant="80" id="Bap-at-sTG"/>
+                            <constraint firstItem="Ujs-NO-p43" firstAttribute="leading" secondItem="Lgj-J0-KOI" secondAttribute="leading" constant="15" id="aeQ-Yd-LcS"/>
+                            <constraint firstItem="Ujs-NO-p43" firstAttribute="centerY" secondItem="Lgj-J0-KOI" secondAttribute="centerY" id="mBL-EY-8CR"/>
+                            <constraint firstItem="orP-W2-xIq" firstAttribute="centerY" secondItem="Lgj-J0-KOI" secondAttribute="centerY" id="nQI-KK-EO9"/>
                         </constraints>
-                        <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
-                        <state key="normal" image="ic_new_group"/>
-                    </button>
-                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ujs-NO-p43">
-                        <rect key="frame" x="125" y="10" width="40" height="40"/>
-                        <color key="backgroundColor" red="0.1215686275" green="0.71372549019999998" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WFA-GC-1jQ">
+                        <rect key="frame" x="0.0" y="80" width="457" height="80"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vN2-vg-win">
+                                <rect key="frame" x="15" y="29.5" width="25" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25.239999999999998" id="7Ww-sm-7SR"/>
+                                    <constraint firstAttribute="height" constant="20.41" id="uS8-97-lEv"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
+                                <state key="normal" backgroundImage="ic_new_room_ellipse"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Rk-vg-EMM">
+                                <rect key="frame" x="60" y="28.5" width="92.5" height="23"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="40" id="A4C-yp-elx"/>
-                            <constraint firstAttribute="width" secondItem="Ujs-NO-p43" secondAttribute="height" multiplier="1:1" id="qZy-Se-uDc"/>
+                            <constraint firstItem="5Rk-vg-EMM" firstAttribute="leading" secondItem="vN2-vg-win" secondAttribute="trailing" constant="20" id="NAK-WD-yYc"/>
+                            <constraint firstItem="vN2-vg-win" firstAttribute="centerY" secondItem="WFA-GC-1jQ" secondAttribute="centerY" id="Zw4-Cp-2bS"/>
+                            <constraint firstItem="5Rk-vg-EMM" firstAttribute="centerY" secondItem="WFA-GC-1jQ" secondAttribute="centerY" id="kn1-Sp-yQa"/>
+                            <constraint firstItem="vN2-vg-win" firstAttribute="leading" secondItem="WFA-GC-1jQ" secondAttribute="leading" constant="15" id="l9x-ah-jOH"/>
+                            <constraint firstAttribute="height" constant="80" id="ntU-fg-mSh"/>
                         </constraints>
-                        <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
-                        <state key="normal" image="ic_new_call"/>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rt4-B8-6d9" userLabel="ButtonCall">
+                        <rect key="frame" x="0.0" y="0.0" width="457" height="80"/>
+                        <connections>
+                            <action selector="onClickNewCall:" destination="qua-eA-SKH" eventType="touchUpInside" id="q4V-og-Y3Q"/>
+                        </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Room" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Rk-vg-EMM">
-                        <rect key="frame" x="20" y="53" width="70" height="21.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.37058823529411766" green="0.37058823529411766" blue="0.37058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Call" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="orP-W2-xIq">
-                        <rect key="frame" x="116.5" y="53" width="57" height="21.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.37058823529411766" green="0.37058823529411766" blue="0.37058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcL-La-2dI" userLabel="ButtonRoom">
+                        <rect key="frame" x="0.0" y="80" width="457" height="80"/>
+                        <connections>
+                            <action selector="onClickNewGroup:" destination="qua-eA-SKH" eventType="touchUpInside" id="VeP-4Y-gCr"/>
+                        </connections>
+                    </button>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="vN2-vg-win" firstAttribute="centerY" secondItem="1dh-GO-0sL" secondAttribute="centerY" constant="-10" id="Bdo-7p-XEa"/>
-                    <constraint firstItem="Ujs-NO-p43" firstAttribute="centerY" secondItem="vN2-vg-win" secondAttribute="centerY" id="E3c-58-BYg"/>
-                    <constraint firstItem="orP-W2-xIq" firstAttribute="centerX" secondItem="Ujs-NO-p43" secondAttribute="centerX" id="EEM-gi-Dp2"/>
-                    <constraint firstItem="5Rk-vg-EMM" firstAttribute="leading" secondItem="1dh-GO-0sL" secondAttribute="leading" constant="20" id="Tb3-TA-zVX"/>
-                    <constraint firstAttribute="bottom" secondItem="orP-W2-xIq" secondAttribute="bottom" constant="5" id="eb5-4m-Snq"/>
-                    <constraint firstAttribute="bottom" secondItem="5Rk-vg-EMM" secondAttribute="bottom" constant="5" id="f52-9z-9Af"/>
-                    <constraint firstItem="Ujs-NO-p43" firstAttribute="leading" secondItem="vN2-vg-win" secondAttribute="trailing" constant="50" id="lMv-ii-5yb"/>
-                    <constraint firstItem="orP-W2-xIq" firstAttribute="top" secondItem="Ujs-NO-p43" secondAttribute="bottom" constant="3" id="mUY-S2-z1H"/>
-                    <constraint firstItem="5Rk-vg-EMM" firstAttribute="centerX" secondItem="vN2-vg-win" secondAttribute="centerX" id="qW6-sO-SWt"/>
-                    <constraint firstItem="5Rk-vg-EMM" firstAttribute="top" secondItem="vN2-vg-win" secondAttribute="bottom" constant="3" id="zLG-Ru-3fY"/>
+                    <constraint firstItem="Rt4-B8-6d9" firstAttribute="leading" secondItem="Lgj-J0-KOI" secondAttribute="leading" id="0cA-Fb-wBD"/>
+                    <constraint firstItem="bcL-La-2dI" firstAttribute="leading" secondItem="WFA-GC-1jQ" secondAttribute="leading" id="1eQ-Sl-Lep"/>
+                    <constraint firstItem="Rt4-B8-6d9" firstAttribute="trailing" secondItem="Lgj-J0-KOI" secondAttribute="trailing" id="3iy-Z8-Pah"/>
+                    <constraint firstItem="bcL-La-2dI" firstAttribute="top" secondItem="WFA-GC-1jQ" secondAttribute="top" id="8VW-ed-ake"/>
+                    <constraint firstItem="WFA-GC-1jQ" firstAttribute="top" secondItem="Lgj-J0-KOI" secondAttribute="bottom" id="Gv9-Dw-wfA"/>
+                    <constraint firstItem="bcL-La-2dI" firstAttribute="bottom" secondItem="WFA-GC-1jQ" secondAttribute="bottom" id="L38-Wk-RVR"/>
+                    <constraint firstItem="bcL-La-2dI" firstAttribute="trailing" secondItem="WFA-GC-1jQ" secondAttribute="trailing" id="PEd-XE-525"/>
+                    <constraint firstAttribute="trailing" secondItem="Lgj-J0-KOI" secondAttribute="trailing" id="WXW-k0-KeX"/>
+                    <constraint firstItem="Lgj-J0-KOI" firstAttribute="top" secondItem="1dh-GO-0sL" secondAttribute="top" id="cOD-DM-mV8"/>
+                    <constraint firstAttribute="trailing" secondItem="WFA-GC-1jQ" secondAttribute="trailing" id="epY-Rb-PP3"/>
+                    <constraint firstItem="Rt4-B8-6d9" firstAttribute="bottom" secondItem="Lgj-J0-KOI" secondAttribute="bottom" id="hrB-gK-rSk"/>
+                    <constraint firstItem="WFA-GC-1jQ" firstAttribute="leading" secondItem="1dh-GO-0sL" secondAttribute="leading" id="iBO-Eq-NJS"/>
+                    <constraint firstItem="Lgj-J0-KOI" firstAttribute="leading" secondItem="1dh-GO-0sL" secondAttribute="leading" id="khP-ka-lls"/>
+                    <constraint firstAttribute="bottom" secondItem="WFA-GC-1jQ" secondAttribute="bottom" id="lsl-E3-jPb"/>
+                    <constraint firstItem="Rt4-B8-6d9" firstAttribute="top" secondItem="Lgj-J0-KOI" secondAttribute="top" id="sDM-ZD-fhH"/>
                 </constraints>
             </tableViewCellContentView>
-            <connections>
-                <outlet property="newCallButton" destination="Ujs-NO-p43" id="gBP-7a-kSU"/>
-                <outlet property="newCallLabel" destination="orP-W2-xIq" id="nx2-hf-v0J"/>
-                <outlet property="newGroupButton" destination="vN2-vg-win" id="hhI-59-KAt"/>
-                <outlet property="newRoomLabel" destination="5Rk-vg-EMM" id="ykg-QN-DH0"/>
-            </connections>
-            <point key="canvasLocation" x="55.200000000000003" y="48.575712143928037"/>
+            <point key="canvasLocation" x="120.8" y="96.7016491754123"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_new_call" width="30" height="30"/>
-        <image name="ic_new_group" width="30" height="30"/>
+        <image name="ic_new_call_ellipse" width="21.5" height="21.5"/>
+        <image name="ic_new_room_ellipse" width="26.5" height="21"/>
     </resources>
 </document>

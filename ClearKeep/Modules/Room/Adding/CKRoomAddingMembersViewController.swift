@@ -14,6 +14,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
     // MARK: - OUTLET
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var btnInvite: UIButton!
     
     // MARK: - ENUM
     
@@ -32,6 +33,8 @@ final class CKRoomAddingMembersViewController: MXKViewController {
      A filtered data source that contains mx contacts
      */
     private var filteredDataSource = [CKContactInternal]()
+    
+    var selectedUser = [CKContactInternal]()
     
     /**
      Room object
@@ -52,18 +55,10 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         self.tableView.register(CKRoomAddingSearchCell.nib, forCellReuseIdentifier: CKRoomAddingSearchCell.identifier)
         self.tableView.register(CKRoomAddingMembersCell.nib, forCellReuseIdentifier: CKRoomAddingMembersCell.identifier)
         self.reloadDataSource()
-        self.navigationItem.title = "Add members"
+        self.navigationItem.title = "Add Members"
         
-        // Setup right button item
-        let rightItemButton = UIBarButtonItem.init(
-            title: "Invite",
-            style: .plain, target: self,
-            action: #selector(clickedOnInviteButton(_:)))
-        
-        rightItemButton.isEnabled = false
-        
-        // assign right button
-        self.navigationItem.rightBarButtonItem = rightItemButton
+        updateBarItems()
+        self.hideKeyboardWhenTappedAround()
         
         // on new creating a room, may cancel inviting the members
         if self.isNewStarting {
@@ -73,7 +68,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
                 image: UIImage(named: "ic_x_close"),
                 style: .plain,
                 target: self, action: #selector(clickedOnBackButton(_:)))
-
+            closeItemButton.tintColor = CKColor.Text.blueNavigation
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
 
@@ -85,18 +80,21 @@ final class CKRoomAddingMembersViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = theme.primaryBgColor
-            self?.barTitleColor = theme.primaryTextColor
-            self?.tableView?.backgroundColor = theme.secondBgColor
+            self?.defaultBarTintColor = theme.searchBarBgColor
+            self?.barTitleColor = CKColor.Text.blueNavigation
+            self?.tableView?.backgroundColor = theme.searchBarBgColor
             self?.tableView?.separatorColor = theme.separatorColor
             self?.tableView?.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
+    @IBAction func clickInvite(_ sender: Any) {
+        self.invite()
+    }
     /**
      Reloading data source
      */
@@ -107,7 +105,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         
         // fetch matrix contacts
         let mxcts = MXKContactManager.shared().directMatrixContacts
-            
+        
         // loop all mxc
         for c in mxcts {
             
@@ -169,7 +167,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         }
 
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
-        cell.backgroundColor = themeService.attrs.secondBgColor
+        cell.backgroundColor = .white
         return cell
     }
     
@@ -178,8 +176,19 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             withIdentifier: CKRoomAddingMembersCell.identifier, for: indexPath) as? CKRoomAddingMembersCell {
             
             let d = self.filteredDataSource[indexPath.row]
+            var checked = false
+            
+            let list = self.selectedUser.filter({ (user) -> Bool in
+                user.mxContact.matrixIdentifiers.first as? String ?? "" == d.mxContact.matrixIdentifiers.first as? String ?? ""
+            })
+            
+           if list.count > 0 {
+            checked = true
+            self.filteredDataSource[indexPath.row].isSelected = true
+            }
+            
             cell.displayNameLabel.text = d.mxContact.displayName
-            cell.isChecked = d.isSelected
+            cell.isChecked = checked
             cell.changesBy(mxContact: d.mxContact, inSession: self.mainSession)
             
             if let u = self.mainSession?.user(
@@ -202,19 +211,22 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         case .search:
             return ""
         case .members:
-            return "SUGGESTED"
+            return "Suggested"
         }
     }
     
     private func updateBarItems() {
-        var result = false
-        for c in self.filteredDataSource {
-            if c.isSelected {
-                result = true
-                break
-            }
-        }        
-        self.navigationItem.rightBarButtonItem?.isEnabled = result
+        
+        let hasSelected = self.selectedUser.count > 0
+        self.btnInvite.isEnabled = hasSelected
+        let bgValid = UIImage(named: "bg_button_create")
+        let bgNotValid = UIImage(named: "bg_btn_not_valid")
+
+        if hasSelected {
+            btnInvite.setBackgroundImage(bgValid, for: .normal)
+        } else {
+            btnInvite.setBackgroundImage(bgNotValid, for: .normal)
+        }
     }
     
     private func promiseInvite(mxContact contact: MXKContact!) -> Promise<Bool> {
@@ -239,7 +251,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         var thenables = [Promise<Bool>]()
         
         // build thenables
-        for c in self.filteredDataSource {
+        for c in self.selectedUser {
             if c.isSelected {
                 thenables.append(promiseInvite(mxContact: c.mxContact))
             }
@@ -303,11 +315,6 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             self.tableView.reloadSections([Section.members.rawValue], with: .none)
         }
     }
-
-    // MARK: - ACTION
-    @objc func clickedOnInviteButton(_ sender: Any?) {
-        self.invite()                
-    }
     
     @objc func clickedOnBackButton(_ sender: Any?) {
         self.closeWithoutInvite()
@@ -334,8 +341,9 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
-            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+            view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
+            view.backgroundColor = .white
+            view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
             return view
         }
         return UIView()
@@ -343,7 +351,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UILabel()
-        view.backgroundColor = themeService.attrs.secondBgColor
+        view.backgroundColor = .white
         return view
     }
     
@@ -353,7 +361,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         case .search:
             return CGFloat.leastNonzeroMagnitude
         default:
-            return CKLayoutSize.Table.defaultHeader
+            return 50
         }
     }
 
@@ -372,9 +380,24 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         case .members:
             let d = filteredDataSource[indexPath.row]
             self.filteredDataSource[indexPath.row].isSelected = !d.isSelected
+            if self.filteredDataSource[indexPath.row].isSelected {
+                self.selectedUser.append(self.filteredDataSource[indexPath.row])
+            }else {
+                if let index = self.selectedUser.firstIndex(where: { (contact) -> Bool in
+                    contact.mxContact.matrixIdentifiers.first as? String ?? "" == d.mxContact.matrixIdentifiers.first as? String ?? ""
+                }){
+                    self.selectedUser.remove(at: index)
+                }
+            }
             self.updateBarItems()
             self.tableView.reloadRows(at: [indexPath], with: .none)
             return
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !tableView.isDecelerating {
+            view.endEditing(true)
         }
     }
 }
@@ -409,11 +432,6 @@ extension CKRoomAddingMembersViewController: UITableViewDataSource {
 
 // MARK: - CKContact Internal
 
-fileprivate struct CKContactInternal {
-    var mxContact: MXKContact!
-    var isSelected: Bool = false
-}
-
 fileprivate extension MXKContact {
     
     /**
@@ -440,3 +458,16 @@ fileprivate extension MXKContact {
         return userId == contactId
     }
 }
+
+extension CKRoomAddingMembersViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+

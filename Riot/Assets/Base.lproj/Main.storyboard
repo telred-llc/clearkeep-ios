@@ -176,7 +176,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" tag="2" image="tab_people" selectedImage="tab_people_selected" id="edr-fK-bgM">
+                    <tabBarItem key="tabBarItem" tag="2" image="ic_contact" selectedImage="ic_contact_selected" id="edr-fK-bgM">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemPeople"/>
                         </userDefinedRuntimeAttributes>
@@ -246,7 +246,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_home" selectedImage="tab_home_selected" id="hNI-yH-EXj">
+                    <tabBarItem key="tabBarItem" title="" image="ic_home" selectedImage="ic_home_selected" id="hNI-yH-EXj">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemHome"/>
                         </userDefinedRuntimeAttributes>
@@ -638,20 +638,20 @@
     </scenes>
     <resources>
         <image name="apps-icon" width="24" height="24"/>
+        <image name="ic_contact" width="16.5" height="18.5"/>
+        <image name="ic_contact_selected" width="16.5" height="18.5"/>
+        <image name="ic_home" width="20" height="19.5"/>
+        <image name="ic_home_selected" width="20" height="19.5"/>
         <image name="logo" width="114" height="82"/>
         <image name="search_icon" width="22" height="22"/>
         <image name="tab_favourites" width="25" height="25"/>
         <image name="tab_favourites_selected" width="25" height="25"/>
         <image name="tab_groups" width="25" height="25"/>
         <image name="tab_groups_selected" width="25" height="25"/>
-        <image name="tab_home" width="25" height="25"/>
-        <image name="tab_home_selected" width="25" height="25"/>
-        <image name="tab_people" width="25" height="25"/>
-        <image name="tab_people_selected" width="25" height="25"/>
         <image name="tab_rooms" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mhb-l9-pM3"/>
+        <segue reference="bwO-oZ-2vj"/>
         <segue reference="fIR-e3-ssz"/>
         <segue reference="f5u-Y1-7nt"/>
         <segue reference="vCz-dl-6xQ"/>

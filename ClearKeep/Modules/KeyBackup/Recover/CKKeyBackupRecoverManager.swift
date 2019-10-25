@@ -21,7 +21,7 @@ public class CKKeyBackupRecoverManager: NSObject {
     private var currentHTTPOperation: MXHTTPOperation?
     private var isShowingAlert: Bool = false
     private var isProcessingKey: Bool = false
-
+    private var alert = UIAlertController()
     private override init() {
         super.init()
         setup()
@@ -68,12 +68,14 @@ private extension CKKeyBackupRecoverManager {
     func checkPasspharse() {
         CKAppManager.shared.apiClient.getPassphrase()
             .done({ [weak self] response in
-                if let baseData = response.passphrase {
+                if let baseData = response.passphrase, baseData.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 {
                     // response data has format: "salt:passphrase" (all as base 64 separate by ":")
                     let dataArray = baseData.components(separatedBy: ":")
                     if dataArray.count > 1 {
                         self?.handleEncryptedKeyBackupData(with: dataArray[0], passphrase: dataArray[1])
                     }
+                } else {
+                    self?.display(nil, message: "Invalid passphrase data", title: "Data error")
                 }
             })
             .catch({ error in
@@ -87,19 +89,21 @@ private extension CKKeyBackupRecoverManager {
             if serviceError.errorCode == CKServiceError.entityNotFound.errorCode, CKAppManager.shared.isPasswordAvailable() {
                 CKAppManager.shared.apiClient.generatePassphrase()
                     .done({ [weak self] response in
-                        if let passphrase = response.passphrase {
+                        if let passphrase = response.passphrase, passphrase.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 {
                             let dataArray = passphrase.components(separatedBy: ":")
                             if dataArray.count > 1 {
                                 self?.handleEncryptedKeyBackupData(with: dataArray[0], passphrase: dataArray[1])
                             }
+                        } else {
+                            self?.display(nil, message: "Invalid passphrase", title: "Data error")
                         }
                     })
                     .catch({ error in
-                        self.handleError(error)
+                        self.display(error)
                     })
-            } else if !CKAppManager.shared.isPasswordAvailable(){
+            } else if !CKAppManager.shared.isPasswordAvailable() {
                 // Show errror message
-                self.display(nil, message: "Please re-login to create backup key!")
+                self.display(nil, message: "If you don't remember your passphrase, consider not logging out because your encrypted messages might be lost", title: "Please re-login to create new backup key!")
             } else {
                 self.display(error)
             }
@@ -169,14 +173,22 @@ private extension CKKeyBackupRecoverManager {
                     }
 
                     if CKAppManager.shared.userPassword == nil {
-                        let alert = UIAlertController(title: "Restore backup key failed!", message: "Please sign out, then sign in and enter your passphrase to recover your old messages", preferredStyle: .alert)
+                        self.alert = UIAlertController(title: "Restore backup key failed!", message: "Please re-login to create new backup key!\nIf you don't remember your passphrase, consider not logging out because your encrypted messages might be lost", preferredStyle: .alert)
                         
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in
-//                            AppDelegate.the().logout(withConfirmation: false) {_ in
-//                            }
+                        self.alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in
+                        }))
+                        
+                        self.alert.addAction(UIAlertAction(title: "Sign out", style: .default, handler: {(_) in
+                            AppDelegate.the().logout(withConfirmation: false, completion: { (finished) in
+                                if finished {
+                                    // Clear all cached rooms
+                                    CKRoomCacheManager.shared.clearAllCachedData()
+                                    CKKeyBackupRecoverManager.shared.destroy()
+                                }
+                            })
                         }))
 
-                        alert.show()
+                        self.alert.show()
                     } else {
                         self.showPassphraseAlert()
                     }
@@ -210,7 +222,7 @@ private extension CKKeyBackupRecoverManager {
                 // Delete the old key
                 sself.currentHTTPOperation = key.deleteVersion(versionString, success: {
                     sself.isProcessingKey = false
-                    print("Delete eyBackupVersion success!")
+                    print("Delete keyBackupVersion success!")
                 }, failure: { (error) in
                     sself.isProcessingKey = false
                     sself.display(error)
@@ -248,9 +260,9 @@ private extension CKKeyBackupRecoverManager {
         })
     }
 
-    func display(_ error: Error?, message: String? = nil) {
+    func display(_ error: Error?, message: String? = nil, title: String? = nil) {
         if let err = error, err.localizedDescription.contains("Invalid") {
-            let alert = UIAlertController(title: "Invalid passphrase", message: "Try again or using new key (Old data will be lost)", preferredStyle: .alert)
+            alert = UIAlertController(title: "Invalid passphrase", message: "Try again or using new key (Old data will be lost)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
                 self.isShowingAlert = false
                 self.showPassphraseAlert()
@@ -261,28 +273,61 @@ private extension CKKeyBackupRecoverManager {
 
             alert.show()
         } else if let msg = message {
-            let alert = UIAlertController(title: msg, message: "", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
-            }))
-            
+            alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+            if msg.contains("your encrypted messages might be lost") {
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+                }))
+                alert.addAction(UIAlertAction(title: "Sign out", style: .default, handler: { (_) in
+                    AppDelegate.the().logout(withConfirmation: false, completion: { (finished) in
+                        if finished {
+                            // Clear all cached rooms
+                            CKRoomCacheManager.shared.clearAllCachedData()
+                            CKKeyBackupRecoverManager.shared.destroy()
+                        }
+                    })
+                }))
+            } else {
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (_) in
+                }))
+            }
+
             alert.show()
         }
     }
-    
+
     func showPassphraseAlert() {
-        let alert = UIAlertController(title: "", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
+        alert = UIAlertController(title: "", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
         alert.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "Password"
+            textField.isSecureTextEntry = true
+            textField.delegate = self
         })
-        
+
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0]
-            if let pass = textField?.text, pass.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
+            if let pass = textField?.text {
                 self.restoreKey(from: pass)
             }
+            self.isShowingAlert = false
         }))
+
         self.isShowingAlert = true
+        self.alert.actions[0].isEnabled = false
         alert.show()
     }
 }
 
+extension CKKeyBackupRecoverManager: UITextFieldDelegate {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let fullString = textField.text ?? "" + string
+
+        // Textfield will become empty
+        if (string == "" && range.location == 0 && (range.length >= fullString.count)) {
+            self.alert.actions[0].isEnabled = false
+        } else {
+            self.alert.actions[0].isEnabled = true
+        }
+
+        return true
+    }
+}

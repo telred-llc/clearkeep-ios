@@ -14,6 +14,9 @@ class CKSearchBarContainerView: UIView {
     
     init(customSearchBar: UISearchBar) {
         searchBar = customSearchBar
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.backgroundColor = CKColor.Background.homeHeader
+        }
         super.init(frame: CGRect.zero)
         
         addSubview(searchBar)
