@@ -106,7 +106,7 @@ extension CKContactListViewController {
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.searchBarBgColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.tableView?.backgroundColor = theme.searchBarBgColor
             self?.tableView.reloadData()

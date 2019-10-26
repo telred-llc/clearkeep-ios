@@ -45,6 +45,8 @@ extern UIColor *kRiotKeyboardColor;
 extern UIColor *kRiotSelectedButtonTextColor;
 extern UIColor *kRiotPrimaryHeaderColor;
 extern UIColor *kRiotSecondaryDescriptionColor;
+extern UIColor *kRiotTabBarBgColor;
+extern UIColor *kRiotTabBarButtonTintColor;
 
 #pragma mark - Riot Colors
 extern UIColor *kRiotColorGreen;
@@ -57,6 +59,7 @@ extern UIColor *kRiotColorIndigo;
 extern UIColor *kRiotColorOrange;
 extern UIColor *kRiotColorBlue;
 extern UIColor *kRiotColorCuriousBlue;
+extern UIColor *kRiotColorCyanLight;
 
 #pragma mark - Riot Standard Room Member Power Level
 extern NSInteger const kRiotRoomModeratorLevel;

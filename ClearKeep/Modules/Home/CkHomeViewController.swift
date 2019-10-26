@@ -106,9 +106,10 @@ final class CkHomeViewController: CKRecentListViewController {
     }
     
     func setupRightMenu(navigationItem: UINavigationItem) {
-        let newChatItem = UIBarButtonItem.init(image: UIImage.init(named: "ic_new_conversation"), style: .plain, target: self, action: #selector(clickedOnRightMenuItem))
+        let btnImage = UIImage(named: "ic_new_chat")?.withRenderingMode(.alwaysTemplate)
+        let newChatItem = UIBarButtonItem.init(image: btnImage, style: .plain, target: self, action: #selector(clickedOnRightMenuItem))
         navigationItem.rightBarButtonItem = newChatItem
-        navigationItem.rightBarButtonItem?.tintColor = CKColor.Background.newConver
+        navigationItem.rightBarButtonItem?.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
     }
     
     // MARK: Action

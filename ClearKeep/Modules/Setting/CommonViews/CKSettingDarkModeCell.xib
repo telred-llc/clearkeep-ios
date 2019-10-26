@@ -39,7 +39,7 @@
                         </constraints>
                     </switch>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="HwO-bx-J28" secondAttribute="trailing" constant="15" id="05H-dr-OtP"/>
                     <constraint firstItem="HIc-q1-gt2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ASd-PG-MgI"/>

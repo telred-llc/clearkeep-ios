@@ -69,6 +69,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [[UITabBar appearance] setBackgroundImage:[[UIImage alloc] init]];
+    [[UITabBar appearance] setShadowImage:[[UIImage alloc] init]];
+    self.tabBar.layer.shadowRadius = 6;
+    self.tabBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.tabBar.layer.shadowOpacity = 0.2;
 
     // Retrieve the all view controllers
     _homeViewController = [self.viewControllers objectAtIndex:TABBAR_HOME_INDEX];
@@ -101,12 +106,11 @@
     
     // Initialize here the data sources if a matrix session has been already set.
     [self initializeDataSources];
-    
+
     // Observe user interface theme change.
     kRiotDesignValuesDidChangeThemeNotificationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kRiotDesignValuesDidChangeThemeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif) {
-        
+
         [self userInterfaceThemeDidChange];
-        
     }];
     [self userInterfaceThemeDidChange];
     
@@ -116,9 +120,8 @@
 
 - (void)userInterfaceThemeDidChange
 {
-    self.tabBar.tintColor = kRiotColorGreen;
-    self.tabBar.barTintColor = kRiotSecondaryBgColor;
-    
+    self.tabBar.tintColor = kRiotTabBarButtonTintColor;
+    self.tabBar.barTintColor = kRiotTabBarBgColor;
     self.view.backgroundColor = kRiotPrimaryBgColor;
     
     [self setNeedsStatusBarAppearanceUpdate];
@@ -135,6 +138,7 @@
     
     // Show the tab bar view controller content only when a user is logged in.
     self.hidden = ([MXKAccountManager sharedManager].accounts.count == 0);
+    [self userInterfaceThemeDidChange];
 }
 
 - (void)viewDidAppear:(BOOL)animated
