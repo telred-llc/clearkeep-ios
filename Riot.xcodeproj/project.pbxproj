@@ -508,6 +508,10 @@
 		BDFBA07523292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
 		D31A72A12358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
 		D31A72A22358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
+		D35EEDBF23602B7400D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
+		D35EEDC023602B8200D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
+		D3A4DB8C235F0BF40075EF7B /* CKUserProfileDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A4DB8A235F0BF40075EF7B /* CKUserProfileDetailCell.swift */; };
+		D3A4DB8D235F0BF40075EF7B /* CKUserProfileDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3A4DB8B235F0BF40075EF7B /* CKUserProfileDetailCell.xib */; };
 		D3C5A0D723587C1700DCBA8A /* RoomContextualMenuViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3FA9B342356EF8E00FB0BD1 /* RoomContextualMenuViewController.storyboard */; };
 		D3C5A0D923587C1800DCBA8A /* RoomContextualMenuViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3FA9B342356EF8E00FB0BD1 /* RoomContextualMenuViewController.storyboard */; };
 		D3E5AF30235978D300D11110 /* DefaultTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E5AF2F235978D300D11110 /* DefaultTheme.swift */; };
@@ -656,10 +660,6 @@
 		D3FA9C1F235718EB00FB0BD1 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C1D235718EA00FB0BD1 /* UIViewController.swift */; };
 		D3FA9C2123572AD400FB0BD1 /* RoomBubbleCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C2023572AD400FB0BD1 /* RoomBubbleCellLayout.swift */; };
 		D3FA9C2223572AD400FB0BD1 /* RoomBubbleCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9C2023572AD400FB0BD1 /* RoomBubbleCellLayout.swift */; };
-		D35EEDBF23602B7400D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
-		D35EEDC023602B8200D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
-		D3A4DB8C235F0BF40075EF7B /* CKUserProfileDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A4DB8A235F0BF40075EF7B /* CKUserProfileDetailCell.swift */; };
-		D3A4DB8D235F0BF40075EF7B /* CKUserProfileDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3A4DB8B235F0BF40075EF7B /* CKUserProfileDetailCell.xib */; };
 		DD9D49FA97BBD9A55F1695FA /* Pods_RiotPods_Riot_Prod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BC38D3D17033F503D594C33 /* Pods_RiotPods_Riot_Prod.framework */; };
 		E5026CA221F5D601009D1B86 /* CKRoomHeaderInSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5026CA121F5D601009D1B86 /* CKRoomHeaderInSectionView.swift */; };
 		E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5026CA321F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib */; };

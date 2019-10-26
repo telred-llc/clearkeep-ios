@@ -266,7 +266,7 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
 }
 
 // MARK: - UIGestureRecognizerDelegate
-extension RoomContextualMenuViewController: UIGestureRecognizerDelegate {
+extension RoomContextualMenuViewController {
     
     // Avoid triggering background overlay gesture recognizers when touching reactions menu
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
