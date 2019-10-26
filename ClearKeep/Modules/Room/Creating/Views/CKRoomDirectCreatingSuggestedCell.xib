@@ -41,7 +41,7 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="8xh-oB-utI" secondAttribute="bottom" constant="5" id="4pI-D1-G7Y"/>
                     <constraint firstItem="yck-RQ-BBp" firstAttribute="trailing" secondItem="8xh-oB-utI" secondAttribute="trailing" constant="-1" id="Atw-oh-du7"/>
@@ -54,6 +54,7 @@
                     <constraint firstItem="8xh-oB-utI" firstAttribute="leading" secondItem="ujA-7e-3oN" secondAttribute="leading" constant="20" id="wdK-F7-4gw"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="photoView" destination="8xh-oB-utI" id="nu4-5c-9KD"/>
                 <outlet property="statusView" destination="yck-RQ-BBp" id="xfu-Tf-eMr"/>

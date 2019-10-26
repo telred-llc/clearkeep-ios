@@ -66,7 +66,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
         self.navigationItem.title = "New Conversation"
-        self.navigationController?.navigationBar.tintColor = CKColor.Text.blueNavigation
+        self.navigationController?.navigationBar.tintColor = themeService.attrs.primaryTextColor
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         // first reload ds
         self.reloadDataSource()
@@ -85,13 +85,13 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = .white
-            self?.barTitleColor = CKColor.Text.blueNavigation
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.navBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -178,6 +178,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
 
+            cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
             return cell
         }
         return CKRoomDirectCreatingActionCell()
@@ -210,7 +211,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
             } else { cell.status = 0 }
 
             cell.suggesteeLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
 
             return cell
         }
@@ -269,7 +270,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
             })
         }
 
-        cell.backgroundColor = UIColor.clear
+        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
 
         return cell
@@ -366,7 +367,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = UIColor.white
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
             view.descriptionLabel?.font = UIFont.systemFont(ofSize: 21)
             view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }

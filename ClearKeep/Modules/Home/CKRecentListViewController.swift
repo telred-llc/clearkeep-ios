@@ -51,7 +51,7 @@ class CKRecentListViewController: MXKViewController {
 
     func bindingTheme() {
         themeService.rx
-            .bind({ $0.searchBarBgColor }, to: recentTableView.rx.backgroundColor , view.rx.backgroundColor)
+            .bind({ $0.navBarBgColor }, to: recentTableView.rx.backgroundColor , view.rx.backgroundColor)
             .disposed(by: disposeBag)
         
         // Binding navigation bar color

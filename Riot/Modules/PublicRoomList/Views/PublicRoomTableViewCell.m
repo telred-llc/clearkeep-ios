@@ -40,7 +40,6 @@
     self.roomDisplayName.textColor = kRiotPrimaryTextColor;
     self.roomTopic.textColor = kRiotPrimaryTextColor;
     self.memberCount.textColor = kRiotPrimaryTextColor;
-    
     _roomAvatar.defaultBackgroundColor = [UIColor clearColor];
 }
 

@@ -44,7 +44,7 @@ struct LightTheme: Theme {
     var secondTextColor = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
     var searchBarBgColor = #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 1)
     var tblHeaderBgColor = #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 1)
-    var unreadCellBgColor = #colorLiteral(red: 0.9529411765, green: 0.9960784314, blue: 1, alpha: 1)
+    var unreadCellBgColor = #colorLiteral(red: 0.7921568627, green: 0.9568627451, blue: 0.9843137255, alpha: 1)
     var cellPrimaryBgColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
 
@@ -63,8 +63,8 @@ struct DarkTheme: Theme {
     var overlayColor = UIColor.init(white: 0.3, alpha: 0.5)
     var separatorColor = UIColor.lightGray.withAlphaComponent(0.4)
     var searchBarBgColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 1)
-    var tblHeaderBgColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-    var unreadCellBgColor = #colorLiteral(red: 0.2823529412, green: 0.3450980392, blue: 0.4235294118, alpha: 1)
+    var tblHeaderBgColor = #colorLiteral(red: 0.1882352941, green: 0.2431372549, blue: 0.3215686275, alpha: 1)
+    var unreadCellBgColor = #colorLiteral(red: 0.368627451, green: 0.4156862745, blue: 0.4862745098, alpha: 1)
     var cellPrimaryBgColor = #colorLiteral(red: 0.2509803922, green: 0.3254901961, blue: 0.4352941176, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0, green: 0.8196078431, blue: 0.8941176471, alpha: 1)
 

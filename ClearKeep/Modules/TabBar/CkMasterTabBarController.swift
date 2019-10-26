@@ -88,7 +88,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
             unifiedSearchViewController.searchBar.setTextFieldColor(color: themeService.attrs.secondBgColor)
             unifiedSearchViewController.barTitleColor = themeService.attrs.primaryTextColor
             unifiedSearchViewController.defaultBarTintColor = themeService.attrs.navBarBgColor
-            unifiedSearchViewController.navigationController?.view.backgroundColor = themeService.attrs.secondBgColor
+            unifiedSearchViewController.navigationController?.view.backgroundColor = themeService.attrs.navBarBgColor
             
             unifiedSearchViewController.didSelectCreateNewRoom = { [weak self] in
                 self?.homeViewController.showDirectChatVC()

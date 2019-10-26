@@ -108,7 +108,7 @@ extension CKContactListViewController {
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
-            self?.tableView?.backgroundColor = theme.searchBarBgColor
+            self?.tableView?.backgroundColor = theme.navBarBgColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
     }
@@ -281,7 +281,7 @@ extension CKContactListViewController: UITableViewDataSource {
         } else {
             cell.status = 0
         }
-        
+        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
         return cell
     }
 }

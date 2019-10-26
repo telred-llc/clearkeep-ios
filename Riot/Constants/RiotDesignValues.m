@@ -41,6 +41,7 @@ UIColor *kRiotPrimaryHeaderColor;
 UIColor *kRiotSecondaryDescriptionColor;
 UIColor *kRiotTabBarBgColor;
 UIColor *kRiotTabBarButtonTintColor;
+UIColor *kRiotCellPrimaryColor;
 
 // Riot Colors
 UIColor *kRiotColorGreen;

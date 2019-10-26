@@ -182,9 +182,9 @@ extension CKSearchContactViewController {
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
-            self?.tableView?.backgroundColor = theme.secondBgColor
+            self?.tableView?.backgroundColor = theme.navBarBgColor
             self?.tableView.reloadData()
-            self?.view.backgroundColor = theme.secondBgColor
+            self?.view.backgroundColor = theme.navBarBgColor
         }).disposed(by: disposeBag)
     }
     
@@ -515,7 +515,7 @@ extension CKSearchContactViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
         
         guard let s = Section(rawValue: indexPath.section) else { return}
         switch s {
