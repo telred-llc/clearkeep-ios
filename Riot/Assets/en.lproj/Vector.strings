@@ -52,6 +52,7 @@
 "collapse" = "collapse";
 "send_to" = "Send to %@";
 "sending" = "Sending";
+"close" = "Close";
 
 // Authentication
 "auth_login" = "Login";
@@ -291,6 +292,9 @@
 "room_resource_usage_limit_reached_message_1_monthly_active_user" = "This homeserver has hit its Monthly Active User limit so ";
 "room_resource_usage_limit_reached_message_2" = "some users will not be able to log in.";
 "room_resource_usage_limit_reached_message_contact_3" = " to get this limit increased.";
+"room_event_action_reaction_show_all" = "Show all";
+"room_event_action_reaction_show_less" = "Show less";
+"room_event_action_reply" = "Reply";
 
 // Unknown devices
 "unknown_devices_alert_title" = "Room contains unknown devices";
@@ -647,3 +651,19 @@
 // Re-request confirmation dialog
 "rerequest_keys_alert_title" = "Request Sent";
 "rerequest_keys_alert_message" = "Please launch ClearKeep on another device that can decrypt the message so it can send the keys to this device.";
+
+
+// MARK: Emoji picker
+"emoji_picker_title" = "Reactions";
+
+"emoji_picker_people_category" = "Smileys & People";
+"emoji_picker_nature_category" = "Animals & Nature";
+"emoji_picker_foods_category" = "Food & Drink";
+"emoji_picker_activity_category" = "Activities";
+"emoji_picker_places_category" = "Travel & Places";
+"emoji_picker_objects_category" = "Objects";
+"emoji_picker_symbols_category" = "Symbols";
+"emoji_picker_flags_category" = "Flags";
+
+// MARK: Reaction history
+"reaction_history_title" = "Reactions";

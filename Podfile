@@ -33,6 +33,7 @@ def import_MatrixKit
     pod 'SwiftImagePicker', :git => 'https://github.com/sinbadflyce/image-picker.git', :inhibit_warnings => true
     pod 'FloatingPanel'
     pod 'RxTheme', '~> 3.0'
+    pod 'DGCollectionViewLeftAlignFlowLayout', '~> 1.0.4'
     
     if $matrixKitVersion == 'local'
         pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
@@ -81,6 +82,7 @@ abstract_target 'RiotPods' do
 
     pod 'GBDeviceInfo', '~> 5.2.0'
     pod 'Reusable', '~> 4.0'
+    pod 'DGCollectionViewLeftAlignFlowLayout', '~> 1.0.4'
 
     # Piwik for analytics
     # While https://github.com/matomo-org/matomo-sdk-ios/pull/223 is not released, use the PR branch
