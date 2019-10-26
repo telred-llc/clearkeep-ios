@@ -117,17 +117,24 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
 
 extension CKRecentItemInvitationCell: MXKCellRendering {
     func render(_ cellData: MXKCellData!) {
-
         roomCellData = cellData as? MXKRecentCellDataStoring
         roomNameLabel.text = roomCellData?.roomSummary.displayname
         lblTime.text = roomCellData?.lastEventDate
+        
         // last message
-        var lastMessage = roomCellData?.roomSummary.lastMessageString
-        let user = roomCellData?.lastEvent.wireContent["displayname"] as? String ?? ""
-        lastMessage = lastMessage?.replacingOccurrences(of: user, with: "you")
-        self.lblDescription.text = lastMessage
+        guard let lastMessage = roomCellData?.roomSummary.lastMessageString else {
+            self.lblDescription.text = ""
+            return
+        }
+        if let user = roomCellData?.lastEvent.wireContent["displayname"] as? String, user.count > 0 {
+            let start = lastMessage.index(lastMessage.startIndex, offsetBy: lastMessage.count - user.count)
+            let end = lastMessage.index(lastMessage.startIndex, offsetBy: lastMessage.count)
+            var message = lastMessage
+            message.replaceSubrange(start..<end, with: "you")
+            self.lblDescription.text = message
+        }
     }
-    
+
     func updateUI() {
 
         // setup avatar
