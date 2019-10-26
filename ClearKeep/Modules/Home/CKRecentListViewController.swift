@@ -378,6 +378,7 @@ private extension CKRecentListViewController {
         view.addOnPressHandler = {
             self.delegate?.recentListViewDidTapStartChat(section)
         }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         
         return view
     }
