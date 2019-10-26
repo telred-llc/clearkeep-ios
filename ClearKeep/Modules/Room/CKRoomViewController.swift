@@ -20,6 +20,8 @@ import MatrixKit
     @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityCHeight: NSLayoutConstraint!
     @IBOutlet weak var bottomContainerViewConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var overlayContainerView: UIView!
 
     @IBOutlet var invitationController: CKRoomInvitationController!
 
@@ -33,6 +35,15 @@ import MatrixKit
     
     // MARK: Public
     
+    
+    // Reactions
+    var roomContextualMenuViewController: RoomContextualMenuViewController?
+    
+    var roomContextualMenuPresenter: RoomContextualMenuPresenter?
+    
+    var emojiPickerCoordinatorBridgePresenter: EmojiPickerCoordinatorBridgePresenter?
+    
+    var reactionHistoryCoordinatorBridgePresenter: ReactionHistoryCoordinatorBridgePresenter?
     /**
      Force the display of the expanded header.
      The default value is NO: this expanded header is hidden on new instantiated RoomViewController object.
@@ -288,6 +299,9 @@ extension CKRoomViewController {
         
         // -- fix bug sync room members from server
         forceUpdateMemberInRoom()
+        
+        // -- init roomContextMenuPresent
+        self.roomContextualMenuPresenter = RoomContextualMenuPresenter()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1772,6 +1786,13 @@ extension CKRoomViewController {
         isPresentPhotoLibrary = false
         dismissKeyboard()
         
+        // Handle here user actions on bubbles for Vector app
+        var bubbleData: RoomBubbleCellData!
+        
+        if customizedRoomDataSource != nil, let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell {
+            bubbleData = roomBubbleTableViewCell.bubbleData as? RoomBubbleCellData
+        }
+        
         // is long press event?
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
             && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
@@ -2028,6 +2049,39 @@ extension CKRoomViewController {
             }
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnSenderNameLabel {
             // Do nothing
+        } else if (actionIdentifier == kMXKRoomBubbleCellTapOnMessageTextView) || (actionIdentifier == kMXKRoomBubbleCellTapOnContentView){
+
+            // Retrieve the tapped event
+            guard let `userInfo` = userInfo, let tappedEvent: MXEvent = userInfo[kMXKRoomBubbleCellEventKey] as? MXEvent else { return }
+            
+            // Check whether a selection already exist or not
+            if customizedRoomDataSource?.selectedEventId != nil {
+                self.cancelEventSelection()
+                return
+            }
+            
+            if tappedEvent.eventType == __MXEventTypeRoomCreate {
+                // Handle tap on RoomPredecessorBubbleCell
+                let createContent: MXRoomCreateContent = MXRoomCreateContent(fromJSON: tappedEvent.content)
+                let predecessorRoomId = createContent.roomPredecessorInfo?.roomId
+                
+                if (predecessorRoomId != nil) {
+                    // Show predecessor room
+                    AppDelegate.the()?.showRoom(predecessorRoomId, andEventId: nil, withMatrixSession: self.mainSession)
+                }
+                
+            } else {
+                // Show contextual menu on single tap if bubble is not collapsed
+                if bubbleData.collapsed {
+                    self.selectEvent(withId: tappedEvent.eventId)
+                } else {
+                    
+                    self.showContextualMenu(for: tappedEvent, fromSingleTapGesture: true, cell: cell, animated: true)
+                }
+                
+            }
+
+            
         } else { // call super
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         }
@@ -2990,5 +3044,216 @@ extension CKRoomViewController {
         if currentInputView != nil && isPresentPhotoLibrary {
             imagePickerController?.collectionView.reloadData()
         }
+    }
+}
+
+
+// MARK: Contextual Menu
+
+extension CKRoomViewController {
+    
+    
+    func contextualMenuItems(for event: MXEvent?, andCell cell: MXKCellRendering?) -> [RoomContextualMenuItem]? {
+        
+        let eventId = event?.eventId
+        let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell
+        let attachment = roomBubbleTableViewCell?.bubbleData.attachment
+        
+        
+        let moreAction: RoomContextualMenuItem = RoomContextualMenuItem.init(menuAction: RoomContextualMenuAction.more)
+        
+        let actionItems: [RoomContextualMenuItem] = [moreAction]
+        
+        return []
+    }
+
+    func showContextualMenu(for event: MXEvent?, fromSingleTapGesture usedSingleTapGesture: Bool, cell: MXKCellRendering?, animated: Bool) {
+        if roomContextualMenuPresenter?.isPresenting ?? false {
+            return
+        }
+        let selectedEventId = event?.eventId
+        
+        let contextualMenuItems = self.contextualMenuItems(for: event, andCell: cell)
+        var reactionsMenuViewModel: ReactionsMenuViewModel?
+        var bubbleComponentFrameInOverlayView = CGRect.null
+        if (cell is MXKRoomBubbleTableViewCell) && roomDataSource.canReactToEvent(withId: event?.eventId) {
+            let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell
+            let bubbleCellData = roomBubbleTableViewCell?.bubbleData
+            let bubbleComponents = bubbleCellData?.bubbleComponents
+            let foundComponentIndex = bubbleCellData?.bubbleComponentIndex(forEventId: event?.eventId) ?? 0
+            var bubbleComponentFrame: CGRect
+            
+            if (bubbleComponents?.count ?? 0) > 0 {
+                let selectedComponentIndex = foundComponentIndex != NSNotFound ? foundComponentIndex : 0
+                bubbleComponentFrame = roomBubbleTableViewCell?.surroundingFrameInTableView(forComponentIndex: selectedComponentIndex) ?? CGRect.zero
+            } else {
+                bubbleComponentFrame = roomBubbleTableViewCell?.frame ?? CGRect.zero
+            }
+            
+            bubbleComponentFrameInOverlayView = bubblesTableView.convert(bubbleComponentFrame, to: overlayContainerView)
+            let roomId = roomDataSource.roomId
+            let aggregations = mainSession.aggregations
+            let aggregatedReactions = aggregations?.aggregatedReactions(onEvent: selectedEventId!, inRoom: roomId!)
+            
+            reactionsMenuViewModel = ReactionsMenuViewModel(aggregatedReactions: aggregatedReactions, eventId: selectedEventId!)
+            reactionsMenuViewModel?.coordinatorDelegate = self
+        }
+        
+        if !(roomContextualMenuViewController != nil) {
+            roomContextualMenuViewController = RoomContextualMenuViewController.instantiate()
+            roomContextualMenuViewController?.delegate = self
+        }
+        
+        roomContextualMenuViewController?.update(contextualMenuItems: contextualMenuItems!, reactionsMenuViewModel: reactionsMenuViewModel!)
+        
+        enableOverlayContainerUserInteractions(true)
+        
+        roomContextualMenuPresenter?.present(roomContextualMenuViewController: roomContextualMenuViewController!,
+                                             from: self,
+                                             on: overlayContainerView,
+                                             contentToReactFrame: bubbleComponentFrameInOverlayView,
+                                             fromSingleTapGesture: usedSingleTapGesture,
+                                             animated: animated, completion: {
+                                                
+        })
+        selectEvent(withId: selectedEventId)
+    }
+    
+    func hideContextualMenu(animated: Bool) {
+        
+        hideContextualMenu(animated: animated) { }
+    }
+    
+    func hideContextualMenu(animated: Bool, completion: @escaping () -> Void) {
+        hideContextualMenu(animated: animated, cancelEventSelection: true, completion: completion)
+    }
+    
+    func hideContextualMenu(animated: Bool, cancelEventSelection: Bool, completion: @escaping () -> Void) {
+        if !(roomContextualMenuPresenter?.isPresenting ?? false) {
+            return
+        }
+        
+        if cancelEventSelection {
+            self.cancelEventSelection()
+        }
+        
+        roomContextualMenuPresenter?.hideContextualMenu(animated: animated, completion: {
+            self.enableOverlayContainerUserInteractions(false)
+            
+            if completion != nil {
+                completion()
+            }
+        })
+    }
+    
+    func enableOverlayContainerUserInteractions(_ enableOverlayContainerUserInteractions: Bool) {
+        inputToolbarView.isEditable = !enableOverlayContainerUserInteractions
+        bubblesTableView.scrollsToTop = !enableOverlayContainerUserInteractions
+        overlayContainerView.isUserInteractionEnabled = enableOverlayContainerUserInteractions
+    }
+
+}
+
+// MARK: ReactionsMenuViewModelCoordinatorDelegate
+extension CKRoomViewController: ReactionsMenuViewModelCoordinatorDelegate {
+    
+    func reactionsMenuViewModel(_ viewModel: ReactionsMenuViewModel, didAddReaction reaction: String, forEventId eventId: String) {
+        
+        self.hideContextualMenu(animated: true) {
+            
+            self.roomDataSource.addReaction(reaction, forEventId: eventId, success: {
+                print("ReactionsMenuViewModel add reaction success!")
+            }, failure: { (error) in
+                print("ReactionsMenuViewModel Fail ", "     \(error?.localizedDescription)") // tiemlv
+            })
+        }
+    }
+    
+    func reactionsMenuViewModel(_ viewModel: ReactionsMenuViewModel, didRemoveReaction reaction: String, forEventId eventId: String) {
+        
+        self.hideContextualMenu(animated: true) {
+            
+            self.roomDataSource.removeReaction(reaction, forEventId: eventId, success: {
+                print("ReactionsMenuViewModel remove reaction success!")
+            }, failure: { (error) in
+                print("ReactionsMenuViewModel Fail ", "     \(error?.localizedDescription)") // tiemlv
+            })
+        }
+    }
+    
+    func reactionsMenuViewModelDidTapMoreReactions(_ viewModel: ReactionsMenuViewModel, forEventId eventId: String) {
+        
+        self.hideContextualMenu(animated: true)
+        
+        let emojiPickerCoordinatorBridgePresenter = EmojiPickerCoordinatorBridgePresenter(session: mainSession, roomId: roomDataSource.roomId, eventId: eventId)
+        emojiPickerCoordinatorBridgePresenter.delegate = self
+        
+        let cellRow = roomDataSource.indexOfCellData(withEventId: eventId)
+        
+        var sourceView: UIView?
+        var sourceRect = CGRect.null
+        
+        if cellRow >= 0 {
+            let cellIndexPath = IndexPath(row: cellRow, section: 0)
+            let cell = bubblesTableView.cellForRow(at: cellIndexPath)
+            sourceView = cell
+            
+            if (cell is MXKRoomBubbleTableViewCell) {
+                let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell
+                let bubbleComponentIndex = roomBubbleTableViewCell?.bubbleData.bubbleComponentIndex(forEventId: eventId) ?? 0
+                sourceRect = roomBubbleTableViewCell?.componentFrameInContentView(for: bubbleComponentIndex) ?? CGRect.zero
+            }
+        }
+        
+        emojiPickerCoordinatorBridgePresenter.present(from: self, sourceView: sourceView, sourceRect: sourceRect, animated: true)
+        self.emojiPickerCoordinatorBridgePresenter = emojiPickerCoordinatorBridgePresenter
+    }
+    
+}
+
+// MARK: RoomContextualMenuViewControllerDelegate
+extension CKRoomViewController: RoomContextualMenuViewControllerDelegate {
+    
+    func roomContextualMenuViewControllerDidTapBackgroundOverlay(_ viewController: RoomContextualMenuViewController) {
+        self.hideContextualMenu(animated: true)
+    }
+}
+
+
+// MARK: EmojiPickerCoordinatorBridgePresenterDelegate
+extension CKRoomViewController: EmojiPickerCoordinatorBridgePresenterDelegate {
+    
+    func emojiPickerCoordinatorBridgePresenter(_ coordinatorBridgePresenter: EmojiPickerCoordinatorBridgePresenter, didAddEmoji emoji: String, forEventId eventId: String) {
+        
+        coordinatorBridgePresenter.dismiss(animated: true) {
+            
+            self.roomDataSource.addReaction(emoji, forEventId: eventId, success: {
+                
+            }, failure: { (error) in
+                print("emojiPickerCoordinatorBridgePresenter Add Fail ", "     \(error?.localizedDescription)") // tiemlv
+            })
+        }
+        
+        self.emojiPickerCoordinatorBridgePresenter = nil
+    }
+    
+    func emojiPickerCoordinatorBridgePresenter(_ coordinatorBridgePresenter: EmojiPickerCoordinatorBridgePresenter, didRemoveEmoji emoji: String, forEventId eventId: String) {
+        
+        coordinatorBridgePresenter.dismiss(animated: true) {
+            
+            self.roomDataSource.removeReaction(emoji, forEventId: eventId, success: {
+                
+            }, failure: { (error) in
+                print("emojiPickerCoordinatorBridgePresenter Remove Fail ", "     \(error?.localizedDescription)") // tiemlv
+            })
+        }
+        
+        self.emojiPickerCoordinatorBridgePresenter = nil
+    }
+    
+    func emojiPickerCoordinatorBridgePresenterDidCancel(_ coordinatorBridgePresenter: EmojiPickerCoordinatorBridgePresenter) {
+        
+        coordinatorBridgePresenter.dismiss(animated: true, completion: nil)
+        self.emojiPickerCoordinatorBridgePresenter = nil
     }
 }

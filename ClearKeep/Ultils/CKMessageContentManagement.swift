@@ -52,7 +52,9 @@ class CKMessageContentManagement {
                     return true
                 }
             }
-            return false            
+            return false
+        case __MXEventTypeReaction:
+            return false
         default:
             break
         }

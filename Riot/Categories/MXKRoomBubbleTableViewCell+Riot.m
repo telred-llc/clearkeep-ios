@@ -23,6 +23,8 @@
 
 #import <objc/runtime.h>
 
+#import "Riot-Swift.h"
+
 #define VECTOR_ROOMBUBBLETABLEVIEWCELL_TIMELABEL_WIDTH 39
 
 #define VECTOR_ROOMBUBBLETABLEVIEWCELL_MARK_X 48
@@ -492,5 +494,189 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
     // Store the created button
     self.editButton = editButton;
 }
+
+#pragma mark - Reactions
+
+- (CGRect)componentFrameInTableViewForIndex:(NSInteger)componentIndex
+{
+    CGRect componentFrameInContentView = [self componentFrameInContentViewForIndex:componentIndex];
+    return [self.contentView convertRect:componentFrameInContentView toView:self.superview];
+}
+
+- (CGRect)surroundingFrameInTableViewForComponentIndex:(NSInteger)componentIndex
+{
+    CGRect surroundingFrame;
+    
+    CGRect componentFrameInContentView = [self componentFrameInContentViewForIndex:componentIndex];
+    MXKRoomBubbleTableViewCell *roomBubbleTableViewCell = self;
+    MXKRoomBubbleCellData *bubbleCellData = roomBubbleTableViewCell.bubbleData;
+    
+    NSInteger firstVisibleComponentIndex = NSNotFound;
+    NSInteger lastMostRecentComponentIndex = NSNotFound;
+    
+    if ([bubbleCellData isKindOfClass:[RoomBubbleCellData class]])
+    {
+        RoomBubbleCellData *roomBubbleCellData = (RoomBubbleCellData*)bubbleCellData;
+        firstVisibleComponentIndex = [roomBubbleCellData firstVisibleComponentIndex];
+        
+        if (roomBubbleCellData.containsLastMessage
+            && roomBubbleCellData.mostRecentComponentIndex != NSNotFound
+            && roomBubbleCellData.firstVisibleComponentIndex != roomBubbleCellData.mostRecentComponentIndex
+            && componentIndex == roomBubbleCellData.mostRecentComponentIndex)
+        {
+            lastMostRecentComponentIndex = roomBubbleCellData.mostRecentComponentIndex;
+        }
+    }
+    
+    // Do not overlap timestamp for last message
+    if (lastMostRecentComponentIndex != NSNotFound)
+    {
+        CGFloat componentBottomY = componentFrameInContentView.origin.y + componentFrameInContentView.size.height;
+        
+        CGFloat x = 0;
+        CGFloat y = componentFrameInContentView.origin.y - RoomBubbleCellLayout.timestampLabelHeight;
+        CGFloat width = roomBubbleTableViewCell.contentView.frame.size.width;
+        CGFloat height = componentBottomY - y;
+        
+        surroundingFrame = CGRectMake(x, y, width, height);
+    } // Do not overlap user name label for first visible component
+    else if (!CGRectEqualToRect(componentFrameInContentView, CGRectNull)
+             && firstVisibleComponentIndex != NSNotFound
+             && componentIndex <= firstVisibleComponentIndex
+             && roomBubbleTableViewCell.userNameLabel
+             && roomBubbleTableViewCell.userNameLabel.isHidden == NO)
+    {
+        CGFloat componentBottomY = componentFrameInContentView.origin.y + componentFrameInContentView.size.height;
+        
+        CGFloat x = 0;
+        CGFloat y = roomBubbleTableViewCell.userNameLabel.frame.origin.y;
+        CGFloat width = roomBubbleTableViewCell.contentView.frame.size.width;
+        CGFloat height = componentBottomY - y;
+        
+        surroundingFrame = CGRectMake(x, y, width, height);
+    }
+    else
+    {
+        surroundingFrame = componentFrameInContentView;
+    }
+    
+    return [self.contentView convertRect:surroundingFrame toView:self.superview];
+}
+
+- (CGRect)componentFrameInContentViewForIndex:(NSInteger)componentIndex
+{
+    MXKRoomBubbleTableViewCell *roomBubbleTableViewCell = self;
+    MXKRoomBubbleCellData *bubbleCellData = roomBubbleTableViewCell.bubbleData;
+    MXKRoomBubbleComponent *selectedComponent;
+    
+    if (bubbleCellData.bubbleComponents.count > componentIndex)
+    {
+        selectedComponent = bubbleCellData.bubbleComponents[componentIndex];
+    }
+    
+    if (!selectedComponent)
+    {
+        return CGRectNull;
+    }
+    
+    CGFloat selectedComponenContentViewYOffset = 0;
+    CGFloat selectedComponentPositionY = 0;
+    CGFloat selectedComponentHeight = 0;
+    
+    CGRect componentFrame = CGRectNull;
+    
+    if (roomBubbleTableViewCell.attachmentView)
+    {
+        CGRect attachamentViewFrame = roomBubbleTableViewCell.attachmentView.frame;
+        
+        selectedComponenContentViewYOffset = attachamentViewFrame.origin.y;
+        selectedComponentHeight = attachamentViewFrame.size.height;
+    }
+    else if (roomBubbleTableViewCell.messageTextView)
+    {
+        CGFloat textMessageHeight = 0;
+        
+        if ([bubbleCellData isKindOfClass:[RoomBubbleCellData class]])
+        {
+            RoomBubbleCellData *roomBubbleCellData = (RoomBubbleCellData*)bubbleCellData;
+            
+            if (!roomBubbleCellData.attachment && selectedComponent.attributedTextMessage)
+            {
+                textMessageHeight = [roomBubbleCellData rawTextHeight:selectedComponent.attributedTextMessage];
+            }
+        }
+        
+        selectedComponentPositionY = selectedComponent.position.y;
+        
+        if (textMessageHeight > 0)
+        {
+            selectedComponentHeight = textMessageHeight;
+        }
+        else
+        {
+            selectedComponentHeight = roomBubbleTableViewCell.frame.size.height - selectedComponentPositionY;
+        }
+        
+        selectedComponenContentViewYOffset = roomBubbleTableViewCell.messageTextView.frame.origin.y;
+    }
+    
+    if (roomBubbleTableViewCell.attachmentView || roomBubbleTableViewCell.messageTextView)
+    {
+        CGFloat x = 0;
+        CGFloat y = selectedComponenContentViewYOffset + selectedComponentPositionY;
+        CGFloat width = roomBubbleTableViewCell.contentView.frame.size.width;
+        
+        componentFrame = CGRectMake(x, y, width, selectedComponentHeight);
+    }
+    else
+    {
+        componentFrame = roomBubbleTableViewCell.bounds;
+    }
+    
+    return componentFrame;
+}
+
++ (CGFloat)attachmentBubbleCellHeightForCellData:(MXKCellData *)cellData withMaximumWidth:(CGFloat)maxWidth
+{
+    MXKRoomBubbleTableViewCell* cell = [self cellWithOriginalXib];
+    CGFloat rowHeight = 0;
+    
+    RoomBubbleCellData *bubbleData;
+    
+    if ([cellData isKindOfClass:[RoomBubbleCellData class]])
+    {
+        bubbleData = (RoomBubbleCellData*)cellData;
+    }
+    
+    if (bubbleData && cell.attachmentView && bubbleData.isAttachmentWithThumbnail)
+    {
+        // retrieve the suggested image view height
+        rowHeight = bubbleData.contentSize.height;
+        
+        // Check here the minimum height defined in cell view for text message
+        if (cell.attachViewMinHeightConstraint && rowHeight < cell.attachViewMinHeightConstraint.constant)
+        {
+            rowHeight = cell.attachViewMinHeightConstraint.constant;
+        }
+        
+        // Finalize the row height by adding the vertical constraints.
+        
+        rowHeight += cell.attachViewTopConstraint.constant;
+        
+        CGFloat additionalHeight = bubbleData.additionalContentHeight;
+        
+        if (additionalHeight)
+        {
+            rowHeight += additionalHeight;
+        }
+        else
+        {
+            rowHeight += cell.attachViewBottomConstraint.constant;
+        }
+    }
+    
+    return rowHeight;
+}
+
 
 @end
