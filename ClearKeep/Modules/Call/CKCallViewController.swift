@@ -29,11 +29,14 @@ final class CKCallViewController: CallViewController {
     }
 
     private func bindingTheme() {
+        let image = UIImage.init(named: "back_icon")?.withRenderingMode(.alwaysTemplate)
+        self.backToAppButton.setImage(image, for: .normal)
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.callerNameLabel.textColor = themeService.attrs.primaryTextColor
             self?.callStatusLabel.textColor = themeService.attrs.secondTextColor
-            self?.view.backgroundColor = themeService.attrs.secondBgColor
+            self?.view.backgroundColor = themeService.attrs.navBarBgColor
+            self?.backToAppButton.tintColor = themeService.attrs.primaryTextColor
         }).disposed(by: disposeBag)
     }
     

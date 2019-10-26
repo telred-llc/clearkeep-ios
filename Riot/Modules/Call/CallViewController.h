@@ -23,6 +23,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *gradientMaskContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
+@property (weak, nonatomic) IBOutlet UIButton *sideChatButton;
 
 @property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *callerImageViewWidthConstraint;
 

@@ -36,6 +36,7 @@
                 <outlet property="pulseView" destination="RGy-x9-xql" id="G0a-KF-gE3"/>
                 <outlet property="rejectCallButton" destination="nuB-Jc-MFa" id="Y3k-kg-IgD"/>
                 <outlet property="remotePreviewContainerView" destination="Tjb-57-yB1" id="MaR-IC-ZKw"/>
+                <outlet property="sideChatButton" destination="5nJ-2n-KwO" id="F3I-QP-lpt"/>
                 <outlet property="speakerButton" destination="Yq6-d2-Ea2" id="4TU-8w-3FG"/>
                 <outlet property="videoMuteButton" destination="UHM-u9-ODN" id="bfQ-lc-WMB"/>
                 <outlet property="view" destination="iN0-l3-epB" id="JDF-cz-roW"/>
@@ -169,8 +170,70 @@
                                                 <constraint firstAttribute="bottom" secondItem="fxP-zM-kfT" secondAttribute="bottom" id="q9R-LU-UAA"/>
                                             </constraints>
                                         </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yQr-68-mZD">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Doo-bT-GwB">
                                             <rect key="frame" x="75" y="0.0" width="75" height="55"/>
+                                            <subviews>
+                                                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCi-hD-FBs">
+                                                    <rect key="frame" x="10" y="0.0" width="55" height="55"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="CallVCChatButton"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="xCi-hD-FBs" secondAttribute="height" multiplier="1:1" id="H6w-nH-yLW"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
+                                                    <inset key="titleEdgeInsets" minX="-74" minY="61" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <state key="highlighted">
+                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="onButtonPressed:" destination="-1" eventType="touchUpInside" id="RaZ-1R-2FR"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="xCi-hD-FBs" secondAttribute="bottom" id="511-82-V1y"/>
+                                                <constraint firstItem="xCi-hD-FBs" firstAttribute="top" secondItem="Doo-bT-GwB" secondAttribute="top" id="e5X-eN-qMN"/>
+                                                <constraint firstItem="xCi-hD-FBs" firstAttribute="centerX" secondItem="Doo-bT-GwB" secondAttribute="centerX" id="rxE-cR-owp"/>
+                                            </constraints>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQv-Lg-Y5N">
+                                            <rect key="frame" x="150" y="0.0" width="75" height="55"/>
+                                            <subviews>
+                                                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UHM-u9-ODN">
+                                                    <rect key="frame" x="10" y="0.0" width="55" height="55"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="CallVCVideoMuteButton"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="UHM-u9-ODN" secondAttribute="height" multiplier="1:1" id="Jdz-Ht-hQg"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
+                                                    <inset key="titleEdgeInsets" minX="-74" minY="61" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <state key="highlighted">
+                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="onButtonPressed:" destination="-1" eventType="touchUpInside" id="9Jd-Wv-foD"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="UHM-u9-ODN" firstAttribute="top" secondItem="OQv-Lg-Y5N" secondAttribute="top" id="Iqy-Vu-R1I"/>
+                                                <constraint firstItem="UHM-u9-ODN" firstAttribute="centerX" secondItem="OQv-Lg-Y5N" secondAttribute="centerX" id="Khu-AV-9kE"/>
+                                                <constraint firstAttribute="bottom" secondItem="UHM-u9-ODN" secondAttribute="bottom" id="fu6-T9-aPu"/>
+                                            </constraints>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yQr-68-mZD">
+                                            <rect key="frame" x="225" y="0.0" width="75" height="55"/>
                                             <subviews>
                                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yq6-d2-Ea2">
                                                     <rect key="frame" x="10" y="0.0" width="55" height="55"/>
@@ -201,7 +264,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1H-bw-I9m">
-                                            <rect key="frame" x="150" y="0.0" width="75" height="55"/>
+                                            <rect key="frame" x="300" y="0.0" width="75" height="55"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVK-d8-Dqf" userLabel="End Call Button">
                                                     <rect key="frame" x="10" y="0.0" width="55" height="55"/>
@@ -225,68 +288,6 @@
                                                 <constraint firstItem="lVK-d8-Dqf" firstAttribute="top" secondItem="Y1H-bw-I9m" secondAttribute="top" id="1nK-4x-zuO"/>
                                                 <constraint firstAttribute="bottom" secondItem="lVK-d8-Dqf" secondAttribute="bottom" id="X3P-kG-cMA"/>
                                                 <constraint firstItem="lVK-d8-Dqf" firstAttribute="centerX" secondItem="Y1H-bw-I9m" secondAttribute="centerX" id="XMS-V6-X3Q"/>
-                                            </constraints>
-                                        </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQv-Lg-Y5N">
-                                            <rect key="frame" x="225" y="0.0" width="75" height="55"/>
-                                            <subviews>
-                                                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UHM-u9-ODN">
-                                                    <rect key="frame" x="10" y="0.0" width="55" height="55"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="CallVCVideoMuteButton"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="UHM-u9-ODN" secondAttribute="height" multiplier="1:1" id="Jdz-Ht-hQg"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
-                                                    <inset key="titleEdgeInsets" minX="-74" minY="61" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="onButtonPressed:" destination="-1" eventType="touchUpInside" id="9Jd-Wv-foD"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="UHM-u9-ODN" firstAttribute="top" secondItem="OQv-Lg-Y5N" secondAttribute="top" id="Iqy-Vu-R1I"/>
-                                                <constraint firstItem="UHM-u9-ODN" firstAttribute="centerX" secondItem="OQv-Lg-Y5N" secondAttribute="centerX" id="Khu-AV-9kE"/>
-                                                <constraint firstAttribute="bottom" secondItem="UHM-u9-ODN" secondAttribute="bottom" id="fu6-T9-aPu"/>
-                                            </constraints>
-                                        </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Doo-bT-GwB">
-                                            <rect key="frame" x="300" y="0.0" width="75" height="55"/>
-                                            <subviews>
-                                                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCi-hD-FBs">
-                                                    <rect key="frame" x="10" y="0.0" width="55" height="55"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="CallVCChatButton"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="xCi-hD-FBs" secondAttribute="height" multiplier="1:1" id="H6w-nH-yLW"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
-                                                    <inset key="titleEdgeInsets" minX="-74" minY="61" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="onButtonPressed:" destination="-1" eventType="touchUpInside" id="RaZ-1R-2FR"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="xCi-hD-FBs" secondAttribute="bottom" id="511-82-V1y"/>
-                                                <constraint firstItem="xCi-hD-FBs" firstAttribute="top" secondItem="Doo-bT-GwB" secondAttribute="top" id="e5X-eN-qMN"/>
-                                                <constraint firstItem="xCi-hD-FBs" firstAttribute="centerX" secondItem="Doo-bT-GwB" secondAttribute="centerX" id="rxE-cR-owp"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -327,12 +328,12 @@
                             </connections>
                         </button>
                         <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iiz-W1-oNW">
-                            <rect key="frame" x="321" y="5" width="44" height="44"/>
+                            <rect key="frame" x="340" y="5" width="25" height="25"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <accessibility key="accessibilityConfiguration" identifier="CallVCCameraSwitchButton"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="44" id="2ci-nt-cgP"/>
-                                <constraint firstAttribute="width" constant="44" id="owR-ds-wTp"/>
+                                <constraint firstAttribute="height" constant="25" id="2ci-nt-cgP"/>
+                                <constraint firstAttribute="width" constant="25" id="owR-ds-wTp"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -348,13 +349,37 @@
                                 <action selector="onButtonPressed:" destination="-1" eventType="touchUpInside" id="UaC-FO-rmW"/>
                             </connections>
                         </button>
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5nJ-2n-KwO">
+                            <rect key="frame" x="340" y="40" width="25" height="25"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <accessibility key="accessibilityConfiguration" identifier="CallVCCameraSwitchButton"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="25" id="QeP-Hs-JT1"/>
+                                <constraint firstAttribute="width" constant="25" id="Yxp-7y-lez"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <inset key="titleEdgeInsets" minX="-69" minY="61" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" image="call_message_switch">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="onButtonPressed:" destination="-1" eventType="touchUpInside" id="YHu-Bp-NGD"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="CallVCOverlayContainerView"/>
                     <constraints>
+                        <constraint firstItem="5nJ-2n-KwO" firstAttribute="centerX" secondItem="Iiz-W1-oNW" secondAttribute="centerX" id="0mr-me-F4t"/>
                         <constraint firstItem="nk9-Un-LVP" firstAttribute="leading" secondItem="JAR-tn-sGN" secondAttribute="leading" id="9wq-Y2-kZa"/>
                         <constraint firstItem="nff-fB-sTq" firstAttribute="top" secondItem="JAR-tn-sGN" secondAttribute="top" constant="5" id="C4F-59-09O"/>
                         <constraint firstItem="W2P-Hy-nV2" firstAttribute="leading" secondItem="JAR-tn-sGN" secondAttribute="leading" id="Dow-OM-vNZ"/>
+                        <constraint firstItem="5nJ-2n-KwO" firstAttribute="top" secondItem="Iiz-W1-oNW" secondAttribute="bottom" constant="10" id="KYz-1S-MbG"/>
                         <constraint firstAttribute="bottom" secondItem="nk9-Un-LVP" secondAttribute="bottom" id="bpc-m3-acb"/>
                         <constraint firstAttribute="trailing" secondItem="W2P-Hy-nV2" secondAttribute="trailing" id="hPw-CT-hcl"/>
                         <constraint firstAttribute="trailing" secondItem="Iiz-W1-oNW" secondAttribute="trailing" constant="10" id="hze-F3-Pyo"/>
@@ -396,6 +421,7 @@
     <resources>
         <image name="back_icon" width="13.5" height="23"/>
         <image name="call_hangup_icon" width="58" height="58"/>
-        <image name="camera_switch" width="55" height="55"/>
+        <image name="call_message_switch" width="25" height="17.5"/>
+        <image name="camera_switch" width="22.5" height="17"/>
     </resources>
 </document>
