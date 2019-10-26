@@ -169,3 +169,8 @@
 "e2e_key_backup_wrong_version" = "A new secure message key backup has been detected.\n\nIf this wasn’t you, set a new passphrase in Settings.";
 "e2e_key_backup_wrong_version_button_settings" = "Settings";
 "e2e_key_backup_wrong_version_button_wasme" = "It was me";
+
+// invited join
+"invited_room" = "invited you to this room";
+"invited_unknow" = "Unknow";
+"invited_default" = "Would you like to join in order to participate in the discussion?";

@@ -25,10 +25,9 @@ final class CKRecentItemFirstChatCell: CKBaseCell {
         super.awakeFromNib()
 
         // round button
-        self.startChatButton.layer.cornerRadius = 4
-        self.startChatButton.layer.borderWidth = 1
-        self.startChatButton.layer.borderColor = UIColor.darkGray.cgColor
-        self.startChatButton.setTitleColor(CKColor.Misc.primaryGreenColor, for: .normal)
+        self.startChatButton.layer.cornerRadius = 10
+        self.startChatButton.layer.borderWidth = 0
+        self.startChatButton.setTitleColor(UIColor.white, for: .normal)
         
         // add action
         self.startChatButton.addTarget(self, action: #selector(onStartChatting(_:)), for: .touchUpInside)

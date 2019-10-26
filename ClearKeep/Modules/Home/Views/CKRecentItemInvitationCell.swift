@@ -14,11 +14,12 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
     
     @IBOutlet weak var avatarImage: MXKImageView!
     @IBOutlet weak var roomNameLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var notifyImage: UIImageView!
     @IBOutlet weak var contentStackView: UIStackView!
     @IBOutlet weak var declineButton: UIButton!
     @IBOutlet weak var joinButton: UIButton!
+    @IBOutlet weak var lblDescription: UILabel!
+    @IBOutlet weak var lblTime: UILabel!
     
 
     // MARK: - PROPERTY
@@ -119,42 +120,16 @@ extension CKRecentItemInvitationCell: MXKCellRendering {
 
         roomCellData = cellData as? MXKRecentCellDataStoring
         roomNameLabel.text = roomCellData?.roomSummary.displayname
-        timeLabel.text = roomCellData?.lastEventDate
-        
+        lblTime.text = roomCellData?.lastEventDate
         // last message
-        if let lastMessage = roomCellData?.roomSummary.lastMessageString {
-            if lastMessageLabel == nil {
-                lastMessageLabel = UILabel.init()
-            }
-            
-            if !contentStackView.arrangedSubviews.contains(where: { $0 == lastMessageLabel }) {
-                contentStackView.addArrangedSubview(lastMessageLabel!)
-            }
-            
-            lastMessageLabel!.text = lastMessage
-            lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 14)
-        } else {
-            if let lastMessageLabel = lastMessageLabel {
-                contentStackView.removeArrangedSubview(lastMessageLabel)
-            }
-        }        
+        var lastMessage = roomCellData?.roomSummary.lastMessageString
+        let user = roomCellData?.lastEvent.wireContent["displayname"] as? String ?? ""
+        lastMessage = lastMessage?.replacingOccurrences(of: user, with: "you")
+        self.lblDescription.text = lastMessage
     }
     
     func updateUI() {
-        // setup decline button
-        declineButton.borderWidth = 0.5
-        declineButton.borderColor = UIColor.lightGray.withAlphaComponent(0.7)
-        declineButton.cornerRadius = 2
-        declineButton.setTitleColor(CKColor.Text.darkGray, for: .normal)
-        declineButton.backgroundColor = UIColor.white
-        
-        // setup join button
-        joinButton.setTitleColor(UIColor.white, for: .normal)
-        joinButton.cornerRadius = 2
-        
-        // add gradient to joint button
-        self.addGradient(to: joinButton)
-        
+
         // setup avatar
         self.setupAvatar()
     }

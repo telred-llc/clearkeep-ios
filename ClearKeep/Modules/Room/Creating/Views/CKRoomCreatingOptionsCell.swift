@@ -12,12 +12,28 @@ final class CKRoomCreatingOptionsCell: CKRoomCreatingBaseCell {
     
     // MARK: - OUTLET
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var desciptpionLabel: UILabel!
-    @IBOutlet weak var optionSwitch: UISwitch!
+    @IBOutlet weak var checkmarkImageview: UIImageView!
     
     // MARK: - PROPERTY
     
+    
+    private var __isChecking: Bool = false
+
+    /**
+     isChecked true/false
+     */
+    internal var isChecked: Bool {
+        get {
+            return __isChecking
+        }
+        set {
+            __isChecking = newValue
+            
+            let checkedImage = UIImage(named: "ic_check_yes")
+            let unCheckedImage = UIImage(named: "ic_check_no")
+            self.checkmarkImageview.image = __isChecking ? checkedImage : unCheckedImage
+        }
+    }
     /**
      edittingChangedHandler
      */
@@ -27,12 +43,11 @@ final class CKRoomCreatingOptionsCell: CKRoomCreatingBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.titleLabel.superview?.backgroundColor = UIColor.clear
-        self.optionSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
     }
     
-    @objc func switchChanged(sender: UISwitch) {
-        valueChangedHandler?(sender.isOn)
+    @IBAction func clickCheckmark(_ sender: Any) {
+        self.isChecked = !self.isChecked
+        valueChangedHandler?(self.isChecked)
     }
 
 }
