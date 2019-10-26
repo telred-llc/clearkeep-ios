@@ -60,7 +60,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
         super.viewWillDisappear(animated)
         
         // show navigation bar shadow
-        navigationController?.navigationBar.shadowImage = nil
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.mxKeyBackupDidStateChange, object: nil)
     }
@@ -87,8 +87,12 @@ final public class CkMasterTabBarController: MasterTabBarController {
         if segue.identifier == "showUnifiedSearch", let unifiedSearchViewController = segue.destination as? UnifiedSearchViewController {
             unifiedSearchViewController.searchBar.setTextFieldColor(color: themeService.attrs.secondBgColor)
             unifiedSearchViewController.barTitleColor = themeService.attrs.primaryTextColor
-            unifiedSearchViewController.defaultBarTintColor = themeService.attrs.primaryBgColor
+            unifiedSearchViewController.defaultBarTintColor = themeService.attrs.navBarBgColor
             unifiedSearchViewController.navigationController?.view.backgroundColor = themeService.attrs.secondBgColor
+            
+            unifiedSearchViewController.didSelectCreateNewRoom = { [weak self] in
+                self?.homeViewController.showDirectChatVC()
+            }
         }
     }
     
@@ -120,11 +124,13 @@ final public class CkMasterTabBarController: MasterTabBarController {
         self.tabBar.isTranslucent = false
         self.tabBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
 
+        // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.navigationController?.navigationBar.isTranslucent = false
-            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.init(color: theme.primaryBgColor), for: .default)
-
+            self?.navigationController?.navigationBar.shadowImage = UIImage()
+            self?.navigationController?.navigationBar.tintColor = themeService.attrs.primaryTextColor
             self?.placeholderSearchBar.setTextFieldColor(color: theme.searchBarBgColor)
+            self?.changeNavigationBar(color: themeService.attrs.navBarBgColor)
             self?.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: disposeBag)
     }

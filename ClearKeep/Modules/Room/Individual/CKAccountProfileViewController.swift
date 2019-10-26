@@ -161,7 +161,7 @@ class CKAccountProfileViewController: MXKViewController {
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)

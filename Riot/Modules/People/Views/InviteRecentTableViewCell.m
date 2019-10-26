@@ -58,11 +58,6 @@ NSString *const kInviteRecentTableViewCellRoomKey = @"kInviteRecentTableViewCell
 - (void)customizeTableViewCellRendering
 {
     [super customizeTableViewCellRendering];
-    
-    self.leftButton.backgroundColor = kRiotColorGreen;
-    self.rightButton.backgroundColor = kRiotColorGreen;
-    
-    self.noticeBadgeView.backgroundColor = kRiotColorPinkRed;
 }
 
 - (void)onDeclinePressed:(id)sender
@@ -99,7 +94,7 @@ NSString *const kInviteRecentTableViewCellRoomKey = @"kInviteRecentTableViewCell
 + (CGFloat)heightForCellData:(MXKCellData *)cellData withMaximumWidth:(CGFloat)maxWidth
 {
     // The height is fixed
-    return 105;
+    return 115;
 }
 
 @end

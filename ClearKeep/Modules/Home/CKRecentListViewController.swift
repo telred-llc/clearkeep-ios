@@ -397,7 +397,7 @@ private extension CKRecentListViewController {
         
         // render
         cell.render(cellData)
-        
+
         // join
         cell.joinOnPressHandler = {
             
@@ -456,10 +456,10 @@ private extension CKRecentListViewController {
         tap.cancelsTouchesInView = true
         cell.addGestureRecognizer(tap)
 
-        cell.backgroundColor = themeService.attrs.secondBgColor
+        cell.backgroundColor = themeService.attrs.cellPrimaryBgColor
         cell.roomNameLabel.textColor = themeService.attrs.primaryTextColor
         cell.lastMessageLabel?.textColor = themeService.attrs.secondTextColor
-//        cell.timeLabel.textColor = themeService.attrs.secondTextColor
+        cell.lblTime.textColor = themeService.attrs.secondTextColor
 
         return cell
     }

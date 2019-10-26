@@ -20,11 +20,22 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RX5-eD-c3c" userLabel="Room avatar" customClass="MXKImageView">
                         <rect key="frame" x="13" y="11" width="42" height="42"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jhf-0p-y5H">
+                                <rect key="frame" x="25" y="25" width="17" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="jhf-0p-y5H" secondAttribute="height" multiplier="1:1" id="zge-2Z-MSD"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="0.89720267057418823" green="0.89720267057418823" blue="0.89720267057418823" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="AvatarImageView"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="jhf-0p-y5H" secondAttribute="trailing" id="1rE-WY-5ru"/>
                             <constraint firstAttribute="width" constant="42" id="7Ys-gS-ja8"/>
+                            <constraint firstItem="jhf-0p-y5H" firstAttribute="width" secondItem="RX5-eD-c3c" secondAttribute="width" multiplier="0.4" id="Qu1-ux-2X4"/>
                             <constraint firstAttribute="height" constant="42" id="WPC-tL-hnM"/>
+                            <constraint firstAttribute="bottom" secondItem="jhf-0p-y5H" secondAttribute="bottom" id="Y1t-iJ-pw0"/>
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tDD-Fy-Uvd">
@@ -88,7 +99,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gCG-UR-b2u">
-                        <rect key="frame" x="732" y="14" width="20" height="20"/>
+                        <rect key="frame" x="752" y="14" width="20" height="20"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_invite_room" translatesAutoresizingMaskIntoConstraints="NO" id="xxS-bF-b4M">
                                 <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
@@ -114,25 +125,6 @@
                             <constraint firstAttribute="height" constant="13" id="w8X-7u-pcM"/>
                         </constraints>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jhf-0p-y5H">
-                        <rect key="frame" x="43" y="41" width="12" height="12"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="12" id="oV3-dr-xqD"/>
-                            <constraint firstAttribute="width" secondItem="jhf-0p-y5H" secondAttribute="height" multiplier="1:1" id="zge-2Z-MSD"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="1"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                <real key="value" value="6"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="dQt-mN-T6b" firstAttribute="top" secondItem="Lg1-xQ-AGn" secondAttribute="bottom" constant="4" id="1ka-cr-uZP"/>
@@ -144,12 +136,10 @@
                     <constraint firstItem="hVY-f3-80Y" firstAttribute="centerY" secondItem="dQt-mN-T6b" secondAttribute="centerY" id="RM0-3J-ihk"/>
                     <constraint firstItem="gCG-UR-b2u" firstAttribute="top" secondItem="aXz-IR-jj5" secondAttribute="top" constant="14" id="Vb6-hc-Bsk"/>
                     <constraint firstItem="dQt-mN-T6b" firstAttribute="leading" secondItem="RX5-eD-c3c" secondAttribute="trailing" constant="14" id="XFM-LG-4uJ"/>
-                    <constraint firstAttribute="trailing" secondItem="gCG-UR-b2u" secondAttribute="trailing" constant="30" id="Zf3-3f-SWg"/>
-                    <constraint firstItem="jhf-0p-y5H" firstAttribute="trailing" secondItem="RX5-eD-c3c" secondAttribute="trailing" id="dCU-qe-oF7"/>
+                    <constraint firstAttribute="trailing" secondItem="gCG-UR-b2u" secondAttribute="trailing" constant="10" id="Zf3-3f-SWg"/>
                     <constraint firstItem="gCG-UR-b2u" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lg1-xQ-AGn" secondAttribute="trailing" constant="4" id="e2Q-RZ-IF2"/>
                     <constraint firstItem="tDD-Fy-Uvd" firstAttribute="centerX" secondItem="RX5-eD-c3c" secondAttribute="centerX" id="iJK-au-Cpi"/>
                     <constraint firstAttribute="trailing" secondItem="tjf-WP-vTl" secondAttribute="trailing" constant="54" id="kFW-Fa-ibz"/>
-                    <constraint firstItem="jhf-0p-y5H" firstAttribute="bottom" secondItem="RX5-eD-c3c" secondAttribute="bottom" id="kZE-vd-7xK"/>
                     <constraint firstItem="hVY-f3-80Y" firstAttribute="leading" secondItem="aXz-IR-jj5" secondAttribute="leading" constant="50" id="prx-bM-qUg"/>
                     <constraint firstAttribute="trailing" secondItem="dQt-mN-T6b" secondAttribute="trailing" id="t2m-pb-5zd"/>
                     <constraint firstItem="Lg1-xQ-AGn" firstAttribute="top" secondItem="aXz-IR-jj5" secondAttribute="top" constant="14" id="tY3-6V-A3B"/>

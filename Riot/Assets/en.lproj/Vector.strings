@@ -132,15 +132,15 @@
 "room_creation_invite_another_user" = "Search / invite by User ID, Name or email";
 
 // Room recents
-"room_recents_directory_section" = "ROOM DIRECTORY";
+"room_recents_directory_section" = "Room directory";
 "room_recents_directory_section_network" = "Network";
-"room_recents_favourites_section" = "FAVOURITES";
-"room_recents_people_section" = "PEOPLE";
-"room_recents_conversations_section" = "ROOMS";
+"room_recents_favourites_section" = "Favorites";
+"room_recents_people_section" = "People";
+"room_recents_conversations_section" = "Rooms";
 "room_recents_no_conversation" = "No rooms";
 "room_recents_low_priority_section" = "LOW PRIORITY";
 "room_recents_server_notice_section" = "SYSTEM ALERTS";
-"room_recents_invites_section" = "INVITES";
+"room_recents_invites_section" = "Invites";
 "room_recents_start_chat_with" = "Start chat";
 "room_recents_create_empty_room" = "Create room";
 "room_recents_join_room" = "Join room";
@@ -148,8 +148,8 @@
 "room_recents_join_room_prompt" = "Type a room id or a room alias";
 
 // People tab
-"people_invites_section" = "INVITES";
-"people_conversation_section" = "CONVERSATIONS";
+"people_invites_section" = "Invites";
+"people_conversation_section" = "Conversations";
 "people_no_conversation" = "No conversations";
 
 // Rooms tab

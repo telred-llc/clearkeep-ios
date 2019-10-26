@@ -44,6 +44,7 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
                 
         self.declineButton.addTarget(self, action: #selector(declineOnPress(_:)) , for: .touchUpInside)
         self.joinButton.addTarget(self, action: #selector(joinOnPress(_:)) , for: .touchUpInside)
+        self.contentView.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
     }
     
     override func prepareForReuse() {
