@@ -202,7 +202,7 @@ class CKOtherProfileViewController: MXKViewController {
             for: indexPath) as? CKUserProfileDetailCell {
             switch indexPath.row {
             case 0:
-                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: myUser?.userId)
+                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: mxMember.userId)
             case 1:
                 cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
             case 2:

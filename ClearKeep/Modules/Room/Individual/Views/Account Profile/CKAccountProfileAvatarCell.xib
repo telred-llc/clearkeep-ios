@@ -68,11 +68,19 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Xx-Do-kGX">
+                                <rect key="frame" x="40" y="248" width="254" height="1"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="ffD-2y-mRQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="g2O-51-TJR" firstAttribute="bottom" secondItem="wIa-d0-gF1" secondAttribute="bottom" id="Eor-zz-clT"/>
                             <constraint firstItem="D1B-WO-RYi" firstAttribute="top" secondItem="wIa-d0-gF1" secondAttribute="bottom" constant="20" id="QaR-Hn-etV"/>
+                            <constraint firstItem="9Xx-Do-kGX" firstAttribute="leading" secondItem="D1B-WO-RYi" secondAttribute="leading" id="TBY-95-Wif"/>
                             <constraint firstItem="D1B-WO-RYi" firstAttribute="leading" secondItem="Whx-gJ-nxE" secondAttribute="leading" constant="40" id="Tc4-YK-Su7"/>
                             <constraint firstAttribute="trailing" secondItem="D1B-WO-RYi" secondAttribute="trailing" constant="20" id="dYK-6d-aeB"/>
                             <constraint firstItem="ISO-LC-gHy" firstAttribute="trailing" secondItem="wIa-d0-gF1" secondAttribute="trailing" id="fA8-Bi-bby"/>
@@ -80,9 +88,11 @@
                             <constraint firstItem="g2O-51-TJR" firstAttribute="width" secondItem="ISO-LC-gHy" secondAttribute="width" id="kYo-4e-WYT"/>
                             <constraint firstItem="ISO-LC-gHy" firstAttribute="bottom" secondItem="wIa-d0-gF1" secondAttribute="bottom" id="otk-9b-aG6"/>
                             <constraint firstItem="wIa-d0-gF1" firstAttribute="width" secondItem="Whx-gJ-nxE" secondAttribute="width" multiplier="1:2" id="rWS-Np-Iii"/>
+                            <constraint firstItem="9Xx-Do-kGX" firstAttribute="trailing" secondItem="D1B-WO-RYi" secondAttribute="trailing" id="xXZ-mV-PMi"/>
                             <constraint firstItem="wIa-d0-gF1" firstAttribute="centerX" secondItem="Whx-gJ-nxE" secondAttribute="centerX" id="xbW-dL-WVN"/>
                             <constraint firstItem="wIa-d0-gF1" firstAttribute="top" secondItem="Whx-gJ-nxE" secondAttribute="top" constant="40" id="xvk-bf-0nI"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="D1B-WO-RYi" secondAttribute="bottom" constant="40" id="yIT-9w-jSk"/>
+                            <constraint firstItem="9Xx-Do-kGX" firstAttribute="top" secondItem="D1B-WO-RYi" secondAttribute="bottom" constant="4" id="yJ9-T7-Vkb"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -102,6 +112,7 @@
                 <outlet property="bottomStatusViewConstraints" destination="otk-9b-aG6" id="GSY-BM-0fU"/>
                 <outlet property="doneButton" destination="Z23-AB-lFH" id="JQh-YG-cJi"/>
                 <outlet property="nameTextField" destination="zC2-MI-jdf" id="hJ9-TY-4uW"/>
+                <outlet property="separatorView" destination="9Xx-Do-kGX" id="dJb-lQ-Vvk"/>
                 <outlet property="statusView" destination="ISO-LC-gHy" id="uQl-cv-gTd"/>
                 <outlet property="trailingStatusViewConstraints" destination="fA8-Bi-bby" id="8aR-03-MWd"/>
             </connections>

@@ -21,6 +21,7 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var separatorView: UIView!
     
     // get current display name before edit
     var currentDisplayName: String = "" {
@@ -61,6 +62,7 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
         statusView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         contentView.backgroundColor = .clear
+        separatorView.backgroundColor = CKColor.Icon.back
         isCanEditDisplayName = false
         avaImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleUpdateAvatar)))
         nameTextField.delegate = self
@@ -104,11 +106,17 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
     
     @IBAction func editDislayNameAction(_ sender: Any) {
         updateDisplayNameIfNeeded()
+        separatorView.isHidden = false
     }
 }
 
 // MARK: Handler Edit Display Name
 extension CKAccountProfileAvatarCell: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        separatorView.isHidden = false
+        return true
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         endEditing(true)
@@ -116,22 +124,34 @@ extension CKAccountProfileAvatarCell: UITextFieldDelegate {
         return true
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        self.endEditing(true)
-        updateDisplayNameIfNeeded()
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        super.touchesBegan(touches, with: event)
+//        self.endEditing(true)
+//        updateDisplayNameIfNeeded()
+//    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         let currentName = (nameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         nameTextField.text = currentName
+        separatorView.isHidden = true
     }
     
     private func updateDisplayNameIfNeeded() {
         let newDisplayName = (nameTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         isShowDoneButton = currentDisplayName != newDisplayName && !newDisplayName.isEmpty
     }
+    
+    override func becomeFirstResponder() -> Bool {
+        
+        if becomeFirstResponder() == false {
+            self.endEditing(true)
+            updateDisplayNameIfNeeded()
+        }
+        
+        return super.becomeFirstResponder()
+    }
+    
 }
 
 
