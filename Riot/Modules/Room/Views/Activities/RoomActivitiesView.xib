@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -45,7 +45,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6ND-Cq-ABj">
-                            <rect key="frame" x="56" y="10" width="521" height="33"/>
+                            <rect key="frame" x="56" y="10" width="491" height="33"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <accessibility key="accessibilityConfiguration" identifier="RoomActivitiesViewMessageTextView"/>
                             <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -78,7 +78,7 @@
             <accessibility key="accessibilityConfiguration" identifier="RoomExtrasInfosView"/>
             <constraints>
                 <constraint firstItem="qhJ-5H-64e" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="4o2-V9-a4L"/>
-                <constraint firstAttribute="trailing" secondItem="6ND-Cq-ABj" secondAttribute="trailing" constant="30" id="82b-uO-ua7"/>
+                <constraint firstAttribute="trailing" secondItem="6ND-Cq-ABj" secondAttribute="trailing" constant="60" id="82b-uO-ua7"/>
                 <constraint firstItem="qhJ-5H-64e" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wDi-7P-36c"/>
                 <constraint firstItem="qhJ-5H-64e" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="wsu-Zi-OE6"/>
             </constraints>

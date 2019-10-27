@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -84,7 +83,7 @@
                     <constraint firstItem="me4-cu-FFg" firstAttribute="top" secondItem="7V1-Pv-bKF" secondAttribute="topMargin" constant="-8" id="up4-wO-pWZ"/>
                     <constraint firstAttribute="bottomMargin" secondItem="me4-cu-FFg" secondAttribute="bottom" constant="-8" id="vX2-kt-mxZ"/>
                     <constraint firstItem="zD7-yD-QCd" firstAttribute="leading" secondItem="7V1-Pv-bKF" secondAttribute="leading" constant="13" id="vxy-3H-BwZ"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6qp-Wh-8rt" secondAttribute="trailing" constant="15" id="xfk-Wb-4am"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6qp-Wh-8rt" secondAttribute="trailing" constant="60" id="xfk-Wb-4am"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
