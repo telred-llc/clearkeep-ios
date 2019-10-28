@@ -195,5 +195,11 @@ extern NSString *const kAppDelegateNetworkStatusDidChangeNotification;
 @property (nonatomic, readonly) UIWindow* callStatusBarWindow;
 @property (nonatomic, readonly) UIButton* callStatusBarButton;
 
+/**
+ Handle observer for the current key backup state
+ */
+- (void)observeKeybackupState;
+- (void)removeKeyBackupStateObserver;
+
 @end
 

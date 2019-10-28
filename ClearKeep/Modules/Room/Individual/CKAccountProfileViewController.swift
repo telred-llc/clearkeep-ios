@@ -380,11 +380,11 @@ extension CKAccountProfileViewController {
         button.isEnabled = false
         self.showSpinner()
         AppDelegate.the().logout(withConfirmation: true) { [weak self] isLoggedOut in
-            if !isLoggedOut {
-                // Enable the button and stop activity indicator
-                button.isEnabled = true
-                self?.removeSpinner()
-                
+            // Enable the button and stop activity indicator
+            button.isEnabled = true
+            self?.removeSpinner()
+
+            if isLoggedOut {
                 // Clear all cached rooms
                 CKRoomCacheManager.shared.clearAllCachedData()
                 CKKeyBackupRecoverManager.shared.destroy()
@@ -480,7 +480,11 @@ extension CKAccountProfileViewController: SignOutAlertPresenterDelegate {
             // Enable the button and stop activity indicator
             self?.removeSpinner()
             self?.signOutButton?.isEnabled = true
-            CKKeyBackupRecoverManager.shared.destroy()
+
+            if isLoggedOut {
+                CKRoomCacheManager.shared.clearAllCachedData()
+                CKKeyBackupRecoverManager.shared.destroy()
+            }
         }
     }
     

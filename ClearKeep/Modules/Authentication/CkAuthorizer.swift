@@ -196,23 +196,17 @@ public class CkAuthorizer {
         self.mxCurrentOperation = self.mxRestClient.register(
             parameters: parameters,
             completion: { (jsonResponse: MXResponse<[String : Any]>) in
-                
                 if let jsonResponseValue = jsonResponse.value, jsonResponse.isSuccess == true {
-                    
                     if let loginResp = MXLoginResponse(fromJSON: jsonResponseValue) {
-                        
                         let credentials = MXCredentials(loginResponse: loginResp, andDefaultCredentials: nil)
-
                         if credentials.userId == nil || credentials.accessToken == nil {
                             self.onFailureDuringAuthRequest(
                                 withError: self.error(withMessage: Bundle.mxk_localizedString(forKey: "not_supported_yet")))
                         } else {
                             credentials.homeServer = self.homeServer
                             credentials.allowedCertificate = self.mxRestClient.allowedCertificate
+                            CKAppManager.shared.setup(with: credentials, password: parameters["password"] as? String)
                             self.onSuccessfulAuthRequest(withCredentials: credentials)
-                            if let password = parameters["password"] as? String {
-                                CKAppManager.shared.setup(with: credentials, password: password)
-                            }
                         }
                     }
                 } else {
@@ -355,10 +349,6 @@ public class CkAuthorizer {
                 self.resetPass(withParameters: parameters)
             }
         }
-    }
-    
-    internal func getPassphrase() {
-//        self.mxCurrentOperation = self.mxRestClient.get
     }
 }
 
