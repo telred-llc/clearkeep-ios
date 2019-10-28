@@ -162,3 +162,18 @@ extension UITableView {
         self.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false)
     }
 }
+
+
+extension UINavigationBar {
+    
+    func hideShadow(_ value: Bool = true) {
+        setValue(value, forKey: "hidesShadow")
+    }
+    
+    
+    func clearNavigationBar() {
+        hideShadow()
+        setBackgroundImage(UIImage(), for: .default)
+        backgroundColor = .clear
+    }
+}

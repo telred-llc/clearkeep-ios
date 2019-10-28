@@ -19,6 +19,7 @@ class CKColor {
         static let white: UIColor                   = #colorLiteral(red: 0.9085063338, green: 0.9085063338, blue: 0.9085063338, alpha: 1)
         static let tint: UIColor                    = #colorLiteral(red: 0.01176470588, green: 0.7019607843, blue: 0.5058823529, alpha: 1)
         static let warning: UIColor                 = #colorLiteral(red: 1, green: 0.2941176471, blue: 0.3333333333, alpha: 1)
+        static let titleNavigationBar: UIColor      = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         static let blue: UIColor                    = #colorLiteral(red: 0.3411764706, green: 0.5294117647, blue: 0.8901960784, alpha: 1)
         static let blueNavigation                   = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
     }
@@ -48,6 +49,11 @@ class CKColor {
         tabBar.tintColor = CKColor.Text.tint
         tabBar.barTintColor = themeService.attrs.secondBgColor
         tabBar.isTranslucent = false
+    }
+    
+    struct Icon {
+        static let back: UIColor              = #colorLiteral(red: 0, green: 0.5294117647, blue: 1, alpha: 1)
+        static let setting: UIColor           = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
     }
     
     static func applyStyle(onSearchBar searchBar: UISearchBar) {

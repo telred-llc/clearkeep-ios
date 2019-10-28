@@ -285,9 +285,12 @@ extension CKSettingsViewController: UITableViewDelegate {
         let cellType = tblDatasource[indexPath.section][indexPath.row]
         switch cellType {
         case .profile:
+            /*
             let vc = CKAccountProfileEditViewController.instance()
             vc.importSession(self.mxSessions)
             self.navigationController?.pushViewController(vc, animated: true)
+             */
+            self.navigationController?.popViewController(animated: true)
         case .notification:
             let vc = CKNotificationSettingViewController.instance()
             vc.importSession(self.mxSessions)

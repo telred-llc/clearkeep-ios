@@ -30,6 +30,8 @@ protocol Theme {
     var navBarBgColor: UIColor { get }
 
     var statusBarStyle: UIStatusBarStyle { get }
+    
+    var newBackgroundColor: UIColor { get }
 }
 
 struct LightTheme: Theme {
@@ -50,6 +52,8 @@ struct LightTheme: Theme {
 
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black]
     var statusBarStyle: UIStatusBarStyle = .default
+    
+    var newBackgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 }
 
 struct DarkTheme: Theme {
@@ -70,6 +74,8 @@ struct DarkTheme: Theme {
 
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.white]
     var statusBarStyle: UIStatusBarStyle = .lightContent
+    
+    var newBackgroundColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 1)
 }
 
 enum ThemeType: ThemeProvider {

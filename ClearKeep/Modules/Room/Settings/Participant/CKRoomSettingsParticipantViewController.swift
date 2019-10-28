@@ -138,6 +138,8 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         self.reloadParticipantsInRoom()
 
         bindingTheme()
+        
+        vc_removeBackTitle()
     }
 
     func bindingTheme() {

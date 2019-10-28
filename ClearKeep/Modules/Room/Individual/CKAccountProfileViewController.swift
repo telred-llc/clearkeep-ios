@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 class CKAccountProfileViewController: MXKViewController {
     
@@ -17,11 +18,10 @@ class CKAccountProfileViewController: MXKViewController {
     
     private enum Section: Int {
         case avatar  = 0
-        case action  = 1
-        case detail  = 2
-        case signOut = 3
+        case detail  = 1
+        case signOut = 2
         
-        static var count: Int { return 4}
+        static var count: Int { return 3 }
     }
     
     // MARK: - CLASS
@@ -50,6 +50,8 @@ class CKAccountProfileViewController: MXKViewController {
     private var pushInfoUpdateObserver: Any?
 
     private let disposeBag = DisposeBag()
+    
+    var imagePickedBlock: ((UIImage) -> Void)?
 
     /**
      When you want this controller always behavior a presenting controller, set true it
@@ -109,6 +111,8 @@ class CKAccountProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CKColor.Icon.back]
+        self.navigationController?.navigationBar.clearNavigationBar()
     }
     
     deinit {
@@ -152,10 +156,31 @@ class CKAccountProfileViewController: MXKViewController {
         
         // register cells
         self.tableView.register(CKAccountProfileAvatarCell.nib, forCellReuseIdentifier: CKAccountProfileAvatarCell.identifier)
-        self.tableView.register(CKAccountProfileActionCell.nib, forCellReuseIdentifier: CKAccountProfileActionCell.identifier)
         self.tableView.register(CKAccountProfileInfoCell.nib, forCellReuseIdentifier: CKAccountProfileInfoCell.identifier)
         self.tableView.register(CKSignoutButtonTableViewCell.nib, forCellReuseIdentifier: CKSignoutButtonTableViewCell.identifier)
+        self.tableView.register(CKUserProfileDetailCell.nib, forCellReuseIdentifier: CKUserProfileDetailCell.identifier)
         self.tableView.allowsSelection = false
+        self.tableView.keyboardDismissMode = .onDrag
+        
+        
+        // add setting barButtonItem
+        let settingItem = UIBarButtonItem(image: UIImage(named: "setting_profile"),
+                                          style: .plain,
+                                          target: self,
+                                          action:  #selector(handleSettingButton(_:)))
+        
+        settingItem.tintColor = CKColor.Icon.setting
+        navigationItem.rightBarButtonItem = settingItem
+        
+        addCustomBackButton()
+    }
+    
+    
+    @objc private func handleSettingButton(_ sender: UIBarButtonItem) {
+        
+        let settingVC = CKSettingsViewController.init(nibName: "CKSettingsViewController", bundle: Bundle.init(for: CKSettingsViewController.self))
+        settingVC.importSession(self.mxSessions)
+        self.navigationController?.pushViewController(settingVC, animated: true)
     }
 
     func bindingTheme() {
@@ -167,7 +192,7 @@ class CKAccountProfileViewController: MXKViewController {
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.newBackgroundColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -188,7 +213,8 @@ class CKAccountProfileViewController: MXKViewController {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: CKAccountProfileAvatarCell.identifier, for: indexPath) as? CKAccountProfileAvatarCell {
             
-            cell.nameLabel.text = myUser?.displayname
+            cell.isCanEditDisplayName = true
+            cell.currentDisplayName = myUser?.displayname.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
             cell.adminStatusView.isHidden = true
             
             if let myUser = self.myUser {
@@ -200,7 +226,7 @@ class CKAccountProfileViewController: MXKViewController {
                 default:
                     cell.settingStatus(online: false)
                 }
-                                
+                
                 cell.setAvatarUri(
                     myUser.avatarUrl,
                     identifyText: myUser.userId,
@@ -213,72 +239,83 @@ class CKAccountProfileViewController: MXKViewController {
                 cell.settingStatus(online: false)
                 cell.avaImage.image = nil
             }
+            
+            
+            cell.editAvatar = {
+                self.handlerEditAvatar()
+            }
+            
+            cell.editDisplayName = { newDisplayName in
+                
+                self.showSpinner()
+                
+                let account = MXKAccountManager.shared().activeAccounts.first
+                
+                account?.setUserDisplayName(newDisplayName, success: {
+                    self.reloadAvatarCell()
+                    cell.isShowDoneButton = false
+                }, failure: { (error) in
+                    self.reloadAvatarCell()
+                    self.showAlert(error?.localizedDescription ?? "Error")
+                })
+            }
+            
+            imagePickedBlock = { (image) in
+                
+                self.updateAvatar(image, cell: cell)
+            }
 
             return cell
         }
         return CKAccountProfileAvatarCell()
     }
     
-    private func cellForAction(atIndexPath indexPath: IndexPath) -> CKAccountProfileActionCell {
+    private func updateAvatar(_ image: UIImage, cell: CKAccountProfileAvatarCell) {
+        let account = MXKAccountManager.shared().activeAccounts.first
+        guard let updatedPicture = MXKTools.forceImageOrientationUp(image) else { return }
         
-        // dequeue cell
-        if let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKAccountProfileActionCell.identifier,
-            for: indexPath) as? CKAccountProfileActionCell {
-            
-            // action
-            cell.editHandler = {
-                
-                if let nvc = self.navigationController {
-                    let vc = CKAccountProfileEditViewController.instance()
-                    vc.importSession(self.mxSessions)
-                    nvc.pushViewController(vc, animated: true)
-                    
-                } else {
-                
-                    let nvc = CKAccountProfileEditViewController.instanceNavigation(completion: { (vc) in
-                        vc.importSession(self.mxSessions)
-                    })
-                    self.present(nvc, animated: true, completion: nil)
-                }
-            }
-            
-            cell.settingHandler = {
-                let settingVC = CKSettingsViewController.init(nibName: "CKSettingsViewController", bundle: Bundle.init(for: CKSettingsViewController.self))
-                settingVC.importSession(self.mxSessions)
-                self.navigationController?.pushViewController(settingVC, animated: true)
-            }
-            
-            return cell
-        }
-        return CKAccountProfileActionCell()
+        self.showSpinner()
+        
+        let uploader: MXMediaLoader? = MXMediaManager.prepareUploader(withMatrixSession: account?.mxSession, initialRange: 0.0, andRange: 1.0)
+    
+        uploader?.uploadData(UIImageJPEGRepresentation(updatedPicture, 0.5),
+                             filename: nil,
+                             mimeType: "image/jpeg",
+                             success: { (url) in
+                                
+                                account?.setUserAvatarUrl(url, success: {
+                                    self.reloadAvatarCell()
+                                }, failure: { (error) in
+                                    self.reloadAvatarCell()
+                                    self.showAlert(error?.localizedDescription ?? "Error")
+                                })
+                                
+        }, failure: { (error) in
+            self.reloadAvatarCell()
+            self.showAlert(error?.localizedDescription ?? "Error")
+        })
+        
     }
     
-    private func cellForInfoPersonal(atIndexPath indexPath: IndexPath) -> CKAccountProfileInfoCell {
+    private func cellForInfoPersonal(atIndexPath indexPath: IndexPath) -> CKUserProfileDetailCell {
         
         if let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKAccountProfileInfoCell.identifier,
-            for: indexPath) as? CKAccountProfileInfoCell {
-            
-            // Title
-            cell.titleLabel.font = CKAppTheme.mainLightAppFont(size: 17)
-            cell.titleLabel.textColor = #colorLiteral(red: 0.4352941176, green: 0.431372549, blue: 0.4509803922, alpha: 1)
-            
-            if indexPath.row == 0 {
-                cell.titleLabel.text = "Display name"
-                cell.contentLabel.text = myUser?.displayname
-            } else if indexPath.row == 1 {
-                cell.titleLabel.text = "User ID"
-                cell.contentLabel.text = myUser?.userId
-            } else {
-                cell.titleLabel.text = nil
-                cell.contentLabel.text = nil
+            withIdentifier: CKUserProfileDetailCell.identifier,
+            for: indexPath) as? CKUserProfileDetailCell {
+            switch indexPath.row {
+            case 0:
+                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: myUser?.userId)
+            case 1:
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
+            case 2:
+                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "+84 222 11 5550")
+            default:
+                break
             }
-
             return cell
         }
         
-        return CKAccountProfileInfoCell()
+        return CKUserProfileDetailCell()
     }
     
     private func cellForSignOutButton(atIndexPath indexPath: IndexPath) -> CKSignoutButtonTableViewCell {
@@ -293,14 +330,44 @@ class CKAccountProfileViewController: MXKViewController {
         
     }
     
-    private func titleForHeader(atSection section: Int) -> String {
-        guard let section = Section(rawValue: section) else { return ""}
-        
-        switch section {
-        default:
-            return ""
-        }
+    private func reloadAvatarCell() {
+        self.removeSpinner()
+        self.tableView.reloadSections([Section.avatar.rawValue], with: .automatic)
     }
+    
+    
+    // -- show alert choose edit avatar: camera + photoLibrary
+    private func handlerEditAvatar() {
+        
+        let optionAlert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_take_photo"), style: .default, handler: { [weak self] (action) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                let myPickerController = UIImagePickerController()
+                myPickerController.sourceType = .camera
+                myPickerController.delegate = self;
+                self?.present(myPickerController, animated: true, completion: nil)
+            }
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_choose_from_library"), style: .default, handler: { [weak self] (action) in
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.sourceType = .photoLibrary
+            imagePickerController.delegate = self
+            self?.present(imagePickerController, animated: true, completion: nil)
+
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { (action) in
+        }))
+        
+        optionAlert.show()
+    }
+}
+
+// MARK: Handler Sign out
+extension CKAccountProfileViewController {
     
     private func signOut(button: UIButton) {
         //  Check sign out when use KeyBackup
@@ -309,15 +376,15 @@ class CKAccountProfileViewController: MXKViewController {
             self.signOutAlertPresenter?.present(for: keyBackup.state, areThereKeysToBackup: keyBackup.hasKeysToBackup, from: self, sourceView: button, animated: true)
             return
         }
-       
+        
         button.isEnabled = false
-        self.startActivityIndicator()
+        self.showSpinner()
         AppDelegate.the().logout(withConfirmation: true) { [weak self] isLoggedOut in
             if !isLoggedOut {
                 // Enable the button and stop activity indicator
                 button.isEnabled = true
-                self?.stopActivityIndicator()
-
+                self?.removeSpinner()
+                
                 // Clear all cached rooms
                 CKRoomCacheManager.shared.clearAllCachedData()
                 CKKeyBackupRecoverManager.shared.destroy()
@@ -333,23 +400,23 @@ extension CKAccountProfileViewController: UITableViewDelegate {
         guard let section = Section(rawValue: indexPath.section) else { return 0}
         switch section {
         case .avatar:
-            return 250
+            return UITableViewAutomaticDimension
         case .signOut:
             return 100
         default:
-            return 60
+            return UITableViewAutomaticDimension
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
         return view
     }
     
@@ -358,7 +425,7 @@ extension CKAccountProfileViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
+        return CGFloat.leastNonzeroMagnitude
     }
     
 }
@@ -379,8 +446,7 @@ extension CKAccountProfileViewController: UITableViewDataSource {
         // number rows in case
         switch section {
         case .avatar: return 1
-        case .action: return 1
-        case .detail: return 2
+        case .detail: return 3
         case .signOut: return 1
         }
     }
@@ -392,13 +458,8 @@ extension CKAccountProfileViewController: UITableViewDataSource {
         
         switch section {
         case .avatar:
-            
             // account profile avatar cell
             return cellForAvatarPersonal(atIndexPath: indexPath)
-        case .action:
-            
-            // account profile action cell
-            return cellForAction(atIndexPath: indexPath)
         case .detail:
             return cellForInfoPersonal(atIndexPath: indexPath)
         case .signOut:
@@ -412,12 +473,12 @@ extension CKAccountProfileViewController: SignOutAlertPresenterDelegate {
     func signOutAlertPresenterDidTapSignOutAction(_ presenter: SignOutAlertPresenter) {
         // Prevent user to perform user interaction in settings when sign out
         // TODO: Prevent user interaction in all application (navigation controller and split view controller included)
-        self.startActivityIndicator()
+        self.showSpinner()
         self.signOutButton?.isEnabled = false
         
         AppDelegate.the().logout(withConfirmation: false) { [weak self] isLoggedOut in
             // Enable the button and stop activity indicator
-            self?.stopActivityIndicator()
+            self?.removeSpinner()
             self?.signOutButton?.isEnabled = true
             CKKeyBackupRecoverManager.shared.destroy()
         }
@@ -449,5 +510,25 @@ extension CKAccountProfileViewController: KeyBackupSetupCoordinatorBridgePresent
             self.keyBackupSetupCoordinatorBridgePresenter?.dismiss(animated: true)
             self.keyBackupSetupCoordinatorBridgePresenter = nil
         }
+    }
+}
+
+
+// MARK: UIImagePickerControllerDelegate
+extension CKAccountProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
+        }
+        
+        self.dismiss(animated: true, completion: { [weak self] in
+            self?.imagePickedBlock?(image)
+        })
     }
 }
