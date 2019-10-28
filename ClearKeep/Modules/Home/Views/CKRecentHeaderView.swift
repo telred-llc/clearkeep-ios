@@ -47,6 +47,7 @@ class CKRecentHeaderView: UIView {
     // MARK: - PUBLIC
     func setTitle(title: String, numberChat: Int) {
         self.titleLabel.text = "\(title) (\(numberChat))"
+        self.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
     }
     
     func setImageDescription(nameImage : String){

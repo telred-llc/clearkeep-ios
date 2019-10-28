@@ -11,7 +11,7 @@ import Foundation
 // MARK: - UIViewController extension
 
 extension UIViewController {
-    
+
     /// Remove back bar button title when pushing a view controller.
     /// This method should be called on the previous controller in UINavigationController stack.
     func vc_removeBackTitle() {
@@ -229,6 +229,32 @@ extension UIApplication {
     }
 }
 
+extension UINavigationController {
+    @objc
+    func pushViewController(_ viewController: UIViewController, animated: Bool = true, completion: @escaping () -> Void) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        pushViewController(viewController, animated: animated)
+        CATransaction.commit()
+    }
+    
+    @objc
+    func popViewController(animated: Bool = true, completion: @escaping () -> Void) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        popViewController(animated: animated)
+        CATransaction.commit()
+    }
+    
+    @objc
+    func popToRootViewController(animated: Bool = true, completion: @escaping () -> Void) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        popToRootViewController(animated: animated)
+        CATransaction.commit()
+    }
+}
+        
 var topSpinner : UIView?
 
 extension UIViewController {

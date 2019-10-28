@@ -149,7 +149,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         self.notifiCountLabel.text = "\(rcd.notificationCount)"
         self.notifiCountLabel.backgroundColor = CKColor.Text.warning
         self.notifiCountLabel.circle()
-        self.backgroundColor = rcd.hasUnread ? CKColor.Background.blueTran : UIColor.white
+        self.theme.backgroundColor = rcd.hasUnread ? themeService.attrStream{ $0.unreadCellBgColor } : themeService.attrStream{ $0.cellPrimaryBgColor }
         
         encryptedIconImage.image = UIImage(named: "ic_key_encrypted")?.withRenderingMode(.alwaysTemplate)
         encryptedIconImage.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }

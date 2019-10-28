@@ -106,9 +106,10 @@ final class CkHomeViewController: CKRecentListViewController {
     }
     
     func setupRightMenu(navigationItem: UINavigationItem) {
-        let newChatItem = UIBarButtonItem.init(image: UIImage.init(named: "ic_new_conversation"), style: .plain, target: self, action: #selector(clickedOnRightMenuItem))
+        let btnImage = UIImage(named: "ic_new_chat")?.withRenderingMode(.alwaysTemplate)
+        let newChatItem = UIBarButtonItem.init(image: btnImage, style: .plain, target: self, action: #selector(clickedOnRightMenuItem))
         navigationItem.rightBarButtonItem = newChatItem
-        navigationItem.rightBarButtonItem?.tintColor = CKColor.Background.newConver
+        navigationItem.rightBarButtonItem?.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
     }
     
     // MARK: Action
@@ -314,10 +315,11 @@ final class CkHomeViewController: CKRecentListViewController {
 
             // is class?
             if let vc = vc as? CKRoomDirectCreatingViewController {
-
+                
                 // setup vc
                 vc.delegate = self
                 vc.importSession(self.mxSessions)
+                vc.navigationController?.navigationBar.tintColor = kRiotTopicTextColor;
             }
         }
 
@@ -337,6 +339,7 @@ final class CkHomeViewController: CKRecentListViewController {
 
                 // importing session
                 vc.importSession(self.mxSessions)
+                vc.navigationController?.navigationBar.tintColor = kRiotTopicTextColor;
             }
         }
 

@@ -16,7 +16,7 @@
  */
 
 #import "UIViewController+RiotSearch.h"
-
+#import "Riot-Swift.h"
 #import <objc/runtime.h>
 
 #import "RiotDesignValues.h"
@@ -96,9 +96,10 @@
         // Customize search bar
         self.searchBar.barStyle = kRiotDesignSearchBarStyle;
         self.searchBar.tintColor = kRiotDesignSearchBarTintColor;
-        
-        // Remove navigation buttons
-        self.navigationItem.hidesBackButton = YES;
+        [self.searchBar setTextFieldColorWithColor:kRiotSecondaryBgColor];
+
+        self.navigationItem.hidesBackButton = NO;
+        self.navigationController.navigationBar.tintColor = kRiotTopicTextColor;
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.leftBarButtonItem = nil;
         
@@ -109,18 +110,18 @@
         if (@available(iOS 11.0, *)) {
             [self.searchBar.heightAnchor constraintEqualToConstant:44].active = YES;
         }
-        
-        // On iPad, there is no cancel button inside the UISearchBar
-        // So, add a classic cancel right bar button
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onIPadCancelPressed:)];
-            [self.navigationItem setRightBarButtonItem: cancelButton animated:YES];
-        }
+
+        UIImage *buttonImage = [[UIImage imageNamed:@"ic_new_chat"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIBarButtonItem *newRoomButton = [[UIBarButtonItem alloc] initWithImage:buttonImage style:UIBarButtonItemStylePlain target:self action:@selector(onPressRightMenuItem)];
+        newRoomButton.tintColor = kRiotTopicTextColor;
+        [self.navigationItem setRightBarButtonItem: newRoomButton animated:YES];
     }
-    
+
     // And display the keyboard
     [self.searchBar becomeFirstResponder];
+}
+
+- (void)onPressRightMenuItem {
 }
 
 - (void)hideSearch:(BOOL)animated
@@ -269,7 +270,7 @@
         searchInternals = [[UIViewControllerRiotSearchInternals alloc] init];
 
         UISearchBar *searchBar = [[UISearchBar alloc] init];
-        searchBar.showsCancelButton = YES;
+        searchBar.showsCancelButton = NO;
         searchBar.delegate = (id<UISearchBarDelegate>)self;
         searchInternals.searchBar = searchBar;
 

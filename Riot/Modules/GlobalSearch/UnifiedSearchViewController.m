@@ -110,6 +110,14 @@
     [super showSearch:NO];
 }
 
+- (void)onPressRightMenuItem {
+    [self.navigationController popViewControllerWithAnimated:NO completion:^{
+        if (_didSelectCreateNewRoom) {
+            _didSelectCreateNewRoom();
+        }
+    }];
+}
+
 - (void)userInterfaceThemeDidChange
 {
     [super userInterfaceThemeDidChange];
@@ -421,7 +429,7 @@
     }
 
     // Hide back button title
-    self.navigationItem.backBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+//    self.navigationItem.backBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 #pragma mark - Search

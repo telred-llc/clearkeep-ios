@@ -64,4 +64,5 @@
  */
 - (void)setKeyboardHeightForBackgroundImage:(CGFloat)keyboardHeight;
 
+- (void)onPressRightMenuItem;
 @end

@@ -10,8 +10,8 @@ import Foundation
 
 final class CKCallViewController: CallViewController {
     
-    private let maxCallControlItemWidth: CGFloat = 55
-    private let minCallControlsSpacing: CGFloat = 10
+    private let maxCallControlItemWidth: CGFloat = 65
+    private let minCallControlsSpacing: CGFloat = 6
     private let disposeBag = DisposeBag()
     private var pulseArray = [CAShapeLayer]()
     
@@ -29,11 +29,14 @@ final class CKCallViewController: CallViewController {
     }
 
     private func bindingTheme() {
+        let image = UIImage.init(named: "back_icon")?.withRenderingMode(.alwaysTemplate)
+        self.backToAppButton.setImage(image, for: .normal)
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.callerNameLabel.textColor = themeService.attrs.primaryTextColor
             self?.callStatusLabel.textColor = themeService.attrs.secondTextColor
-            self?.view.backgroundColor = themeService.attrs.secondBgColor
+            self?.view.backgroundColor = themeService.attrs.navBarBgColor
+            self?.backToAppButton.tintColor = themeService.attrs.primaryTextColor
         }).disposed(by: disposeBag)
     }
     
@@ -181,7 +184,7 @@ final class CKCallViewController: CallViewController {
             return
         }
         //Giving color to the layer
-        pulseArray[index].strokeColor = UIColor.gray.cgColor
+        pulseArray[index].strokeColor = CKColor.Misc.pulseCicleColor.cgColor
         
         //Creating scale animation for the layer, from and to value should be in range of 0.0 to 1.0
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
@@ -190,7 +193,7 @@ final class CKCallViewController: CallViewController {
         
         //Creating opacity animation for the layer, from and to value should be in range of 0.0 to 1.0
         let opacityAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
-        opacityAnimation.fromValue = 0.75
+        opacityAnimation.fromValue = 1.0
         opacityAnimation.toValue = 0.0
         
         // Grouping both animations and giving animation duration, animation repat count

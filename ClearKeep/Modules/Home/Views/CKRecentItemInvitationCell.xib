@@ -64,7 +64,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="9Gp-Wf-cjc" firstAttribute="leading" secondItem="kPU-0m-PJ0" secondAttribute="trailing" constant="5" id="BCm-Bh-QNr"/>
                                     <constraint firstItem="kPU-0m-PJ0" firstAttribute="leading" secondItem="wHQ-EL-a0B" secondAttribute="trailing" constant="20" id="BN4-wA-I0k"/>
@@ -119,6 +119,7 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Rm9-t3-0PF" secondAttribute="trailing" id="LYa-2D-DDq"/>
                             <constraint firstItem="Rm9-t3-0PF" firstAttribute="top" secondItem="jzs-w2-4cq" secondAttribute="top" id="T7w-vR-FKn"/>
@@ -129,7 +130,7 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="jzs-w2-4cq" secondAttribute="bottom" constant="8" id="3jM-y3-U1B"/>
                     <constraint firstAttribute="trailing" secondItem="jzs-w2-4cq" secondAttribute="trailing" constant="15" id="KYB-bA-vNZ"/>
@@ -137,6 +138,7 @@
                     <constraint firstItem="jzs-w2-4cq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="xW3-H7-KQf"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="avatarImage" destination="wHQ-EL-a0B" id="cbi-MR-MDI"/>

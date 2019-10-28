@@ -3052,18 +3052,8 @@ extension CKRoomViewController {
 
 extension CKRoomViewController {
     
-    
     func contextualMenuItems(for event: MXEvent?, andCell cell: MXKCellRendering?) -> [RoomContextualMenuItem]? {
-        
-        let eventId = event?.eventId
-        let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell
-        let attachment = roomBubbleTableViewCell?.bubbleData.attachment
-        
-        
-        let moreAction: RoomContextualMenuItem = RoomContextualMenuItem.init(menuAction: RoomContextualMenuAction.more)
-        
-        let actionItems: [RoomContextualMenuItem] = [moreAction]
-        
+
         return []
     }
 
@@ -3071,9 +3061,10 @@ extension CKRoomViewController {
         if roomContextualMenuPresenter?.isPresenting ?? false {
             return
         }
-        let selectedEventId = event?.eventId
+        guard let selectedEventId = event?.eventId, let roomId = roomDataSource.roomId else {
+            return
+        }
         
-        let contextualMenuItems = self.contextualMenuItems(for: event, andCell: cell)
         var reactionsMenuViewModel: ReactionsMenuViewModel?
         var bubbleComponentFrameInOverlayView = CGRect.null
         if (cell is MXKRoomBubbleTableViewCell) && roomDataSource.canReactToEvent(withId: event?.eventId) {
@@ -3091,32 +3082,31 @@ extension CKRoomViewController {
             }
             
             bubbleComponentFrameInOverlayView = bubblesTableView.convert(bubbleComponentFrame, to: overlayContainerView)
-            let roomId = roomDataSource.roomId
             let aggregations = mainSession.aggregations
-            let aggregatedReactions = aggregations?.aggregatedReactions(onEvent: selectedEventId!, inRoom: roomId!)
+            let aggregatedReactions = aggregations?.aggregatedReactions(onEvent: selectedEventId, inRoom: roomId)
             
-            reactionsMenuViewModel = ReactionsMenuViewModel(aggregatedReactions: aggregatedReactions, eventId: selectedEventId!)
+            reactionsMenuViewModel = ReactionsMenuViewModel(aggregatedReactions: aggregatedReactions, eventId: selectedEventId)
             reactionsMenuViewModel?.coordinatorDelegate = self
         }
         
-        if !(roomContextualMenuViewController != nil) {
+        if roomContextualMenuViewController == nil {
             roomContextualMenuViewController = RoomContextualMenuViewController.instantiate()
             roomContextualMenuViewController?.delegate = self
         }
         
-        roomContextualMenuViewController?.update(contextualMenuItems: contextualMenuItems!, reactionsMenuViewModel: reactionsMenuViewModel!)
-        
-        enableOverlayContainerUserInteractions(true)
-        
-        roomContextualMenuPresenter?.present(roomContextualMenuViewController: roomContextualMenuViewController!,
-                                             from: self,
-                                             on: overlayContainerView,
-                                             contentToReactFrame: bubbleComponentFrameInOverlayView,
-                                             fromSingleTapGesture: usedSingleTapGesture,
-                                             animated: animated, completion: {
-                                                
-        })
-        selectEvent(withId: selectedEventId)
+        if let model = reactionsMenuViewModel {
+            roomContextualMenuViewController?.update(reactionsMenuViewModel: model)
+            enableOverlayContainerUserInteractions(true)
+            roomContextualMenuPresenter?.present(roomContextualMenuViewController: roomContextualMenuViewController!,
+                                                 from: self,
+                                                 on: overlayContainerView,
+                                                 contentToReactFrame: bubbleComponentFrameInOverlayView,
+                                                 fromSingleTapGesture: usedSingleTapGesture,
+                                                 animated: animated, completion: {
+                                                    
+            })
+            selectEvent(withId: selectedEventId)
+        }
     }
     
     func hideContextualMenu(animated: Bool) {

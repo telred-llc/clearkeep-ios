@@ -9,9 +9,8 @@
 import UIKit
 
 extension UISearchBar {
-
+    @objc
     func setTextFieldColor(color: UIColor) {
-
         if let textField = getViewElement(type: UITextField.self) {
             switch searchBarStyle {
             case .minimal:
@@ -23,6 +22,7 @@ extension UISearchBar {
         }
     }
 
+    @objc
     func setTextFieldTextColor(color: UIColor) {
         if let textField = getViewElement(type: UITextField.self) {
             textField.textColor = color

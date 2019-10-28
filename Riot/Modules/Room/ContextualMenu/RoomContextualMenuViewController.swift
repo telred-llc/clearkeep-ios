@@ -108,8 +108,7 @@ final class RoomContextualMenuViewController: UIViewController, Themable {
     
     // MARK: - Public
     
-    func update(contextualMenuItems: [RoomContextualMenuItem], reactionsMenuViewModel: ReactionsMenuViewModel?) {
-        self.contextualMenuItems = contextualMenuItems
+    func update(reactionsMenuViewModel: ReactionsMenuViewModel?) {
         self.reactionsMenuViewModel = reactionsMenuViewModel
         if self.isViewLoaded {
             self.updateViews()

@@ -66,6 +66,7 @@ final class CKContactListViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.contentInset = UIEdgeInsets(top: 7, left: 0, bottom: 0, right: 0)
         bindingTheme()
     }
     
@@ -106,9 +107,10 @@ extension CKContactListViewController {
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.searchBarBgColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
-            self?.tableView?.backgroundColor = theme.searchBarBgColor
+            self?.tableView?.backgroundColor = theme.navBarBgColor
+            self?.view.backgroundColor = theme.navBarBgColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
     }
@@ -200,11 +202,11 @@ extension CKContactListViewController: UITableViewDelegate {
         let label = UILabel.init()
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = UIColor.blue
         label.text = sections[section].letter.localizedUppercase
+        label.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
         let headerView = UIView.init()
         headerView.addSubview(label)
-        headerView.backgroundColor = CKColor.Background.tableView
+        headerView.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -281,7 +283,7 @@ extension CKContactListViewController: UITableViewDataSource {
         } else {
             cell.status = 0
         }
-        
+        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
         return cell
     }
 }

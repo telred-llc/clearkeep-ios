@@ -36,12 +36,9 @@
     // list of NSString
     NSArray* sectionTitles;
     
-    // list of section labels
-    NSArray* sectionLabels;
-    
     // the selected marker view
-    UIView* selectedMarkerView;
-    NSLayoutConstraint *leftMarkerViewConstraint;
+//    UIView* selectedMarkerView;
+//    NSLayoutConstraint *leftMarkerViewConstraint;
     
     // Observe kRiotDesignValuesDidChangeThemeNotification to handle user interface theme change.
     id kRiotDesignValuesDidChangeThemeNotificationObserver;
@@ -89,14 +86,12 @@
     }
     viewControllers = nil;
     sectionTitles = nil;
-    
-    sectionLabels = nil;
-    
-    if (selectedMarkerView)
-    {
-        [selectedMarkerView removeFromSuperview];
-        selectedMarkerView = nil;
-    }
+
+//    if (selectedMarkerView)
+//    {
+//        [selectedMarkerView removeFromSuperview];
+//        selectedMarkerView = nil;
+//    }
     
     if (kRiotDesignValuesDidChangeThemeNotificationObserver)
     {
@@ -143,21 +138,6 @@
         // Instantiate view controller objects
         [[[self class] nib] instantiateWithOwner:self options:nil];
     }
-
-    // Adjust Top
-    [NSLayoutConstraint deactivateConstraints:@[self.selectionContainerTopConstraint]];
-    
-    // it is not possible to define a constraint to the topLayoutGuide in the xib editor
-    // so do it in the code ..
-    self.selectionContainerTopConstraint = [NSLayoutConstraint constraintWithItem:self.topLayoutGuide
-                                                                  attribute:NSLayoutAttributeBottom
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.selectionContainer
-                                                                  attribute:NSLayoutAttributeTop
-                                                                 multiplier:1.0f
-                                                                   constant:0.0f];
-    
-    [NSLayoutConstraint activateConstraints:@[self.selectionContainerTopConstraint]];
     
     [self createSegmentedViews];
     
@@ -234,202 +214,42 @@
 
 - (void)createSegmentedViews
 {
-    NSMutableArray* labels = [[NSMutableArray alloc] init];
-    
     NSUInteger count = viewControllers.count;
-    
+
     for (NSUInteger index = 0; index < count; index++)
     {
+        // Handle container view
+        [_selectionContainer.layer setCornerRadius:5.0];
+        _selectionContainer.clipsToBounds = YES;
+        _selectionContainer.layer.masksToBounds = YES;
+        _selectionContainer.backgroundColor = kRiotSecondaryBgColor;
         // create programmatically each label
-        UILabel *label = [[UILabel alloc] init];
-        
-        label.text = [sectionTitles objectAtIndex:index];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont fontWithName:@"SFCompactDisplay-Medium" size:15];
-        label.textColor = [UIColor colorWithRed:0.67 green:0.67 blue:0.67 alpha:1];
-        label.backgroundColor = [UIColor clearColor];
-        label.accessibilityIdentifier = [NSString stringWithFormat:@"SegmentedVCSectionLabel%tu", index];
-        
-        // the constraint defines the label frame
-        // so ignore any autolayout stuff
-        [label setTranslatesAutoresizingMaskIntoConstraints:NO];
-        
-        // add the label before setting the constraints
-        // CK: change selectionContainer's backgroundColor to clearColor
-        self.selectionContainer.backgroundColor = [UIColor clearColor];
-        [self.selectionContainer addSubview:label];
-    
-        NSLayoutConstraint *leftConstraint;
-        if (labels.count)
-        {
-            leftConstraint = [NSLayoutConstraint constraintWithItem:label
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:[labels objectAtIndex:(index-1)]
-                                                          attribute:NSLayoutAttributeTrailing
-                                                         multiplier:1.0
-                                                           constant:0];
-        }
-        else
-        {
-            leftConstraint = [NSLayoutConstraint constraintWithItem:label
-                                         attribute:NSLayoutAttributeLeading
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:self.selectionContainer
-                                         attribute:NSLayoutAttributeLeading
-                                        multiplier:1.0
-                                          constant:0];
-        }
-        
-        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:label
-                                                                           attribute:NSLayoutAttributeWidth
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.selectionContainer
-                                                                           attribute:NSLayoutAttributeWidth
-                                                                          multiplier:1.0 / count
-                                                                            constant:0];
-        
-        NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:label
-                                                                         attribute:NSLayoutAttributeTop
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.selectionContainer
-                                                                         attribute:NSLayoutAttributeTop
-                                                                        multiplier:1.0
-                                                                          constant:0];
-        
-        
-        
-        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:label
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:self.selectionContainer
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                           multiplier:1.0
-                                                                             constant:0];
-        
-        
-        // set the constraints
-        [NSLayoutConstraint activateConstraints:@[leftConstraint, rightConstraint, topConstraint, heightConstraint]];
+        UIButton *button = _segmentButtons[index];
+        [button setTitle:[sectionTitles objectAtIndex:index] forState:UIControlStateNormal];
+        [button setBackgroundColor: kRiotSecondaryBgColor];
+        [button setBackgroundImage:[UIImage imageNamed:@"btn_section_highlight"] forState:UIControlStateSelected];
+        button.titleLabel.textAlignment = NSTextAlignmentCenter;
+        button.titleLabel.font = [UIFont fontWithName:@"SFCompactDisplay-Regular" size:15];
+        button.titleLabel.textColor = [UIColor colorWithRed:68.0/255.0 green:68.0/255.0 blue:68.0/255.0 alpha:1];
+        button.accessibilityIdentifier = [NSString stringWithFormat:@"SegmentedVCSectionLabel%tu", index];
+        [button setTitleColor:kRiotPrimaryTextColor forState:UIControlStateNormal];
+        [button setTitleColor:kRiotSelectedButtonTextColor forState:UIControlStateSelected];
         
         UITapGestureRecognizer *labelTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onLabelTouch:)];
         [labelTapGesture setNumberOfTouchesRequired:1];
         [labelTapGesture setNumberOfTapsRequired:1];
-        label.userInteractionEnabled = YES;
-        [label addGestureRecognizer:labelTapGesture];
+        button.userInteractionEnabled = YES;
+        [button addGestureRecognizer:labelTapGesture];
             
-        [labels addObject:label];
     }
     
-    sectionLabels = labels;
-    
-    [self addLineMarkerView];
-    [self addSelectedMarkerView];
-    
     [self displaySelectedViewController];
-}
-
-- (void)addSelectedMarkerView
-{
-    // Sanity check
-    NSAssert(sectionLabels.count, @"[SegmentedViewController] addSelectedMarkerView failed - At least one view controller is required");
-
-    // create the selected marker view
-    selectedMarkerView = [[UIView alloc] init];
-    selectedMarkerView.backgroundColor = _sectionHeaderTintColor;
-    [selectedMarkerView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.selectionContainer addSubview:selectedMarkerView];
-    
-    leftMarkerViewConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                            attribute:NSLayoutAttributeLeading
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:[sectionLabels objectAtIndex:_selectedIndex]
-                                                            attribute:NSLayoutAttributeLeading
-                                                           multiplier:1.0
-                                                             constant:0];
-    
-    
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:self.selectionContainer
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                      multiplier:1.0 / sectionLabels.count
-                                                                        constant:0];
-    
-    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                                        attribute:NSLayoutAttributeBottom
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.selectionContainer
-                                                                        attribute:NSLayoutAttributeBottom
-                                                                       multiplier:1.0
-                                                                         constant:0];
-    
-    
-    
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:nil
-                                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                                       multiplier:1.0
-                                                                         constant:1];
-    
-    // set the constraints
-    [NSLayoutConstraint activateConstraints:@[leftMarkerViewConstraint, widthConstraint, bottomConstraint, heightConstraint]];
-}
-
-- (void)addLineMarkerView
-{
-    
-    // create the line marker view
-    selectedMarkerView = [[UIView alloc] init];
-    selectedMarkerView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-    [selectedMarkerView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.selectionContainer addSubview:selectedMarkerView];
-    
-    leftMarkerViewConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                            attribute:NSLayoutAttributeLeading
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:self.view
-                                                            attribute:NSLayoutAttributeLeading
-                                                           multiplier:1.0
-                                                             constant:0];
-    
-    
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:self.view
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                      multiplier:1.0
-                                                                        constant:0];
-    
-    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                                        attribute:NSLayoutAttributeBottom
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.selectionContainer
-                                                                        attribute:NSLayoutAttributeBottom
-                                                                       multiplier:1.0
-                                                                         constant:0];
-    
-    
-    
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:nil
-                                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                                       multiplier:1.0
-                                                                         constant:1];
-    
-    // set the constraints
-    [NSLayoutConstraint activateConstraints:@[leftMarkerViewConstraint, widthConstraint, bottomConstraint, heightConstraint]];
 }
 
 - (void)displaySelectedViewController
 {
     // Sanity check
-    NSAssert(sectionLabels.count, @"[SegmentedViewController] displaySelectedViewController failed - At least one view controller is required");
+    NSAssert(_segmentButtons.count, @"[SegmentedViewController] displaySelectedViewController failed - At least one view controller is required");
 
     if (_selectedViewController)
     {
@@ -437,36 +257,20 @@
         
         if (index != NSNotFound)
         {
-            UILabel* label = [sectionLabels objectAtIndex:index];
-            label.font = [UIFont fontWithName:@"SFCompactDisplay-Medium" size:15];
-            label.textColor = [UIColor colorWithRed:0.67 green:0.67 blue:0.67 alpha:1];
+            UIButton* button = [_segmentButtons objectAtIndex: index];
+            button.titleLabel.font = [UIFont fontWithName:@"SFCompactDisplay-Regular" size:15];
         }
         
         [_selectedViewController willMoveToParentViewController:nil];
-        
         [_selectedViewController.view removeFromSuperview];
         [_selectedViewController removeFromParentViewController];
         
-        [NSLayoutConstraint deactivateConstraints:@[displayedVCTopConstraint, displayedVCLeftConstraint, displayedVCWidthConstraint, displayedVCHeightConstraint]];
     }
     
-    UILabel* label = [sectionLabels objectAtIndex:_selectedIndex];
-    label.font = [UIFont fontWithName:@"SFCompactDisplay-Medium" size:15];//[UIFont boldSystemFontOfSize:17];
-    label.textColor = _sectionHeaderTintColor;
-
-    // update the marker view position
-    [NSLayoutConstraint deactivateConstraints:@[leftMarkerViewConstraint]];
-
-    leftMarkerViewConstraint = [NSLayoutConstraint constraintWithItem:selectedMarkerView
-                                                            attribute:NSLayoutAttributeLeading
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:[sectionLabels objectAtIndex:_selectedIndex]
-                                                            attribute:NSLayoutAttributeLeading
-                                                           multiplier:1.0
-                                                             constant:0];
-
-    [NSLayoutConstraint activateConstraints:@[leftMarkerViewConstraint]];
-
+    UIButton* button = [_segmentButtons objectAtIndex:_selectedIndex];
+    button.titleLabel.font = [UIFont fontWithName:@"SFCompactDisplay-Regular" size:15];//[UIFont boldSystemFontOfSize:17];
+    [button setSelected:YES];
+    
     // Set the new selected view controller
     _selectedViewController = [viewControllers objectAtIndex:_selectedIndex];
 
@@ -537,7 +341,7 @@
         [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn
                          animations:^{
 
-                             self.selectionContainerHeightConstraint.constant = 44;
+//                             self.selectionContainerHeightConstraint.constant = 44;
                              [self.view layoutIfNeeded];
                          }
                          completion:^(BOOL finished){
@@ -545,7 +349,7 @@
     }
     else
     {
-        self.selectionContainerHeightConstraint.constant = 44;
+//        self.selectionContainerHeightConstraint.constant = 44;
         [self.view layoutIfNeeded];
     }
 }
@@ -560,7 +364,7 @@
         [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn
                          animations:^{
 
-                             self.selectionContainerHeightConstraint.constant = 0;
+//                             self.selectionContainerHeightConstraint.constant = 0;
                              [self.view layoutIfNeeded];
                          }
                          completion:^(BOOL finished) {
@@ -573,7 +377,7 @@
     }
     else
     {
-        self.selectionContainerHeightConstraint.constant = 0;
+//        self.selectionContainerHeightConstraint.constant = 0;
         [self.view layoutIfNeeded];
 
         // Go back to the recents tab
@@ -586,10 +390,16 @@
 
 - (void)onLabelTouch:(UIGestureRecognizer*)gestureRecognizer
 {
-    NSUInteger pos = [sectionLabels indexOfObject:gestureRecognizer.view];
+    NSUInteger pos = [_segmentButtons indexOfObject:gestureRecognizer.view];
     // check if there is an update before triggering anything
     if ((pos != NSNotFound) && (_selectedIndex != pos))
     {
+        UIButton* button = [_segmentButtons objectAtIndex: pos];
+        [button setSelected:YES];
+
+        UIButton* selectedButton = [_segmentButtons objectAtIndex: self.selectedIndex];
+        [selectedButton setSelected:NO];
+
         // update the selected index
         self.selectedIndex = pos;
     }

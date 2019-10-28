@@ -135,7 +135,7 @@
     //-- ck
     // [AppDelegate theDelegate].masterTabBarController.navigationItem.title = NSLocalizedStringFromTable(@"title_home", @"Vector", nil);
 
-    [AppDelegate theDelegate].masterTabBarController.navigationController.navigationBar.tintColor = kRiotColorGreen;
+    [AppDelegate theDelegate].masterTabBarController.navigationController.navigationBar.tintColor = kRiotTopicTextColor;
     [AppDelegate theDelegate].masterTabBarController.tabBar.tintColor = kRiotColorGreen;
     
     if (recentsDataSource)
