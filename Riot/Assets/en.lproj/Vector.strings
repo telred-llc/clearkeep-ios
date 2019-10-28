@@ -652,6 +652,10 @@
 "rerequest_keys_alert_title" = "Request Sent";
 "rerequest_keys_alert_message" = "Please launch ClearKeep on another device that can decrypt the message so it can send the keys to this device.";
 
+// show alert choose camera + library
+"alert_take_photo" = "Take photo";
+"alert_choose_from_library" = "Choose from library";
+
 
 // MARK: Emoji picker
 "emoji_picker_title" = "Reactions";

@@ -52,6 +52,27 @@ extension UIViewController {
 
 }
 
+// MARK: Custom Back Button Item
+extension UIViewController: UIGestureRecognizerDelegate {
+    
+    func addCustomBackButton(_ image: UIImage? = UIImage(named: "back_button")?.withRenderingMode(.alwaysTemplate)) {
+        
+        let backButton = UIBarButtonItem(image: image,
+                                         style: .plain,
+                                         target: self,
+                                         action:  #selector(handlePopViewController))
+        
+        backButton.tintColor = CKColor.Icon.back
+        navigationItem.leftBarButtonItem = backButton
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    @objc
+    private func handlePopViewController() {
+        navigationController?.popViewController(animated: true)
+    }
+}
+
 // MARK: - MXKViewController extension
 
 @objc extension MXKViewController {
@@ -213,7 +234,7 @@ var topSpinner : UIView?
 extension UIViewController {
 
     @objc
-    func showSpinner(onView : UIView) {
+    func showSpinner(onView : UIView = (UIApplication.topViewController()?.view)!) {
         let spinnerView = UIView.init(frame: onView.bounds)
         spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.25)
         let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .gray)
