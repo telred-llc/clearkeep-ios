@@ -669,9 +669,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     // Observe crypto data storage corruption
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSessionCryptoDidCorruptData:) name:kMXSessionCryptoDidCorruptDataNotification object:nil];
-    
-    // Observe wrong backup version
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBackupStateDidChange:) name:kMXKeyBackupDidStateChangeNotification object:nil];
+
+    // Observe key backup state
+    [self observeKeybackupState];
     
     // Resume all existing matrix sessions
     NSArray *mxAccounts = [MXKAccountManager sharedManager].activeAccounts;
@@ -2708,7 +2708,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     [self logoutSendingRequestServer:YES completion:^(BOOL isLoggedOut) {
         if (completion)
         {
-            completion (YES);
+            completion (isLoggedOut);
         }
     }];
 }
@@ -2724,7 +2724,7 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     
     // Reset key backup banner preferences
     [KeyBackupBannerPreferences.shared reset];
-    
+
 #ifdef MX_CALL_STACK_ENDPOINT
     // Erase all created certificates and private keys by MXEndpointCallStack
     for (MXKAccount *account in MXKAccountManager.sharedManager.accounts)
@@ -2744,6 +2744,9 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             completion (YES);
         }
         
+        // Remove key state observer
+        [self removeKeyBackupStateObserver];
+
         // Return to authentication screen
         [_masterTabBarController showAuthenticationScreen];
 
@@ -4246,6 +4249,24 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     {
         MXKAccount *currentAccount = [MXKAccountManager sharedManager].activeAccounts.firstObject;
         RiotSettings.shared.showDecryptedContentInNotifications = currentAccount.showDecryptedContentInNotifications;
+    }
+}
+
+#pragma mark - Key backup state observer
+
+- (void)observeKeybackupState {
+    // Remove (if any) to prevent duplicated behavior
+    [self removeKeyBackupStateObserver];
+
+    // Observe backup key version
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBackupStateDidChange:) name:kMXKeyBackupDidStateChangeNotification object:nil];
+}
+
+- (void)removeKeyBackupStateObserver {
+    @try {
+        [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kMXKeyBackupDidStateChangeNotification];
+    } @catch(id anException) {
+        // do nothing, this observer wasn't registered
     }
 }
 

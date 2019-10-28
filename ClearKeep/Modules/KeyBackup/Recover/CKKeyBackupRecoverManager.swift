@@ -19,9 +19,8 @@ public class CKKeyBackupRecoverManager: NSObject {
     private (set) var keyBackup: MXKeyBackup?
     private var passphrase: String?
     private var currentHTTPOperation: MXHTTPOperation?
-    private var isShowingAlert: Bool = false
-    private var isProcessingKey: Bool = false
-    private var alert = UIAlertController()
+    private var isProcessingKeyData: Bool = false
+    private var alert: UIAlertController?
     private override init() {
         super.init()
         setup()
@@ -31,6 +30,7 @@ public class CKKeyBackupRecoverManager: NSObject {
     
     deinit {
         self.currentHTTPOperation?.cancel()
+        self.isProcessingKeyData = false
     }
 
     // MARK: - Private
@@ -47,10 +47,10 @@ public class CKKeyBackupRecoverManager: NSObject {
 
     /// Reset properties
     func destroy() {
-        self.currentHTTPOperation?.cancel()
-        self.isShowingAlert = false
+        self.alert = nil
         self.passphrase = nil
         self.keyBackup = nil
+        self.isProcessingKeyData = false
     }
 
     /// Set the manager with a backup key
@@ -66,6 +66,10 @@ public class CKKeyBackupRecoverManager: NSObject {
 
 private extension CKKeyBackupRecoverManager {
     func checkPasspharse() {
+        if self.isProcessingKeyData {
+            return
+        }
+        self.isProcessingKeyData = true
         CKAppManager.shared.apiClient.getPassphrase()
             .done({ [weak self] response in
                 if let baseData = response.passphrase, baseData.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 {
@@ -143,12 +147,10 @@ private extension CKKeyBackupRecoverManager {
     func restoreKey() {
         guard let passphrase = self.passphrase,
             let key = self.keyBackup,
-            let version = key.keyBackupVersion,
-            !self.isProcessingKey else {
+            let version = key.keyBackupVersion else {
                 return
         }
         
-        self.isProcessingKey = true
         self.currentHTTPOperation = key.restore(version, withPassword: passphrase, room: nil, session: nil, success: { [weak self] (_, _) in
             guard let sself = self else {
                 return
@@ -157,28 +159,26 @@ private extension CKKeyBackupRecoverManager {
 
             // Trust on decrypt
             sself.currentHTTPOperation = key.trust(version, trust: true, success: { () in
-                sself.isProcessingKey = false
                 print("restoreKeyBackupVersion success to trust!")
             }, failure: { error in
-                sself.isProcessingKey = false
                 print("restoreKeyBackupVersion failed to trust!")
                 sself.display(error)
             })
             }, failure: { error in
-                self.isProcessingKey = false
                 print("restoreKeyBackupVersion failed!")
                 if error.localizedDescription.contains("Invalid recovery key") {
-                    if self.isShowingAlert {
+                    if let _ = self.alert {
                         return
                     }
 
                     if CKAppManager.shared.userPassword == nil {
                         self.alert = UIAlertController(title: "Restore backup key failed!", message: "Please re-login to create new backup key!\nIf you don't remember your passphrase, consider not logging out because your encrypted messages might be lost", preferredStyle: .alert)
                         
-                        self.alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {(_) in
+                        self.alert?.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {[weak self] (_) in
+                            self?.alert = nil
                         }))
                         
-                        self.alert.addAction(UIAlertAction(title: "Sign out", style: .default, handler: {(_) in
+                        self.alert?.addAction(UIAlertAction(title: "Sign out", style: .default, handler: {[weak self] (_) in
                             AppDelegate.the().logout(withConfirmation: false, completion: { (finished) in
                                 if finished {
                                     // Clear all cached rooms
@@ -186,14 +186,13 @@ private extension CKKeyBackupRecoverManager {
                                     CKKeyBackupRecoverManager.shared.destroy()
                                 }
                             })
+                            self?.alert = nil
                         }))
 
-                        self.alert.show()
+                        self.alert?.show()
                     } else {
                         self.showPassphraseAlert()
                     }
-
-                    self.isShowingAlert = true
                 } else {
                     self.display(error)
                 }
@@ -201,83 +200,80 @@ private extension CKKeyBackupRecoverManager {
     }
 
     func restoreKey(from oldPassphrase: String) {
-        guard let key = self.keyBackup, let version = key.keyBackupVersion, !self.isProcessingKey else {
+        guard let key = self.keyBackup, let version = key.keyBackupVersion else {
             return
         }
-        self.isProcessingKey = true
 
         self.currentHTTPOperation = key.restore(version, withPassword: oldPassphrase, room: nil, session: nil, success: { [weak self] (_, _) in
             guard let sself = self else {
                 return
             }
             print("restoreKeyBackupVersion success!")
-            
+
             // Trust on decrypt
             sself.currentHTTPOperation = key.trust(version, trust: true, success: { [weak self] () in
                 print("restoreKeyBackupVersion success to trust!")
                 guard let sself = self, let versionString = version.version else {
                     return
                 }
-                
+
                 // Delete the old key
                 sself.currentHTTPOperation = key.deleteVersion(versionString, success: {
-                    sself.isProcessingKey = false
                     print("Delete keyBackupVersion success!")
                 }, failure: { (error) in
-                    sself.isProcessingKey = false
                     sself.display(error)
                 })
             }, failure: { error in
-                sself.isProcessingKey = false
                 print("restoreKeyBackupVersion failed to trust!")
                 sself.display(error)
             })
             }, failure: { error in
-                self.isProcessingKey = false
                 print("restoreKeyBackupVersion failed!")
                 self.display(error)
         })
     }
 
     func createKey(_ firstKey: Bool = true) {
-        guard let passphrase = self.passphrase, let key = self.keyBackup, !self.isProcessingKey else {
+        guard let passphrase = self.passphrase, let key = self.keyBackup else {
             return
         }
-        self.isProcessingKey = true
 
         key.prepareKeyBackupVersion(withPassword: passphrase, success: { (megolmBackupCreationInfo) in
             self.currentHTTPOperation = key.createKeyBackupVersion(megolmBackupCreationInfo, success: { (_) in
                 print("createKeyBackupVersion success")
-                self.isProcessingKey = false
                 if firstKey {
                     return
                 }
                 self.display(nil, message: "Create key success!")
             },failure: { (error) in
-                self.isProcessingKey = false
                 print("createKeyBackupVersion failed")
             })
         })
     }
 
     func display(_ error: Error?, message: String? = nil, title: String? = nil) {
+        if let _ = self.alert {
+            return
+        }
         if let err = error, err.localizedDescription.contains("Invalid") {
             alert = UIAlertController(title: "Invalid passphrase", message: "Try again or using new key (Old data will be lost)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: { (_) in
-                self.isShowingAlert = false
-                self.showPassphraseAlert()
+            alert?.addAction(UIAlertAction(title: "Try again", style: .default, handler: { [weak self] (_) in
+                self?.showPassphraseAlert()
+                self?.alert = nil
             }))
-            alert.addAction(UIAlertAction(title: "New key", style: .default, handler: { (_) in
-                self.createKey(false)
+            alert?.addAction(UIAlertAction(title: "New key", style: .default, handler: { [weak self] (_) in
+                self?.createKey(false)
+                self?.alert = nil
             }))
 
-            alert.show()
+            alert?.show()
         } else if let msg = message {
             alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
             if msg.contains("your encrypted messages might be lost") {
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+                self.alert?.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] (_) in
+                    self?.alert = nil
                 }))
-                alert.addAction(UIAlertAction(title: "Sign out", style: .default, handler: { (_) in
+                self.alert?.addAction(UIAlertAction(title: "Sign out", style: .default, handler: { [weak self] (_) in
                     AppDelegate.the().logout(withConfirmation: false, completion: { (finished) in
                         if finished {
                             // Clear all cached rooms
@@ -285,47 +281,53 @@ private extension CKKeyBackupRecoverManager {
                             CKKeyBackupRecoverManager.shared.destroy()
                         }
                     })
+                    self?.alert = nil
                 }))
             } else {
-                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (_) in
+                self.alert?.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (_) in
                 }))
             }
 
-            alert.show()
+            self.alert?.show()
         }
     }
 
     func showPassphraseAlert() {
+        if let _ = self.alert {
+            return
+        }
         alert = UIAlertController(title: "", message: "Please enter your current passphrase to recover your old messages", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: { (textField) in
+        self.alert?.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "Password"
             textField.isSecureTextEntry = true
             textField.delegate = self
         })
 
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            let textField = alert?.textFields![0]
+        self.alert?.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (_) in
+            let textField = self?.alert?.textFields![0]
             if let pass = textField?.text {
-                self.restoreKey(from: pass)
+                self?.restoreKey(from: pass)
             }
-            self.isShowingAlert = false
+            self?.alert = nil
         }))
 
-        self.isShowingAlert = true
-        self.alert.actions[0].isEnabled = false
-        alert.show()
+        self.alert?.actions[0].isEnabled = false
+        self.alert?.show()
     }
 }
 
 extension CKKeyBackupRecoverManager: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let fullString = textField.text ?? "" + string
-
+        guard let popup = self.alert else {
+            return true
+        }
+        
         // Textfield will become empty
         if (string == "" && range.location == 0 && (range.length >= fullString.count)) {
-            self.alert.actions[0].isEnabled = false
+            popup.actions[0].isEnabled = false
         } else {
-            self.alert.actions[0].isEnabled = true
+            popup.actions[0].isEnabled = true
         }
 
         return true

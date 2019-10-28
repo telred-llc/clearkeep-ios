@@ -279,8 +279,9 @@ public class CKAppManager: NSObject {
                 headers["Authorization"] = "Bearer \(accessToken)"
             }
         }
+        AppDelegate.the()?.observeKeybackupState()
     }
-    
+
     func updatePassphrase(_ passphrase: String) {
         self.passphrase = passphrase
     }

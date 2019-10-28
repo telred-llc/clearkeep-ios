@@ -167,58 +167,6 @@ extension CkMasterTabBarController {
         self.keyBackupRecoverCoordinatorBridgePresenter?.present(from: self, animated: true)
         self.keyBackupRecoverCoordinatorBridgePresenter?.delegate = self
     }
-    
-    @objc private func keyBackupStateDidChange(_ notification: Notification?) {
-        if !AppDelegate.the().isFirstLogin {
-            return
-        }
-        guard let keyBackup = notification?.object as? MXKeyBackup else {
-            return
-        }
-        if self.currentAlert != nil {
-            if keyBackup.state == MXKeyBackupStateNotTrusted || keyBackup.state == MXKeyBackupStateDisabled {
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
-                    self.keyBackupStateDidChange(notification)
-                })
-            }
-            return
-        }
-
-        if keyBackup.state == MXKeyBackupStateNotTrusted, let keyBackupVersion = keyBackup.keyBackupVersion {
-            if self.keyBackupAlert != nil {
-                self.keyBackupAlert?.dismiss(animated: false)
-            }
-            self.keyBackupAlert = UIAlertController(title: CKLocalization.string(byKey: "key_backup_alert_title_status_not_trusted"), message: CKLocalization.string(byKey: "key_backup_alert_message_status_not_trusted"), preferredStyle: .alert)
-            self.keyBackupAlert?.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: .default, handler: { action in
-                self.keyBackupAlert = nil
-                self.presentKeyBackupRecover(keyBackupVersion: keyBackupVersion)
-            }))
-            self.keyBackupAlert?.addAction(UIAlertAction(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { action in
-                self.keyBackupAlert = nil
-            }))
-            
-            if let keyBackupAlert = self.keyBackupAlert {
-                self.present(keyBackupAlert, animated: true)
-            }
-        } else if keyBackup.state == MXKeyBackupStateDisabled {
-            if self.keyBackupAlert != nil {
-                self.keyBackupAlert?.dismiss(animated: false)
-            }
-            self.keyBackupAlert = UIAlertController(title: CKLocalization.string(byKey: "key_backup_alert_title_status_disabled"), message: CKLocalization.string(byKey: "key_backup_alert_message_status_disabled"), preferredStyle: .alert)
-            self.keyBackupAlert?.addAction(UIAlertAction(title: Bundle.mxk_localizedString(forKey: "ok"), style: .default, handler: { action in
-                self.keyBackupAlert = nil
-                self.presentKeyBackupSetup()
-            }))
-            self.keyBackupAlert?.addAction(UIAlertAction(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { action in
-                self.keyBackupAlert = nil
-                
-            }))
-            
-            if let keyBackupAlert = self.keyBackupAlert {
-                self.present(keyBackupAlert, animated: true)
-            }
-        }
-    }
 }
 
 extension CkMasterTabBarController: KeyBackupSetupCoordinatorBridgePresenterDelegate {
