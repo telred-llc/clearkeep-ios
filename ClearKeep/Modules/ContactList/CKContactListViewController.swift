@@ -71,7 +71,7 @@ final class CKContactListViewController: MXKViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.reloadData()
         // Check whether the access to the local contacts has not been already asked.
         if CNContactStore.authorizationStatus(for: .contacts) == .notDetermined {
             MXKAppSettings.standard()?.syncLocalContacts = true
@@ -154,33 +154,6 @@ extension CKContactListViewController {
             
             self.sections = keys.map{ Section(letter: String($0), contacts: groupedDictionary[$0]!) }
             
-        }
-    }
-    
-    /**
-     Make a direct chat
-     */
-    private func directChat(atIndexPath indexPath: IndexPath) {
-        
-        // in range
-        if self.filteredMatrixSource.count > indexPath.row {
-            
-            // index of
-            let c = self.filteredMatrixSource[indexPath.row]
-            
-            // first
-            if let userId = c.matrixIdentifiers.first as? String {
-                
-                // progress start
-                if self.delegate != nil { self.startActivityIndicator() }
-                
-                // invoke delegate
-                self.delegate?.contactListCreating(withUserId: userId, completion: { (success: Bool) in
-                    
-                    // progress stop
-                    self.stopActivityIndicator()
-                })
-            }
         }
     }
 }
