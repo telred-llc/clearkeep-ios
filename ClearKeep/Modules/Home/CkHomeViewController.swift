@@ -398,20 +398,6 @@ extension CkHomeViewController: MXKDataSourceDelegate {
             rooms.append([])
         }
         
-        // Direct chat
-        if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
-            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
-                for invite in invitesArray.reversed() {
-                    if invite.roomSummary.isDirect == true {
-                        peopleArray.insert(invite, at: 0)
-                    }
-                }
-            }
-            rooms.append(peopleArray) 
-        } else {
-            rooms.append([])
-        }
-        
         // Room chat
         if var roomsArray = self.recentsDataSource?.conversationCellDataArray as? [MXKRecentCellData] {
             if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
@@ -425,6 +411,21 @@ extension CkHomeViewController: MXKDataSourceDelegate {
         } else {
             rooms.append([])
         }
+        
+        // Direct chat
+        if var peopleArray = self.recentsDataSource?.peopleCellDataArray as? [MXKRecentCellData] {
+            if let invitesArray = self.recentsDataSource?.invitesCellDataArray as? [MXKRecentCellData] {
+                for invite in invitesArray.reversed() {
+                    if invite.roomSummary.isDirect == true {
+                        peopleArray.insert(invite, at: 0)
+                    }
+                }
+            }
+            rooms.append(peopleArray)
+        } else {
+            rooms.append([])
+        }
+        
         self.reloadData(rooms: rooms)
     }
     

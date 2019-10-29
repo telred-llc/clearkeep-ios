@@ -20,6 +20,7 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var lblTime: UILabel!
+    @IBOutlet weak var statusView: UIView!
     
 
     // MARK: - PROPERTY
@@ -37,6 +38,21 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
      */
     var lastMessageLabel: UILabel?
     
+    public var status: Int {
+        set {
+            self.statusView.tag = newValue
+            if newValue > 0 {
+                self.statusView.backgroundColor = CKColor.Misc.onlineColor
+            } else {
+                self.statusView.backgroundColor = CKColor.Misc.offlineColor
+            }
+        }
+        
+        get {
+            return self.statusView.tag
+        }
+    }
+    
     // MARK: - OVERRIDE
     
     override func awakeFromNib() {
@@ -45,6 +61,12 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
         self.declineButton.addTarget(self, action: #selector(declineOnPress(_:)) , for: .touchUpInside)
         self.joinButton.addTarget(self, action: #selector(joinOnPress(_:)) , for: .touchUpInside)
         self.contentView.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
+        
+        self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
+        self.statusView.layer.borderColor = UIColor.white.cgColor
+        self.statusView.layer.borderWidth = 2
+        
+        status = 0 // set status default always offline
     }
     
     override func prepareForReuse() {

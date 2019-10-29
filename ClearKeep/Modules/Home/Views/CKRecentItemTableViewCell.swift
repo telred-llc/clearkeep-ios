@@ -60,13 +60,6 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
      */
     private func renderStatus(_ roomSummary: MXRoomSummary!) {
         
-        // is room chat
-        if (roomSummary?.isDirect ?? false) == false {
-            self.statusView.isHidden = true
-        } else { // is direct chat
-            self.statusView.isHidden = false
-        }
-        
         self.status = 0
         if let directUserId = roomSummary?.room?.directUserId {
             

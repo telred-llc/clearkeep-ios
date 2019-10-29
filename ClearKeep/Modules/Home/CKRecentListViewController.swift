@@ -18,8 +18,8 @@ protocol CKRecentListViewControllerDelegate: class {
 
 enum SectionRecent: Int {
     case favourite = 0
-    case direct = 1
-    case room = 2
+    case room = 1
+    case direct = 2
 }
 
 class CKRecentListViewController: MXKViewController {
@@ -56,7 +56,7 @@ class CKRecentListViewController: MXKViewController {
         
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.searchBarBgColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
         }).disposed(by: disposeBag)
     }
@@ -346,7 +346,13 @@ private extension CKRecentListViewController {
         }
         
         if self.isExpanded[section] {
-            view.arrowImageView.transform = CGAffineTransform.identity
+            
+            if section == SectionRecent.favourite.rawValue && self.dataSource[section].isEmpty {
+                view.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
+            } else {
+                view.arrowImageView.transform = CGAffineTransform.identity
+            }
+            
         } else {
             view.arrowImageView.transform = CGAffineTransform(rotationAngle: .pi * 3 / 2)
         }
@@ -554,9 +560,11 @@ private extension CKRecentListViewController {
      Collapse cell
      */
     func collapseCellsFromIndexOf(_ section: Int, headerView: CKRecentHeaderView) {
-        if self.dataSource[section].count == 0 {
+        
+        if section == SectionRecent.favourite.rawValue && self.dataSource[section].isEmpty {
             return
         }
+        
         headerView.tapHeader(isExpanded: false)
         self.isExpanded[section] = false
         // Create index paths for the number of rows to be removed
@@ -565,16 +573,20 @@ private extension CKRecentListViewController {
             indexPaths.append(IndexPath.init(row: index, section: section))
         }
         // Animate and delete
+        self.recentTableView.beginUpdates()
         self.recentTableView.deleteRows(at: indexPaths, with: .left)
+        self.recentTableView.endUpdates()
     }
     
     /**
      Expand cell
      */
     func expandCellsFromIndexOf(_ section: Int, headerView: CKRecentHeaderView) {
-        if self.dataSource[section].count == 0 {
+
+        if section == SectionRecent.favourite.rawValue && self.dataSource[section].isEmpty {
             return
         }
+        
         headerView.tapHeader(isExpanded: true)
         self.isExpanded[section] = true
         
@@ -584,7 +596,9 @@ private extension CKRecentListViewController {
             indexPaths.append(IndexPath.init(row: index, section: section))
         }
         // Insert the rows
+        self.recentTableView.beginUpdates()
         self.recentTableView.insertRows(at: indexPaths, with: .left)
+        self.recentTableView.endUpdates()
     }
     
 }
@@ -593,18 +607,6 @@ extension CKRecentListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.dataSource.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let sectionRecent = SectionRecent(rawValue: section)
-        if sectionRecent == .favourite && self.dataSource[section].count == 0 {
-            return 0
-        }
-        return CKLayoutSize.Table.row44px
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return self.headerSection(section)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -616,10 +618,6 @@ extension CKRecentListViewController: UITableViewDataSource {
         } else {
             return 0
         }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -652,6 +650,46 @@ extension CKRecentListViewController: UITableViewDelegate {
             cell.render(cellData)
         }
     }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if !self.isExpanded[indexPath.section] && self.isEmpty(section: indexPath.section) {
+            return 0
+        }
+        
+        return UITableViewAutomaticDimension
+    }
+    
+    // -- Header View
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let sectionRecent = SectionRecent(rawValue: section)
+        if sectionRecent == .favourite && self.dataSource[section].count == 0 {
+//            return 0
+            return CKLayoutSize.Table.row44px
+        }
+        return CKLayoutSize.Table.row44px
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return self.headerSection(section)
+    }
+    
+    // -- Footer View
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView()
+        footerView.backgroundColor = .clear
+        return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == SectionRecent.direct.rawValue {
+            return CGFloat.leastNonzeroMagnitude
+        }
+        
+        return 16
+    }
+    
 }
 
 extension CKRecentListViewController {

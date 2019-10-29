@@ -30,7 +30,7 @@
                             <constraint firstAttribute="height" constant="44" id="99J-4o-k0C"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                        <state key="normal" title="START ROOM CHAT" backgroundImage="bg_button_start_chat">
+                        <state key="normal" title="START ROOM CHAT" backgroundImage="btn_start_room_light">
                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                         <userDefinedRuntimeAttributes>
@@ -47,7 +47,7 @@
                         </constraints>
                     </imageView>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="l5S-Gh-4eS" secondAttribute="trailing" constant="20" id="F6L-yU-8qJ"/>
                     <constraint firstItem="4sW-WJ-LNK" firstAttribute="top" secondItem="ueQ-7c-pUq" secondAttribute="topMargin" constant="150" id="RBw-g5-sFA"/>
@@ -59,6 +59,7 @@
                     <constraint firstItem="4sW-WJ-LNK" firstAttribute="centerX" secondItem="ueQ-7c-pUq" secondAttribute="centerX" id="xmC-77-h9F"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="startChatButton" destination="l5S-Gh-4eS" id="nHk-cE-zvD"/>
                 <outlet property="titleLabel" destination="IDt-Dt-HWp" id="IBr-PH-To8"/>
@@ -67,7 +68,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="bg_button_start_chat" width="332" height="44"/>
+        <image name="btn_start_room_light" width="332" height="44"/>
         <image name="ic_empty_room" width="135.5" height="146.5"/>
     </resources>
 </document>
