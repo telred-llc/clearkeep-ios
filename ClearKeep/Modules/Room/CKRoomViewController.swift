@@ -2743,6 +2743,11 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
                 roomIdOrAlias = aliases.first
             }
             
+            guard let roomID = roomIdOrAlias, roomID.count > 0 else {
+                self.removeSpinner()
+                return
+            }
+
             var signURL: String?
             if let email = previewData.emailInvitation, let sign = email.signUrl {
                 signURL = sign
@@ -2750,7 +2755,7 @@ extension CKRoomViewController: CKRoomInvitationControllerDeletate {
                 signURL = nil
             }
 
-            self.joinRoom(withRoomIdOrAlias: roomIdOrAlias, viaServers: previewData.viaServers, andSignUrl: signURL) {[weak self] (success) in
+            self.joinRoom(withRoomIdOrAlias: roomID, viaServers: previewData.viaServers, andSignUrl: signURL) {[weak self] (success) in
                 self?.removeSpinner()
                 if success {
                     // reload navbar

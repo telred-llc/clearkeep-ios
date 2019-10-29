@@ -31,7 +31,7 @@
 #import "InviteRecentTableViewCell.h"
 #import "DirectoryRecentTableViewCell.h"
 #import "RoomIdOrAliasTableViewCell.h"
-
+#import "PublicRoomTableViewCell.h"
 #import "Riot-Swift.h"
 
 #import "AppDelegate.h"
@@ -1257,8 +1257,43 @@
         }
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
-    else
-    {
+    else if ([cell isKindOfClass:[PublicRoomTableViewCell class]]) {
+        RecentsDataSource* recentsDataSource = nil;
+        PublicRoomsDirectoryDataSource *dataSource = nil;
+        if ([self.dataSource isKindOfClass:[RecentsDataSource class]]) {
+            recentsDataSource = (RecentsDataSource*)self.dataSource;
+            dataSource = recentsDataSource.publicRoomsDirectoryDataSource;
+        }
+        
+        // only support RecentsDataSource
+        if (!recentsDataSource || !dataSource) {
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+            return;
+        }
+
+        MXPublicRoom *publicRoom = [dataSource roomAtIndexPath:indexPath];
+        
+        // Check whether the user has already joined the selected public room
+        if ([dataSource.mxSession roomWithRoomId:publicRoom.roomId])
+        {
+            // Open the public room.
+            [[AppDelegate theDelegate] showRoom:publicRoom.roomId andEventId:nil withMatrixSession:dataSource.mxSession];
+        } else {
+            // Preview the public room
+            if (publicRoom.worldReadable) {
+                RoomPreviewData *roomPreviewData = [[RoomPreviewData alloc] initWithRoomId:publicRoom.roomId andSession:dataSource.mxSession];
+                [self startActivityIndicator];
+                // Try to get more information about the room before opening its preview
+                [roomPreviewData peekInRoom:^(BOOL succeeded) {
+                    [self stopActivityIndicator];
+                    [[AppDelegate theDelegate].masterTabBarController showRoomPreview:roomPreviewData];
+                }];
+            } else {
+                RoomPreviewData *roomPreviewData = [[RoomPreviewData alloc] initWithPublicRoom:publicRoom andSession:dataSource.mxSession];
+                [[AppDelegate theDelegate].masterTabBarController showRoomPreview:roomPreviewData];
+            }
+        }
+    } else {
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     }
 }
