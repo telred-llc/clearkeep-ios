@@ -48,7 +48,7 @@ struct LightTheme: Theme {
     var secondTextColor = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
     var searchBarBgColor = #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 1)
     var tblHeaderBgColor = #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 1)
-    var unreadCellBgColor = #colorLiteral(red: 0.7921568627, green: 0.9568627451, blue: 0.9843137255, alpha: 0.3)
+    var unreadCellBgColor = #colorLiteral(red: 0.7921568627, green: 0.9568627451, blue: 0.9843137255, alpha: 0.25)
     var cellPrimaryBgColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
 

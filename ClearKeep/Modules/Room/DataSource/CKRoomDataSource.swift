@@ -279,7 +279,7 @@ import Foundation
             
             // Display time for each message
             if bubbleCell.bubbleInfoContainer != nil {
-                bubbleCell.addDateLabel(true)
+//                bubbleCell.addDateLabel(true) // don't add datatimeLabel when aviable on cell reactions
             }
             
             var isCollapsableCellCollapsed: Bool = false
