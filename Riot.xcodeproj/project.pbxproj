@@ -488,6 +488,8 @@
 		BD83D6D72361BE1C00FF088A /* SerializationServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D6D42361BE1C00FF088A /* SerializationServiceType.swift */; };
 		BD83D6D82361BE1C00FF088A /* SerializationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D6D52361BE1C00FF088A /* SerializationService.swift */; };
 		BD83D6D92361BE1C00FF088A /* SerializationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D6D52361BE1C00FF088A /* SerializationService.swift */; };
+		BD8A61FB2367E9AD00418C34 /* CKUserProfileDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A4DB8A235F0BF40075EF7B /* CKUserProfileDetailCell.swift */; };
+		BD8A61FC2367E9CE00418C34 /* CKUserProfileDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3A4DB8B235F0BF40075EF7B /* CKUserProfileDetailCell.xib */; };
 		BDA1FAB5236340CE005D910D /* AutosizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA1FAB4236340CE005D910D /* AutosizedCollectionView.swift */; };
 		BDA1FAB6236340CE005D910D /* AutosizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA1FAB4236340CE005D910D /* AutosizedCollectionView.swift */; };
 		BDA2B4CD2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA2B4CC2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift */; };
@@ -5434,6 +5436,7 @@
 				E5E7DCC5229BC7D300AB7CF3 /* GroupParticipantsViewController.xib in Resources */,
 				E5E7DCC6229BC7D300AB7CF3 /* CKRoomCallCreatingViewController.xib in Resources */,
 				E5E7DCC7229BC7D300AB7CF3 /* CKContactListMatrixCell.xib in Resources */,
+				BD8A61FC2367E9CE00418C34 /* CKUserProfileDetailCell.xib in Resources */,
 				E520C5C922E719C1003101BA /* KeyBackupSetupSuccessFromPassphraseViewController.storyboard in Resources */,
 				E5E7DCC8229BC7D300AB7CF3 /* GroupHomeViewController.xib in Resources */,
 				E5E7DCC9229BC7D300AB7CF3 /* SFCompactDisplay-SemiBold.ttf in Resources */,
@@ -6033,6 +6036,7 @@
 				D3FA9B8C2356EF8E00FB0BD1 /* RoomContextualMenuToolbarView.swift in Sources */,
 				BD7A85792318BD2000658DB0 /* CKDeriver.swift in Sources */,
 				E5E7DB50229BC7D300AB7CF3 /* main.m in Sources */,
+				BD8A61FB2367E9AD00418C34 /* CKUserProfileDetailCell.swift in Sources */,
 				E5E7DB51229BC7D300AB7CF3 /* StartChatViewController.m in Sources */,
 				E5E7DB52229BC7D300AB7CF3 /* HomeMessagesSearchViewController.m in Sources */,
 				D3FA9BD22356EF8E00FB0BD1 /* EmojiPickerCoordinatorBridgePresenter.swift in Sources */,
