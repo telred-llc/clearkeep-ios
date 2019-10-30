@@ -143,6 +143,7 @@ post_install do |installer|
                 else
                     if target.name == 'Cache'
                         config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
+                        config.build_settings['SWIFT_VERSION'] = '5.1'
                     else
                         config.build_settings['SWIFT_VERSION'] = '5.1'
                     end

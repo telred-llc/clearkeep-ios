@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,7 +12,7 @@
             <objects>
                 <navigationController id="RMx-3f-FxP" userLabel="HomeNav" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Pmd-2v-anx">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -62,7 +60,7 @@
         <!--Room Member Details View Controller-->
         <scene sceneID="eq5-qi-gDd">
             <objects>
-                <viewController id="nDS-pp-sWM" customClass="RoomMemberDetailsViewController" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="nDS-pp-sWM" customClass="RoomMemberDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q8W-x7-EqN"/>
                         <viewControllerLayoutGuide type="bottom" id="mzK-6g-ntt"/>
@@ -80,7 +78,7 @@
         <!--Room Context Timeline-->
         <scene sceneID="Htr-h8-baq">
             <objects>
-                <viewController title="Room Context Timeline" hidesBottomBarWhenPushed="YES" id="Too-LV-OLW" customClass="CKRoomViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Room Context Timeline" modalPresentationStyle="fullScreen" hidesBottomBarWhenPushed="YES" id="Too-LV-OLW" customClass="CKRoomViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yLe-Hk-Sol">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="djN-zB-Vni" userLabel="Room title view container">
@@ -103,7 +101,7 @@
         <!--Room Search View Controller-->
         <scene sceneID="rUg-1s-vHX">
             <objects>
-                <viewController id="KDg-aD-xlK" customClass="RoomSearchViewController" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="KDg-aD-xlK" customClass="RoomSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GOz-LL-Yqg"/>
                         <viewControllerLayoutGuide type="bottom" id="p11-CM-LYT"/>
@@ -158,7 +156,7 @@
         <!--Room Settings View Controller-->
         <scene sceneID="NZu-Q0-P0z">
             <objects>
-                <tableViewController id="e7G-NU-7ck" customClass="CKRoomSettingsViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController"/>
+                <tableViewController modalPresentationStyle="fullScreen" id="e7G-NU-7ck" customClass="CKRoomSettingsViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fXh-hO-Zgf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3326" y="-442"/>
@@ -202,7 +200,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1rS-hy-ED0">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -261,7 +259,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bbw-jz-B3Z">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -325,7 +323,7 @@
         <!--Ck Masterauth View Controller-->
         <scene sceneID="FoA-N2-3aF">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="ZlD-EU-ncw" customClass="CkMasterauthViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" hidesBottomBarWhenPushed="YES" id="ZlD-EU-ncw" customClass="CkMasterauthViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xcQ-CT-FNF"/>
                         <viewControllerLayoutGuide type="bottom" id="wKy-3N-dsc"/>
@@ -396,7 +394,7 @@
             <objects>
                 <navigationController id="qAW-wR-KyU" customClass="RiotNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="r5V-3P-3Lg">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -410,7 +408,7 @@
         <!--Contact Details View Controller-->
         <scene sceneID="grY-bt-CcD">
             <objects>
-                <viewController id="gkO-rP-nGK" customClass="ContactDetailsViewController" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="gkO-rP-nGK" customClass="ContactDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ODc-Fu-nt5"/>
                         <viewControllerLayoutGuide type="bottom" id="SbS-0v-k2U"/>
@@ -430,7 +428,7 @@
             <objects>
                 <navigationController title="RoomNav" id="vC3-pB-5Vb" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DjV-YW-jjY">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -491,10 +489,10 @@
         <!--Riot Navigation Controller-->
         <scene sceneID="Fbq-8h-gyk">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WDS-Ip-RQ9" customClass="RiotNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="WDS-Ip-RQ9" customClass="RiotNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CtR-n9-ztG">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -528,10 +526,10 @@
         <!--Riot Navigation Controller-->
         <scene sceneID="Qyz-FA-hw5">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZZb-IS-a1F" customClass="RiotNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="ZZb-IS-a1F" customClass="RiotNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="MHE-SG-tnL">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -546,7 +544,7 @@
         <!--Contacts Table View Controller-->
         <scene sceneID="2zi-xJ-RQo">
             <objects>
-                <viewController id="udm-55-AMb" customClass="ContactsTableViewController" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="udm-55-AMb" customClass="ContactsTableViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="39O-q8-BDV"/>
                         <viewControllerLayoutGuide type="bottom" id="Jf3-eP-d1w"/>
@@ -602,7 +600,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7QT-AZ-zkq">
-                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <rect key="frame" x="177" y="303" width="20" height="40"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -644,7 +642,7 @@
         <segue reference="bwO-oZ-2vj"/>
         <segue reference="fIR-e3-ssz"/>
         <segue reference="ziz-Xl-QVg"/>
-        <segue reference="HSg-jN-pbo"/>
+        <segue reference="mFs-HA-7Oo"/>
         <segue reference="fNQ-S3-DbZ"/>
     </inferredMetricsTieBreakers>
 </document>
