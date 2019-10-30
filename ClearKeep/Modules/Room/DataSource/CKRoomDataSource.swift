@@ -279,12 +279,14 @@ import Foundation
             
             // Display time for each message
             if bubbleCell.bubbleInfoContainer != nil {
-                bubbleCell.addDateLabel(true)
+//                bubbleCell.addDateLabel(true) // don't add datatimeLabel when aviable on cell reactions
             }
             
-            let isCollapsable = (cellData?.collapsable ?? false) ? true : false
-            let isCollapsed = (cellData?.collapsed ?? false) ? true : false
-            let isCollapsableCellCollapsed: Bool = isCollapsable && isCollapsed
+            var isCollapsableCellCollapsed: Bool = false
+            
+            if let collapsable = cellData?.collapsable, let collapsed = cellData?.collapsed {
+                isCollapsableCellCollapsed = collapsable && collapsed
+            }
 
             // Display timestamp of the last message
             if cellData?.containsLastMessage != nil && !isCollapsableCellCollapsed {

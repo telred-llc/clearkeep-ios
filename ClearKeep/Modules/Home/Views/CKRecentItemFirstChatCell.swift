@@ -21,6 +21,8 @@ final class CKRecentItemFirstChatCell: CKBaseCell {
     
     // MARK: - OVERRIDE
     
+    let disposeBag = DisposeBag()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -31,6 +33,13 @@ final class CKRecentItemFirstChatCell: CKBaseCell {
         
         // add action
         self.startChatButton.addTarget(self, action: #selector(onStartChatting(_:)), for: .touchUpInside)
+        
+        themeService.attrsStream.asObservable().subscribe { (theme) in
+            let image: UIImage = themeService.type == ThemeType.light ? #imageLiteral(resourceName: "btn_start_room_light") : #imageLiteral(resourceName: "btn_start_room_dark")
+            self.startChatButton.setBackgroundImage(image, for: .normal)
+            self.titleLabel.textColor = theme.element?.hintText
+            self.contentView.backgroundColor = theme.element?.cellPrimaryBgColor
+        }.disposed(by: disposeBag)
     }
     
     // MARK: - ACTIO
