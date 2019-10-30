@@ -520,7 +520,7 @@
                     // The identity server must be defined
                     if (!self.mainSession.matrixRestClient.identityServer)
                     {
-                        MXError *error = [[MXError alloc] initWithErrorCode:kMXSDKErrCodeStringMissingParameters error:@"No supplied identity server URL"];
+                        MXError *error = [[MXError alloc] initWithErrorCode:kMXErrCodeStringNotFound error:@"No supplied identity server URL"];
                         NSLog(@"[StartChatViewController] Invite %@ failed", participantId);
                         // Alert user
                         [[AppDelegate theDelegate] showErrorAsAlert:[error createNSError]];

@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, "11.0"
+platform :ios, '11.0'
 
 # Use frameforks to allow usage of pod written in Swift (like PiwikTracker)
 use_frameworks!
@@ -9,7 +9,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 # Different flavours of pods to MatrixKit
 # The current MatrixKit pod version
-$matrixKitVersion = '0.10.2'
+$matrixKitVersion = 'local'
 
 # The develop branch version
 #$matrixKitVersion = 'develop'
@@ -23,23 +23,23 @@ $matrixKitVersion = '0.10.2'
 def import_MatrixKit
     pod 'IQKeyboardManagerSwift','~> 6.2.0'
     pod 'Parchment', '~> 1.5.0'
-    pod 'XLActionController', '4.0.1'
+    pod 'XLActionController', '5.0.2'
     pod 'Alamofire', '4.8.1'
-    pod 'Firebase/Analytics'
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'XLActionController/Youtube'
     pod 'PromiseKit'
+    pod 'Firebase/Analytics'
     pod 'SwiftImagePicker', :git => 'https://github.com/sinbadflyce/image-picker.git', :inhibit_warnings => true
     pod 'FloatingPanel'
     pod 'RxTheme', '~> 3.0'
     pod 'DGCollectionViewLeftAlignFlowLayout', '~> 1.0.4'
     
     if $matrixKitVersion == 'local'
-        pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
-        pod 'MatrixSDK/SwiftSupport', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
-        pod 'MatrixSDK/JingleCallStack', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
-        pod 'MatrixKit', :path => '../matrix-ios-kit/MatrixKit.podspec'
+        pod 'MatrixSDK', :path => './Libraries/matrix-ios-sdk/MatrixSDK.podspec'
+        pod 'MatrixSDK/SwiftSupport', :path => './Libraries/matrix-ios-sdk/MatrixSDK.podspec'
+        pod 'MatrixSDK/JingleCallStack', :path => './Libraries/matrix-ios-sdk/MatrixSDK.podspec'
+        pod 'MatrixKit', :path => './Libraries/matrix-ios-kit/MatrixKit.podspec'
     else
         if $matrixKitVersion == 'develop'
             pod 'MatrixSDK', :git => 'https://github.com/matrix-org/matrix-ios-sdk.git', :branch => 'develop'
@@ -52,16 +52,16 @@ def import_MatrixKit
             pod 'MatrixSDK/SwiftSupport', :inhibit_warnings => true
             pod 'MatrixSDK/JingleCallStack', :inhibit_warnings => true
         end
-    end 
+    end
 end
 
 # Method to import the right MatrixKit/AppExtension flavour
 def import_MatrixKitAppExtension
     if $matrixKitVersion == 'local'
-        pod 'MatrixSDK', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
-        pod 'MatrixSDK/SwiftSupport', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
-        pod 'MatrixSDK/JingleCallStack', :path => '../matrix-ios-sdk/MatrixSDK.podspec'
-        pod 'MatrixKit/AppExtension', :path => '../matrix-ios-kit/MatrixKit.podspec'
+        pod 'MatrixSDK', :path => './Libraries/matrix-ios-sdk/MatrixSDK.podspec'
+        pod 'MatrixSDK/SwiftSupport', :path => './Libraries/matrix-ios-sdk/MatrixSDK.podspec'
+        pod 'MatrixSDK/JingleCallStack', :path => './Libraries/matrix-ios-sdk/MatrixSDK.podspec'
+        pod 'MatrixKit', :path => './Libraries/matrix-ios-kit/MatrixKit.podspec'
     else
         if $matrixKitVersion == 'develop'
             pod 'MatrixSDK', :git => 'https://github.com/matrix-org/matrix-ios-sdk.git', :branch => 'develop'
@@ -74,7 +74,7 @@ def import_MatrixKitAppExtension
             pod 'MatrixSDK/SwiftSupport', :inhibit_warnings => true
             pod 'MatrixSDK/JingleCallStack', :inhibit_warnings => true
         end
-    end 
+    end
 end
 
 
@@ -94,7 +94,7 @@ abstract_target 'RiotPods' do
     pod 'cmark', :inhibit_warnings => true
     pod 'DTCoreText', :inhibit_warnings => true
     
-    pod 'zxcvbn-ios' 
+    pod 'zxcvbn-ios'
 
     # Tools
     pod 'SwiftGen', '~> 6.1'
@@ -137,13 +137,18 @@ post_install do |installer|
 
             if target.name == 'RxTheme'
               config.build_settings['SWIFT_VERSION'] = '4.2'
-            else if target.name == 'Cache'
-              config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
             else
-              config.build_settings['SWIFT_VERSION'] = '4.0'     # Required for PiwikTracker. Should be removed
+                if target.name == 'SwiftImagePicker' || target.name == 'PiwikTracker'
+                    config.build_settings['SWIFT_VERSION'] = '4.0'
+                else
+                    if target.name == 'Cache'
+                        config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
+                    else
+                        config.build_settings['SWIFT_VERSION'] = '5.1'
+                    end
+                end
             end
         end
     end
-end
 end
 

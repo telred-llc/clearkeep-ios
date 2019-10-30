@@ -21,34 +21,22 @@
 #import <Intents/Intents.h>
 #import <PushKit/PushKit.h>
 #import <Contacts/Contacts.h>
-
 #import "RecentsDataSource.h"
 #import "RoomDataSource.h"
-
 #import "EventFormatter.h"
-
 #import "RoomViewController.h"
-
 #import "DirectoryViewController.h"
 #import "SettingsViewController.h"
 #import "ContactDetailsViewController.h"
-
 #import "BugReportViewController.h"
 #import "RoomKeyRequestViewController.h"
-
 #import <MatrixKit/MatrixKit.h>
-
 #import "Tools.h"
 #import "WidgetManager.h"
-
 #import "AFNetworkReachabilityManager.h"
-
 #import <AudioToolbox/AudioToolbox.h>
-
 #include <MatrixSDK/MXUIKitBackgroundModeHandler.h>
-
 #import "WebViewViewController.h"
-
 // Calls
 #import "CallViewController.h"
 
@@ -80,11 +68,12 @@
 #define MAKE_STRING(x) #x
 #define MAKE_NS_STRING(x) @MAKE_STRING(x)
 
-
-
-
 NSString *const kAppDelegateDidTapStatusBarNotification = @"kAppDelegateDidTapStatusBarNotification";
 NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateNetworkStatusDidChangeNotification";
+
+NSString *const AppDelegateDidValidateEmailNotification = @"AppDelegateDidValidateEmailNotification";
+NSString *const AppDelegateDidValidateEmailNotificationSIDKey = @"AppDelegateDidValidateEmailNotificationSIDKey";
+NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDelegateDidValidateEmailNotificationClientSecretKey";
 
 @interface AppDelegate () <PKPushRegistryDelegate, GDPRConsentViewControllerDelegate>
 {
@@ -1760,19 +1749,40 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
     // iOS Patch: fix vector.im urls before using it
     webURL = [Tools fixURLWithSeveralHashKeys:webURL];
     
+    NSString *validateEmailSubmitTokenPath = @"validate/email/submitToken";
+    
+    NSString *validateEmailSubmitTokenAPIPathV1 = [NSString stringWithFormat:@"/%@/%@", kMXIdentityAPIPrefixPathV1, validateEmailSubmitTokenPath];
+    NSString *validateEmailSubmitTokenAPIPathV2 = [NSString stringWithFormat:@"/%@/%@", kMXIdentityAPIPrefixPathV2, validateEmailSubmitTokenPath];
+    
     // Manage email validation link
-    if ([webURL.path isEqualToString:@"/_matrix/identity/api/v1/validate/email/submitToken"])
+    if ([webURL.path isEqualToString:validateEmailSubmitTokenAPIPathV1] || [webURL.path isEqualToString:validateEmailSubmitTokenAPIPathV2])
     {
         // Validate the email on the passed identity server
         NSString *identityServer = [NSString stringWithFormat:@"%@://%@", webURL.scheme, webURL.host];
-        MXRestClient *identityRestClient = [[MXRestClient alloc] initWithHomeServer:identityServer andOnUnrecognizedCertificateBlock:nil];
+        
+        MXSession *mainSession = self.mxSessions.firstObject;
+        MXRestClient *homeserverRestClient;
+        
+        if (mainSession.matrixRestClient)
+        {
+            homeserverRestClient = mainSession.matrixRestClient;
+        }
+        else
+        {
+            homeserverRestClient = [[MXRestClient alloc] initWithHomeServer:identityServer andOnUnrecognizedCertificateBlock:nil];
+        }
+        
+        MXIdentityService *identityService = [[MXIdentityService alloc] initWithIdentityServer:identityServer accessToken:nil andHomeserverRestClient:homeserverRestClient];
         
         // Extract required parameters from the link
         NSArray<NSString*> *pathParams;
         NSMutableDictionary *queryParams;
         [self parseUniversalLinkFragment:webURL.absoluteString outPathParams:&pathParams outQueryParams:&queryParams];
         
-        [identityRestClient submit3PIDValidationToken:queryParams[@"token"] medium:kMX3PIDMediumEmail clientSecret:queryParams[@"client_secret"] sid:queryParams[@"sid"] success:^{
+        NSString *clientSecret = queryParams[@"client_secret"];
+        NSString *sid = queryParams[@"sid"];
+        
+        [identityService submit3PIDValidationToken:queryParams[@"token"] medium:kMX3PIDMediumEmail clientSecret:clientSecret sid:sid success:^{
             
             NSLog(@"[AppDelegate] handleUniversalLink. Email successfully validated.");
             
@@ -1786,7 +1796,15 @@ NSString *const kAppDelegateNetworkStatusDidChangeNotification = @"kAppDelegateN
             else
             {
                 // No nextLink in Vector world means validation for binding a new email
-                NSLog(@"[AppDelegate] handleUniversalLink. TODO: Complete email binding");
+                
+                // Post a notification about email validation to make a chance to SettingsDiscoveryThreePidDetailsViewModel to make it discoverable or not by the identity server.
+                if (clientSecret && sid)
+                {
+                    NSDictionary *userInfo = @{ AppDelegateDidValidateEmailNotificationClientSecretKey : clientSecret,
+                                                AppDelegateDidValidateEmailNotificationSIDKey : sid };
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:AppDelegateDidValidateEmailNotification object:nil userInfo:userInfo];
+                }
             }
             
         } failure:^(NSError *error) {

@@ -477,7 +477,6 @@
 		B1B5597620EFB02A00210D55 /* InviteRecentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5597320EFB02900210D55 /* InviteRecentTableViewCell.xib */; };
 		B1B5598520EFC3E000210D55 /* RageShakeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5597E20EFC3DF00210D55 /* RageShakeManager.m */; };
 		B1B5598620EFC3E000210D55 /* RiotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B5597F20EFC3DF00210D55 /* RiotSettings.swift */; };
-		B1B5599220EFC5E400210D55 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598C20EFC5E400210D55 /* Analytics.m */; };
 		B1B5599320EFC5E400210D55 /* DecryptionFailure.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598D20EFC5E400210D55 /* DecryptionFailure.m */; };
 		B1B5599420EFC5E400210D55 /* DecryptionFailureTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5599120EFC5E400210D55 /* DecryptionFailureTracker.m */; };
 		B1B9194C2118984300FE25B5 /* RoomPredecessorBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B9194A2118984300FE25B5 /* RoomPredecessorBubbleCell.xib */; };
@@ -494,6 +493,8 @@
 		BDA1FAB6236340CE005D910D /* AutosizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA1FAB4236340CE005D910D /* AutosizedCollectionView.swift */; };
 		BDA2B4CD2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA2B4CC2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift */; };
 		BDA2B4CE2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA2B4CC2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift */; };
+		BDA3C58523697A820068A9A1 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = BDA3C58423697A820068A9A1 /* Analytics.m */; };
+		BDA3C58623697A820068A9A1 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = BDA3C58423697A820068A9A1 /* Analytics.m */; };
 		BDB43F1E2316213F00F7CB00 /* CKAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F1D2316213F00F7CB00 /* CKAPIClient.swift */; };
 		BDB43F1F2316213F00F7CB00 /* CKAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F1D2316213F00F7CB00 /* CKAPIClient.swift */; };
 		BDB43F212316291D00F7CB00 /* CKRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F202316291D00F7CB00 /* CKRequest.swift */; };
@@ -961,7 +962,6 @@
 		E5E7DB78229BC7D300AB7CF3 /* CKAccountProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06949A321F85B8A002ABA27 /* CKAccountProfileEditViewController.swift */; };
 		E5E7DB7A229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5585A20EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.m */; };
 		E5E7DB7B229BC7D300AB7CF3 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = B169330A20F3CA3900746532 /* Contact.m */; };
-		E5E7DB7C229BC7D300AB7CF3 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5598C20EFC5E400210D55 /* Analytics.m */; };
 		E5E7DB7D229BC7D300AB7CF3 /* CKOtherProfileActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01DCDE321FEC0780069CA4A /* CKOtherProfileActionCell.swift */; };
 		E5E7DB7E229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5585020EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m */; };
 		E5E7DB80229BC7D300AB7CF3 /* MediaPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B556EF20EE6C4C00210D55 /* MediaPickerViewController.m */; };
@@ -2086,11 +2086,9 @@
 		B1B5597D20EFC3DF00210D55 /* RageShakeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RageShakeManager.h; sourceTree = "<group>"; };
 		B1B5597E20EFC3DF00210D55 /* RageShakeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RageShakeManager.m; sourceTree = "<group>"; };
 		B1B5597F20EFC3DF00210D55 /* RiotSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiotSettings.swift; sourceTree = "<group>"; };
-		B1B5598C20EFC5E400210D55 /* Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
 		B1B5598D20EFC5E400210D55 /* DecryptionFailure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecryptionFailure.m; sourceTree = "<group>"; };
 		B1B5598E20EFC5E400210D55 /* DecryptionFailureTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecryptionFailureTracker.h; sourceTree = "<group>"; };
 		B1B5598F20EFC5E400210D55 /* DecryptionFailure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecryptionFailure.h; sourceTree = "<group>"; };
-		B1B5599020EFC5E400210D55 /* Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics.h; sourceTree = "<group>"; };
 		B1B5599120EFC5E400210D55 /* DecryptionFailureTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecryptionFailureTracker.m; sourceTree = "<group>"; };
 		B1B9194A2118984300FE25B5 /* RoomPredecessorBubbleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoomPredecessorBubbleCell.xib; sourceTree = "<group>"; };
 		B1D250D62118AA0A000F4E93 /* RoomPredecessorBubbleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoomPredecessorBubbleCell.h; sourceTree = "<group>"; };
@@ -2103,6 +2101,8 @@
 		BD83D6D52361BE1C00FF088A /* SerializationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializationService.swift; sourceTree = "<group>"; };
 		BDA1FAB4236340CE005D910D /* AutosizedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizedCollectionView.swift; sourceTree = "<group>"; };
 		BDA2B4CC2319075400F2CCD2 /* CKKeyBackupRecoverManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKKeyBackupRecoverManager.swift; sourceTree = "<group>"; };
+		BDA3C58323697A820068A9A1 /* Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics.h; sourceTree = "<group>"; };
+		BDA3C58423697A820068A9A1 /* Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
 		BDB43F1D2316213F00F7CB00 /* CKAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAPIClient.swift; sourceTree = "<group>"; };
 		BDB43F202316291D00F7CB00 /* CKRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKRequest.swift; sourceTree = "<group>"; };
 		BDB43F232316294300F7CB00 /* CKRequest+Concurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKRequest+Concurrency.swift"; sourceTree = "<group>"; };
@@ -4320,8 +4320,8 @@
 		B1B5598B20EFC5E400210D55 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
-				B1B5599020EFC5E400210D55 /* Analytics.h */,
-				B1B5598C20EFC5E400210D55 /* Analytics.m */,
+				BDA3C58323697A820068A9A1 /* Analytics.h */,
+				BDA3C58423697A820068A9A1 /* Analytics.m */,
 				B1B5598F20EFC5E400210D55 /* DecryptionFailure.h */,
 				B1B5598D20EFC5E400210D55 /* DecryptionFailure.m */,
 				B1B5598E20EFC5E400210D55 /* DecryptionFailureTracker.h */,
@@ -6098,7 +6098,6 @@
 				E579FDCF22FD22F900B26814 /* IntegrationManagerViewController.m in Sources */,
 				E520C5D022E719CA003101BA /* KeyBackupRecoverFromPassphraseCoordinator.swift in Sources */,
 				E5E7DB7B229BC7D300AB7CF3 /* Contact.m in Sources */,
-				E5E7DB7C229BC7D300AB7CF3 /* Analytics.m in Sources */,
 				E5E7DB7D229BC7D300AB7CF3 /* CKOtherProfileActionCell.swift in Sources */,
 				E5E7DB7E229BC7D300AB7CF3 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5E7DB80229BC7D300AB7CF3 /* MediaPickerViewController.m in Sources */,
@@ -6193,6 +6192,7 @@
 				E520C5F322E71E33003101BA /* ActivityIndicatorPresenterType.swift in Sources */,
 				D3FA9B7C2356EF8E00FB0BD1 /* ReactionsMenuViewModel.swift in Sources */,
 				BDB43F252316294300F7CB00 /* CKRequest+Concurrency.swift in Sources */,
+				BDA3C58623697A820068A9A1 /* Analytics.m in Sources */,
 				E5E7DBBA229BC7D300AB7CF3 /* RoomMembershipCollapsedWithPaginationTitleBubbleCell.m in Sources */,
 				D3FA9BA02356EF8E00FB0BD1 /* ReactionHistoryCoordinatorType.swift in Sources */,
 				E5E7DBBB229BC7D300AB7CF3 /* EventFormatter.m in Sources */,
@@ -6532,6 +6532,7 @@
 				B1B5598620EFC3E000210D55 /* RiotSettings.swift in Sources */,
 				B1B5581720EF625800210D55 /* PreviewRoomTitleView.m in Sources */,
 				9C3AC4C722D73B6A00DD179F /* KeyBackupSetupCoordinatorBridgePresenter.swift in Sources */,
+				BDA3C58523697A820068A9A1 /* Analytics.m in Sources */,
 				8558894322C45FFD00A97F25 /* CKTableViewController+Extension.swift in Sources */,
 				E574335721F328B600989FF3 /* CKRoomSettingsParticipantViewController.swift in Sources */,
 				E5026CA221F5D601009D1B86 /* CKRoomHeaderInSectionView.swift in Sources */,
@@ -6544,7 +6545,6 @@
 				B169330B20F3CA3A00746532 /* Contact.m in Sources */,
 				D3FA9B9D2356EF8E00FB0BD1 /* BubbleReactionActionViewCell.swift in Sources */,
 				D3FA9BE92356F0A300FB0BD1 /* Themable.swift in Sources */,
-				B1B5599220EFC5E400210D55 /* Analytics.m in Sources */,
 				A01DCDE521FEC0780069CA4A /* CKOtherProfileActionCell.swift in Sources */,
 				B1B558C320EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				B1B5574A20EE6C4D00210D55 /* MediaPickerViewController.m in Sources */,
@@ -6989,8 +6989,8 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = "RiotShareExtension/SupportingFiles/RiotShareExtension-Dev.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
@@ -7009,7 +7009,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = "CK dev extension provision";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
@@ -7411,9 +7411,9 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7431,7 +7431,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/cmark\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/libPhoneNumber-iOS\"",
 					"\"${PODS_ROOT}/WebRTC\"",
-					"\"$(PROJECT_DIR)/Riot/libs/jitsi-meet\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -7448,7 +7447,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DDEVELOP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = "CK app dev provision";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
@@ -7467,8 +7466,8 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7486,7 +7485,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/cmark\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/libPhoneNumber-iOS\"",
 					"\"${PODS_ROOT}/WebRTC\"",
-					"\"$(PROJECT_DIR)/Riot/libs/jitsi-meet\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -7503,7 +7501,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DDEVELOP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = "CK app dev provision";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";

@@ -93,7 +93,7 @@ import Foundation
             } else {
                 // make error
                 let error = MXError(
-                    errorCode: kMXSDKErrCodeStringMissingParameters,
+                    errorCode: kMXErrCodeStringNotFound,
                     error: "No supplied identity server URL")
                 
                 // show error
