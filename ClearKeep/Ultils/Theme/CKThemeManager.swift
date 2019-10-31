@@ -34,6 +34,10 @@ protocol Theme {
     var newBackgroundColor: UIColor { get }
     
     var hintText: UIColor { get }
+    
+    var textFieldColor: UIColor { get }
+    var textFieldEditingColor: UIColor { get }
+    var textFieldBackground: UIColor { get }
 }
 
 struct LightTheme: Theme {
@@ -58,6 +62,11 @@ struct LightTheme: Theme {
     var newBackgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     
     var hintText = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
+    
+    var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
+    var textFieldEditingColor = #colorLiteral(red: 0.3411764706, green: 0.5294117647, blue: 0.8901960784, alpha: 1)
+    var textFieldBackground = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    
 }
 
 struct DarkTheme: Theme {
@@ -82,6 +91,10 @@ struct DarkTheme: Theme {
     var newBackgroundColor = #colorLiteral(red: 0.2509803922, green: 0.3254901961, blue: 0.4352941176, alpha: 1)
     
     var hintText = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    
+    var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
+    var textFieldEditingColor = #colorLiteral(red: 0.2470588235, green: 0.7725490196, blue: 0.7254901961, alpha: 1)
+    var textFieldBackground = #colorLiteral(red: 0.9019607843, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
 }
 
 enum ThemeType: ThemeProvider {

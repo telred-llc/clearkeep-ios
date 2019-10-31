@@ -40,9 +40,9 @@ extension UILabel {
 }
 
 extension UITextField {
-    func rectangleBorder(){
+    func rectangleBorder(_ radius: CGFloat = 10){
         self.layer.masksToBounds = true
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = radius
         self.layer.borderWidth = 1
     }
     
