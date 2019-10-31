@@ -200,15 +200,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1rS-hy-ED0">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="10" width="375" height="657"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="1rS-hy-ED0" firstAttribute="leading" secondItem="Caq-TK-JOm" secondAttribute="leading" id="5hW-lq-JpP"/>
                             <constraint firstAttribute="trailing" secondItem="1rS-hy-ED0" secondAttribute="trailing" id="LaC-z1-SXG"/>
-                            <constraint firstItem="1rS-hy-ED0" firstAttribute="top" secondItem="J4U-xc-9bQ" secondAttribute="bottom" id="m1G-fu-Nbz"/>
+                            <constraint firstItem="1rS-hy-ED0" firstAttribute="top" secondItem="J4U-xc-9bQ" secondAttribute="bottom" constant="10" id="m1G-fu-Nbz"/>
                             <constraint firstAttribute="bottom" secondItem="1rS-hy-ED0" secondAttribute="bottom" id="vTo-fD-KBT"/>
                         </constraints>
                     </view>
@@ -259,12 +259,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bbw-jz-B3Z">
-                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="0.0" y="52" width="375" height="566"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Bbw-jz-B3Z" firstAttribute="top" secondItem="MeI-Cb-toO" secondAttribute="bottom" id="BUn-Ma-Kdk"/>
+                            <constraint firstItem="Bbw-jz-B3Z" firstAttribute="top" secondItem="MeI-Cb-toO" secondAttribute="bottom" constant="8" id="BUn-Ma-Kdk"/>
                             <constraint firstItem="Bbw-jz-B3Z" firstAttribute="leading" secondItem="hxX-1O-zT8" secondAttribute="leading" id="E1K-7k-9CQ"/>
                             <constraint firstAttribute="trailing" secondItem="Bbw-jz-B3Z" secondAttribute="trailing" id="gW7-VR-zd3"/>
                             <constraint firstItem="AwN-9W-dDJ" firstAttribute="top" secondItem="Bbw-jz-B3Z" secondAttribute="bottom" id="tTx-DG-jZF"/>
@@ -639,10 +640,10 @@
         <image name="tab_groups_selected" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bwO-oZ-2vj"/>
+        <segue reference="mhb-l9-pM3"/>
         <segue reference="fIR-e3-ssz"/>
         <segue reference="ziz-Xl-QVg"/>
-        <segue reference="mFs-HA-7Oo"/>
+        <segue reference="HSg-jN-pbo"/>
         <segue reference="fNQ-S3-DbZ"/>
     </inferredMetricsTieBreakers>
 </document>
