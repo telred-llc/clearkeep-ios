@@ -30,8 +30,8 @@ final class CkHomeViewController: CKRecentListViewController {
         super.viewDidLoad()
         
         self.delegate = self
-        self.view.backgroundColor = UIColor.white
-        
+        self.view.theme.backgroundColor = themeService.attrStream{ $0.navBarBgColor }
+
         // Listen to the user info did changed
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoDidChanged(_:)), name: NSNotification.Name.mxkAccountUserInfoDidChange, object: nil)
     }

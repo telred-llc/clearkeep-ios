@@ -66,7 +66,6 @@ final class CKContactListViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.contentInset = UIEdgeInsets(top: 7, left: 0, bottom: 0, right: 0)
         bindingTheme()
     }
     

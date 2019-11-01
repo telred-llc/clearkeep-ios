@@ -2753,7 +2753,12 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
         }
     }
 #endif
-    
+
+    // Already signed out
+    if ([MXKAccountManager sharedManager].accounts.count == 0) {
+        return;
+    }
+
     // Logout all matrix account
     [[MXKAccountManager sharedManager] logoutWithCompletion:^{
         
@@ -2764,23 +2769,33 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
         
         // Remove key state observer
         [self removeKeyBackupStateObserver];
-
-        // Return to authentication screen
-        [_masterTabBarController showAuthenticationScreen];
-
+        
         // CK: Disbale syncWithLazyLoadOfRoomMembers as default
         // Note: Keep App settings
         // But enforce usage of member lazy loading
         [MXKAppSettings standardAppSettings].syncWithLazyLoadOfRoomMembers = NO;
-        
+
         // Reset the contact manager
         [[MXKContactManager sharedManager] reset];
-        
+
         // O365 logout
         NSURL *o365LogoutUrl = [NSURL URLWithString:@"https://study.sinbadflyce.com:15050/o365/logout"];
         NSURLSessionTask *task =  [[NSURLSession sharedSession] dataTaskWithURL:o365LogoutUrl];
         [task resume];
-        
+
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil];
+        UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"CKLaunchScreenVC"];
+        vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self.window.rootViewController presentViewController:vc animated:NO completion:NULL];
+        [self performSelector:@selector(showAuthenticationScreenAfterSplash) withObject:self afterDelay:1.5];
+    }];
+}
+
+- (void)showAuthenticationScreenAfterSplash {
+    [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
+        // Return to authentication screen
+        [_masterTabBarController showAuthenticationScreen];
     }];
 }
 
