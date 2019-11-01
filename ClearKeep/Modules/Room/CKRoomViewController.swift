@@ -1784,7 +1784,6 @@ extension CKRoomViewController {
     override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
         
         isPresentPhotoLibrary = false
-        dismissKeyboard()
         
         // Handle here user actions on bubbles for Vector app
         var bubbleData: RoomBubbleCellData!
@@ -1796,7 +1795,7 @@ extension CKRoomViewController {
         // is long press event?
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
             && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
-            
+            dismissKeyboard()
             guard let cell = cell, let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
                     return
             }
@@ -2031,7 +2030,8 @@ extension CKRoomViewController {
             }
             
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
-            
+            dismissKeyboard()
+
             // click user avatar in room go to  view info profile
             let idAvatarTap = userInfo?[kMXKRoomBubbleCellUserIdKey] as? String
             
@@ -2048,8 +2048,9 @@ extension CKRoomViewController {
                 }
             }
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnSenderNameLabel {
+            dismissKeyboard()
             // Do nothing
-        } else if (actionIdentifier == kMXKRoomBubbleCellTapOnMessageTextView) || (actionIdentifier == kMXKRoomBubbleCellTapOnContentView){
+        } else if (actionIdentifier == kMXKRoomBubbleCellTapOnMessageTextView) || (actionIdentifier == kMXKRoomBubbleCellTapOnContentView) {
 
             // Retrieve the tapped event
             guard let `userInfo` = userInfo, let tappedEvent: MXEvent = userInfo[kMXKRoomBubbleCellEventKey] as? MXEvent else { return }
@@ -2083,6 +2084,7 @@ extension CKRoomViewController {
 
             
         } else { // call super
+            dismissKeyboard()
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         }
     }
