@@ -156,7 +156,9 @@
         <!--Room Settings View Controller-->
         <scene sceneID="NZu-Q0-P0z">
             <objects>
-                <tableViewController modalPresentationStyle="fullScreen" id="e7G-NU-7ck" customClass="CKRoomSettingsViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController"/>
+                <tableViewController modalPresentationStyle="fullScreen" id="e7G-NU-7ck" customClass="CKRoomSettingsViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="auL-AY-1ki"/>
+                </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fXh-hO-Zgf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3326" y="-442"/>
@@ -185,7 +187,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TFZ-TK-2WH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1929" y="-2817"/>
+            <point key="canvasLocation" x="1833" y="-2819"/>
         </scene>
         <!--Favourites-->
         <scene sceneID="z6B-k5-ano">
@@ -310,11 +312,12 @@
                         <outlet property="settingsBarButtonItem" destination="QSE-cg-V2m" id="N6b-Ju-w9g"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showRoomDetails" id="tk8-vF-K4T"/>
                         <segue destination="ZlD-EU-ncw" kind="presentation" identifier="showAuth" id="fpJ-zM-Qpo"/>
-                        <segue destination="pBa-To-3YT" kind="relationship" relationship="viewControllers" id="Sfs-mh-GOz"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showContactDetails" id="p4M-yR-DLA"/>
-                        <segue destination="IGB-jr-yFz" kind="relationship" relationship="viewControllers" id="CeF-yL-aO0"/>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showGroupDetails" id="fIR-e3-ssz"/>
                         <segue destination="nJt-uq-tV9" kind="show" identifier="showUnifiedSearch" id="nfU-Xx-w6C"/>
+                        <segue destination="pBa-To-3YT" kind="relationship" relationship="viewControllers" id="Sfs-mh-GOz"/>
+                        <segue destination="w6r-Qc-FhW" kind="relationship" relationship="viewControllers" id="NxB-PE-AEX"/>
+                        <segue destination="IGB-jr-yFz" kind="relationship" relationship="viewControllers" id="CeF-yL-aO0"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k1S-FF-3Zu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -625,9 +628,46 @@
             </objects>
             <point key="canvasLocation" x="5392.8000000000002" y="-2195.3523238380812"/>
         </scene>
+        <!--Home-->
+        <scene sceneID="wc5-AL-vmr">
+            <objects>
+                <viewController id="w6r-Qc-FhW" customClass="CKCallHistoryViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nkJ-l1-RLd"/>
+                        <viewControllerLayoutGuide type="bottom" id="jGt-kj-5bR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ALG-Nt-Kj6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0Ej-v9-Epn">
+                                <rect key="frame" x="0.0" y="52" width="375" height="566"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jGt-kj-5bR" firstAttribute="top" secondItem="0Ej-v9-Epn" secondAttribute="bottom" id="FYt-Ht-lCJ"/>
+                            <constraint firstAttribute="trailing" secondItem="0Ej-v9-Epn" secondAttribute="trailing" id="TUw-Nq-H8l"/>
+                            <constraint firstItem="0Ej-v9-Epn" firstAttribute="leading" secondItem="ALG-Nt-Kj6" secondAttribute="leading" id="WQg-Xg-eIK"/>
+                            <constraint firstItem="0Ej-v9-Epn" firstAttribute="top" secondItem="nkJ-l1-RLd" secondAttribute="bottom" constant="8" id="d3o-FM-2pp"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" tag="1" title="Home" image="ic_calls_setting" selectedImage="ic_calls_setting" id="BAr-Yy-JhY">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TabBarItemHome"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="wrb-DB-YOX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zfY-Tx-oCM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2734" y="-2819"/>
+        </scene>
     </scenes>
     <resources>
         <image name="apps-icon" width="24" height="24"/>
+        <image name="ic_calls_setting" width="15" height="14.5"/>
         <image name="ic_contact" width="16.5" height="18.5"/>
         <image name="ic_contact_selected" width="16.5" height="18.5"/>
         <image name="ic_home" width="20" height="19.5"/>
@@ -640,7 +680,7 @@
         <image name="tab_groups_selected" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mhb-l9-pM3"/>
+        <segue reference="bwO-oZ-2vj"/>
         <segue reference="fIR-e3-ssz"/>
         <segue reference="ziz-Xl-QVg"/>
         <segue reference="HSg-jN-pbo"/>

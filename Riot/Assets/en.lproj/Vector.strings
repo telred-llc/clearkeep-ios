@@ -21,6 +21,7 @@
 "title_people" = "People";
 "title_rooms" = "Rooms";
 "title_groups" = "Communities";
+"title_call" = "Call";
 "warning" = "Warning";
 
 // Actions

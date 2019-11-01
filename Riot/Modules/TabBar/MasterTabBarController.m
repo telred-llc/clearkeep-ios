@@ -77,6 +77,7 @@
 
     // Retrieve the all view controllers
     _homeViewController = [self.viewControllers objectAtIndex:TABBAR_HOME_INDEX];
+    _callHistoryViewControlelr = [self.viewControllers objectAtIndex:TABBAR_CALL_INDEX];
     _peopleViewController = [self.viewControllers objectAtIndex:TABBAR_PEOPLE_INDEX];
     
     //-- CK: removed
@@ -88,13 +89,14 @@
     [_settingsBarButtonItem setAccessibilityLabel:NSLocalizedStringFromTable(@"settings_title", @"Vector", nil)];
     [_searchBarButtonIem setAccessibilityLabel:NSLocalizedStringFromTable(@"search_default_placeholder", @"Vector", nil)];
     [_homeViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_home", @"Vector", nil)];
+    [_callHistoryViewControlelr setAccessibilityLabel:NSLocalizedStringFromTable(@"title_call", @"Vector", nil)];
     [_peopleViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_people", @"Vector", nil)];
     [_roomsViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_rooms", @"Vector", nil)];
     [_groupsViewController setAccessibilityLabel:NSLocalizedStringFromTable(@"title_groups", @"Vector", nil)];
         
     // Sanity check
     //-- CK: unused _groupsViewController
-    NSAssert(_homeViewController && _peopleViewController /* && _favouritesViewController && _roomsViewController && _groupsViewController*/, @"Something wrong in Main.storyboard");
+    NSAssert(_homeViewController && _peopleViewController && _callHistoryViewControlelr/* && _favouritesViewController && _roomsViewController && _groupsViewController*/, @"Something wrong in Main.storyboard");
 
     // Adjust the display of the icons in the tabbar.
     for (UITabBarItem *tabBarItem in self.tabBar.items)
@@ -205,6 +207,7 @@
     mxSessionArray = nil;
     
     _homeViewController = nil;
+    _callHistoryViewControlelr = nil;
     _peopleViewController = nil;
     _roomsViewController = nil;
     _groupsViewController = nil;
