@@ -2846,6 +2846,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
             
             // Prepare the call view controller
             currentCallViewController = [CKCallViewController callViewController:nil];
+            currentCallViewController.modalPresentationStyle = UIModalPresentationFullScreen;
             currentCallViewController.playRingtone = !isCallKitEnabled;
             currentCallViewController.mxCall = mxCall;
             currentCallViewController.delegate = self;

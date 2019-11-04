@@ -21,7 +21,10 @@ final class CKCallViewController: CallViewController {
     
     @IBOutlet weak var pulseView: UIView!
     @IBOutlet weak var callControlContainerHeightConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var messageSwitchView: UIView!
+    @IBOutlet weak var cameraSwitchView: UIView!
+    @IBOutlet weak var sideControlView: UIView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.roundButtons()
@@ -95,7 +98,7 @@ final class CKCallViewController: CallViewController {
     override func startActivityIndicator() {
         // TODO: Temporary fixing
     }
-    
+
     override func setMxCall(_ call: MXCall!) {
         super.setMxCall(call)
         self.callerImageView.isHidden = false
@@ -107,13 +110,18 @@ final class CKCallViewController: CallViewController {
         super.call(call, stateDidChange: state, reason: event)
         print("")
         if state == .connected {
-            if  call.isVideoCall {
+            if call.isVideoCall {
                 self.callerImageView.isHidden = true
             }
+            self.sideControlView.isHidden = call.isVideoCall ? false : true
+            self.messageSwitchView.isHidden = call.isVideoCall ? true : false
+            self.cameraSwitchView.isHidden = call.isVideoCall ? false : true
             self.pulseView.isHidden = true
         } else {
             self.callerImageView.isHidden = false
             self.pulseView.isHidden = false
+            self.messageSwitchView.isHidden = false
+            self.cameraSwitchView.isHidden = true
         }
     }
     
