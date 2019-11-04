@@ -930,6 +930,8 @@ extension CKRoomViewController {
             } else {
                 statusImage.shadowLayer(fillColor: #colorLiteral(red: 0.4392156863, green: 0.4392156863, blue: 0.4392156863, alpha: 1))
             }
+            
+            titleView.topicLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
         }
     }
     
