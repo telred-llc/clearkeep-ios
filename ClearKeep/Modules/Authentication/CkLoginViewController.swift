@@ -25,6 +25,9 @@ final public class CkLoginViewController: CkAuthenticationViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        
         userIdView.bindingData(title: CKLocalization.string(byKey: "auth_user_id"))
         userIdView.placeholder = CKLocalization.string(byKey: "auth_user_id_placeholder")
         userIdView.configReturnTypeKeyboard = .continue
@@ -63,5 +66,14 @@ final public class CkLoginViewController: CkAuthenticationViewController {
         } else {
             completion([:])
         }
+    }
+    
+    
+}
+
+extension CkLoginViewController {
+    
+    @objc func hideKeyboard() {
+           view.endEditing(true)
     }
 }

@@ -96,6 +96,10 @@ extension CKCustomTextField: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         isFocusTextField = false
+        
+        if !(self.contentTextField.text ?? "").isEmpty {
+            self.contentTextField.textColor = themeService.attrs.textFieldEditingColor
+        }
     }
     
     
