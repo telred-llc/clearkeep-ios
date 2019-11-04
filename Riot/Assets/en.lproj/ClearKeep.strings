@@ -174,3 +174,17 @@
 "invited_room" = "invited you to this room";
 "invited_unknow" = "Unknow";
 "invited_default" = "Would you like to join in order to participate in the discussion?";
+
+// signin signout
+
+"auth_user_id" = "Username or Email";
+"auth_user_id_placeholder" = "Your account";
+
+"auth_password" = "Password";
+"auth_password_placeholder" = "Enter password";
+
+"auth_repeat_password" = "Repeat Password";
+"auth_repeat_password_placeholder" = "Enter repeat password";
+"auth_sign_in_have_account" = "HAVE AN ACCOUNT ?";
+"auth_sign_in_button" = " SIGN IN";
+

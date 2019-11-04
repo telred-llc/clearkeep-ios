@@ -34,6 +34,10 @@ protocol Theme {
     var newBackgroundColor: UIColor { get }
     
     var hintText: UIColor { get }
+    
+    var textFieldColor: UIColor { get }
+    var textFieldEditingColor: UIColor { get }
+    var textFieldBackground: UIColor { get }
 }
 
 struct LightTheme: Theme {
@@ -51,13 +55,21 @@ struct LightTheme: Theme {
     var unreadCellBgColor = #colorLiteral(red: 0.7921568627, green: 0.9568627451, blue: 0.9843137255, alpha: 0.25)
     var cellPrimaryBgColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black]
-    var statusBarStyle: UIStatusBarStyle = .default
-    
+    var statusBarStyle = styleForStatusBar()
     var newBackgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    
     var hintText = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
+    var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
+    var textFieldEditingColor = #colorLiteral(red: 0.3411764706, green: 0.5294117647, blue: 0.8901960784, alpha: 1)
+    var textFieldBackground = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+  
+    static func styleForStatusBar() -> UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return UIStatusBarStyle.darkContent
+        } else {
+            return UIStatusBarStyle.default
+        }
+    }
 }
 
 struct DarkTheme: Theme {
@@ -75,13 +87,14 @@ struct DarkTheme: Theme {
     var unreadCellBgColor = #colorLiteral(red: 0.9843137255, green: 0.9411764706, blue: 0.7921568627, alpha: 0.15)
     var cellPrimaryBgColor = #colorLiteral(red: 0.2509803922, green: 0.3254901961, blue: 0.4352941176, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0, green: 0.8196078431, blue: 0.8941176471, alpha: 1)
-
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.white]
     var statusBarStyle: UIStatusBarStyle = .lightContent
-    
     var newBackgroundColor = #colorLiteral(red: 0.2509803922, green: 0.3254901961, blue: 0.4352941176, alpha: 1)
-    
     var hintText = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    
+    var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
+    var textFieldEditingColor = #colorLiteral(red: 0.2470588235, green: 0.7725490196, blue: 0.7254901961, alpha: 1)
+    var textFieldBackground = #colorLiteral(red: 0.9019607843, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
 }
 
 enum ThemeType: ThemeProvider {
