@@ -51,13 +51,18 @@ struct LightTheme: Theme {
     var unreadCellBgColor = #colorLiteral(red: 0.7921568627, green: 0.9568627451, blue: 0.9843137255, alpha: 0.25)
     var cellPrimaryBgColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black]
-    var statusBarStyle: UIStatusBarStyle = .default
-    
+    var statusBarStyle = styleForStatusBar()
     var newBackgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    
     var hintText = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
+
+    static func styleForStatusBar() -> UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return UIStatusBarStyle.darkContent
+        } else {
+            return UIStatusBarStyle.default
+        }
+    }
 }
 
 struct DarkTheme: Theme {
@@ -75,12 +80,9 @@ struct DarkTheme: Theme {
     var unreadCellBgColor = #colorLiteral(red: 0.9843137255, green: 0.9411764706, blue: 0.7921568627, alpha: 0.15)
     var cellPrimaryBgColor = #colorLiteral(red: 0.2509803922, green: 0.3254901961, blue: 0.4352941176, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0, green: 0.8196078431, blue: 0.8941176471, alpha: 1)
-
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.white]
     var statusBarStyle: UIStatusBarStyle = .lightContent
-    
     var newBackgroundColor = #colorLiteral(red: 0.2509803922, green: 0.3254901961, blue: 0.4352941176, alpha: 1)
-    
     var hintText = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 }
 
