@@ -226,3 +226,24 @@ extension UIView {
     }
 }
 
+extension UIImageView {
+    
+    @objc
+    open func shadowLayer(fillColor: UIColor = #colorLiteral(red: 0.5764705882, green: 0.9647058824, blue: 0.6156862745, alpha: 1), strokeColor: UIColor = UIColor.white, radius: CGFloat = 6) {
+        let shadowLayer: CAShapeLayer = CAShapeLayer()
+        
+        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: radius).cgPath
+        shadowLayer.fillColor = fillColor.cgColor
+        shadowLayer.strokeColor = UIColor.white.cgColor
+        shadowLayer.lineWidth = 1
+
+        shadowLayer.shadowColor = fillColor.cgColor
+        shadowLayer.shadowPath = shadowLayer.path
+        shadowLayer.shadowOffset = CGSize(width: -1, height: 1.0)
+        shadowLayer.shadowOpacity = 1
+        shadowLayer.shadowRadius = radius/2
+        
+
+        layer.insertSublayer(shadowLayer, at: 0)
+    }
+}

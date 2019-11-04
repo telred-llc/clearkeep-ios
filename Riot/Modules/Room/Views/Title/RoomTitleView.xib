@@ -1,77 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="BkF-x3-7fX" customClass="RoomTitleView">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+            <rect key="frame" x="0.0" y="0.0" width="590" height="62"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Room Name" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="6uH-I3-RQg">
-                    <rect key="frame" x="249.5" y="9" width="101" height="23"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                    <accessibility key="accessibilityConfiguration" identifier="DisplayNameTextField"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                    <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                    <connections>
-                        <outlet property="delegate" destination="BkF-x3-7fX" id="xX7-jB-9va"/>
-                    </connections>
-                </textField>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="details_icon" translatesAutoresizingMaskIntoConstraints="NO" id="S3Y-wJ-HOe">
-                    <rect key="frame" x="357.5" y="14.5" width="6" height="12"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S3Y-wJ-HOe">
+                    <rect key="frame" x="228.5" y="16" width="12" height="12"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <accessibility key="accessibilityConfiguration" identifier="RoomDetailsIconImageView"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="6" id="XTx-6p-2wB"/>
-                        <constraint firstAttribute="height" constant="12" id="tXh-eB-ave"/>
+                        <constraint firstAttribute="width" secondItem="S3Y-wJ-HOe" secondAttribute="height" multiplier="1:1" id="JeG-ei-hft"/>
+                        <constraint firstAttribute="width" constant="12" id="zHA-SY-vGn"/>
                     </constraints>
                 </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SeX-mf-XoN">
+                    <rect key="frame" x="244.5" y="11.5" width="101" height="39"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Room Name" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="6uH-I3-RQg">
+                            <rect key="frame" x="0.0" y="0.0" width="101" height="23"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <accessibility key="accessibilityConfiguration" identifier="DisplayNameTextField"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                            <connections>
+                                <outlet property="delegate" destination="BkF-x3-7fX" id="xX7-jB-9va"/>
+                            </connections>
+                        </textField>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N8z-UZ-sKD">
+                            <rect key="frame" x="49" y="23" width="3.5" height="16"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sD9-l7-azQ">
-                    <rect key="frame" x="0.0" y="0.0" width="350.5" height="44"/>
+                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="62"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" id="t4r-Q5-dvt"/>
+                    </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pFg-XE-6DB">
-                    <rect key="frame" x="350.5" y="0.0" width="249.5" height="44"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <rect key="frame" x="0.0" y="0.0" width="590" height="62"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="RoomTitle"/>
             <constraints>
-                <constraint firstItem="6uH-I3-RQg" firstAttribute="centerX" secondItem="BkF-x3-7fX" secondAttribute="centerX" id="3uN-6W-rVZ"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="S3Y-wJ-HOe" secondAttribute="trailing" id="3z3-Ye-wh3"/>
+                <constraint firstItem="S3Y-wJ-HOe" firstAttribute="centerY" secondItem="6uH-I3-RQg" secondAttribute="centerY" constant="-1" id="4fi-rY-wsA"/>
                 <constraint firstAttribute="bottom" secondItem="sD9-l7-azQ" secondAttribute="bottom" id="4rX-5O-LrO"/>
                 <constraint firstItem="sD9-l7-azQ" firstAttribute="leading" secondItem="BkF-x3-7fX" secondAttribute="leading" id="AJc-Aa-sht"/>
-                <constraint firstItem="sD9-l7-azQ" firstAttribute="trailing" secondItem="6uH-I3-RQg" secondAttribute="trailing" id="DnD-l9-v0F"/>
                 <constraint firstItem="pFg-XE-6DB" firstAttribute="leading" secondItem="sD9-l7-azQ" secondAttribute="trailing" id="Gxi-oJ-gpi"/>
                 <constraint firstAttribute="bottom" secondItem="pFg-XE-6DB" secondAttribute="bottom" id="HEU-GL-4yt"/>
                 <constraint firstAttribute="trailing" secondItem="pFg-XE-6DB" secondAttribute="trailing" id="HPm-vM-32l"/>
-                <constraint firstItem="S3Y-wJ-HOe" firstAttribute="centerY" secondItem="6uH-I3-RQg" secondAttribute="centerY" id="Jjq-ss-0kj"/>
-                <constraint firstItem="6uH-I3-RQg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BkF-x3-7fX" secondAttribute="leading" constant="8" id="KW6-05-QLM"/>
+                <constraint firstItem="S3Y-wJ-HOe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="33G-jt-WdA" secondAttribute="leading" id="I2d-PB-EXd"/>
+                <constraint firstItem="SeX-mf-XoN" firstAttribute="centerX" secondItem="BkF-x3-7fX" secondAttribute="centerX" id="IE8-oi-SJt"/>
                 <constraint firstItem="pFg-XE-6DB" firstAttribute="top" secondItem="BkF-x3-7fX" secondAttribute="top" id="M4X-tH-OCM"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6uH-I3-RQg" secondAttribute="trailing" constant="8" id="PUM-di-dAZ"/>
-                <constraint firstItem="6uH-I3-RQg" firstAttribute="top" secondItem="BkF-x3-7fX" secondAttribute="top" constant="9" id="Piq-rp-Pae"/>
                 <constraint firstItem="sD9-l7-azQ" firstAttribute="top" secondItem="BkF-x3-7fX" secondAttribute="top" id="YrR-1c-h56"/>
-                <constraint firstItem="S3Y-wJ-HOe" firstAttribute="leading" secondItem="6uH-I3-RQg" secondAttribute="trailing" constant="7" id="qbS-km-tTO"/>
+                <constraint firstItem="S3Y-wJ-HOe" firstAttribute="leading" secondItem="6uH-I3-RQg" secondAttribute="leading" constant="-16" id="ZsF-yp-sXJ"/>
+                <constraint firstItem="33G-jt-WdA" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SeX-mf-XoN" secondAttribute="trailing" id="bhd-mn-4YA"/>
+                <constraint firstItem="SeX-mf-XoN" firstAttribute="centerY" secondItem="BkF-x3-7fX" secondAttribute="centerY" id="kdK-2D-e2q"/>
+                <constraint firstItem="SeX-mf-XoN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BkF-x3-7fX" secondAttribute="leading" constant="16" id="yB2-VC-Alc"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="33G-jt-WdA"/>
             <connections>
-                <outlet property="displayNameCenterXConstraint" destination="3uN-6W-rVZ" id="rck-yU-24s"/>
                 <outlet property="displayNameTextField" destination="6uH-I3-RQg" id="MfX-LQ-C2K"/>
-                <outlet property="displayNameTextFieldTopConstraint" destination="Piq-rp-Pae" id="jnL-Hz-TWn"/>
                 <outlet property="roomDetailsIconImageView" destination="S3Y-wJ-HOe" id="bhR-6E-8St"/>
                 <outlet property="roomDetailsMask" destination="pFg-XE-6DB" id="7EF-K5-G0o"/>
                 <outlet property="titleMask" destination="sD9-l7-azQ" id="I9b-wF-iNH"/>
+                <outlet property="topicLabel" destination="N8z-UZ-sKD" id="01y-yw-IYP"/>
             </connections>
-            <point key="canvasLocation" x="139" y="144"/>
+            <point key="canvasLocation" x="137.59999999999999" y="161.91904047976013"/>
         </view>
     </objects>
-    <resources>
-        <image name="details_icon" width="6" height="12"/>
-    </resources>
 </document>
