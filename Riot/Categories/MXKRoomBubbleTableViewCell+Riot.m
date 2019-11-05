@@ -139,10 +139,18 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
 
 - (void)selectComponent:(NSUInteger)componentIndex
 {
+    [self selectComponent:componentIndex showEditButton:NO showTimestamp:YES];
+}
+
+- (void)selectComponent:(NSUInteger)componentIndex showEditButton:(BOOL)showEditButton showTimestamp:(BOOL)showTimestamp
+{
     if (componentIndex < bubbleData.bubbleComponents.count)
     {
-        // Add time label
-        [self addTimestampLabelForComponent:componentIndex];
+        if (showTimestamp)
+        {
+            // Add time label
+            [self addTimestampLabelForComponent:componentIndex];
+        }
         
         // Blur timestamp labels which are not related to the selected component (if any)
         for (UIView* view in self.bubbleInfoContainer.subviews)
@@ -165,8 +173,11 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
             }
         }
         
-        // Add the edit button
-        [self addEditButtonForComponent:componentIndex completion:nil];
+        if (showEditButton)
+        {
+            // Add the edit button
+            [self addEditButtonForComponent:componentIndex completion:nil];
+        }
     }
 }
 
@@ -326,12 +337,12 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
 
 - (void)setBlurred:(BOOL)blurred
 {
-    objc_setAssociatedObject(self, @selector(blurred), [NSNumber numberWithBool:blurred], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(blurred), @(blurred), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     if (blurred)
     {
         self.bubbleOverlayContainer.hidden = NO;
-        self.bubbleOverlayContainer.backgroundColor = kRiotPrimaryBgColor;
+        self.bubbleOverlayContainer.backgroundColor = UIColor.blackColor;
         self.bubbleOverlayContainer.alpha = 0.8;
         self.bubbleOverlayContainer.userInteractionEnabled = YES;
         

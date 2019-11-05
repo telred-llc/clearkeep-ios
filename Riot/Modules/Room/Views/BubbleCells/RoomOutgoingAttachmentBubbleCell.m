@@ -16,8 +16,9 @@
  */
 
 #import "RoomOutgoingAttachmentBubbleCell.h"
-
 #import "RiotDesignValues.h"
+#import "RoomBubbleCellData.h"
+#import "MXKRoomBubbleTableViewCell+Riot.h"
 
 @implementation RoomOutgoingAttachmentBubbleCell
 
@@ -59,6 +60,18 @@
             bubbleCell.attachmentView.layer.borderWidth = 0;
         }
     }
+}
+
++ (CGFloat)heightForCellData:(MXKCellData*)cellData withMaximumWidth:(CGFloat)maxWidth
+{
+    CGFloat rowHeight = [self attachmentBubbleCellHeightForCellData:cellData withMaximumWidth:maxWidth];
+
+    if (rowHeight <= 0)
+    {
+        rowHeight = [super heightForCellData:cellData withMaximumWidth:maxWidth];
+    }
+
+    return rowHeight;
 }
 
 @end

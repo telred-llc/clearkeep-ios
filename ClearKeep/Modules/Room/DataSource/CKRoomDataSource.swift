@@ -191,6 +191,8 @@ import Foundation
                         } else {
                             cellData.readReceipts[eventId] = nil
                         }
+                        
+                        cellData.setNeedsUpdateAdditionalContentHeight()
                     }
                 }
             }
@@ -296,7 +298,7 @@ import Foundation
             // Handle read receipts and read marker display.
             // Ignore the read receipts on the bubble without actual display.
             // Ignore the read receipts on collapsed bubbles
-            if (self.showBubbleReceipts && !isCollapsableCellCollapsed) || showReadMarker {
+            if (self.showBubbleReceipts && !isCollapsableCellCollapsed) {
                 
                 // Read receipts container are inserted here on the right side into the content view.
                 // Some vertical whitespaces are added in message text view (see RoomBubbleCellData class) to insert correctly multiple receipts.
@@ -361,7 +363,7 @@ import Foundation
                     }
 
                     // Prepare the bottom position for the next read receipt container (if any)
-//                    bottomPositionY = (bubbleCell.msgTextViewTopConstraint?.constant ?? 0) + component.position.y;
+                    bottomPositionY = (bubbleCell.msgTextViewTopConstraint?.constant ?? 0) + component.position.y;
                     
                     index -= 1
                 }
@@ -380,7 +382,7 @@ import Foundation
             if let selectedEventId = selectedEventId, selectedEventId.count > 0 {
                 // Check whether the selected event belongs to this bubble
                 if let selectedComponentIndex = cellData?.selectedComponentIndex {
-                    bubbleCell.selectComponent(UInt(selectedComponentIndex))
+                    bubbleCell.selectComponent(UInt(selectedComponentIndex), showEditButton: false, showTimestamp: true)
                 } else {
                     bubbleCell.blurred = true
                 }
@@ -464,6 +466,14 @@ extension CKRoomDataSource {
             updateCellDataReactions(roomBubbleCellData, forEventId: eventId)
 
             delegate.dataSource(self, didCellChange: nil)
+        }
+    }
+    
+    override func updateCellDataReactions(_ cellData: MXKRoomBubbleCellDataStoring!, forEventId eventId: String!) {
+        super.updateCellDataReactions(cellData, forEventId: eventId)
+        
+        if let data = cellData as? RoomBubbleCellData {
+            data.setNeedsUpdateAdditionalContentHeight()
         }
     }
 }

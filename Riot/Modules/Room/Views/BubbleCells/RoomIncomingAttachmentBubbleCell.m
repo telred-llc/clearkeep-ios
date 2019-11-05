@@ -16,8 +16,9 @@
  */
 
 #import "RoomIncomingAttachmentBubbleCell.h"
-
 #import "RiotDesignValues.h"
+#import "RoomBubbleCellData.h"
+#import "MXKRoomBubbleTableViewCell+Riot.h"
 
 @implementation RoomIncomingAttachmentBubbleCell
 
@@ -30,6 +31,18 @@
     
     // CK 337: Edit the font size for the "account name"
     [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
+}
+
++ (CGFloat)heightForCellData:(MXKCellData*)cellData withMaximumWidth:(CGFloat)maxWidth
+{
+    CGFloat rowHeight = [self attachmentBubbleCellHeightForCellData:cellData withMaximumWidth:maxWidth];
+
+    if (rowHeight <= 0)
+    {
+        rowHeight = [super heightForCellData:cellData withMaximumWidth:maxWidth];
+    }
+
+    return rowHeight;
 }
 
 @end
