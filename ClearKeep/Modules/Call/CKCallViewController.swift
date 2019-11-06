@@ -14,6 +14,7 @@ final class CKCallViewController: CallViewController {
     private let minCallControlsSpacing: CGFloat = 6
     private let disposeBag = DisposeBag()
     private var pulseArray = [CAShapeLayer]()
+    private var statusTimer = Timer()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: CKCallViewController.nibName, bundle: Bundle.init(for: CKCallViewController.self))
@@ -110,14 +111,19 @@ final class CKCallViewController: CallViewController {
         super.call(call, stateDidChange: state, reason: event)
         print("")
         if state == .connected {
+            statusTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimeLabel), userInfo: nil, repeats: true)
+
             if call.isVideoCall {
                 self.callerImageView.isHidden = true
             }
-            self.sideControlView.isHidden = call.isVideoCall ? false : true
-            self.messageSwitchView.isHidden = call.isVideoCall ? true : false
-            self.cameraSwitchView.isHidden = call.isVideoCall ? false : true
             self.pulseView.isHidden = true
+            self.smallTimeLabel.isHidden = !call.isVideoCall
+            self.sideControlView.isHidden = !call.isVideoCall
+            self.cameraSwitchView.isHidden = !call.isVideoCall
+            self.messageSwitchView.isHidden = call.isVideoCall
+            self.callStatusLabel.isHidden = call.isVideoCall
         } else {
+            statusTimer.invalidate()
             self.callerImageView.isHidden = false
             self.pulseView.isHidden = false
             self.messageSwitchView.isHidden = false
@@ -214,4 +220,12 @@ final class CKCallViewController: CallViewController {
         pulseArray[index].add(groupAnimation, forKey: "groupanimation")
     }
     
+    @objc private func updateTimeLabel() {
+        if let call = mxCall {
+            let duration = call.duration / 1000;
+            let secs = duration % 60;
+            let mins = (duration - secs) / 60;
+            smallTimeLabel.text = String.init(format: "%02tu:%02tu", mins, secs)
+        }
+    }
 }
