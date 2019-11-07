@@ -95,10 +95,10 @@
         
         // Customize search bar
         self.searchBar.barStyle = kRiotDesignSearchBarStyle;
-        self.searchBar.tintColor = kRiotDesignSearchBarTintColor;
+        self.searchBar.tintColor = kRiotSecondaryTextColor;
 
         self.navigationItem.hidesBackButton = NO;
-        self.navigationController.navigationBar.tintColor = kRiotSelectedButtonTextColor;
+        self.navigationController.navigationBar.tintColor = kRiotTabBarButtonTintColor;
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.leftBarButtonItem = nil;
         
@@ -112,7 +112,7 @@
 
         UIImage *buttonImage = [[UIImage imageNamed:@"ic_new_chat"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIBarButtonItem *newRoomButton = [[UIBarButtonItem alloc] initWithImage:buttonImage style:UIBarButtonItemStylePlain target:self action:@selector(onPressRightMenuItem)];
-        newRoomButton.tintColor = kRiotTopicTextColor;
+        newRoomButton.tintColor = kRiotNavBarRightButtonColor;
         [self.navigationItem setRightBarButtonItem: newRoomButton animated:YES];
     }
 

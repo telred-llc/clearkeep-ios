@@ -152,8 +152,8 @@
 
 - (void)userInterfaceThemeDidChange
 {
-    self.defaultBarTintColor = kRiotSecondaryBgColor;
-    self.barTitleColor = kRiotPrimaryTextColor;
+    self.defaultBarTintColor = kRiotTabBarButtonTintColor;
+    self.barTitleColor = kRiotTabBarButtonTintColor;
     self.activityIndicator.backgroundColor = kRiotOverlayColor;
     
     self.view.backgroundColor = kRiotPrimaryBgColor;

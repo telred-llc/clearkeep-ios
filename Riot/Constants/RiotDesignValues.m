@@ -42,6 +42,7 @@ UIColor *kRiotSecondaryDescriptionColor;
 UIColor *kRiotTabBarBgColor;
 UIColor *kRiotTabBarButtonTintColor;
 UIColor *kRiotCellPrimaryColor;
+UIColor *kRiotNavBarRightButtonColor;
 
 // Riot Colors
 UIColor *kRiotColorGreen;
@@ -126,8 +127,8 @@ UIKeyboardAppearance kRiotKeyboard;
     kRiotTextColorGray = UIColorFromRGB(0x9D9D9D);
     kRiotTextColorWhite = UIColorFromRGB(0xDDDDDD);
     kRiotTextColorDarkWhite = UIColorFromRGB(0xD9D9D9);
-    kRiotTextColorSkyBlue = UIColorFromRGB(0x5787E3);
-    kRiotColorCyanLight = UIColorFromRGB(0x00D1E4);
+    kRiotTextColorSkyBlue = UIColorFromRGB(0x0087FF);
+    kRiotColorCyanLight = UIColorFromRGB(0x00C0D8);
     
     // Colors copied from Vector web
     kRiotColorLightGreen = UIColorFromRGB(0x50e2c2);
@@ -190,6 +191,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotSecondaryDescriptionColor = kRiotTextColorGray;
         kRiotTabBarBgColor = UIColorFromRGB(0x40536F);
         kRiotTabBarButtonTintColor = kRiotColorCyanLight;
+        kRiotNavBarRightButtonColor = UIColorFromRGB(0xFFFFFF);
 
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceDark;
         kRiotKeyboard = UIKeyboardAppearanceDark;
@@ -237,6 +239,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotSecondaryDescriptionColor = kRiotTextColorSkyBlue;
         kRiotTabBarBgColor = [UIColor whiteColor];
         kRiotTabBarButtonTintColor = kRiotTextColorSkyBlue;
+        kRiotNavBarRightButtonColor = UIColorFromRGB(0x444444);
 
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceLight;
         kRiotKeyboard = UIKeyboardAppearanceLight;
