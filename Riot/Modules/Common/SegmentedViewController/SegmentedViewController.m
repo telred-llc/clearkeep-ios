@@ -152,7 +152,7 @@
 
 - (void)userInterfaceThemeDidChange
 {
-    self.defaultBarTintColor = kRiotTabBarButtonTintColor;
+    self.defaultBarTintColor = kRiotPrimaryBgColor;
     self.barTitleColor = kRiotTabBarButtonTintColor;
     self.activityIndicator.backgroundColor = kRiotOverlayColor;
     
@@ -222,12 +222,12 @@
         [_selectionContainer.layer setCornerRadius:5.0];
         _selectionContainer.clipsToBounds = YES;
         _selectionContainer.layer.masksToBounds = YES;
-        _selectionContainer.backgroundColor = kRiotSecondaryBgColor;
+        _selectionContainer.backgroundColor = kRiotPrimaryHeaderColor;
         // create programmatically each label
         UIButton *button = _segmentButtons[index];
         [button setTitle:[sectionTitles objectAtIndex:index] forState:UIControlStateNormal];
-        [button setBackgroundColor: kRiotSecondaryBgColor];
-        [button setBackgroundImage:[UIImage imageNamed:@"btn_section_highlight"] forState:UIControlStateSelected];
+        [button setBackgroundColor: kRiotPrimaryHeaderColor];
+        [button setBackgroundImage:kRiotButtonSegmentSelected forState:UIControlStateSelected];
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
         button.titleLabel.font = [UIFont fontWithName:@"SFCompactDisplay-Regular" size:15];
         button.titleLabel.textColor = [UIColor colorWithRed:68.0/255.0 green:68.0/255.0 blue:68.0/255.0 alpha:1];

@@ -71,8 +71,10 @@ extern NSInteger const kRiotRoomAdminLevel;
 extern UIStatusBarStyle kRiotDesignStatusBarStyle;
 extern UIBarStyle kRiotDesignSearchBarStyle;
 extern UIColor *kRiotDesignSearchBarTintColor;
-
 extern UIKeyboardAppearance kRiotKeyboard;
+
+#pragma mark - Button image
+extern UIImage *kRiotButtonSegmentSelected;
 
 /**
  `RiotDesignValues` class manages the Riot design parameters
