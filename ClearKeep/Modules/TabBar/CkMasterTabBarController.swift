@@ -86,8 +86,8 @@ final public class CkMasterTabBarController: MasterTabBarController {
 
         if segue.identifier == "showUnifiedSearch", let unifiedSearchViewController = segue.destination as? UnifiedSearchViewController {
             unifiedSearchViewController.searchBar.vc_searchTextField?.backgroundColor = themeService.attrs.searchBarBgColor
-            unifiedSearchViewController.barTitleColor = themeService.attrs.primaryTextColor
-            unifiedSearchViewController.defaultBarTintColor = themeService.attrs.navBarBgColor
+            unifiedSearchViewController.barTitleColor = themeService.attrs.navBarTintColor
+            unifiedSearchViewController.defaultBarTintColor = themeService.attrs.navBarTintColor
             unifiedSearchViewController.navigationController?.view.backgroundColor = themeService.attrs.navBarBgColor
             
             unifiedSearchViewController.didSelectCreateNewRoom = { [weak self] in
