@@ -183,14 +183,14 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotDesignStatusBarStyle = UIStatusBarStyleLightContent;
         kRiotDesignSearchBarStyle = UIBarStyleBlack;
         kRiotDesignSearchBarTintColor = kRiotColorGreen;
-        kRiotPrimaryHeaderColor = [UIColor blackColor];
+        kRiotPrimaryHeaderColor = UIColorFromRGB(0x202023);
         kRiotAuxiliaryColor = kRiotTextColorGray;
         kRiotOverlayColor = [UIColor colorWithWhite:0.3 alpha:0.5];
         kRiotKeyboardColor = kRiotColorDarkKeyboard;
         kRiotSecondaryDescriptionColor = kRiotTextColorGray;
         kRiotTabBarBgColor = UIColorFromRGB(0x40536F);
         kRiotTabBarButtonTintColor = kRiotColorCyanLight;
-        
+
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceDark;
         kRiotKeyboard = UIKeyboardAppearanceDark;
     }

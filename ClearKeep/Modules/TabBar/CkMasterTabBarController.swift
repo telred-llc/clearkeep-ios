@@ -85,7 +85,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
         super.prepare(for: segue, sender: sender)
 
         if segue.identifier == "showUnifiedSearch", let unifiedSearchViewController = segue.destination as? UnifiedSearchViewController {
-            unifiedSearchViewController.searchBar.setTextFieldColor(color: themeService.attrs.secondBgColor)
+            unifiedSearchViewController.searchBar.vc_searchTextField?.backgroundColor = themeService.attrs.searchBarBgColor
             unifiedSearchViewController.barTitleColor = themeService.attrs.primaryTextColor
             unifiedSearchViewController.defaultBarTintColor = themeService.attrs.navBarBgColor
             unifiedSearchViewController.navigationController?.view.backgroundColor = themeService.attrs.navBarBgColor
@@ -129,7 +129,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
             self?.navigationController?.navigationBar.isTranslucent = false
             self?.navigationController?.navigationBar.shadowImage = UIImage()
             self?.navigationController?.navigationBar.tintColor = themeService.attrs.primaryTextColor
-            self?.placeholderSearchBar.setTextFieldColor(color: theme.searchBarBgColor)
+            self?.placeholderSearchBar.vc_searchTextField?.backgroundColor = theme.searchBarBgColor
             self?.changeNavigationBar(color: themeService.attrs.navBarBgColor)
             self?.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: disposeBag)

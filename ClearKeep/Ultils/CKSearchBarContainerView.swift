@@ -14,11 +14,12 @@ class CKSearchBarContainerView: UIView {
     
     init(customSearchBar: UISearchBar) {
         searchBar = customSearchBar
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = CKColor.Background.homeHeader
+
+        if let textfield = searchBar.vc_searchTextField {
+            textfield.theme.backgroundColor = themeService.attrStream{$0.searchBarBgColor}
         }
+
         super.init(frame: CGRect.zero)
-        
         addSubview(searchBar)
     }
     

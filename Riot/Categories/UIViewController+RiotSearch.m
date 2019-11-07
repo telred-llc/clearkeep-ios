@@ -96,10 +96,9 @@
         // Customize search bar
         self.searchBar.barStyle = kRiotDesignSearchBarStyle;
         self.searchBar.tintColor = kRiotDesignSearchBarTintColor;
-        [self.searchBar setTextFieldColorWithColor:kRiotSecondaryBgColor];
 
         self.navigationItem.hidesBackButton = NO;
-        self.navigationController.navigationBar.tintColor = kRiotTopicTextColor;
+        self.navigationController.navigationBar.tintColor = kRiotSelectedButtonTextColor;
         self.navigationItem.rightBarButtonItem = nil;
         self.navigationItem.leftBarButtonItem = nil;
         

@@ -642,7 +642,7 @@
         }
         else if ([[segue identifier] isEqualToString:@"showUnifiedSearch"])
         {
-            unifiedSearchViewController= segue.destinationViewController;
+            unifiedSearchViewController = segue.destinationViewController;
             
             for (MXSession *session in mxSessionArray)
             {
