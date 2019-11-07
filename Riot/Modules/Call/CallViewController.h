@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIView *gradientMaskContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
 @property (weak, nonatomic) IBOutlet UIButton *sideChatButton;
+@property (weak, nonatomic) IBOutlet UILabel *smallTimeLabel;
 
 @property (unsafe_unretained, nonatomic) IBOutlet NSLayoutConstraint *callerImageViewWidthConstraint;
 
