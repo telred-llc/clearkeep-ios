@@ -17,27 +17,27 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-Z5-rAj" userLabel="Picture View" customClass="MXKImageView">
-                        <rect key="frame" x="557" y="10" width="30" height="30"/>
+                        <rect key="frame" x="600" y="10" width="0.0" height="30"/>
                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="PictureView"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="30" id="NQk-ck-Lo8"/>
+                            <constraint firstAttribute="width" id="NQk-ck-Lo8"/>
                             <constraint firstAttribute="height" constant="30" id="dNT-QU-CUG"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User name:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="q9c-0p-QyP">
-                        <rect key="frame" x="85" y="10" width="459" height="18"/>
+                        <rect key="frame" x="85" y="10" width="502" height="0.0"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="UserNameLabel"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="18" placeholder="YES" id="5ZO-W1-tS2"/>
+                            <constraint firstAttribute="height" placeholder="YES" id="5ZO-W1-tS2"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="text message" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="HTH-5n-MSU">
-                        <rect key="frame" x="447" y="21" width="102" height="40"/>
+                        <rect key="frame" x="468" y="21" width="102" height="40"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="MessageTextView"/>
                         <constraints>
@@ -61,7 +61,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oJa-2k-bLm">
-                        <rect key="frame" x="75" y="4" width="469" height="30"/>
+                        <rect key="frame" x="85" y="10" width="502" height="0.0"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </subviews>
@@ -74,14 +74,14 @@
                     <constraint firstItem="q9c-0p-QyP" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leading" constant="85" id="EnY-q5-cWN"/>
                     <constraint firstItem="q9c-0p-QyP" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="10" id="Ixr-7h-f8j"/>
                     <constraint firstItem="stw-MD-khQ" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="topMargin" constant="-8" id="JXb-n4-O4S"/>
-                    <constraint firstAttribute="trailing" secondItem="HTH-5n-MSU" secondAttribute="trailing" constant="51" id="Shz-6S-kGd"/>
-                    <constraint firstItem="oJa-2k-bLm" firstAttribute="top" secondItem="q9c-0p-QyP" secondAttribute="top" constant="-6" id="YqE-ag-Clf"/>
+                    <constraint firstAttribute="trailing" secondItem="HTH-5n-MSU" secondAttribute="trailing" constant="30" id="Shz-6S-kGd"/>
+                    <constraint firstItem="oJa-2k-bLm" firstAttribute="top" secondItem="q9c-0p-QyP" secondAttribute="top" id="YqE-ag-Clf"/>
                     <constraint firstItem="IOg-Kt-8vW" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leading" constant="15" id="a8w-4u-2vg"/>
-                    <constraint firstItem="oJa-2k-bLm" firstAttribute="leading" secondItem="q9c-0p-QyP" secondAttribute="leading" constant="-10" id="aAt-io-r0S"/>
-                    <constraint firstItem="oJa-2k-bLm" firstAttribute="bottom" secondItem="q9c-0p-QyP" secondAttribute="bottom" constant="6" id="ceT-ga-bdN"/>
+                    <constraint firstItem="oJa-2k-bLm" firstAttribute="leading" secondItem="q9c-0p-QyP" secondAttribute="leading" id="aAt-io-r0S"/>
+                    <constraint firstItem="oJa-2k-bLm" firstAttribute="bottom" secondItem="q9c-0p-QyP" secondAttribute="bottom" id="ceT-ga-bdN"/>
                     <constraint firstItem="oJa-2k-bLm" firstAttribute="trailing" secondItem="q9c-0p-QyP" secondAttribute="trailing" id="edQ-WD-Vf4"/>
                     <constraint firstAttribute="bottom" secondItem="IOg-Kt-8vW" secondAttribute="bottom" id="f24-Fr-D4j"/>
-                    <constraint firstAttribute="trailing" secondItem="hgp-Z5-rAj" secondAttribute="trailing" constant="13" id="lqO-Eh-nl0"/>
+                    <constraint firstAttribute="trailing" secondItem="hgp-Z5-rAj" secondAttribute="trailing" id="lqO-Eh-nl0"/>
                     <constraint firstItem="HTH-5n-MSU" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="21" id="mkw-3s-H8B"/>
                     <constraint firstAttribute="bottom" secondItem="HTH-5n-MSU" secondAttribute="bottom" id="oTk-3F-SEC"/>
                     <constraint firstAttribute="trailingMargin" secondItem="stw-MD-khQ" secondAttribute="trailing" constant="-8" id="qO5-ZZ-mHI"/>

@@ -17,16 +17,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-Z5-rAj" userLabel="Picture View" customClass="MXKImageView">
-                        <rect key="frame" x="592" y="10" width="30" height="30"/>
+                        <rect key="frame" x="622" y="10" width="0.0" height="30"/>
                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="PictureView"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="30" id="NQk-ck-Lo8"/>
+                            <constraint firstAttribute="width" id="NQk-ck-Lo8"/>
                             <constraint firstAttribute="height" constant="30" id="dNT-QU-CUG"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CPe-gA-ZEp">
-                        <rect key="frame" x="566" y="3" width="28" height="61"/>
+                        <rect key="frame" x="602" y="3" width="28" height="61"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="EncryptionStatusView"/>
                         <constraints>
@@ -34,7 +34,7 @@
                         </constraints>
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="text message" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="HTH-5n-MSU">
-                        <rect key="frame" x="471" y="3" width="102" height="61"/>
+                        <rect key="frame" x="503" y="3" width="102" height="61"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="MessageTextView"/>
                         <constraints>
@@ -68,13 +68,13 @@
                     <constraint firstItem="stw-MD-khQ" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="topMargin" constant="-8" id="JXb-n4-O4S"/>
                     <constraint firstItem="IOg-Kt-8vW" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leading" constant="15" id="KCZ-am-GAL"/>
                     <constraint firstAttribute="trailing" secondItem="hgp-Z5-rAj" secondAttribute="trailing" constant="13" id="OAI-sA-w9N"/>
-                    <constraint firstAttribute="trailing" secondItem="HTH-5n-MSU" secondAttribute="trailing" constant="62" id="Shz-6S-kGd"/>
+                    <constraint firstAttribute="trailing" secondItem="HTH-5n-MSU" secondAttribute="trailing" constant="30" id="Shz-6S-kGd"/>
                     <constraint firstAttribute="bottom" secondItem="IOg-Kt-8vW" secondAttribute="bottom" id="f24-Fr-D4j"/>
                     <constraint firstItem="HTH-5n-MSU" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="3" id="mkw-3s-H8B"/>
                     <constraint firstItem="CPe-gA-ZEp" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="3" id="nll-dU-eaY"/>
                     <constraint firstAttribute="bottom" secondItem="HTH-5n-MSU" secondAttribute="bottom" id="oTk-3F-SEC"/>
                     <constraint firstAttribute="trailingMargin" secondItem="stw-MD-khQ" secondAttribute="trailing" constant="-8" id="qO5-ZZ-mHI"/>
-                    <constraint firstAttribute="trailing" secondItem="CPe-gA-ZEp" secondAttribute="trailing" constant="41" id="tE9-Rh-vwk"/>
+                    <constraint firstAttribute="trailing" secondItem="CPe-gA-ZEp" secondAttribute="trailing" constant="5" id="tE9-Rh-vwk"/>
                     <constraint firstItem="HTH-5n-MSU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ef1-Tq-U3Z" secondAttribute="leading" constant="60" id="uig-Xh-7m6"/>
                 </constraints>
             </tableViewCellContentView>

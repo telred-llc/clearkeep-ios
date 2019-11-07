@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="5IE-JS-uf3" userLabel="Attachment View" customClass="MXKImageView">
-                        <rect key="frame" x="352" y="3" width="192" height="69"/>
+                        <rect key="frame" x="378" y="3" width="192" height="69"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="AttachmentView"/>
                         <constraints>
@@ -26,7 +26,7 @@
                         </constraints>
                     </view>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K9X-gn-noF" userLabel="File Type Image View">
-                        <rect key="frame" x="512" y="3" width="32" height="32"/>
+                        <rect key="frame" x="538" y="3" width="32" height="32"/>
                         <accessibility key="accessibilityConfiguration" identifier="FileTypeImageView"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="32" id="OE8-oh-B7Q"/>
@@ -34,7 +34,7 @@
                         </constraints>
                     </imageView>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cot-3X-2cU" userLabel="Play Icon Image View">
-                        <rect key="frame" x="432" y="21.5" width="32" height="32"/>
+                        <rect key="frame" x="458" y="21.5" width="32" height="32"/>
                         <accessibility key="accessibilityConfiguration" identifier="PlayIconImageView"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="32" id="8io-Wk-GzF"/>
@@ -42,7 +42,7 @@
                         </constraints>
                     </imageView>
                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8Bq-Mk-bN8">
-                        <rect key="frame" x="438" y="27.5" width="20" height="20"/>
+                        <rect key="frame" x="464" y="27.5" width="20" height="20"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="ActivityIndicator"/>
                         </userDefinedRuntimeAttributes>
@@ -95,7 +95,7 @@
                 <constraints>
                     <constraint firstItem="fdx-qs-8en" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leading" constant="13" id="5fk-w4-qrf"/>
                     <constraint firstItem="8Bq-Mk-bN8" firstAttribute="centerY" secondItem="5IE-JS-uf3" secondAttribute="centerY" id="5xu-oS-Iyd"/>
-                    <constraint firstAttribute="trailing" secondItem="5IE-JS-uf3" secondAttribute="trailing" constant="56" id="7sQ-ga-aUG"/>
+                    <constraint firstAttribute="trailing" secondItem="5IE-JS-uf3" secondAttribute="trailing" constant="30" id="7sQ-ga-aUG"/>
                     <constraint firstItem="5IE-JS-uf3" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="3" id="96U-67-5TP"/>
                     <constraint firstItem="5IE-JS-uf3" firstAttribute="centerY" secondItem="Cot-3X-2cU" secondAttribute="centerY" id="H5t-l6-fL1"/>
                     <constraint firstItem="WiZ-KM-lSH" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="topMargin" constant="-8" id="ICD-ch-XIt"/>

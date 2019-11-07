@@ -47,16 +47,16 @@
                         </constraints>
                     </view>
                     <view clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-Z5-rAj" userLabel="Picture View" customClass="MXKImageView">
-                        <rect key="frame" x="557" y="54" width="30" height="30"/>
+                        <rect key="frame" x="600" y="54" width="0.0" height="30"/>
                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="PictureView"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="30" id="NQk-ck-Lo8"/>
+                            <constraint firstAttribute="width" id="NQk-ck-Lo8"/>
                             <constraint firstAttribute="height" constant="30" id="dNT-QU-CUG"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xad-KC-DU1">
-                        <rect key="frame" x="531" y="47" width="28" height="58"/>
+                        <rect key="frame" x="567" y="47" width="28" height="58"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="EncryptionStatusView"/>
                         <constraints>
@@ -64,7 +64,7 @@
                         </constraints>
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="text message" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="HTH-5n-MSU">
-                        <rect key="frame" x="436" y="47" width="102" height="58"/>
+                        <rect key="frame" x="468" y="47" width="102" height="58"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="MessageTextView"/>
                         <constraints>
@@ -91,7 +91,7 @@
                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="hgp-Z5-rAj" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="54" id="2Ih-ga-N9s"/>
-                    <constraint firstAttribute="trailing" secondItem="xad-KC-DU1" secondAttribute="trailing" constant="41" id="3NM-bk-Ohk"/>
+                    <constraint firstAttribute="trailing" secondItem="xad-KC-DU1" secondAttribute="trailing" constant="5" id="3NM-bk-Ohk"/>
                     <constraint firstItem="vWC-jH-xa5" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="10" id="7z8-A9-y2a"/>
                     <constraint firstItem="vWC-jH-xa5" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leading" constant="10" id="A37-0k-Log"/>
                     <constraint firstItem="xad-KC-DU1" firstAttribute="top" secondItem="vWC-jH-xa5" secondAttribute="bottom" constant="13" id="Aep-6E-TX3"/>
@@ -100,8 +100,8 @@
                     <constraint firstAttribute="bottomMargin" secondItem="gJu-zj-Vro" secondAttribute="bottom" constant="-8" id="H7m-2I-p8c"/>
                     <constraint firstItem="gJu-zj-Vro" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="topMargin" constant="-8" id="LAr-tM-asT"/>
                     <constraint firstAttribute="trailing" secondItem="vWC-jH-xa5" secondAttribute="trailing" constant="10" id="MzH-jU-owL"/>
-                    <constraint firstAttribute="trailing" secondItem="hgp-Z5-rAj" secondAttribute="trailing" constant="13" id="QYP-tg-wD5"/>
-                    <constraint firstAttribute="trailing" secondItem="HTH-5n-MSU" secondAttribute="trailing" constant="62" id="Shz-6S-kGd"/>
+                    <constraint firstAttribute="trailing" secondItem="hgp-Z5-rAj" secondAttribute="trailing" id="QYP-tg-wD5"/>
+                    <constraint firstAttribute="trailing" secondItem="HTH-5n-MSU" secondAttribute="trailing" constant="30" id="Shz-6S-kGd"/>
                     <constraint firstAttribute="bottom" secondItem="IOg-Kt-8vW" secondAttribute="bottom" id="TPw-iE-nii"/>
                     <constraint firstItem="IOg-Kt-8vW" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="47" id="XSL-TG-m62"/>
                     <constraint firstItem="gJu-zj-Vro" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leadingMargin" constant="-8" id="eqX-nE-FoP"/>

@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="e2e_verified" translatesAutoresizingMaskIntoConstraints="NO" id="og4-CH-o2D">
-                        <rect key="frame" x="531" y="-4" width="28" height="28"/>
+                        <rect key="frame" x="567" y="-4" width="28" height="28"/>
                         <accessibility key="accessibilityConfiguration" identifier="EncryptionStatusView"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="28" id="GaR-eK-pBU"/>
@@ -25,7 +25,7 @@
                         </constraints>
                     </imageView>
                     <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="5IE-JS-uf3" userLabel="Attachment View" customClass="MXKImageView">
-                        <rect key="frame" x="341" y="3" width="192" height="61"/>
+                        <rect key="frame" x="376" y="3" width="192" height="61"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="AttachmentView"/>
                         <constraints>
@@ -34,7 +34,7 @@
                         </constraints>
                     </view>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K9X-gn-noF" userLabel="File Type Image View">
-                        <rect key="frame" x="501" y="3" width="32" height="32"/>
+                        <rect key="frame" x="536" y="3" width="32" height="32"/>
                         <accessibility key="accessibilityConfiguration" identifier="FileTypeImageView"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="32" id="OE8-oh-B7Q"/>
@@ -42,7 +42,7 @@
                         </constraints>
                     </imageView>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Cot-3X-2cU" userLabel="Play Icon Image View">
-                        <rect key="frame" x="421" y="17.5" width="32" height="32"/>
+                        <rect key="frame" x="456" y="17.5" width="32" height="32"/>
                         <accessibility key="accessibilityConfiguration" identifier="PlayIconImageView"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="32" id="8io-Wk-GzF"/>
@@ -50,7 +50,7 @@
                         </constraints>
                     </imageView>
                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8Bq-Mk-bN8">
-                        <rect key="frame" x="427" y="23.5" width="20" height="20"/>
+                        <rect key="frame" x="462" y="23.5" width="20" height="20"/>
                     </activityIndicatorView>
                     <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IOg-Kt-8vW">
                         <rect key="frame" x="15" y="3" width="70" height="64"/>
@@ -61,7 +61,7 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdx-qs-8en" userLabel="ProgressView">
-                        <rect key="frame" x="487" y="-1.5" width="100" height="70"/>
+                        <rect key="frame" x="13" y="-1.5" width="100" height="70"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="rate" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="4" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="eU5-iK-u8i" userLabel="Progress stats">
                                 <rect key="frame" x="0.0" y="60" width="100" height="10"/>
@@ -98,18 +98,18 @@
                 </subviews>
                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="5IE-JS-uf3" secondAttribute="trailing" constant="67" id="0L3-Xb-dFR"/>
+                    <constraint firstAttribute="trailing" secondItem="5IE-JS-uf3" secondAttribute="trailing" constant="32" id="0L3-Xb-dFR"/>
+                    <constraint firstItem="fdx-qs-8en" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leading" constant="13" id="44A-9t-KEB"/>
                     <constraint firstItem="8Bq-Mk-bN8" firstAttribute="centerY" secondItem="5IE-JS-uf3" secondAttribute="centerY" id="5xu-oS-Iyd"/>
                     <constraint firstItem="5IE-JS-uf3" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="3" id="96U-67-5TP"/>
                     <constraint firstItem="og4-CH-o2D" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="-4" id="Eis-VH-QZU"/>
                     <constraint firstItem="5IE-JS-uf3" firstAttribute="centerY" secondItem="Cot-3X-2cU" secondAttribute="centerY" id="H5t-l6-fL1"/>
                     <constraint firstItem="WiZ-KM-lSH" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="topMargin" constant="-8" id="ICD-ch-XIt"/>
                     <constraint firstAttribute="trailingMargin" secondItem="WiZ-KM-lSH" secondAttribute="trailing" constant="-8" id="QZK-47-doo"/>
-                    <constraint firstAttribute="trailing" secondItem="fdx-qs-8en" secondAttribute="trailing" constant="13" id="QsD-Kt-vi5"/>
                     <constraint firstAttribute="bottom" secondItem="5IE-JS-uf3" secondAttribute="bottom" constant="3" id="SHN-tC-zsJ"/>
                     <constraint firstAttribute="bottom" secondItem="IOg-Kt-8vW" secondAttribute="bottom" id="TPw-iE-nii"/>
                     <constraint firstItem="IOg-Kt-8vW" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" constant="3" id="XSL-TG-m62"/>
-                    <constraint firstAttribute="trailing" secondItem="og4-CH-o2D" secondAttribute="trailing" constant="41" id="fVr-jo-gVO"/>
+                    <constraint firstAttribute="trailing" secondItem="og4-CH-o2D" secondAttribute="trailing" constant="5" id="fVr-jo-gVO"/>
                     <constraint firstItem="IOg-Kt-8vW" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leading" constant="15" id="mlA-P5-kEo"/>
                     <constraint firstAttribute="bottomMargin" secondItem="WiZ-KM-lSH" secondAttribute="bottom" constant="-8" id="ofs-BR-F97"/>
                     <constraint firstItem="5IE-JS-uf3" firstAttribute="trailing" secondItem="K9X-gn-noF" secondAttribute="trailing" id="p93-5h-lvW"/>

@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1UD-lA-9zz">
-                        <rect key="frame" x="531" y="0.0" width="28" height="40"/>
+                        <rect key="frame" x="567" y="0.0" width="28" height="40"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="EncryptionStatusView"/>
                         <constraints>
@@ -25,7 +25,7 @@
                         </constraints>
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="text message" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="HTH-5n-MSU">
-                        <rect key="frame" x="436" y="0.0" width="102" height="40"/>
+                        <rect key="frame" x="468" y="0.0" width="102" height="40"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="MessageTextView"/>
                         <constraints>
@@ -52,12 +52,12 @@
                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="fX2-m6-9ca" secondAttribute="trailing" constant="-8" id="1CQ-Jh-75x"/>
-                    <constraint firstAttribute="trailing" secondItem="1UD-lA-9zz" secondAttribute="trailing" constant="41" id="9r5-38-pRI"/>
+                    <constraint firstAttribute="trailing" secondItem="1UD-lA-9zz" secondAttribute="trailing" constant="5" id="9r5-38-pRI"/>
                     <constraint firstItem="1UD-lA-9zz" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" id="AXD-1Y-Z4D"/>
                     <constraint firstAttribute="bottomMargin" secondItem="fX2-m6-9ca" secondAttribute="bottom" constant="-8" id="KgE-lV-F7Z"/>
                     <constraint firstItem="fX2-m6-9ca" firstAttribute="leading" secondItem="ef1-Tq-U3Z" secondAttribute="leadingMargin" constant="-8" id="Mcb-by-8AG"/>
                     <constraint firstAttribute="bottom" secondItem="1UD-lA-9zz" secondAttribute="bottom" id="RjJ-8B-2ga"/>
-                    <constraint firstAttribute="trailing" secondItem="HTH-5n-MSU" secondAttribute="trailing" constant="62" id="Shz-6S-kGd"/>
+                    <constraint firstAttribute="trailing" secondItem="HTH-5n-MSU" secondAttribute="trailing" constant="30" id="Shz-6S-kGd"/>
                     <constraint firstAttribute="bottom" secondItem="IOg-Kt-8vW" secondAttribute="bottom" id="TPw-iE-nii"/>
                     <constraint firstItem="IOg-Kt-8vW" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" id="XSL-TG-m62"/>
                     <constraint firstItem="HTH-5n-MSU" firstAttribute="top" secondItem="ef1-Tq-U3Z" secondAttribute="top" id="mkw-3s-H8B"/>
