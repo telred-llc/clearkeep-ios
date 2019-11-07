@@ -74,6 +74,9 @@ UIColor *kRiotTextColorWhite;
 UIColor *kRiotTextColorDarkWhite;
 UIColor *kRiotTextColorSkyBlue;
 
+// Button image
+UIImage *kRiotButtonSegmentSelected;
+
 NSInteger const kRiotRoomModeratorLevel = 50;
 NSInteger const kRiotRoomAdminLevel = 100;
 
@@ -173,14 +176,14 @@ UIKeyboardAppearance kRiotKeyboard;
     if ([theme isEqualToString:@"dark"])
     {
         // Set dark theme colors
-        kRiotPrimaryBgColor = kRiotBgColorBlack;
+        kRiotPrimaryBgColor = UIColorFromRGB(0x010101);
         kRiotSecondaryBgColor = kRiotColorLightBlack;
         kRiotPrimaryTextColor = kRiotTextColorWhite;
         kRiotSecondaryTextColor = kRiotTextColorGray;
         kRiotPlaceholderTextColor = [UIColor colorWithWhite:1.0 alpha:0.3];
         kRiotTopicTextColor = kRiotTextColorDarkWhite;
         kRiotSelectedBgColor = [UIColor blackColor];
-        kRiotSelectedButtonTextColor = kRiotColorLightBlack;
+        kRiotSelectedButtonTextColor = kRiotColorCyanLight;
         kRiotDesignStatusBarStyle = UIStatusBarStyleLightContent;
         kRiotDesignSearchBarStyle = UIBarStyleBlack;
         kRiotDesignSearchBarTintColor = kRiotColorGreen;
@@ -192,7 +195,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotTabBarBgColor = UIColorFromRGB(0x40536F);
         kRiotTabBarButtonTintColor = kRiotColorCyanLight;
         kRiotNavBarRightButtonColor = UIColorFromRGB(0xFFFFFF);
-
+        kRiotButtonSegmentSelected = [UIImage imageNamed:@"btn_section_dark"];
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceDark;
         kRiotKeyboard = UIKeyboardAppearanceDark;
     }
@@ -221,14 +224,14 @@ UIKeyboardAppearance kRiotKeyboard;
     else
     {
         // Set light theme colors by default.
-        kRiotPrimaryBgColor = kRiotBgColorWhite;
+        kRiotPrimaryBgColor = UIColorFromRGB(0xFFFFFF);
         kRiotSecondaryBgColor = kRiotColorLightGrey;
         kRiotPrimaryTextColor = kRiotTextColorBlack;
         kRiotSecondaryTextColor = kRiotTextColorGray;
         kRiotPlaceholderTextColor = nil; // Use default 70% gray color.
         kRiotTopicTextColor = kRiotTextColorDarkGray;
         kRiotSelectedBgColor = nil; // Use the default selection color.
-        kRiotSelectedButtonTextColor = UIColorFromRGB(0x007AFF);
+        kRiotSelectedButtonTextColor = kRiotTextColorSkyBlue;
         kRiotDesignStatusBarStyle = UIStatusBarStyleDefault;
         kRiotDesignSearchBarStyle = UIBarStyleDefault;
         kRiotDesignSearchBarTintColor = nil; // Default tint color.
@@ -240,6 +243,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotTabBarBgColor = [UIColor whiteColor];
         kRiotTabBarButtonTintColor = kRiotTextColorSkyBlue;
         kRiotNavBarRightButtonColor = UIColorFromRGB(0x444444);
+        kRiotButtonSegmentSelected = [UIImage imageNamed:@"btn_section_highlight"];
 
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceLight;
         kRiotKeyboard = UIKeyboardAppearanceLight;

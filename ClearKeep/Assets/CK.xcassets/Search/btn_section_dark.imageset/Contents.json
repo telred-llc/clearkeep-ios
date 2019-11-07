@@ -16,7 +16,7 @@
         }
       },
       "idiom" : "universal",
-      "filename" : "Path 11898xxxxxxxx.png",
+      "filename" : "Path 1189zazazaz.png",
       "scale" : "1x"
     },
     {
@@ -30,12 +30,12 @@
         "cap-insets" : {
           "bottom" : 22,
           "top" : 21,
-          "right" : 59,
-          "left" : 57
+          "right" : 54,
+          "left" : 55
         }
       },
       "idiom" : "universal",
-      "filename" : "Path 11898xxxxxxxx@2x.png",
+      "filename" : "Path 1189zazazaz@2x.png",
       "scale" : "2x"
     },
     {
@@ -49,12 +49,12 @@
         "cap-insets" : {
           "bottom" : 33,
           "top" : 32,
-          "right" : 78,
-          "left" : 92
+          "right" : 72,
+          "left" : 85
         }
       },
       "idiom" : "universal",
-      "filename" : "Path 11898xxxxxxxx@3x.png",
+      "filename" : "Path 1189zazazaz@3x.png",
       "scale" : "3x"
     }
   ],
