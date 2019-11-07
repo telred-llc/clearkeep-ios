@@ -33,6 +33,7 @@
                 <outlet property="localPreviewContainerViewWidthConstraint" destination="gyu-kv-SLy" id="urn-uo-hnt"/>
                 <outlet property="messageSwitchView" destination="Doo-bT-GwB" id="Sgg-Kk-TQL"/>
                 <outlet property="overlayContainerView" destination="JAR-tn-sGN" id="09u-3G-1UA"/>
+                <outlet property="previewBottomConstraint" destination="jyt-8r-g3R" id="MBp-Rb-1ic"/>
                 <outlet property="pulseView" destination="RGy-x9-xql" id="G0a-KF-gE3"/>
                 <outlet property="rejectCallButton" destination="nuB-Jc-MFa" id="Y3k-kg-IgD"/>
                 <outlet property="remotePreviewContainerView" destination="Tjb-57-yB1" id="MaR-IC-ZKw"/>
@@ -86,7 +87,7 @@
                     <accessibility key="accessibilityConfiguration" identifier="CallVCGradientMaskContainerView"/>
                 </view>
                 <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="6gQ-zo-2Zw">
-                    <rect key="frame" x="20" y="327" width="79" height="106"/>
+                    <rect key="frame" x="20" y="320" width="79" height="106"/>
                     <subviews>
                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Bhz-hS-5B6">
                             <rect key="frame" x="21" y="34.5" width="37" height="37"/>
@@ -107,7 +108,7 @@
                     <rect key="frame" x="0.0" y="10" width="320" height="528"/>
                     <subviews>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="7qo-3U-6sO">
-                            <rect key="frame" x="10" y="54" width="100" height="20"/>
+                            <rect key="frame" x="20" y="20" width="100" height="20"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="100" id="M1Y-U1-EZE"/>
@@ -351,7 +352,7 @@
                                 <constraint firstItem="CIV-vh-bFa" firstAttribute="top" secondItem="nk9-Un-LVP" secondAttribute="top" id="zxj-jm-oBT"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nff-fB-sTq">
+                        <button hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nff-fB-sTq">
                             <rect key="frame" x="10" y="5" width="44" height="44"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <accessibility key="accessibilityConfiguration" identifier="CallVCBackToAppButton"/>
@@ -374,7 +375,7 @@
                             </connections>
                         </button>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uc6-Bt-O4N">
-                            <rect key="frame" x="285" y="20" width="25" height="120"/>
+                            <rect key="frame" x="275" y="20" width="25" height="120"/>
                             <subviews>
                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iiz-W1-oNW">
                                     <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
@@ -445,16 +446,16 @@
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="CallVCOverlayContainerView"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="uc6-Bt-O4N" secondAttribute="trailing" constant="10" id="27l-v3-R5X"/>
+                        <constraint firstAttribute="trailing" secondItem="uc6-Bt-O4N" secondAttribute="trailing" constant="20" id="27l-v3-R5X"/>
                         <constraint firstItem="nk9-Un-LVP" firstAttribute="leading" secondItem="JAR-tn-sGN" secondAttribute="leading" id="9wq-Y2-kZa"/>
                         <constraint firstItem="nff-fB-sTq" firstAttribute="top" secondItem="JAR-tn-sGN" secondAttribute="top" constant="5" id="C4F-59-09O"/>
                         <constraint firstItem="W2P-Hy-nV2" firstAttribute="leading" secondItem="JAR-tn-sGN" secondAttribute="leading" id="Dow-OM-vNZ"/>
-                        <constraint firstItem="7qo-3U-6sO" firstAttribute="top" secondItem="nff-fB-sTq" secondAttribute="bottom" constant="5" id="RIa-PN-c6n"/>
-                        <constraint firstItem="7qo-3U-6sO" firstAttribute="leading" secondItem="JAR-tn-sGN" secondAttribute="leading" constant="10" id="YFi-mn-zs5"/>
+                        <constraint firstItem="7qo-3U-6sO" firstAttribute="leading" secondItem="JAR-tn-sGN" secondAttribute="leading" constant="20" id="YFi-mn-zs5"/>
                         <constraint firstAttribute="bottom" secondItem="nk9-Un-LVP" secondAttribute="bottom" id="bpc-m3-acb"/>
                         <constraint firstAttribute="trailing" secondItem="W2P-Hy-nV2" secondAttribute="trailing" id="hPw-CT-hcl"/>
                         <constraint firstItem="nff-fB-sTq" firstAttribute="leading" secondItem="JAR-tn-sGN" secondAttribute="leading" constant="10" id="ubP-7v-uDn"/>
                         <constraint firstItem="uc6-Bt-O4N" firstAttribute="top" secondItem="nff-fB-sTq" secondAttribute="top" constant="15" id="vab-Zd-are"/>
+                        <constraint firstItem="7qo-3U-6sO" firstAttribute="top" secondItem="uc6-Bt-O4N" secondAttribute="top" id="vqV-mQ-00i"/>
                         <constraint firstAttribute="trailing" secondItem="nk9-Un-LVP" secondAttribute="trailing" id="yES-yI-i3m"/>
                     </constraints>
                 </view>
@@ -470,7 +471,7 @@
                 <constraint firstItem="RGy-x9-xql" firstAttribute="width" secondItem="v1I-LH-wvv" secondAttribute="width" constant="2" id="Nas-Pf-eUf"/>
                 <constraint firstItem="RGy-x9-xql" firstAttribute="centerX" secondItem="v1I-LH-wvv" secondAttribute="centerX" id="OKO-lg-TDC"/>
                 <constraint firstItem="STO-VX-5VW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Tyh-Du-Ztt"/>
-                <constraint firstItem="6gQ-zo-2Zw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="750" constant="420" id="VUy-XN-XzH"/>
+                <constraint firstItem="6gQ-zo-2Zw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="750" constant="320" id="VUy-XN-XzH"/>
                 <constraint firstAttribute="trailing" secondItem="STO-VX-5VW" secondAttribute="trailing" id="X0Q-UU-v3g"/>
                 <constraint firstItem="W2P-Hy-nV2" firstAttribute="top" secondItem="v1I-LH-wvv" secondAttribute="bottom" constant="36" id="XEY-N0-Sw0"/>
                 <constraint firstItem="v1I-LH-wvv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ZfI-qE-l2V"/>
@@ -478,7 +479,7 @@
                 <constraint firstAttribute="bottom" secondItem="Tjb-57-yB1" secondAttribute="bottom" id="akt-pO-kWM"/>
                 <constraint firstItem="6gQ-zo-2Zw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="dq3-4E-bhT"/>
                 <constraint firstItem="STO-VX-5VW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="e4c-aG-jOB"/>
-                <constraint firstItem="nk9-Un-LVP" firstAttribute="top" secondItem="6gQ-zo-2Zw" secondAttribute="bottom" constant="50" id="gh4-Mx-YAx"/>
+                <constraint firstItem="nk9-Un-LVP" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6gQ-zo-2Zw" secondAttribute="bottom" constant="40" id="jyt-8r-g3R"/>
                 <constraint firstItem="Tjb-57-yB1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mW3-RA-hx2"/>
                 <constraint firstItem="RGy-x9-xql" firstAttribute="centerY" secondItem="v1I-LH-wvv" secondAttribute="centerY" id="nNs-jQ-YSv"/>
                 <constraint firstItem="JAR-tn-sGN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pei-Ab-VHX"/>
