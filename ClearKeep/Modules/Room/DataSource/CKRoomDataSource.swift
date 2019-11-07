@@ -273,10 +273,25 @@ import Foundation
         var temporaryViews = [Any]()
         // Finalize cell view customization here
         if let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
-            
+
             let cellData = bubbleCell.bubbleData as? RoomBubbleCellData
             let bubbleComponents = cellData?.bubbleComponents
+            bubbleCell.backgroundColor = .clear
+
             
+            themeService.attrsStream.subscribe(onNext: {(theme) in
+                if let isIncoming = cellData?.isIncoming {
+                    bubbleCell.messageTextView?.cornerRadius = 12.0
+                    if isIncoming {
+                        let gradient = (themeService.type == .dark) ? [#colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1), #colorLiteral(red: 0.2470588235, green: 0.7725490196, blue: 0.7254901961, alpha: 1)] : [#colorLiteral(red: 0.3882352941, green: 0.6235294118, blue: 0.9725490196, alpha: 1), #colorLiteral(red: 0.4705882353, green: 0.5294117647, blue: 0.7725490196, alpha: 1)]
+                        bubbleCell.messageTextView?.applyGradient(colours: gradient)
+                    } else {
+                        let color = (themeService.type == .dark) ? #colorLiteral(red: 0.4392156863, green: 0.4392156863, blue: 0.4392156863, alpha: 1) : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+                        bubbleCell.messageTextView?.backgroundColor = color
+                    }
+                }
+            }).disposed(by: DisposeBag())
+
             // Display time for each message
             if bubbleCell.bubbleInfoContainer != nil {
 //                bubbleCell.addDateLabel(true) // don't add datatimeLabel when aviable on cell reactions
