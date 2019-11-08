@@ -415,16 +415,16 @@ extension CKRoomViewController {
             self?.bubblesTableView?.reloadData()
             self?.refreshRoomInputToolbar()
 
-            self?.view.backgroundColor = themeService.attrs.secondBgColor
-            self?.bubblesTableView?.backgroundColor = themeService.attrs.secondBgColor
+            self?.view.backgroundColor = themeService.attrs.primaryBgColor
+            self?.bubblesTableView?.backgroundColor = themeService.attrs.primaryBgColor
             self?.mentionListTableView?.backgroundColor = themeService.attrs.primaryBgColor
 
             // Fix: has a white subview of view
-            self?.view.subviews.first?.backgroundColor = themeService.attrs.secondBgColor
+            self?.view.subviews.first?.backgroundColor = themeService.attrs.primaryBgColor
         }).disposed(by: disposeBag)
 
         // Don't subscrible theme change
-        self.navigationController?.view.backgroundColor = themeService.attrs.secondBgColor
+        self.navigationController?.view.backgroundColor = themeService.attrs.primaryBgColor
     }
     
     private func setupBubblesTableView() {
@@ -763,7 +763,7 @@ extension CKRoomViewController {
     func refreshRoomInputToolbar() {
         if inputToolbarView != nil && (inputToolbarView is CKRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! CKRoomInputToolbarView
-            roomInputToolbarView.backgroundColor = themeService.attrs.secondBgColor
+            roomInputToolbarView.backgroundColor = themeService.attrs.primaryBgColor
             roomInputToolbarView.growingTextView?.placeholderColor = themeService.attrs.placeholderTextColor
             roomInputToolbarView.growingTextView?.textColor = themeService.attrs.primaryTextColor
         } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
@@ -2663,7 +2663,7 @@ extension CKRoomViewController {
             super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
         }
         
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
         // Update the selected background view
         if themeService.attrs.selectedBgColor != nil {

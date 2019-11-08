@@ -112,7 +112,7 @@ struct DarkTheme: Theme {
     var hintText = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
     var textFieldEditingColor = #colorLiteral(red: 0.2470588235, green: 0.7725490196, blue: 0.7254901961, alpha: 1)
-    var textFieldBackground = #colorLiteral(red: 0.9019607843, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
+    var textFieldBackground = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.137254902, alpha: 0.5)
     var textFieldEditingBackground = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.137254902, alpha: 1)
     
     var enableButtonBG = #imageLiteral(resourceName: "btn_start_room_dark")
