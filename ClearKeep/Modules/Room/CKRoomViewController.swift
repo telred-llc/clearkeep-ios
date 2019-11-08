@@ -415,16 +415,16 @@ extension CKRoomViewController {
             self?.bubblesTableView?.reloadData()
             self?.refreshRoomInputToolbar()
 
-            self?.view.backgroundColor = themeService.attrs.secondBgColor
-            self?.bubblesTableView?.backgroundColor = themeService.attrs.secondBgColor
+            self?.view.backgroundColor = themeService.attrs.primaryBgColor
+            self?.bubblesTableView?.backgroundColor = themeService.attrs.primaryBgColor
             self?.mentionListTableView?.backgroundColor = themeService.attrs.primaryBgColor
 
             // Fix: has a white subview of view
-            self?.view.subviews.first?.backgroundColor = themeService.attrs.secondBgColor
+            self?.view.subviews.first?.backgroundColor = themeService.attrs.primaryBgColor
         }).disposed(by: disposeBag)
 
         // Don't subscrible theme change
-        self.navigationController?.view.backgroundColor = themeService.attrs.secondBgColor
+        self.navigationController?.view.backgroundColor = themeService.attrs.primaryBgColor
     }
     
     private func setupBubblesTableView() {
@@ -763,7 +763,7 @@ extension CKRoomViewController {
     func refreshRoomInputToolbar() {
         if inputToolbarView != nil && (inputToolbarView is CKRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! CKRoomInputToolbarView
-            roomInputToolbarView.backgroundColor = themeService.attrs.secondBgColor
+            roomInputToolbarView.backgroundColor = themeService.attrs.primaryBgColor
             roomInputToolbarView.growingTextView?.placeholderColor = themeService.attrs.placeholderTextColor
             roomInputToolbarView.growingTextView?.textColor = themeService.attrs.primaryTextColor
         } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
@@ -900,7 +900,55 @@ extension CKRoomViewController {
                 }
             }
         }
+        
+        // -- Show status room chat follow status of user
+        if let `titleView` = self.titleView as? RoomTitleView, let statusImage = titleView.roomDetailsIconImageView {
+             
+            var online: Bool = false
+            
+            let myUser = (AppDelegate.the()?.mxSessions.first as? MXSession)?.myUser
+            
+            for member in self.customizedRoomDataSource?.roomState.members.members ?? [] {
+                
+                // -- ignore case member == myUser
+                if member.originUserId == myUser?.userId {
+                    continue
+                }
+                
+                switch member.membership.identifier {
+                case __MXMembershipUnknown, __MXMembershipInvite, __MXMembershipLeave, __MXMembershipBan:
+                    continue
+                default:
+                    print(member.originUserId)
+                }
+                
+                online = self.checkOnline(member.originUserId)
+            }
+            
+            if online {
+                statusImage.shadowLayer(fillColor: #colorLiteral(red: 0.5764705882, green: 0.9647058824, blue: 0.6156862745, alpha: 1))
+            } else {
+                statusImage.shadowLayer(fillColor: #colorLiteral(red: 0.4392156863, green: 0.4392156863, blue: 0.4392156863, alpha: 1))
+            }
+            
+            titleView.topicLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        }
     }
+    
+    private func checkOnline(_ userId: String) -> Bool {
+        
+        guard let session = AppDelegate.the()?.mxSessions.first as? MXSession, let user = session.user(withUserId: userId) else {
+            return false
+        }
+        
+        switch user.presence {
+        case MXPresenceOnline:
+            return true
+        default:
+            return false
+        }
+    }
+    
     
     func enableReplyMode(_ enable: Bool) {
         isInReplyMode = enable
@@ -2663,7 +2711,7 @@ extension CKRoomViewController {
             super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
         }
         
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
         // Update the selected background view
         if themeService.attrs.selectedBgColor != nil {

@@ -38,7 +38,6 @@ final class CKRecentItemFirstChatCell: CKBaseCell {
             let image: UIImage = themeService.type == ThemeType.light ? #imageLiteral(resourceName: "btn_start_room_light") : #imageLiteral(resourceName: "btn_start_room_dark")
             self.startChatButton.setBackgroundImage(image, for: .normal)
             self.titleLabel.textColor = theme.element?.hintText
-            self.contentView.backgroundColor = theme.element?.cellPrimaryBgColor
         }.disposed(by: disposeBag)
     }
     

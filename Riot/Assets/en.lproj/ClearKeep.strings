@@ -188,3 +188,7 @@
 "auth_sign_in_have_account" = "HAVE AN ACCOUNT ?";
 "auth_sign_in_button" = " SIGN IN";
 
+
+// infor create room detail
+"this_room_create" = "This room created ";
+"add_people_room_detail" = "Add People";

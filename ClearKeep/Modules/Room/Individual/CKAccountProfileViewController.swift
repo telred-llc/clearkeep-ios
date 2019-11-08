@@ -111,8 +111,6 @@ class CKAccountProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CKColor.Icon.back]
-        self.navigationController?.navigationBar.clearNavigationBar()
     }
     
     deinit {
@@ -164,12 +162,12 @@ class CKAccountProfileViewController: MXKViewController {
         
         
         // add setting barButtonItem
-        let settingItem = UIBarButtonItem(image: UIImage(named: "setting_profile"),
+        let settingItem = UIBarButtonItem(image: #imageLiteral(resourceName: "setting_profile").withRenderingMode(.alwaysTemplate),
                                           style: .plain,
                                           target: self,
                                           action:  #selector(handleSettingButton(_:)))
         
-        settingItem.tintColor = CKColor.Icon.setting
+        settingItem.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
         navigationItem.rightBarButtonItem = settingItem
         
         addCustomBackButton()
@@ -188,11 +186,12 @@ class CKAccountProfileViewController: MXKViewController {
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.changeNavigationBar(color: themeService.attrs.navBarBgColor)
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.newBackgroundColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -410,13 +409,13 @@ extension CKAccountProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     

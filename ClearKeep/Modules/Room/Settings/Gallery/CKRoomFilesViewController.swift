@@ -74,7 +74,7 @@ final class CKRoomFilesViewController: MXKRoomViewController {
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, bubblesTableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, bubblesTableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -109,7 +109,7 @@ final class CKRoomFilesViewController: MXKRoomViewController {
     // MARK: - UITableView delegate
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = kRiotPrimaryBgColor
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         if kRiotSelectedBgColor != nil {
             cell.selectedBackgroundView = UIView()
             cell.selectedBackgroundView?.backgroundColor = kRiotSelectedBgColor

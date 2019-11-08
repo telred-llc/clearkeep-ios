@@ -121,7 +121,7 @@
 - (void)userInterfaceThemeDidChange
 {
     self.tabBar.tintColor = kRiotTabBarButtonTintColor;
-    self.tabBar.barTintColor = kRiotTabBarBgColor;
+//    self.tabBar.barTintColor = kRiotTabBarBgColor;
     self.view.backgroundColor = kRiotPrimaryBgColor;
     
     [self setNeedsStatusBarAppearanceUpdate];
