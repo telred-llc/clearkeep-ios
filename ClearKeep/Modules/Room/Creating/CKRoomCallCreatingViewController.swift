@@ -103,13 +103,13 @@ final class CKRoomCallCreatingViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = .white
-            self?.barTitleColor = CKColor.Text.blueNavigation
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
         
         themeService.rx
-            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     
@@ -148,7 +148,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
             withIdentifier: CKRoomAddingSearchCell.identifier, for: indexPath) as? CKRoomAddingSearchCell) ?? CKRoomAddingSearchCell()
         
         if let textfield = cell.searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = CKColor.Background.searchBar
+            textfield.backgroundColor = themeService.attrs.searchBarBgColor
         }
         cell.searchBar.placeholder = "Search"
         
@@ -198,7 +198,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
             withIdentifier: CKRoomAddingMembersCell.identifier, for: indexPath) as? CKRoomAddingMembersCell {
             
             let d = self.filteredDataSource[indexPath.row]
-            cell.backgroundColor = UIColor.white
+            cell.backgroundColor = themeService.attrs.primaryBgColor
             cell.displayNameLabel.text = (d.mxContact.displayName != nil) ? d.mxContact.displayName : ((d.mxContact.emailAddresses.first) as! MXKEmail).emailAddress
             
             var checked = false
@@ -432,7 +432,7 @@ extension CKRoomCallCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = UIColor.white
+            view.theme.backgroundColor = themeService.attrStream{$0.tblHeaderBgColor}
             view.descriptionLabel.text = self.titleForHeader(atSection: section)
             view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
             view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)

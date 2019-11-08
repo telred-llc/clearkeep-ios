@@ -25,6 +25,8 @@ final class CKRoomCreatingTopicCell: CKRoomCreatingBaseCell {
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .clear
         self.topicTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
         self.topicTextField.addTarget(self, action: #selector(edittingBegin), for: .editingDidBegin)
         self.topicTextField.addTarget(self, action: #selector(edittingEnd), for: .editingDidEnd)

@@ -23,7 +23,7 @@ final class CKRoomAddingSearchCell: CKRoomBaseCell {
         self.searchBar.placeholder = "Search"
         self.searchBar.delegate = self
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = CKColor.Background.searchBar
+            textfield.backgroundColor = themeService.attrs.searchBarBgColor
         }
 
     }    
