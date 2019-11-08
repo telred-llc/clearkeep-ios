@@ -58,7 +58,7 @@ import Foundation
             return bubbles
         }
         set {
-            self.setValue(bubbles, forKey: "bubbles")
+            self.setValue(newValue, forKey: "bubbles")
         }
     }
     
@@ -332,8 +332,7 @@ import Foundation
                         } else {
                             continue
                         }
-                        
-                        // Reactions: tiemlv
+
                         if let reactions = cellData?.reactions, reactions.count > 0 {
                             let componentEventId: String = component.event.eventId
                             let aggregatedReactions: MXAggregatedReactions? = reactions[componentEventId] as? MXAggregatedReactions
@@ -363,13 +362,19 @@ import Foundation
                                 bubbleCell.tmpSubviews.add(reactionsView!)
 
                                 var leftMargin = RoomBubbleCellLayout.reactionsViewLeftMargin
+                                var rightMargin = RoomBubbleCellLayout.reactionsViewRightMargin
 
                                 if self.room.summary.isEncrypted {
                                     leftMargin += RoomBubbleCellLayout.encryptedContentLeftMargin
                                 }
 
+                                if let isIncome = cellData?.isIncoming, !isIncome {
+                                    rightMargin = leftMargin
+                                    leftMargin = RoomBubbleCellLayout.reactionsViewRightMargin
+                                }
+                                
                                 let leadConstraint = NSLayoutConstraint.init(item: reactionsView!, attribute: .leading, relatedBy: .equal, toItem: reactionsView!.superview!, attribute: .leading, multiplier: 1.0, constant: leftMargin)
-                                let trailConstraint = NSLayoutConstraint.init(item: reactionsView!, attribute: .trailing, relatedBy: .equal, toItem: reactionsView!.superview!, attribute: .trailing, multiplier: 1.0, constant: -15)
+                                let trailConstraint = NSLayoutConstraint.init(item: reactionsView!, attribute: .trailing, relatedBy: .equal, toItem: reactionsView!.superview!, attribute: .trailing, multiplier: 1.0, constant: -rightMargin)
                                 let topConstraint = NSLayoutConstraint.init(item: reactionsView!, attribute: .top, relatedBy: .equal, toItem: reactionsView!.superview!, attribute: .top, multiplier: 1.0, constant: bottomPositionY + RoomBubbleCellLayout.reactionsViewTopMargin)
 
                                 NSLayoutConstraint.activate([leadConstraint, trailConstraint, topConstraint])

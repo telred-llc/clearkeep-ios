@@ -52,11 +52,14 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
     {
         // Check whether this is the first displayed component.
         BOOL isFirstDisplayedComponent = (componentIndex == 0);
+        BOOL isIncoming = YES;
         if ([bubbleData isKindOfClass:RoomBubbleCellData.class])
         {
+            RoomBubbleCellData *data = (RoomBubbleCellData *)bubbleData;
+            isIncoming = data.isIncoming;
             isFirstDisplayedComponent = (componentIndex == ((RoomBubbleCellData*)bubbleData).oldestComponentIndex);
         }
-        
+
         CGFloat timeLabelPosX = self.bubbleInfoContainer.frame.size.width - VECTOR_ROOMBUBBLETABLEVIEWCELL_TIMELABEL_WIDTH;
         CGFloat timeLabelPosY = isFirstDisplayedComponent ? 0 : component.position.y + self.msgTextViewTopConstraint.constant - self.bubbleInfoContainerTopConstraint.constant;
         UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(timeLabelPosX, timeLabelPosY, VECTOR_ROOMBUBBLETABLEVIEWCELL_TIMELABEL_WIDTH , 18)];
@@ -81,6 +84,14 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
         [self.bubbleInfoContainer addSubview:timeLabel];
         
         // Define timeLabel constraints (to handle auto-layout in case of screen rotation)
+        NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:timeLabel
+                                                                           attribute:NSLayoutAttributeLeading
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:self.bubbleInfoContainer
+                                                                           attribute:NSLayoutAttributeLeading
+                                                                          multiplier:1.0
+                                                                            constant:0];
+
         NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:timeLabel
                                                                            attribute:NSLayoutAttributeTrailing
                                                                            relatedBy:NSLayoutRelationEqual
@@ -88,6 +99,7 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
                                                                            attribute:NSLayoutAttributeTrailing
                                                                           multiplier:1.0
                                                                             constant:0];
+        
         NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:timeLabel
                                                                          attribute:NSLayoutAttributeTop
                                                                          relatedBy:NSLayoutRelationEqual
@@ -95,6 +107,7 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
                                                                          attribute:NSLayoutAttributeTop
                                                                         multiplier:1.0
                                                                           constant:timeLabelPosY];
+        
         NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:timeLabel
                                                                            attribute:NSLayoutAttributeWidth
                                                                            relatedBy:NSLayoutRelationEqual
@@ -102,6 +115,7 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
                                                                            attribute:NSLayoutAttributeNotAnAttribute
                                                                           multiplier:1.0
                                                                             constant:VECTOR_ROOMBUBBLETABLEVIEWCELL_TIMELABEL_WIDTH];
+        
         NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:timeLabel
                                                                             attribute:NSLayoutAttributeHeight
                                                                             relatedBy:NSLayoutRelationEqual
@@ -110,8 +124,15 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
                                                                            multiplier:1.0
                                                                              constant:18];
         
-        // Available on iOS 8 and later
-        [NSLayoutConstraint activateConstraints:@[rightConstraint, topConstraint, widthConstraint, heightConstraint]];
+        if (isIncoming) {
+            timeLabel.textAlignment = NSTextAlignmentRight;
+            // Available on iOS 8 and later
+            [NSLayoutConstraint activateConstraints:@[rightConstraint, topConstraint, widthConstraint, heightConstraint]];
+        } else {
+            timeLabel.textAlignment = NSTextAlignmentLeft;
+            // Available on iOS 8 and later
+            [NSLayoutConstraint activateConstraints:@[leftConstraint, topConstraint, widthConstraint, heightConstraint]];
+        }
         
         // Check whether a vertical whitespace was applied to display correctly the timestamp.
         if (!isFirstDisplayedComponent || bubbleData.shouldHideSenderInformation || bubbleData.shouldHideSenderName)

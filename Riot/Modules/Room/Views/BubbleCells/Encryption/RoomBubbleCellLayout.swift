@@ -22,9 +22,9 @@ final class RoomBubbleCellLayout: NSObject {
     
     // Reactions
     
-    static let reactionsViewTopMargin: CGFloat = 1.0
-    static let reactionsViewLeftMargin: CGFloat = 55.0
-    static let reactionsViewRightMargin: CGFloat = 15.0
+    static let reactionsViewTopMargin: CGFloat = 5.0
+    static let reactionsViewLeftMargin: CGFloat = 40.0
+    static let reactionsViewRightMargin: CGFloat = 40.0
     
     // Read receipts
     
