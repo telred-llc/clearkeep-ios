@@ -462,7 +462,7 @@ private extension CKRecentListViewController {
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(onTableViewCellTap))
         tap.cancelsTouchesInView = true
         cell.addGestureRecognizer(tap)
-
+        cell.backgroundColor = themeService.attrs.primaryBgColor
         cell.roomNameLabel.textColor = themeService.attrs.primaryTextColor
         cell.lastMessageLabel?.textColor = themeService.attrs.secondTextColor
         cell.lblTime.textColor = themeService.attrs.secondTextColor

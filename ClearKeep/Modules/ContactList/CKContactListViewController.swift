@@ -255,7 +255,7 @@ extension CKContactListViewController: UITableViewDataSource {
         } else {
             cell.status = 0
         }
-        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         return cell
     }
 }

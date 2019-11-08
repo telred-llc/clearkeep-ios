@@ -45,7 +45,7 @@
     }
 
     [self updateConstraintsIfNeeded];
-    [self layoutIfNeeded];
+    [self.contentView layoutSubviews];
     _isSearchCell = isSearchCell;
 }
 

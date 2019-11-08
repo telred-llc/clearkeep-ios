@@ -43,9 +43,9 @@
     } else {
         pictureViewWidthConstraint.constant = 30.0;
     }
-
+    
     [self updateConstraintsIfNeeded];
-    [self layoutIfNeeded];
+    [self.contentView layoutSubviews];
     _isSearchCell = isSearchCell;
 }
 @end

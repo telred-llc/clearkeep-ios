@@ -515,7 +515,7 @@ extension CKSearchContactViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         
         guard let s = Section(rawValue: indexPath.section) else { return}
         switch s {
