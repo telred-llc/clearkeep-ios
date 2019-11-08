@@ -113,15 +113,13 @@ final class CKCallViewController: CallViewController {
             self.view.bringSubview(toFront: self.callerImageView)
             self.callerImageView.isHidden = false
             self.callContainerView.isHidden = false
-            self.audioMuteButton.isSelected = object.audioMuted
+            self.audioMuteButton.isSelected = false
             self.videoMuteButton.isSelected = object.videoMuted
         } else {
             self.callContainerView.isHidden = true
             self.callerImageView.isHidden = true
             self.pulseView.isHidden = true
-            if let object = call {
-                self.audioMuteButton.isSelected = object.audioMuted
-            }
+            self.audioMuteButton.isSelected = false
         }
     }
     
@@ -135,6 +133,8 @@ final class CKCallViewController: CallViewController {
                 self.callerImageView.isHidden = true
                 self.resetPreviewSize()
             }
+            self.audioMuteButton.isSelected = call.audioMuted
+            self.videoMuteButton.isSelected = call.videoMuted
             self.smallTimeLabel.isHidden = !call.isVideoCall
             self.sideControlView.isHidden = !call.isVideoCall
             self.cameraSwitchView.isHidden = !call.isVideoCall
