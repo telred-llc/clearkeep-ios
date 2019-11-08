@@ -63,7 +63,7 @@
     [self.searchTableView registerClass:RoomIncomingAttachmentBubbleCell.class forCellReuseIdentifier:RoomIncomingAttachmentBubbleCell.defaultReuseIdentifier];
 
     self.searchTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-
+    self.searchTableView.separatorColor = UIColorFromRGB(0xDCF1F3);
     // Hide line separators of empty cells
     self.searchTableView.tableFooterView = [[UIView alloc] init];
     
@@ -197,7 +197,6 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     cell.backgroundColor = kRiotPrimaryBgColor;
-    
     // Update the selected background view
     if (kRiotSelectedBgColor)
     {

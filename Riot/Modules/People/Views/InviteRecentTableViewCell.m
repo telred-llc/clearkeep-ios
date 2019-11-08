@@ -88,6 +88,7 @@ NSString *const kInviteRecentTableViewCellRoomKey = @"kInviteRecentTableViewCell
 
 - (void)render:(MXKCellData *)cellData
 {
+    [self.rightButton setBackgroundImage:kRiotInviteCellButton forState:UIControlStateNormal];
     [super render:cellData];
 }
 

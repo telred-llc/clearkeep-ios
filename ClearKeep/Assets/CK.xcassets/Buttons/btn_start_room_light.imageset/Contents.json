@@ -1,16 +1,58 @@
 {
   "images" : [
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 22,
+          "top" : 21,
+          "right" : 149,
+          "left" : 125
+        }
+      },
       "idiom" : "universal",
       "filename" : "btn_start_room_light.png",
       "scale" : "1x"
     },
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 44,
+          "top" : 43,
+          "right" : 223,
+          "left" : 190
+        }
+      },
       "idiom" : "universal",
       "filename" : "btn_start_room_light@2x.png",
       "scale" : "2x"
     },
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 66,
+          "top" : 65,
+          "right" : 391,
+          "left" : 393
+        }
+      },
       "idiom" : "universal",
       "filename" : "btn_start_room_light@3x.png",
       "scale" : "3x"

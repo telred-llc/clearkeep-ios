@@ -75,6 +75,7 @@ extern UIKeyboardAppearance kRiotKeyboard;
 
 #pragma mark - Button image
 extern UIImage *kRiotButtonSegmentSelected;
+extern UIImage *kRiotInviteCellButton;
 
 /**
  `RiotDesignValues` class manages the Riot design parameters

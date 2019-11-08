@@ -19,6 +19,11 @@
 
 #import "RiotDesignValues.h"
 
+@interface RoomIncomingAttachmentBubbleCell() {
+    __weak IBOutlet NSLayoutConstraint *pictureViewWidthConstraint;
+}
+@end
+
 @implementation RoomIncomingAttachmentBubbleCell
 
 - (void)customizeTableViewCellRendering
@@ -32,4 +37,15 @@
     [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
 }
 
+-(void)setIsSearchCell:(BOOL)isSearchCell {
+    if (isSearchCell) {
+        pictureViewWidthConstraint.constant = 40.0;
+    } else {
+        pictureViewWidthConstraint.constant = 30.0;
+    }
+
+    [self updateConstraintsIfNeeded];
+    [self layoutIfNeeded];
+    _isSearchCell = isSearchCell;
+}
 @end

@@ -76,6 +76,7 @@ UIColor *kRiotTextColorSkyBlue;
 
 // Button image
 UIImage *kRiotButtonSegmentSelected;
+UIImage *kRiotInviteCellButton;
 
 NSInteger const kRiotRoomModeratorLevel = 50;
 NSInteger const kRiotRoomAdminLevel = 100;
@@ -196,6 +197,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotTabBarButtonTintColor = kRiotColorCyanLight;
         kRiotNavBarRightButtonColor = UIColorFromRGB(0xFFFFFF);
         kRiotButtonSegmentSelected = [UIImage imageNamed:@"btn_section_dark"];
+        kRiotInviteCellButton = [UIImage imageNamed:@"btn_start_room_dark"];
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceDark;
         kRiotKeyboard = UIKeyboardAppearanceDark;
     }
@@ -244,6 +246,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotTabBarButtonTintColor = kRiotTextColorSkyBlue;
         kRiotNavBarRightButtonColor = UIColorFromRGB(0x444444);
         kRiotButtonSegmentSelected = [UIImage imageNamed:@"btn_section_highlight"];
+        kRiotInviteCellButton = [UIImage imageNamed:@"btn_start_room_light"];
 
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceLight;
         kRiotKeyboard = UIKeyboardAppearanceLight;

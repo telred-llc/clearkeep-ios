@@ -19,6 +19,11 @@
 
 #import "RiotDesignValues.h"
 
+@interface RoomIncomingTextMsgBubbleCell() {
+    __weak IBOutlet NSLayoutConstraint *pictureViewWidthConstraint;
+}
+@end
+
 @implementation RoomIncomingTextMsgBubbleCell
 
 - (void)customizeTableViewCellRendering
@@ -30,6 +35,18 @@
     
     // CK 337: Edit the font size for the "account name"
     [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
+}
+
+-(void)setIsSearchCell:(BOOL)isSearchCell {
+    if (isSearchCell) {
+        pictureViewWidthConstraint.constant = 40.0;
+    } else {
+        pictureViewWidthConstraint.constant = 30.0;
+    }
+
+    [self updateConstraintsIfNeeded];
+    [self layoutIfNeeded];
+    _isSearchCell = isSearchCell;
 }
 
 @end
