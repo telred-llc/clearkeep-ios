@@ -172,6 +172,7 @@ final class EmojiPickerViewController: UIViewController {
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "search_default_placeholder".localized()
+        searchController.searchBar.showsCancelButton = false
         searchController.hidesNavigationBarDuringPresentation = false
         
         if #available(iOS 11.0, *) {

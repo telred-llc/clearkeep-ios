@@ -236,7 +236,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         optionAlert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: { (action) in
         }))
 
-        optionAlert.show()
+        optionAlert.presentGlobally(animated: true, completion: nil)
     }
     
     @IBAction func closeEditButtonDidPress(_ sender: Any) {
