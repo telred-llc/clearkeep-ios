@@ -114,8 +114,8 @@ class CKEditRoomSettingsCell: CKBaseCell {
                                    previewImage: previewImage,
                                    mediaManager: mxRoom.summary.mxSession.mediaManager)
         
-        let displayRoom = (mxRoom.summary.displayname ?? "").uppercased()
-        titleRoomTextField.text = displayRoom
+        let displayRoom = (mxRoom.summary.displayname ?? "")
+        titleRoomTextField.text = displayRoom.uppercased()
         currentRoomData.displayRoom = displayRoom
         
         
