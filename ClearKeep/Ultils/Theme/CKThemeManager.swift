@@ -30,16 +30,27 @@ protocol Theme {
     var navBarBgColor: UIColor { get }
 
     var statusBarStyle: UIStatusBarStyle { get }
-    var newBackgroundColor: UIColor { get }
     var hintText: UIColor { get }
+    
+    // textfiled
     var textFieldColor: UIColor { get }
     var textFieldEditingColor: UIColor { get }
     var textFieldBackground: UIColor { get }
+    var textFieldEditingBackground: UIColor { get }
+    
     var navBarTintColor: UIColor { get }
+    // status button
+    var enableButtonBG: UIImage { get }
+    var disableButtonBG: UIImage { get }
+    
+    var accessoryTblColor: UIColor { get }
 }
 
 struct LightTheme: Theme {
     var navBarBgColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    var navBarTintColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1)
+    var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black]
+    
     var primaryBgColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var secondBgColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
     var selectedBgColor: UIColor? = nil
@@ -53,14 +64,20 @@ struct LightTheme: Theme {
     var unreadCellBgColor = #colorLiteral(red: 0.7921568627, green: 0.9568627451, blue: 0.9843137255, alpha: 0.25)
     var cellPrimaryBgColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-    var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black]
+    
     var statusBarStyle = styleForStatusBar()
-    var newBackgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var hintText = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
     var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
     var textFieldEditingColor = #colorLiteral(red: 0.3411764706, green: 0.5294117647, blue: 0.8901960784, alpha: 1)
-    var textFieldBackground = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    var navBarTintColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1)
+    var textFieldBackground = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+    var textFieldEditingBackground = UIColor.clear
+    
+    var enableButtonBG = #imageLiteral(resourceName: "btn_start_room_light")
+    var disableButtonBG = #imageLiteral(resourceName: "bg_btn_not_valid")
+    
+    var accessoryTblColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
+  
+    
     static func styleForStatusBar() -> UIStatusBarStyle {
         if #available(iOS 13.0, *) {
             return UIStatusBarStyle.darkContent
@@ -71,8 +88,12 @@ struct LightTheme: Theme {
 }
 
 struct DarkTheme: Theme {
-    var navBarBgColor = #colorLiteral(red: 0.003921568627, green: 0, blue: 0.003921568627, alpha: 1)
-    var primaryBgColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    
+    var navBarBgColor = #colorLiteral(red: 0.003921568627, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
+    var navBarTintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+    var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    
+    var primaryBgColor = #colorLiteral(red: 0.003921568627, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
     var secondBgColor = #colorLiteral(red: 0.2117647059, green: 0.2784313725, blue: 0.3647058824, alpha: 1)
     var selectedBgColor: UIColor? = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     var primaryTextColor = #colorLiteral(red: 0.8666666667, green: 0.8666666667, blue: 0.8666666667, alpha: 1)
@@ -80,19 +101,24 @@ struct DarkTheme: Theme {
     var placeholderTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
     var overlayColor = UIColor.init(white: 0.3, alpha: 0.5)
     var separatorColor = UIColor.lightGray.withAlphaComponent(0.4)
-    var searchBarBgColor = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.137254902, alpha: 1)
-    var tblHeaderBgColor = #colorLiteral(red: 0.1882352941, green: 0.2431372549, blue: 0.3215686275, alpha: 1)
+    var searchBarBgColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.137254902, alpha: 1)
+    var tblHeaderBgColor = #colorLiteral(red: 0.137254902, green: 0.137254902, blue: 0.1529411765, alpha: 1)
     var unreadCellBgColor = #colorLiteral(red: 0.9843137255, green: 0.9411764706, blue: 0.7921568627, alpha: 0.15)
-    var cellPrimaryBgColor = #colorLiteral(red: 0.2509803922, green: 0.3254901961, blue: 0.4352941176, alpha: 1)
+    var cellPrimaryBgColor = #colorLiteral(red: 0.003921568627, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0, green: 0.8196078431, blue: 0.8941176471, alpha: 1)
-    var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    
     var statusBarStyle: UIStatusBarStyle = .lightContent
-    var newBackgroundColor = #colorLiteral(red: 0.2509803922, green: 0.3254901961, blue: 0.4352941176, alpha: 1)
+    
     var hintText = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
     var textFieldEditingColor = #colorLiteral(red: 0.2470588235, green: 0.7725490196, blue: 0.7254901961, alpha: 1)
     var textFieldBackground = #colorLiteral(red: 0.9019607843, green: 0.8823529412, blue: 0.8823529412, alpha: 1)
-    var navBarTintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+    var textFieldEditingBackground = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.137254902, alpha: 1)
+    
+    var enableButtonBG = #imageLiteral(resourceName: "btn_start_room_dark")
+    var disableButtonBG = #imageLiteral(resourceName: "bg_btn_not_valid")
+    
+    var accessoryTblColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
 }
 
 enum ThemeType: ThemeProvider {

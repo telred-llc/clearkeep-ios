@@ -51,7 +51,7 @@ class CKRecentListViewController: MXKViewController {
 
     func bindingTheme() {
         themeService.rx
-            .bind({ $0.navBarBgColor }, to: recentTableView.rx.backgroundColor , view.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: recentTableView.rx.backgroundColor , view.rx.backgroundColor)
             .disposed(by: disposeBag)
         
         // Binding navigation bar color
@@ -463,7 +463,6 @@ private extension CKRecentListViewController {
         tap.cancelsTouchesInView = true
         cell.addGestureRecognizer(tap)
 
-        cell.backgroundColor = themeService.attrs.cellPrimaryBgColor
         cell.roomNameLabel.textColor = themeService.attrs.primaryTextColor
         cell.lastMessageLabel?.textColor = themeService.attrs.secondTextColor
         cell.lblTime.textColor = themeService.attrs.secondTextColor
@@ -623,17 +622,14 @@ extension CKRecentListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if self.isEmpty(section: indexPath.section) { // direct or room empty
             let cell = self.cellForStartChat(indexPath)
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
             return cell
         } else { // direct & room normal
             let cellData = dataSource[indexPath.section][indexPath.row]
             if cellData.roomSummary.membership == MXMembership.invite { // invite chat cell
                 let cell = self.cellForInvitationRoom(indexPath, cellData: cellData)
-                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
                 return cell
             } else { // normal chat cell
                 let cell = self.cellForNormalRoom(indexPath, cellData: cellData)
-                cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
                 return cell
             }
         }
