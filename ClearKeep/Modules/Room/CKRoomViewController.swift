@@ -153,7 +153,7 @@ import MatrixKit
             return self.value(forKey: "currentEventIdAtTableBottom") as? String
         }
         set {
-            self.setValue(currentEventIdAtTableBottom, forKey: "currentEventIdAtTableBottom")
+            self.setValue(newValue, forKey: "currentEventIdAtTableBottom")
         }
     }
     
@@ -166,7 +166,7 @@ import MatrixKit
             return value ?? false
         }
         set {
-            self.setValue(shouldScrollToBottomOnTableRefresh, forKey: "shouldScrollToBottomOnTableRefresh")
+            self.setValue(newValue, forKey: "shouldScrollToBottomOnTableRefresh")
         }
     }
     
@@ -1489,6 +1489,9 @@ extension CKRoomViewController {
                 
                 // check unread message and bool update layout finish ---> adjust content offset show last message
                 if unreadCount == 0 && self.updatOffset {
+                    if (roomContextualMenuPresenter?.isPresenting ?? false) {
+                        return
+                    }
                     self.bubblesTableView.scrollToBottom(roomActivitiesView.height)
                     self.updatOffset = false
                 }
@@ -1832,7 +1835,6 @@ extension CKRoomViewController {
     override func dataSource(_ dataSource: MXKDataSource?, didRecognizeAction actionIdentifier: String?, inCell cell: MXKCellRendering?, userInfo: [AnyHashable : Any]?) {
         
         isPresentPhotoLibrary = false
-        dismissKeyboard()
         
         // Handle here user actions on bubbles for Vector app
         var bubbleData: RoomBubbleCellData!
@@ -1844,7 +1846,7 @@ extension CKRoomViewController {
         // is long press event?
         if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
             && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
-            
+            dismissKeyboard()
             guard let cell = cell, let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
                     return
             }
@@ -1856,7 +1858,6 @@ extension CKRoomViewController {
             // Add actions for text message
             // Handle this case to add "Quote" action.
             if attachment == nil {
-                self.dismissKeyboard()
                 guard let selectedEvent = userInfo?[kMXKRoomBubbleCellEventKey] as? MXEvent else {
                     return
                 }
@@ -2023,7 +2024,6 @@ extension CKRoomViewController {
                 }
                 self.showActionAlert(sourceView: roomBubbleTableViewCell)
             } else if let fileName = attachment?.originalFileName {
-
                 attachment?.getData({ (data) in
                     self.currentAlert?.addAction(UIAlertAction(title: NSLocalizedString("room_event_action_share", tableName: "Vector", bundle: Bundle.main, value: "", comment: ""), style: .default, handler: { [weak self] _ in
                         guard let weakSelf = self else {
@@ -2079,7 +2079,8 @@ extension CKRoomViewController {
             }
             
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnAvatarView {
-            
+            dismissKeyboard()
+
             // click user avatar in room go to  view info profile
             let idAvatarTap = userInfo?[kMXKRoomBubbleCellUserIdKey] as? String
             
@@ -2096,40 +2097,35 @@ extension CKRoomViewController {
                 }
             }
         } else if actionIdentifier == kMXKRoomBubbleCellTapOnSenderNameLabel {
+            dismissKeyboard()
             // Do nothing
-        } else if (actionIdentifier == kMXKRoomBubbleCellTapOnMessageTextView) || (actionIdentifier == kMXKRoomBubbleCellTapOnContentView){
+        } else if (actionIdentifier == kMXKRoomBubbleCellTapOnMessageTextView) || (actionIdentifier == kMXKRoomBubbleCellTapOnContentView) {
 
             // Retrieve the tapped event
             guard let `userInfo` = userInfo, let tappedEvent: MXEvent = userInfo[kMXKRoomBubbleCellEventKey] as? MXEvent else { return }
-            
+
             // Check whether a selection already exist or not
             if customizedRoomDataSource?.selectedEventId != nil {
                 self.cancelEventSelection()
                 return
             }
-            
+
             if tappedEvent.eventType == __MXEventTypeRoomCreate {
                 // Handle tap on RoomPredecessorBubbleCell
                 let createContent: MXRoomCreateContent = MXRoomCreateContent(fromJSON: tappedEvent.content)
                 let predecessorRoomId = createContent.roomPredecessorInfo?.roomId
-                
                 if (predecessorRoomId != nil) {
                     // Show predecessor room
                     AppDelegate.the()?.showRoom(predecessorRoomId, andEventId: nil, withMatrixSession: self.mainSession)
                 }
-                
             } else {
                 // Show contextual menu on single tap if bubble is not collapsed
                 if bubbleData.collapsed {
                     self.selectEvent(withId: tappedEvent.eventId)
                 } else {
-                    
                     self.showContextualMenu(for: tappedEvent, fromSingleTapGesture: true, cell: cell, animated: true)
                 }
-                
             }
-
-            
         } else { // call super
             super.dataSource(dataSource, didRecognizeAction: actionIdentifier, inCell: cell, userInfo: userInfo)
         }
@@ -2156,14 +2152,14 @@ extension CKRoomViewController {
     }
     
     override func dataSource(_ dataSource: MXKDataSource!, didCellChange changes: Any!) {
-        
+        // data source update to super
+        super.dataSource(dataSource, didCellChange: changes)
+
         // invisible
         if self.isViewVisible() == false {
             return
         }
         
-        // data source update to super
-        super.dataSource(dataSource, didCellChange: changes)
         
         // refresh if did receive new message,...
         self.refreshActivitiesViewDisplay()
@@ -2198,10 +2194,10 @@ extension CKRoomViewController {
     
     func selectEvent(withId eventId: String?) {
         let shouldEnableReplyMode = roomDataSource.canReplyToEvent(withId: eventId)
-
         enableReplyMode(shouldEnableReplyMode)
-
         customizedRoomDataSource?.selectedEventId = eventId
+        
+        dataSource(roomDataSource, didCellChange: nil)
     }
     
     func cancelEventSelection() {
@@ -2213,7 +2209,6 @@ extension CKRoomViewController {
         }
 
         customizedRoomDataSource?.selectedEventId = nil
-
         restoreTextBeforeEditing()
 
         // Force table refresh
@@ -2588,6 +2583,7 @@ extension CKRoomViewController {
                 goBackToLive()
             }
         }
+        
     }
     
     @objc override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -3069,8 +3065,14 @@ extension CKRoomViewController {
     
     private func forceScrollBottom() {
         
-        guard let tableview = self.bubblesTableView else { return }
-        
+        guard let tableview = self.bubblesTableView else {
+            return
+        }
+
+        if (roomContextualMenuPresenter?.isPresenting ?? false) {
+            return
+        }
+
         let bottomInputToolbar: CGFloat = self.roomInputToolbarContainerBottomConstraint.constant
         
         let visibleHeight = tableview.frame.height - tableview.mxk_adjustedContentInset.top - tableview.mxk_adjustedContentInset.bottom
@@ -3078,13 +3080,10 @@ extension CKRoomViewController {
         let currentOffsetY = tableview.contentOffset.y
         
         if visibleHeight < tableview.contentSize.height {
-            
             if currentOffsetY + bottomInputToolbar < tableview.contentSize.height {
                 tableview.scrollToBottom(bottomInputToolbar)
             }
-            
         } else {
-            
             if bottomInputToolbar - tableview.contentSize.height < 0 {
                 tableview.scrollToBottom(bottomInputToolbar)
             }
@@ -3149,16 +3148,15 @@ extension CKRoomViewController {
         
         if let model = reactionsMenuViewModel {
             roomContextualMenuViewController?.update(reactionsMenuViewModel: model)
-            enableOverlayContainerUserInteractions(true)
+            self.enableOverlayContainerUserInteractions(true)
             roomContextualMenuPresenter?.present(roomContextualMenuViewController: roomContextualMenuViewController!,
                                                  from: self,
                                                  on: overlayContainerView,
                                                  contentToReactFrame: bubbleComponentFrameInOverlayView,
                                                  fromSingleTapGesture: usedSingleTapGesture,
                                                  animated: animated, completion: {
-                                                    
+                                                    self.selectEvent(withId: selectedEventId)
             })
-            selectEvent(withId: selectedEventId)
         }
     }
     
@@ -3170,7 +3168,7 @@ extension CKRoomViewController {
     func hideContextualMenu(animated: Bool, completion: @escaping () -> Void) {
         hideContextualMenu(animated: animated, cancelEventSelection: true, completion: completion)
     }
-    
+
     func hideContextualMenu(animated: Bool, cancelEventSelection: Bool, completion: @escaping () -> Void) {
         if !(roomContextualMenuPresenter?.isPresenting ?? false) {
             return
@@ -3182,44 +3180,35 @@ extension CKRoomViewController {
         
         roomContextualMenuPresenter?.hideContextualMenu(animated: animated, completion: {
             self.enableOverlayContainerUserInteractions(false)
-            
-            if completion != nil {
-                completion()
-            }
+            completion()
         })
     }
-    
+
     func enableOverlayContainerUserInteractions(_ enableOverlayContainerUserInteractions: Bool) {
-        inputToolbarView.isEditable = !enableOverlayContainerUserInteractions
         bubblesTableView.scrollsToTop = !enableOverlayContainerUserInteractions
         overlayContainerView.isUserInteractionEnabled = enableOverlayContainerUserInteractions
     }
-
 }
 
 // MARK: ReactionsMenuViewModelCoordinatorDelegate
 extension CKRoomViewController: ReactionsMenuViewModelCoordinatorDelegate {
     
     func reactionsMenuViewModel(_ viewModel: ReactionsMenuViewModel, didAddReaction reaction: String, forEventId eventId: String) {
-        
         self.hideContextualMenu(animated: true) {
-            
             self.roomDataSource.addReaction(reaction, forEventId: eventId, success: {
                 print("ReactionsMenuViewModel add reaction success!")
             }, failure: { (error) in
-                print("ReactionsMenuViewModel Fail ", "     \(error?.localizedDescription)") // tiemlv
+                print("ReactionsMenuViewModel Fail: \(error?.localizedDescription ?? "")")
             })
         }
     }
     
     func reactionsMenuViewModel(_ viewModel: ReactionsMenuViewModel, didRemoveReaction reaction: String, forEventId eventId: String) {
-        
         self.hideContextualMenu(animated: true) {
-            
             self.roomDataSource.removeReaction(reaction, forEventId: eventId, success: {
                 print("ReactionsMenuViewModel remove reaction success!")
             }, failure: { (error) in
-                print("ReactionsMenuViewModel Fail ", "     \(error?.localizedDescription)") // tiemlv
+                print("ReactionsMenuViewModel Fail: \(error?.localizedDescription ?? "")")
             })
         }
     }
@@ -3273,7 +3262,7 @@ extension CKRoomViewController: EmojiPickerCoordinatorBridgePresenterDelegate {
             self.roomDataSource.addReaction(emoji, forEventId: eventId, success: {
                 
             }, failure: { (error) in
-                print("emojiPickerCoordinatorBridgePresenter Add Fail ", "     \(error?.localizedDescription)") // tiemlv
+                print("emojiPickerCoordinatorBridgePresenter Add Fail: \(error?.localizedDescription ?? "")")
             })
         }
         
@@ -3287,7 +3276,7 @@ extension CKRoomViewController: EmojiPickerCoordinatorBridgePresenterDelegate {
             self.roomDataSource.removeReaction(emoji, forEventId: eventId, success: {
                 
             }, failure: { (error) in
-                print("emojiPickerCoordinatorBridgePresenter Remove Fail ", "     \(error?.localizedDescription)") // tiemlv
+                print("emojiPickerCoordinatorBridgePresenter Remove Fail: \(error?.localizedDescription ?? "")")
             })
         }
         

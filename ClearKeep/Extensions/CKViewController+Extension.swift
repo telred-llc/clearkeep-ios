@@ -198,7 +198,9 @@ extension UIViewController: UIGestureRecognizerDelegate {
     }
 }
 
-public extension UIAlertController {
+extension UIAlertController {
+    private static var globalPresentationWindow: UIWindow?
+
     func show() {
         let window = UIWindow(frame: UIScreen.main.bounds)
         let viewController = UIViewController()
@@ -207,6 +209,21 @@ public extension UIAlertController {
         window.windowLevel = UIWindowLevelAlert + 1  // Swift 5: UIWindow.Level.alert + 1
         window.makeKeyAndVisible()
         viewController.present(self, animated: true, completion: nil)
+    }
+
+    func presentGlobally(animated: Bool, completion: (() -> Void)?) {
+        UIAlertController.globalPresentationWindow = UIWindow(frame: UIScreen.main.bounds)
+        UIAlertController.globalPresentationWindow?.rootViewController = UIViewController()
+        UIAlertController.globalPresentationWindow?.windowLevel = UIWindowLevelAlert + 1
+        UIAlertController.globalPresentationWindow?.backgroundColor = .clear
+        UIAlertController.globalPresentationWindow?.makeKeyAndVisible()
+        UIAlertController.globalPresentationWindow?.rootViewController?.present(self, animated: animated, completion: completion)
+    }
+     
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIAlertController.globalPresentationWindow?.isHidden = true
+        UIAlertController.globalPresentationWindow = nil
     }
 }
 

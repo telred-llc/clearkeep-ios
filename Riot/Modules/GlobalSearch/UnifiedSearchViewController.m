@@ -356,7 +356,7 @@
     }
     else if (self.selectedViewController == messagesSearchViewController)
     {
-        self.backgroundImageView.hidden = ((messagesSearchDataSource.serverCount != 0) || !messagesSearchViewController.noResultsLabel.isHidden || (self.keyboardHeight == 0));
+        self.backgroundImageView.hidden = ((messagesSearchDataSource.serverCount != 0) || !messagesSearchViewController.noResultsLabel.isHidden || (self.keyboardHeight == 0) || [messagesSearchViewController.searchTableView numberOfRowsInSection:0] != 0);
     }
     else if (self.selectedViewController == peopleSearchViewController)
     {
@@ -364,7 +364,7 @@
     }
     else if (self.selectedViewController == filesSearchViewController)
     {
-        self.backgroundImageView.hidden = ((filesSearchDataSource.serverCount != 0) || !filesSearchViewController.noResultsLabel.isHidden || (self.keyboardHeight == 0));
+        self.backgroundImageView.hidden = ((filesSearchDataSource.serverCount != 0) || !filesSearchViewController.noResultsLabel.isHidden || (self.keyboardHeight == 0) || [filesSearchViewController.searchTableView numberOfRowsInSection:0] != 0);
     }
     else
     {
