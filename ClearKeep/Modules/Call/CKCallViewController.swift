@@ -108,15 +108,20 @@ final class CKCallViewController: CallViewController {
 
     override func setMxCall(_ call: MXCall!) {
         super.setMxCall(call)
-        if let value = call, !value.isVideoCall {
+        if let object = call, !object.isVideoCall {
             self.view.bringSubview(toFront: self.pulseView)
             self.view.bringSubview(toFront: self.callerImageView)
             self.callerImageView.isHidden = false
             self.callContainerView.isHidden = false
+            self.audioMuteButton.isSelected = object.audioMuted
+            self.videoMuteButton.isSelected = object.videoMuted
         } else {
             self.callContainerView.isHidden = true
             self.callerImageView.isHidden = true
             self.pulseView.isHidden = true
+            if let object = call {
+                self.audioMuteButton.isSelected = object.audioMuted
+            }
         }
     }
     
