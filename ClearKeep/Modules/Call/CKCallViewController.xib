@@ -399,14 +399,15 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWC-Qd-erX">
-                                    <rect key="frame" x="0.0" y="40" width="25" height="25"/>
+                                    <rect key="frame" x="12.5" y="25" width="0.0" height="0.0"/>
                                     <constraints>
+                                        <constraint firstAttribute="width" id="XOM-Vu-hM2"/>
                                         <constraint firstAttribute="width" secondItem="bWC-Qd-erX" secondAttribute="height" multiplier="1:1" id="ydP-vA-8Bf"/>
                                     </constraints>
                                     <state key="normal" image="call_share_screen"/>
                                 </button>
                                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5nJ-2n-KwO">
-                                    <rect key="frame" x="0.0" y="80" width="25" height="25"/>
+                                    <rect key="frame" x="0.0" y="40" width="25" height="25"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <accessibility key="accessibilityConfiguration" identifier="CallVCCameraSwitchButton"/>
                                     <constraints>
@@ -430,15 +431,14 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="5nJ-2n-KwO" firstAttribute="top" secondItem="bWC-Qd-erX" secondAttribute="bottom" constant="15" id="6fz-7n-yPN"/>
-                                <constraint firstItem="bWC-Qd-erX" firstAttribute="leading" secondItem="uc6-Bt-O4N" secondAttribute="leading" id="8dN-wS-3h1"/>
                                 <constraint firstItem="Iiz-W1-oNW" firstAttribute="top" secondItem="uc6-Bt-O4N" secondAttribute="top" id="8hA-fM-kdM"/>
-                                <constraint firstAttribute="trailing" secondItem="bWC-Qd-erX" secondAttribute="trailing" id="BdV-n3-Uar"/>
                                 <constraint firstAttribute="trailing" secondItem="5nJ-2n-KwO" secondAttribute="trailing" id="CiG-NI-Wm7"/>
                                 <constraint firstAttribute="width" constant="25" id="K26-CG-nPK"/>
                                 <constraint firstItem="Iiz-W1-oNW" firstAttribute="leading" secondItem="uc6-Bt-O4N" secondAttribute="leading" id="b4G-zX-yeW"/>
-                                <constraint firstItem="bWC-Qd-erX" firstAttribute="top" secondItem="Iiz-W1-oNW" secondAttribute="bottom" constant="15" id="is0-Nf-mqP"/>
+                                <constraint firstItem="bWC-Qd-erX" firstAttribute="top" secondItem="Iiz-W1-oNW" secondAttribute="bottom" id="is0-Nf-mqP"/>
                                 <constraint firstAttribute="height" constant="120" id="j6y-Mp-5jt"/>
                                 <constraint firstAttribute="trailing" secondItem="Iiz-W1-oNW" secondAttribute="trailing" id="kk3-wo-veF"/>
+                                <constraint firstItem="bWC-Qd-erX" firstAttribute="centerX" secondItem="uc6-Bt-O4N" secondAttribute="centerX" id="tDs-VF-cB4"/>
                                 <constraint firstItem="5nJ-2n-KwO" firstAttribute="leading" secondItem="uc6-Bt-O4N" secondAttribute="leading" id="usF-Ka-2tA"/>
                             </constraints>
                         </view>

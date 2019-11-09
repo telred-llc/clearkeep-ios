@@ -114,12 +114,15 @@ final class CKCallViewController: CallViewController {
             self.callerImageView.isHidden = false
             self.callContainerView.isHidden = false
             self.audioMuteButton.isSelected = false
-            self.videoMuteButton.isSelected = object.videoMuted
         } else {
+            self.sideControlView.isHidden = false
             self.callContainerView.isHidden = true
             self.callerImageView.isHidden = true
             self.pulseView.isHidden = true
             self.audioMuteButton.isSelected = false
+            self.videoMuteButton.isSelected = false
+            self.cameraSwitchView.isHidden = false
+            self.messageSwitchView.isHidden = true
         }
     }
     
@@ -143,10 +146,10 @@ final class CKCallViewController: CallViewController {
             self.callerNameLabel.isHidden = call.isVideoCall
         } else {
             statusTimer.invalidate()
+            self.cameraSwitchView.isHidden = false
             self.callerImageView.isHidden = false
             self.pulseView.isHidden = false
-            self.messageSwitchView.isHidden = false
-            self.cameraSwitchView.isHidden = true
+            self.messageSwitchView.isHidden = call.isVideoCall
         }
     }
     

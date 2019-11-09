@@ -136,7 +136,7 @@
 - (BOOL)prefersStatusBarHidden
 {
     // Hide the status bar on the call view controller.
-    return YES;
+    return NO;
 }
 
 - (void)viewDidLayoutSubviews
