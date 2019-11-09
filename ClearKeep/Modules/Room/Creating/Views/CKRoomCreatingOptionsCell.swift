@@ -43,6 +43,8 @@ final class CKRoomCreatingOptionsCell: CKRoomCreatingBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .clear
     }
     
     @IBAction func clickCheckmark(_ sender: Any) {

@@ -126,12 +126,12 @@ final class CKRoomCreatingViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = .white
-            self?.barTitleColor = CKColor.Text.blueNavigation
+            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
         }).disposed(by: disposeBag)
         
         themeService.rx
-            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     
@@ -318,7 +318,6 @@ final class CKRoomCreatingViewController: MXKViewController {
             withIdentifier: CKRoomAddingMembersCell.identifier,
             for: indexPath) as? CKRoomAddingMembersCell {
             let d = self.filteredDataSource[indexPath.row]
-            cell.backgroundColor = UIColor.white
             cell.displayNameLabel.text = (d.mxContact.displayName != nil) ? d.mxContact.displayName : ((d.mxContact.emailAddresses.first) as! MXKEmail).emailAddress
             cell.isChecked = d.isSelected
             cell.changesBy(mxContact: d.mxContact, inSession: self.mainSession)
@@ -390,17 +389,20 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
             switch s {
             case .name? :
                 view.descriptionLabel.textColor = CKColor.Text.blue
+                view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
                 break
             case .suggested?:
                 view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
                 view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
+                view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
                 break
             default :
                 view.descriptionLabel.textColor = CKColor.Text.lightGray
                 view.descriptionLabel.font = UIFont.systemFont(ofSize: 15)
+                view.backgroundColor = .clear
                 break
             }
-            view.backgroundColor = UIColor.white
+            
             return view
         }
         return UIView()
