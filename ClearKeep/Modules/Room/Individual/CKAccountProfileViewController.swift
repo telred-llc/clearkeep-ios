@@ -361,7 +361,7 @@ class CKAccountProfileViewController: MXKViewController {
         optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { (action) in
         }))
         
-        optionAlert.show()
+        optionAlert.presentGlobally(animated: true, completion: nil)
     }
 }
 

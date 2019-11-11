@@ -17,7 +17,8 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
     @IBOutlet weak var encryptedIconImage: UIImageView!
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var notifiCountLabel: UILabel!
-    
+    @IBOutlet weak var timeLabelWidth: NSLayoutConstraint!
+
     private var lastMessageLabel: UILabel?
     private var roomCellData: MXKRecentCellDataStoring?
     
@@ -82,7 +83,10 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         roomCellData = cellData as? MXKRecentCellDataStoring
         roomNameLabel.text = roomCellData?.roomSummary.displayname
         timeLabel.text = roomCellData?.lastEventDate
-        
+        timeLabel.sizeToFit()
+        self.timeLabelWidth.constant = timeLabel.frame.size.width
+        self.layoutIfNeeded()
+
         // rendering of status
         self.renderStatus(roomCellData?.roomSummary)
         

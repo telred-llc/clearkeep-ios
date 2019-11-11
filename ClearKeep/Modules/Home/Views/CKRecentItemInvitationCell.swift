@@ -21,7 +21,8 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var statusView: UIView!
-    
+    @IBOutlet weak var timeLabelWidth: NSLayoutConstraint!
+
 
     // MARK: - PROPERTY
     
@@ -142,7 +143,10 @@ extension CKRecentItemInvitationCell: MXKCellRendering {
         roomCellData = cellData as? MXKRecentCellDataStoring
         roomNameLabel.text = roomCellData?.roomSummary.displayname
         lblTime.text = roomCellData?.lastEventDate
-        
+        lblTime.sizeToFit()
+        self.timeLabelWidth.constant = lblTime.frame.size.width
+        self.layoutIfNeeded()
+
         // last message
         guard let lastMessage = roomCellData?.roomSummary.lastMessageString else {
             self.lblDescription.text = ""

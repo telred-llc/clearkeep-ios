@@ -2968,7 +2968,7 @@ extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
             let alert = UIAlertController.init(title: nil, message: "Cannot load file", preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: "OK", style: .default, handler: { (action) in
             }))
-            alert.show()
+            alert.presentGlobally(animated: true, completion: nil)
 
             return
         }
@@ -2976,7 +2976,7 @@ extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
             let alert = UIAlertController.init(title: nil, message: "Unsupported file", preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: "OK", style: .default, handler: { (action) in
             }))
-            alert.show()
+            alert.presentGlobally(animated: true, completion: nil)
             
             return
         }
