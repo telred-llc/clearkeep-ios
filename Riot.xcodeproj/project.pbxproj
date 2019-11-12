@@ -517,6 +517,8 @@
 		D32D092C2370230100E7D94D /* CKEditRoomSettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */; };
 		D35EEDBF23602B7400D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
 		D35EEDC023602B8200D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
+		D370C3CC237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */; };
+		D370C3CD237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */; };
 		D372A81123694E6000CF79D3 /* CKCustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D372A80F23694E6000CF79D3 /* CKCustomTextField.swift */; };
 		D372A81223694E6000CF79D3 /* CKCustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D372A80F23694E6000CF79D3 /* CKCustomTextField.swift */; };
 		D372A81323694E6000CF79D3 /* CKCustomTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = D372A81023694E6000CF79D3 /* CKCustomTextField.xib */; };
@@ -2121,6 +2123,7 @@
 		D32D09272370230100E7D94D /* CKEditRoomSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditRoomSettingsCell.swift; sourceTree = "<group>"; };
 		D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKEditRoomSettingsCell.xib; sourceTree = "<group>"; };
 		D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CallHistory.storyboard; sourceTree = "<group>"; };
+		D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditRoomDetailRequest.swift; sourceTree = "<group>"; };
 		D372A80F23694E6000CF79D3 /* CKCustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCustomTextField.swift; sourceTree = "<group>"; };
 		D372A81023694E6000CF79D3 /* CKCustomTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKCustomTextField.xib; sourceTree = "<group>"; };
 		D3A4DB8A235F0BF40075EF7B /* CKUserProfileDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKUserProfileDetailCell.swift; sourceTree = "<group>"; };
@@ -4349,6 +4352,7 @@
 				BDB43F202316291D00F7CB00 /* CKRequest.swift */,
 				BDB43F232316294300F7CB00 /* CKRequest+Concurrency.swift */,
 				BDB43F2623162A6F00F7CB00 /* CKServiceError.swift */,
+				D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -6187,6 +6191,7 @@
 				E520C5DD22E719D0003101BA /* KeyBackupRecoverFromRecoveryKeyViewAction.swift in Sources */,
 				E520C5F422E71E33003101BA /* ActivityIndicatorPresenter.swift in Sources */,
 				851BC3C322FC3C8100291AA0 /* CKHomeFilesSearchDataSource.swift in Sources */,
+				D370C3CD237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */,
 				E5E7DBA1229BC7D300AB7CF3 /* TableViewCellWithCollectionView.m in Sources */,
 				E5E7DBA2229BC7D300AB7CF3 /* UINavigationController+Riot.m in Sources */,
 				E5E7DBA3229BC7D300AB7CF3 /* SimpleRoomTitleView.m in Sources */,
@@ -6893,6 +6898,7 @@
 				D3E5AF332359794E00D11110 /* UISearchBar.swift in Sources */,
 				855EEDFA22F954B00047B4AC /* CKManagers.swift in Sources */,
 				D3FA9C1123570EB100FB0BD1 /* EmojiMartStore.swift in Sources */,
+				D370C3CC237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */,
 				D3FA9B732356EF8E00FB0BD1 /* ReactionsMenuButton.swift in Sources */,
 				B1B5574920EE6C4D00210D55 /* RiotSplitViewController.m in Sources */,
 				9C3AC4CB22D73B6A00DD179F /* EncryptionKeysExportPresenter.swift in Sources */,

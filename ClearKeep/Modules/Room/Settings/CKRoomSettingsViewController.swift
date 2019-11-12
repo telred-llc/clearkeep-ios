@@ -64,9 +64,9 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         return self.value(forKey: "mxRoomState") as? MXRoomState
     }
     
-    private var newEditData = (displayRoom: "", topicRoom: "")
-    
     private var isCanEdit: Bool = false
+    
+    private var imagePickedBlock: ((UIImage) -> Void)?
 
     private let disposeBag = DisposeBag()
 
@@ -260,9 +260,10 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         
         // Setup close button item
         let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_x_close"),
+            image: UIImage(named: "ic_back_nav")?.withRenderingMode(.alwaysTemplate),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton(_:)))
+        closeItemButton.tintColor = themeService.attrs.navBarTintColor
 
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
@@ -429,39 +430,6 @@ extension CKRoomSettingsViewController {
     }
 }
 
-extension CKRoomSettingsViewController {
-    
-    private func requestEditRoomDetail(displayName: String, topicRoom: String) {
-        
-        self.showSpinner()
-        
-        guard let room = self.mxRoom else {
-            self.removeSpinner()
-            return
-        }
-        
-        // -- displayName
-        room.summary.displayname = displayName
-        room.setName(displayName) { response in
-            
-            self.removeSpinner()
-            
-            if let error = response.error {
-                self.showAlert(error.localizedDescription)
-            }
-        }
-        
-        // -- topicName
-        room.summary.topic = topicRoom
-        room.setTopic(topicRoom) { response in
-            self.removeSpinner()
-            if let error = response.error {
-                self.showAlert(error.localizedDescription)
-            }
-        }
-    }
-}
-
 // MARK: Custom Cell
 extension CKRoomSettingsViewController {
     
@@ -480,12 +448,23 @@ extension CKRoomSettingsViewController {
         cell.bindingData(mxRoom: self.mxRoom, mxRoomState: self.mxRoomState)
         
         cell.editAvatarHandler = {
-            
+            self.handlerEditAvatar()
         }
         
-        cell.onSaveHandler = { (displayRoom, topicName) in
+        cell.onSaveHandler = { model in
             self.view.endEditing(true)
-            self.requestEditRoomDetail(displayName: displayRoom, topicRoom: topicName)
+            self.showSpinner()
+            
+            CKEditRoomDetailRequest().editRoomDetail(mxRoom: self.mxRoom, displayName: model.displayName, topicName: model.topicName, image: model.avatar) { (error) in
+                self.reloadAvatarCell()
+                if let `error` = error {
+                    self.showAlert(error.localizedDescription)
+                }
+            }
+        }
+        
+        imagePickedBlock = { (image) in
+            cell.updateNewAvatar = image
         }
         
         return cell
@@ -517,5 +496,65 @@ extension CKRoomSettingsViewController {
         cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         
         return cell
+    }
+}
+
+extension CKRoomSettingsViewController {
+    
+    // -- show alert choose edit avatar: camera + photoLibrary
+    private func handlerEditAvatar() {
+        
+        let optionAlert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_take_photo"), style: .default, handler: { [weak self] (action) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                let myPickerController = UIImagePickerController()
+                myPickerController.sourceType = .camera
+                myPickerController.delegate = self;
+                self?.present(myPickerController, animated: true, completion: nil)
+            }
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_choose_from_library"), style: .default, handler: { [weak self] (action) in
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.sourceType = .photoLibrary
+            imagePickerController.delegate = self
+            self?.present(imagePickerController, animated: true, completion: nil)
+
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { (action) in
+        }))
+        
+        self.view.endEditing(true)
+        optionAlert.presentGlobally(animated: true, completion: nil)
+    }
+    
+   private func reloadAvatarCell() {
+       self.removeSpinner()
+       self.tableView.reloadSections([TableViewSectionType.editInfo.rawValue], with: .automatic)
+   }
+}
+// MARK: UIImagePickerControllerDelegate
+extension CKRoomSettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
+        }
+        
+        self.dismiss(animated: true, completion: { [weak self] in
+            self?.imagePickedBlock?(image)
+        })
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
     }
 }

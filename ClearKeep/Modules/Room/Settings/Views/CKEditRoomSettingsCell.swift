@@ -8,10 +8,31 @@
 
 import UIKit
 
+struct EditSettingRoomModel {
+    var displayName: String
+    var topicName: String
+    var avatar: UIImage?
+    
+    init() {
+        displayName = ""
+        topicName = ""
+        avatar = nil
+    }
+}
+
+extension EditSettingRoomModel {
+    
+    static func == (lhs: EditSettingRoomModel, rhs: EditSettingRoomModel) -> Bool {
+        return lhs.displayName == rhs.displayName &&
+            lhs.topicName == rhs.topicName &&
+            lhs.avatar == rhs.avatar
+    }
+}
+
 class CKEditRoomSettingsCell: CKBaseCell {
     
     
-    @IBOutlet weak private var avatarRoomView: MXKImageView!
+    @IBOutlet weak private var avatarRoomView: CKImageView!
     @IBOutlet weak private var infoCreateRoomLabel: UILabel!
     @IBOutlet weak private var titleRoomTextField: UITextField!
     @IBOutlet weak private var topicRoomTextField: UITextField!
@@ -19,17 +40,28 @@ class CKEditRoomSettingsCell: CKBaseCell {
     @IBOutlet weak private var topSaveButtonConstraint: NSLayoutConstraint!
     @IBOutlet weak private var maskCameraView: UIView!
     
-    private var currentRoomData = (displayRoom: "", topicRoom: "")
+    private var currentRoomData: EditSettingRoomModel = EditSettingRoomModel()
     
-    private var newEditRoomData = (displayRoom: "", topicRoom: "") {
+    private var newEditRoomData: EditSettingRoomModel = EditSettingRoomModel() {
         didSet {
-            isEnableSaveButton = currentRoomData != newEditRoomData
+            if currentRoomData == newEditRoomData || newEditRoomData.displayName.isEmpty {
+                isEnableSaveButton = false
+            } else {
+                isEnableSaveButton = true
+            }
         }
     }
     
     var editAvatarHandler: (() -> Void)?
     
-    var onSaveHandler: ((String, String) -> Void)?
+    var updateNewAvatar: UIImage? = nil {
+        didSet {
+            avatarRoomView.image = updateNewAvatar
+            newEditRoomData.avatar = avatarRoomView.image
+        }
+    }
+    
+    var onSaveHandler: ((EditSettingRoomModel) -> Void)?
     
     var isEnableSaveButton: Bool = false {
         didSet {
@@ -42,8 +74,15 @@ class CKEditRoomSettingsCell: CKBaseCell {
     var isAdminEdit: Bool = false {
         didSet {
             if isAdminEdit {
-                titleRoomTextField.setRightIconEdit(icon: #imageLiteral(resourceName: "edit_display_name_profile"))
-                topicRoomTextField.setRightIconEdit(icon: #imageLiteral(resourceName: "edit_display_name_profile"))
+                titleRoomTextField.setRightIconEdit(icon: #imageLiteral(resourceName: "edit_display_name_profile"),
+                                                    tintColor: themeService.attrs.textFieldColor)
+                titleRoomTextField.attributedPlaceholder = NSAttributedString(string: CKLocalization.string(byKey: "display_name_room_placeholder"),
+                                                                              attributes: [.foregroundColor: themeService.attrs.placeholderTextColor])
+                
+                topicRoomTextField.setRightIconEdit(icon: #imageLiteral(resourceName: "edit_display_name_profile"),
+                                                    tintColor: themeService.attrs.textFieldColor)
+                topicRoomTextField.attributedPlaceholder = NSAttributedString(string: CKLocalization.string(byKey: "topic_name_room_placeholder"),
+                                                                              attributes: [.foregroundColor: themeService.attrs.placeholderTextColor])
             }
             
             titleRoomTextField.isEnabled = isAdminEdit
@@ -90,7 +129,7 @@ class CKEditRoomSettingsCell: CKBaseCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         avatarRoomView.cornerRadius = self.frame.width / 6
-        avatarRoomView.clipsToBounds = true
+        avatarRoomView.layer.masksToBounds = true
         
         maskCameraView.cornerRadius = self.frame.width / 6
         maskCameraView.clipsToBounds = true
@@ -107,27 +146,27 @@ class CKEditRoomSettingsCell: CKBaseCell {
         let previewImage = AvatarGenerator.generateAvatar(forText: mxRoom.summary.displayname ?? "A")
 
         avatarRoomView?.setImageURI(mxRoom.summary.avatar,
-                                   withType: "image/jpeg",
+                                   withType: nil,
                                    andImageOrientation: .up,
-                                   toFitViewSize: CGSize(width: self.frame.width / 6, height: self.frame.width / 6),
-                                   with: MXThumbnailingMethodCrop,
+                                   toFitViewSize: avatarRoomView.frame.size,
+                                   with: MXThumbnailingMethodScale,
                                    previewImage: previewImage,
                                    mediaManager: mxRoom.summary.mxSession.mediaManager)
         
         let displayRoom = (mxRoom.summary.displayname ?? "")
         titleRoomTextField.text = displayRoom.uppercased()
-        currentRoomData.displayRoom = displayRoom
+        currentRoomData.displayName = displayRoom
         
         
         let topicName = (mxRoom.summary.topic ?? "").isEmpty ? displayRoom : (mxRoom.summary.topic ?? "")
         topicRoomTextField.text = topicName
-        currentRoomData.topicRoom = topicName
+        currentRoomData.topicName = topicName
         
         newEditRoomData = currentRoomData // set data
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        onSaveHandler?(newEditRoomData.displayRoom, newEditRoomData.topicRoom)
+        onSaveHandler?(newEditRoomData)
     }
 }
 
@@ -136,9 +175,9 @@ extension CKEditRoomSettingsCell {
     @objc func edittingChanged(textField: UITextField) {
         
         if textField == titleRoomTextField {
-            newEditRoomData.displayRoom = (titleRoomTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            newEditRoomData.displayName = (titleRoomTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         } else {
-            newEditRoomData.topicRoom = (topicRoomTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            newEditRoomData.topicName = (topicRoomTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         }
         
         if textField == topicRoomTextField { return }
@@ -149,7 +188,6 @@ extension CKEditRoomSettingsCell {
     
     
     @objc func handleTakePhoto() {
-//        isEnableSaveButton = true
         editAvatarHandler?()
     }
 }
@@ -191,7 +229,8 @@ extension CKEditRoomSettingsCell {
         let color = isEditing ? themeService.attrs.textFieldEditingColor : themeService.attrs.textFieldColor
         
         textField.borderColor = color
-        textField.textColor = color
+        textField.textColor = themeService.attrs.textFieldEditingColor
+        textField.editTintColorRightView(color: color)
     }
 }
 
@@ -199,8 +238,6 @@ extension CKEditRoomSettingsCell {
 extension CKEditRoomSettingsCell: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-//        isEnableSaveButton = true
         
         textField.backgroundColor = themeService.attrs.textFieldEditingBackground
         if textField == titleRoomTextField {
@@ -217,16 +254,8 @@ extension CKEditRoomSettingsCell: UITextFieldDelegate {
         
         if textField == titleRoomTextField {
             focusEditingTextField(textField: titleRoomTextField, isEditing: false)
-
-            if !(titleRoomTextField.text ?? "").isEmpty {
-                titleRoomTextField.textColor = themeService.attrs.textFieldEditingColor
-            }
         } else {
             focusEditingTextField(textField: topicRoomTextField, isEditing: false)
-
-            if !(topicRoomTextField.text ?? "").isEmpty {
-                topicRoomTextField.textColor = themeService.attrs.textFieldEditingColor
-            }
         }
     }
     
