@@ -109,6 +109,8 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.separatorColor = .clear
+        self.tableView.insetsContentViewsToSafeArea = false
+        self.tableView.contentInsetAdjustmentBehavior = .never
         
         self.reloadTableView()
     }
@@ -269,6 +271,8 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.navigationItem.leftBarButtonItem = closeItemButton
 
         self.bindingTheme()
+        
+        self.registerKeyboardNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -276,6 +280,11 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.title = String.ck_LocalizedString(key: "Info")
         self.navigationController?.navigationBar.titleTextAttributes = themeService.attrs.navTitleTextAttributes
         self.reloadTableView()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeKeyboardNotification()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -499,6 +508,39 @@ extension CKRoomSettingsViewController {
     }
 }
 
+// MARK: Hander Keyboard
+extension CKRoomSettingsViewController {
+
+    private func registerKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    private func removeKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    @objc
+    private func keyboardShow(_ notification: Notification) {
+
+        if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+                        
+            self.tableView.constraints.filter{$0.firstAttribute == .height}.first?.isActive = false
+            
+            let bottomConstraint = NSLayoutConstraint.init(item: self.tableView, attribute: .bottom, relatedBy: .equal, toItem: self.tableView.superview, attribute: .bottom, multiplier: 1.0, constant: keyboardHeight)
+            bottomConstraint.isActive = true
+        }
+    }
+
+    @objc
+    private func keyboardHidden(_ notification: Notification) {
+        self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+    }
+    
+}
+
 extension CKRoomSettingsViewController {
     
     // -- show alert choose edit avatar: camera + photoLibrary
@@ -552,9 +594,5 @@ extension CKRoomSettingsViewController: UIImagePickerControllerDelegate, UINavig
         self.dismiss(animated: true, completion: { [weak self] in
             self?.imagePickedBlock?(image)
         })
-    }
-    
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
     }
 }
