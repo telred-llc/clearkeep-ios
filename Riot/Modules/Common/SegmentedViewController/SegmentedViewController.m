@@ -240,7 +240,6 @@
         [labelTapGesture setNumberOfTapsRequired:1];
         button.userInteractionEnabled = YES;
         [button addGestureRecognizer:labelTapGesture];
-            
     }
     
     [self displaySelectedViewController];
