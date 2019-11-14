@@ -64,6 +64,7 @@
 
     self.searchTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     self.searchTableView.separatorColor = UIColorFromRGB(0xDCF1F3);
+    self.searchTableView.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0);
     // Hide line separators of empty cells
     self.searchTableView.tableFooterView = [[UIView alloc] init];
     

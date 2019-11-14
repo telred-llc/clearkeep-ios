@@ -263,7 +263,6 @@ extension CKSearchDataSource {
 
                 fileSearchCell.message.text = cellData.message
                 fileSearchCell.iconImage.image = cellData.attachmentIcon
-                fileSearchCell.iconImage.tintColor = kRiotColorCyanLight
                 if let fileTitle = cellData.extraInfo {
                     fileSearchCell.message.text = fileTitle
                 }
