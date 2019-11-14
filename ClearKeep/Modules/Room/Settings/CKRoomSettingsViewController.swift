@@ -69,6 +69,17 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     private var imagePickedBlock: ((UIImage) -> Void)?
 
     private let disposeBag = DisposeBag()
+    
+    private var isShowKeyboard: Bool = false {
+        
+        didSet {
+            DispatchQueue.main.async {
+                self.view.frame.origin.y = self.isShowKeyboard ? -self.adjustoffset.offset : 0
+            }
+        }
+    }
+    
+    private var adjustoffset: (location: CGFloat, offset: CGFloat) = (0.0, 0.0)
 
     // MARK: - CLASS
     
@@ -109,10 +120,18 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.separatorColor = .clear
-        self.tableView.insetsContentViewsToSafeArea = false
         self.tableView.contentInsetAdjustmentBehavior = .never
+        self.tableView.contentInset.top = 30 // adjust offset follow base riot
+
+        isShowKeyboard = false
         
         self.reloadTableView()
+        
+        let tapAction = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tapAction.cancelsTouchesInView = false
+        
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
+        view.addGestureRecognizer(tapAction)
     }
     
     private func reloadTableView() {
@@ -280,10 +299,10 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.title = String.ck_LocalizedString(key: "Info")
         self.navigationController?.navigationBar.titleTextAttributes = themeService.attrs.navTitleTextAttributes
         self.reloadTableView()
+        self.navigationController?.presentationController?.delegate = self
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    deinit {
         removeKeyboardNotification()
     }
 
@@ -313,6 +332,10 @@ extension CKRoomSettingsViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.contentView.backgroundColor = UIColor.clear
+        guard let editInfoCell = cell as? CKEditRoomSettingsCell else { return }
+        
+        let location = editInfoCell.topicRoomTextField.convert(editInfoCell.topicRoomTextField.frame.origin, to: self.view)
+        adjustoffset.location = location.y
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -359,7 +382,7 @@ extension CKRoomSettingsViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.endEditing(true)
+
         tableView.deselectRow(at: indexPath, animated: true)
         let sectionType = tblSections[indexPath.section]
         
@@ -525,20 +548,24 @@ extension CKRoomSettingsViewController {
     private func keyboardShow(_ notification: Notification) {
 
         if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
-                        
-            self.tableView.constraints.filter{$0.firstAttribute == .height}.first?.isActive = false
-            
-            let bottomConstraint = NSLayoutConstraint.init(item: self.tableView, attribute: .bottom, relatedBy: .equal, toItem: self.tableView.superview, attribute: .bottom, multiplier: 1.0, constant: keyboardHeight)
-            bottomConstraint.isActive = true
+            let keyboardHeight = keyboardFrame.cgRectValue.height + self.safeArea.bottom
+            let convertLocationKeyboard = self.view.bounds.height - keyboardHeight
+            if adjustoffset.location > convertLocationKeyboard {
+                adjustoffset.offset = adjustoffset.location - keyboardHeight
+                self.isShowKeyboard = true
+            }
         }
     }
 
     @objc
     private func keyboardHidden(_ notification: Notification) {
-        self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        self.isShowKeyboard = false
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        self.isShowKeyboard = false
+    }
 }
 
 extension CKRoomSettingsViewController {
@@ -594,5 +621,13 @@ extension CKRoomSettingsViewController: UIImagePickerControllerDelegate, UINavig
         self.dismiss(animated: true, completion: { [weak self] in
             self?.imagePickedBlock?(image)
         })
+    }
+}
+
+
+extension CKRoomSettingsViewController: UIAdaptivePresentationControllerDelegate {
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        removeKeyboardNotification()
     }
 }

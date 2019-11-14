@@ -35,7 +35,7 @@ class CKEditRoomSettingsCell: CKBaseCell {
     @IBOutlet weak private var avatarRoomView: CKImageView!
     @IBOutlet weak private var infoCreateRoomLabel: UILabel!
     @IBOutlet weak private var titleRoomTextField: UITextField!
-    @IBOutlet weak private var topicRoomTextField: UITextField!
+    @IBOutlet weak var topicRoomTextField: UITextField!
     @IBOutlet weak private var saveButton: UIButton!
     @IBOutlet weak private var topSaveButtonConstraint: NSLayoutConstraint!
     @IBOutlet weak private var maskCameraView: UIView!
