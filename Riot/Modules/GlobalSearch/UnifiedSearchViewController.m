@@ -50,7 +50,6 @@
     CKSearchContactViewController *peopleSearchViewController;
     ContactsDataSource *peopleSearchDataSource;
     
-    
     // Current alert (if any).
     UIAlertController *currentAlert;
 }

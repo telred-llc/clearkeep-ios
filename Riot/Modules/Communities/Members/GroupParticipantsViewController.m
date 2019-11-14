@@ -288,7 +288,7 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
+
     // Sanity check
     if (tableViewMaskLayer)
     {
@@ -310,7 +310,6 @@
                              }
                              completion:^(BOOL finished){
                              }];
-            
         }
         
         // Hide the addParticipants button on landscape when keyboard is visible

@@ -145,6 +145,7 @@ final class CKCallViewController: CallViewController {
             self.callStatusLabel.isHidden = call.isVideoCall
             self.callerNameLabel.isHidden = call.isVideoCall
         } else {
+            call.endReason
             statusTimer.invalidate()
             self.cameraSwitchView.isHidden = false
             self.callerImageView.isHidden = false

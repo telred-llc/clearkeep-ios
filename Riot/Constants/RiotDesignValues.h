@@ -72,6 +72,7 @@ extern UIStatusBarStyle kRiotDesignStatusBarStyle;
 extern UIBarStyle kRiotDesignSearchBarStyle;
 extern UIColor *kRiotDesignSearchBarTintColor;
 extern UIKeyboardAppearance kRiotKeyboard;
+extern UIColor *kRiotSearchBarBgColor;
 
 #pragma mark - Button image
 extern UIImage *kRiotButtonSegmentSelected;

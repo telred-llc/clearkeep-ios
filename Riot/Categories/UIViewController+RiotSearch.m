@@ -96,19 +96,21 @@
         // Customize search bar
         self.searchBar.barStyle = kRiotDesignSearchBarStyle;
         self.searchBar.tintColor = kRiotSecondaryTextColor;
-
+        self.searchBar.vc_searchTextField.textColor = kRiotSecondaryTextColor;
+        self.searchBar.vc_searchTextField.backgroundColor = kRiotSearchBarBgColor;
+        
+        // Fix nav bar height issue with search bar since ios 11
+        CKSearchBarContainerView *containerView = [[CKSearchBarContainerView alloc] initWithSearchBar:self.searchBar];
+        [containerView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+        containerView.backgroundColor = UIColor.clearColor;
+        
         self.navigationItem.hidesBackButton = NO;
         self.navigationController.navigationBar.tintColor = kRiotTabBarButtonTintColor;
         self.navigationItem.rightBarButtonItem = nil;
-        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem.title = @"";
         
         // Add the search bar
-        self.navigationItem.titleView = self.searchBar;
-        
-        // from ios 11, searchbar set size differrent follow navigationbar large
-        if (@available(iOS 11.0, *)) {
-            [self.searchBar.heightAnchor constraintEqualToConstant:44].active = YES;
-        }
+        self.navigationItem.titleView = containerView;
 
         UIImage *buttonImage = [[UIImage imageNamed:@"ic_new_chat"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIBarButtonItem *newRoomButton = [[UIBarButtonItem alloc] initWithImage:buttonImage style:UIBarButtonItemStylePlain target:self action:@selector(onPressRightMenuItem)];

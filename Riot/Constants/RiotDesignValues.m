@@ -84,6 +84,7 @@ NSInteger const kRiotRoomAdminLevel = 100;
 UIStatusBarStyle kRiotDesignStatusBarStyle = UIStatusBarStyleDefault;
 UIBarStyle kRiotDesignSearchBarStyle = UIBarStyleDefault;
 UIColor *kRiotDesignSearchBarTintColor = nil;
+UIColor *kRiotSearchBarBgColor = nil;
 
 UIKeyboardAppearance kRiotKeyboard;
 
@@ -198,6 +199,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotNavBarRightButtonColor = UIColorFromRGB(0xFFFFFF);
         kRiotButtonSegmentSelected = [UIImage imageNamed:@"btn_section_dark"];
         kRiotInviteCellButton = [UIImage imageNamed:@"btn_start_room_dark"];
+        kRiotSearchBarBgColor = UIColorFromRGB(0x202023);
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceDark;
         kRiotKeyboard = UIKeyboardAppearanceDark;
     }
@@ -247,6 +249,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotNavBarRightButtonColor = UIColorFromRGB(0x444444);
         kRiotButtonSegmentSelected = [UIImage imageNamed:@"btn_section_highlight"];
         kRiotInviteCellButton = [UIImage imageNamed:@"btn_start_room_light"];
+        kRiotSearchBarBgColor = UIColorFromRGB(0xF0F0F0);
 
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceLight;
         kRiotKeyboard = UIKeyboardAppearanceLight;

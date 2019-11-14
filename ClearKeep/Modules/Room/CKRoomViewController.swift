@@ -635,6 +635,7 @@ extension CKRoomViewController {
         }
 
         // show RoomSearchViewController
+        self.vc_removeBackTitle()
         performSegue(withIdentifier: kShowRoomSearchSegue, sender: self)
     }
     

@@ -32,6 +32,7 @@ limitations under the License.
 //@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionContainerHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIView *viewControllerContainer;
 @property (nonatomic) IBOutletCollection(UIButton) NSArray *segmentButtons;
+@property (nonatomic) IBOutletCollection(UIButton) NSArray *segmentButtonsInRoom;
 
 /**
  The index of the view controller that currently has the focus.

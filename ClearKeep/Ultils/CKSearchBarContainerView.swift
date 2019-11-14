@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CKSearchBarContainerView: UIView {
+@objc class CKSearchBarContainerView: UIView {
     
     let searchBar: UISearchBar
     
@@ -26,6 +26,11 @@ class CKSearchBarContainerView: UIView {
     override convenience init(frame: CGRect) {
         self.init(customSearchBar: UISearchBar())
         self.frame = frame
+    }
+    
+    @objc
+    convenience init(searchBar: UISearchBar) {
+        self.init(customSearchBar: searchBar)
     }
     
     required init?(coder aDecoder: NSCoder) {

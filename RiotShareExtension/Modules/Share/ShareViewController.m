@@ -136,7 +136,7 @@
     [self.contentView addSubview:self.segmentedViewController.view];
     [self.segmentedViewController didMoveToParentViewController:self];
     
-    [self autoPinSubviewEdges:self.segmentedViewController.view toSuperviewEdges:self.contentView];
+//    [self autoPinSubviewEdges:self.segmentedViewController.view toSuperviewEdges:self.contentView];
 }
 
 - (void)configureFallbackViewController
