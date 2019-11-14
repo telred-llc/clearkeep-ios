@@ -10,42 +10,47 @@ import Foundation
 
 final public class CkForgotPasswordViewController: CkAuthenticationViewController {
     
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var newPassTextField: UITextField!
-    @IBOutlet weak var confirmPassTextField: UITextField!
-    @IBOutlet weak var resetPassButton: Button!
+    @IBOutlet weak var userEmailTextFieldView: CKCustomTextField!
+    @IBOutlet weak var passwordTFView: CKCustomTextField!
+    @IBOutlet weak var rePasswordTFView: CKCustomTextField!
+    
+    @IBOutlet weak var hintLabel: UILabel!
+    
+    @IBOutlet weak var resetPasswordButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
-    @IBOutlet weak var messageLabel: UILabel!
+    
     
     private var __isResetPassword = false
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        emailTextField.text = ""
-        newPassTextField.text = ""
-        confirmPassTextField.text = ""
+    private var resetPasswordModel = (userId: "", password: "", repassword: "")
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        bindingData()
     }
     
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        resetPassButton.applyGradient(
-            colours: [UIColor].init(arrayLiteral: #colorLiteral(red: 0.09481538087, green: 0.7234704494, blue: 0.7655344605, alpha: 1),#colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)),
-            locations: [0.0, 0.5, 1.0])
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userEmailTextFieldView.resetData()
+        passwordTFView.resetData()
+        rePasswordTFView.resetData()
     }
     
     public override func validateParameters() -> String? {
         
         var errorMessage: String? = nil
         
-        if emailTextField.text?.count == 0 {
+        if resetPasswordModel.userId.isEmpty {
             errorMessage = NSLocalizedString("auth_missing_email", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-        } else if !MXTools.isEmailAddress(emailTextField.text ?? "") {
+        } else if !MXTools.isEmailAddress(resetPasswordModel.userId) {
             errorMessage = NSLocalizedString("auth_invalid_email", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-        } else if newPassTextField.text?.count == 0 {
+        } else if resetPasswordModel.password.isEmpty {
             errorMessage = NSLocalizedString("auth_missing_password", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-        } else if let newPass = newPassTextField.text, newPass.count < 6 {
+        } else if resetPasswordModel.password.count < 6 {
             errorMessage = NSLocalizedString("auth_invalid_password", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
-        } else if let newPass = newPassTextField.text, let confirmPass = confirmPassTextField.text, newPass != confirmPass {
+        } else if resetPasswordModel.password != resetPasswordModel.repassword {
             errorMessage = NSLocalizedString("auth_password_dont_match", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
         }
         
@@ -53,9 +58,9 @@ final public class CkForgotPasswordViewController: CkAuthenticationViewControlle
     }
     
     public override func askForUpdating(completion: ([String : Any]) -> Void) {
-        if let userId = self.emailTextField.text, let password = self.newPassTextField.text {
-            let parameters = ["email": userId,
-                              "password": password]
+        if !resetPasswordModel.userId.isEmpty && !resetPasswordModel.password.isEmpty {
+            let parameters = ["email": resetPasswordModel.userId,
+                              "password": resetPasswordModel.password]
             __isResetPassword = true
             completion(parameters)
         } else {
@@ -67,4 +72,65 @@ final public class CkForgotPasswordViewController: CkAuthenticationViewControlle
          return __isResetPassword
     }
     
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+}
+
+extension CkForgotPasswordViewController {
+    
+    private func bindingData() {
+        
+        hintLabel.text = CKLocalization.string(byKey: "auth_new_password_hint_label")
+        
+        userEmailTextFieldView.bindingData(title: CKLocalization.string(byKey: "auth_user_id"))
+        userEmailTextFieldView.placeholder = CKLocalization.string(byKey: "auth_user_id_placeholder")
+        userEmailTextFieldView.configReturnTypeKeyboard = .continue
+        userEmailTextFieldView.edittingChangedHandler = { result in
+            self.resetPasswordModel.userId = result ?? ""
+        }
+        userEmailTextFieldView.triggerReturn = { textField in
+            if textField == self.userEmailTextFieldView.contentTextField {
+                self.passwordTFView.contentTextField.becomeFirstResponder()
+            }
+        }
+        
+        passwordTFView.bindingData(title: CKLocalization.string(byKey: "auth_new_password"),
+                                   isPassword: true)
+        passwordTFView.placeholder = CKLocalization.string(byKey: "auth_new_password_placeholder")
+        passwordTFView.configReturnTypeKeyboard = .continue
+        passwordTFView.edittingChangedHandler = { result in
+            self.resetPasswordModel.password = result ?? ""
+        }
+        passwordTFView.triggerReturn = { textField in
+            if textField == self.passwordTFView.contentTextField {
+                self.rePasswordTFView.contentTextField.becomeFirstResponder()
+            }
+        }
+        
+        rePasswordTFView.bindingData(title: CKLocalization.string(byKey: "auth_confirm_new_password"),
+                                     isPassword: true)
+        rePasswordTFView.placeholder = CKLocalization.string(byKey: "auth_confirm_new_password_placeholder")
+        rePasswordTFView.configReturnTypeKeyboard = .done
+        rePasswordTFView.edittingChangedHandler = { result in
+            self.resetPasswordModel.repassword = result ?? ""
+        }
+        rePasswordTFView.triggerReturn = { textField in
+            if textField == self.rePasswordTFView.contentTextField {
+                self.rePasswordTFView.contentTextField.resignFirstResponder()
+            }
+        }
+        
+        // observable themes
+        themeService.typeStream.asObservable().subscribe { (themes) in
+            let lightTheme = themes.element == ThemeType.light
+            self.welcomeImageView.image = lightTheme ? #imageLiteral(resourceName: "logo_login_light") : #imageLiteral(resourceName: "logo_login_dark")
+            self.view.backgroundColor = themes.element?.associatedObject.primaryBgColor
+            self.hintLabel.textColor = themes.element?.associatedObject.hintText
+            self.resetPasswordButton.setBackgroundImage(lightTheme ? #imageLiteral(resourceName: "btn_start_room_light") : #imageLiteral(resourceName: "btn_start_room_dark"), for: .normal)
+            
+            self.signInButton.setBackgroundImage(#imageLiteral(resourceName: "btn_sign_up_dark"), for: .normal)
+        }.dispose()
+    }
 }
