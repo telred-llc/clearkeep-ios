@@ -263,6 +263,10 @@ extension CKSearchDataSource {
 
                 fileSearchCell.message.text = cellData.message
                 fileSearchCell.iconImage.image = cellData.attachmentIcon
+                fileSearchCell.iconImage.tintColor = kRiotColorCyanLight
+                if let fileTitle = cellData.extraInfo {
+                    fileSearchCell.message.text = fileTitle
+                }
 
                 // Disable any interactions defined in the cell
                 // because we want [tableView didSelectRowAtIndexPath:] to be called
