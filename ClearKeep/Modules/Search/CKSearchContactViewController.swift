@@ -204,11 +204,11 @@ extension CKSearchContactViewController {
 
         case .directory:
             count = self.filteredDirectorySource != nil ? filteredDirectorySource.count : 0
-            titleString = (count > 0) ? String.init(format: "User directory (%02d)", count) : "Matrix contacts (0)"
+            titleString = (count > 0) ? String.init(format: "User directory (%02d)", count) : "User directory (0)"
 
         case .local:
             count = self.filteredLocalSource != nil ? filteredMatrixSource.count : 0
-            titleString = (count > 0) ? String.init(format: "Invite from contacts (%02d)", count) : "Matrix contacts (0)"
+            titleString = (count > 0) ? String.init(format: "Invite from contacts (%02d)", count) : "Invite from contacts (0)"
 
         }
 

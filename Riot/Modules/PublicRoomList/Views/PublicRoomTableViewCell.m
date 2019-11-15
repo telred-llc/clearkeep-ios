@@ -17,15 +17,12 @@
  */
 
 #import "PublicRoomTableViewCell.h"
-
 #import "AvatarGenerator.h"
-
 #import "RiotDesignValues.h"
 
 @implementation PublicRoomTableViewCell
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
 
     // Round image view
@@ -33,8 +30,7 @@
     _roomAvatar.clipsToBounds = YES;
 }
 
-- (void)customizeTableViewCellRendering
-{
+- (void)customizeTableViewCellRendering {
     [super customizeTableViewCellRendering];
     
     self.roomDisplayName.textColor = kRiotPrimaryTextColor;
@@ -43,22 +39,17 @@
     _roomAvatar.defaultBackgroundColor = [UIColor clearColor];
 }
 
-- (void)render:(MXPublicRoom *)publicRoom withMatrixSession:(MXSession*)mxSession
-{
+- (void)render:(MXPublicRoom *)publicRoom withMatrixSession:(MXSession*)mxSession {
     [super render:publicRoom];
 
-    // Set room display name a la Vector
     self.roomDisplayName.text = publicRoom.name;
-    if (!self.roomDisplayName.text)
-    {
+    if (!self.roomDisplayName.text) {
         self.roomDisplayName.text = publicRoom.aliases[0];
     }
 
     // Set the avatar
     UIImage* avatarImage = [AvatarGenerator generateAvatarForMatrixItem:publicRoom.roomId withDisplayName:self.roomDisplayName.text];
-
-    if (publicRoom.avatarUrl)
-    {
+    if (publicRoom.avatarUrl) {
         _roomAvatar.enableInMemoryCache = YES;
 
         [_roomAvatar setImageURI:publicRoom.avatarUrl
@@ -68,17 +59,13 @@
                       withMethod:MXThumbnailingMethodCrop
                     previewImage:avatarImage
                     mediaManager:mxSession.mediaManager];
-    }
-    else
-    {
+    } else {
         _roomAvatar.image = avatarImage;
     }
-    
     _roomAvatar.contentMode = UIViewContentModeScaleAspectFill;
 }
 
-+ (CGFloat)cellHeight
-{
++ (CGFloat)cellHeight {
     return 74;
 }
 

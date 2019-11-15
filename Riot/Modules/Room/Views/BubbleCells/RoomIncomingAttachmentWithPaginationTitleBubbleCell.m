@@ -30,7 +30,7 @@
     
     self.paginationLabel.textColor = kRiotColorGreen;
     self.paginationSeparatorView.backgroundColor = kRiotColorGreen;
-    self.messageTextView.tintColor = kRiotColorGreen;
+    self.messageTextView.tintColor = kRiotLinkTextColor;
 }
 
 - (void)render:(MXKCellData *)cellData

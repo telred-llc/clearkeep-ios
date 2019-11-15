@@ -43,6 +43,7 @@ UIColor *kRiotTabBarBgColor;
 UIColor *kRiotTabBarButtonTintColor;
 UIColor *kRiotCellPrimaryColor;
 UIColor *kRiotNavBarRightButtonColor;
+UIColor *kRiotLinkTextColor;
 
 // Riot Colors
 UIColor *kRiotColorGreen;
@@ -200,6 +201,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotButtonSegmentSelected = [UIImage imageNamed:@"btn_section_dark"];
         kRiotInviteCellButton = [UIImage imageNamed:@"btn_start_room_dark"];
         kRiotSearchBarBgColor = UIColorFromRGB(0x202023);
+        kRiotLinkTextColor = UIColorFromRGB(0x16549D);
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceDark;
         kRiotKeyboard = UIKeyboardAppearanceDark;
     }
@@ -250,6 +252,7 @@ UIKeyboardAppearance kRiotKeyboard;
         kRiotButtonSegmentSelected = [UIImage imageNamed:@"btn_section_highlight"];
         kRiotInviteCellButton = [UIImage imageNamed:@"btn_start_room_light"];
         kRiotSearchBarBgColor = UIColorFromRGB(0xF0F0F0);
+        kRiotLinkTextColor = UIColorFromRGB(0xC4EF8C);
 
         [UITextField appearance].keyboardAppearance = UIKeyboardAppearanceLight;
         kRiotKeyboard = UIKeyboardAppearanceLight;

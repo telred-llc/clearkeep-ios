@@ -32,7 +32,7 @@
     [super customizeTableViewCellRendering];
     
     self.userNameLabel.textColor = kRiotPrimaryTextColor;
-    self.messageTextView.tintColor = kRiotColorGreen;
+    self.messageTextView.tintColor = kRiotLinkTextColor;
     
     // CK 337: Edit the font size for the "account name"
     [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];

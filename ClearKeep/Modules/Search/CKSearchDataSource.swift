@@ -78,7 +78,7 @@ import Foundation
 
                     if let cellData = RoomBubbleCellData.init(event: roomEvent, andRoomState: roomDataSource.roomState, andRoomDataSource: roomDataSource) {
 
-                        cellData.highlightPattern(inTextMessage: self?.searchText, withForegroundColor: kRiotColorGreen, andFont: patternFont)
+                        cellData.highlightPattern(inTextMessage: self?.searchText, withForegroundColor: themeService.attrs.navBarTintColor, andFont: patternFont)
 
                         // Use profile information as data to display
                         if let sender = roomDataSource.roomState?.members.members.first(where: { $0.userId == roomEvent.sender }) {

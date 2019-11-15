@@ -49,7 +49,7 @@ protocol Theme {
 
 struct LightTheme: Theme {
     var navBarBgColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    var navBarTintColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1)
+    var navBarTintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black]
     var primaryBgColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var secondBgColor = #colorLiteral(red: 0.9763854146, green: 0.9765253663, blue: 0.9763547778, alpha: 1)
@@ -85,7 +85,7 @@ struct LightTheme: Theme {
 
 struct DarkTheme: Theme {
     var navBarBgColor = #colorLiteral(red: 0.003921568627, green: 0, blue: 0.003921568627, alpha: 1)
-    var navBarTintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+    var navBarTintColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1)
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.white]
     var primaryBgColor = #colorLiteral(red: 0.003921568627, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
     var secondBgColor = #colorLiteral(red: 0.2117647059, green: 0.2784313725, blue: 0.3647058824, alpha: 1)

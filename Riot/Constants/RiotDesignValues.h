@@ -49,6 +49,7 @@ extern UIColor *kRiotTabBarBgColor;
 extern UIColor *kRiotTabBarButtonTintColor;
 extern UIColor *kRiotCellPrimaryColor;
 extern UIColor *kRiotNavBarRightButtonColor;
+extern UIColor *kRiotLinkTextColor;
 
 #pragma mark - Riot Colors
 extern UIColor *kRiotColorGreen;

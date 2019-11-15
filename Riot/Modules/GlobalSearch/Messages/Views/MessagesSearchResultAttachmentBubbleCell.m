@@ -34,7 +34,7 @@
     
     self.roomNameLabel.textColor = kRiotSecondaryTextColor;
     
-    self.messageTextView.tintColor = kRiotColorGreen;
+    self.messageTextView.tintColor = kRiotLinkTextColor;
 }
 
 - (void)render:(MXKCellData *)cellData

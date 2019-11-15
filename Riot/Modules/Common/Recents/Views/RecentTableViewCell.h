@@ -25,7 +25,7 @@
 @property (weak, nonatomic) IBOutlet MXKImageView *roomAvatar;
 @property (weak, nonatomic) IBOutlet UIView *directRoomBorderView;
 @property (weak, nonatomic) IBOutlet UIImageView *encryptedRoomIcon;
-
+@property (weak, nonatomic) IBOutlet UIView  *roomOnlineStatus;
 @property (weak, nonatomic) IBOutlet UILabel *missedNotifAndUnreadBadgeLabel;
 @property (weak, nonatomic) IBOutlet UIView  *missedNotifAndUnreadBadgeBgView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *missedNotifAndUnreadBadgeBgViewWidthConstraint;
