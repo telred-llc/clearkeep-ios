@@ -29,7 +29,7 @@ protocol CKSearchContactViewControllerDelegate: class {
         case local = 2
         
         static func count() -> Int {
-            return 3
+            return 2
         }
     }
     
@@ -120,7 +120,7 @@ protocol CKSearchContactViewControllerDelegate: class {
             // reload table view
             DispatchQueue.main.async {
                 self.tableView?.reloadSections(
-                    IndexSet([Section.directory.rawValue, Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                    IndexSet([Section.directory.rawValue, Section.matrix.rawValue]), with: .none)
             }
 
             return
@@ -143,7 +143,7 @@ protocol CKSearchContactViewControllerDelegate: class {
         // reload table view
         DispatchQueue.main.async {
             self.tableView.reloadSections(
-                IndexSet([Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                IndexSet([Section.matrix.rawValue]), with: .none)
         }
         
         // Seach users on Matrix server
@@ -257,7 +257,7 @@ extension CKSearchContactViewController {
                 // reload table view
                 DispatchQueue.main.async {
                     self.tableView.reloadSections(
-                        IndexSet([Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                        IndexSet([Section.matrix.rawValue]), with: .none)
                 }
             }
         }
@@ -350,7 +350,6 @@ extension CKSearchContactViewController {
      Reload data
      */
     private func reloadData() {
-        self.reloadLocalContacts()
         self.reloadMatrixContacts()
         self.tableView.reloadData()
     }

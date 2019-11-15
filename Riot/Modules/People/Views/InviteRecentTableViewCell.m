@@ -30,6 +30,11 @@ NSString *const kInviteRecentTableViewCellDeclineButtonPressed = @"kInviteRecent
 
 NSString *const kInviteRecentTableViewCellRoomKey = @"kInviteRecentTableViewCellRoomKey";
 
+@interface InviteRecentTableViewCell() {
+    __weak IBOutlet NSLayoutConstraint *timeLabelWidth;
+}
+@end
+
 @implementation InviteRecentTableViewCell
 
 #pragma mark - Class methods
@@ -86,10 +91,13 @@ NSString *const kInviteRecentTableViewCellRoomKey = @"kInviteRecentTableViewCell
     }
 }
 
-- (void)render:(MXKCellData *)cellData
-{
+- (void)render:(MXKCellData *)cellData {
     [self.rightButton setBackgroundImage:kRiotInviteCellButton forState:UIControlStateNormal];
     [super render:cellData];
+    [self.lastEventDate sizeToFit];
+    timeLabelWidth.constant = self.lastEventDate.frame.size.width;
+    [self.contentView layoutIfNeeded];
+
 }
 
 + (CGFloat)heightForCellData:(MXKCellData *)cellData withMaximumWidth:(CGFloat)maxWidth

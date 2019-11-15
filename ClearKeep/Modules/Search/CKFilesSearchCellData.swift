@@ -48,13 +48,13 @@ import Foundation
             if let attachmentType = attachment?.type {
                 switch attachmentType {
                 case MXKAttachmentTypeImage:
-                    image = UIImage(named: "file_photo_icon")?.withRenderingMode(.alwaysTemplate)
+                    image = UIImage(named: "file_photo_icon")
                 case MXKAttachmentTypeAudio:
-                    image = UIImage(named: "file_music_icon")?.withRenderingMode(.alwaysTemplate)
+                    image = UIImage(named: "file_music_icon")
                 case MXKAttachmentTypeVideo:
-                    image = UIImage(named: "file_video_icon")?.withRenderingMode(.alwaysTemplate)
+                    image = UIImage(named: "file_video_icon")
                 case MXKAttachmentTypeFile:
-                    image = UIImage(named: "file_doc_icon")?.withRenderingMode(.alwaysTemplate)
+                    image = UIImage(named: "file_doc_icon")
                 default:
                     break
                 }
