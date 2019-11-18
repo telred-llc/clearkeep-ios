@@ -481,8 +481,12 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
         }
 
         cell.backgroundColor = UIColor.clear
-        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
+        cell.searchBar.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        cell.searchBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
+        cell.contentView.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        
+        
         return cell
     }
     

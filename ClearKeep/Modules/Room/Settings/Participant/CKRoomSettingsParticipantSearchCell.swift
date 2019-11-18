@@ -31,7 +31,9 @@ final class CKRoomSettingsParticipantSearchCell: CKRoomSettingsBaseCell {
 }
 
 extension CKRoomSettingsParticipantSearchCell: UISearchBarDelegate {
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

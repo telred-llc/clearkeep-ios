@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,24 +13,30 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="V7x-gI-5LQ" id="KDk-oF-0he">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Find a people" translatesAutoresizingMaskIntoConstraints="NO" id="zVz-ML-vSW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                    <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="psU-Z5-oj0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                         <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outlet property="delegate" destination="-1" id="3wv-o3-rH3"/>
+                        </connections>
                     </searchBar>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="zVz-ML-vSW" firstAttribute="top" secondItem="KDk-oF-0he" secondAttribute="top" id="8XY-ZZ-jfg"/>
-                    <constraint firstItem="zVz-ML-vSW" firstAttribute="leading" secondItem="KDk-oF-0he" secondAttribute="leading" id="f9K-6r-SrB"/>
-                    <constraint firstAttribute="bottom" secondItem="zVz-ML-vSW" secondAttribute="bottom" id="rbP-N5-FHG"/>
-                    <constraint firstAttribute="trailing" secondItem="zVz-ML-vSW" secondAttribute="trailing" id="wui-Ir-nAV"/>
+                    <constraint firstAttribute="bottom" secondItem="psU-Z5-oj0" secondAttribute="bottom" id="9cR-dj-eYn"/>
+                    <constraint firstItem="psU-Z5-oj0" firstAttribute="leading" secondItem="KDk-oF-0he" secondAttribute="leading" id="WDe-tL-1D5"/>
+                    <constraint firstItem="psU-Z5-oj0" firstAttribute="top" secondItem="KDk-oF-0he" secondAttribute="top" id="nie-rF-SxS"/>
+                    <constraint firstAttribute="trailing" secondItem="psU-Z5-oj0" secondAttribute="trailing" id="pZp-Df-O2h"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="searchBar" destination="zVz-ML-vSW" id="Sgb-gM-MGV"/>
+                <outlet property="searchBar" destination="psU-Z5-oj0" id="oXf-Qx-X9X"/>
             </connections>
+            <point key="canvasLocation" x="132" y="154"/>
         </tableViewCell>
     </objects>
 </document>
