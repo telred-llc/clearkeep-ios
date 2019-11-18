@@ -105,9 +105,9 @@
     [[Analytics sharedInstance] trackScreen:@"RoomsSearch"];
     
     // Enable the search field by default at the screen opening
-    if (self.searchBarHidden)
-    {
+    if (self.searchBarHidden) {
         [self showSearch:NO];
+        self.navigationItem.rightBarButtonItem = nil;
     }
 }
 

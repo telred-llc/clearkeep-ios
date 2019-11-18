@@ -15,6 +15,7 @@ import Foundation
     public var message: String!
     public var roomId: String?
     public var title: String?
+    public var extraInfo: String?
     public var age: String?
     public var date: String?
     public var searchResult: MXSearchResult?
@@ -134,9 +135,10 @@ import Foundation
         }
 
         // Append the file size if any
-        if let contentInfo = attachment?.contentInfo?["size"] as? [String: Any] {
+        if let contentInfo = attachment?.contentInfo as? [String: Any] {
             if let size = contentInfo["size"] as? Int {
                 title = "\(String(describing: title)) (\(String(describing: MXTools.fileSize(toString: size, round: true))))"
+                extraInfo = MXTools.fileSize(toString: size, round: true)
             }
         }
 

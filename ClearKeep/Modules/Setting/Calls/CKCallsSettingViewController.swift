@@ -97,14 +97,14 @@ extension CKCallsSettingViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingToggleItemTableViewCell", for: indexPath) as! CKSettingToggleItemTableViewCell
-        
+
         let cellType = sections[indexPath.section][indexPath.row]
         cell.titleLabel.text = cellType.title()
         cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
@@ -116,7 +116,7 @@ extension CKCallsSettingViewController: UITableViewDataSource {
             cell.switchView.isEnabled = true
             cell.switchView.addTarget(self, action: #selector(toggleCallKit(_:)), for: UIControlEvents.valueChanged)
         }
-        
+
         return cell
     }
 }

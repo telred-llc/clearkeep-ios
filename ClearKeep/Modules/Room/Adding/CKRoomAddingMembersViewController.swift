@@ -80,15 +80,13 @@ final class CKRoomAddingMembersViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = theme.searchBarBgColor
-            self?.barTitleColor = CKColor.Text.blueNavigation
-            self?.tableView?.backgroundColor = theme.searchBarBgColor
-            self?.tableView?.separatorColor = theme.separatorColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.tableView?.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -167,7 +165,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         }
 
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
-        cell.backgroundColor = .white
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         return cell
     }
     
@@ -197,7 +195,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             } else { cell.status = 0 }
 
             cell.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
             return cell
         }
@@ -342,8 +340,8 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
             view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
-            view.backgroundColor = .white
             view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             return view
         }
         return UIView()
@@ -351,7 +349,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UILabel()
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         return view
     }
     

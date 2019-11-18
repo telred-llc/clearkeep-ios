@@ -14,12 +14,15 @@ class CKRoomSettingsMoreSettingsCell: CKRoomSettingsBaseCell {
     
     @IBOutlet weak var btnSetting: UIButton!
     @IBOutlet weak var imageSettings: UIImageView!    
+    @IBOutlet weak var detailIconImage: UIImageView!
     
     // MARK: - OVERRIDE
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.accessoryType = .disclosureIndicator
+        self.accessoryType = .none
+        self.detailIconImage.image = #imageLiteral(resourceName: "details_icon").withRenderingMode(.alwaysTemplate)
+        self.detailIconImage.tintColor = themeService.attrs.accessoryTblColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

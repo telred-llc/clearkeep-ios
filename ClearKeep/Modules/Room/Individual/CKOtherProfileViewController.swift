@@ -116,12 +116,13 @@ class CKOtherProfileViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.newBackgroundColor
-            self?.barTitleColor = themeService.attrs.newBackgroundColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.changeNavigationBar(color: themeService.attrs.navBarBgColor)
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.newBackgroundColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -159,7 +160,7 @@ class CKOtherProfileViewController: MXKViewController {
                 cell.settingStatus(online: false)
             }
 
-            cell.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
             return cell
         }
@@ -228,8 +229,7 @@ class CKOtherProfileViewController: MXKViewController {
                 }
             }
 
-            cell.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
-//            cell.assignAdminButton.theme.titleColor(from: themeService.attrStream{ $0.newBackgroundColor }, for: .normal)
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
             return cell
         }
         
@@ -380,13 +380,13 @@ extension CKOtherProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     

@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 final class CKContactListLocalCell: CKContactListBaseCell {
     
     // MARK: - OUTLET
@@ -15,7 +16,7 @@ final class CKContactListLocalCell: CKContactListBaseCell {
     @IBOutlet weak var photoView: UIImageView!
     @IBOutlet weak var displayNameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
-    @IBOutlet weak var inviteLabel: UILabel!
+    @IBOutlet weak var inviteButton: UIButton!
     
     // MARK: - OVERRIDE
     
@@ -27,9 +28,9 @@ final class CKContactListLocalCell: CKContactListBaseCell {
 
         self.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
         self.emailLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
-
-        self.inviteLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        self.inviteLabel.layer.theme.borderColor = themeService.attrStream{ $0.primaryTextColor.cgColor }
+        themeService.rx
+            .bind({ $0.acceptButtonBg }, to: self.inviteButton.rx.backgroundImage())
+            .disposed(by: DisposeBag())
     }
     
     // MARK: - PUBLIC
@@ -41,9 +42,6 @@ final class CKContactListLocalCell: CKContactListBaseCell {
         self.photoView.clipsToBounds = true
         self.photoView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
         self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
-        
-        self.inviteLabel.layer.cornerRadius = 4
-        self.inviteLabel.layer.borderWidth = 1
     }
     
     func setup(_ contact: MXKContact!) {

@@ -23,5 +23,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *roomNameContainerView;
 @property (weak, nonatomic) IBOutlet UILabel *roomNameLabel;
+@property (nonatomic) BOOL isSearchCell;
 
 @end

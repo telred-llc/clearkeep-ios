@@ -121,7 +121,7 @@
 - (void)userInterfaceThemeDidChange
 {
     self.tabBar.tintColor = kRiotTabBarButtonTintColor;
-    self.tabBar.barTintColor = kRiotTabBarBgColor;
+//    self.tabBar.barTintColor = kRiotTabBarBgColor;
     self.view.backgroundColor = kRiotPrimaryBgColor;
     
     [self setNeedsStatusBarAppearanceUpdate];
@@ -642,7 +642,7 @@
         }
         else if ([[segue identifier] isEqualToString:@"showUnifiedSearch"])
         {
-            unifiedSearchViewController= segue.destinationViewController;
+            unifiedSearchViewController = segue.destinationViewController;
             
             for (MXSession *session in mxSessionArray)
             {

@@ -19,6 +19,11 @@
 
 #import "RiotDesignValues.h"
 
+@interface MessagesSearchResultAttachmentBubbleCell() {
+    __weak IBOutlet NSLayoutConstraint *pictureViewWidthConstraint;
+}
+@end
+
 @implementation MessagesSearchResultAttachmentBubbleCell
 
 - (void)customizeTableViewCellRendering
@@ -29,7 +34,7 @@
     
     self.roomNameLabel.textColor = kRiotSecondaryTextColor;
     
-    self.messageTextView.tintColor = kRiotColorGreen;
+    self.messageTextView.tintColor = kRiotLinkTextColor;
 }
 
 - (void)render:(MXKCellData *)cellData
@@ -52,6 +57,18 @@
             self.roomNameLabel.text = bubbleData.roomId;
         }
     }
+}
+
+-(void)setIsSearchCell:(BOOL)isSearchCell {
+    if (isSearchCell) {
+        pictureViewWidthConstraint.constant = 40.0;
+    } else {
+        pictureViewWidthConstraint.constant = 30.0;
+    }
+
+    [self updateConstraintsIfNeeded];
+    [self.contentView layoutSubviews];
+    _isSearchCell = isSearchCell;
 }
 
 @end

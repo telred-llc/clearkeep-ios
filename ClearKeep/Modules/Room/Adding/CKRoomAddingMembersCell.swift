@@ -52,7 +52,8 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .clear
         self.photoView.defaultBackgroundColor = UIColor.clear
         self.photoView.layer.cornerRadius = (self.photoView.bounds.height) / 2
         self.photoView.clipsToBounds = true

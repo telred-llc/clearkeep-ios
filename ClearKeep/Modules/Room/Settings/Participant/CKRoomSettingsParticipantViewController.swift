@@ -151,7 +151,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -449,7 +449,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             } else { cell.status = 0 }
 
             cell.participantLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
             return cell
         }
@@ -483,6 +483,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
 
         cell.backgroundColor = UIColor.clear
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         return cell
     }
     

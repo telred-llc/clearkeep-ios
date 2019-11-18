@@ -189,7 +189,7 @@ private extension CKKeyBackupRecoverManager {
                             self?.alert = nil
                         }))
 
-                        self.alert?.show()
+                        self.alert?.presentGlobally(animated: true, completion: nil)
                     } else {
                         self.showPassphraseAlert()
                     }
@@ -266,7 +266,7 @@ private extension CKKeyBackupRecoverManager {
                 self?.alert = nil
             }))
 
-            alert?.show()
+            alert?.presentGlobally(animated: true, completion: nil)
         } else if let msg = message {
             alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
             if msg.contains("your encrypted messages might be lost") {
@@ -288,7 +288,7 @@ private extension CKKeyBackupRecoverManager {
                 }))
             }
 
-            self.alert?.show()
+            self.alert?.presentGlobally(animated: true, completion: nil)
         }
     }
 
@@ -312,7 +312,7 @@ private extension CKKeyBackupRecoverManager {
         }))
 
         self.alert?.actions[0].isEnabled = false
-        self.alert?.show()
+        self.alert?.presentGlobally(animated: true, completion: nil)
     }
 }
 

@@ -8,23 +8,29 @@
 
 import Foundation
 
-class CKSearchBarContainerView: UIView {
+@objc class CKSearchBarContainerView: UIView {
     
     let searchBar: UISearchBar
     
     init(customSearchBar: UISearchBar) {
         searchBar = customSearchBar
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = CKColor.Background.homeHeader
+
+        if let textfield = searchBar.vc_searchTextField {
+            textfield.theme.backgroundColor = themeService.attrStream{$0.searchBarBgColor}
         }
+
         super.init(frame: CGRect.zero)
-        
         addSubview(searchBar)
     }
     
     override convenience init(frame: CGRect) {
         self.init(customSearchBar: UISearchBar())
         self.frame = frame
+    }
+    
+    @objc
+    convenience init(searchBar: UISearchBar) {
+        self.init(customSearchBar: searchBar)
     }
     
     required init?(coder aDecoder: NSCoder) {

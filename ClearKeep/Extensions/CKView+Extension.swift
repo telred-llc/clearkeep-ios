@@ -51,4 +51,17 @@ extension UITextField {
         self.leftView = paddingView
         self.leftViewMode = .always
     }
+    
+    func setRightIconEdit(padding: CGFloat = 16, icon: UIImage? = nil, tintColor: UIColor = .clear) {
+        
+        let paddingView = UIView(frame: CGRect(x: self.bounds.width - padding, y: 0, width: padding, height: self.bounds.height/2))
+        
+        let editIcon = UIImageView(image: icon?.withRenderingMode(.alwaysOriginal))
+        editIcon.contentMode = .topLeft
+        editIcon.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        paddingView.addSubview(editIcon)
+       
+        self.rightView = paddingView
+        self.rightViewMode = .always
+    }
 }

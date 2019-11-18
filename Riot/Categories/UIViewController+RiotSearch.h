@@ -63,6 +63,6 @@
  @param keyboardHeight the keyboard height.
  */
 - (void)setKeyboardHeightForBackgroundImage:(CGFloat)keyboardHeight;
-
 - (void)onPressRightMenuItem;
+
 @end

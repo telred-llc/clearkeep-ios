@@ -20,5 +20,6 @@
  `RoomIncomingTextMsgBubbleCell` displays incoming message bubbles with sender's information.
  */
 @interface RoomIncomingTextMsgBubbleCell : MXKRoomIncomingTextMsgBubbleCell
+@property (nonatomic) BOOL isSearchCell;
 
 @end

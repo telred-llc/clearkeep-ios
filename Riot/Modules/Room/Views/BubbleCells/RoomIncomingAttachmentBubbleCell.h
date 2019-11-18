@@ -20,5 +20,6 @@
  `RoomIncomingAttachmentBubbleCell` displays incoming attachment bubbles with sender's information.
  */
 @interface RoomIncomingAttachmentBubbleCell : MXKRoomIncomingAttachmentBubbleCell
+@property (nonatomic) BOOL isSearchCell;
 
 @end

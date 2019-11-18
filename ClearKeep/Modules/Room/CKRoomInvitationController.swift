@@ -45,7 +45,7 @@ protocol CKRoomInvitationControllerDeletate: class {
         
         self.declineButton.setTitleColor(#colorLiteral(red: 0.6039215686, green: 0.631372549, blue: 0.6784313725, alpha: 1), for: .normal)
 
-        self.view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        self.view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         self.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
         self.nameLabel.textColor = #colorLiteral(red: 0.3176470588, green: 0.3764705882, blue: 0.7607843137, alpha: 1)
         

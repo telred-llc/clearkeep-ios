@@ -124,72 +124,71 @@
     return sectionsCount;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSUInteger count = 0;
 
-    if (section == searchedRoomIdOrAliasSection)
-    {
+    if (section == searchedRoomIdOrAliasSection) {
         count = 1;
-    }
-    else if (section == self.directorySection)
-    {
+    } else if (section == self.directorySection) {
         count = [super tableView:tableView numberOfRowsInSection:section];
-    }
-    else
-    {
+    } else {
         count = [super tableView:tableView numberOfRowsInSection:section];
     }
     
     return count;
 }
 
-- (UIView *)viewForHeaderInSection:(NSInteger)section withFrame:(CGRect)frame
-{
+- (UIView *)viewForHeaderInSection:(NSInteger)section withFrame:(CGRect)frame {
     UIView *sectionHeader = nil;
     
-    if (section != searchedRoomIdOrAliasSection)
-    {
+    if (section != searchedRoomIdOrAliasSection) {
         sectionHeader = [super viewForHeaderInSection:section withFrame:frame];
     }
-    
+
     return sectionHeader;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == searchedRoomIdOrAliasSection)
-    {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == searchedRoomIdOrAliasSection) {
         RoomIdOrAliasTableViewCell *roomIdOrAliasCell = [tableView dequeueReusableCellWithIdentifier:RoomIdOrAliasTableViewCell.defaultReuseIdentifier];
-        if (!roomIdOrAliasCell)
-        {
+        if (!roomIdOrAliasCell) {
             roomIdOrAliasCell = [[RoomIdOrAliasTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[RoomIdOrAliasTableViewCell defaultReuseIdentifier]];
         }
         
         [roomIdOrAliasCell render:roomIdOrAlias];
         
         return roomIdOrAliasCell;
-    }
-    else if (indexPath.section == self.directorySection)
-    {
-        switch (self.publicRoomsDirectoryDataSource.state)
-        {
+    } else if (indexPath.section == self.directorySection) {
+        switch (self.publicRoomsDirectoryDataSource.state) {
             case MXKDataSourceStateReady:
                 return [self.publicRoomsDirectoryDataSource tableView:tableView cellForRowAtIndexPath:indexPath];
             default: {
                 // For the cell showing the public rooms directory search result,
                 // skip the MatrixKit mechanism and return directly the UITableViewCell
                 DirectoryRecentTableViewCell *directoryCell = [tableView dequeueReusableCellWithIdentifier:DirectoryRecentTableViewCell.defaultReuseIdentifier];
-                if (!directoryCell)
-                {
+                if (!directoryCell) {
                     directoryCell = [[DirectoryRecentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[DirectoryRecentTableViewCell defaultReuseIdentifier]];
                 }
-                
+
                 [directoryCell render:self.publicRoomsDirectoryDataSource];
                 return directoryCell;
             }
         }
+    } else if (indexPath.section == self.conversationSection && indexPath.row < self.conversationCellDataArray.count) {
+        UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        if ([cell isKindOfClass:MXKRecentTableViewCell.class]) {
+            id<MXKRecentCellDataStoring> recentCellDataStoring = self.conversationCellDataArray[indexPath.row];
+            NSInteger memberCount = recentCellDataStoring.roomSummary.membersCount.joined;
+            NSString *userCountString = (memberCount == 1) ? @"1 user" : [NSString stringWithFormat:@"%d users", (int)memberCount];
+            MXKRecentTableViewCell *recentCell = (MXKRecentTableViewCell*)cell;
+            recentCell.lastEventDate.text = userCountString;
+            
+            return recentCell;
+        } else {
+            return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        }
     }
+
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 

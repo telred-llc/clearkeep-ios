@@ -16,6 +16,9 @@ class CKAssignAdminButtonTableViewCell: CKBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        themeService.typeStream.asObservable().subscribe { (themes) in
+            self.assignAdminButton.setBackgroundImage(themeService.attrs.enableButtonBG, for: .normal)
+        }.dispose()
     }
     
     @IBAction func tapAssignAdminButton(_ sender: Any) {

@@ -16,7 +16,7 @@
  */
 
 #import "RoomTitleView.h"
-
+#import "Riot-Swift.h"
 #import "RiotDesignValues.h"
 
 @implementation RoomTitleView
@@ -173,14 +173,24 @@
 {
     [super refreshDisplay];
     
+    NSString *topicName = @""; // CK: binding data topic label
+    
     // Consider in priority the preview data (if any)
     if (self.roomPreviewData)
     {
         self.displayNameTextField.text = self.roomPreviewData.roomName;
+        topicName = self.roomPreviewData.roomTopic;
     }
     else if (self.mxRoom)
     {
         self.displayNameTextField.text = self.mxRoom.summary.displayname;
+        
+        // CK: binding data topic label
+        if (self.mxRoom.summary.topic.length) {
+            topicName = self.mxRoom.summary.topic;
+        }
+        
+        
         if (!self.displayNameTextField.text.length)
         {
             self.displayNameTextField.text = [NSBundle mxk_localizedStringForKey:@"room_displayname_empty_room"];
@@ -190,6 +200,8 @@
         {
             self.displayNameTextField.textColor = kRiotPrimaryTextColor;
         }
+        
+        self.topicLabel.text = topicName; // CK: binding data topic label
     }
 }
 

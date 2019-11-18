@@ -201,14 +201,13 @@ extension UIViewController: UIGestureRecognizerDelegate {
 extension UIAlertController {
     private static var globalPresentationWindow: UIWindow?
 
-    func show() {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .clear
-        window.rootViewController = viewController
-        window.windowLevel = UIWindowLevelAlert + 1  // Swift 5: UIWindow.Level.alert + 1
-        window.makeKeyAndVisible()
-        viewController.present(self, animated: true, completion: nil)
+    func show(animated: Bool = true, completion: (() -> Void)?) {
+        UIAlertController.globalPresentationWindow = UIWindow(frame: UIScreen.main.bounds)
+        UIAlertController.globalPresentationWindow?.rootViewController = UIViewController()
+        UIAlertController.globalPresentationWindow?.windowLevel = UIWindowLevelAlert + 1
+        UIAlertController.globalPresentationWindow?.backgroundColor = .clear
+        UIAlertController.globalPresentationWindow?.makeKeyAndVisible()
+        UIAlertController.globalPresentationWindow?.rootViewController?.present(self, animated: animated, completion: completion)
     }
 
     func presentGlobally(animated: Bool, completion: (() -> Void)?) {

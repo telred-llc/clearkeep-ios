@@ -29,7 +29,7 @@ protocol CKSearchContactViewControllerDelegate: class {
         case local = 2
         
         static func count() -> Int {
-            return 3
+            return 2
         }
     }
     
@@ -120,7 +120,7 @@ protocol CKSearchContactViewControllerDelegate: class {
             // reload table view
             DispatchQueue.main.async {
                 self.tableView?.reloadSections(
-                    IndexSet([Section.directory.rawValue, Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                    IndexSet([Section.directory.rawValue, Section.matrix.rawValue]), with: .none)
             }
 
             return
@@ -143,7 +143,7 @@ protocol CKSearchContactViewControllerDelegate: class {
         // reload table view
         DispatchQueue.main.async {
             self.tableView.reloadSections(
-                IndexSet([Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                IndexSet([Section.matrix.rawValue]), with: .none)
         }
         
         // Seach users on Matrix server
@@ -204,11 +204,11 @@ extension CKSearchContactViewController {
 
         case .directory:
             count = self.filteredDirectorySource != nil ? filteredDirectorySource.count : 0
-            titleString = (count > 0) ? String.init(format: "User directory (%02d)", count) : "Matrix contacts (0)"
+            titleString = (count > 0) ? String.init(format: "User directory (%02d)", count) : "User directory (0)"
 
         case .local:
             count = self.filteredLocalSource != nil ? filteredMatrixSource.count : 0
-            titleString = (count > 0) ? String.init(format: "Invite from contacts (%02d)", count) : "Matrix contacts (0)"
+            titleString = (count > 0) ? String.init(format: "Invite from contacts (%02d)", count) : "Invite from contacts (0)"
 
         }
 
@@ -257,7 +257,7 @@ extension CKSearchContactViewController {
                 // reload table view
                 DispatchQueue.main.async {
                     self.tableView.reloadSections(
-                        IndexSet([Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                        IndexSet([Section.matrix.rawValue]), with: .none)
                 }
             }
         }
@@ -350,7 +350,6 @@ extension CKSearchContactViewController {
      Reload data
      */
     private func reloadData() {
-        self.reloadLocalContacts()
         self.reloadMatrixContacts()
         self.tableView.reloadData()
     }
@@ -515,7 +514,7 @@ extension CKSearchContactViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         
         guard let s = Section(rawValue: indexPath.section) else { return}
         switch s {

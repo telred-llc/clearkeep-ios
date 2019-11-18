@@ -25,7 +25,7 @@ struct CKPassphrase {
             case passphrase
         }
     }
-    
+
     struct ViewModel {
         let passphrase: Bool
         let token: String
