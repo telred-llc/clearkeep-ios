@@ -121,7 +121,7 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
     private func finalizeLoadView() {
         
         // title
-        self.navigationItem.title = "Participants"
+        self.navigationItem.title = CKLocalization.string(byKey: "room_setting_participant_title")
         
         // register cells
         self.tableView.register(
@@ -139,14 +139,14 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
 
         bindingTheme()
         
-        vc_removeBackTitle()
+        addCustomBackButton()
     }
 
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
@@ -290,9 +290,9 @@ final class CKRoomSettingsParticipantViewController: MXKViewController {
         case .search:
             return ""
         case .participants:
-            return self.listParticipant.isEmpty ? "INVITED" : "PARTICIPANTS"
+            return self.listParticipant.isEmpty ? CKLocalization.string(byKey: "room_setting_participant_invite").uppercased() : CKLocalization.string(byKey: "room_setting_participant_title").uppercased()
         case .invited:
-            return "INVITED"
+            return CKLocalization.string(byKey: "room_setting_participant_invite").uppercased()
         }
     }
 
@@ -317,7 +317,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
         guard let s = Section(rawValue: indexPath.section) else { return 1}
         switch s {
         case .search:
-            return CKLayoutSize.Table.row44px
+            return CKLayoutSize.Table.row70px
         default:
             return CKLayoutSize.Table.row60px
         }
@@ -434,7 +434,6 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             cell.participantLabel.text = mxMember.displayname ?? mxMember.userId
             cell.adminStatusView.isHidden = !adminList.contains(mxMember.userId)
             cell.participantLabel.backgroundColor = UIColor.clear
-            cell.accessoryType = .disclosureIndicator
             
             // avt
             cell.setAvatarUri(

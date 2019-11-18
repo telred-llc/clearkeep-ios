@@ -68,10 +68,12 @@ final class CKRoomAddingMembersViewController: MXKViewController {
                 image: UIImage(named: "ic_x_close"),
                 style: .plain,
                 target: self, action: #selector(clickedOnBackButton(_:)))
-            closeItemButton.tintColor = CKColor.Text.blueNavigation
+            closeItemButton.tintColor = themeService.attrs.navBarTintColor
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
 
+        addCustomBackButton()
+        
         bindingTheme()
     }
     
@@ -81,7 +83,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView?.reloadData()
         }).disposed(by: disposeBag)
 
@@ -164,7 +166,6 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             })
         }
 
-        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
         cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         return cell
     }
@@ -330,7 +331,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         guard let s = Section(rawValue: indexPath.section) else { return 1 }
         switch s {
         case .search:
-            return CKLayoutSize.Table.row44px
+            return CKLayoutSize.Table.row70px
         default:
             return CKLayoutSize.Table.row60px
         }
@@ -339,8 +340,8 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
-            view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
-            view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.descriptionLabel.font = UIFont.systemFont(ofSize: 17)
             view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             return view
         }
@@ -359,7 +360,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         case .search:
             return CGFloat.leastNonzeroMagnitude
         default:
-            return 50
+            return CKLayoutSize.Table.defaultHeader
         }
     }
 

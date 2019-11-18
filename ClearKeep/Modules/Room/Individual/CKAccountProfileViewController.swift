@@ -92,6 +92,7 @@ class CKAccountProfileViewController: MXKViewController {
                 image: UIImage(named: "ic_x_close"),
                 style: .plain,
                 target: self, action: #selector(clickedOnBackButton(_:)))
+            closeItemButton.tintColor = themeService.attrs.navBarTintColor
             
             // set nv items
             self.navigationItem.leftBarButtonItem = closeItemButton
@@ -185,8 +186,7 @@ class CKAccountProfileViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
-            self?.changeNavigationBar(color: themeService.attrs.navBarBgColor)
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 

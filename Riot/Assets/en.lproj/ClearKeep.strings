@@ -194,3 +194,10 @@
 "add_people_room_detail" = "Add People";
 "display_name_room_placeholder" = "Enter display name";
 "topic_name_room_placeholder" = "Enter topic name";
+
+// CKRoomSettingsParticipantViewController
+"room_setting_participant_title" = "Participants";
+"room_setting_participant_invite" = "invited";
+"room_setting_security_privacy" = "Security & Privacy";
+"room_setting_roles_permission" = "Roles and Permissions";
+"room_setting_advanced" = "Advanced";

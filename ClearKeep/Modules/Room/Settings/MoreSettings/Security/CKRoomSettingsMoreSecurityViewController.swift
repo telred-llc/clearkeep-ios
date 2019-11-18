@@ -74,6 +74,7 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
         self.tableView.reloadData()
         self.tableView.register(CKRoomSettingsMoreSecurityRadioCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreSecurityRadioCell.identifier)
         self.navigationItem.title = "Security"
+        self.addCustomBackButton()
         self.loadPowerLevel()
         self.bindingTheme()
     }
@@ -83,13 +84,13 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     
@@ -105,7 +106,7 @@ final class CKRoomSettingsMoreSecurityViewController: MXKViewController {
         cell.accessoryType = (self.chooses[indexPath.section] == indexPath.row) ? .checkmark : .none
 
         cell.titleLable.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
         return cell
     }

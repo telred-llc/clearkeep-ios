@@ -34,7 +34,7 @@ class CKEditRoomSettingsCell: CKBaseCell {
     
     @IBOutlet weak private var avatarRoomView: CKImageView!
     @IBOutlet weak private var infoCreateRoomLabel: UILabel!
-    @IBOutlet weak private var titleRoomTextField: UITextField!
+    @IBOutlet weak var titleRoomTextField: UITextField!
     @IBOutlet weak var topicRoomTextField: UITextField!
     @IBOutlet weak private var saveButton: UIButton!
     @IBOutlet weak private var topSaveButtonConstraint: NSLayoutConstraint!
@@ -87,7 +87,7 @@ class CKEditRoomSettingsCell: CKBaseCell {
             
             titleRoomTextField.isEnabled = isAdminEdit
             topicRoomTextField.isEnabled = isAdminEdit
-            maskCameraView.isUserInteractionEnabled = isAdminEdit
+            maskCameraView.isHidden = !isAdminEdit
             
             topSaveButtonConstraint.constant = isAdminEdit ? 30 : -saveButton.frame.height
             saveButton.isHidden = !isAdminEdit
@@ -130,6 +130,8 @@ class CKEditRoomSettingsCell: CKBaseCell {
         super.layoutSubviews()
         avatarRoomView.cornerRadius = self.frame.width / 6
         avatarRoomView.layer.masksToBounds = true
+        avatarRoomView.borderColor = #colorLiteral(red: 0.9098039216, green: 0.9529411765, blue: 0.9921568627, alpha: 1)
+        avatarRoomView.borderWidth = 6
         
         maskCameraView.cornerRadius = self.frame.width / 6
         maskCameraView.clipsToBounds = true

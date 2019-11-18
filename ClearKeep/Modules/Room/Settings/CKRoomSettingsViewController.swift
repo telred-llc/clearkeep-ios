@@ -70,15 +70,6 @@ protocol CKRoomSettingsViewControllerDelegate: class {
 
     private let disposeBag = DisposeBag()
     
-    private var isShowKeyboard: Bool = false {
-        
-        didSet {
-            DispatchQueue.main.async {
-                self.view.frame.origin.y = self.isShowKeyboard ? -self.adjustoffset.offset : 0
-            }
-        }
-    }
-    
     private var adjustoffset: (location: CGFloat, offset: CGFloat) = (0.0, 0.0)
 
     // MARK: - CLASS
@@ -94,8 +85,8 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
@@ -121,17 +112,10 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.separatorColor = .clear
         self.tableView.contentInsetAdjustmentBehavior = .never
-        self.tableView.contentInset.top = 30 // adjust offset follow base riot
-
-        isShowKeyboard = false
+        self.tableView.insetsContentViewsToSafeArea = false
+//        self.tableView.contentInset.top = 30 // adjust offset follow base riot
         
         self.reloadTableView()
-        
-        let tapAction = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tapAction.cancelsTouchesInView = false
-        
-        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
-        view.addGestureRecognizer(tapAction)
     }
     
     private func reloadTableView() {
@@ -276,7 +260,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+//        super.viewDidLoad()
         setupTableView()
         
         // Setup close button item
@@ -285,6 +269,11 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             style: .plain,
             target: self, action: #selector(clickedOnBackButton(_:)))
         closeItemButton.tintColor = themeService.attrs.navBarTintColor
+        
+        let tapAction = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tapAction.cancelsTouchesInView = false
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
+        view.addGestureRecognizer(tapAction)
 
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
@@ -292,14 +281,20 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.bindingTheme()
         
         self.registerKeyboardNotification()
+        
+        self.edgesForExtendedLayout = []
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = String.ck_LocalizedString(key: "Info")
         self.navigationController?.navigationBar.titleTextAttributes = themeService.attrs.navTitleTextAttributes
-        self.reloadTableView()
+        let image = UIImage(color: themeService.attrs.navBarBgColor)
+        self.navigationController?.navigationBar.setBackgroundImage(image, for: .default)
+        self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.presentationController?.delegate = self
+        
+        self.reloadTableView()
     }
     
     deinit {
@@ -535,13 +530,11 @@ extension CKRoomSettingsViewController {
 extension CKRoomSettingsViewController {
 
     private func registerKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
     }
 
     private func removeKeyboardNotification() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     @objc
@@ -550,21 +543,17 @@ extension CKRoomSettingsViewController {
         if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardHeight = keyboardFrame.cgRectValue.height + self.safeArea.bottom
             let convertLocationKeyboard = self.view.bounds.height - keyboardHeight
+            adjustoffset.offset = tableView.contentOffset.y
+            
             if adjustoffset.location > convertLocationKeyboard {
-                adjustoffset.offset = adjustoffset.location - keyboardHeight
-                self.isShowKeyboard = true
+                adjustoffset.offset = self.view.frame.height - adjustoffset.location
+                self.tableView.scrollToBottom(13)
             }
         }
-    }
-
-    @objc
-    private func keyboardHidden(_ notification: Notification) {
-        self.isShowKeyboard = false
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        self.isShowKeyboard = false
     }
 }
 

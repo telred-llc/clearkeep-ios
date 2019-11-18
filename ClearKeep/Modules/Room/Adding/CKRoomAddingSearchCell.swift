@@ -20,11 +20,13 @@ final class CKRoomAddingSearchCell: CKRoomBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.searchBar.placeholder = "Search"
+        self.searchBar.placeholder = CKLocalization.string(byKey: "search_default_placeholder")
         self.searchBar.delegate = self
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = themeService.attrs.searchBarBgColor
-        }
+ 
+        self.searchBar.vc_searchTextField?.backgroundColor = themeService.attrs.searchBarBgColor
+        self.searchBar.vc_searchTextField?.textColor = themeService.attrs.secondTextColor
+        self.searchBar.setMagnifyingGlassColorTo(color: themeService.attrs.secondTextColor)
+        self.searchBar.setClearButtonColorTo(color: themeService.attrs.secondTextColor)
 
     }    
 }
@@ -33,6 +35,10 @@ extension CKRoomAddingSearchCell: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         beginSearchingHandler?(searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 

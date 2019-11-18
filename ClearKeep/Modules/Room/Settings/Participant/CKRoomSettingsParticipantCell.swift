@@ -28,7 +28,7 @@ final class CKRoomSettingsParticipantCell: CKRoomSettingsBaseCell {
         self.photoView.layer.cornerRadius = (self.photoView.bounds.height) / 2
         self.photoView.clipsToBounds = true
         self.photoView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
-        self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
+        self.photoView.contentMode = UIView.ContentMode.scaleAspectFit
         
         self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor
