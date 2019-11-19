@@ -501,7 +501,7 @@ extension CKRoomViewController {
             && (event?.sentError._domain == MXEncryptingErrorDomain)
             && event?.sentError._code == Int(MXEncryptingErrorUnknownDeviceCode.rawValue)
             && unknownDevices == nil {
-            
+
             dismissTemporarySubViews()
             
             // List all unknown devices
@@ -2748,6 +2748,23 @@ extension CKRoomViewController {
                 checkReadMarkerVisibility()
             }
         }
+        
+//        themeService.attrsStream.subscribe(onNext: {(theme) in
+//            if let isIncoming = cellData?.isIncoming {
+//                bubbleCell.messageTextView?.cornerRadius = 12.0
+//                if isIncoming {
+//                    bubbleCell.messageTextView?.tintColor = kRiotLinkTextColor
+//                    let gradient = (themeService.type == .dark) ? [#colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1), #colorLiteral(red: 0.2470588235, green: 0.7725490196, blue: 0.7254901961, alpha: 1)] : [#colorLiteral(red: 0.3882352941, green: 0.6235294118, blue: 0.9725490196, alpha: 1), #colorLiteral(red: 0.4705882353, green: 0.5294117647, blue: 0.7725490196, alpha: 1)]
+//                    bubbleCell.messageTextView?.applyGradient(colours: gradient)
+//                } else {
+//                    bubbleCell.userNameLabel?.isHidden = true
+//                    let color = (themeService.type == .dark) ? #colorLiteral(red: 0.4392156863, green: 0.4392156863, blue: 0.4392156863, alpha: 1) : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+//                    bubbleCell.messageTextView?.tintColor = (themeService.type == .dark) ? #colorLiteral(red: 0.768627451, green: 0.937254902, blue: 0.5490196078, alpha: 1) : #colorLiteral(red: 0.0862745098, green: 0.3294117647, blue: 0.6156862745, alpha: 1)
+//                    bubbleCell.messageTextView?.backgroundColor = color
+//                }
+//            }
+//        }).disposed(by: DisposeBag())
+
     }
     
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {

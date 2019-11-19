@@ -38,7 +38,6 @@
 - (void)render:(MXKCellData *)cellData
 {
     [super render:cellData];
-    
     if (bubbleData)
     {
         // Set the right device info icon in front of each event

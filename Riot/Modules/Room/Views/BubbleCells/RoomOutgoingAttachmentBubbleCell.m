@@ -19,6 +19,7 @@
 #import "RiotDesignValues.h"
 #import "RoomBubbleCellData.h"
 #import "MXKRoomBubbleTableViewCell+Riot.h"
+#import "Riot-Swift.h"
 
 @implementation RoomOutgoingAttachmentBubbleCell
 

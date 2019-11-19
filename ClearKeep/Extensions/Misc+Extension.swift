@@ -54,6 +54,7 @@ extension String {
     }
 }
 
+@objc
 extension UIView {
     func applyGradient(colours: [UIColor]) -> Void {
         self.applyGradient(colours: colours, locations: nil)

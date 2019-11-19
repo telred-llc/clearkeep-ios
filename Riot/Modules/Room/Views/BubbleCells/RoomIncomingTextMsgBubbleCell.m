@@ -16,7 +16,7 @@
  */
 
 #import "RoomIncomingTextMsgBubbleCell.h"
-
+#import "Riot-Swift.h"
 #import "RiotDesignValues.h"
 
 @interface RoomIncomingTextMsgBubbleCell() {

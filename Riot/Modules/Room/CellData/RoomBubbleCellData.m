@@ -393,10 +393,8 @@ static NSAttributedString *timestampVerticalWhitespace = nil;
     
     MXAggregatedReactions *aggregatedReactions = self.reactions[eventId];
     
-    if (reactionCount)
-    {
+    if (reactionCount) {
         CGFloat bubbleReactionsViewWidth = self.maxTextViewWidth - 4;
-        
         CGSize fittingSize = UILayoutFittingCompressedSize;
         fittingSize.width = bubbleReactionsViewWidth;
         
@@ -418,13 +416,14 @@ static NSAttributedString *timestampVerticalWhitespace = nil;
         CGFloat height = [bubbleReactionsView systemLayoutSizeFittingSize:fittingSize].height + RoomBubbleCellLayout.reactionsViewTopMargin;
         
         [attributedString appendAttributedString:[RoomBubbleCellData verticalWhitespaceForHeight: height]];
+        NSLog(@"==as=da=sd %@", attributedString);
     }
     
     // Add vertical whitespace in case of read receipts.
-    if (self.readReceipts[eventId].count)
-    {
-        [attributedString appendAttributedString:[RoomBubbleCellData verticalWhitespaceForHeight:RoomBubbleCellLayout.readReceiptsViewHeight + RoomBubbleCellLayout.readReceiptsViewTopMargin]];
-    }
+//    if (self.readReceipts[eventId].count)
+//    {
+//        [attributedString appendAttributedString:[RoomBubbleCellData verticalWhitespaceForHeight:RoomBubbleCellLayout.readReceiptsViewHeight + RoomBubbleCellLayout.readReceiptsViewTopMargin]];
+//    }
 }
 
 - (CGFloat)computeAdditionalHeight
@@ -640,8 +639,10 @@ static NSAttributedString *timestampVerticalWhitespace = nil;
         [returnString appendString:@"\n"];
     }
     
-    return [[NSAttributedString alloc] initWithString:returnString attributes:@{NSForegroundColorAttributeName : [UIColor blackColor],
-                                                                                NSFontAttributeName: sizingFont}];
+    NSAttributedString *formattedString = [[NSAttributedString alloc] initWithString:returnString
+                                                                          attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName: sizingFont}];
+    
+    return formattedString;
 }
 
 - (BOOL)hasSameSenderAsBubbleCellData:(id<MXKRoomBubbleCellDataStoring>)bubbleCellData
