@@ -319,7 +319,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDelegate {
         case .search:
             return CKLayoutSize.Table.row70px
         default:
-            return CKLayoutSize.Table.row60px
+            return CKLayoutSize.Table.row80px
         }
     }
     
@@ -432,7 +432,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             
             // fill fields to cell
             cell.participantLabel.text = mxMember.displayname ?? mxMember.userId
-            cell.adminStatusView.isHidden = !adminList.contains(mxMember.userId)
+            cell.isAdmin = adminList.contains(mxMember.userId)
             cell.participantLabel.backgroundColor = UIColor.clear
             
             // avt
@@ -448,6 +448,7 @@ extension CKRoomSettingsParticipantViewController: UITableViewDataSource {
             } else { cell.status = 0 }
 
             cell.participantLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            cell.roomAdminLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
             cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
             return cell

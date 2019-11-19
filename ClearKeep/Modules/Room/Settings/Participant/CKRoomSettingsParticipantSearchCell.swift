@@ -20,7 +20,7 @@ final class CKRoomSettingsParticipantSearchCell: CKRoomSettingsBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.searchBar.placeholder = "Filter participants"
+        self.searchBar.placeholder = CKLocalization.string(byKey: "search_default_placeholder")
         self.searchBar.delegate = self
         self.selectionStyle = .none
         

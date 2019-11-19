@@ -16,6 +16,15 @@ final class CKRoomSettingsParticipantCell: CKRoomSettingsBaseCell {
     @IBOutlet weak var participantLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var adminStatusView: UIImageView!
+    @IBOutlet weak var roomAdminLabel: UILabel!
+    
+    var isAdmin: Bool = false {
+        didSet {
+            adminStatusView.isHidden = !isAdmin
+            roomAdminLabel.text = isAdmin ? CKLocalization.string(byKey: "room_setting_room_admin") : ""
+            roomAdminLabel.isHidden = !isAdmin
+        }
+    }
     
     // MARK: - OVERRIDE
     
