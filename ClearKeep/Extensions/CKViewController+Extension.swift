@@ -62,7 +62,7 @@ extension UIViewController: UIGestureRecognizerDelegate {
                                          target: navigationController,
                                          action:  #selector(UINavigationController.popViewController(animated:)))
         
-        backButton.tintColor = themeService.attrs.navBarTintColor
+        backButton.theme.tintColor = themeService.attrStream{ $0.navBarTintColor }
         navigationItem.leftBarButtonItem = backButton
         navigationController?.interactivePopGestureRecognizer?.delegate = self
     }

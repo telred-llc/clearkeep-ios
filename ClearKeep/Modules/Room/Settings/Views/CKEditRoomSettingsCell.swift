@@ -112,13 +112,14 @@ class CKEditRoomSettingsCell: CKBaseCell {
         
         titleRoomTextField.delegate = self
         titleRoomTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
-        titleRoomTextField.textColor = themeService.attrs.textFieldEditingColor
-        titleRoomTextField.backgroundColor = themeService.attrs.textFieldBackground
+        titleRoomTextField.theme.textColor = themeService.attrStream{ $0.textFieldEditingColor }
+        titleRoomTextField.theme.backgroundColor = themeService.attrStream{ $0.textFieldBackground }
         
         topicRoomTextField.delegate = self
         topicRoomTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
-        topicRoomTextField.textColor = themeService.attrs.textFieldEditingColor
-        topicRoomTextField.backgroundColor = themeService.attrs.textFieldBackground
+        
+        topicRoomTextField.theme.textColor = themeService.attrStream{ $0.textFieldEditingColor }
+        topicRoomTextField.theme.backgroundColor = themeService.attrStream{ $0.textFieldBackground }
         
         maskCameraView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTakePhoto)))
         

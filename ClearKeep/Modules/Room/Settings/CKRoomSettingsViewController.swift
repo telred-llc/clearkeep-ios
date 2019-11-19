@@ -268,7 +268,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             image: UIImage(named: "ic_back_nav")?.withRenderingMode(.alwaysTemplate),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton(_:)))
-        closeItemButton.tintColor = themeService.attrs.navBarTintColor
+        closeItemButton.theme.tintColor = themeService.attrStream{ $0.navBarTintColor }
         
         let tapAction = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tapAction.cancelsTouchesInView = false

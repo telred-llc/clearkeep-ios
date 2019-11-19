@@ -22,12 +22,13 @@ final class CKRoomAddingSearchCell: CKRoomBaseCell {
         super.awakeFromNib()
         self.searchBar.placeholder = CKLocalization.string(byKey: "search_default_placeholder")
         self.searchBar.delegate = self
- 
-        self.searchBar.vc_searchTextField?.backgroundColor = themeService.attrs.searchBarBgColor
-        self.searchBar.vc_searchTextField?.textColor = themeService.attrs.secondTextColor
+        
+        self.searchBar.vc_searchTextField?.theme.backgroundColor = themeService.attrStream{ $0.searchBarBgColor }
+        self.searchBar.vc_searchTextField?.theme.textColor = themeService.attrStream{ $0.secondTextColor }
         self.searchBar.setMagnifyingGlassColorTo(color: themeService.attrs.secondTextColor)
         self.searchBar.setClearButtonColorTo(color: themeService.attrs.secondTextColor)
-
+        self.searchBar.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        self.searchBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
     }    
 }
 
