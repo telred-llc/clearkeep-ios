@@ -183,6 +183,14 @@
 "auth_password" = "Password";
 "auth_password_placeholder" = "Enter password";
 
+"auth_new_password" = "New Password";
+"auth_new_password_placeholder" = "Enter new password";
+
+"auth_confirm_new_password" = "Confirm Password";
+"auth_confirm_new_password_placeholder" = "Enter confirm password";
+
+"auth_new_password_hint_label" = "A verification email will be sent to your inbox to confirm setting your new passwvord";
+
 "auth_repeat_password" = "Repeat Password";
 "auth_repeat_password_placeholder" = "Enter repeat password";
 "auth_sign_in_have_account" = "HAVE AN ACCOUNT ?";

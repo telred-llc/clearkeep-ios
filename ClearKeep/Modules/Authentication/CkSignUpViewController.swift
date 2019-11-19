@@ -89,7 +89,7 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
             
             self.signinButton.setBackgroundImage(#imageLiteral(resourceName: "btn_sign_up_dark"), for: .normal)
             self.setColorForAttribute()
-        }.dispose()
+        }.disposed(by: disposeBag)
         
     }
    
