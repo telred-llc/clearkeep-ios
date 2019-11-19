@@ -39,8 +39,9 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="WSv-r2-Hdr"/>
                     </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                     <state key="normal" title="CANCEL" backgroundImage="btn_sign_up_dark">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="titleColor" red="0.4392156862745098" green="0.4392156862745098" blue="0.4392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="cancelRequest" destination="-1" eventType="touchUpInside" id="dgU-qM-2G0"/>

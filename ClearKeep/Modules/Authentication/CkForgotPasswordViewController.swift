@@ -131,6 +131,6 @@ extension CkForgotPasswordViewController {
             self.resetPasswordButton.setBackgroundImage(lightTheme ? #imageLiteral(resourceName: "btn_start_room_light") : #imageLiteral(resourceName: "btn_start_room_dark"), for: .normal)
             
             self.signInButton.setBackgroundImage(#imageLiteral(resourceName: "btn_sign_up_dark"), for: .normal)
-        }.dispose()
+        }.disposed(by: disposeBag)
     }
 }
