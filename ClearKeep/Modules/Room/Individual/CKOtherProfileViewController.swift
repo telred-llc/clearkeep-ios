@@ -75,8 +75,6 @@ class CKOtherProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CKColor.Icon.back]
-        self.navigationController?.navigationBar.clearNavigationBar()
     }
     
     // MARK: - PRIVATE
@@ -90,6 +88,8 @@ class CKOtherProfileViewController: MXKViewController {
         self.tableView.register(CKAssignAdminButtonTableViewCell.nib, forCellReuseIdentifier:CKAssignAdminButtonTableViewCell.identifier)
         self.tableView.allowsSelection = false
         
+        addCustomBackButton()
+        
         if self.isForcedPresenting {
             // Setup close button item
             let closeItemButton = UIBarButtonItem.init(
@@ -98,6 +98,7 @@ class CKOtherProfileViewController: MXKViewController {
                 target: self, action: #selector(clickedOnBackButton(_:)))
             
             // set nv items
+            closeItemButton.tintColor = themeService.attrs.navBarTintColor
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
         
@@ -117,8 +118,7 @@ class CKOtherProfileViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
-            self?.changeNavigationBar(color: themeService.attrs.navBarBgColor)
+            self?.barTitleColor = themeService.attrs.navBarTintColor
         }).disposed(by: disposeBag)
 
         themeService.rx

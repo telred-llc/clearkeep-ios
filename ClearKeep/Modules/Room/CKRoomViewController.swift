@@ -2189,6 +2189,7 @@ extension CKRoomViewController {
             }
 
             // present nvc
+//            nvc.modalPresentationStyle = .fullScreen
             self.present(nvc, animated: true, completion: nil)
         }
     }

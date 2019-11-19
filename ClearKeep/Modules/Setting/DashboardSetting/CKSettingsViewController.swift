@@ -48,25 +48,12 @@ final class CKSettingsViewController: MXKViewController {
         super.viewDidLoad()
         self.setupInitization()
         self.tableView.separatorStyle = .none
+        self.addCustomBackButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Settings"
-        self.setNavigationBar()
-    }
-    
-    func setNavigationBar(){
-        let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_back_navigation"),
-            style: .plain,
-            target: self, action: #selector(clickedOnBackButton))
-        closeItemButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-        self.navigationItem.leftBarButtonItem = closeItemButton
-    }
-    
-    @objc func clickedOnBackButton(){
-        self.navigationController?.popViewController(animated: true)
     }
     
     private func setupInitization() {
@@ -80,8 +67,9 @@ final class CKSettingsViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
-            self?.changeNavigationBar(color: themeService.attrs.navBarBgColor)
+            self?.barTitleColor = themeService.attrs.navBarTintColor
+            self?.navigationController?.navigationBar.backgroundColor = themeService.attrs.navBarBgColor
+            self?.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         }).disposed(by: disposeBag)
 
         themeService.rx
@@ -353,7 +341,7 @@ extension CKSettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 20))
-        view.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

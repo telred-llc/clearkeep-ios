@@ -42,7 +42,8 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Settings"
+        self.navigationItem.title = CKLocalization.string(byKey: "settings_title")
+        addCustomBackButton()
         self.tableView.register(CKRoomSettingsMoreActionCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreActionCell.identifier)
         self.tableView.reloadData()
         self.bindingTheme()
@@ -53,13 +54,13 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
     func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -81,11 +82,11 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
         
         switch s {
         case .security:
-            return "SECURITY & PRIVACY"
+            return CKLocalization.string(byKey: "room_setting_security_privacy").uppercased()
         case .roles:
-            return "ROLES AND PERMISSIONS"
+            return CKLocalization.string(byKey: "room_setting_roles_permission").uppercased()
         case .advanced:
-            return "ADVANCED"
+            return CKLocalization.string(byKey: "room_setting_advanced").uppercased()
         }
     }
     
@@ -97,11 +98,11 @@ final class CKRoomSettingsMoreViewController: MXKViewController {
         
         switch s {
         case .security:
-            return "Security & Privacy"
+            return CKLocalization.string(byKey: "room_setting_security_privacy")
         case .roles:
-            return "Roles and Permissions"
+            return CKLocalization.string(byKey: "room_setting_roles_permission")
         case .advanced:
-            return "Advanced"
+            return CKLocalization.string(byKey: "room_setting_advanced")
         }
     }
     
@@ -162,11 +163,10 @@ extension CKRoomSettingsMoreViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.backgroundColor = CKColor.Background.tableView
+            
             view.descriptionLabel.text = self.titleForHeader(atSection: section)
-
             view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
 
             return view
         }
@@ -195,7 +195,7 @@ extension CKRoomSettingsMoreViewController: UITableViewDataSource {
         cell.iconView.image = self.imageForCell(atSection: indexPath.section)?.withRenderingMode(.alwaysTemplate)
 
         cell.titleLable.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
         cell.iconView.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
         return cell
     }
