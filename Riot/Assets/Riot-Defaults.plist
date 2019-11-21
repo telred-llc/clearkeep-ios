@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>homeserverurl</key>
-	<string>https://study.sinbadflyce.com</string>
+	<string>https://dev.clearkeep.me</string>
 	<key>pinRoomsWithMissedNotif</key>
 	<true/>
 	<key>pinRoomsWithUnread</key>
 	<true/>
 	<key>pushGatewayURL</key>
-	<string>http://study.sinbadflyce.com:5000/_matrix/push/v1/notify</string>
+	<string>http://dev.clearkeep.me:5000/_matrix/push/v1/notify</string>
 	<key>pusherAppIdDev</key>
 	<string>im.vector.vmodev.app</string>
 	<key>pusherAppIdProd</key>

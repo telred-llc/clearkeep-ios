@@ -210,3 +210,6 @@
 "room_setting_roles_permission" = "Roles and Permissions";
 "room_setting_advanced" = "Advanced";
 "room_setting_room_admin" = "Room's admin";
+
+// Call History
+"call_history_title" = "Call Log";
