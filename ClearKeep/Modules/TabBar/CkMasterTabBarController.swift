@@ -16,8 +16,9 @@ final public class CkMasterTabBarController: MasterTabBarController {
     
     lazy var placeholderSearchBar = UISearchBar()
     
-    let kHomeTabIndex       = 0
-    let kHomeContactIndex   = 1
+    let kHomeTabIndex           = 0
+    let kHomeCallHistoryIndex   = 1
+    let kHomeContactIndex       = 2
     
     var missedCount: UInt = 0
     let disposeBag = DisposeBag()

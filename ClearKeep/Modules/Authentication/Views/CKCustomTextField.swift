@@ -84,6 +84,11 @@ class CKCustomTextField: UIView {
         titleLabel.text = title
     }
     
+    
+    func resetData() {
+        contentTextField.text = ""
+    }
+    
 }
 
 

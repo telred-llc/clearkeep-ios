@@ -511,6 +511,16 @@
 		BDB43F312316390E00F7CB00 /* CKConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB43F2F2316390E00F7CB00 /* CKConstant.swift */; };
 		BDFBA07423292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
 		BDFBA07523292AB400DE721C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFBA07323292AB400DE721C /* GoogleService-Info.plist */; };
+		D30A0CDE2386844800590BF9 /* CKCallHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A0CDC2386844700590BF9 /* CKCallHistoryCell.swift */; };
+		D30A0CDF2386844800590BF9 /* CKCallHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A0CDC2386844700590BF9 /* CKCallHistoryCell.swift */; };
+		D30A0CE02386844800590BF9 /* CKCallHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D30A0CDD2386844700590BF9 /* CKCallHistoryCell.xib */; };
+		D30A0CE12386844800590BF9 /* CKCallHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D30A0CDD2386844700590BF9 /* CKCallHistoryCell.xib */; };
+		D30A0CE42386845E00590BF9 /* CKHeaderCallHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D30A0CE22386845E00590BF9 /* CKHeaderCallHistoryView.xib */; };
+		D30A0CE52386845E00590BF9 /* CKHeaderCallHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D30A0CE22386845E00590BF9 /* CKHeaderCallHistoryView.xib */; };
+		D30A0CE62386845E00590BF9 /* CKHeaderCallHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A0CE32386845E00590BF9 /* CKHeaderCallHistoryView.swift */; };
+		D30A0CE72386845E00590BF9 /* CKHeaderCallHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A0CE32386845E00590BF9 /* CKHeaderCallHistoryView.swift */; };
+		D30A0CE92386846E00590BF9 /* CKCallHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A0CE82386846E00590BF9 /* CKCallHistoryViewController.swift */; };
+		D30A0CEA2386846E00590BF9 /* CKCallHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A0CE82386846E00590BF9 /* CKCallHistoryViewController.swift */; };
 		D31A72A12358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
 		D31A72A22358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
 		D32D09292370230100E7D94D /* CKEditRoomSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32D09272370230100E7D94D /* CKEditRoomSettingsCell.swift */; };
@@ -519,6 +529,8 @@
 		D32D092C2370230100E7D94D /* CKEditRoomSettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */; };
 		D35EEDBF23602B7400D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
 		D35EEDC023602B8200D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
+		D370C3CC237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */; };
+		D370C3CD237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */; };
 		D372A81123694E6000CF79D3 /* CKCustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D372A80F23694E6000CF79D3 /* CKCustomTextField.swift */; };
 		D372A81223694E6000CF79D3 /* CKCustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D372A80F23694E6000CF79D3 /* CKCustomTextField.swift */; };
 		D372A81323694E6000CF79D3 /* CKCustomTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = D372A81023694E6000CF79D3 /* CKCustomTextField.xib */; };
@@ -2117,9 +2129,15 @@
 		BDB43F2B23162C8E00F7CB00 /* CKPassphrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKPassphrase.swift; sourceTree = "<group>"; };
 		BDB43F2F2316390E00F7CB00 /* CKConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKConstant.swift; sourceTree = "<group>"; };
 		BDFBA07323292AB400DE721C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D30A0CDC2386844700590BF9 /* CKCallHistoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCallHistoryCell.swift; sourceTree = "<group>"; };
+		D30A0CDD2386844700590BF9 /* CKCallHistoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKCallHistoryCell.xib; sourceTree = "<group>"; };
+		D30A0CE22386845E00590BF9 /* CKHeaderCallHistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKHeaderCallHistoryView.xib; sourceTree = "<group>"; };
+		D30A0CE32386845E00590BF9 /* CKHeaderCallHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKHeaderCallHistoryView.swift; sourceTree = "<group>"; };
+		D30A0CE82386846E00590BF9 /* CKCallHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCallHistoryViewController.swift; sourceTree = "<group>"; };
 		D32D09272370230100E7D94D /* CKEditRoomSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditRoomSettingsCell.swift; sourceTree = "<group>"; };
 		D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKEditRoomSettingsCell.xib; sourceTree = "<group>"; };
 		D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CallHistory.storyboard; sourceTree = "<group>"; };
+		D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditRoomDetailRequest.swift; sourceTree = "<group>"; };
 		D372A80F23694E6000CF79D3 /* CKCustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCustomTextField.swift; sourceTree = "<group>"; };
 		D372A81023694E6000CF79D3 /* CKCustomTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKCustomTextField.xib; sourceTree = "<group>"; };
 		D3A4DB8A235F0BF40075EF7B /* CKUserProfileDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKUserProfileDetailCell.swift; sourceTree = "<group>"; };
@@ -4362,6 +4380,7 @@
 				BDB43F202316291D00F7CB00 /* CKRequest.swift */,
 				BDB43F232316294300F7CB00 /* CKRequest+Concurrency.swift */,
 				BDB43F2623162A6F00F7CB00 /* CKServiceError.swift */,
+				D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -4390,10 +4409,31 @@
 			path = Configurations;
 			sourceTree = "<group>";
 		};
+		D30A0CDA2386841300590BF9 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D30A0CDC2386844700590BF9 /* CKCallHistoryCell.swift */,
+				D30A0CDD2386844700590BF9 /* CKCallHistoryCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		D30A0CDB2386841A00590BF9 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				D30A0CE32386845E00590BF9 /* CKHeaderCallHistoryView.swift */,
+				D30A0CE22386845E00590BF9 /* CKHeaderCallHistoryView.xib */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
 		D35EEDBD23602B0200D7E625 /* CallHistory */ = {
 			isa = PBXGroup;
 			children = (
+				D30A0CE82386846E00590BF9 /* CKCallHistoryViewController.swift */,
 				D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */,
+				D30A0CDB2386841A00590BF9 /* Subviews */,
+				D30A0CDA2386841300590BF9 /* Cell */,
 			);
 			path = CallHistory;
 			sourceTree = "<group>";
@@ -5435,6 +5475,7 @@
 				E5E7DC9E229BC7D300AB7CF3 /* CKAccountProfileInfoCell.xib in Resources */,
 				E5E7DC9F229BC7D300AB7CF3 /* TableViewCellWithLabelAndLargeTextView.xib in Resources */,
 				E5E7DCA0229BC7D300AB7CF3 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
+				D30A0CE12386844800590BF9 /* CKCallHistoryCell.xib in Resources */,
 				E5E7DCA1229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
 				E5E7DCA2229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				E5E7DCA3229BC7D300AB7CF3 /* TableViewCellWithCheckBoxAndLabel.xib in Resources */,
@@ -5552,6 +5593,7 @@
 				E5E7DD09229BC7D300AB7CF3 /* SFCompactDisplay-Thin.ttf in Resources */,
 				E5E7DD0A229BC7D300AB7CF3 /* CKRoomSettingsMoreSecurityViewController.xib in Resources */,
 				E5E7DD0B229BC7D300AB7CF3 /* CKCallViewController.xib in Resources */,
+				D30A0CE52386845E00590BF9 /* CKHeaderCallHistoryView.xib in Resources */,
 				E5E7DD0C229BC7D300AB7CF3 /* InviteRecentTableViewCell.xib in Resources */,
 				E5E7DD0D229BC7D300AB7CF3 /* CKRoomHeaderInSectionView.xib in Resources */,
 				BDFBA07523292AB400DE721C /* GoogleService-Info.plist in Resources */,
@@ -5685,6 +5727,7 @@
 				A0043FC221F84A610051AAE1 /* CKAccountProfileInfoCell.xib in Resources */,
 				B1B5593A20EF7BAC00210D55 /* TableViewCellWithLabelAndLargeTextView.xib in Resources */,
 				B1B558D820EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.xib in Resources */,
+				D30A0CE02386844800590BF9 /* CKCallHistoryCell.xib in Resources */,
 				B1B558DA20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.xib in Resources */,
 				B1B558D620EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */,
 				B1B5593720EF7BAC00210D55 /* TableViewCellWithCheckBoxAndLabel.xib in Resources */,
@@ -5802,6 +5845,7 @@
 				853E996721E4986100D005F4 /* SFCompactDisplay-Thin.ttf in Resources */,
 				E539906F221D587B0014F26D /* CKRoomSettingsMoreSecurityViewController.xib in Resources */,
 				9C3AC4B622D73B6900DD179F /* KeyBackupSetupSuccessFromPassphraseViewController.storyboard in Resources */,
+				D30A0CE42386845E00590BF9 /* CKHeaderCallHistoryView.xib in Resources */,
 				E56DF676222945C500D54DBD /* CKCallViewController.xib in Resources */,
 				B1B5597620EFB02A00210D55 /* InviteRecentTableViewCell.xib in Resources */,
 				E5026CA421F5D61D009D1B86 /* CKRoomHeaderInSectionView.xib in Resources */,
@@ -6174,6 +6218,7 @@
 				E520C5ED22E71D90003101BA /* PasswordStrength.swift in Sources */,
 				D3FA9BC22356EF8E00FB0BD1 /* EmojiPickerCoordinatorType.swift in Sources */,
 				E579FDBC22FD21EA00B26814 /* Widget.m in Sources */,
+				D30A0CE72386845E00590BF9 /* CKHeaderCallHistoryView.swift in Sources */,
 				E5E7DB91229BC7D300AB7CF3 /* TableViewCellWithCheckBoxAndLabel.m in Sources */,
 				E5E7DB92229BC7D300AB7CF3 /* CKImageView.swift in Sources */,
 				E5E7DB93229BC7D300AB7CF3 /* ExpandedRoomTitleView.m in Sources */,
@@ -6181,6 +6226,7 @@
 				D3FA9BF32356F76700FB0BD1 /* UIImage.swift in Sources */,
 				E5E7DB95229BC7D300AB7CF3 /* CKReportSettingViewController.swift in Sources */,
 				E5E7DB96229BC7D300AB7CF3 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
+				D30A0CEA2386846E00590BF9 /* CKCallHistoryViewController.swift in Sources */,
 				47C4FF9B233DB998002B1238 /* AppUtils.swift in Sources */,
 				E5E7DB97229BC7D300AB7CF3 /* Tools.m in Sources */,
 				E5E7DB98229BC7D300AB7CF3 /* TermsView.swift in Sources */,
@@ -6201,6 +6247,7 @@
 				E520C5DD22E719D0003101BA /* KeyBackupRecoverFromRecoveryKeyViewAction.swift in Sources */,
 				E520C5F422E71E33003101BA /* ActivityIndicatorPresenter.swift in Sources */,
 				851BC3C322FC3C8100291AA0 /* CKHomeFilesSearchDataSource.swift in Sources */,
+				D370C3CD237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */,
 				E5E7DBA1229BC7D300AB7CF3 /* TableViewCellWithCollectionView.m in Sources */,
 				E5E7DBA2229BC7D300AB7CF3 /* UINavigationController+Riot.m in Sources */,
 				E5E7DBA3229BC7D300AB7CF3 /* SimpleRoomTitleView.m in Sources */,
@@ -6376,6 +6423,7 @@
 				D3FA9BB22356EF8E00FB0BD1 /* ReactionHistoryCoordinator.swift in Sources */,
 				E5E7DC18229BC7D300AB7CF3 /* CKCallViewController.swift in Sources */,
 				E5E7DC19229BC7D300AB7CF3 /* AuthenticationViewController.m in Sources */,
+				D30A0CDF2386844800590BF9 /* CKCallHistoryCell.swift in Sources */,
 				E5E7DC1A229BC7D300AB7CF3 /* CountryPickerViewController.m in Sources */,
 				BD83D6D72361BE1C00FF088A /* SerializationServiceType.swift in Sources */,
 				D3E5AF31235978D300D11110 /* DefaultTheme.swift in Sources */,
@@ -6596,6 +6644,7 @@
 				B1B5598520EFC3E000210D55 /* RageShakeManager.m in Sources */,
 				E5233121221BB290008FC772 /* CKRoomSettingsMoreActionCell.swift in Sources */,
 				B1B558D420EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
+				D30A0CDE2386844800590BF9 /* CKCallHistoryCell.swift in Sources */,
 				B169331420F3CAFC00746532 /* PublicRoomTableViewCell.m in Sources */,
 				E574335B21F32B9A00989FF3 /* CKRoomSettingsParticipantCell.swift in Sources */,
 				D3FA9B7F2356EF8E00FB0BD1 /* RoomContextualMenuItem.swift in Sources */,
@@ -6712,6 +6761,7 @@
 				B1B5579A20EF575B00210D55 /* ForgotPasswordInputsView.m in Sources */,
 				B1B558CC20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.m in Sources */,
 				9C3AC4B722D73B6900DD179F /* KeyBackupSetupSuccessFromPassphraseViewController.swift in Sources */,
+				D30A0CE62386845E00590BF9 /* CKHeaderCallHistoryView.swift in Sources */,
 				B1B5571D20EE6C4D00210D55 /* HomeViewController.m in Sources */,
 				9C3AC4E822D742F300DD179F /* NavigationRouter.swift in Sources */,
 				D3FA9B712356EF8E00FB0BD1 /* ReactionsMenuViewAction.swift in Sources */,
@@ -6836,6 +6886,7 @@
 				D3FA9B992356EF8E00FB0BD1 /* BubbleReactionViewCell.swift in Sources */,
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
 				BD02B6B32383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift in Sources */,
+				D30A0CE92386846E00590BF9 /* CKCallHistoryViewController.swift in Sources */,
 				B1B5575A20EE6C4D00210D55 /* UnifiedSearchViewController.m in Sources */,
 				B1B5572820EE6C4D00210D55 /* RoomViewController.m in Sources */,
 				BDA1FAB5236340CE005D910D /* AutosizedCollectionView.swift in Sources */,
@@ -6907,6 +6958,7 @@
 				D3E5AF332359794E00D11110 /* UISearchBar.swift in Sources */,
 				855EEDFA22F954B00047B4AC /* CKManagers.swift in Sources */,
 				D3FA9C1123570EB100FB0BD1 /* EmojiMartStore.swift in Sources */,
+				D370C3CC237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */,
 				D3FA9B732356EF8E00FB0BD1 /* ReactionsMenuButton.swift in Sources */,
 				B1B5574920EE6C4D00210D55 /* RiotSplitViewController.m in Sources */,
 				9C3AC4CB22D73B6A00DD179F /* EncryptionKeysExportPresenter.swift in Sources */,

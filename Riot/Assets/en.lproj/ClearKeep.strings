@@ -183,6 +183,14 @@
 "auth_password" = "Password";
 "auth_password_placeholder" = "Enter password";
 
+"auth_new_password" = "New Password";
+"auth_new_password_placeholder" = "Enter new password";
+
+"auth_confirm_new_password" = "Confirm Password";
+"auth_confirm_new_password_placeholder" = "Enter confirm password";
+
+"auth_new_password_hint_label" = "A verification email will be sent to your inbox to confirm setting your new passwvord";
+
 "auth_repeat_password" = "Repeat Password";
 "auth_repeat_password_placeholder" = "Enter repeat password";
 "auth_sign_in_have_account" = "HAVE AN ACCOUNT ?";
@@ -192,3 +200,16 @@
 // infor create room detail
 "this_room_create" = "This room created ";
 "add_people_room_detail" = "Add People";
+"display_name_room_placeholder" = "Enter display name";
+"topic_name_room_placeholder" = "Enter topic name";
+
+// CKRoomSettingsParticipantViewController
+"room_setting_participant_title" = "Participants";
+"room_setting_participant_invite" = "invited";
+"room_setting_security_privacy" = "Security & Privacy";
+"room_setting_roles_permission" = "Roles and Permissions";
+"room_setting_advanced" = "Advanced";
+"room_setting_room_admin" = "Room's admin";
+
+// Call History
+"call_history_title" = "Call Log";

@@ -56,12 +56,31 @@ extension UITextField {
         
         let paddingView = UIView(frame: CGRect(x: self.bounds.width - padding, y: 0, width: padding, height: self.bounds.height/2))
         
-        let editIcon = UIImageView(image: icon?.withRenderingMode(.alwaysOriginal))
+        let editIcon = UIImageView(image: icon?.withRenderingMode(.alwaysTemplate))
         editIcon.contentMode = .topLeft
         editIcon.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        editIcon.isUserInteractionEnabled = true
+        editIcon.tintColor = tintColor
+        editIcon.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(focusRightViewHander)))
         paddingView.addSubview(editIcon)
        
         self.rightView = paddingView
         self.rightViewMode = .always
+    }
+    
+    
+    @objc
+    private func focusRightViewHander() {
+        becomeFirstResponder()
+        editTintColorRightView(color: themeService.attrs.textFieldEditingColor)
+    }
+    
+    
+    func editTintColorRightView(color: UIColor) {
+        guard let editIcon = self.getViewElement(type: UIImageView.self) else {
+            return
+        }
+        
+        editIcon.tintColor = color
     }
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import MatrixKit
+import RxSwift
 
 protocol CkAuthenticationViewControllerDelegate: class {
     func authentication(_ authentication: CkAuthenticationViewController, requestAction action: String)
@@ -52,7 +53,7 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     /**
      DisposeBag
      */
-    private let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
 
     /**
      finalize initial

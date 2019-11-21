@@ -469,7 +469,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
 
     [[IQKeyboardManager shared] setEnable:YES];
     [[IQKeyboardManager shared] setEnableAutoToolbar:NO];
-    [[IQKeyboardManager shared] setDisabledDistanceHandlingClasses: @[CKRoomViewController.class]]; // disable library support show keyboard
+    [[IQKeyboardManager shared] setDisabledDistanceHandlingClasses: @[CKRoomViewController.class, CKRoomSettingsViewController.class]]; // disable library support show keyboard
     
     
     NSLog(@"[AppDelegate] didFinishLaunchingWithOptions: Done in %.0fms", [[NSDate date] timeIntervalSinceDate:startDate] * 1000);

@@ -64,11 +64,13 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         return self.value(forKey: "mxRoomState") as? MXRoomState
     }
     
-    private var newEditData = (displayRoom: "", topicRoom: "")
-    
     private var isCanEdit: Bool = false
+    
+    private var imagePickedBlock: ((UIImage) -> Void)?
 
     private let disposeBag = DisposeBag()
+    
+    private var adjustoffset: (location: CGFloat, offset: CGFloat) = (0.0, 0.0)
 
     // MARK: - CLASS
     
@@ -83,8 +85,8 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
@@ -109,6 +111,9 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.separatorColor = .clear
+        self.tableView.contentInsetAdjustmentBehavior = .never
+        self.tableView.insetsContentViewsToSafeArea = false
+//        self.tableView.contentInset.top = 30 // adjust offset follow base riot
         
         self.reloadTableView()
     }
@@ -255,26 +260,45 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+//        super.viewDidLoad()
         setupTableView()
         
         // Setup close button item
         let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_x_close"),
+            image: UIImage(named: "ic_back_nav")?.withRenderingMode(.alwaysTemplate),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton(_:)))
+        closeItemButton.theme.tintColor = themeService.attrStream{ $0.navBarTintColor }
+        
+        let tapAction = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tapAction.cancelsTouchesInView = false
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
+        view.addGestureRecognizer(tapAction)
 
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
 
         self.bindingTheme()
+        
+        self.registerKeyboardNotification()
+        
+        self.edgesForExtendedLayout = []
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = String.ck_LocalizedString(key: "Info")
         self.navigationController?.navigationBar.titleTextAttributes = themeService.attrs.navTitleTextAttributes
+        let image = UIImage(color: themeService.attrs.navBarBgColor)
+        self.navigationController?.navigationBar.setBackgroundImage(image, for: .default)
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.presentationController?.delegate = self
+        
         self.reloadTableView()
+    }
+    
+    deinit {
+        removeKeyboardNotification()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -303,6 +327,10 @@ extension CKRoomSettingsViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.contentView.backgroundColor = UIColor.clear
+        guard let editInfoCell = cell as? CKEditRoomSettingsCell else { return }
+        
+        let location = editInfoCell.topicRoomTextField.convert(editInfoCell.topicRoomTextField.frame.origin, to: self.view)
+        adjustoffset.location = location.y
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -349,7 +377,7 @@ extension CKRoomSettingsViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.endEditing(true)
+
         tableView.deselectRow(at: indexPath, animated: true)
         let sectionType = tblSections[indexPath.section]
         
@@ -429,39 +457,6 @@ extension CKRoomSettingsViewController {
     }
 }
 
-extension CKRoomSettingsViewController {
-    
-    private func requestEditRoomDetail(displayName: String, topicRoom: String) {
-        
-        self.showSpinner()
-        
-        guard let room = self.mxRoom else {
-            self.removeSpinner()
-            return
-        }
-        
-        // -- displayName
-        room.summary.displayname = displayName
-        room.setName(displayName) { response in
-            
-            self.removeSpinner()
-            
-            if let error = response.error {
-                self.showAlert(error.localizedDescription)
-            }
-        }
-        
-        // -- topicName
-        room.summary.topic = topicRoom
-        room.setTopic(topicRoom) { response in
-            self.removeSpinner()
-            if let error = response.error {
-                self.showAlert(error.localizedDescription)
-            }
-        }
-    }
-}
-
 // MARK: Custom Cell
 extension CKRoomSettingsViewController {
     
@@ -480,12 +475,23 @@ extension CKRoomSettingsViewController {
         cell.bindingData(mxRoom: self.mxRoom, mxRoomState: self.mxRoomState)
         
         cell.editAvatarHandler = {
-            
+            self.handlerEditAvatar()
         }
         
-        cell.onSaveHandler = { (displayRoom, topicName) in
+        cell.onSaveHandler = { model in
             self.view.endEditing(true)
-            self.requestEditRoomDetail(displayName: displayRoom, topicRoom: topicName)
+            self.showSpinner()
+            
+            CKEditRoomDetailRequest().editRoomDetail(mxRoom: self.mxRoom, displayName: model.displayName, topicName: model.topicName, image: model.avatar) { (error) in
+                self.reloadAvatarCell()
+                if let `error` = error {
+                    self.showAlert(error.localizedDescription)
+                }
+            }
+        }
+        
+        imagePickedBlock = { (image) in
+            cell.updateNewAvatar = image
         }
         
         return cell
@@ -517,5 +523,100 @@ extension CKRoomSettingsViewController {
         cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         
         return cell
+    }
+}
+
+// MARK: Hander Keyboard
+extension CKRoomSettingsViewController {
+
+    private func registerKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+    }
+
+    private func removeKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    }
+
+    @objc
+    private func keyboardShow(_ notification: Notification) {
+
+        if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height + self.safeArea.bottom
+            let convertLocationKeyboard = self.view.bounds.height - keyboardHeight
+            adjustoffset.offset = tableView.contentOffset.y
+            
+            if adjustoffset.location > convertLocationKeyboard {
+                adjustoffset.offset = self.view.frame.height - adjustoffset.location
+                self.tableView.scrollToBottom(13)
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+}
+
+extension CKRoomSettingsViewController {
+    
+    // -- show alert choose edit avatar: camera + photoLibrary
+    private func handlerEditAvatar() {
+        
+        let optionAlert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_take_photo"), style: .default, handler: { [weak self] (action) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                let myPickerController = UIImagePickerController()
+                myPickerController.sourceType = .camera
+                myPickerController.delegate = self;
+                self?.present(myPickerController, animated: true, completion: nil)
+            }
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_choose_from_library"), style: .default, handler: { [weak self] (action) in
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.sourceType = .photoLibrary
+            imagePickerController.delegate = self
+            self?.present(imagePickerController, animated: true, completion: nil)
+
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { (action) in
+        }))
+        
+        self.view.endEditing(true)
+        optionAlert.presentGlobally(animated: true, completion: nil)
+    }
+    
+   private func reloadAvatarCell() {
+       self.removeSpinner()
+       self.tableView.reloadSections([TableViewSectionType.editInfo.rawValue], with: .automatic)
+   }
+}
+// MARK: UIImagePickerControllerDelegate
+extension CKRoomSettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
+        }
+        
+        self.dismiss(animated: true, completion: { [weak self] in
+            self?.imagePickedBlock?(image)
+        })
+    }
+}
+
+
+extension CKRoomSettingsViewController: UIAdaptivePresentationControllerDelegate {
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        removeKeyboardNotification()
     }
 }
