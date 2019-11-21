@@ -53,8 +53,7 @@
 #import "RoomOutgoingAttachmentBubbleCell.h"
 #import "RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.h"
 #import "RoomOutgoingAttachmentWithPaginationTitleBubbleCell.h"
-
-#import "RoomOutgoingEncryptedTextMsgBubbleCell.h"
+#import "RoomEncryptedDataBubbleCell.h"
 #import "RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.h"
 #import "RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.h"
 #import "RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.h"

@@ -82,7 +82,6 @@
 #import "RoomOutgoingAttachmentWithoutSenderInfoBubbleCell.h"
 #import "RoomOutgoingAttachmentWithPaginationTitleBubbleCell.h"
 
-#import "RoomOutgoingEncryptedTextMsgBubbleCell.h"
 #import "RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.h"
 #import "RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.h"
 #import "RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.h"
@@ -320,7 +319,7 @@
     [self.bubblesTableView registerClass:RoomOutgoingEncryptedAttachmentBubbleCell.class forCellReuseIdentifier:RoomOutgoingEncryptedAttachmentBubbleCell.defaultReuseIdentifier];
     [self.bubblesTableView registerClass:RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.class forCellReuseIdentifier:RoomOutgoingEncryptedAttachmentWithoutSenderInfoBubbleCell.defaultReuseIdentifier];
     [self.bubblesTableView registerClass:RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.class forCellReuseIdentifier:RoomOutgoingEncryptedAttachmentWithPaginationTitleBubbleCell.defaultReuseIdentifier];
-    [self.bubblesTableView registerClass:RoomOutgoingEncryptedTextMsgBubbleCell.class forCellReuseIdentifier:RoomOutgoingEncryptedTextMsgBubbleCell.defaultReuseIdentifier];
+    [self.bubblesTableView registerClass:CKOutgoingEncryptedTextMessageCell.class forCellReuseIdentifier:CKOutgoingEncryptedTextMessageCell.defaultReuseIdentifier];
     [self.bubblesTableView registerClass:RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.class forCellReuseIdentifier:RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.defaultReuseIdentifier];
     [self.bubblesTableView registerClass:RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.class forCellReuseIdentifier:RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.defaultReuseIdentifier];
     [self.bubblesTableView registerClass:RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.class forCellReuseIdentifier:RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.defaultReuseIdentifier];
@@ -1957,7 +1956,7 @@
                 }
                 else
                 {
-                    cellViewClass = isEncryptedRoom ? RoomOutgoingEncryptedTextMsgBubbleCell.class : RoomOutgoingTextMsgBubbleCell.class;
+                    cellViewClass = isEncryptedRoom ? CKOutgoingEncryptedTextMessageCell.class : RoomOutgoingTextMsgBubbleCell.class;
                 }
             }
         }

@@ -382,7 +382,6 @@
 		B1B558C220EF768F00210D55 /* RoomIncomingEncryptedTextMsgBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5584F20EF768E00210D55 /* RoomIncomingEncryptedTextMsgBubbleCell.xib */; };
 		B1B558C320EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5585020EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m */; };
 		B1B558C420EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5585220EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m */; };
-		B1B558C520EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5585320EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib */; };
 		B1B558C620EF768F00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5585420EF768E00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.xib */; };
 		B1B558C720EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5585520EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m */; };
 		B1B558C820EF768F00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5585620EF768E00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.m */; };
@@ -396,7 +395,6 @@
 		B1B558D020EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5586120EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m */; };
 		B1B558D120EF768F00210D55 /* RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5586220EF768E00210D55 /* RoomIncomingEncryptedAttachmentWithoutSenderInfoBubbleCell.xib */; };
 		B1B558D220EF768F00210D55 /* RoomEncryptedDataBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5586420EF768E00210D55 /* RoomEncryptedDataBubbleCell.m */; };
-		B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5586620EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m */; };
 		B1B558D420EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5586720EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.m */; };
 		B1B558D520EF768F00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5586920EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib */; };
 		B1B558D620EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5586A20EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib */; };
@@ -481,6 +479,10 @@
 		B1B5599420EFC5E400210D55 /* DecryptionFailureTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5599120EFC5E400210D55 /* DecryptionFailureTracker.m */; };
 		B1B9194C2118984300FE25B5 /* RoomPredecessorBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B9194A2118984300FE25B5 /* RoomPredecessorBubbleCell.xib */; };
 		B1D250D82118AA0A000F4E93 /* RoomPredecessorBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D250D72118AA0A000F4E93 /* RoomPredecessorBubbleCell.m */; };
+		BD02B6B32383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD02B6B12383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift */; };
+		BD02B6B42383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD02B6B12383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift */; };
+		BD02B6B52383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD02B6B22383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.xib */; };
+		BD02B6B62383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD02B6B22383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.xib */; };
 		BD7A85782318BD2000658DB0 /* CKDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7A85772318BD2000658DB0 /* CKDeriver.swift */; };
 		BD7A85792318BD2000658DB0 /* CKDeriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7A85772318BD2000658DB0 /* CKDeriver.swift */; };
 		BD83D6D62361BE1C00FF088A /* SerializationServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D6D42361BE1C00FF088A /* SerializationServiceType.swift */; };
@@ -1158,7 +1160,6 @@
 		E5E7DC38229BC7D300AB7CF3 /* DirectoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5571620EE6C4C00210D55 /* DirectoryViewController.m */; };
 		E5E7DC39229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5584620EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m */; };
 		E5E7DC3A229BC7D300AB7CF3 /* CkAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5720ED921ABAEDD0093D99A /* CkAppDelegate.swift */; };
-		E5E7DC3C229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5586620EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m */; };
 		E5E7DC3E229BC7D300AB7CF3 /* CKSignoutButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853CBDEE2232788000404DBC /* CKSignoutButtonTableViewCell.swift */; };
 		E5E7DC3F229BC7D300AB7CF3 /* DeviceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B557AA20EF5A6C00210D55 /* DeviceView.m */; };
 		E5E7DC40229BC7D300AB7CF3 /* CKRoomDirectCreatingSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E27FE221F87B0F00532610 /* CKRoomDirectCreatingSearchCell.swift */; };
@@ -1363,7 +1364,6 @@
 		E5E7DD0F229BC7D300AB7CF3 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5584020EF768E00210D55 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.xib */; };
 		E5E7DD10229BC7D300AB7CF3 /* DeviceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B557A520EF5A1B00210D55 /* DeviceTableViewCell.xib */; };
 		E5E7DD11229BC7D300AB7CF3 /* MediaAlbumTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B557D020EF5E3500210D55 /* MediaAlbumTableCell.xib */; };
-		E5E7DD12229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5585320EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib */; };
 		E5E7DD13229BC7D300AB7CF3 /* CKEditProfileWithTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853C92572203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib */; };
 		E5E7DD14229BC7D300AB7CF3 /* DirectoryRecentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B5582820EF666100210D55 /* DirectoryRecentTableViewCell.xib */; };
 		E5E7DD15229BC7D300AB7CF3 /* CKRoomCreatingTopicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E574337721F581B100989FF3 /* CKRoomCreatingTopicCell.xib */; };
@@ -1949,12 +1949,10 @@
 		B1B5584B20EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.h; sourceTree = "<group>"; };
 		B1B5584C20EF768E00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.m; sourceTree = "<group>"; };
 		B1B5584D20EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.h; sourceTree = "<group>"; };
-		B1B5584E20EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomOutgoingEncryptedTextMsgBubbleCell.h; sourceTree = "<group>"; };
 		B1B5584F20EF768E00210D55 /* RoomIncomingEncryptedTextMsgBubbleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoomIncomingEncryptedTextMsgBubbleCell.xib; sourceTree = "<group>"; };
 		B1B5585020EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m; sourceTree = "<group>"; };
 		B1B5585120EF768E00210D55 /* RoomEncryptedDataBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomEncryptedDataBubbleCell.h; sourceTree = "<group>"; };
 		B1B5585220EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m; sourceTree = "<group>"; };
-		B1B5585320EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoomOutgoingEncryptedTextMsgBubbleCell.xib; sourceTree = "<group>"; };
 		B1B5585420EF768E00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoomIncomingEncryptedAttachmentBubbleCell.xib; sourceTree = "<group>"; };
 		B1B5585520EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m; sourceTree = "<group>"; };
 		B1B5585620EF768E00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomIncomingEncryptedAttachmentBubbleCell.m; sourceTree = "<group>"; };
@@ -1973,7 +1971,6 @@
 		B1B5586320EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.h; sourceTree = "<group>"; };
 		B1B5586420EF768E00210D55 /* RoomEncryptedDataBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomEncryptedDataBubbleCell.m; sourceTree = "<group>"; };
 		B1B5586520EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.h; sourceTree = "<group>"; };
-		B1B5586620EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomOutgoingEncryptedTextMsgBubbleCell.m; sourceTree = "<group>"; };
 		B1B5586720EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.m; sourceTree = "<group>"; };
 		B1B5586820EF768E00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.h; sourceTree = "<group>"; };
 		B1B5586920EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib; sourceTree = "<group>"; };
@@ -2103,6 +2100,8 @@
 		B1D250D72118AA0A000F4E93 /* RoomPredecessorBubbleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoomPredecessorBubbleCell.m; sourceTree = "<group>"; };
 		B7A12927B721FB448F55C132 /* Pods_RiotPods_RiotShareExtension_Prod.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_RiotShareExtension_Prod.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0B9DB497F579AB1084E3DC /* Pods_RiotPods_SiriIntents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_SiriIntents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD02B6B12383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKOutgoingEncryptedTextMessageCell.swift; sourceTree = "<group>"; };
+		BD02B6B22383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKOutgoingEncryptedTextMessageCell.xib; sourceTree = "<group>"; };
 		BD13D97A235868B700C4BDB8 /* RiotShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RiotShareExtension.entitlements; sourceTree = "<group>"; };
 		BD7A85772318BD2000658DB0 /* CKDeriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKDeriver.swift; sourceTree = "<group>"; };
 		BD83D6D42361BE1C00FF088A /* SerializationServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializationServiceType.swift; sourceTree = "<group>"; };
@@ -4161,12 +4160,10 @@
 				B1B5584B20EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderInfoBubbleCell.h */,
 				B1B5584C20EF768E00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.m */,
 				B1B5584D20EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.h */,
-				B1B5584E20EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.h */,
 				B1B5584F20EF768E00210D55 /* RoomIncomingEncryptedTextMsgBubbleCell.xib */,
 				B1B5585020EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.m */,
 				B1B5585120EF768E00210D55 /* RoomEncryptedDataBubbleCell.h */,
 				B1B5585220EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m */,
-				B1B5585320EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib */,
 				B1B5585420EF768E00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.xib */,
 				B1B5585520EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithPaginationTitleBubbleCell.m */,
 				B1B5585620EF768E00210D55 /* RoomIncomingEncryptedAttachmentBubbleCell.m */,
@@ -4185,7 +4182,6 @@
 				B1B5586320EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.h */,
 				B1B5586420EF768E00210D55 /* RoomEncryptedDataBubbleCell.m */,
 				B1B5586520EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithoutSenderNameBubbleCell.h */,
-				B1B5586620EF768E00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m */,
 				B1B5586720EF768E00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderInfoBubbleCell.m */,
 				B1B5586820EF768E00210D55 /* RoomIncomingEncryptedAttachmentWithPaginationTitleBubbleCell.h */,
 				B1B5586920EF768E00210D55 /* RoomIncomingEncryptedTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.xib */,
@@ -4340,6 +4336,23 @@
 				B1B5599120EFC5E400210D55 /* DecryptionFailureTracker.m */,
 			);
 			path = Analytics;
+			sourceTree = "<group>";
+		};
+		BD02B6A92383E8050069F207 /* Bubble */ = {
+			isa = PBXGroup;
+			children = (
+				BD02B6AA2383E8150069F207 /* Encryption */,
+			);
+			path = Bubble;
+			sourceTree = "<group>";
+		};
+		BD02B6AA2383E8150069F207 /* Encryption */ = {
+			isa = PBXGroup;
+			children = (
+				BD02B6B12383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift */,
+				BD02B6B22383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.xib */,
+			);
+			path = Encryption;
 			sourceTree = "<group>";
 		};
 		BDB43F1C2316211900F7CB00 /* Services */ = {
@@ -4850,6 +4863,7 @@
 		E5ABA73721E73CBC005EFE0C /* Room */ = {
 			isa = PBXGroup;
 			children = (
+				BD02B6A92383E8050069F207 /* Bubble */,
 				A0043FAF21F846970051AAE1 /* Individual */,
 				858A531F21F58A9F00570D83 /* DataSource */,
 				E5E27FD121F6C7B600532610 /* Adding */,
@@ -5547,7 +5561,6 @@
 				E5E7DD10229BC7D300AB7CF3 /* DeviceTableViewCell.xib in Resources */,
 				D3FA9BD02356EF8E00FB0BD1 /* EmojiPickerViewController.storyboard in Resources */,
 				E5E7DD11229BC7D300AB7CF3 /* MediaAlbumTableCell.xib in Resources */,
-				E5E7DD12229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib in Resources */,
 				E5E7DD13229BC7D300AB7CF3 /* CKEditProfileWithTextFieldTableViewCell.xib in Resources */,
 				E5E7DD14229BC7D300AB7CF3 /* DirectoryRecentTableViewCell.xib in Resources */,
 				E5E7DD15229BC7D300AB7CF3 /* CKRoomCreatingTopicCell.xib in Resources */,
@@ -5560,6 +5573,7 @@
 				E5E7DD1C229BC7D300AB7CF3 /* FilesSearchTableViewCell.xib in Resources */,
 				E5E7DD1D229BC7D300AB7CF3 /* RoomSelectedStickerBubbleCell.xib in Resources */,
 				E5E7DD1E229BC7D300AB7CF3 /* CKRoomSettingsMoreActionCell.xib in Resources */,
+				BD02B6B62383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.xib in Resources */,
 				E520C5D622E719CA003101BA /* KeyBackupRecoverFromPassphraseViewController.storyboard in Resources */,
 				D3E5AF3A2359AAFE00D11110 /* apple_emojis_data.json in Resources */,
 				E520C5BD22E719B3003101BA /* KeyBackupSetupIntroViewController.storyboard in Resources */,
@@ -5798,7 +5812,6 @@
 				B1B557A720EF5A1B00210D55 /* DeviceTableViewCell.xib in Resources */,
 				D3FA9BCF2356EF8E00FB0BD1 /* EmojiPickerViewController.storyboard in Resources */,
 				B1B557D220EF5E3500210D55 /* MediaAlbumTableCell.xib in Resources */,
-				B1B558C520EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.xib in Resources */,
 				9C3AC4C822D73B6A00DD179F /* KeyBackupBannerCell.xib in Resources */,
 				853C92592203E9E30062BBED /* CKEditProfileWithTextFieldTableViewCell.xib in Resources */,
 				B1B5582B20EF666100210D55 /* DirectoryRecentTableViewCell.xib in Resources */,
@@ -5810,6 +5823,7 @@
 				B1B557B320EF5AEF00210D55 /* EventDetailsView.xib in Resources */,
 				E5DB12A8221E6652009B07B0 /* CKRoomSettingsMoreRoleViewController.xib in Resources */,
 				B1B557DD20EF5FBB00210D55 /* FilesSearchTableViewCell.xib in Resources */,
+				BD02B6B52383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.xib in Resources */,
 				B1B5590320EF768F00210D55 /* RoomSelectedStickerBubbleCell.xib in Resources */,
 				E5233123221BB2E9008FC772 /* CKRoomSettingsMoreActionCell.xib in Resources */,
 				D3E5AF392359AAFE00D11110 /* apple_emojis_data.json in Resources */,
@@ -6416,7 +6430,7 @@
 				E5E7DC38229BC7D300AB7CF3 /* DirectoryViewController.m in Sources */,
 				E5E7DC39229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5E7DC3A229BC7D300AB7CF3 /* CkAppDelegate.swift in Sources */,
-				E5E7DC3C229BC7D300AB7CF3 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
+				BD02B6B42383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift in Sources */,
 				E520C5DF22E719D5003101BA /* KeyBackupRecoverSuccessViewController.swift in Sources */,
 				E520C5F222E71DF5003101BA /* UIColor+Extension.swift in Sources */,
 				E5FB45E822BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */,
@@ -6821,6 +6835,7 @@
 				B1B5571820EE6C4D00210D55 /* CountryPickerViewController.m in Sources */,
 				D3FA9B992356EF8E00FB0BD1 /* BubbleReactionViewCell.swift in Sources */,
 				B17982FF2119FED2001FD722 /* GDPRConsentViewController.swift in Sources */,
+				BD02B6B32383E95B0069F207 /* CKOutgoingEncryptedTextMessageCell.swift in Sources */,
 				B1B5575A20EE6C4D00210D55 /* UnifiedSearchViewController.m in Sources */,
 				B1B5572820EE6C4D00210D55 /* RoomViewController.m in Sources */,
 				BDA1FAB5236340CE005D910D /* AutosizedCollectionView.swift in Sources */,
@@ -6867,7 +6882,6 @@
 				B1B5575C20EE6C4D00210D55 /* DirectoryViewController.m in Sources */,
 				B1B558BD20EF768F00210D55 /* RoomOutgoingEncryptedTextMsgWithoutSenderNameBubbleCell.m in Sources */,
 				E5720EDA21ABAEDD0093D99A /* CkAppDelegate.swift in Sources */,
-				B1B558D320EF768F00210D55 /* RoomOutgoingEncryptedTextMsgBubbleCell.m in Sources */,
 				9CF635E022D81ECA00790297 /* ActivityIndicatorPresenter.swift in Sources */,
 				E5FB45E722BB2CE7008C93E6 /* CKSettingDarkModeCell.swift in Sources */,
 				853CBDF02232788000404DBC /* CKSignoutButtonTableViewCell.swift in Sources */,
