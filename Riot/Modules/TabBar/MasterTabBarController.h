@@ -33,11 +33,13 @@
 @class CKRoomViewController;
 @class CKContactListViewController;
 @class CKFavouriteViewController;
+@class CKCallHistoryViewController;
 
 #define TABBAR_HOME_INDEX         0
-#define TABBAR_PEOPLE_INDEX       1
+#define TABBAR_CALL_HISTORY_INDEX 1 // CK 475: Call history
+#define TABBAR_PEOPLE_INDEX       2
 
-#define TABBAR_FAVOURITES_INDEX   2
+//#define TABBAR_FAVOURITES_INDEX   2 // CK 475: Call history
 #define TABBAR_ROOMS_INDEX        3
 #define TABBAR_GROUPS_INDEX       4
 #define TABBAR_COUNT              5
@@ -154,6 +156,7 @@
 @property (nonatomic, readonly) CKContactListViewController *peopleViewController;
 @property (nonatomic, readonly) RoomsViewController *roomsViewController;
 @property (nonatomic, readonly) GroupsViewController *groupsViewController;
+@property (nonatomic, readonly) CKCallHistoryViewController *callHistoryViewControler;
 
 // References on the currently selected room and its view controller
 @property (nonatomic, readonly) CKRoomViewController *currentRoomViewController;

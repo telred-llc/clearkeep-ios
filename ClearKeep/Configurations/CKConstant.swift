@@ -12,7 +12,7 @@ struct CKEnvironment {
     let name: String
     let serviceURL: String
     
-    static let develop = CKEnvironment(name: "DEVELOP", serviceURL: "http://op.clearkeep.xyz")
+    static let develop = CKEnvironment(name: "DEVELOP", serviceURL: "https://dev.clearkeep.me")
     static let production = CKEnvironment(name: "PRODUCTION", serviceURL: "https://op.clearkeep.me")
 
     #if DEVELOP
