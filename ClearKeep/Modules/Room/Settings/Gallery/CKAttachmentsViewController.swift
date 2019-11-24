@@ -14,7 +14,8 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.backButton.image = UIImage(named: "ic_x_close")
+        self.backButton.image = #imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate)
+        self.backButton.theme.tintColor = themeService.attrStream{ $0.navBarTintColor }
         bindingTheme()
     }
 
@@ -24,11 +25,8 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
             self?.defaultBarTintColor = themeService.attrs.primaryBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.activityIndicator?.backgroundColor = themeService.attrs.overlayColor
+            self?.view.backgroundColor = themeService.attrs.secondBgColor
         }).disposed(by: disposeBag)
-
-        themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor)
-            .disposed(by: disposeBag)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

@@ -20,10 +20,8 @@ class CKImageView: MXKImageView {
     override func customizeRendering() {
         super.customizeRendering()
         
-        backgroundColor = (defaultBackgroundColor != nil) ? defaultBackgroundColor : UIColor.black
-        
+        backgroundColor = (defaultBackgroundColor != nil) ? defaultBackgroundColor : .black
         contentMode = .scaleAspectFill
         autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin]
-
     }
 }

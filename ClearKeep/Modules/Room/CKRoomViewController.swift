@@ -1845,9 +1845,8 @@ extension CKRoomViewController {
         }
         
         // is long press event?
-        if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent
-            && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
-            dismissKeyboard()
+        if actionIdentifier == kMXKRoomBubbleCellLongPressOnEvent && cell?.isKind(of: MXKRoomBubbleTableViewCell.self) == true {
+//            self.resignFirstResponder()
             guard let cell = cell, let roomBubbleTableViewCell = cell as? MXKRoomBubbleTableViewCell else {
                     return
             }
@@ -2362,53 +2361,54 @@ extension CKRoomViewController: MXServerNoticesDelegate {
 // MARK: - RoomInputToolbarViewDelegate
 
 extension CKRoomViewController: CKRoomInputToolbarViewDelegate {
-
+    func shareImageAndFileDidTouch() {
+        self.cancelEventSelection()
+        self.resignFirstResponder()
+    }
     
     override func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView!, present alertController: UIAlertController!) {
         super.roomInputToolbarView(toolbarView, present: alertController)
         isPresentPhotoLibrary = false
     }
-    
+
+    @discardableResult
     override func resignFirstResponder() -> Bool {
-        
         isPresentPhotoLibrary = false
-        
         return super.resignFirstResponder()
     }
-    
-    
+
     override var inputView: UIView? {
         return currentInputView
     }
-    
+
     @objc func receivePresentPhotoLibrary(_ notification: Notification) {
-        
         currentInputView = nil
-        
         if let photoPicker = notification.object as? ImagePickerController {
-            isPresentPhotoLibrary = true
-            self.becomeFirstResponder()
             photoPicker.view.autoresizingMask = .flexibleHeight
-            currentInputView = photoPicker.view
-            imagePickerController = photoPicker
-            
+            self.imagePickerController = photoPicker
+            self.currentInputView = photoPicker.view
+            self.isPresentPhotoLibrary = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.becomeFirstResponder()
+            }
         } else {
             print("Don't cast ImagePickerController")
         }
     }
-    
+
     func sendFileDidSelect() {
+        self.resignFirstResponder()
         self.openDocumentWindow()
     }
-    
+
     func closeEditButtonDidPress() {
         self.textMessageBeforeEditing = nil
     }
-    
+
     func sendTextButtonDidPress(_ message: String, isEdit: Bool) {
         self.sendTextMessage(message, isEdit: isEdit)
     }
-    
+
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?) {
 
         func highlightMentionButton(highlight: Bool) {
@@ -2869,7 +2869,7 @@ extension CKRoomViewController {
     /// Selected all text message in cell
     func selectAllTextMessage(inCell cell: MXKRoomBubbleTableViewCell) {
         
-        guard let selectAllText = cell.bubbleData.textMessage else {
+        guard let data = cell.bubbleData, let selectAllText = data.textMessage else {
             return
         }
         selectedText = selectAllText
@@ -2883,12 +2883,15 @@ extension CKRoomViewController {
                 self.UIMenuControllerDidHideMenuNotificationObserver = nil
             })
             
-            self.becomeFirstResponder()
+            self.inputToolbarView.becomeFirstResponder()
             
             let menu = UIMenuController.shared
             menu.menuItems = [UIMenuItem(title: "Share", action: #selector(self.share(_:)))]
-            menu.setTargetRect(cell.messageTextView.frame, in: cell)
-            menu.setMenuVisible(true, animated: true)
+            if #available(iOS 13.0, *) {
+                menu.showMenu(from: cell.messageTextView, rect: cell.messageTextView.frame)
+            } else {
+                menu.setMenuVisible(true, animated: true)
+            }
         }
     }
     
