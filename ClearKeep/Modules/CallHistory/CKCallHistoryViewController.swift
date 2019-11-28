@@ -26,6 +26,7 @@ import UIKit
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -34,21 +35,24 @@ import UIKit
     
     lazy var alertError = MXKErrorAlertPresentation()
     
+    private let refreshControl = UIRefreshControl()
+    
     private var kMXCallStateDidChangeObserver: Any?
+    
+    private var fakeSyncData: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.addSubview(refreshControl)
         tableView.register(CKHeaderCallHistoryView.nib, forHeaderFooterViewReuseIdentifier: CKHeaderCallHistoryView.identifier)
         tableView.register(CKCallHistoryCell.nib, forCellReuseIdentifier: CKCallHistoryCell.identifier)
         
+        refreshControl.addTarget(self, action: #selector(refreshCallHistory(sender:)), for: .valueChanged)
+        
         bindingTheme()
         
-        dataSource?.getListCallHistory(completion: { (event) in
-            self.listCallHistory = event
-        })
-        
-        listenCallNotifications()
+        forceSyncCallHistory()
     }
     
     func listenCallNotifications() {
@@ -57,10 +61,8 @@ import UIKit
             guard let call = notif.object as? MXCall else { return }
             switch call.state {
             case .ended, .inviteExpired:
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.dataSource?.getListCallHistory(completion: { (event) in
-                        self.listCallHistory = event
-                    })
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    self.refreshControl.sendActions(for: .valueChanged)
                 }
             default:
                 break
@@ -68,20 +70,33 @@ import UIKit
         })
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if (MXKAccountManager.shared()?.accounts.isEmpty ?? true) {
+            return
+        }
+        
+        if fakeSyncData < 2 {
+            fakeSyncData += 1
+            refreshControl.sendActions(for: .valueChanged)
+        }
+        
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         kMXCallStateDidChangeObserver = nil
     }
-
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        DispatchQueue.global(qos: .background).async {
-            self.dataSource?.getListCallHistory(completion: { (event) in
-                self.listCallHistory = event
-            })
-        }
+    
+    private func forceSyncCallHistory() {
+        self.dataSource = nil
+        self.dataSource = CKCallHistoryDataSource(matrixSession: self.mainSession)
+        self.dataSource?.getListCallHistory(completion: { (event) in
+            self.listCallHistory = event
+        })
     }
     
     
@@ -105,6 +120,12 @@ import UIKit
            self.addMatrixSession(mxSession)
            self.dataSource = CKCallHistoryDataSource(matrixSession: mxSession)
        })
+        
+       listenCallNotifications()
+    }
+    
+    @objc private func refreshCallHistory(sender: Any) {
+        forceSyncCallHistory()
     }
 }
 

@@ -56,7 +56,6 @@ extension CKCallHistoryDataSource {
 
     func getListCallHistory(completion: (([CallHistoryModel]) -> Void)) {
         
-//        let searchRooms = (AppDelegate.the()?.mxSessions.first as? MXSession)?.rooms ?? []
         let searchRooms = self.mxSession.rooms
         
         var filteredEvents: [CallHistoryModel] = []
@@ -97,7 +96,7 @@ extension CKCallHistoryDataSource {
                         }
                         
                     } else {
-                        print("CKCallHistoryDataSource: Don't cast event")
+//                        print("CKCallHistoryDataSource: Don't cast event")
                     }
                 }
             }
