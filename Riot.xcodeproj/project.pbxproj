@@ -525,6 +525,8 @@
 		D32D092A2370230100E7D94D /* CKEditRoomSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32D09272370230100E7D94D /* CKEditRoomSettingsCell.swift */; };
 		D32D092B2370230100E7D94D /* CKEditRoomSettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */; };
 		D32D092C2370230100E7D94D /* CKEditRoomSettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */; };
+		D356DD50238699170079E0BD /* CKCallHistoryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D356DD4F238699170079E0BD /* CKCallHistoryDataSource.swift */; };
+		D356DD51238699170079E0BD /* CKCallHistoryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D356DD4F238699170079E0BD /* CKCallHistoryDataSource.swift */; };
 		D35EEDBF23602B7400D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
 		D35EEDC023602B8200D7E625 /* CallHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */; };
 		D370C3CC237A5D7500DCB555 /* CKEditRoomDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */; };
@@ -2137,6 +2139,7 @@
 		D30A0CE82386846E00590BF9 /* CKCallHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCallHistoryViewController.swift; sourceTree = "<group>"; };
 		D32D09272370230100E7D94D /* CKEditRoomSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditRoomSettingsCell.swift; sourceTree = "<group>"; };
 		D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKEditRoomSettingsCell.xib; sourceTree = "<group>"; };
+		D356DD4F238699170079E0BD /* CKCallHistoryDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCallHistoryDataSource.swift; sourceTree = "<group>"; };
 		D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CallHistory.storyboard; sourceTree = "<group>"; };
 		D370C3CB237A5D7500DCB555 /* CKEditRoomDetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditRoomDetailRequest.swift; sourceTree = "<group>"; };
 		D372A80F23694E6000CF79D3 /* CKCustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCustomTextField.swift; sourceTree = "<group>"; };
@@ -4414,9 +4417,18 @@
 			path = Subviews;
 			sourceTree = "<group>";
 		};
+		D356DD4E238699000079E0BD /* Datasource */ = {
+			isa = PBXGroup;
+			children = (
+				D356DD4F238699170079E0BD /* CKCallHistoryDataSource.swift */,
+			);
+			path = Datasource;
+			sourceTree = "<group>";
+		};
 		D35EEDBD23602B0200D7E625 /* CallHistory */ = {
 			isa = PBXGroup;
 			children = (
+				D356DD4E238699000079E0BD /* Datasource */,
 				D30A0CE82386846E00590BF9 /* CKCallHistoryViewController.swift */,
 				D35EEDBE23602B7400D7E625 /* CallHistory.storyboard */,
 				D30A0CDB2386841A00590BF9 /* Subviews */,
@@ -6215,6 +6227,7 @@
 				D30A0CEA2386846E00590BF9 /* CKCallHistoryViewController.swift in Sources */,
 				47C4FF9B233DB998002B1238 /* AppUtils.swift in Sources */,
 				E5E7DB97229BC7D300AB7CF3 /* Tools.m in Sources */,
+				D356DD51238699170079E0BD /* CKCallHistoryDataSource.swift in Sources */,
 				E5E7DB98229BC7D300AB7CF3 /* TermsView.swift in Sources */,
 				D3FA9BBC2356EF8E00FB0BD1 /* EmojiPickerCoordinator.swift in Sources */,
 				E5E7DB99229BC7D300AB7CF3 /* WebViewViewController.m in Sources */,
@@ -6551,6 +6564,7 @@
 				B16932A520F3A21C00746532 /* empty.mm in Sources */,
 				D3FA9C1523570EB100FB0BD1 /* EmojiMartCategory.swift in Sources */,
 				D3FA9BD32356EF8E00FB0BD1 /* EmojiServiceType.swift in Sources */,
+				D356DD50238699170079E0BD /* CKCallHistoryDataSource.swift in Sources */,
 				D32D09292370230100E7D94D /* CKEditRoomSettingsCell.swift in Sources */,
 				D3FA9BC92356EF8E00FB0BD1 /* EmojiPickerCategoryViewData.swift in Sources */,
 				47C4FF9A233DB998002B1238 /* AppUtils.swift in Sources */,

@@ -252,7 +252,8 @@
         [_homeViewController displayList:recentsDataSource];
         [_peopleViewController displayList:recentsDataSource];
         [_roomsViewController displayList:recentsDataSource];
-        
+//        [_callHistoryViewControler displayScreen];
+        [_callHistoryViewControler displayList:recentsDataSource];
         // Restore the right delegate of the shared recent data source.
         id<MXKDataSourceDelegate> recentsDataSourceDelegate = _homeViewController;
         RecentsDataSourceMode recentsDataSourceMode = RecentsDataSourceModeHome;

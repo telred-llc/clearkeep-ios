@@ -12,20 +12,78 @@ import UIKit
     
     private let disposeBag = DisposeBag()
     
-    @IBOutlet weak var tableView: UITableView!
+    @objc public class func objInstance() -> Self {
+        return self.instance()
+    }
+    
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.tableFooterView = UIView()
+        }
+    }
+    
+    private var listCallHistory: [CallHistoryModel] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    var dataSource: CKCallHistoryDataSource?
+    
+    lazy var alertError = MXKErrorAlertPresentation()
+    
+    private var kMXCallStateDidChangeObserver: Any?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        tableView.register(CKHeaderCallHistoryView.nib, forHeaderFooterViewReuseIdentifier: CKHeaderCallHistoryView.identifier)
-//        tableView.register(CKCallHistoryCell.nib, forCellReuseIdentifier: CKCallHistoryCell.identifier)
+        tableView.register(CKHeaderCallHistoryView.nib, forHeaderFooterViewReuseIdentifier: CKHeaderCallHistoryView.identifier)
+        tableView.register(CKCallHistoryCell.nib, forCellReuseIdentifier: CKCallHistoryCell.identifier)
         
-//        bindingTheme()
+        bindingTheme()
         
-//        let dataSource = CKCallHistoryDataSource()
-//        dataSource.getListCallHistory()
-
+        dataSource?.getListCallHistory(completion: { (event) in
+            self.listCallHistory = event
+        })
+        
+        listenCallNotifications()
     }
+    
+    func listenCallNotifications() {
+        kMXCallStateDidChangeObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kMXCallStateDidChange), object: nil, queue: OperationQueue.main, using: { notif in
+            
+            guard let call = notif.object as? MXCall else { return }
+            switch call.state {
+            case .ended, .inviteExpired:
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.dataSource?.getListCallHistory(completion: { (event) in
+                        self.listCallHistory = event
+                    })
+                }
+            default:
+                break
+            }
+        })
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        kMXCallStateDidChangeObserver = nil
+    }
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        DispatchQueue.global(qos: .background).async {
+            self.dataSource?.getListCallHistory(completion: { (event) in
+                self.listCallHistory = event
+            })
+        }
+    }
+    
     
     private func bindingTheme() {
         // Binding navigation bar color
@@ -38,6 +96,16 @@ import UIKit
             .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
+    
+    
+    @objc func displayList(_ aRecentsDataSource: MXKRecentsDataSource!) {
+       // Report all matrix sessions at view controller level to update UI according to sessions state
+       let mxSessions = aRecentsDataSource.mxSessions as? [MXSession]
+       mxSessions.flatMap({ return $0 })?.forEach({ (mxSession) in
+           self.addMatrixSession(mxSession)
+           self.dataSource = CKCallHistoryDataSource(matrixSession: mxSession)
+       })
+    }
 }
 
 
@@ -48,11 +116,14 @@ extension CKCallHistoryViewController: UITableViewDelegate {
         return 44
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CKHeaderCallHistoryView.identifier) as? CKHeaderCallHistoryView else {
             return nil
         }
-        
         return headerView
     }
 }
@@ -60,21 +131,115 @@ extension CKCallHistoryViewController: UITableViewDelegate {
 
 // MARK: UITableViewDataSource
 extension CKCallHistoryViewController: UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
+        return listCallHistory.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CKCallHistoryCell.identifier,
                                                        for: indexPath) as? CKCallHistoryCell else {
             return UITableViewCell()
         }
+
+        let model = listCallHistory[indexPath.row]
+        cell.bindingData(model: model)
+
+        if let directUserId = model.room.summary.directUserId {
+            cell.status = checkOnline(directUserId) ? 1 : 0
+        } else {
+            cell.status = 0
+        }
         
-        cell.textLabel?.text = "\(indexPath.row)"
-        
+        cell.callAudioHander = {
+            self.checkMediaPermission(video: false) { (result) in
+                if result {
+                    self.verifyCalling(room: model.room, isVideo: false)
+                }
+            }
+        }
+
+        cell.callVideoHander = {
+            self.checkMediaPermission(video: true) { (result) in
+                if result {
+                    self.verifyCalling(room: model.room, isVideo: true)
+                }
+            }
+        }
+
         return cell
     }
+}
+
+extension CKCallHistoryViewController {
     
+    private func verifyCalling(room: MXRoom, isVideo: Bool) {
+        
+        findRoomState(room: room, isVideo: true) { (error, state) in
+            if let `error` = error {
+                self.alertError.presentError(from: self, title: "", message: error.errorDescription, animated: true, handler: nil)
+                return
+            }
+            
+            guard let roomState = state, MXCallManager.canPlaceConferenceCall(in: room, roomState: roomState) else {
+                self.alertError.presentError(from: self, title: "", message: CKError.notAdminCallInRoom.errorDescription, animated: true, handler: nil)
+                return
+            }
+            
+            room.placeCall(withVideo: isVideo) { (call) in
+                call.value?.answer()
+            }
+        }
+    }
+    
+    private func findRoomState(room: MXRoom, isVideo: Bool, completion: @escaping ((CKError?, MXRoomState?) -> Void)) {
+        
+        let memberJoin = (room.summary.membersCount as MXRoomMembersCount).joined
+        
+        if memberJoin < 2 {
+            completion(CKError.notEnoughMemberInRoom, nil)
+        } else {
+            room.state { (roomState) in
+                completion(nil, roomState)
+            }
+        }
+        
+    }
+
+
+    private func checkOnline(_ userId: String) -> Bool {
+        guard let session = AppDelegate.the()?.mxSessions.first as? MXSession, let user = session.user(withUserId: userId) else {
+            return false
+        }
+        
+        switch user.presence {
+        case MXPresenceOnline:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+
+extension CKCallHistoryViewController {
+    
+    func checkMediaPermission(video: Bool, completion: ((Bool) -> Void)?) {
+        let appDisplayName = (Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String) ?? ""
+        
+        // Check app permissions first
+        
+        let messageForAudio = String(format: Bundle.mxk_localizedString(forKey: "microphone_access_not_granted_for_call"), appDisplayName)
+        let messageForVideo = String(format: Bundle.mxk_localizedString(forKey: "camera_access_not_granted_for_call"), appDisplayName)
+        
+        MXKTools.checkAccess(forCall: video, manualChangeMessageForAudio: messageForAudio, manualChangeMessageForVideo: messageForVideo, showPopUpIn: self) { (granted) in
+            if granted {
+                completion?(granted)
+            } else {
+                print("RoomViewController: Warning: The application does not have the perssion to place the call")
+                completion?(false)
+            }
+        }
+    }
 }
