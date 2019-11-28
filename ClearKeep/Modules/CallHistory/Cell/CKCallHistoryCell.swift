@@ -63,6 +63,8 @@ class CKCallHistoryCell: CKBaseCell {
     
     func bindingData(model: CallHistoryModel) {
         
+        if model.room.summary == nil { return }
+        
         let previewImage = AvatarGenerator.generateAvatar(forText: model.room.summary.displayname ?? "A")
 
         avatarImageView?.setImageURI(model.room.summary.avatar,
