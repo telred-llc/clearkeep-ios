@@ -213,3 +213,7 @@
 
 // Call History
 "call_history_title" = "Call Log";
+"call_history_not_enough_member_in_room" = "Don't enough member in room";
+"call_history_not_admin_call_in_room" = "You don't admin in room";
+"load_fail_image" = "Don't load image in photos";
+"unexpected_error" = "Something went wrong!";

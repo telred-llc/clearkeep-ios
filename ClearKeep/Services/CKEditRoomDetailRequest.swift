@@ -9,26 +9,6 @@
 import Foundation
 import PromiseKit
 
-enum CKError {
-    
-    case loadFailImage
-    case unexpectedError
-}
-
-
-extension CKError: Error {
-    
-    public var errorDescription: String? {
-        switch self {
-        case .loadFailImage:
-            return NSLocalizedString("Don't load image", comment: "CK Don't load image")
-        case .unexpectedError:
-            return NSLocalizedString("Sometime ", comment: "CK Don't load image")
-        }
-    }
-    
-}
-
 struct CKEditRoomDetailRequest {
     
     func editRoomDetail(mxRoom: MXRoom, displayName: String, topicName: String, image: UIImage?, completion: @escaping ((Error?) -> Void)) {
