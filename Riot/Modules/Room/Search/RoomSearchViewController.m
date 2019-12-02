@@ -331,7 +331,7 @@
                 // so that it can display its loading wheel
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [messagesSearchDataSource searchMessages:self.searchBar.text force:NO];
-                    messagesSearchViewController.shouldScrollToBottomOnRefresh = YES;
+                    messagesSearchViewController.shouldScrollToBottomOnRefresh = NO;
                 });
             }
         }
@@ -344,7 +344,7 @@
                 // so that it can display its loading wheel
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [filesSearchDataSource searchMessages:self.searchBar.text force:NO];
-                    filesSearchViewController.shouldScrollToBottomOnRefresh = YES;
+                    filesSearchViewController.shouldScrollToBottomOnRefresh = NO;
                 });
             }
         }

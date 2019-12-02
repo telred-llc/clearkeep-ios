@@ -78,6 +78,7 @@ protocol CKSearchContactViewControllerDelegate: class {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.keyboardDismissMode = .onDrag
         bindingTheme()
     }
     
@@ -187,7 +188,7 @@ extension CKSearchContactViewController {
             self?.view.backgroundColor = theme.navBarBgColor
         }).disposed(by: disposeBag)
     }
-    
+
     /**
      Get a title for the header
      */
@@ -261,11 +262,11 @@ extension CKSearchContactViewController {
                 }
             }
         }
-        
+
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
         return cell
     }
-    
+
     /**
      Cell for matrix contact
      */

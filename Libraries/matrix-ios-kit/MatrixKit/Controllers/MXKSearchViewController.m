@@ -246,51 +246,42 @@
     return MXKSearchTableViewCell.defaultReuseIdentifier;
 }
 
-- (void)dataSource:(MXKDataSource *)dataSource didCellChange:(id)changes
-{
-    __block CGPoint tableViewOffset;
-    
-    if (!shouldScrollToBottomOnRefresh)
-    {
+- (void)dataSource:(MXKDataSource *)dataSource didCellChange:(id)changes {
+//    __block CGPoint tableViewOffset;
+//
+//    if (!shouldScrollToBottomOnRefresh) {
         // Store current tableview scrolling point to restore it after [UITableView reloadData]
         // This avoids unexpected scrolling for the user
-        tableViewOffset = _searchTableView.contentOffset;
-    }
+//        tableViewOffset = _searchTableView.contentOffset;
+//    }
 
     [_searchTableView reloadData];
-
-    if (shouldScrollToBottomOnRefresh)
-    {
+    
+    if (shouldScrollToBottomOnRefresh) {
         [self scrollToBottomAnimated:NO];
         shouldScrollToBottomOnRefresh = NO;
     }
-    else
-    {
-        // Restore the user scrolling point by computing the offset introduced by new cells
-        // New cells are always introduced at the top of the table
-        NSIndexSet *insertedIndexes = (NSIndexSet*)changes;
-
-        // Get each new cell height
-        [insertedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-
-            MXKCellData* cellData = [self.dataSource cellDataAtIndex:idx];
-            Class<MXKCellRendering> class = [self cellViewClassForCellData:cellData];
-
-            tableViewOffset.y += [class heightForCellData:cellData withMaximumWidth:self->_searchTableView.frame.size.width];
-
-        }];
-
-        [_searchTableView setContentOffset:tableViewOffset animated:NO];
-    }
+//    else {
+//        // Restore the user scrolling point by computing the offset introduced by new cells
+//        // New cells are always introduced at the top of the table
+//        NSIndexSet *insertedIndexes = (NSIndexSet*)changes;
+//
+//        // Get each new cell height
+//        [insertedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+//            MXKCellData* cellData = [self.dataSource cellDataAtIndex:idx];
+//            Class<MXKCellRendering> class = [self cellViewClassForCellData:cellData];
+//            tableViewOffset.y += [class heightForCellData:cellData withMaximumWidth:self->_searchTableView.frame.size.width];
+//        }];
+//
+//        [_searchTableView setContentOffset:tableViewOffset animated:NO];
+//    }
 
     self.title = [NSString stringWithFormat:@"%@ (%tu)", self.dataSource.searchText, self.dataSource.serverCount];
 }
 
-- (void)dataSource:(MXKDataSource*)dataSource2 didStateChange:(MXKDataSourceState)state
-{
+- (void)dataSource:(MXKDataSource*)dataSource2 didStateChange:(MXKDataSourceState)state {
     // MXKSearchDataSource comes back to the `MXKDataSourceStatePreparing` when searching
-    if (state == MXKDataSourceStatePreparing)
-    {
+    if (state == MXKDataSourceStatePreparing) {
         _noResultsLabel.hidden = YES;
         [self startActivityIndicator];
     }
@@ -360,7 +351,6 @@
     // Apply filter
     if (searchBar.text.length)
     {
-        shouldScrollToBottomOnRefresh = YES;
         [dataSource searchMessages:searchBar.text force:NO];
     }
 }

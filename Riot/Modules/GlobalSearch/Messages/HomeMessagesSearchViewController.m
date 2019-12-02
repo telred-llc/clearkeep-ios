@@ -139,7 +139,7 @@
     {
         if (self.dataSource.searchText.length)
         {
-            self.shouldScrollToBottomOnRefresh = YES;
+            self.shouldScrollToBottomOnRefresh = NO;
             [self.dataSource searchMessages:self.dataSource.searchText force:YES];
         }
     }

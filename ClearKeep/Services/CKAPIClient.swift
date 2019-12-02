@@ -123,7 +123,7 @@ class CKAPIClient {
                     return .failure(CKServiceError.invalidDataFormat)
                 }
             } else {
-                guard let data = data else {//Empty data response
+                guard let data = data else {
                     return .failure(CKServiceError.emptyResponse)
                 }
                 let jsonDecoder = JSONDecoder()
