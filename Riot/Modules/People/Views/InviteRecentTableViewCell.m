@@ -16,11 +16,9 @@
  */
 
 #import "InviteRecentTableViewCell.h"
-
 #import "AvatarGenerator.h"
-
 #import "MXEvent.h"
-
+#import "RecentCellData.h"
 #import "RiotDesignValues.h"
 
 #pragma mark - Constant definitions
@@ -94,10 +92,26 @@ NSString *const kInviteRecentTableViewCellRoomKey = @"kInviteRecentTableViewCell
 - (void)render:(MXKCellData *)cellData {
     [self.rightButton setBackgroundImage:kRiotInviteCellButton forState:UIControlStateNormal];
     [super render:cellData];
+    
+    // Replace user name with 'you'
+    if ([cellData isKindOfClass:[RecentCellData class]]) {
+        RecentCellData *recentData = (RecentCellData *)cellData;
+        if ((recentData.lastEvent != nil) && (recentData.lastEvent.wireContent != nil)) {
+            NSString * typeString = [recentData.lastEvent.wireContent objectForKey:@"membership"];
+            NSString * nameString = [recentData.lastEvent.wireContent objectForKey:@"displayname"];
+            if ([typeString isEqualToString:@"invite"]) {
+                // Extract the attributes
+                NSDictionary *attributes = [(NSAttributedString *)self.lastEventDescription.attributedText attributesAtIndex:0 effectiveRange:NULL];
+
+                NSString *replacedNameString = [recentData.lastEventTextMessage stringByReplacingOccurrencesOfString:nameString withString:@"you"];
+                self.lastEventDescription.attributedText = [[NSAttributedString alloc] initWithString:replacedNameString attributes:attributes];
+            }
+        }
+    }
+
     [self.lastEventDate sizeToFit];
     timeLabelWidth.constant = self.lastEventDate.frame.size.width;
     [self.contentView layoutIfNeeded];
-
 }
 
 + (CGFloat)heightForCellData:(MXKCellData *)cellData withMaximumWidth:(CGFloat)maxWidth

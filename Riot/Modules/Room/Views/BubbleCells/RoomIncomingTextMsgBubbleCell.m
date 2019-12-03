@@ -26,18 +26,17 @@
 
 @implementation RoomIncomingTextMsgBubbleCell
 
-- (void)customizeTableViewCellRendering
-{
+- (void)customizeTableViewCellRendering {
     [super customizeTableViewCellRendering];
-    
+
     self.userNameLabel.textColor = kRiotPrimaryTextColor;
     self.messageTextView.tintColor = kRiotLinkTextColor;
-    
+
     // CK 337: Edit the font size for the "account name"
     [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
 }
 
--(void)setIsSearchCell:(BOOL)isSearchCell {
+- (void)setIsSearchCell:(BOOL)isSearchCell {
     if (isSearchCell) {
         pictureViewWidthConstraint.constant = 40.0;
     } else {

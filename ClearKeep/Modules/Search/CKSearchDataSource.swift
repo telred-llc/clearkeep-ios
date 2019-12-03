@@ -245,6 +245,7 @@ extension CKSearchDataSource {
         }
 
         if cell.isKind(of: MXKRoomBubbleTableViewCell.self), let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
+            bubbleCell.updateEventFormatter()
             bubbleCell.addDateLabel(false)
         } else if cell.isKind(of: FilesSearchTableViewCell.self), let fileSearchCell = cell as? FilesSearchTableViewCell {
             if (self.cellDataArray?.count ?? 0) > indexPath.row,

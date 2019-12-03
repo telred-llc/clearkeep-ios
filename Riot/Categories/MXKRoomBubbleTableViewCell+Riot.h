@@ -73,6 +73,11 @@ extern NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer;
 - (void)addDateLabel:(BOOL)timeOnly;
 
 /**
+Using custom formatter.
+*/
+- (void)updateEventFormatter;
+
+/**
  Called when the user taps on the Receipt Container.
  */
 - (IBAction)onReceiptContainerTap:(UITapGestureRecognizer *)sender;
