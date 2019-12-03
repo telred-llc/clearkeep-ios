@@ -84,3 +84,14 @@ extension UITextField {
         editIcon.tintColor = color
     }
 }
+
+extension UITextField {
+    
+    @objc
+    func setClearButtonColorTo(color: UIColor){
+        // Clear Button
+        let crossIconView = self.value(forKey: "clearButton") as? UIButton
+        crossIconView?.setImage(crossIconView?.currentImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+        crossIconView?.tintColor = color
+    }
+}

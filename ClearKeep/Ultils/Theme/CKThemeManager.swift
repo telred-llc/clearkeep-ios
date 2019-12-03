@@ -46,6 +46,9 @@ protocol Theme {
     var enableButtonBG: UIImage { get }
     var disableButtonBG: UIImage { get }
     var acceptButtonBg: UIImage { get }
+    
+    var checkBoxImage: UIImage { get }
+    
 }
 
 struct LightTheme: Theme {
@@ -76,6 +79,7 @@ struct LightTheme: Theme {
     var disableButtonBG = #imageLiteral(resourceName: "bg_btn_not_valid")
     var accessoryTblColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
     var acceptButtonBg = #imageLiteral(resourceName: "bg_button_start_chat")
+    var checkBoxImage = #imageLiteral(resourceName: "ic_check_yes")
     static func styleForStatusBar() -> UIStatusBarStyle {
         if #available(iOS 13.0, *) {
             return UIStatusBarStyle.darkContent
@@ -106,13 +110,14 @@ struct DarkTheme: Theme {
     var statusBarStyle: UIStatusBarStyle = .lightContent
     var hintText = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
-    var textFieldEditingColor = #colorLiteral(red: 0.2470588235, green: 0.7725490196, blue: 0.7254901961, alpha: 1)
+    var textFieldEditingColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1)
     var textFieldBackground = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.137254902, alpha: 0.5)
     var textFieldEditingBackground = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.137254902, alpha: 1)
     var enableButtonBG = #imageLiteral(resourceName: "btn_start_room_dark")
     var disableButtonBG = #imageLiteral(resourceName: "bg_btn_not_valid")
     var accessoryTblColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
     var acceptButtonBg = #imageLiteral(resourceName: "btn_start_room_dark")
+    var checkBoxImage = #imageLiteral(resourceName: "ic_check_yes_dark")
 }
 
 enum ThemeType: ThemeProvider {

@@ -13,11 +13,14 @@ final class CKRoomCreatingOptionsCell: CKRoomCreatingBaseCell {
     // MARK: - OUTLET
 
     @IBOutlet weak var checkmarkImageview: UIImageView!
+    @IBOutlet weak var contentLabel: UILabel!
     
     // MARK: - PROPERTY
     
     
     private var __isChecking: Bool = false
+    
+    private var disposeBag = DisposeBag()
 
     /**
      isChecked true/false
@@ -29,9 +32,16 @@ final class CKRoomCreatingOptionsCell: CKRoomCreatingBaseCell {
         set {
             __isChecking = newValue
             
-            let checkedImage = UIImage(named: "ic_check_yes")
-            let unCheckedImage = UIImage(named: "ic_check_no")
-            self.checkmarkImageview.image = __isChecking ? checkedImage : unCheckedImage
+            if __isChecking {
+                
+                themeService.attrsStream.subscribe { (theme) in
+                    self.checkmarkImageview.image = theme.element?.checkBoxImage
+                }.disposed(by: self.disposeBag)
+                
+            } else {
+                self.checkmarkImageview.image = #imageLiteral(resourceName: "ic_check_no")
+            }
+            
         }
     }
     /**
@@ -45,6 +55,8 @@ final class CKRoomCreatingOptionsCell: CKRoomCreatingBaseCell {
         super.awakeFromNib()
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
+        self.contentLabel.text = CKLocalization.string(byKey: "create_room_option_anyone_join")
+        self.contentLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
     }
     
     @IBAction func clickCheckmark(_ sender: Any) {

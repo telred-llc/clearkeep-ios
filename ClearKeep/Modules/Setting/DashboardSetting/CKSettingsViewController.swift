@@ -18,6 +18,7 @@ final class CKSettingsViewController: MXKViewController {
         case calls
         case report
         case security
+        case feedback
         case darkmode
         case terms
         case privacyPolicy
@@ -58,7 +59,7 @@ final class CKSettingsViewController: MXKViewController {
     
     private func setupInitization() {
         // Init datasource
-        tblDatasource = [[.profile], [.notification, .calls, .report , .security], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
+        tblDatasource = [[.profile], [.notification, .calls, .report , .security, .feedback], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
         setupTableView()
         bindingTheme()
     }
@@ -107,7 +108,7 @@ private extension CKSettingsViewController {
         default:
             break
         }
-        
+        cell.titleLabel.theme.textColor = themeService.attrStream { $0.navBarTintColor }
         return cell
     }
     
@@ -119,6 +120,7 @@ private extension CKSettingsViewController {
 
         cell.iconImageView.image = #imageLiteral(resourceName: "ic_darkmode_setting").withRenderingMode(.alwaysTemplate)
         cell.iconImageView.theme.tintColor = themeService.attrStream { $0.primaryTextColor }
+        cell.selectionStyle = .none
 
         cell.switchView.rx.controlEvent(.valueChanged).subscribe(onNext: { (_) in
             switch themeService.type {
@@ -151,6 +153,9 @@ private extension CKSettingsViewController {
         case .security:
             cell.titleLabel.text = "Security"
             cell.iconImageView.image = #imageLiteral(resourceName: "ic_security_setting").withRenderingMode(.alwaysTemplate)
+        case .feedback:
+            cell.titleLabel.text = "Feedback"
+            cell.iconImageView.image = #imageLiteral(resourceName: "feedback.png").withRenderingMode(.alwaysTemplate)
         case .terms:
             cell.titleLabel.text = NSLocalizedString("settings_term_conditions", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
             cell.iconImageView.image = #imageLiteral(resourceName: "ic_terms_condition_setting").withRenderingMode(.alwaysTemplate)
@@ -168,6 +173,7 @@ private extension CKSettingsViewController {
         }
 
         cell.iconImageView.theme.tintColor = themeService.attrStream { $0.primaryTextColor }
+        cell.iconDetailImage.theme.tintColor = themeService.attrStream { $0.accessoryTblColor }
         return cell
     }
     
@@ -191,11 +197,12 @@ private extension CKSettingsViewController {
     func showWebViewController(url: String, title: String) {
         if let webViewViewController = WebViewViewController(url: url) {
             webViewViewController.title = title
-            webViewViewController.defaultBarTintColor = themeService.attrs.primaryBgColor
-            webViewViewController.barTitleColor = themeService.attrs.primaryTextColor
+            webViewViewController.defaultBarTintColor = themeService.attrs.navBarBgColor
+            webViewViewController.barTitleColor = themeService.attrs.navBarTintColor
 
             // Hide back button title
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            navigationItem.backBarButtonItem?.tintColor = themeService.attrs.navBarTintColor
 
             navigationController?.pushViewController(webViewViewController, animated: true)
         }
@@ -290,6 +297,9 @@ extension CKSettingsViewController: UITableViewDelegate {
         case .security:
             let vc = CKSecuritySettingViewController.instance()
             vc.importSession(self.mxSessions)
+            self.navigationController?.pushViewController(vc, animated: true)
+        case .feedback:
+            let vc = CKFeedbackViewController.instance()
             self.navigationController?.pushViewController(vc, animated: true)
         case .report:
             let vc = CKReportSettingViewController.instance()
