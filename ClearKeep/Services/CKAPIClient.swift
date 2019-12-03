@@ -109,7 +109,7 @@ class CKAPIClient {
     static func responseObjectSerializer<T: Codable>() -> DataResponseSerializer<T> {
         return DataResponseSerializer(serializeResponse: { urlRequest, _, data, error -> Alamofire.Result<T> in
             if let error = error {
-                guard let data = data else {
+                guard let data = data, data.count > 0 else {
                     return .failure(CKServiceError(code: (error as NSError).code, reason: error.localizedDescription))
                 }
                 let jsonDecoder = JSONDecoder()
@@ -232,7 +232,7 @@ private struct ResponseStatus: Codable {
     }
 }
 
-private struct ResponseData<T: Codable>: Codable {
+struct ResponseData<T: Codable>: Codable {
     var errorCode: Int?
     var message: String?
     var data: T?

@@ -217,3 +217,13 @@
 "call_history_not_admin_call_in_room" = "You don't admin in room";
 "load_fail_image" = "Don't load image in photos";
 "unexpected_error" = "Something went wrong!";
+
+// Feedback screen
+"feedback_setting" = "Feedback";
+"feedback_setting_enjoy_clearkeep" = "Did you enjoy ClearKeep ?";
+"feedback_setting_title" = "We would love to hear back from you!";
+"feedback_setting_submit" = "Submit";
+"feedback_setting_clear_all" = "Clear all";
+"feedback_setting_submit_success" = "Your feedback has been sent successfully";
+
+"create_room_option_anyone_join" = "Public mode : Anyone in the Directory can join";

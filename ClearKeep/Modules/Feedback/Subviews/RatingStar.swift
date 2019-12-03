@@ -97,9 +97,12 @@ protocol RatingControlDelegate: class {
         
         // Load Button Images
         let bundle = Bundle(for: type(of: self))
-        let filledStar = UIImage(named: "filledStar", in: bundle, compatibleWith: self.traitCollection)
-        let emptyStar = UIImage(named:"emptyStar", in: bundle, compatibleWith: self.traitCollection)
-        let highlightedStar = UIImage(named:"filledStar", in: bundle, compatibleWith: self.traitCollection)
+        
+        let starImage = UIImage(named: "star_feedback", in: bundle, compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
+        
+        let filledStar = starImage?.vc_tintedImage(usingColor: #colorLiteral(red: 0.9529411765, green: 0.8, blue: 0.1882352941, alpha: 1))
+        let emptyStar = starImage?.vc_tintedImage(usingColor: #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1))
+        let highlightedStar = starImage?.vc_tintedImage(usingColor: #colorLiteral(red: 0.9529411765, green: 0.8, blue: 0.1882352941, alpha: 1))
         
         for index in 0..<starCount {
             // Create the button

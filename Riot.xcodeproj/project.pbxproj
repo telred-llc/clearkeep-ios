@@ -521,6 +521,8 @@
 		D30A0CEA2386846E00590BF9 /* CKCallHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A0CE82386846E00590BF9 /* CKCallHistoryViewController.swift */; };
 		D31A72A12358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
 		D31A72A22358F26900BCE52E /* RoomContextualMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FA9B352356EF8E00FB0BD1 /* RoomContextualMenuViewController.swift */; };
+		D32BF5A1238FA97900362A5F /* CKFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32BF5A0238FA97900362A5F /* CKFeedback.swift */; };
+		D32BF5A2238FA97900362A5F /* CKFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32BF5A0238FA97900362A5F /* CKFeedback.swift */; };
 		D32D09292370230100E7D94D /* CKEditRoomSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32D09272370230100E7D94D /* CKEditRoomSettingsCell.swift */; };
 		D32D092A2370230100E7D94D /* CKEditRoomSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32D09272370230100E7D94D /* CKEditRoomSettingsCell.swift */; };
 		D32D092B2370230100E7D94D /* CKEditRoomSettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */; };
@@ -537,6 +539,12 @@
 		D372A81423694E6000CF79D3 /* CKCustomTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = D372A81023694E6000CF79D3 /* CKCustomTextField.xib */; };
 		D3A4DB8C235F0BF40075EF7B /* CKUserProfileDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A4DB8A235F0BF40075EF7B /* CKUserProfileDetailCell.swift */; };
 		D3A4DB8D235F0BF40075EF7B /* CKUserProfileDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3A4DB8B235F0BF40075EF7B /* CKUserProfileDetailCell.xib */; };
+		D3BD08392390B98B0021C58B /* CKFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BD08372390B98B0021C58B /* CKFeedbackViewController.swift */; };
+		D3BD083A2390B98B0021C58B /* CKFeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BD08372390B98B0021C58B /* CKFeedbackViewController.swift */; };
+		D3BD083B2390B98B0021C58B /* CKFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3BD08382390B98B0021C58B /* CKFeedbackViewController.xib */; };
+		D3BD083C2390B98B0021C58B /* CKFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3BD08382390B98B0021C58B /* CKFeedbackViewController.xib */; };
+		D3BD083F2390BB300021C58B /* RatingStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BD083E2390BB300021C58B /* RatingStar.swift */; };
+		D3BD08402390BB300021C58B /* RatingStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BD083E2390BB300021C58B /* RatingStar.swift */; };
 		D3C5A0D723587C1700DCBA8A /* RoomContextualMenuViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3FA9B342356EF8E00FB0BD1 /* RoomContextualMenuViewController.storyboard */; };
 		D3C5A0D923587C1800DCBA8A /* RoomContextualMenuViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3FA9B342356EF8E00FB0BD1 /* RoomContextualMenuViewController.storyboard */; };
 		D3E5AF30235978D300D11110 /* DefaultTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E5AF2F235978D300D11110 /* DefaultTheme.swift */; };
@@ -2137,6 +2145,7 @@
 		D30A0CE22386845E00590BF9 /* CKHeaderCallHistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKHeaderCallHistoryView.xib; sourceTree = "<group>"; };
 		D30A0CE32386845E00590BF9 /* CKHeaderCallHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKHeaderCallHistoryView.swift; sourceTree = "<group>"; };
 		D30A0CE82386846E00590BF9 /* CKCallHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCallHistoryViewController.swift; sourceTree = "<group>"; };
+		D32BF5A0238FA97900362A5F /* CKFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKFeedback.swift; sourceTree = "<group>"; };
 		D32D09272370230100E7D94D /* CKEditRoomSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKEditRoomSettingsCell.swift; sourceTree = "<group>"; };
 		D32D09282370230100E7D94D /* CKEditRoomSettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKEditRoomSettingsCell.xib; sourceTree = "<group>"; };
 		D356DD4F238699170079E0BD /* CKCallHistoryDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKCallHistoryDataSource.swift; sourceTree = "<group>"; };
@@ -2146,6 +2155,9 @@
 		D372A81023694E6000CF79D3 /* CKCustomTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CKCustomTextField.xib; sourceTree = "<group>"; };
 		D3A4DB8A235F0BF40075EF7B /* CKUserProfileDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKUserProfileDetailCell.swift; sourceTree = "<group>"; };
 		D3A4DB8B235F0BF40075EF7B /* CKUserProfileDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKUserProfileDetailCell.xib; sourceTree = "<group>"; };
+		D3BD08372390B98B0021C58B /* CKFeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKFeedbackViewController.swift; sourceTree = "<group>"; };
+		D3BD08382390B98B0021C58B /* CKFeedbackViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CKFeedbackViewController.xib; sourceTree = "<group>"; };
+		D3BD083E2390BB300021C58B /* RatingStar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingStar.swift; sourceTree = "<group>"; };
 		D3E5AF2F235978D300D11110 /* DefaultTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTheme.swift; sourceTree = "<group>"; };
 		D3E5AF322359794E00D11110 /* UISearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISearchBar.swift; sourceTree = "<group>"; };
 		D3E5AF352359805600D11110 /* DarkThemeReaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkThemeReaction.swift; sourceTree = "<group>"; };
@@ -4378,6 +4390,7 @@
 		BDB43F2923162C4400F7CB00 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D32BF59C238FA93200362A5F /* Feedback */,
 				BDB43F2A23162C4F00F7CB00 /* LoginModel */,
 			);
 			path = Models;
@@ -4417,6 +4430,14 @@
 			path = Subviews;
 			sourceTree = "<group>";
 		};
+		D32BF59C238FA93200362A5F /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				D32BF5A0238FA97900362A5F /* CKFeedback.swift */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
 		D356DD4E238699000079E0BD /* Datasource */ = {
 			isa = PBXGroup;
 			children = (
@@ -4444,6 +4465,24 @@
 				D372A81023694E6000CF79D3 /* CKCustomTextField.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D3BD08362390B6400021C58B /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				D3BD083D2390BB1F0021C58B /* Subviews */,
+				D3BD08372390B98B0021C58B /* CKFeedbackViewController.swift */,
+				D3BD08382390B98B0021C58B /* CKFeedbackViewController.xib */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
+		D3BD083D2390BB1F0021C58B /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				D3BD083E2390BB300021C58B /* RatingStar.swift */,
+			);
+			path = Subviews;
 			sourceTree = "<group>";
 		};
 		D3FA9B252356EF8D00FB0BD1 /* ContextualMenu */ = {
@@ -4692,6 +4731,7 @@
 		E5720EDF21ACFB5F0093D99A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				D3BD08362390B6400021C58B /* Feedback */,
 				D35EEDBD23602B0200D7E625 /* CallHistory */,
 				855EEDF522F9261F0047B4AC /* Search */,
 				8511E1462230C7670059ABC0 /* Setting */,
@@ -5572,6 +5612,7 @@
 				E5E7DCF8229BC7D300AB7CF3 /* CKRoomInputToolbarView.xib in Resources */,
 				E5E7DCF9229BC7D300AB7CF3 /* CKSettingButtonCell.xib in Resources */,
 				E5E7DCFA229BC7D300AB7CF3 /* RoomParticipantsViewController.xib in Resources */,
+				D3BD083C2390B98B0021C58B /* CKFeedbackViewController.xib in Resources */,
 				D3FA9BAC2356EF8E00FB0BD1 /* ReactionHistoryViewController.storyboard in Resources */,
 				E520C5E322E719DA003101BA /* KeyBackupBannerCell.xib in Resources */,
 				E5E7DCFB229BC7D300AB7CF3 /* CkForgotPasswordViewController.xib in Resources */,
@@ -5824,6 +5865,7 @@
 				D3C5A0D723587C1700DCBA8A /* RoomContextualMenuViewController.storyboard in Resources */,
 				8542618722316D9200F24395 /* CKSettingButtonCell.xib in Resources */,
 				B1B5572D20EE6C4D00210D55 /* RoomParticipantsViewController.xib in Resources */,
+				D3BD083B2390B98B0021C58B /* CKFeedbackViewController.xib in Resources */,
 				E5C0B9A621CA717F00910D8B /* CkForgotPasswordViewController.xib in Resources */,
 				D3FA9BAB2356EF8E00FB0BD1 /* ReactionHistoryViewController.storyboard in Resources */,
 				E5ABA74C21E73CBC005EFE0C /* CKRoomSettingsViewController.xib in Resources */,
@@ -6095,6 +6137,7 @@
 				D3FA9B742356EF8E00FB0BD1 /* ReactionsMenuButton.swift in Sources */,
 				E5E7DB3F229BC7D300AB7CF3 /* ContactTableViewCell.m in Sources */,
 				E5E7DB40229BC7D300AB7CF3 /* CKAccountEditProfileAvatarCell.swift in Sources */,
+				D3BD08402390BB300021C58B /* RatingStar.swift in Sources */,
 				E5E7DB41229BC7D300AB7CF3 /* CKRecentItemFirstChatCell.swift in Sources */,
 				D3FA9BBA2356EF8E00FB0BD1 /* EmojiPickerViewState.swift in Sources */,
 				BDA1FAB6236340CE005D910D /* AutosizedCollectionView.swift in Sources */,
@@ -6107,6 +6150,7 @@
 				E5E7DB46229BC7D300AB7CF3 /* BugReportViewController.m in Sources */,
 				E5E7DB47229BC7D300AB7CF3 /* empty.mm in Sources */,
 				E520C5D422E719CA003101BA /* KeyBackupRecoverFromPassphraseViewState.swift in Sources */,
+				D32BF5A2238FA97900362A5F /* CKFeedback.swift in Sources */,
 				E5E7DB48229BC7D300AB7CF3 /* RecentCellData.m in Sources */,
 				E5E7DB49229BC7D300AB7CF3 /* Misc+Extension.swift in Sources */,
 				E5E7DB4A229BC7D300AB7CF3 /* GroupsDataSource.m in Sources */,
@@ -6142,6 +6186,7 @@
 				E5E7DB5F229BC7D300AB7CF3 /* RoomSettingsViewController.m in Sources */,
 				E5E7DB61229BC7D300AB7CF3 /* PublicRoomsDirectoryDataSource.m in Sources */,
 				E5E7DB62229BC7D300AB7CF3 /* MulticastDelegate.swift in Sources */,
+				D3BD083A2390B98B0021C58B /* CKFeedbackViewController.swift in Sources */,
 				BDB43F2D23162C8E00F7CB00 /* CKPassphrase.swift in Sources */,
 				E520C5E222E719DA003101BA /* KeyBackupBannerCell.swift in Sources */,
 				E5E7DB63229BC7D300AB7CF3 /* RoomIncomingAttachmentWithPaginationTitleBubbleCell.m in Sources */,
@@ -6549,6 +6594,7 @@
 				E579FDBB22FD21EA00B26814 /* Widget.m in Sources */,
 				D3FA9B932356EF8E00FB0BD1 /* BubbleReactionsViewModelType.swift in Sources */,
 				9CF635EB22D85E1B00790297 /* PasswordStrengthManager.swift in Sources */,
+				D3BD08392390B98B0021C58B /* CKFeedbackViewController.swift in Sources */,
 				9C3AC4B822D73B6900DD179F /* KeyBackupSetupIntroViewController.swift in Sources */,
 				A06949AB21F86346002ABA27 /* CKAccountEditProfileAvatarCell.swift in Sources */,
 				E517440D22167C4A00C13B21 /* CKRecentItemFirstChatCell.swift in Sources */,
@@ -6678,6 +6724,7 @@
 				9CEEB4DB22C62D260031AB36 /* CKRecentHeaderView.swift in Sources */,
 				B1B558DF20EF768F00210D55 /* RoomOutgoingTextMsgWithoutSenderInfoBubbleCell.m in Sources */,
 				E579FDB922FD21EA00B26814 /* WidgetManagerConfig.swift in Sources */,
+				D3BD083F2390BB300021C58B /* RatingStar.swift in Sources */,
 				9C3AC4DC22D73B6A00DD179F /* KeyBackupRecoverFromPassphraseViewModelType.swift in Sources */,
 				F083BE041E7009ED00A9B29C /* Tools.m in Sources */,
 				D3FA9B752356EF8E00FB0BD1 /* ReactionsMenuViewModelType.swift in Sources */,
@@ -6973,6 +7020,7 @@
 				B1B558F820EF768F00210D55 /* RoomIncomingTextMsgWithPaginationTitleWithoutSenderNameBubbleCell.m in Sources */,
 				85CA7CAE21DE307F000331AC /* CKColor.swift in Sources */,
 				D3FA9BF22356F76700FB0BD1 /* UIImage.swift in Sources */,
+				D32BF5A1238FA97900362A5F /* CKFeedback.swift in Sources */,
 				B16932E720F3C37100746532 /* HomeMessagesSearchDataSource.m in Sources */,
 				B1B558CE20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentBubbleCell.m in Sources */,
 				B1B5577D20EE84BF00210D55 /* CircleButton.m in Sources */,
@@ -7087,8 +7135,8 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = "RiotShareExtension/SupportingFiles/RiotShareExtension-Dev.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = H4C7478UQW;
@@ -7109,7 +7157,7 @@
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "CK-iOS-dev-app-extension";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
@@ -7130,8 +7178,8 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = "RiotShareExtension/SupportingFiles/RiotShareExtension-Dev.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -7153,7 +7201,7 @@
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "CK-iOS-dev-app-extension";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/RiotShareExtension-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
@@ -7523,7 +7571,7 @@
 				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
@@ -7559,7 +7607,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DDEVELOP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "CK-iOS-dev-app-parent";
 				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";
@@ -7578,8 +7626,8 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Riot/SupportingFiles/Riot.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = H4C7478UQW;
 				ENABLE_BITCODE = NO;
@@ -7615,7 +7663,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DDEVELOP";
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)-Dev";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "CK-iOS-dev-app-parent";
 				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(TARGET_NAME)/SupportingFiles/Riot-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(TARGET_NAME)-Swift.h";

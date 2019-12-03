@@ -25,12 +25,13 @@ struct CKFeedback {
     
     
     struct Response: Codable {
-        var errorCode: Int
-        var message: String
+        var errorCode: Int?
+        var message: String?
+        var data: Any?
         
         enum CodingKeys: String, CodingKey {
-            case errorCode
-            case message
+            case errorCode = "errorCode"
+            case message = "message"
         }
     }
     
