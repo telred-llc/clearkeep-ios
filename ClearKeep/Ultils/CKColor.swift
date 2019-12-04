@@ -42,7 +42,7 @@ class CKColor {
         static let borderColor: UIColor             = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         static let onlineColor: UIColor             = #colorLiteral(red: 0.2941176471, green: 0.8588235294, blue: 0.4235294118, alpha: 1)
         static let offlineColor: UIColor            = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-        static let pulseCicleColor: UIColor         = #colorLiteral(red: 0.631372549, green: 0.7450980392, blue: 0.9725490196, alpha: 1)
+        static let pulseCicleColor: CGColor         = #colorLiteral(red: 0.631372549, green: 0.737254902, blue: 0.9725490196, alpha: 1)
     }
     
     static func applyStyle(onTabBar tabBar: UITabBar) {

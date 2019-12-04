@@ -242,7 +242,7 @@ final class CKCallViewController: CallViewController {
             self.animatePulsatingLayerAt(index: 0)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
                 self.animatePulsatingLayerAt(index: 1)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: {
                     self.animatePulsatingLayerAt(index: 2)
                 })
             })
@@ -255,24 +255,25 @@ final class CKCallViewController: CallViewController {
         }
 
         //Giving color to the layer
-        pulseArray[index].strokeColor = CKColor.Misc.pulseCicleColor.cgColor
+        pulseArray[index].strokeColor = CKColor.Misc.pulseCicleColor
         
         //Creating scale animation for the layer, from and to value should be in range of 0.0 to 1.0
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.fromValue = 0.0
-        scaleAnimation.toValue = 0.75
+        scaleAnimation.toValue = 0.8
         
         //Creating opacity animation for the layer, from and to value should be in range of 0.0 to 1.0
         let opacityAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
-        opacityAnimation.fromValue = 1.0
-        opacityAnimation.toValue = 0.0
-        
-        // Grouping both animations and giving animation duration, animation repat count
+        opacityAnimation.fromValue = 1.2
+        opacityAnimation.toValue = 0
+
+        // Grouping both animations and giving animation duration, animation repeat count
         let groupAnimation = CAAnimationGroup()
         groupAnimation.animations = [scaleAnimation, opacityAnimation]
-        groupAnimation.duration = 3.3
+        groupAnimation.duration = 3.5
         groupAnimation.repeatCount = .greatestFiniteMagnitude
-        groupAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        groupAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+
         //adding groupanimation to the layer
         pulseArray[index].add(groupAnimation, forKey: "groupanimation")
     }

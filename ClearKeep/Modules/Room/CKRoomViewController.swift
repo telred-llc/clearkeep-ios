@@ -12,7 +12,7 @@ import MatrixKit
 @objc final class CKRoomViewController: MXKRoomViewController {
     
     // MARK: - IBOutlets
-    
+
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var previewHeaderContainer: UIView!
     @IBOutlet weak var previewHeaderContainerHeightConstraint: NSLayoutConstraint!
@@ -20,9 +20,7 @@ import MatrixKit
     @IBOutlet weak var mentionListTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityCHeight: NSLayoutConstraint!
     @IBOutlet weak var bottomContainerViewConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var overlayContainerView: UIView!
-
     @IBOutlet var invitationController: CKRoomInvitationController!
 
     // MARK: - Constants
