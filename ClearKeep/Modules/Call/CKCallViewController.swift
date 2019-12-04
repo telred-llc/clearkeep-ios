@@ -147,10 +147,11 @@ final class CKCallViewController: CallViewController {
         } else {
             call.endReason
             statusTimer.invalidate()
-            self.cameraSwitchView.isHidden = false
+            self.cameraSwitchView.isHidden = !call.isVideoCall
             self.callerImageView.isHidden = false
             self.pulseView.isHidden = false
             self.messageSwitchView.isHidden = call.isVideoCall
+            self.sideChatButton.isHidden = !self.messageSwitchView.isHidden
         }
     }
     
