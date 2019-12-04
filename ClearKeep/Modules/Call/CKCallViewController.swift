@@ -36,9 +36,9 @@ final class CKCallViewController: CallViewController {
         let image = UIImage.init(named: "back_icon")?.withRenderingMode(.alwaysTemplate)
         self.backToAppButton.setImage(image, for: .normal)
         // Binding navigation bar color
+        self.callStatusLabel.theme.textColor = themeService.attrStream{$0.secondTextColor}
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.callerNameLabel.textColor = themeService.attrs.primaryTextColor
-            self?.callStatusLabel.textColor = themeService.attrs.secondTextColor
             self?.view.backgroundColor = themeService.attrs.navBarBgColor
             self?.backToAppButton.tintColor = themeService.attrs.primaryTextColor
         }).disposed(by: disposeBag)
@@ -144,6 +144,8 @@ final class CKCallViewController: CallViewController {
             self.messageSwitchView.isHidden = call.isVideoCall
             self.callStatusLabel.isHidden = call.isVideoCall
             self.callerNameLabel.isHidden = call.isVideoCall
+            self.smallTimeLabel.theme.textColor = themeService.attrStream{$0.navBarTintColor}
+            self.callStatusLabel.theme.textColor = themeService.attrStream{$0.navBarTintColor}
         } else {
             call.endReason
             statusTimer.invalidate()
@@ -154,7 +156,7 @@ final class CKCallViewController: CallViewController {
             self.sideChatButton.isHidden = !self.messageSwitchView.isHidden
         }
     }
-    
+
     override func call(_ call: MXCall, didEncounterError error: Error?) {
         
         guard let nsError = error as NSError? else {
