@@ -2619,7 +2619,7 @@ extension CKRoomViewController {
         refreshActivitiesViewDisplay()
     }
 }
-
+ 
 // MARK: - Read marker handling
 
 extension CKRoomViewController {

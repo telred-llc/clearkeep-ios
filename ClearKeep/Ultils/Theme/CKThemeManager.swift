@@ -48,6 +48,7 @@ protocol Theme {
     var acceptButtonBg: UIImage { get }
     
     var checkBoxImage: UIImage { get }
+    var joinRoomImage: UIImage { get }
     
 }
 
@@ -80,6 +81,7 @@ struct LightTheme: Theme {
     var accessoryTblColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
     var acceptButtonBg = #imageLiteral(resourceName: "bg_button_start_chat")
     var checkBoxImage = #imageLiteral(resourceName: "ic_check_yes")
+    var joinRoomImage = #imageLiteral(resourceName: "join_room_notification")
     static func styleForStatusBar() -> UIStatusBarStyle {
         if #available(iOS 13.0, *) {
             return UIStatusBarStyle.darkContent
@@ -118,6 +120,7 @@ struct DarkTheme: Theme {
     var accessoryTblColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
     var acceptButtonBg = #imageLiteral(resourceName: "btn_start_room_dark")
     var checkBoxImage = #imageLiteral(resourceName: "ic_check_yes_dark")
+    var joinRoomImage = #imageLiteral(resourceName: "join_room_notification_dark")
 }
 
 enum ThemeType: ThemeProvider {

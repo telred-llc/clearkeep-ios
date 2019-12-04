@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,11 +14,11 @@
             <rect key="frame" x="0.0" y="0.0" width="314" height="358"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5fM-WL-M0t" id="AO5-Pd-WGP">
-                <rect key="frame" x="0.0" y="0.0" width="314" height="357.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="314" height="358"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Whx-gJ-nxE">
-                        <rect key="frame" x="0.0" y="0.0" width="314" height="357.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="314" height="358"/>
                         <subviews>
                             <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="wIa-d0-gF1" customClass="CKImageView" customModule="Riot" customModuleProvider="target">
                                 <rect key="frame" x="78.5" y="40" width="157" height="157"/>
@@ -37,18 +35,11 @@
                                     <constraint firstAttribute="width" constant="24" id="XVc-a5-Nsn"/>
                                 </constraints>
                             </view>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_admin" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-51-TJR">
-                                <rect key="frame" x="78.5" y="173" width="24" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="g2O-51-TJR" secondAttribute="height" multiplier="1:1" id="6ar-gh-Asj"/>
-                                </constraints>
-                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D1B-WO-RYi">
                                 <rect key="frame" x="40" y="217" width="254" height="27"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zC2-MI-jdf">
                                         <rect key="frame" x="0.0" y="0.0" width="224" height="27"/>
-                                        <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -75,23 +66,39 @@
                                     <constraint firstAttribute="height" constant="1" id="ffD-2y-mRQ"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="TlV-wE-w9G">
+                                <rect key="frame" x="128" y="265" width="58" height="16"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star_room_admin" translatesAutoresizingMaskIntoConstraints="NO" id="ddo-Il-Z3Y">
+                                        <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="16" id="QUq-N7-tXH"/>
+                                            <constraint firstAttribute="width" secondItem="ddo-Il-Z3Y" secondAttribute="height" multiplier="1:1" id="ann-3f-F6b"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Admin" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ja-R5-gV6">
+                                        <rect key="frame" x="20" y="0.0" width="38" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="g2O-51-TJR" firstAttribute="bottom" secondItem="wIa-d0-gF1" secondAttribute="bottom" id="Eor-zz-clT"/>
+                            <constraint firstItem="TlV-wE-w9G" firstAttribute="top" secondItem="9Xx-Do-kGX" secondAttribute="bottom" constant="16" id="7t7-8A-3kb"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TlV-wE-w9G" secondAttribute="bottom" constant="20" id="MIy-lI-iGx"/>
                             <constraint firstItem="D1B-WO-RYi" firstAttribute="top" secondItem="wIa-d0-gF1" secondAttribute="bottom" constant="20" id="QaR-Hn-etV"/>
                             <constraint firstItem="9Xx-Do-kGX" firstAttribute="leading" secondItem="D1B-WO-RYi" secondAttribute="leading" id="TBY-95-Wif"/>
                             <constraint firstItem="D1B-WO-RYi" firstAttribute="leading" secondItem="Whx-gJ-nxE" secondAttribute="leading" constant="40" id="Tc4-YK-Su7"/>
                             <constraint firstAttribute="trailing" secondItem="D1B-WO-RYi" secondAttribute="trailing" constant="20" id="dYK-6d-aeB"/>
                             <constraint firstItem="ISO-LC-gHy" firstAttribute="trailing" secondItem="wIa-d0-gF1" secondAttribute="trailing" id="fA8-Bi-bby"/>
-                            <constraint firstItem="g2O-51-TJR" firstAttribute="leading" secondItem="wIa-d0-gF1" secondAttribute="leading" id="jbp-fL-Bvu"/>
-                            <constraint firstItem="g2O-51-TJR" firstAttribute="width" secondItem="ISO-LC-gHy" secondAttribute="width" id="kYo-4e-WYT"/>
                             <constraint firstItem="ISO-LC-gHy" firstAttribute="bottom" secondItem="wIa-d0-gF1" secondAttribute="bottom" id="otk-9b-aG6"/>
                             <constraint firstItem="wIa-d0-gF1" firstAttribute="width" secondItem="Whx-gJ-nxE" secondAttribute="width" multiplier="1:2" id="rWS-Np-Iii"/>
                             <constraint firstItem="9Xx-Do-kGX" firstAttribute="trailing" secondItem="D1B-WO-RYi" secondAttribute="trailing" id="xXZ-mV-PMi"/>
                             <constraint firstItem="wIa-d0-gF1" firstAttribute="centerX" secondItem="Whx-gJ-nxE" secondAttribute="centerX" id="xbW-dL-WVN"/>
                             <constraint firstItem="wIa-d0-gF1" firstAttribute="top" secondItem="Whx-gJ-nxE" secondAttribute="top" constant="40" id="xvk-bf-0nI"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="D1B-WO-RYi" secondAttribute="bottom" constant="40" id="yIT-9w-jSk"/>
                             <constraint firstItem="9Xx-Do-kGX" firstAttribute="top" secondItem="D1B-WO-RYi" secondAttribute="bottom" constant="4" id="yJ9-T7-Vkb"/>
                         </constraints>
                     </view>
@@ -99,6 +106,7 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Whx-gJ-nxE" secondAttribute="bottom" id="3ro-hs-KsX"/>
+                    <constraint firstItem="TlV-wE-w9G" firstAttribute="centerX" secondItem="AO5-Pd-WGP" secondAttribute="centerX" id="Lj0-IN-9DP"/>
                     <constraint firstItem="Whx-gJ-nxE" firstAttribute="top" secondItem="AO5-Pd-WGP" secondAttribute="top" id="eTt-Dw-dNU"/>
                     <constraint firstItem="Whx-gJ-nxE" firstAttribute="leading" secondItem="AO5-Pd-WGP" secondAttribute="leading" id="jpU-tP-WIK"/>
                     <constraint firstAttribute="trailing" secondItem="Whx-gJ-nxE" secondAttribute="trailing" id="l6f-FQ-NHQ"/>
@@ -107,13 +115,16 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="7c9-Yd-DVF"/>
             <connections>
-                <outlet property="adminStatusView" destination="g2O-51-TJR" id="HWq-hN-KZD"/>
+                <outlet property="adminLabel" destination="5Ja-R5-gV6" id="0gX-Jt-dY6"/>
+                <outlet property="adminStackView" destination="TlV-wE-w9G" id="HGf-yO-97h"/>
+                <outlet property="adminStatusView" destination="ddo-Il-Z3Y" id="dkh-Vt-gSm"/>
                 <outlet property="avaImage" destination="wIa-d0-gF1" id="5MQ-LR-sOV"/>
                 <outlet property="bottomStatusViewConstraints" destination="otk-9b-aG6" id="GSY-BM-0fU"/>
                 <outlet property="doneButton" destination="Z23-AB-lFH" id="JQh-YG-cJi"/>
                 <outlet property="nameTextField" destination="zC2-MI-jdf" id="hJ9-TY-4uW"/>
                 <outlet property="separatorView" destination="9Xx-Do-kGX" id="dJb-lQ-Vvk"/>
                 <outlet property="statusView" destination="ISO-LC-gHy" id="uQl-cv-gTd"/>
+                <outlet property="topAdminStackViewConstraint" destination="7t7-8A-3kb" id="Z5Q-4s-NKZ"/>
                 <outlet property="trailingStatusViewConstraints" destination="fA8-Bi-bby" id="8aR-03-MWd"/>
             </connections>
             <point key="canvasLocation" x="168" y="38.680659670164921"/>
@@ -121,6 +132,6 @@
     </objects>
     <resources>
         <image name="edit_display_name_profile" width="9" height="13"/>
-        <image name="ic_room_admin" width="20" height="20"/>
+        <image name="star_room_admin" width="15" height="14.5"/>
     </resources>
 </document>

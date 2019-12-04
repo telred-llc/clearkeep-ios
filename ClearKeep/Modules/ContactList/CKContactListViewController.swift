@@ -173,9 +173,9 @@ extension CKContactListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel.init()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         label.text = sections[section].letter.localizedUppercase
-        label.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+        label.theme.textColor = themeService.attrStream{ $0.navBarTintColor }
         let headerView = UIView.init()
         headerView.addSubview(label)
         headerView.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }

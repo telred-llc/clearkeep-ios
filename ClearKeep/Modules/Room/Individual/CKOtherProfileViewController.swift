@@ -142,9 +142,9 @@ class CKOtherProfileViewController: MXKViewController {
             
             // Is admin
             if let mxMember = mxMember, let powerLevels = mxRoomPowerLevels, powerLevels.powerLevelOfUser(withUserID: mxMember.userId) == kCkRoomAdminLevel {
-                cell.adminStatusView.isHidden = false
+                cell.isAdminPower = true
             } else {
-                cell.adminStatusView.isHidden = true
+                cell.isAdminPower = false
             }
             
             //status
@@ -205,9 +205,9 @@ class CKOtherProfileViewController: MXKViewController {
             case 0:
                 cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: mxMember.userId)
             case 1:
-                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "")
             case 2:
-                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "+84 222 11 5550")
+                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "")
             default:
                 break
             }

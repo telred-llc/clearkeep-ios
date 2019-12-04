@@ -57,7 +57,7 @@ final class CKRoomCreatingTopicCell: CKRoomCreatingBaseCell {
         textField.borderColor = color
         textField.textColor = themeService.attrs.textFieldEditingColor
         
-        textField.attributedPlaceholder = NSAttributedString(string: CKLocalization.string(byKey: "display_name_room_placeholder"), attributes: [NSAttributedStringKey.foregroundColor: color.withAlphaComponent(0.5)])
+        textField.attributedPlaceholder = NSAttributedString(string: CKLocalization.string(byKey: "display_name_room_placeholder"), attributes: [NSAttributedStringKey.foregroundColor: color.withAlphaComponent(0.7)])
     }
 
     

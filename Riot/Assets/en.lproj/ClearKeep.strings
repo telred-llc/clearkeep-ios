@@ -227,3 +227,6 @@
 "feedback_setting_submit_success" = "Your feedback has been sent successfully";
 
 "create_room_option_anyone_join" = "Public mode : Anyone in the Directory can join";
+
+// profile
+"profile_admin" = "Admin";

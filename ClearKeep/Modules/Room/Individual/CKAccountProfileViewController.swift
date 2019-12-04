@@ -172,8 +172,17 @@ class CKAccountProfileViewController: MXKViewController {
         navigationItem.rightBarButtonItem = settingItem
         
         addCustomBackButton()
+        
+        let tapAction = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tapAction.cancelsTouchesInView = false
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
+        view.addGestureRecognizer(tapAction)
     }
     
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     @objc private func handleSettingButton(_ sender: UIBarButtonItem) {
         
@@ -214,7 +223,6 @@ class CKAccountProfileViewController: MXKViewController {
             
             cell.isCanEditDisplayName = true
             cell.currentDisplayName = myUser?.displayname.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-            cell.adminStatusView.isHidden = true
             
             if let myUser = self.myUser {
                 
@@ -232,7 +240,9 @@ class CKAccountProfileViewController: MXKViewController {
                     session: self.mainSession,
                     cropped: false)
                 if let powerLevels = mxRoomPowerLevels, powerLevels.powerLevelOfUser(withUserID: myUser.userId) == kCkRoomAdminLevel {
-                    cell.adminStatusView.isHidden = false
+                    cell.isAdminPower = true
+                } else {
+                    cell.isAdminPower = false
                 }
             } else {
                 cell.settingStatus(online: false)
@@ -305,9 +315,9 @@ class CKAccountProfileViewController: MXKViewController {
             case 0:
                 cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: myUser?.userId)
             case 1:
-                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "")
             case 2:
-                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "+84 222 11 5550")
+                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "")
             default:
                 break
             }
