@@ -203,11 +203,11 @@ class CKOtherProfileViewController: MXKViewController {
             for: indexPath) as? CKUserProfileDetailCell {
             switch indexPath.row {
             case 0:
-                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: mxMember.userId)
+                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: mxMember.userId, placeholder: "")
             case 1:
-                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "")
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: nil, placeholder: CKLocalization.string(byKey: "profile_location_placeholder"))
             case 2:
-                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "")
+                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: nil, placeholder: CKLocalization.string(byKey: "profile_phone_placeholder"))
             default:
                 break
             }

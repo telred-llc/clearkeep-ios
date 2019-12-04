@@ -225,8 +225,11 @@
 "feedback_setting_submit" = "Submit";
 "feedback_setting_clear_all" = "Clear all";
 "feedback_setting_submit_success" = "Your feedback has been sent successfully";
+"feedback_setting_placeholder" = "Enter your feedback ....";
 
 "create_room_option_anyone_join" = "Public mode : Anyone in the Directory can join";
 
 // profile
 "profile_admin" = "Admin";
+"profile_location_placeholder" = "Your location";
+"profile_phone_placeholder" = "Your phone";

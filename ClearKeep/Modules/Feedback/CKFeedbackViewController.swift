@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CKFeedbackViewController: MXKViewController {
+@objc class CKFeedbackViewController: MXKViewController {
     
     @IBOutlet weak var ratingControl: RatingControl! {
         didSet {
@@ -20,13 +20,23 @@ class CKFeedbackViewController: MXKViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var separatorLineView: UIView!
     @IBOutlet weak var feedbackLabel: UILabel!
-    @IBOutlet weak var feedbackTextView: UITextView!
+    @IBOutlet weak var placeholderFeedbackLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var clearAllButton: UIButton!
+    @IBOutlet weak var feedbackTextView: UITextView! {
+        didSet {
+            feedbackTextView.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            feedbackTextView.delegate = self
+        }
+    }
+    
+    var feedbackModel: CKFeedback.Request = CKFeedback.Request(stars: 0, content: "") {
+        didSet {
+            placeholderFeedbackLabel.isHidden = !(feedbackTextView.text ?? "").isEmpty
+        }
+    }
     
     let disposeBag = DisposeBag()
-    
-    var feedbackModel: CKFeedback.Request = CKFeedback.Request(stars: 0, content: "")
     
     var isEnableSubmit: Bool = false {
         didSet {
@@ -51,6 +61,7 @@ class CKFeedbackViewController: MXKViewController {
             self?.barTitleColor = themeService.attrs.navBarTintColor
             let backgroundImage = (self?.isEnableSubmit ?? false) ? theme.enableButtonBG : theme.disableButtonBG
             self?.submitButton.setBackgroundImage(backgroundImage, for: .normal)
+            self?.changeNavigationBar(color: .clear)
         }).disposed(by: disposeBag)
 
         themeService.rx
@@ -62,6 +73,7 @@ class CKFeedbackViewController: MXKViewController {
         feedbackLabel.theme.textColor = themeService.attrStream { $0.primaryTextColor }
         feedbackTextView.theme.textColor = themeService.attrStream { $0.primaryTextColor }
         feedbackTextView.theme.backgroundColor = themeService.attrStream { $0.tblHeaderBgColor }
+        placeholderFeedbackLabel.theme.textColor = themeService.attrStream { $0.primaryTextColor.withAlphaComponent(0.5) }
         
         submitButton.setTitleColor(.white, for: .normal)
         clearAllButton.theme.titleColor(from: themeService.attrStream { $0.secondTextColor }, for: .normal)
@@ -74,6 +86,12 @@ class CKFeedbackViewController: MXKViewController {
         feedbackLabel.text = CKLocalization.string(byKey: "feedback_setting_title")
         submitButton.setTitle(CKLocalization.string(byKey: "feedback_setting_submit").uppercased(), for: .normal)
         clearAllButton.setTitle(CKLocalization.string(byKey: "feedback_setting_clear_all"), for: .normal)
+        
+        placeholderFeedbackLabel.isHidden = !(feedbackTextView.text ?? "").isEmpty
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     
@@ -116,5 +134,12 @@ extension CKFeedbackViewController: RatingControlDelegate {
     func didSelectStar(_ number: Int) {
         feedbackModel.stars = number
         isEnableSubmit = number > 0
+    }
+}
+
+extension CKFeedbackViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        feedbackModel.content = textView.text
     }
 }

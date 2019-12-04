@@ -68,9 +68,8 @@ final class CKSettingsViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.navBarTintColor
-            self?.navigationController?.navigationBar.backgroundColor = themeService.attrs.navBarBgColor
-            self?.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            self?.barTitleColor = themeService.attrs.navBarTintColor            
+            self?.navigationController?.changeNavigationBar(color: .clear)
         }).disposed(by: disposeBag)
 
         themeService.rx
