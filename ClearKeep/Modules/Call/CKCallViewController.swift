@@ -242,9 +242,9 @@ final class CKCallViewController: CallViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
             self.animatePulsatingLayerAt(index: 0)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: {
                 self.animatePulsatingLayerAt(index: 1)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                     self.animatePulsatingLayerAt(index: 2)
                 })
             })
@@ -258,15 +258,15 @@ final class CKCallViewController: CallViewController {
 
         //Giving color to the layer
         pulseArray[index].strokeColor = CKColor.Misc.pulseCicleColor
-        
+
         //Creating scale animation for the layer, from and to value should be in range of 0.0 to 1.0
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
-        scaleAnimation.fromValue = 0.0
-        scaleAnimation.toValue = 0.8
+        scaleAnimation.fromValue = 0.5
+        scaleAnimation.toValue = 0.9
         
         //Creating opacity animation for the layer, from and to value should be in range of 0.0 to 1.0
         let opacityAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
-        opacityAnimation.fromValue = 1.2
+        opacityAnimation.fromValue = 1.4
         opacityAnimation.toValue = 0
 
         // Grouping both animations and giving animation duration, animation repeat count
