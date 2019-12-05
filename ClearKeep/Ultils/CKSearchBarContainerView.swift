@@ -17,6 +17,7 @@ import Foundation
 
         if let textfield = searchBar.vc_searchTextField {
             textfield.theme.backgroundColor = themeService.attrStream{$0.searchBarBgColor}
+            textfield.theme.tintColor = themeService.attrStream { $0.placeholderTextFieldColor }
         }
 
         super.init(frame: CGRect.zero)

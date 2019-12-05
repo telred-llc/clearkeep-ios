@@ -25,7 +25,7 @@ import UIKit
     @IBOutlet weak var clearAllButton: UIButton!
     @IBOutlet weak var feedbackTextView: UITextView! {
         didSet {
-            feedbackTextView.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            feedbackTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
             feedbackTextView.delegate = self
         }
     }
@@ -73,7 +73,8 @@ import UIKit
         feedbackLabel.theme.textColor = themeService.attrStream { $0.primaryTextColor }
         feedbackTextView.theme.textColor = themeService.attrStream { $0.primaryTextColor }
         feedbackTextView.theme.backgroundColor = themeService.attrStream { $0.tblHeaderBgColor }
-        placeholderFeedbackLabel.theme.textColor = themeService.attrStream { $0.primaryTextColor.withAlphaComponent(0.5) }
+        feedbackTextView.theme.tintColor = themeService.attrStream { $0.placeholderTextFieldColor }
+        placeholderFeedbackLabel.theme.textColor = themeService.attrStream { $0.placeholderTextFieldColor.withAlphaComponent(0.6) }
         
         submitButton.setTitleColor(.white, for: .normal)
         clearAllButton.theme.titleColor(from: themeService.attrStream { $0.secondTextColor }, for: .normal)

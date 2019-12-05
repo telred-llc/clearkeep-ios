@@ -113,7 +113,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.tableView.separatorColor = .clear
         self.tableView.contentInsetAdjustmentBehavior = .never
         self.tableView.insetsContentViewsToSafeArea = false
-//        self.tableView.contentInset.top = 30 // adjust offset follow base riot
+        self.tableView.showsVerticalScrollIndicator = false
         
         self.reloadTableView()
     }

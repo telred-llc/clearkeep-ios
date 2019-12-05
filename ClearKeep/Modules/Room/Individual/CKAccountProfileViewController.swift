@@ -261,8 +261,11 @@ class CKAccountProfileViewController: MXKViewController {
                 let account = MXKAccountManager.shared().activeAccounts.first
                 
                 account?.setUserDisplayName(newDisplayName, success: {
-                    self.reloadAvatarCell()
-                    cell.isShowDoneButton = false
+                    
+                    self.showAlert(CKLocalization.string(byKey: "profile_update_success")) {
+                        self.reloadAvatarCell()
+                        cell.isShowDoneButton = false
+                    }
                 }, failure: { (error) in
                     self.reloadAvatarCell()
                     self.showAlert(error?.localizedDescription ?? "Error")
@@ -293,7 +296,9 @@ class CKAccountProfileViewController: MXKViewController {
                              success: { (url) in
                                 
                                 account?.setUserAvatarUrl(url, success: {
-                                    self.reloadAvatarCell()
+                                    self.showAlert(CKLocalization.string(byKey: "profile_update_success")) {
+                                        self.reloadAvatarCell()
+                                    }
                                 }, failure: { (error) in
                                     self.reloadAvatarCell()
                                     self.showAlert(error?.localizedDescription ?? "Error")

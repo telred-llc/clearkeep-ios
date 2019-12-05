@@ -30,11 +30,13 @@ final class CKRoomDirectCreatingSearchCell: CKRoomCreatingBaseCell {
         self.searchBar.setClearButtonColorTo(color: themeService.attrs.primaryTextColor)
         self.searchBar.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         self.searchBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
+        self.searchBar.vc_searchTextField?.theme.tintColor = themeService.attrStream{ $0.placeholderTextFieldColor }
     }
 }
 
 extension CKRoomDirectCreatingSearchCell: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

@@ -233,3 +233,4 @@
 "profile_admin" = "Admin";
 "profile_location_placeholder" = "Your location";
 "profile_phone_placeholder" = "Your phone";
+"profile_update_success" = "Profile updated successfully ";

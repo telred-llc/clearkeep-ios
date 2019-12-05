@@ -765,6 +765,7 @@ extension CKRoomViewController {
             roomInputToolbarView.backgroundColor = themeService.attrs.primaryBgColor
             roomInputToolbarView.growingTextView?.placeholderColor = themeService.attrs.placeholderTextColor
             roomInputToolbarView.growingTextView?.textColor = themeService.attrs.primaryTextColor
+            roomInputToolbarView.growingTextView?.tintColor = themeService.attrs.placeholderTextFieldColor
         } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! DisabledRoomInputToolbarView
 

@@ -109,6 +109,7 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
         
         trailingStatusViewConstraints.constant = -(cornerRadius/4 - self.statusView.bounds.width/3) - 3
         bottomStatusViewConstraints.constant = -(cornerRadius/4 - self.statusView.bounds.width/3)
+        nameTextField.setCursorTextField(placeholderText: CKLocalization.string(byKey: "display_name_room_placeholder"))
     }
     
     @IBAction func doneAction(_ sender: Any) {

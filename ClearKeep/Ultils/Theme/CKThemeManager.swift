@@ -19,6 +19,7 @@ protocol Theme {
     var primaryTextColor: UIColor { get }
     var secondTextColor: UIColor { get } //subtitle, sending messages color.
     var placeholderTextColor: UIColor { get }
+    var placeholderTextFieldColor: UIColor { get }
     var overlayColor: UIColor { get } // fading behind dialog modals. This color includes the transparency value.
     var separatorColor: UIColor { get } // tableview separator
     var unreadCellBgColor: UIColor { get }
@@ -62,6 +63,7 @@ struct LightTheme: Theme {
     var selectedBgColor: UIColor? = nil
     var primaryTextColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     var placeholderTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
+    var placeholderTextFieldColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
     var overlayColor = UIColor.init(white: 0.3, alpha: 0.5)
     var separatorColor = UIColor.lightGray.withAlphaComponent(0.4)
     var secondTextColor = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
@@ -101,6 +103,7 @@ struct DarkTheme: Theme {
     var primaryTextColor = #colorLiteral(red: 0.8666666667, green: 0.8666666667, blue: 0.8666666667, alpha: 1)
     var secondTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
     var placeholderTextColor = #colorLiteral(red: 0.7215686275, green: 0.7215686275, blue: 0.7215686275, alpha: 1)
+    var placeholderTextFieldColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1)
     var overlayColor = UIColor.init(white: 0.3, alpha: 0.5)
     var separatorColor = UIColor.lightGray.withAlphaComponent(0.4)
     var searchBarBgColor = #colorLiteral(red: 0.1254901961, green: 0.1254901961, blue: 0.137254902, alpha: 1)

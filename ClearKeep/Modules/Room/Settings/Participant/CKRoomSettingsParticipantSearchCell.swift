@@ -30,6 +30,7 @@ final class CKRoomSettingsParticipantSearchCell: CKRoomSettingsBaseCell {
         self.searchBar.setClearButtonColorTo(color: themeService.attrs.secondTextColor)
         self.searchBar.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         self.searchBar.theme.barTintColor = themeService.attrStream{ $0.primaryBgColor }
+        self.searchBar.vc_searchTextField?.theme.tintColor = themeService.attrStream{ $0.placeholderTextColor }
     }
 }
 
