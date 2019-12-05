@@ -112,7 +112,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
             if ignored == false, let lastMessage = roomCellData?.lastEventTextMessage {
                 
                 if lastMessageLabel == nil {
-                    lastMessageLabel = UILabel.init()
+                    lastMessageLabel = UILabel()
                 }                                                
                 
                 if !contentStackView.arrangedSubviews.contains(where: { $0 == lastMessageLabel }) {
@@ -124,7 +124,9 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
                 } else {                
                     lastMessageLabel!.text = lastMessage
                 }
-                
+
+                lastMessageLabel!.lineBreakMode = .byTruncatingTail
+                lastMessageLabel!.clipsToBounds = true
                 lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 15)
                 lastMessageLabel!.theme.textColor = themeService.attrStream{ $0.secondTextColor }
             } else {
