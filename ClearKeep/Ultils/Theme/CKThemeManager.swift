@@ -40,7 +40,8 @@ protocol Theme {
     
     var navBarTintColor: UIColor { get }
     var accessoryTblColor: UIColor { get }
-    
+    var pulseLayerColor: UIColor { get }
+
     // Button images
     var enableButtonBG: UIImage { get }
     var disableButtonBG: UIImage { get }
@@ -48,6 +49,7 @@ protocol Theme {
 }
 
 struct LightTheme: Theme {
+    var pulseLayerColor = #colorLiteral(red: 0.631372549, green: 0.7450980392, blue: 0.9725490196, alpha: 1)
     var navBarBgColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var navBarTintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
     var navTitleTextAttributes: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)]
@@ -100,9 +102,8 @@ struct DarkTheme: Theme {
     var unreadCellBgColor = #colorLiteral(red: 0.9843137255, green: 0.9411764706, blue: 0.7921568627, alpha: 0.15)
     var cellPrimaryBgColor = #colorLiteral(red: 0.003921568627, green: 0.003921568627, blue: 0.003921568627, alpha: 1)
     var tabbarTintColor = #colorLiteral(red: 0, green: 0.8196078431, blue: 0.8941176471, alpha: 1)
-    
+    var pulseLayerColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0.8470588235, alpha: 1)
     var statusBarStyle: UIStatusBarStyle = .lightContent
-    
     var hintText = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     var textFieldColor = #colorLiteral(red: 0.7450980392, green: 0.7450980392, blue: 0.7450980392, alpha: 1)
     var textFieldEditingColor = #colorLiteral(red: 0.2470588235, green: 0.7725490196, blue: 0.7254901961, alpha: 1)

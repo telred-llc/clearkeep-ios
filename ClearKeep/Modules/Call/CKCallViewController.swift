@@ -257,7 +257,7 @@ final class CKCallViewController: CallViewController {
         }
 
         //Giving color to the layer
-        pulseArray[index].strokeColor = CKColor.Misc.pulseCicleColor
+        pulseArray[index].theme.strokeColor = themeService.attrStream{$0.pulseLayerColor.cgColor}
 
         //Creating scale animation for the layer, from and to value should be in range of 0.0 to 1.0
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
