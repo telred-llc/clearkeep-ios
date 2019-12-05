@@ -242,7 +242,7 @@ final class CKCallViewController: CallViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
             self.animatePulsatingLayerAt(index: 0)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                 self.animatePulsatingLayerAt(index: 1)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                     self.animatePulsatingLayerAt(index: 2)
