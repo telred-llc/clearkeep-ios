@@ -44,7 +44,7 @@ protocol CKRoomInvitationControllerDeletate: class {
         self.joinButton.setTitleColor(.white, for: .normal)
         self.joinButton.setBackgroundImage(themeService.attrs.enableButtonBG, for: .normal)
         
-        self.declineButton.setTitleColor(themeService.attrs.secondTextColor, for: .normal)
+        self.declineButton.setTitleColor(themeService.attrs.secondTextColor.withAlphaComponent(0.7), for: .normal)
 
         self.view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         self.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
@@ -100,7 +100,7 @@ protocol CKRoomInvitationControllerDeletate: class {
         
         if let ds = roomDataSource, value == true {
             self.photoView?.setImageURI(
-                ds.room?.summary?.avatar,
+                nil,
                 withType: nil,
                 andImageOrientation: UIImageOrientation.up,
                 previewImage: themeService.attrs.joinRoomImage,
@@ -112,6 +112,8 @@ protocol CKRoomInvitationControllerDeletate: class {
             inviter = inviters.first?.displayname ?? (inviters.first?.originUserId ?? CKLocalization.string(byKey: "invited_unknow"))
             self.descriptionLabel.text = CKLocalization.string(byKey: "invited_room")
             self.nameLabel.text = inviter
+        } else {
+            self.declineButton.setTitle(CKLocalization.string(byKey: "cancel"), for: .normal)
         }
     }
 }

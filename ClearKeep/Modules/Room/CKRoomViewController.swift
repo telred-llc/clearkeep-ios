@@ -822,6 +822,12 @@ extension CKRoomViewController {
             if isRefreshRoomTitle && self.roomDataSource != nil {
                 self.setRoomTitleViewClass(RoomTitleView.self)
             }
+            
+            if self.roomDataSource == nil && self.roomPreviewData != nil {
+                (self.titleView as? RoomTitleView)?.displayNameTextField.text = self.roomPreviewData?.roomName
+                (self.titleView as? RoomTitleView)?.topicLabel.text = self.roomPreviewData?.roomTopic
+            }
+            
         } else {
             // searchBarButton
             let searchButton : UIButton = UIButton.init(type: .custom)
