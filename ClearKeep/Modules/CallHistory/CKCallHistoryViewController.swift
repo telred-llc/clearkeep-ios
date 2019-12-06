@@ -199,12 +199,13 @@ extension CKCallHistoryViewController {
         
         findRoomState(room: room, isVideo: true) { (error, state) in
             if let `error` = error {
-                self.alertError.presentError(from: self, title: "", message: error.errorDescription, animated: true, handler: nil)
-                return
+                self.showAlert(error.errorDescription) {
+                    return
+                }
             }
             
             guard let roomState = state, MXCallManager.canPlaceConferenceCall(in: room, roomState: roomState) else {
-                self.alertError.presentError(from: self, title: "", message: CKError.notAdminCallInRoom.errorDescription, animated: true, handler: nil)
+                self.showAlert(CKError.notAdminCallInRoom.errorDescription)
                 return
             }
             
