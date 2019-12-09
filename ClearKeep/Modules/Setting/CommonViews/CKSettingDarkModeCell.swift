@@ -22,6 +22,7 @@ class CKSettingDarkModeCell: UITableViewCell {
         super.awakeFromNib()
         self.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         self.titleLabel.theme.textColor = themeService.attrStream { $0.primaryTextColor }
+        self.switchView.theme.onTintColor = themeService.attrStream { $0.navBarTintColor }
     }
 
     override func prepareForReuse() {

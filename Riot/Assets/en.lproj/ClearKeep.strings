@@ -173,7 +173,7 @@
 // invited join
 "invited_room" = "invited you to this room";
 "invited_unknow" = "Unknow";
-"invited_default" = "Would you like to join in order to participate in the discussion?";
+"invited_default" = "Would you want to join this room?";
 
 // signin signout
 
@@ -213,3 +213,24 @@
 
 // Call History
 "call_history_title" = "Call Log";
+"call_history_not_enough_member_in_room" = "Don't enough member in room";
+"call_history_not_admin_call_in_room" = "You don't admin in room";
+"load_fail_image" = "Don't load image in photos";
+"unexpected_error" = "Something went wrong!";
+
+// Feedback screen
+"feedback_setting" = "Feedback";
+"feedback_setting_enjoy_clearkeep" = "Did you enjoy ClearKeep ?";
+"feedback_setting_title" = "We would love to hear back from you!";
+"feedback_setting_submit" = "Submit";
+"feedback_setting_clear_all" = "Clear all";
+"feedback_setting_submit_success" = "Your feedback has been sent successfully";
+"feedback_setting_placeholder" = "Enter your feedback ....";
+
+"create_room_option_anyone_join" = "Public mode : Anyone in the Directory can join";
+
+// profile
+"profile_admin" = "Admin";
+"profile_location_placeholder" = "Your location";
+"profile_phone_placeholder" = "Your phone";
+"profile_update_success" = "Profile updated successfully ";

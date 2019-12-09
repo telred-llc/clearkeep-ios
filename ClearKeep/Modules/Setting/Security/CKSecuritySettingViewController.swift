@@ -56,6 +56,8 @@ class CKSecuritySettingViewController: MXKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addCustomBackButton()
+        
         self.bindingTheme()
         
         if (self.mainSession.crypto.backup != nil) {
@@ -91,11 +93,11 @@ class CKSecuritySettingViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     

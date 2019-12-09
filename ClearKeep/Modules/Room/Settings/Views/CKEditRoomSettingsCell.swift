@@ -76,13 +76,10 @@ class CKEditRoomSettingsCell: CKBaseCell {
             if isAdminEdit {
                 titleRoomTextField.setRightIconEdit(icon: #imageLiteral(resourceName: "edit_display_name_profile"),
                                                     tintColor: themeService.attrs.textFieldColor)
-                titleRoomTextField.attributedPlaceholder = NSAttributedString(string: CKLocalization.string(byKey: "display_name_room_placeholder"),
-                                                                              attributes: [.foregroundColor: themeService.attrs.placeholderTextColor])
+
                 
                 topicRoomTextField.setRightIconEdit(icon: #imageLiteral(resourceName: "edit_display_name_profile"),
                                                     tintColor: themeService.attrs.textFieldColor)
-                topicRoomTextField.attributedPlaceholder = NSAttributedString(string: CKLocalization.string(byKey: "topic_name_room_placeholder"),
-                                                                              attributes: [.foregroundColor: themeService.attrs.placeholderTextColor])
             }
             
             titleRoomTextField.isEnabled = isAdminEdit
@@ -143,6 +140,9 @@ class CKEditRoomSettingsCell: CKBaseCell {
     
     
     func bindingData(mxRoom: MXRoom, mxRoomState: MXRoomState?) {
+        
+        titleRoomTextField.setCursorTextField(placeholderText: CKLocalization.string(byKey: "display_name_room_placeholder")) // binding theme again
+        topicRoomTextField.setCursorTextField(placeholderText: CKLocalization.string(byKey: "topic_name_room_placeholder")) // binding theme again
         
         infoCreateRoomLabel.attributedText = topicCreatAttributeBy(mxRoom: mxRoom, mxRoomState: mxRoomState)
         

@@ -50,6 +50,9 @@
     CKSearchContactViewController *peopleSearchViewController;
     ContactsDataSource *peopleSearchDataSource;
     
+    CKCallHistoryDataSource *callhistoryDatasource;
+    CKCallHistoryViewController *callHistoryViewController;
+    
     // Current alert (if any).
     UIAlertController *currentAlert;
 }

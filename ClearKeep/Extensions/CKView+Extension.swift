@@ -84,3 +84,24 @@ extension UITextField {
         editIcon.tintColor = color
     }
 }
+
+extension UITextField {
+    
+    @objc
+    func setClearButtonColorTo(color: UIColor){
+        // Clear Button
+        let crossIconView = self.value(forKey: "clearButton") as? UIButton
+        crossIconView?.setImage(crossIconView?.currentImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+        crossIconView?.tintColor = color
+    }
+    
+    
+    // binding dark mode: change cursor + placeholder + tintColor
+    @objc
+    func setCursorTextField(placeholderText: String) {
+        self.attributedPlaceholder = NSAttributedString(string: placeholderText,
+        attributes: [.foregroundColor: themeService.attrs.placeholderTextFieldColor.withAlphaComponent(0.5)])
+        
+        self.theme.tintColor = themeService.attrStream { $0.placeholderTextFieldColor }
+    }
+}

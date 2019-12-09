@@ -72,6 +72,7 @@ class CKCustomTextField: UIView {
         contentTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
         self.contentTextField.setLeftPaddingPoints(10)
         self.contentTextField.rectangleBorder(6)
+        self.contentTextField.theme.tintColor = themeService.attrStream { $0.placeholderTextFieldColor }
         
         isFocusTextField = false
         

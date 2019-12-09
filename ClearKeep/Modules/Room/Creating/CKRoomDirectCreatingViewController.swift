@@ -59,9 +59,10 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         
         // Setup close button item
         let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_back_nav"),
+            image: UIImage(named: "back_button"),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton(_:)))
+        closeItemButton.theme.tintColor = themeService.attrStream { $0.navBarTintColor }
         
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
@@ -71,6 +72,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         // first reload ds
         self.reloadDataSource()
         bindingTheme()
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
         self.hideKeyboardWhenTappedAround()
     }
     
@@ -86,7 +88,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
@@ -227,14 +229,6 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         let cell = (self.tableView.dequeueReusableCell(
             withIdentifier: CKRoomDirectCreatingSearchCell.identifier,
             for: indexPath) as? CKRoomDirectCreatingSearchCell) ?? CKRoomDirectCreatingSearchCell()
-        
-        
-        if let textfield = cell.searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.backgroundColor = CKColor.Background.searchBar
-        }
-        cell.searchBar.placeholder = "Search"
-        
-
         // handl serching
         cell.beginSearchingHandler = { text in
             
@@ -271,7 +265,6 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
         }
 
         cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
-        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
 
         return cell
     }
@@ -367,7 +360,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
+            view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
             view.descriptionLabel?.font = UIFont.systemFont(ofSize: 21)
             view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
@@ -407,11 +400,7 @@ extension CKRoomDirectCreatingViewController: UITableViewDelegate {
         }
 
     }
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !tableView.isDecelerating {
-            view.endEditing(true)
-        }
-    }
+    
 }
 
 extension CKRoomDirectCreatingViewController: UITableViewDataSource {
@@ -451,12 +440,12 @@ extension CKRoomDirectCreatingViewController: UITableViewDataSource {
 
 extension CKRoomDirectCreatingViewController {
     func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
-    @objc func dismissKeyboard() {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
 }

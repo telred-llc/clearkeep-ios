@@ -142,9 +142,9 @@ class CKOtherProfileViewController: MXKViewController {
             
             // Is admin
             if let mxMember = mxMember, let powerLevels = mxRoomPowerLevels, powerLevels.powerLevelOfUser(withUserID: mxMember.userId) == kCkRoomAdminLevel {
-                cell.adminStatusView.isHidden = false
+                cell.isAdminPower = true
             } else {
-                cell.adminStatusView.isHidden = true
+                cell.isAdminPower = false
             }
             
             //status
@@ -203,11 +203,11 @@ class CKOtherProfileViewController: MXKViewController {
             for: indexPath) as? CKUserProfileDetailCell {
             switch indexPath.row {
             case 0:
-                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: mxMember.userId)
+                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: mxMember.userId, placeholder: "")
             case 1:
-                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: nil, placeholder: CKLocalization.string(byKey: "profile_location_placeholder"))
             case 2:
-                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "+84 222 11 5550")
+                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: nil, placeholder: CKLocalization.string(byKey: "profile_phone_placeholder"))
             default:
                 break
             }

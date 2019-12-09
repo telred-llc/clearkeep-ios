@@ -42,14 +42,15 @@ protocol CKRoomInvitationControllerDeletate: class {
         self.joinButton.layer.cornerRadius = 4
         self.joinButton.layer.masksToBounds = true
         self.joinButton.setTitleColor(.white, for: .normal)
+        self.joinButton.setBackgroundImage(themeService.attrs.enableButtonBG, for: .normal)
         
-        self.declineButton.setTitleColor(#colorLiteral(red: 0.6039215686, green: 0.631372549, blue: 0.6784313725, alpha: 1), for: .normal)
+        self.declineButton.setTitleColor(themeService.attrs.secondTextColor.withAlphaComponent(0.7), for: .normal)
 
         self.view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         self.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        self.nameLabel.textColor = #colorLiteral(red: 0.3176470588, green: 0.3764705882, blue: 0.7607843137, alpha: 1)
+        self.nameLabel.theme.textColor = themeService.attrStream { $0.navBarTintColor }
         
-        self.photoView.setImageURI("", withType: "", andImageOrientation: .up, previewImage: #imageLiteral(resourceName: "join_room_notification"), mediaManager: nil)
+        self.photoView.setImageURI("", withType: "", andImageOrientation: .up, previewImage: themeService.attrs.joinRoomImage, mediaManager: nil)
     }
     
     
@@ -99,10 +100,10 @@ protocol CKRoomInvitationControllerDeletate: class {
         
         if let ds = roomDataSource, value == true {
             self.photoView?.setImageURI(
-                ds.room?.summary?.avatar,
+                nil,
                 withType: nil,
                 andImageOrientation: UIImageOrientation.up,
-                previewImage: #imageLiteral(resourceName: "join_room_notification"),
+                previewImage: themeService.attrs.joinRoomImage,
                 mediaManager: ds.mxSession.mediaManager)
             
             //-- binding data inviter
@@ -111,6 +112,8 @@ protocol CKRoomInvitationControllerDeletate: class {
             inviter = inviters.first?.displayname ?? (inviters.first?.originUserId ?? CKLocalization.string(byKey: "invited_unknow"))
             self.descriptionLabel.text = CKLocalization.string(byKey: "invited_room")
             self.nameLabel.text = inviter
+        } else {
+            self.declineButton.setTitle(CKLocalization.string(byKey: "cancel"), for: .normal)
         }
     }
 }
