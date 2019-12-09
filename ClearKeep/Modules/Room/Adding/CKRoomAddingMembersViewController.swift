@@ -58,6 +58,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         self.navigationItem.title = "Add Members"
         
         updateBarItems()
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
         self.hideKeyboardWhenTappedAround()
         
         // on new creating a room, may cancel inviting the members
@@ -219,14 +220,11 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         
         let hasSelected = self.selectedUser.count > 0
         self.btnInvite.isEnabled = hasSelected
-        let bgValid = UIImage(named: "bg_button_create")
-        let bgNotValid = UIImage(named: "bg_btn_not_valid")
-
-        if hasSelected {
-            btnInvite.setBackgroundImage(bgValid, for: .normal)
-        } else {
-            btnInvite.setBackgroundImage(bgNotValid, for: .normal)
-        }
+        
+        themeService.attrsStream.subscribe { (theme) in
+            let image = hasSelected ? theme.element?.enableButtonBG : theme.element?.disableButtonBG
+            self.btnInvite.setBackgroundImage(image, for: .normal)
+        }.disposed(by: self.disposeBag)
     }
     
     private func promiseInvite(mxContact contact: MXKContact!) -> Promise<Bool> {
@@ -461,12 +459,12 @@ fileprivate extension MXKContact {
 
 extension CKRoomAddingMembersViewController {
     func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
-    @objc func dismissKeyboard() {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
 }

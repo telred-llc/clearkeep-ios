@@ -90,6 +90,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
             unifiedSearchViewController.searchBar.vc_searchTextField?.textColor = themeService.attrs.secondTextColor
             unifiedSearchViewController.searchBar.setMagnifyingGlassColorTo(color: themeService.attrs.secondTextColor)
             unifiedSearchViewController.searchBar.setClearButtonColorTo(color: themeService.attrs.secondTextColor)
+            unifiedSearchViewController.searchBar.vc_searchTextField?.theme.tintColor = themeService.attrStream { $0.placeholderTextFieldColor }
             unifiedSearchViewController.barTitleColor = themeService.attrs.navBarTintColor
             unifiedSearchViewController.defaultBarTintColor = themeService.attrs.navBarTintColor
             unifiedSearchViewController.navigationController?.view.backgroundColor = themeService.attrs.navBarBgColor

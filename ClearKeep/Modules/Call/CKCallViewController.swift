@@ -71,6 +71,7 @@ final class CKCallViewController: CallViewController {
         self.view.layoutIfNeeded()
 
         self.backToAppButton.isHidden = true
+        self.callerImageView.backgroundColor = .white
         createPulse(sourceView: pulseView)
 
         if let call = self.mxCall, call.isVideoCall {

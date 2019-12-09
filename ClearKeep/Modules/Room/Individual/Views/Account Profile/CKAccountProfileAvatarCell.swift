@@ -15,6 +15,9 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
     @IBOutlet weak var avaImage: CKImageView!
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var adminStatusView: UIImageView!
+    @IBOutlet weak var adminLabel: UILabel!
+    @IBOutlet weak var adminStackView: UIStackView!
+    @IBOutlet weak var topAdminStackViewConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var trailingStatusViewConstraints: NSLayoutConstraint!
     @IBOutlet weak var bottomStatusViewConstraints: NSLayoutConstraint!
@@ -33,8 +36,10 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
     
     var isShowDoneButton: Bool = false {
         didSet {
-            nameTextField.textColor = isShowDoneButton ? CKColor.Icon.back : themeService.attrs.primaryTextColor
-            doneButton.setImage(isShowDoneButton ? #imageLiteral(resourceName: "done_button_profile") : #imageLiteral(resourceName: "edit_display_name_profile"), for: .normal)
+            nameTextField.textColor = isShowDoneButton ? themeService.attrs.navBarTintColor : themeService.attrs.primaryTextColor
+            let image = isShowDoneButton ? #imageLiteral(resourceName: "done_button_profile").withRenderingMode(.alwaysTemplate) : #imageLiteral(resourceName: "edit_display_name_profile").withRenderingMode(.alwaysTemplate)
+            doneButton.setImage(image, for: .normal)
+            doneButton.theme.tintColor = themeService.attrStream { $0.primaryTextColor }
         }
     }
     
@@ -46,6 +51,13 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
         }
     }
     
+    var isAdminPower: Bool = false {
+        didSet {
+            adminStackView.isHidden = !isAdminPower
+            topAdminStackViewConstraint.constant = isAdminPower ? 16 : -adminStackView.bounds.height
+        }
+    }
+    
     var editAvatar: (() -> Void)?
     var editDisplayName: ((String) -> Void)?
     
@@ -54,6 +66,8 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        adminLabel.text = CKLocalization.string(byKey: "profile_admin")
+        adminLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
         avaImage.defaultBackgroundColor = UIColor.clear
         avaImage.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
         avaImage.contentMode = UIView.ContentMode.scaleAspectFill
@@ -62,10 +76,12 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
         statusView.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         contentView.backgroundColor = .clear
-        separatorView.backgroundColor = CKColor.Icon.back
+        separatorView.theme.backgroundColor = themeService.attrStream { $0.navBarTintColor }
         isCanEditDisplayName = false
         avaImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleUpdateAvatar)))
         nameTextField.delegate = self
+        
+        isShowDoneButton = false
     }
     
     override func getMXKImageView() -> MXKImageView! {
@@ -93,6 +109,7 @@ class CKAccountProfileAvatarCell: CKAccountProfileBaseCell {
         
         trailingStatusViewConstraints.constant = -(cornerRadius/4 - self.statusView.bounds.width/3) - 3
         bottomStatusViewConstraints.constant = -(cornerRadius/4 - self.statusView.bounds.width/3)
+        nameTextField.setCursorTextField(placeholderText: CKLocalization.string(byKey: "display_name_room_placeholder"))
     }
     
     @IBAction func doneAction(_ sender: Any) {
@@ -123,12 +140,7 @@ extension CKAccountProfileAvatarCell: UITextFieldDelegate {
         updateDisplayNameIfNeeded()
         return true
     }
-
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesBegan(touches, with: event)
-//        self.endEditing(true)
-//        updateDisplayNameIfNeeded()
-//    }
+    
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         

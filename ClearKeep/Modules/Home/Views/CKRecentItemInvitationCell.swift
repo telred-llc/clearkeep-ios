@@ -54,6 +54,8 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
         }
     }
     
+    private var disposeBag = DisposeBag()
+    
     // MARK: - OVERRIDE
     
     override func awakeFromNib() {
@@ -74,6 +76,7 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
         self.roomCellData = nil
         self.joinOnPressHandler = nil
         self.declineOnPressHandler = nil
+        disposeBag = DisposeBag()
     }
     
     // MARK: - ACTION
@@ -159,6 +162,9 @@ extension CKRecentItemInvitationCell: MXKCellRendering {
             message.replaceSubrange(start..<end, with: "you")
             self.lblDescription.text = message
         }
+        
+        self.lblDescription.theme.textColor = themeService.attrStream { $0.navBarTintColor }
+        self.joinButton.setBackgroundImage(themeService.attrs.enableButtonBG, for: .normal)
     }
 
     func updateUI() {

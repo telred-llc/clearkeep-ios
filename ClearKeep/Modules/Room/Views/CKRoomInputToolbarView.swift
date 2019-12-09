@@ -159,7 +159,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         
         growingTextView?.font = UIFont.systemFont(ofSize: 15)
         growingTextView?.textColor = kRiotPrimaryTextColor
-        growingTextView?.tintColor = kRiotColorGreen
+        growingTextView?.tintColor = themeService.attrs.placeholderTextFieldColor
         
         growingTextView?.internalTextView?.keyboardAppearance = kRiotKeyboard
         growingTextView?.placeholder = "Type a Message"

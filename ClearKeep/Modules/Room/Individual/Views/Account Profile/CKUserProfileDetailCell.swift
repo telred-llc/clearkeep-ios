@@ -22,13 +22,16 @@ class CKUserProfileDetailCell: CKAccountProfileBaseCell {
     }
     
     
-    func bindingData(icon: UIImage?, content: String?) {
+    func bindingData(icon: UIImage?, content: String?, placeholder: String?) {
         
         self.iconImageView.image = icon?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         self.iconImageView.tintColor = themeService.attrs.primaryTextColor
         
-        self.contentLabel.text = content
-        self.contentLabel.textColor = themeService.attrs.primaryTextColor
+        let isContentExist = content != nil
+        self.contentLabel.text = isContentExist ? content : placeholder
+        self.contentLabel.textColor = isContentExist ? themeService.attrs.primaryTextColor : themeService.attrs.primaryTextColor.withAlphaComponent(0.3)
+        self.contentLabel.font = isContentExist ? UIFont.systemFont(ofSize: 17) : UIFont.italicSystemFont(ofSize: 15)
+        
         self.separatorView.backgroundColor = themeService.attrs.separatorColor
     }
     

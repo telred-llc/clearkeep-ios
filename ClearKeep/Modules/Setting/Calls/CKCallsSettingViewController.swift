@@ -36,6 +36,7 @@ class CKCallsSettingViewController: MXKViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addCustomBackButton()
         setupInitization()
     }
     
@@ -53,11 +54,11 @@ class CKCallsSettingViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     

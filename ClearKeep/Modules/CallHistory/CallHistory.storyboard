@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MUP-di-1ip">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wxx-yJ-WJw">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Call History View Controller-->
+        <!--Call-->
         <scene sceneID="Ysp-gL-Tfr">
             <objects>
                 <viewController id="wxx-yJ-WJw" customClass="CKCallHistoryViewController" customModule="Riot" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,9 +16,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="f58-eS-Dna">
-                                <rect key="frame" x="0.0" y="96" width="414" height="717"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="f58-eS-Dna">
+                                <rect key="frame" x="0.0" y="52" width="414" height="761"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="wxx-yJ-WJw" id="W7a-cU-veI"/>
+                                    <outlet property="delegate" destination="wxx-yJ-WJw" id="LS6-6p-eEO"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <constraints>
@@ -29,37 +33,36 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XiJ-s8-SuT"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Call" image="calling_profile" id="eoU-EO-YvH"/>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="ubM-at-b4a"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="f58-eS-Dna" id="9xc-9e-WIr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lQV-2z-btK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="66.666666666666671" y="160.71428571428569"/>
+            <point key="canvasLocation" x="976.81159420289862" y="160.71428571428569"/>
         </scene>
-        <!--Item-->
-        <scene sceneID="6H7-aP-AFq">
+        <!--Navigation Controller-->
+        <scene sceneID="rl3-Cv-rIK">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MUP-di-1ip" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" image="phone_profile" id="eoU-EO-YvH"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="628-ln-8UC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Jhq-vI-BmJ">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5Y8-je-n1n">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="wxx-yJ-WJw" kind="relationship" relationship="rootViewController" id="ez6-TF-38t"/>
+                        <segue destination="wxx-yJ-WJw" kind="relationship" relationship="rootViewController" id="b8S-DO-InX"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="orl-2j-3Wv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qqo-r2-6ua" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-843.47826086956525" y="160.71428571428569"/>
+            <point key="canvasLocation" x="66.666666666666671" y="160.71428571428569"/>
         </scene>
     </scenes>
     <resources>
-        <image name="phone_profile" width="16" height="16.5"/>
+        <image name="calling_profile" width="17.5" height="17"/>
     </resources>
 </document>

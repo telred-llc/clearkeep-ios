@@ -24,6 +24,8 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
      */
     private var __isChecking: Bool = false
     
+    private var disposeBag = DisposeBag()
+    
     /**
      isChecked true/false
      */
@@ -34,10 +36,16 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
         
         set {
             __isChecking = newValue
-
-            let checkedImage = UIImage(named: "ic_check_yes")
-            let unCheckedImage = UIImage(named: "ic_check_no")
-            self.checkmarkImageView.image = __isChecking ? checkedImage : unCheckedImage
+            
+            if __isChecking {
+                
+                themeService.attrsStream.subscribe { (theme) in
+                    self.checkmarkImageView.image = theme.element?.checkBoxImage
+                }.disposed(by: self.disposeBag)
+                
+            } else {
+                self.checkmarkImageView.image = #imageLiteral(resourceName: "ic_check_no")
+            }
         }
     }
     
@@ -84,5 +92,13 @@ final class CKRoomAddingMembersCell: CKRoomBaseCell {
         get {
             return self.statusView.tag
         }
+    }
+}
+
+extension CKRoomAddingMembersCell {
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
 }

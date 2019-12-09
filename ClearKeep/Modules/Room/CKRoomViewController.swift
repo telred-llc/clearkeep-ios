@@ -765,6 +765,7 @@ extension CKRoomViewController {
             roomInputToolbarView.backgroundColor = themeService.attrs.primaryBgColor
             roomInputToolbarView.growingTextView?.placeholderColor = themeService.attrs.placeholderTextColor
             roomInputToolbarView.growingTextView?.textColor = themeService.attrs.primaryTextColor
+            roomInputToolbarView.growingTextView?.tintColor = themeService.attrs.placeholderTextFieldColor
         } else if inputToolbarView != nil && (inputToolbarView is DisabledRoomInputToolbarView) {
             let roomInputToolbarView = inputToolbarView as! DisabledRoomInputToolbarView
 
@@ -821,6 +822,12 @@ extension CKRoomViewController {
             if isRefreshRoomTitle && self.roomDataSource != nil {
                 self.setRoomTitleViewClass(RoomTitleView.self)
             }
+            
+            if self.roomDataSource == nil && self.roomPreviewData != nil {
+                (self.titleView as? RoomTitleView)?.displayNameTextField.text = self.roomPreviewData?.roomName
+                (self.titleView as? RoomTitleView)?.topicLabel.text = self.roomPreviewData?.roomTopic
+            }
+            
         } else {
             // searchBarButton
             let searchButton : UIButton = UIButton.init(type: .custom)
@@ -2619,7 +2626,7 @@ extension CKRoomViewController {
         refreshActivitiesViewDisplay()
     }
 }
-
+ 
 // MARK: - Read marker handling
 
 extension CKRoomViewController {

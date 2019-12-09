@@ -50,14 +50,12 @@ final class CKRoomCallCreatingViewController: MXKViewController {
     
     private var stateCreateRoom: Bool = false {
         didSet {
-            let bgValid = UIImage(named: "bg_button_create")
-            let bgNotValid = UIImage(named: "bg_btn_not_valid")
             btnCreate.isEnabled = stateCreateRoom
-            if stateCreateRoom {
-                btnCreate.setBackgroundImage(bgValid, for: .normal)
-            } else {
-                btnCreate.setBackgroundImage(bgNotValid, for: .normal)
-            }
+            
+            themeService.attrsStream.subscribe { (theme) in
+                let image = self.stateCreateRoom ? theme.element?.enableButtonBG : theme.element?.disableButtonBG
+                self.btnCreate.setBackgroundImage(image, for: .normal)
+            }.disposed(by: self.disposeBag)
         }
     }
     
@@ -67,18 +65,22 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         super.viewDidLoad()
         self.tableView.register(CKRoomAddingSearchCell.nib, forCellReuseIdentifier: CKRoomAddingSearchCell.identifier)
         self.tableView.register(CKRoomAddingMembersCell.nib, forCellReuseIdentifier: CKRoomAddingMembersCell.identifier)
+        self.tableView.keyboardDismissMode = .onDrag
         self.reloadDataSource()
         self.navigationItem.title = "New Call"
         bindingTheme()
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
         self.hideKeyboardWhenTappedAround()
         self.setNavigationBar()
     }
     
         func setNavigationBar(){
         let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_back_nav"),
+            image: UIImage(named: "back_button"),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton))
+            
+            closeItemButton.theme.tintColor = themeService.attrStream { $0.navBarTintColor }
         self.navigationItem.leftBarButtonItem = closeItemButton
     }
     
@@ -104,7 +106,7 @@ final class CKRoomCallCreatingViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
         
@@ -432,9 +434,9 @@ extension CKRoomCallCreatingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
-            view.theme.backgroundColor = themeService.attrStream{$0.tblHeaderBgColor}
+            view.theme.backgroundColor = themeService.attrStream{$0.primaryBgColor}
             view.descriptionLabel.text = self.titleForHeader(atSection: section)
-            view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
             view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
             return view
         }
@@ -548,12 +550,12 @@ fileprivate extension MXKContact {
 
 extension CKRoomCallCreatingViewController {
     func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
-    @objc func dismissKeyboard() {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
 }
