@@ -92,6 +92,7 @@ class CKAccountProfileViewController: MXKViewController {
                 image: UIImage(named: "ic_x_close"),
                 style: .plain,
                 target: self, action: #selector(clickedOnBackButton(_:)))
+            closeItemButton.tintColor = themeService.attrs.navBarTintColor
             
             // set nv items
             self.navigationItem.leftBarButtonItem = closeItemButton
@@ -111,8 +112,6 @@ class CKAccountProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CKColor.Icon.back]
-        self.navigationController?.navigationBar.clearNavigationBar()
     }
     
     deinit {
@@ -164,17 +163,26 @@ class CKAccountProfileViewController: MXKViewController {
         
         
         // add setting barButtonItem
-        let settingItem = UIBarButtonItem(image: UIImage(named: "setting_profile"),
+        let settingItem = UIBarButtonItem(image: #imageLiteral(resourceName: "setting_profile").withRenderingMode(.alwaysTemplate),
                                           style: .plain,
                                           target: self,
                                           action:  #selector(handleSettingButton(_:)))
         
-        settingItem.tintColor = CKColor.Icon.setting
+        settingItem.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
         navigationItem.rightBarButtonItem = settingItem
         
         addCustomBackButton()
+        
+        let tapAction = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tapAction.cancelsTouchesInView = false
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
+        view.addGestureRecognizer(tapAction)
     }
     
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     @objc private func handleSettingButton(_ sender: UIBarButtonItem) {
         
@@ -187,12 +195,12 @@ class CKAccountProfileViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.newBackgroundColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -215,7 +223,6 @@ class CKAccountProfileViewController: MXKViewController {
             
             cell.isCanEditDisplayName = true
             cell.currentDisplayName = myUser?.displayname.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-            cell.adminStatusView.isHidden = true
             
             if let myUser = self.myUser {
                 
@@ -233,7 +240,9 @@ class CKAccountProfileViewController: MXKViewController {
                     session: self.mainSession,
                     cropped: false)
                 if let powerLevels = mxRoomPowerLevels, powerLevels.powerLevelOfUser(withUserID: myUser.userId) == kCkRoomAdminLevel {
-                    cell.adminStatusView.isHidden = false
+                    cell.isAdminPower = true
+                } else {
+                    cell.isAdminPower = false
                 }
             } else {
                 cell.settingStatus(online: false)
@@ -252,8 +261,11 @@ class CKAccountProfileViewController: MXKViewController {
                 let account = MXKAccountManager.shared().activeAccounts.first
                 
                 account?.setUserDisplayName(newDisplayName, success: {
-                    self.reloadAvatarCell()
-                    cell.isShowDoneButton = false
+                    
+                    self.showAlert(CKLocalization.string(byKey: "profile_update_success")) {
+                        self.reloadAvatarCell()
+                        cell.isShowDoneButton = false
+                    }
                 }, failure: { (error) in
                     self.reloadAvatarCell()
                     self.showAlert(error?.localizedDescription ?? "Error")
@@ -284,7 +296,9 @@ class CKAccountProfileViewController: MXKViewController {
                              success: { (url) in
                                 
                                 account?.setUserAvatarUrl(url, success: {
-                                    self.reloadAvatarCell()
+                                    self.showAlert(CKLocalization.string(byKey: "profile_update_success")) {
+                                        self.reloadAvatarCell()
+                                    }
                                 }, failure: { (error) in
                                     self.reloadAvatarCell()
                                     self.showAlert(error?.localizedDescription ?? "Error")
@@ -304,11 +318,11 @@ class CKAccountProfileViewController: MXKViewController {
             for: indexPath) as? CKUserProfileDetailCell {
             switch indexPath.row {
             case 0:
-                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: myUser?.userId)
+                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: myUser?.userId, placeholder: "")
             case 1:
-                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: nil, placeholder: CKLocalization.string(byKey: "profile_location_placeholder"))
             case 2:
-                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "+84 222 11 5550")
+                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: nil, placeholder: CKLocalization.string(byKey: "profile_phone_placeholder"))
             default:
                 break
             }
@@ -362,7 +376,7 @@ class CKAccountProfileViewController: MXKViewController {
         optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { (action) in
         }))
         
-        optionAlert.show()
+        optionAlert.presentGlobally(animated: true, completion: nil)
     }
 }
 
@@ -410,13 +424,13 @@ extension CKAccountProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     

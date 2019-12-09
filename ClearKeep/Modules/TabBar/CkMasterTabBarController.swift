@@ -16,8 +16,9 @@ final public class CkMasterTabBarController: MasterTabBarController {
     
     lazy var placeholderSearchBar = UISearchBar()
     
-    let kHomeTabIndex       = 0
-    let kHomeContactIndex   = 1
+    let kHomeTabIndex           = 0
+    let kHomeCallHistoryIndex   = 1
+    let kHomeContactIndex       = 2
     
     var missedCount: UInt = 0
     let disposeBag = DisposeBag()
@@ -85,9 +86,13 @@ final public class CkMasterTabBarController: MasterTabBarController {
         super.prepare(for: segue, sender: sender)
 
         if segue.identifier == "showUnifiedSearch", let unifiedSearchViewController = segue.destination as? UnifiedSearchViewController {
-            unifiedSearchViewController.searchBar.setTextFieldColor(color: themeService.attrs.secondBgColor)
-            unifiedSearchViewController.barTitleColor = themeService.attrs.primaryTextColor
-            unifiedSearchViewController.defaultBarTintColor = themeService.attrs.navBarBgColor
+            unifiedSearchViewController.searchBar.vc_searchTextField?.backgroundColor = themeService.attrs.searchBarBgColor
+            unifiedSearchViewController.searchBar.vc_searchTextField?.textColor = themeService.attrs.secondTextColor
+            unifiedSearchViewController.searchBar.setMagnifyingGlassColorTo(color: themeService.attrs.secondTextColor)
+            unifiedSearchViewController.searchBar.setClearButtonColorTo(color: themeService.attrs.secondTextColor)
+            unifiedSearchViewController.searchBar.vc_searchTextField?.theme.tintColor = themeService.attrStream { $0.placeholderTextFieldColor }
+            unifiedSearchViewController.barTitleColor = themeService.attrs.navBarTintColor
+            unifiedSearchViewController.defaultBarTintColor = themeService.attrs.navBarTintColor
             unifiedSearchViewController.navigationController?.view.backgroundColor = themeService.attrs.navBarBgColor
             
             unifiedSearchViewController.didSelectCreateNewRoom = { [weak self] in
@@ -129,7 +134,7 @@ final public class CkMasterTabBarController: MasterTabBarController {
             self?.navigationController?.navigationBar.isTranslucent = false
             self?.navigationController?.navigationBar.shadowImage = UIImage()
             self?.navigationController?.navigationBar.tintColor = themeService.attrs.primaryTextColor
-            self?.placeholderSearchBar.setTextFieldColor(color: theme.searchBarBgColor)
+            self?.placeholderSearchBar.vc_searchTextField?.backgroundColor = theme.searchBarBgColor
             self?.changeNavigationBar(color: themeService.attrs.navBarBgColor)
             self?.setNeedsStatusBarAppearanceUpdate()
         }).disposed(by: disposeBag)

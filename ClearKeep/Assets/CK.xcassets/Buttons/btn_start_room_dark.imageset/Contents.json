@@ -1,16 +1,58 @@
 {
   "images" : [
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 22,
+          "top" : 21,
+          "right" : 129,
+          "left" : 131
+        }
+      },
       "idiom" : "universal",
       "filename" : "btn_start_room_dark.png",
       "scale" : "1x"
     },
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 44,
+          "top" : 43,
+          "right" : 219,
+          "left" : 336
+        }
+      },
       "idiom" : "universal",
       "filename" : "btn_start_room_dark@2x.png",
       "scale" : "2x"
     },
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 66,
+          "top" : 65,
+          "right" : 423,
+          "left" : 432
+        }
+      },
       "idiom" : "universal",
       "filename" : "btn_start_room_dark@3x.png",
       "scale" : "3x"

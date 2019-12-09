@@ -79,7 +79,7 @@
     self.searchTableView.backgroundColor = ((self.searchTableView.style == UITableViewStylePlain) ? kRiotPrimaryBgColor : kRiotSecondaryBgColor);
     self.view.backgroundColor = self.searchTableView.backgroundColor;
     
-    self.noResultsLabel.textColor = kRiotPrimaryBgColor;
+    self.noResultsLabel.textColor = kRiotPrimaryTextColor;
     
     if (self.searchTableView.dataSource)
     {
@@ -131,7 +131,7 @@
     {
         if (self.dataSource.searchText.length)
         {
-            self.shouldScrollToBottomOnRefresh = YES;
+            self.shouldScrollToBottomOnRefresh = NO;
             [self.dataSource searchMessages:self.dataSource.searchText force:YES];
         }
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import MatrixKit
+import RxSwift
 
 protocol CkAuthenticationViewControllerDelegate: class {
     func authentication(_ authentication: CkAuthenticationViewController, requestAction action: String)
@@ -52,7 +53,7 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     /**
      DisposeBag
      */
-    private let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
 
     /**
      finalize initial
@@ -62,13 +63,8 @@ public class CkAuthenticationViewController: MXKViewController, CkAuthorizerDele
     }
     
     public override func viewDidLoad() {
-        super.viewDidLoad()        
+        super.viewDidLoad()
         
-        if self.signupButton != nil {
-            self.signupButton.layer.borderWidth = 1
-            self.signupButton.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        }
-
         bindingTheme()
     }
     

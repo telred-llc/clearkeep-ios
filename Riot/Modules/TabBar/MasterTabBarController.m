@@ -77,6 +77,7 @@
 
     // Retrieve the all view controllers
     _homeViewController = [self.viewControllers objectAtIndex:TABBAR_HOME_INDEX];
+    _callHistoryViewControler = [self.viewControllers objectAtIndex:TABBAR_CALL_HISTORY_INDEX];
     _peopleViewController = [self.viewControllers objectAtIndex:TABBAR_PEOPLE_INDEX];
     
     //-- CK: removed
@@ -121,7 +122,7 @@
 - (void)userInterfaceThemeDidChange
 {
     self.tabBar.tintColor = kRiotTabBarButtonTintColor;
-    self.tabBar.barTintColor = kRiotTabBarBgColor;
+//    self.tabBar.barTintColor = kRiotTabBarBgColor;
     self.view.backgroundColor = kRiotPrimaryBgColor;
     
     [self setNeedsStatusBarAppearanceUpdate];
@@ -251,7 +252,8 @@
         [_homeViewController displayList:recentsDataSource];
         [_peopleViewController displayList:recentsDataSource];
         [_roomsViewController displayList:recentsDataSource];
-        
+//        [_callHistoryViewControler displayScreen];
+        [_callHistoryViewControler displayList:recentsDataSource];
         // Restore the right delegate of the shared recent data source.
         id<MXKDataSourceDelegate> recentsDataSourceDelegate = _homeViewController;
         RecentsDataSourceMode recentsDataSourceMode = RecentsDataSourceModeHome;
@@ -259,7 +261,9 @@
         {
             case TABBAR_HOME_INDEX:
                 break;
-            case TABBAR_FAVOURITES_INDEX:
+            case TABBAR_CALL_HISTORY_INDEX:
+                break;
+//            case TABBAR_FAVOURITES_INDEX:
                 //-- CK removed
                 // recentsDataSourceDelegate = _favouritesViewController;
                 // recentsDataSourceMode = RecentsDataSourceModeFavourites;
@@ -642,7 +646,7 @@
         }
         else if ([[segue identifier] isEqualToString:@"showUnifiedSearch"])
         {
-            unifiedSearchViewController= segue.destinationViewController;
+            unifiedSearchViewController = segue.destinationViewController;
             
             for (MXSession *session in mxSessionArray)
             {
@@ -926,6 +930,11 @@
         else if (item.tag == TABBAR_PEOPLE_INDEX)
         {
             [self.peopleViewController scrollToNextRoomWithMissedNotifications];
+        }
+        // -- CK: Add tab history call
+        else if (item.tag == TABBAR_CALL_HISTORY_INDEX)
+        {
+//            [self.callHistoryViewControler scrollToNextRoomWithMissedNotifications];
         }
         //-- CK removed
         // else if (item.tag == TABBAR_FAVOURITES_INDEX)

@@ -16,8 +16,9 @@
  */
 
 #import "RoomIncomingAttachmentWithPaginationTitleBubbleCell.h"
-
 #import "RiotDesignValues.h"
+#import "RoomBubbleCellData.h"
+#import "MXKRoomBubbleTableViewCell+Riot.h"
 
 @implementation RoomIncomingAttachmentWithPaginationTitleBubbleCell
 
@@ -29,7 +30,7 @@
     
     self.paginationLabel.textColor = kRiotColorGreen;
     self.paginationSeparatorView.backgroundColor = kRiotColorGreen;
-    self.messageTextView.tintColor = kRiotColorGreen;
+    self.messageTextView.tintColor = kRiotLinkTextColor;
 }
 
 - (void)render:(MXKCellData *)cellData
@@ -40,6 +41,18 @@
     {
         self.paginationLabel.text = [[bubbleData.eventFormatter dateStringFromDate:bubbleData.date withTime:NO] uppercaseString];
     }
+}
+
++ (CGFloat)heightForCellData:(MXKCellData*)cellData withMaximumWidth:(CGFloat)maxWidth
+{
+    CGFloat rowHeight = [self attachmentBubbleCellHeightForCellData:cellData withMaximumWidth:maxWidth];
+
+    if (rowHeight <= 0)
+    {
+        rowHeight = [super heightForCellData:cellData withMaximumWidth:maxWidth];
+    }
+
+    return rowHeight;
 }
 
 @end

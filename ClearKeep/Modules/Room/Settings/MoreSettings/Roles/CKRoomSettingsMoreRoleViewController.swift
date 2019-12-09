@@ -83,7 +83,9 @@ final class CKRoomSettingsMoreRoleViewController: MXKViewController {
                 self.tableView.reloadSections([Section.privileged.rawValue], with: .none)
             }
         }
-
+        
+        addCustomBackButton()
+        
         bindingTheme()
     }
     
@@ -92,13 +94,13 @@ final class CKRoomSettingsMoreRoleViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -125,7 +127,7 @@ final class CKRoomSettingsMoreRoleViewController: MXKViewController {
         
         cell.title = self.stringForIndexPath(indexPath)
         cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         return cell
     }
     

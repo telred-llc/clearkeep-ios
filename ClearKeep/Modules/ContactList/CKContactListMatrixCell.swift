@@ -22,15 +22,15 @@ final class CKContactListMatrixCell: CKContactListBaseCell {
         
         self.displayNameLabel.backgroundColor = UIColor.clear
         
-        self.photoView.defaultBackgroundColor = UIColor.clear
+        self.photoView.defaultBackgroundColor = .clear
         self.photoView.layer.cornerRadius = (self.photoView.bounds.height) / 2
         self.photoView.clipsToBounds = true
         self.photoView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin]
-        self.photoView.contentMode = UIView.ContentMode.scaleAspectFill
+        self.photoView.contentMode = .scaleAspectFill
         
         self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor
-        self.statusView.layer.borderWidth = 2
+        self.statusView.layer.borderWidth = 1
 
         self.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
     }

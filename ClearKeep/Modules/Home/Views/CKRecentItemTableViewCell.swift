@@ -17,7 +17,8 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
     @IBOutlet weak var encryptedIconImage: UIImageView!
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var notifiCountLabel: UILabel!
-    
+    @IBOutlet weak var timeLabelWidth: NSLayoutConstraint!
+
     private var lastMessageLabel: UILabel?
     private var roomCellData: MXKRecentCellDataStoring?
     
@@ -82,7 +83,10 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
         roomCellData = cellData as? MXKRecentCellDataStoring
         roomNameLabel.text = roomCellData?.roomSummary.displayname
         timeLabel.text = roomCellData?.lastEventDate
-        
+        timeLabel.sizeToFit()
+        self.timeLabelWidth.constant = timeLabel.frame.size.width
+        self.layoutIfNeeded()
+
         // rendering of status
         self.renderStatus(roomCellData?.roomSummary)
         
@@ -108,7 +112,7 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
             if ignored == false, let lastMessage = roomCellData?.lastEventTextMessage {
                 
                 if lastMessageLabel == nil {
-                    lastMessageLabel = UILabel.init()
+                    lastMessageLabel = UILabel()
                 }                                                
                 
                 if !contentStackView.arrangedSubviews.contains(where: { $0 == lastMessageLabel }) {
@@ -120,7 +124,9 @@ class CKRecentItemTableViewCell: MXKTableViewCell, MXKCellRendering {
                 } else {                
                     lastMessageLabel!.text = lastMessage
                 }
-                
+
+                lastMessageLabel!.lineBreakMode = .byTruncatingTail
+                lastMessageLabel!.clipsToBounds = true
                 lastMessageLabel!.font = CKAppTheme.mainThinAppFont(size: 15)
                 lastMessageLabel!.theme.textColor = themeService.attrStream{ $0.secondTextColor }
             } else {

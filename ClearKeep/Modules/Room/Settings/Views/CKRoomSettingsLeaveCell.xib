@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,34 +14,45 @@
             <rect key="frame" x="0.0" y="0.0" width="456" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g1V-ZA-awd" id="2QW-NR-nmy">
-                <rect key="frame" x="0.0" y="0.0" width="456" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="456" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_leave_room" translatesAutoresizingMaskIntoConstraints="NO" id="BWi-xN-8G3">
-                        <rect key="frame" x="20" y="12" width="20" height="20"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_leave_room" translatesAutoresizingMaskIntoConstraints="NO" id="BWi-xN-8G3">
+                        <rect key="frame" x="20" y="14" width="16" height="16"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="1xw-FM-Qgk"/>
-                            <constraint firstAttribute="width" constant="20" id="7mR-9f-b7b"/>
+                            <constraint firstAttribute="height" constant="16" id="1xw-FM-Qgk"/>
+                            <constraint firstAttribute="width" constant="16" id="7mR-9f-b7b"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lcZ-hQ-Non">
+                        <rect key="frame" x="434" y="15" width="14" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="lcZ-hQ-Non" secondAttribute="height" multiplier="1:1" id="8SE-q5-DcD"/>
+                            <constraint firstAttribute="width" constant="14" id="QN4-Vo-29E"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a35-1e-f5S">
-                        <rect key="frame" x="48" y="0.0" width="408" height="43.5"/>
+                        <rect key="frame" x="44" y="0.0" width="372" height="44"/>
                         <state key="normal" title="Leave Room">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="lcZ-hQ-Non" firstAttribute="centerY" secondItem="2QW-NR-nmy" secondAttribute="centerY" id="0sC-ep-9Dh"/>
+                    <constraint firstItem="lcZ-hQ-Non" firstAttribute="width" secondItem="lcZ-hQ-Non" secondAttribute="height" multiplier="1:1" id="22n-o4-8LC"/>
                     <constraint firstItem="a35-1e-f5S" firstAttribute="top" secondItem="2QW-NR-nmy" secondAttribute="top" id="QlO-O8-Poh"/>
                     <constraint firstItem="BWi-xN-8G3" firstAttribute="leading" secondItem="2QW-NR-nmy" secondAttribute="leading" constant="20" id="RiE-p6-MEk"/>
                     <constraint firstItem="a35-1e-f5S" firstAttribute="leading" secondItem="BWi-xN-8G3" secondAttribute="trailing" constant="8" id="dMA-ls-gQh"/>
                     <constraint firstItem="BWi-xN-8G3" firstAttribute="centerY" secondItem="2QW-NR-nmy" secondAttribute="centerY" id="n2T-Vh-O8I"/>
                     <constraint firstAttribute="bottom" secondItem="a35-1e-f5S" secondAttribute="bottom" id="pHT-Xm-FoQ"/>
-                    <constraint firstAttribute="trailing" secondItem="a35-1e-f5S" secondAttribute="trailing" id="pZn-TW-f3l"/>
+                    <constraint firstAttribute="trailing" secondItem="a35-1e-f5S" secondAttribute="trailing" constant="40" id="pZn-TW-f3l"/>
+                    <constraint firstAttribute="trailing" secondItem="lcZ-hQ-Non" secondAttribute="trailing" constant="8" id="uzJ-jU-Qjo"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="Pjy-gK-j57"/>
             <connections>
+                <outlet property="iconDetailImage" destination="lcZ-hQ-Non" id="tEg-t7-equ"/>
                 <outlet property="iconImageView" destination="BWi-xN-8G3" id="gjb-MP-6SU"/>
                 <outlet property="leaveButton" destination="a35-1e-f5S" id="WC6-11-lTd"/>
             </connections>

@@ -51,3 +51,33 @@ extension CKServiceError {
         case restoreKey
     }
 }
+
+// ------
+
+enum CKError {
+    
+    case loadFailImage
+    case unexpectedError
+    
+    case notEnoughMemberInRoom
+    case notAdminCallInRoom
+    
+}
+
+
+extension CKError: Error {
+    
+    public var errorDescription: String {
+        switch self {
+        case .loadFailImage:
+            return CKLocalization.string(byKey: "load_fail_image")
+        case .unexpectedError:
+            return CKLocalization.string(byKey: "unexpected_error")
+        case .notEnoughMemberInRoom:
+            return CKLocalization.string(byKey: "call_history_not_enough_member_in_room")
+        case .notAdminCallInRoom:
+            return CKLocalization.string(byKey: "call_history_not_admin_call_in_room")
+        }
+    }
+    
+}

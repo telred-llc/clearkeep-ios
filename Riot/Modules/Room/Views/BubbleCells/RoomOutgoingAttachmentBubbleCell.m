@@ -16,8 +16,9 @@
  */
 
 #import "RoomOutgoingAttachmentBubbleCell.h"
-
 #import "RiotDesignValues.h"
+#import "RoomBubbleCellData.h"
+#import "MXKRoomBubbleTableViewCell+Riot.h"
 
 @implementation RoomOutgoingAttachmentBubbleCell
 
@@ -26,7 +27,7 @@
     [super customizeTableViewCellRendering];
     
     self.userNameLabel.textColor = kRiotPrimaryTextColor;
-    self.messageTextView.tintColor = kRiotColorGreen;
+    self.messageTextView.tintColor = kRiotLinkTextColor;
     
     // CK 337: Edit the font size for the "account name"
     [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
@@ -59,6 +60,18 @@
             bubbleCell.attachmentView.layer.borderWidth = 0;
         }
     }
+}
+
++ (CGFloat)heightForCellData:(MXKCellData*)cellData withMaximumWidth:(CGFloat)maxWidth
+{
+    CGFloat rowHeight = [self attachmentBubbleCellHeightForCellData:cellData withMaximumWidth:maxWidth];
+
+    if (rowHeight <= 0)
+    {
+        rowHeight = [super heightForCellData:cellData withMaximumWidth:maxWidth];
+    }
+
+    return rowHeight;
 }
 
 @end

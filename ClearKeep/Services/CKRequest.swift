@@ -29,3 +29,62 @@ extension CKAPIClient {
         return request(.post, "/api/generateBackupKey", parameters: model.toParams(), encoding: JSONEncoding.default).responseTask()
     }
 }
+
+
+
+// MARK: Submit Feedback
+extension CKAPIClient {
+    
+    @discardableResult
+//    private
+    func requestFeedback(_ model: CKFeedback.Request) -> Promise<CKFeedback.Response> {
+        
+//        request(.post, "/api/feedback/email", parameters: model.toParams(), encoding: JSONEncoding.default).response { (response) in
+//
+//            if let error = response.error {
+//                return
+//            }
+//
+//            guard let data = response.data else {
+//                return
+//            }
+//
+//            let jsonDecoder = JSONDecoder()
+//
+//            do {
+//                let responseData = try jsonDecoder.decode(ResponseData<CKFeedback.Response>.self, from: data)
+//
+//                if let errorCode = responseData.errorCode, let message = responseData.message {
+//
+//                    print(errorCode, " --- ", message)
+//
+//
+//                }
+//
+//            } catch {
+//                return
+//            }
+//        }
+//
+//        return nil
+        
+        return request(.post, "/api/feedback/email", parameters: model.toParams(), encoding: JSONEncoding.default).responseTask()
+        
+//        return request(.post, "/api/feedback/email", parameters: model.toParams(), encoding: JSONEncoding.default).responseTask().done { (_) in
+//
+//        }
+        
+    }
+    
+    
+//    func submitFeedback(_ model: CKFeedback.Request, completion: @escaping ((CKFeedback.Response?, Error?) -> Void)) {
+//
+//        firstly {
+//            self.requestFeedback(model)
+//        }.done {
+////            completion(nil)
+//        }.catch { (error) in
+////            completion(error)
+//        }
+//    }
+}

@@ -173,4 +173,64 @@
 // invited join
 "invited_room" = "invited you to this room";
 "invited_unknow" = "Unknow";
-"invited_default" = "Would you like to join in order to participate in the discussion?";
+"invited_default" = "Would you want to join this room?";
+
+// signin signout
+
+"auth_user_id" = "Username or Email";
+"auth_user_id_placeholder" = "Your account";
+
+"auth_password" = "Password";
+"auth_password_placeholder" = "Enter password";
+
+"auth_new_password" = "New Password";
+"auth_new_password_placeholder" = "Enter new password";
+
+"auth_confirm_new_password" = "Confirm Password";
+"auth_confirm_new_password_placeholder" = "Enter confirm password";
+
+"auth_new_password_hint_label" = "A verification email will be sent to your inbox to confirm setting your new passwvord";
+
+"auth_repeat_password" = "Repeat Password";
+"auth_repeat_password_placeholder" = "Enter repeat password";
+"auth_sign_in_have_account" = "HAVE AN ACCOUNT ?";
+"auth_sign_in_button" = " SIGN IN";
+
+
+// infor create room detail
+"this_room_create" = "This room created ";
+"add_people_room_detail" = "Add People";
+"display_name_room_placeholder" = "Enter display name";
+"topic_name_room_placeholder" = "Enter topic name";
+
+// CKRoomSettingsParticipantViewController
+"room_setting_participant_title" = "Participants";
+"room_setting_participant_invite" = "invited";
+"room_setting_security_privacy" = "Security & Privacy";
+"room_setting_roles_permission" = "Roles and Permissions";
+"room_setting_advanced" = "Advanced";
+"room_setting_room_admin" = "Room's admin";
+
+// Call History
+"call_history_title" = "Call Log";
+"call_history_not_enough_member_in_room" = "Don't enough member in room";
+"call_history_not_admin_call_in_room" = "You don't admin in room";
+"load_fail_image" = "Don't load image in photos";
+"unexpected_error" = "Something went wrong!";
+
+// Feedback screen
+"feedback_setting" = "Feedback";
+"feedback_setting_enjoy_clearkeep" = "Did you enjoy ClearKeep ?";
+"feedback_setting_title" = "We would love to hear back from you!";
+"feedback_setting_submit" = "Submit";
+"feedback_setting_clear_all" = "Clear all";
+"feedback_setting_submit_success" = "Your feedback has been sent successfully";
+"feedback_setting_placeholder" = "Enter your feedback ....";
+
+"create_room_option_anyone_join" = "Public mode : Anyone in the Directory can join";
+
+// profile
+"profile_admin" = "Admin";
+"profile_location_placeholder" = "Your location";
+"profile_phone_placeholder" = "Your phone";
+"profile_update_success" = "Profile updated successfully ";

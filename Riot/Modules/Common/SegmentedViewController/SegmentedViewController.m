@@ -37,8 +37,8 @@
     NSArray* sectionTitles;
     
     // the selected marker view
-//    UIView* selectedMarkerView;
-//    NSLayoutConstraint *leftMarkerViewConstraint;
+    IBOutlet UIView *globalSearchSegmentView;
+    IBOutlet UIView *roomSearchSegmentView;
     
     // Observe kRiotDesignValuesDidChangeThemeNotification to handle user interface theme change.
     id kRiotDesignValuesDidChangeThemeNotificationObserver;
@@ -152,8 +152,8 @@
 
 - (void)userInterfaceThemeDidChange
 {
-    self.defaultBarTintColor = kRiotSecondaryBgColor;
-    self.barTitleColor = kRiotPrimaryTextColor;
+    self.defaultBarTintColor = kRiotPrimaryBgColor;
+    self.barTitleColor = kRiotTabBarButtonTintColor;
     self.activityIndicator.backgroundColor = kRiotOverlayColor;
     
     self.view.backgroundColor = kRiotPrimaryBgColor;
@@ -180,7 +180,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
     if (_selectedViewController)
     {
         // Make iOS invoke child viewWillDisappear
@@ -216,31 +215,40 @@
 {
     NSUInteger count = viewControllers.count;
 
+    // This will be ref in future
+    if (count == 2) {
+        [globalSearchSegmentView setHidden:YES];
+        [roomSearchSegmentView setHidden:NO];
+    } else if (count == 4) {
+        [globalSearchSegmentView setHidden:NO];
+        [roomSearchSegmentView setHidden:YES];
+    }
+    
     for (NSUInteger index = 0; index < count; index++)
     {
         // Handle container view
         [_selectionContainer.layer setCornerRadius:5.0];
         _selectionContainer.clipsToBounds = YES;
         _selectionContainer.layer.masksToBounds = YES;
-        _selectionContainer.backgroundColor = kRiotSecondaryBgColor;
-        // create programmatically each label
-        UIButton *button = _segmentButtons[index];
+        _selectionContainer.backgroundColor = kRiotPrimaryHeaderColor;
+
+        // This will be ref in future
+        UIButton *button = (count == 4) ? _segmentButtons[index] : _segmentButtonsInRoom[index];
         [button setTitle:[sectionTitles objectAtIndex:index] forState:UIControlStateNormal];
-        [button setBackgroundColor: kRiotSecondaryBgColor];
-        [button setBackgroundImage:[UIImage imageNamed:@"btn_section_highlight"] forState:UIControlStateSelected];
+        [button setBackgroundColor: kRiotPrimaryHeaderColor];
+        [button setBackgroundImage:kRiotButtonSegmentSelected forState:UIControlStateSelected];
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
         button.titleLabel.font = [UIFont fontWithName:@"SFCompactDisplay-Regular" size:15];
         button.titleLabel.textColor = [UIColor colorWithRed:68.0/255.0 green:68.0/255.0 blue:68.0/255.0 alpha:1];
         button.accessibilityIdentifier = [NSString stringWithFormat:@"SegmentedVCSectionLabel%tu", index];
         [button setTitleColor:kRiotPrimaryTextColor forState:UIControlStateNormal];
         [button setTitleColor:kRiotSelectedButtonTextColor forState:UIControlStateSelected];
-        
-        UITapGestureRecognizer *labelTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onLabelTouch:)];
-        [labelTapGesture setNumberOfTouchesRequired:1];
-        [labelTapGesture setNumberOfTapsRequired:1];
+
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSegmentButtonTouch:)];
+        [tapGesture setNumberOfTouchesRequired:1];
+        [tapGesture setNumberOfTapsRequired:1];
         button.userInteractionEnabled = YES;
-        [button addGestureRecognizer:labelTapGesture];
-            
+        [button addGestureRecognizer:tapGesture];
     }
     
     [self displaySelectedViewController];
@@ -251,23 +259,19 @@
     // Sanity check
     NSAssert(_segmentButtons.count, @"[SegmentedViewController] displaySelectedViewController failed - At least one view controller is required");
 
-    if (_selectedViewController)
-    {
+    if (_selectedViewController) {
         NSUInteger index = [viewControllers indexOfObject:_selectedViewController];
-        
-        if (index != NSNotFound)
-        {
-            UIButton* button = [_segmentButtons objectAtIndex: index];
+        if (index != NSNotFound) {
+            UIButton *button = ([sectionTitles count] == 4) ? [_segmentButtons objectAtIndex: index] : [_segmentButtonsInRoom objectAtIndex: index];
             button.titleLabel.font = [UIFont fontWithName:@"SFCompactDisplay-Regular" size:15];
         }
-        
+
         [_selectedViewController willMoveToParentViewController:nil];
         [_selectedViewController.view removeFromSuperview];
         [_selectedViewController removeFromParentViewController];
-        
     }
-    
-    UIButton* button = [_segmentButtons objectAtIndex:_selectedIndex];
+
+    UIButton* button = ([sectionTitles count] == 4) ? [_segmentButtons objectAtIndex:_selectedIndex] : [_segmentButtonsInRoom objectAtIndex:_selectedIndex];
     button.titleLabel.font = [UIFont fontWithName:@"SFCompactDisplay-Regular" size:15];//[UIFont boldSystemFontOfSize:17];
     [button setSelected:YES];
     
@@ -275,17 +279,14 @@
     _selectedViewController = [viewControllers objectAtIndex:_selectedIndex];
 
     // Make iOS invoke selectedViewController viewWillAppear when the segmented view is already visible
-    if (isViewAppeared)
-    {
+    if (isViewAppeared) {
         [_selectedViewController beginAppearanceTransition:YES animated:YES];
     }
 
     [self addChildViewController:_selectedViewController];
-    
     [_selectedViewController.view setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.viewControllerContainer addSubview:_selectedViewController.view];
-    
-    
+
     displayedVCTopConstraint = [NSLayoutConstraint constraintWithItem:_selectedViewController.view
                                                             attribute:NSLayoutAttributeTop
                                                             relatedBy:NSLayoutRelationEqual
@@ -301,22 +302,22 @@
                                                              attribute:NSLayoutAttributeLeading
                                                             multiplier:1.0f
                                                               constant:0.0f];
-    
+
     displayedVCWidthConstraint = [NSLayoutConstraint constraintWithItem:_selectedViewController.view
-                                                                        attribute:NSLayoutAttributeWidth
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.viewControllerContainer
-                                                                        attribute:NSLayoutAttributeWidth
-                                                                       multiplier:1.0
-                                                                         constant:0];
-    
-    displayedVCHeightConstraint = [NSLayoutConstraint constraintWithItem:_selectedViewController.view
-                                                              attribute:NSLayoutAttributeHeight
+                                                              attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.viewControllerContainer
-                                                              attribute:NSLayoutAttributeHeight
+                                                              attribute:NSLayoutAttributeWidth
                                                              multiplier:1.0
                                                                constant:0];
+    
+    displayedVCHeightConstraint = [NSLayoutConstraint constraintWithItem:_selectedViewController.view
+                                                               attribute:NSLayoutAttributeHeight
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self.viewControllerContainer
+                                                               attribute:NSLayoutAttributeHeight
+                                                              multiplier:1.0
+                                                                constant:0];
     
     [NSLayoutConstraint activateConstraints:@[displayedVCTopConstraint, displayedVCLeftConstraint, displayedVCWidthConstraint, displayedVCHeightConstraint]];
     
@@ -388,16 +389,14 @@
 
 #pragma mark - touch event
 
-- (void)onLabelTouch:(UIGestureRecognizer*)gestureRecognizer
-{
-    NSUInteger pos = [_segmentButtons indexOfObject:gestureRecognizer.view];
+- (void)onSegmentButtonTouch:(UIGestureRecognizer*)gestureRecognizer {
+    NSUInteger count = sectionTitles.count;
+    NSUInteger pos = (count == 4) ? [_segmentButtons indexOfObject:gestureRecognizer.view] : [_segmentButtonsInRoom indexOfObject:gestureRecognizer.view];
     // check if there is an update before triggering anything
-    if ((pos != NSNotFound) && (_selectedIndex != pos))
-    {
-        UIButton* button = [_segmentButtons objectAtIndex: pos];
+    if ((pos != NSNotFound) && (_selectedIndex != pos)) {
+        UIButton* button = (count == 4) ? [_segmentButtons objectAtIndex: pos] : [_segmentButtonsInRoom objectAtIndex: pos];
+        UIButton* selectedButton = (count == 4) ? [_segmentButtons objectAtIndex: self.selectedIndex] : [_segmentButtonsInRoom objectAtIndex: self.selectedIndex];
         [button setSelected:YES];
-
-        UIButton* selectedButton = [_segmentButtons objectAtIndex: self.selectedIndex];
         [selectedButton setSelected:NO];
 
         // update the selected index

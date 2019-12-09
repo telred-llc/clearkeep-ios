@@ -27,11 +27,11 @@
 {
     [super customizeTableViewCellRendering];
     
-    self.title.textColor = kRiotPrimaryTextColor;
+    self.title.textColor = kRiotNavBarRightButtonColor;
     
-    self.message.textColor = kRiotSecondaryTextColor;
+    self.message.textColor = kRiotNavBarRightButtonColor;
     
-    self.date.tintColor = kRiotSecondaryTextColor;
+    self.date.textColor = kRiotNavBarRightButtonColor;
 }
 
 + (CGFloat)heightForCellData:(MXKCellData *)cellData withMaximumWidth:(CGFloat)maxWidth

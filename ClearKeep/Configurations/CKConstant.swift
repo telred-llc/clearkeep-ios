@@ -36,4 +36,5 @@ struct CKCryptoConfig {
 extension Notification.Name {
     static let ckBackUpKeyDidFail = Notification.Name("CKBackUpKeyDidFail")
     static let ckBackUpKeyDidSuccess = Notification.Name("CKBackUpKeyDidSuccess")
+    static let presentPhotoLibrary = Notification.Name(rawValue: "presentPhotoLibrary")
 }

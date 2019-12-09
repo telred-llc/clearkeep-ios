@@ -33,6 +33,7 @@ final class CKRoomSettingsMoreAdvancedViewController: MXKViewController {
         super.viewDidLoad()
         self.tableView.register(CKRoomSettingsMoreAdvancedCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreAdvancedCell.identifier)
         self.navigationItem.title = "Advanced"
+        addCustomBackButton()
         self.bindingTheme()
     }
     
@@ -41,13 +42,13 @@ final class CKRoomSettingsMoreAdvancedViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -67,7 +68,7 @@ final class CKRoomSettingsMoreAdvancedViewController: MXKViewController {
         }
 
         cell.titleLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
         return cell
     }

@@ -78,7 +78,7 @@ import Foundation
 
                     if let cellData = RoomBubbleCellData.init(event: roomEvent, andRoomState: roomDataSource.roomState, andRoomDataSource: roomDataSource) {
 
-                        cellData.highlightPattern(inTextMessage: self?.searchText, withForegroundColor: kRiotColorGreen, andFont: patternFont)
+                        cellData.highlightPattern(inTextMessage: self?.searchText, withForegroundColor: themeService.attrs.navBarTintColor, andFont: patternFont)
 
                         // Use profile information as data to display
                         if let sender = roomDataSource.roomState?.members.members.first(where: { $0.userId == roomEvent.sender }) {
@@ -238,7 +238,14 @@ extension CKSearchDataSource {
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
 
+        if cell.isKind(of: RoomIncomingAttachmentBubbleCell.self), let cellObject = cell as? RoomIncomingAttachmentBubbleCell {
+            cellObject.isSearchCell = true
+        } else if cell.isKind(of: RoomIncomingTextMsgBubbleCell.self), let cellObject = cell as? RoomIncomingTextMsgBubbleCell {
+            cellObject.isSearchCell = true
+        }
+
         if cell.isKind(of: MXKRoomBubbleTableViewCell.self), let bubbleCell = cell as? MXKRoomBubbleTableViewCell {
+            bubbleCell.updateEventFormatter()
             bubbleCell.addDateLabel(false)
         } else if cell.isKind(of: FilesSearchTableViewCell.self), let fileSearchCell = cell as? FilesSearchTableViewCell {
             if (self.cellDataArray?.count ?? 0) > indexPath.row,
@@ -257,6 +264,9 @@ extension CKSearchDataSource {
 
                 fileSearchCell.message.text = cellData.message
                 fileSearchCell.iconImage.image = cellData.attachmentIcon
+                if let fileTitle = cellData.extraInfo {
+                    fileSearchCell.message.text = fileTitle
+                }
 
                 // Disable any interactions defined in the cell
                 // because we want [tableView didSelectRowAtIndexPath:] to be called
@@ -265,11 +275,11 @@ extension CKSearchDataSource {
                 fileSearchCell.title.text = nil
                 fileSearchCell.date.text = nil
                 fileSearchCell.message.text = ""
-
                 fileSearchCell.attachmentImageView.image = nil;
                 fileSearchCell.iconImage.image = nil;
             }
         }
+        
         return cell
     }
 }

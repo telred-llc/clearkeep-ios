@@ -69,14 +69,12 @@ final class CKRoomCreatingViewController: MXKViewController {
     
     private var stateCreateRoom: Bool = false {
         didSet {
-            let bgValid = UIImage(named: "bg_button_create")
-            let bgNotValid = UIImage(named: "bg_btn_not_valid")
             btnCreate.isEnabled = stateCreateRoom
-            if stateCreateRoom {
-                btnCreate.setBackgroundImage(bgValid, for: .normal)
-            } else {
-                btnCreate.setBackgroundImage(bgNotValid, for: .normal)
-            }
+            
+            themeService.attrsStream.subscribe { (theme) in
+                let image = self.stateCreateRoom ? theme.element?.enableButtonBG : theme.element?.disableButtonBG
+                self.btnCreate.setBackgroundImage(image, for: .normal)
+            }.disposed(by: self.disposeBag)
         }
     }
     
@@ -86,6 +84,7 @@ final class CKRoomCreatingViewController: MXKViewController {
         super.viewDidLoad()
         self.finalizeLoadView()
         self.reloadDataSource()
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
         self.hideKeyboardWhenTappedAround()
     }
     
@@ -110,6 +109,7 @@ final class CKRoomCreatingViewController: MXKViewController {
         self.tableView.register(CKRoomAddingMembersCell.nib, forCellReuseIdentifier: CKRoomAddingMembersCell.identifier)
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        self.tableView.keyboardDismissMode = .onDrag
         
         self.setNavigationBar()
         bindingTheme()
@@ -117,21 +117,22 @@ final class CKRoomCreatingViewController: MXKViewController {
     
     func setNavigationBar(){
         let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_back_nav"),
+            image: UIImage(named: "back_button"),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton))
+        closeItemButton.theme.tintColor = themeService.attrStream { $0.navBarTintColor }
         self.navigationItem.leftBarButtonItem = closeItemButton
     }
     
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = .white
-            self?.barTitleColor = CKColor.Text.blueNavigation
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
         }).disposed(by: disposeBag)
         
         themeService.rx
-            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     
@@ -274,14 +275,16 @@ final class CKRoomCreatingViewController: MXKViewController {
         if let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomCreatingNameCell.identifier,
             for: indexPath) as? CKRoomCreatingNameCell {
-            cell.nameTextField.delegate = self
-            cell.nameTextField.tag = 1
             cell.selectionStyle = .none
+            cell.triggerReturnHandler = {
+                // row continues is cell --> CKRoomCreatingTopicCell
+                guard let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: Section.topic.rawValue)) as? CKRoomCreatingTopicCell else { return }
+                cell.topicTextField.becomeFirstResponder()
+            }
             // text value
             cell.edittingChangedHandler = { text in
                 if let text = text {
                     self.creatingData.name = text
-                    cell.nameTextField.text = text
                     self.updateControls()
                 }
             }
@@ -298,10 +301,10 @@ final class CKRoomCreatingViewController: MXKViewController {
         if let cell = tableView.dequeueReusableCell(
             withIdentifier: CKRoomCreatingTopicCell.identifier,
             for: indexPath) as? CKRoomCreatingTopicCell {
-            cell.topicTextField.text = creatingData.topic
             cell.selectionStyle = .none
-            cell.topicTextField.tag = 99
-            cell.topicTextField.delegate = self
+            cell.triggerReturnHandler = {
+                self.view.endEditing(true)
+            }
             // text value
             cell.edittingChangedHandler = { text in
                 if let text = text {self.creatingData.topic = text}
@@ -318,7 +321,6 @@ final class CKRoomCreatingViewController: MXKViewController {
             withIdentifier: CKRoomAddingMembersCell.identifier,
             for: indexPath) as? CKRoomAddingMembersCell {
             let d = self.filteredDataSource[indexPath.row]
-            cell.backgroundColor = UIColor.white
             cell.displayNameLabel.text = (d.mxContact.displayName != nil) ? d.mxContact.displayName : ((d.mxContact.emailAddresses.first) as! MXKEmail).emailAddress
             cell.isChecked = d.isSelected
             cell.changesBy(mxContact: d.mxContact, inSession: self.mainSession)
@@ -389,18 +391,21 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
             let s = Section(rawValue: section)
             switch s {
             case .name? :
-                view.descriptionLabel.textColor = CKColor.Text.blue
+                view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+                view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
                 break
             case .suggested?:
-                view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
+                view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
                 view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
+                view.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
                 break
             default :
-                view.descriptionLabel.textColor = CKColor.Text.lightGray
+                view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
                 view.descriptionLabel.font = UIFont.systemFont(ofSize: 15)
+                view.backgroundColor = .clear
                 break
             }
-            view.backgroundColor = UIColor.white
+            
             return view
         }
         return UIView()
@@ -429,11 +434,6 @@ extension CKRoomCreatingViewController: UITableViewDelegate {
         return CGFloat.leastNonzeroMagnitude
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !tableView.isDecelerating {
-            view.endEditing(true)
-        }
-    }
 }
 
 // MARK: - UITableViewDataSource
@@ -501,27 +501,14 @@ extension CKRoomCreatingViewController: UITableViewDataSource {
     
 }
 
-extension CKRoomCreatingViewController : UITextFieldDelegate{
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.tag == 1 {
-            let fieldNext = self.view.viewWithTag(99) as? UITextField
-            fieldNext?.becomeFirstResponder()
-        }
-        if textField.tag == 99 {
-            self.view.endEditing(true)
-        }
-        return true
-    }
-}
-
 extension CKRoomCreatingViewController {
     func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
-    @objc func dismissKeyboard() {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
 }

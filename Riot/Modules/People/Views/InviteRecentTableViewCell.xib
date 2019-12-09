@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="782" height="231"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L2L-l5-wPx" id="aXz-IR-jj5">
-                <rect key="frame" x="0.0" y="0.0" width="782" height="230.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="782" height="231"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RX5-eD-c3c" userLabel="Room avatar" customClass="MXKImageView">
@@ -42,8 +40,8 @@
                         <rect key="frame" x="13" y="11" width="42" height="42"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="RoomTitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lg1-xQ-AGn">
-                        <rect key="frame" x="69" y="14" width="79" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="RoomTitle " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lg1-xQ-AGn">
+                        <rect key="frame" x="69" y="14" width="593" height="21"/>
                         <accessibility key="accessibilityConfiguration" identifier="TitleLabel"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="BeP-eL-JKM"/>
@@ -53,7 +51,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LastEventDescription" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQt-mN-T6b">
-                        <rect key="frame" x="69" y="39" width="713" height="20"/>
+                        <rect key="frame" x="69" y="39" width="673" height="20"/>
                         <accessibility key="accessibilityConfiguration" identifier="LastEventDescription"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="qI2-ud-qcA"/>
@@ -99,7 +97,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gCG-UR-b2u">
-                        <rect key="frame" x="752" y="14" width="20" height="20"/>
+                        <rect key="frame" x="752" y="39" width="20" height="20"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_invite_room" translatesAutoresizingMaskIntoConstraints="NO" id="xxS-bF-b4M">
                                 <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
@@ -125,23 +123,35 @@
                             <constraint firstAttribute="height" constant="13" id="w8X-7u-pcM"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sun 20:28 121 23" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Gz-uA-ZdT">
+                        <rect key="frame" x="672" y="14" width="100" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="DMb-uJ-DVP"/>
+                            <constraint firstAttribute="height" constant="21" id="HYN-v5-HHG"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                        <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="dQt-mN-T6b" firstAttribute="top" secondItem="Lg1-xQ-AGn" secondAttribute="bottom" constant="4" id="1ka-cr-uZP"/>
                     <constraint firstItem="tDD-Fy-Uvd" firstAttribute="height" secondItem="RX5-eD-c3c" secondAttribute="height" id="3BH-yB-xdI"/>
                     <constraint firstItem="RX5-eD-c3c" firstAttribute="leading" secondItem="aXz-IR-jj5" secondAttribute="leading" constant="13" id="3EJ-qT-J8r"/>
                     <constraint firstItem="tDD-Fy-Uvd" firstAttribute="width" secondItem="RX5-eD-c3c" secondAttribute="width" id="7Py-HX-vtW"/>
+                    <constraint firstItem="7Gz-uA-ZdT" firstAttribute="centerY" secondItem="Lg1-xQ-AGn" secondAttribute="centerY" id="Akc-nM-HWu"/>
+                    <constraint firstItem="gCG-UR-b2u" firstAttribute="centerY" secondItem="dQt-mN-T6b" secondAttribute="centerY" id="Ao6-ov-Mve"/>
                     <constraint firstItem="tDD-Fy-Uvd" firstAttribute="centerY" secondItem="RX5-eD-c3c" secondAttribute="centerY" id="FMn-gg-b28"/>
                     <constraint firstItem="Lg1-xQ-AGn" firstAttribute="leading" secondItem="RX5-eD-c3c" secondAttribute="trailing" constant="14" id="Pgp-JM-oQd"/>
                     <constraint firstItem="hVY-f3-80Y" firstAttribute="centerY" secondItem="dQt-mN-T6b" secondAttribute="centerY" id="RM0-3J-ihk"/>
-                    <constraint firstItem="gCG-UR-b2u" firstAttribute="top" secondItem="aXz-IR-jj5" secondAttribute="top" constant="14" id="Vb6-hc-Bsk"/>
+                    <constraint firstAttribute="trailing" secondItem="7Gz-uA-ZdT" secondAttribute="trailing" constant="10" id="UK5-dn-vbh"/>
                     <constraint firstItem="dQt-mN-T6b" firstAttribute="leading" secondItem="RX5-eD-c3c" secondAttribute="trailing" constant="14" id="XFM-LG-4uJ"/>
                     <constraint firstAttribute="trailing" secondItem="gCG-UR-b2u" secondAttribute="trailing" constant="10" id="Zf3-3f-SWg"/>
-                    <constraint firstItem="gCG-UR-b2u" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lg1-xQ-AGn" secondAttribute="trailing" constant="4" id="e2Q-RZ-IF2"/>
+                    <constraint firstItem="7Gz-uA-ZdT" firstAttribute="leading" secondItem="Lg1-xQ-AGn" secondAttribute="trailing" constant="10" id="Zfb-Jq-8Ii"/>
+                    <constraint firstItem="gCG-UR-b2u" firstAttribute="leading" secondItem="dQt-mN-T6b" secondAttribute="trailing" constant="10" id="glu-T4-IFG"/>
                     <constraint firstItem="tDD-Fy-Uvd" firstAttribute="centerX" secondItem="RX5-eD-c3c" secondAttribute="centerX" id="iJK-au-Cpi"/>
                     <constraint firstAttribute="trailing" secondItem="tjf-WP-vTl" secondAttribute="trailing" constant="54" id="kFW-Fa-ibz"/>
                     <constraint firstItem="hVY-f3-80Y" firstAttribute="leading" secondItem="aXz-IR-jj5" secondAttribute="leading" constant="50" id="prx-bM-qUg"/>
-                    <constraint firstAttribute="trailing" secondItem="dQt-mN-T6b" secondAttribute="trailing" id="t2m-pb-5zd"/>
                     <constraint firstItem="Lg1-xQ-AGn" firstAttribute="top" secondItem="aXz-IR-jj5" secondAttribute="top" constant="14" id="tY3-6V-A3B"/>
                     <constraint firstItem="tjf-WP-vTl" firstAttribute="leading" secondItem="RX5-eD-c3c" secondAttribute="trailing" constant="13" id="wEB-VM-vz8"/>
                 </constraints>
@@ -155,12 +165,14 @@
             <connections>
                 <outlet property="directRoomBorderView" destination="tDD-Fy-Uvd" id="umM-qL-Dkm"/>
                 <outlet property="encryptedRoomIcon" destination="hVY-f3-80Y" id="wyu-Sn-VaV"/>
+                <outlet property="lastEventDate" destination="7Gz-uA-ZdT" id="yYP-0u-gEx"/>
                 <outlet property="lastEventDescription" destination="dQt-mN-T6b" id="MSz-h1-cAL"/>
                 <outlet property="leftButton" destination="Fc3-Id-aaG" id="cx4-98-B32"/>
                 <outlet property="noticeBadgeView" destination="gCG-UR-b2u" id="hTT-qW-DMa"/>
                 <outlet property="rightButton" destination="lGf-lB-FsE" id="DDr-zp-yX9"/>
                 <outlet property="roomAvatar" destination="RX5-eD-c3c" id="dIC-8p-inL"/>
                 <outlet property="roomTitle" destination="Lg1-xQ-AGn" id="q7Q-TM-5C8"/>
+                <outlet property="timeLabelWidth" destination="DMb-uJ-DVP" id="cHe-oa-mn1"/>
             </connections>
             <point key="canvasLocation" x="-92.799999999999997" y="83.208395802098963"/>
         </tableViewCell>

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import IQKeyboardManagerSwift
 
 protocol CKRoomSettingsViewControllerDelegate: class {
     func roomSettingsDidLeave()
@@ -19,8 +20,8 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     /**
      TableView Section Type
      */
-    enum TableViewSectionType {
-        case infos
+    enum TableViewSectionType: Int {
+        case editInfo
         case settings
         case actions
         
@@ -42,7 +43,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     /**
      tblSections
      */
-    private var tblSections: [TableViewSectionType] = [.infos, .settings, .actions]
+    private var tblSections: [TableViewSectionType] = [.editInfo, .settings, .actions]
     
     /**
      extraEventsListener
@@ -61,9 +62,15 @@ protocol CKRoomSettingsViewControllerDelegate: class {
      */
     private var mxRoomState: MXRoomState! {
         return self.value(forKey: "mxRoomState") as? MXRoomState
-    }    
+    }
+    
+    private var isCanEdit: Bool = false
+    
+    private var imagePickedBlock: ((UIImage) -> Void)?
 
     private let disposeBag = DisposeBag()
+    
+    private var adjustoffset: (location: CGFloat, offset: CGFloat) = (0.0, 0.0)
 
     // MARK: - CLASS
     
@@ -78,13 +85,13 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -97,153 +104,27 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.tableView.register(CKRoomSettingsMoreSettingsCell.nib, forCellReuseIdentifier: CKRoomSettingsMoreSettingsCell.identifier)
         self.tableView.register(CKRoomSettingsAddPeopleCell.nib, forCellReuseIdentifier: CKRoomSettingsAddPeopleCell.identifier)
         self.tableView.register(CKRoomSettingsLeaveCell.nib, forCellReuseIdentifier: CKRoomSettingsLeaveCell.identifier)
-
+        self.tableView.register(CKRoomSettingsLeaveCell.nib, forCellReuseIdentifier: CKRoomSettingsLeaveCell.identifier)
+        self.tableView.register(CKEditRoomSettingsCell.nib, forCellReuseIdentifier: CKEditRoomSettingsCell.identifier)
+        
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.keyboardDismissMode = .onDrag
+        self.tableView.separatorColor = .clear
+        self.tableView.contentInsetAdjustmentBehavior = .never
+        self.tableView.insetsContentViewsToSafeArea = false
+        self.tableView.showsVerticalScrollIndicator = false
+        
         self.reloadTableView()
     }
     
     private func reloadTableView() {
-        tblSections = [.infos, .settings, .actions]
+        tblSections = [.editInfo, .settings, .actions]
         tableView.reloadData()
     }
     
     private func reflectDataUI() {
         self.tableView.reloadData()
-    }
-    
-    private func cellForRoomName(_ indexPath: IndexPath) -> CKRoomSettingsRoomNameCell! {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsRoomNameCell.identifier ,
-            for: indexPath) as! CKRoomSettingsRoomNameCell
-        
-        cell.roomnameLabel.text = "#" + (self.mxRoom?.summary?.displayname ?? "unknown")
-        cell.roomnameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-
-        return cell
-    }
-    
-    private func cellForRoomTopic(_ indexPath: IndexPath) -> CKRoomSettingsTopicCell! {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsTopicCell.identifier ,
-            for: indexPath) as! CKRoomSettingsTopicCell
-        
-        let pl = self.mxRoomState?.powerLevels?.powerLevelOfUser(
-            withUserID: self.mainSession?.myUser?.userId) ?? 0
-        
-        if (self.mxRoom?.summary?.topic?.count ?? 0) > 0 {
-            cell.enableEditTopic(false)
-            cell.topicTextLabel.text = self.mxRoom?.summary?.topic
-        } else {
-            if pl >= kModeratorPemission { cell.enableEditTopic(true) }
-            else { cell.enableEditTopic(false) }
-        }
-
-        cell.topicLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
-        cell.topicTextLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-
-        return cell
-    }
-
-    private func cellForRoomMembers(_ indexPath: IndexPath) -> CKRoomSettingsMembersCell! {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsMembersCell.identifier ,
-            for: indexPath) as! CKRoomSettingsMembersCell
-
-        cell.imageMember.image = UIImage(named: "ic_room_members")?.withRenderingMode(.alwaysTemplate)
-        cell.imageMember.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.btnMembers.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
-        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-
-        return cell
-    }
-
-    private func cellforRoomFiles(_ indexPath: IndexPath) -> CKRoomSettingsFilesCell! {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsFilesCell.identifier ,
-            for: indexPath) as! CKRoomSettingsFilesCell
-
-        cell.imageFiles.image = UIImage(named: "ic_room_file")?.withRenderingMode(.alwaysTemplate)
-        cell.imageFiles.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.btnFile.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
-        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-
-        return cell
-    }
-
-    private func cellForRoomSettings(_ indexPath: IndexPath) -> CKRoomSettingsMoreSettingsCell! {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsMoreSettingsCell.identifier ,
-            for: indexPath) as! CKRoomSettingsMoreSettingsCell
-
-        cell.imageSettings.image = UIImage(named: "ic_room_settings")?.withRenderingMode(.alwaysTemplate)
-        cell.imageSettings.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.btnSetting.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
-        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-
-        return cell
-    }
-
-    private func cellForRoomAddPeople(_ indexPath: IndexPath) -> CKRoomSettingsAddPeopleCell! {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsAddPeopleCell.identifier ,
-            for: indexPath) as! CKRoomSettingsAddPeopleCell
-
-        cell.imageAdd.image = UIImage(named: "ic_room_add_user")?.withRenderingMode(.alwaysTemplate)
-        cell.imageAdd.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.btnAddUser.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
-        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-
-        return cell
-    }
-
-    private func cellForRoomLeave(_ indexPath: IndexPath) -> CKRoomSettingsLeaveCell! {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsLeaveCell.identifier ,
-            for: indexPath) as! CKRoomSettingsLeaveCell
-
-        cell.iconImageView.image = UIImage(named: "ic_leave_room")?.withRenderingMode(.alwaysTemplate)
-        cell.iconImageView.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.leaveButton.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
-        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-
-        return cell
-    }
-    
-    private func cellForCreatedBy(_ indexPath: IndexPath) -> CKRoomSettingsTopicCell! {
-        
-        // cell
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CKRoomSettingsTopicCell.identifier ,
-            for: indexPath) as! CKRoomSettingsTopicCell
-        
-        // creator
-        let createrID = self.mxRoomState?.creator ?? ""
-        
-        let createrName = self.mxRoom.mxSession.getOrCreateUser(createrID)?.displayname ?? "@unknown"
-        
-        // created date
-        var dateString = "unknown"
-        
-        let eventFormat = EventFormatter(matrixSession: self.mxRoom.mxSession)
-        
-        if let date = self.mxRoomState?.createdDate {
-            dateString = eventFormat?.dateString(from: date, withTime: true) ?? "unknown"
-        }
-        
-        // fill cell
-        cell.topicLabel.text = "Created by"
-        cell.topicTextLabel.font = UIFont.systemFont(ofSize: 14)
-        cell.topicTextLabel.text = "This room was created by " + createrName + " at " + dateString
-
-        cell.topicLabel.theme.textColor = themeService.attrStream{ $0.secondTextColor }
-        cell.topicTextLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-
-        return cell
-
     }
     
     private func showsSettingsEdit() {
@@ -379,95 +260,97 @@ protocol CKRoomSettingsViewControllerDelegate: class {
     // MARK: - OVERRIDE
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+//        super.viewDidLoad()
         setupTableView()
         
         // Setup close button item
         let closeItemButton = UIBarButtonItem.init(
-            image: UIImage(named: "ic_x_close"),
+            image: UIImage(named: "ic_back_nav")?.withRenderingMode(.alwaysTemplate),
             style: .plain,
             target: self, action: #selector(clickedOnBackButton(_:)))
+        closeItemButton.theme.tintColor = themeService.attrStream{ $0.navBarTintColor }
+        
+        let tapAction = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tapAction.cancelsTouchesInView = false
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
+        view.addGestureRecognizer(tapAction)
 
         // set nv items
         self.navigationItem.leftBarButtonItem = closeItemButton
 
         self.bindingTheme()
+        
+        self.registerKeyboardNotification()
+        
+        self.edgesForExtendedLayout = []
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = String.ck_LocalizedString(key: "Info")
         self.navigationController?.navigationBar.titleTextAttributes = themeService.attrs.navTitleTextAttributes
+        let image = UIImage(color: themeService.attrs.navBarBgColor)
+        self.navigationController?.navigationBar.setBackgroundImage(image, for: .default)
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.presentationController?.delegate = self
+        
+        self.reloadTableView()
+    }
+    
+    deinit {
+        removeKeyboardNotification()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return mxRoom?.summary != nil ? tblSections.count : 0
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionType = tblSections[section]
-
-        switch sectionType {
-        case .infos:
-            return self.isInfoCanEdit() ? 4 : 3
-        case .settings:
-            return 3
-        case .actions:
-            return self.mxRoom == nil ? 0 : (self.mxRoom.isDirect ? 1: 2)
+    
+    override func initWith(_ session: MXSession!, andRoomId roomId: String!) {
+        super.initWith(session, andRoomId: roomId)
+        
+        if let room = self.mxRoom {
+            self.extraEventsListener = room.listen(
+            toEventsOfTypes: [kMXEventTypeStringRoomMember]) { (event: MXEvent?, direction: __MXTimelineDirection, roomState: MXRoomState?) in
+                self.update(roomState)
+            }
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionType = tblSections[indexPath.section]
+    override func update(_ newRoomState: MXRoomState!) {
+        super.update(newRoomState)
+    }
+}
+
+// MARK: Tableview Delegate
+extension CKRoomSettingsViewController {
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.contentView.backgroundColor = UIColor.clear
+        guard let editInfoCell = cell as? CKEditRoomSettingsCell else { return }
         
-        switch sectionType {
-        case .infos:
-            if indexPath.row == 0 {
-                return self.cellForRoomName(indexPath)
-            } else if indexPath.row == 1 {
-                return self.cellForRoomTopic(indexPath)
-            } else if indexPath.row == 2 {
-                return self.cellForCreatedBy(indexPath)
-            } else {
-                let cell = UITableViewCell()
-                cell.textLabel?.text = "Edit"
-                cell.textLabel?.textAlignment = NSTextAlignment.center
-                cell.textLabel?.textColor = CKColor.Misc.primaryGreenColor
-                cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
-                return cell
-            }
-        case .settings:
-            if indexPath.row == 0 {
-                return self.cellForRoomMembers(indexPath)
-            } else if indexPath.row == 1 {
-                return self.cellforRoomFiles(indexPath)
-            } else if indexPath.row == 2 {
-                return self.cellForRoomSettings(indexPath)
-            }
-            else {
-                return UITableViewCell()
-            }
-        case .actions:
-            if mxRoom.isDirect == true {
-                return self.cellForRoomLeave(indexPath)
-                
-            } else {
-                if indexPath.row == 0 { return self.cellForRoomAddPeople(indexPath) }
-                else if indexPath.row == 1 { return self.cellForRoomLeave(indexPath) }
-                else { return UITableViewCell() }
-            }
-        }
+        let location = editInfoCell.topicRoomTextField.convert(editInfoCell.topicRoomTextField.frame.origin, to: self.view)
+        adjustoffset.location = location.y
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let v = CKRoomHeaderInSectionView.instance()
         v?.descriptionLabel.text = nil
-        v?.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+        v?.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         return v
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CKLayoutSize.Table.defaultHeader
+        
+        guard let sectionType = TableViewSectionType(rawValue: section) else { return 0 }
+        
+        switch sectionType {
+        case .editInfo:
+            return CGFloat.leastNonzeroMagnitude
+        default:
+            return CKLayoutSize.Table.defaultHeader
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -483,9 +366,8 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         
         // case-in
         switch sectionType {
-        case .infos:
-            if indexPath.row == 0 { return CKLayoutSize.Table.row43px }
-            else { return UITableViewAutomaticDimension }
+        case .editInfo:
+            return UITableViewAutomaticDimension
         case .actions:
             return CKLayoutSize.Table.row60px
         case .settings:
@@ -493,14 +375,15 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         }
     }
     
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         tableView.deselectRow(at: indexPath, animated: true)
         let sectionType = tblSections[indexPath.section]
         
         switch sectionType {
-        case .infos:
-            // editting
-            if indexPath.row == 1 || indexPath.row == 3 { self.showsSettingsEdit() }
+        case .editInfo:
+            break
         case .settings:
             // participant
             if indexPath.row == 0 { self.showParticiants() }
@@ -522,23 +405,218 @@ protocol CKRoomSettingsViewControllerDelegate: class {
             }
         }
     }
+}
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.contentView.backgroundColor = UIColor.clear
+
+// MARK: Tableview Datasource
+extension CKRoomSettingsViewController {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let sectionType = tblSections[section]
+
+        switch sectionType {
+        case .editInfo:
+            return 1
+        case .settings:
+            return 3
+        case .actions:
+            return self.mxRoom == nil ? 0 : (self.mxRoom.isDirect ? 1: 2)
+        }
     }
     
-    override func initWith(_ session: MXSession!, andRoomId roomId: String!) {
-        super.initWith(session, andRoomId: roomId)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let sectionType = tblSections[indexPath.section]
         
-        if let room = self.mxRoom {
-            self.extraEventsListener = room.listen(
-            toEventsOfTypes: [kMXEventTypeStringRoomMember]) { (event: MXEvent?, direction: __MXTimelineDirection, roomState: MXRoomState?) in
-                self.update(roomState)
+        switch sectionType {
+        case .editInfo:
+            return cellForEditRoomDetail(indexPath)
+        case .settings:
+            if indexPath.row == 0 {
+                return cellForSettingDetail(indexPath: indexPath, icon: #imageLiteral(resourceName: "member_edit_detail_room"), title: "room_details_people")
+            } else if indexPath.row == 1 {
+                return cellForSettingDetail(indexPath: indexPath, icon: #imageLiteral(resourceName: "file_edit_detail_room"), title: "room_details_files")
+            } else if indexPath.row == 2 {
+                return cellForSettingDetail(indexPath: indexPath, icon: #imageLiteral(resourceName: "setting_edit_detail_room"), title: "room_details_settings")
+            }
+            else {
+                return UITableViewCell()
+            }
+        case .actions:
+            if mxRoom.isDirect == true {
+                return self.cellForRoomLeave(indexPath)
+            } else {
+                if indexPath.row == 0 {
+                    return cellForSettingDetail(indexPath: indexPath, icon: #imageLiteral(resourceName: "add_people_edit_detail_room"), title: "add_people_room_detail")
+                } else if indexPath.row == 1 {
+                    return self.cellForRoomLeave(indexPath)
+                } else {
+                    return UITableViewCell()
+                }
+            }
+        }
+    }
+}
+
+// MARK: Custom Cell
+extension CKRoomSettingsViewController {
+    
+    private func cellForEditRoomDetail(_ indexPath: IndexPath) -> CKEditRoomSettingsCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: CKEditRoomSettingsCell.identifier, for: indexPath) as! CKEditRoomSettingsCell
+        
+        let pl = self.mxRoomState?.powerLevels?.powerLevelOfUser(withUserID: self.mainSession?.myUser?.userId) ?? 0
+        
+        if !isCanEdit {
+            isCanEdit = pl >= kModeratorPemission
+        }
+        
+        cell.isAdminEdit = pl >= kModeratorPemission || isCanEdit
+
+        cell.bindingData(mxRoom: self.mxRoom, mxRoomState: self.mxRoomState)
+        
+        cell.editAvatarHandler = {
+            self.handlerEditAvatar()
+        }
+        
+        cell.onSaveHandler = { model in
+            self.view.endEditing(true)
+            self.showSpinner()
+            
+            CKEditRoomDetailRequest().editRoomDetail(mxRoom: self.mxRoom, displayName: model.displayName, topicName: model.topicName, image: model.avatar) { (error) in
+                self.reloadAvatarCell()
+                if let `error` = error {
+                    self.showAlert(error.localizedDescription)
+                }
+            }
+        }
+        
+        imagePickedBlock = { (image) in
+            cell.updateNewAvatar = image
+        }
+        
+        return cell
+    }
+
+    private func cellForRoomLeave(_ indexPath: IndexPath) -> CKRoomSettingsLeaveCell! {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsLeaveCell.identifier ,
+            for: indexPath) as! CKRoomSettingsLeaveCell
+        
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+
+        return cell
+    }
+    
+    
+    // general cell setting detail
+    
+    private func cellForSettingDetail(indexPath: IndexPath, icon: UIImage?, title: String?) -> CKRoomSettingsMoreSettingsCell {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: CKRoomSettingsMoreSettingsCell.identifier ,
+            for: indexPath) as! CKRoomSettingsMoreSettingsCell
+
+        cell.imageSettings.image = icon?.withRenderingMode(.alwaysTemplate)
+        cell.imageSettings.contentMode = .scaleAspectFit
+        cell.imageSettings.theme.tintColor = themeService.attrStream{ $0.primaryTextColor }
+        cell.btnSetting.setTitle(CKLocalization.string(byKey: title ?? ""), for: .normal)
+        cell.btnSetting.theme.titleColor(from: themeService.attrStream{ $0.primaryTextColor }, for: .normal)
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        
+        return cell
+    }
+}
+
+// MARK: Hander Keyboard
+extension CKRoomSettingsViewController {
+
+    private func registerKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+    }
+
+    private func removeKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    }
+
+    @objc
+    private func keyboardShow(_ notification: Notification) {
+
+        if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height + self.safeArea.bottom
+            let convertLocationKeyboard = self.view.bounds.height - keyboardHeight
+            adjustoffset.offset = tableView.contentOffset.y
+            
+            if adjustoffset.location > convertLocationKeyboard {
+                adjustoffset.offset = self.view.frame.height - adjustoffset.location
+                self.tableView.scrollToBottom(13)
             }
         }
     }
     
-    override func update(_ newRoomState: MXRoomState!) {
-        super.update(newRoomState)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+}
+
+extension CKRoomSettingsViewController {
+    
+    // -- show alert choose edit avatar: camera + photoLibrary
+    private func handlerEditAvatar() {
+        
+        let optionAlert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_take_photo"), style: .default, handler: { [weak self] (action) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                let myPickerController = UIImagePickerController()
+                myPickerController.sourceType = .camera
+                myPickerController.delegate = self;
+                self?.present(myPickerController, animated: true, completion: nil)
+            }
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "alert_choose_from_library"), style: .default, handler: { [weak self] (action) in
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.sourceType = .photoLibrary
+            imagePickerController.delegate = self
+            self?.present(imagePickerController, animated: true, completion: nil)
+
+        }))
+        
+        optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { (action) in
+        }))
+        
+        self.view.endEditing(true)
+        optionAlert.presentGlobally(animated: true, completion: nil)
+    }
+    
+   private func reloadAvatarCell() {
+       self.removeSpinner()
+       self.tableView.reloadSections([TableViewSectionType.editInfo.rawValue], with: .automatic)
+   }
+}
+// MARK: UIImagePickerControllerDelegate
+extension CKRoomSettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
+        }
+        
+        self.dismiss(animated: true, completion: { [weak self] in
+            self?.imagePickedBlock?(image)
+        })
+    }
+}
+
+
+extension CKRoomSettingsViewController: UIAdaptivePresentationControllerDelegate {
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        removeKeyboardNotification()
     }
 }

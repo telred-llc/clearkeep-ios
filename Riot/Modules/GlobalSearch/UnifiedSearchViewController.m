@@ -50,6 +50,8 @@
     CKSearchContactViewController *peopleSearchViewController;
     ContactsDataSource *peopleSearchDataSource;
     
+    CKCallHistoryDataSource *callhistoryDatasource;
+    CKCallHistoryViewController *callHistoryViewController;
     
     // Current alert (if any).
     UIAlertController *currentAlert;
@@ -106,7 +108,7 @@
     
     self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.searchBar.placeholder = NSLocalizedStringFromTable(@"search_default_placeholder", @"Vector", nil);
-    
+
     [super showSearch:NO];
 }
 
@@ -233,7 +235,6 @@
         peopleSearchDataSource.areSectionsShrinkable = YES;
         peopleSearchDataSource.displaySearchInputInContactsList = YES;
         peopleSearchDataSource.contactCellAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        //[peopleSearchViewController displayList:peopleSearchDataSource];
         
         // Check whether there are others sessions
         NSArray* mxSessions = self.mxSessions;
@@ -348,41 +349,7 @@
 // Check conditions before displaying the background
 - (void)checkAndShowBackgroundImage
 {
-    // Note: This background is hidden when keyboard is dismissed.
-    // The other conditions depend on the current selected view controller.
-    if (self.selectedViewController == recentsViewController)
-    {
-        self.backgroundImageView.hidden = YES;
-    }
-    else if (self.selectedViewController == messagesSearchViewController)
-    {
-        self.backgroundImageView.hidden = ((messagesSearchDataSource.serverCount != 0) || !messagesSearchViewController.noResultsLabel.isHidden || (self.keyboardHeight == 0));
-    }
-    else if (self.selectedViewController == peopleSearchViewController)
-    {
-        self.backgroundImageView.hidden = (([peopleSearchViewController.tableView numberOfSections] != 0) || (self.keyboardHeight == 0));
-    }
-    else if (self.selectedViewController == filesSearchViewController)
-    {
-        self.backgroundImageView.hidden = ((filesSearchDataSource.serverCount != 0) || !filesSearchViewController.noResultsLabel.isHidden || (self.keyboardHeight == 0));
-    }
-    else
-    {
-        self.backgroundImageView.hidden = (self.keyboardHeight == 0);
-    }
-    
-    if (!self.backgroundImageView.hidden)
-    {
-        [self.backgroundImageView layoutIfNeeded];
-        [self.selectedViewController.view layoutIfNeeded];
-        
-        // Check whether there is enough space to display this background
-        // For example, in landscape with the iPhone 5 & 6 screen size, the backgroundImageView must be hidden.
-        if (self.backgroundImageView.frame.origin.y < 0 || (self.selectedViewController.view.frame.size.height - self.backgroundImageViewBottomConstraint.constant) < self.backgroundImageView.frame.size.height)
-        {
-            self.backgroundImageView.hidden = YES;
-        }
-    }
+    self.backgroundImageView.hidden = YES;
 }
 
 #pragma mark - Override SegmentedViewController
@@ -465,7 +432,7 @@
                 // so that it can display its loading wheel
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [messagesSearchDataSource searchMessages:self.searchBar.text force:NO];
-                    messagesSearchViewController.shouldScrollToBottomOnRefresh = YES;
+                    messagesSearchViewController.shouldScrollToBottomOnRefresh = NO;
                 });
             }
         }
@@ -484,7 +451,7 @@
                 // so that it can display its loading wheel
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [filesSearchDataSource searchMessages:self.searchBar.text force:NO];
-                    filesSearchViewController.shouldScrollToBottomOnRefresh = YES;
+                    filesSearchViewController.shouldScrollToBottomOnRefresh = NO;
                 });
             }
         }

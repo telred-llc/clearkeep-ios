@@ -75,7 +75,8 @@
     
     // Change the table data source. It must be the people view controller itself.
     self.recentsTableView.dataSource = self;
-    
+    self.recentsTableView.separatorColor = UIColorFromRGB(0xDCF1F3);
+
     self.enableStickyHeaders = YES;
 }
 

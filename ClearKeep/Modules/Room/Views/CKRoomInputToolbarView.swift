@@ -10,16 +10,12 @@ import UIKit
 import HPGrowingTextView
 import MobileCoreServices
 
-extension Notification.Name {
-    
-    static let presentPhotoLibrary = Notification.Name(rawValue: "presentPhotoLibrary")
-}
-
 @objc protocol CKRoomInputToolbarViewDelegate: MXKRoomInputToolbarViewDelegate {
     func roomInputToolbarView(_ toolbarView: MXKRoomInputToolbarView?, triggerMention: Bool, mentionText: String?)
     func sendTextButtonDidPress(_ message: String, isEdit: Bool)
     func closeEditButtonDidPress()
     func sendFileDidSelect()
+    func shareImageAndFileDidTouch()
 }
 
 enum RoomInputToolbarViewSendMode: Int {
@@ -40,7 +36,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     @IBOutlet weak var sendImageButton: UIButton!
     @IBOutlet weak var mentionButton: UIButton!
     @IBOutlet weak var closeEditButton: UIButton!
-
+    
     // MARK: - Enums
     
     enum MessageContentType {
@@ -48,14 +44,14 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         case photo(asset: PHAsset?)
         case file(url: URL?)
     }
-
+    
     // MARK: - Constants
     
     
     // MARK: - Properties
     
     static let mentionTriggerCharacter: Character = "@"
-
+    
     static let durationFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional
@@ -71,7 +67,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
             return self.value(forKey: "growingTextView") as? HPGrowingTextView
         }
         set {
-            self.setValue(growingTextView, forKey: "growingTextView")
+            self.setValue(newValue, forKey: "growingTextView")
         }
     }
     
@@ -87,9 +83,9 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     // MARK: Private
     
     private var imagePicker: ImagePickerController?
-
+    
     private var shadowTextView: UITextView = UITextView.init()
-
+    
     private weak var ckDelegate: CKRoomInputToolbarViewDelegate? {
         get {
             return self.delegate as? CKRoomInputToolbarViewDelegate
@@ -121,7 +117,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
     private var mediaPicker: UIImagePickerController?
     
     // MARK: - LifeCycle
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.addSubview(shadowTextView)
@@ -139,7 +135,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
             nibName: String(describing: CKRoomInputToolbarView.self),
             bundle: Bundle(for: self))
     }
-
+    
     class func initRoomInputToolbarView() -> CKRoomInputToolbarView {
         if self.nib() != nil {
             return self.nib()?.instantiate(withOwner: nil, options: nil).first as! CKRoomInputToolbarView
@@ -160,10 +156,10 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         growingTextView?.layer.cornerRadius = 0
         growingTextView?.layer.borderWidth = 0
         growingTextView?.backgroundColor = UIColor.clear
-
+        
         growingTextView?.font = UIFont.systemFont(ofSize: 15)
         growingTextView?.textColor = kRiotPrimaryTextColor
-        growingTextView?.tintColor = kRiotColorGreen
+        growingTextView?.tintColor = themeService.attrs.placeholderTextFieldColor
         
         growingTextView?.internalTextView?.keyboardAppearance = kRiotKeyboard
         growingTextView?.placeholder = "Type a Message"
@@ -176,7 +172,7 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
                 guard let msg = msg else {
                     return
                 }
-
+                
                 switch sendMode {
                 case .send, .reply:
                     self.sendText(message: msg)
@@ -211,32 +207,32 @@ final class CKRoomInputToolbarView: MXKRoomInputToolbarViewWithHPGrowingText {
         if var selectedRange = growingTextView?.selectedRange {
             let firstHalfString = (growingTextView?.text as NSString?)?.substring(to: selectedRange.location)
             let secondHalfString = (growingTextView?.text as NSString?)?.substring(from: selectedRange.location)
-
+            
             let insertingString = String.init(CKRoomInputToolbarView.mentionTriggerCharacter)
-
+            
             growingTextView?.text = "\(firstHalfString ?? "")\(insertingString)\(secondHalfString ?? "")"
             selectedRange.location += insertingString.count
             growingTextView?.selectedRange = selectedRange
         }
     }
-        
+    
     @IBAction func clickedOnShareImageButton(_ sender: Any) {
+        if let del = self.ckDelegate {
+            del.shareImageAndFileDidTouch()
+        }
         let optionAlert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
-        
         optionAlert.addAction(UIAlertAction.init(title: "Send photo or video", style: .default, handler: { [weak self] (action) in
             self?.sendImageDidSelect()
         }))
-        
         optionAlert.addAction(UIAlertAction.init(title: "Send file", style: .default, handler: { [weak self] (action) in
             if let del = self?.ckDelegate {
                 del.sendFileDidSelect()
             }
         }))
-        
         optionAlert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: { (action) in
         }))
-
-        optionAlert.show()
+        
+        optionAlert.presentGlobally(animated: true, completion: nil)
     }
     
     @IBAction func closeEditButtonDidPress(_ sender: Any) {
@@ -266,7 +262,7 @@ private extension CKRoomInputToolbarView {
         imagePicker?.layoutConfiguration.showsFirstActionItem = true
         imagePicker?.layoutConfiguration.showsSecondActionItem = true
         imagePicker?.layoutConfiguration.showsCameraItem = true
-
+        
         imagePicker?.layoutConfiguration.numberOfAssetItemsInRow = 2
         
         imagePicker?.captureSettings.cameraMode = .photo
@@ -281,9 +277,8 @@ private extension CKRoomInputToolbarView {
         self.typingMessage = .photo(asset: nil)
         
         NotificationCenter.default.post(name: .presentPhotoLibrary, object: self.imagePicker)
-        
     }
-
+    
     func triggerMentionUser(_ flag: Bool, text: String?) {
         ckDelegate?.roomInputToolbarView(self, triggerMention: flag, mentionText: text)
     }
@@ -314,7 +309,7 @@ private extension CKRoomInputToolbarView {
         UIView.setAnimationsEnabled(false)
         textMessage = nil
         UIView.setAnimationsEnabled(true)
-
+        
         // Send button has been pressed
         if message.count > 0, let del = ckDelegate {
             del.sendTextButtonDidPress(message, isEdit: isEdit)
@@ -361,7 +356,7 @@ private extension CKRoomInputToolbarView {
             triggerMentionUser(false, text: nil)
         }
     }
-
+    
     private func updateSendButtonLabel() {
         switch sendMode {
         case .edit:
@@ -384,9 +379,9 @@ extension CKRoomInputToolbarView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return false
     }
-
+    
     func textViewDidEndEditing(_ textView: UITextView) {
-
+        
     }
 }
 
@@ -406,14 +401,14 @@ extension CKRoomInputToolbarView {
         
         super.growingTextViewDidChange(growingTextView)
         self.typingMessage = .text(msg: textMessage)
-
+        
         self.detectTagging(growingTextView)
     }
     
     override func growingTextView(_ growingTextView: HPGrowingTextView!, willChangeHeight height: Float) {
         // Update height of the main toolbar (message composer)
         var updatedHeight: CGFloat = CGFloat(height) + (messageComposerContainerTopConstraint.constant + messageComposerContainerBottomConstraint.constant)
-
+        
         if updatedHeight < mainToolbarMinHeightConstraint.constant {
             updatedHeight = mainToolbarMinHeightConstraint.constant
         }
@@ -546,7 +541,7 @@ extension CKRoomInputToolbarView {
         if self.mediaPicker != nil {
             self.mediaPicker?.dismiss(animated: true, completion: nil)
         }
-
+        
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
             if mediaType == kUTTypeImage as String {
                 if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -556,7 +551,7 @@ extension CKRoomInputToolbarView {
                     if picker.sourceType == .photoLibrary {
                         
                         guard let asset = info[UIImagePickerControllerPHAsset] as? PHAsset else { return }
-
+                        
                         let options = PHContentEditingInputRequestOptions()
                         options.isNetworkAccessAllowed = true //for icloud backup assets
                         
@@ -582,7 +577,7 @@ extension CKRoomInputToolbarView {
                 sendSelectedVideo(selectedVideo, isPhotoLibraryAsset: (picker.sourceType == UIImagePickerController.SourceType.photoLibrary))
             }
         }
-
+        
     }
     
     override func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

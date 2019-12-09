@@ -17,6 +17,7 @@ final class CKRoomFilesViewController: MXKRoomViewController {
         super.viewDidLoad()
         setupBubblesTableView()
         bindingTheme()
+        addCustomBackButton()
     }
     
     override func finalizeInit() {
@@ -49,7 +50,12 @@ final class CKRoomFilesViewController: MXKRoomViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.title = "Files"
+        self.title = CKLocalization.string(byKey: "room_details_files")
+    }
+    
+    override func updateAppearanceOnRoomDataSourceState() {
+        super.updateAppearanceOnRoomDataSourceState()
+        self.navigationItem.title = CKLocalization.string(byKey: "room_details_files") // force set title
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -65,8 +71,8 @@ final class CKRoomFilesViewController: MXKRoomViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.primaryBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             if self?.bubblesTableView.dataSource != nil {
                 self?.bubblesTableView.reloadData()
             }
@@ -74,7 +80,7 @@ final class CKRoomFilesViewController: MXKRoomViewController {
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, bubblesTableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, bubblesTableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -109,7 +115,7 @@ final class CKRoomFilesViewController: MXKRoomViewController {
     // MARK: - UITableView delegate
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = kRiotPrimaryBgColor
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         if kRiotSelectedBgColor != nil {
             cell.selectedBackgroundView = UIView()
             cell.selectedBackgroundView?.backgroundColor = kRiotSelectedBgColor

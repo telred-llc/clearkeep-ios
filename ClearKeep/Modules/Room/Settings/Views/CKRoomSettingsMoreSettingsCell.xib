@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,43 +14,53 @@
             <rect key="frame" x="0.0" y="0.0" width="456" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tmE-Fc-SZ6" id="FqY-el-gBY">
-                <rect key="frame" x="0.0" y="0.0" width="456" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="456" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_settings" translatesAutoresizingMaskIntoConstraints="NO" id="bCF-m1-E7u">
-                        <rect key="frame" x="20" y="12" width="20" height="20"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_room_settings" translatesAutoresizingMaskIntoConstraints="NO" id="bCF-m1-E7u">
+                        <rect key="frame" x="20" y="14" width="16" height="16"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="G9d-QQ-XeJ"/>
-                            <constraint firstAttribute="height" constant="20" id="X2R-k1-QMt"/>
+                            <constraint firstAttribute="width" constant="16" id="G9d-QQ-XeJ"/>
+                            <constraint firstAttribute="height" constant="16" id="X2R-k1-QMt"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BaY-D8-Xia">
-                        <rect key="frame" x="48" y="0.0" width="408" height="43.5"/>
+                        <rect key="frame" x="44" y="0.0" width="372" height="44"/>
                         <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="125" maxY="0.0"/>
                         <inset key="imageEdgeInsets" minX="310" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <state key="normal" title="Settings">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Xc-7f-hl6">
+                        <rect key="frame" x="434" y="15" width="14" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="8Xc-7f-hl6" secondAttribute="height" multiplier="1:1" id="QQB-oP-w8N"/>
+                            <constraint firstAttribute="width" constant="14" id="xUf-r7-pkI"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="bCF-m1-E7u" firstAttribute="centerY" secondItem="FqY-el-gBY" secondAttribute="centerY" id="EUM-qu-YHa"/>
                     <constraint firstItem="BaY-D8-Xia" firstAttribute="leading" secondItem="bCF-m1-E7u" secondAttribute="trailing" constant="8" id="L9x-0Y-OVm"/>
+                    <constraint firstAttribute="trailing" secondItem="8Xc-7f-hl6" secondAttribute="trailing" constant="8" id="MRi-ZM-8St"/>
                     <constraint firstAttribute="bottom" secondItem="BaY-D8-Xia" secondAttribute="bottom" id="ZM0-xh-HwW"/>
                     <constraint firstItem="BaY-D8-Xia" firstAttribute="top" secondItem="FqY-el-gBY" secondAttribute="top" id="c2v-F3-7I7"/>
                     <constraint firstItem="bCF-m1-E7u" firstAttribute="leading" secondItem="FqY-el-gBY" secondAttribute="leading" constant="20" id="g5b-yX-RVc"/>
-                    <constraint firstAttribute="trailing" secondItem="BaY-D8-Xia" secondAttribute="trailing" id="mTS-Jg-HqW"/>
+                    <constraint firstAttribute="trailing" secondItem="BaY-D8-Xia" secondAttribute="trailing" constant="40" id="mTS-Jg-HqW"/>
+                    <constraint firstItem="8Xc-7f-hl6" firstAttribute="centerY" secondItem="FqY-el-gBY" secondAttribute="centerY" id="ybH-f2-pal"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="hIx-Qa-e88"/>
             <connections>
                 <outlet property="btnSetting" destination="BaY-D8-Xia" id="Eam-Mz-yOI"/>
+                <outlet property="detailIconImage" destination="8Xc-7f-hl6" id="w7W-DH-3LM"/>
                 <outlet property="imageSettings" destination="bCF-m1-E7u" id="s9o-Ny-0or"/>
             </connections>
             <point key="canvasLocation" x="52.799999999999997" y="48.575712143928037"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_room_settings" width="314" height="314"/>
+        <image name="ic_room_settings" width="22" height="22"/>
     </resources>
 </document>

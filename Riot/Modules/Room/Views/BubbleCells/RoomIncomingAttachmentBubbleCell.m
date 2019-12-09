@@ -16,8 +16,14 @@
  */
 
 #import "RoomIncomingAttachmentBubbleCell.h"
-
 #import "RiotDesignValues.h"
+#import "RoomBubbleCellData.h"
+#import "MXKRoomBubbleTableViewCell+Riot.h"
+
+@interface RoomIncomingAttachmentBubbleCell() {
+    __weak IBOutlet NSLayoutConstraint *pictureViewWidthConstraint;
+}
+@end
 
 @implementation RoomIncomingAttachmentBubbleCell
 
@@ -26,10 +32,34 @@
     [super customizeTableViewCellRendering];
     
     self.userNameLabel.textColor = kRiotPrimaryTextColor;
-    self.messageTextView.tintColor = kRiotColorGreen;
+    self.messageTextView.tintColor = kRiotLinkTextColor;
     
     // CK 337: Edit the font size for the "account name"
     [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
+}
+
+-(void)setIsSearchCell:(BOOL)isSearchCell {
+    if (isSearchCell) {
+        pictureViewWidthConstraint.constant = 40.0;
+    } else {
+        pictureViewWidthConstraint.constant = 30.0;
+    }
+    
+    [self updateConstraintsIfNeeded];
+    [self.contentView layoutSubviews];
+    _isSearchCell = isSearchCell;
+}
+
++ (CGFloat)heightForCellData:(MXKCellData*)cellData withMaximumWidth:(CGFloat)maxWidth
+{
+    CGFloat rowHeight = [self attachmentBubbleCellHeightForCellData:cellData withMaximumWidth:maxWidth];
+
+    if (rowHeight <= 0)
+    {
+        rowHeight = [super heightForCellData:cellData withMaximumWidth:maxWidth];
+    }
+
+    return rowHeight;
 }
 
 @end

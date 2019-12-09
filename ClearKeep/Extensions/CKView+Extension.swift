@@ -40,9 +40,9 @@ extension UILabel {
 }
 
 extension UITextField {
-    func rectangleBorder(){
+    func rectangleBorder(_ radius: CGFloat = 10){
         self.layer.masksToBounds = true
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = radius
         self.layer.borderWidth = 1
     }
     
@@ -50,5 +50,58 @@ extension UITextField {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
         self.leftView = paddingView
         self.leftViewMode = .always
+    }
+    
+    func setRightIconEdit(padding: CGFloat = 16, icon: UIImage? = nil, tintColor: UIColor = .clear) {
+        
+        let paddingView = UIView(frame: CGRect(x: self.bounds.width - padding, y: 0, width: padding, height: self.bounds.height/2))
+        
+        let editIcon = UIImageView(image: icon?.withRenderingMode(.alwaysTemplate))
+        editIcon.contentMode = .topLeft
+        editIcon.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        editIcon.isUserInteractionEnabled = true
+        editIcon.tintColor = tintColor
+        editIcon.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(focusRightViewHander)))
+        paddingView.addSubview(editIcon)
+       
+        self.rightView = paddingView
+        self.rightViewMode = .always
+    }
+    
+    
+    @objc
+    private func focusRightViewHander() {
+        becomeFirstResponder()
+        editTintColorRightView(color: themeService.attrs.textFieldEditingColor)
+    }
+    
+    
+    func editTintColorRightView(color: UIColor) {
+        guard let editIcon = self.getViewElement(type: UIImageView.self) else {
+            return
+        }
+        
+        editIcon.tintColor = color
+    }
+}
+
+extension UITextField {
+    
+    @objc
+    func setClearButtonColorTo(color: UIColor){
+        // Clear Button
+        let crossIconView = self.value(forKey: "clearButton") as? UIButton
+        crossIconView?.setImage(crossIconView?.currentImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+        crossIconView?.tintColor = color
+    }
+    
+    
+    // binding dark mode: change cursor + placeholder + tintColor
+    @objc
+    func setCursorTextField(placeholderText: String) {
+        self.attributedPlaceholder = NSAttributedString(string: placeholderText,
+        attributes: [.foregroundColor: themeService.attrs.placeholderTextFieldColor.withAlphaComponent(0.5)])
+        
+        self.theme.tintColor = themeService.attrStream { $0.placeholderTextFieldColor }
     }
 }

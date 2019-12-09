@@ -29,7 +29,7 @@ protocol CKSearchContactViewControllerDelegate: class {
         case local = 2
         
         static func count() -> Int {
-            return 3
+            return 2
         }
     }
     
@@ -78,6 +78,7 @@ protocol CKSearchContactViewControllerDelegate: class {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.keyboardDismissMode = .onDrag
         bindingTheme()
     }
     
@@ -120,7 +121,7 @@ protocol CKSearchContactViewControllerDelegate: class {
             // reload table view
             DispatchQueue.main.async {
                 self.tableView?.reloadSections(
-                    IndexSet([Section.directory.rawValue, Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                    IndexSet([Section.directory.rawValue, Section.matrix.rawValue]), with: .none)
             }
 
             return
@@ -143,7 +144,7 @@ protocol CKSearchContactViewControllerDelegate: class {
         // reload table view
         DispatchQueue.main.async {
             self.tableView.reloadSections(
-                IndexSet([Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                IndexSet([Section.matrix.rawValue]), with: .none)
         }
         
         // Seach users on Matrix server
@@ -187,7 +188,7 @@ extension CKSearchContactViewController {
             self?.view.backgroundColor = theme.navBarBgColor
         }).disposed(by: disposeBag)
     }
-    
+
     /**
      Get a title for the header
      */
@@ -204,11 +205,11 @@ extension CKSearchContactViewController {
 
         case .directory:
             count = self.filteredDirectorySource != nil ? filteredDirectorySource.count : 0
-            titleString = (count > 0) ? String.init(format: "User directory (%02d)", count) : "Matrix contacts (0)"
+            titleString = (count > 0) ? String.init(format: "User directory (%02d)", count) : "User directory (0)"
 
         case .local:
             count = self.filteredLocalSource != nil ? filteredMatrixSource.count : 0
-            titleString = (count > 0) ? String.init(format: "Invite from contacts (%02d)", count) : "Matrix contacts (0)"
+            titleString = (count > 0) ? String.init(format: "Invite from contacts (%02d)", count) : "Invite from contacts (0)"
 
         }
 
@@ -257,30 +258,28 @@ extension CKSearchContactViewController {
                 // reload table view
                 DispatchQueue.main.async {
                     self.tableView.reloadSections(
-                        IndexSet([Section.matrix.rawValue, Section.local.rawValue]), with: .none)
+                        IndexSet([Section.matrix.rawValue]), with: .none)
                 }
             }
         }
-        
+
         cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
         return cell
     }
-    
+
     /**
      Cell for matrix contact
      */
     private func cellForMatrix(_ indexPath: IndexPath) -> CKContactListMatrixCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListMatrixCell.identifier, for: indexPath) as! CKContactListMatrixCell
-        
-        if let ds = self.filteredMatrixSource, !ds.isEmpty {
-            
+
+        if let ds = self.filteredMatrixSource, !ds.isEmpty, ds.count > indexPath.row {
             cell.displayNameLabel.text = ds[indexPath.row].displayName
-            
             cell.setAvatarUri(
                 ds[indexPath.row].matrixAvatarURL,
                 identifyText: ds[indexPath.row].displayName,
                 session: self.mainSession)
-            
+
             // status
             if let mid = ds[indexPath.row].matrixIdentifiers?.first as? String {
                 let u = self.mainSession.user(withUserId: mid)
@@ -350,7 +349,6 @@ extension CKSearchContactViewController {
      Reload data
      */
     private func reloadData() {
-        self.reloadLocalContacts()
         self.reloadMatrixContacts()
         self.tableView.reloadData()
     }
@@ -515,7 +513,7 @@ extension CKSearchContactViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         
         guard let s = Section(rawValue: indexPath.section) else { return}
         switch s {

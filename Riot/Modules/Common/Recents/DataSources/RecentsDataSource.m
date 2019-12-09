@@ -491,16 +491,12 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
         count = peopleCellDataArray.count;
         title = NSLocalizedStringFromTable(@"room_recents_people_section", @"Vector", nil);
     }
-    else if (section == conversationSection)
-    {
+    else if (section == conversationSection) {
         count = conversationCellDataArray.count;
         
-        if (_recentsDataSourceMode == RecentsDataSourceModePeople)
-        {
+        if (_recentsDataSourceMode == RecentsDataSourceModePeople) {
             title = NSLocalizedStringFromTable(@"people_conversation_section", @"Vector", nil);
-        }
-        else
-        {
+        } else {
             title = NSLocalizedStringFromTable(@"room_recents_conversations_section", @"Vector", nil);
         }
     }
@@ -927,23 +923,18 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
     return sectionHeader;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     // Sanity check
-    if (tableView.tag != self.recentsDataSourceMode)
-    {
+    if (tableView.tag != self.recentsDataSourceMode) {
         // The view controller of this table view is not the current selected one in the tab bar controller.
         // Return a fake cell to prevent app from crashing
         return [[UITableViewCell alloc] init];
     }
     
-    if (indexPath.section == directorySection)
-    {
+    if (indexPath.section == directorySection) {
         NSIndexPath *indexPathInPublicRooms = [NSIndexPath indexPathForRow:indexPath.row inSection:0];
         return [_publicRoomsDirectoryDataSource tableView:tableView cellForRowAtIndexPath:indexPathInPublicRooms];
-    }
-    else if (self.droppingCellIndexPath && [indexPath isEqual:self.droppingCellIndexPath])
-    {
+    } else if (self.droppingCellIndexPath && [indexPath isEqual:self.droppingCellIndexPath]) {
         static NSString* cellIdentifier = @"RiotRecentsMovingCell";
         
         UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RiotRecentsMovingCell"];
@@ -953,28 +944,23 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
         // Thus, this cell has the same look as the genuine cell without computing it.
         UIImageView* imageView = [cell viewWithTag:[cellIdentifier hash]];
         
-        if (!imageView || (imageView != self.droppingCellBackGroundView))
-        {
-            if (imageView)
-            {
+        if (!imageView || (imageView != self.droppingCellBackGroundView)) {
+            if (imageView) {
                 [imageView removeFromSuperview];
             }
             self.droppingCellBackGroundView.tag = [cellIdentifier hash];
             [cell.contentView addSubview:self.droppingCellBackGroundView];
         }
-        
+
         self.droppingCellBackGroundView.frame = self.droppingCellBackGroundView.frame;
         cell.contentView.backgroundColor = [UIColor clearColor];
         cell.backgroundColor = [UIColor clearColor];
-        
+
         return cell;
-    }
-    else if ((indexPath.section == conversationSection && !conversationCellDataArray.count)
-             || (indexPath.section == peopleSection && !peopleCellDataArray.count))
-    {
+    } else if ((indexPath.section == conversationSection && !conversationCellDataArray.count)
+             || (indexPath.section == peopleSection && !peopleCellDataArray.count)) {
         MXKTableViewCell *tableViewCell = [tableView dequeueReusableCellWithIdentifier:[MXKTableViewCell defaultReuseIdentifier]];
-        if (!tableViewCell)
-        {
+        if (!tableViewCell) {
             tableViewCell = [[MXKTableViewCell alloc] init];
             tableViewCell.textLabel.textColor = kRiotSecondaryTextColor;
             tableViewCell.textLabel.font = [UIFont systemFontOfSize:15.0];
@@ -982,19 +968,14 @@ NSString *const kRecentsDataSourceTapOnDirectoryServerChange = @"kRecentsDataSou
         }
         
         // Check whether a search session is in progress
-        if (self.searchPatternsList)
-        {
+        if (self.searchPatternsList) {
             tableViewCell.textLabel.text = NSLocalizedStringFromTable(@"search_no_result", @"Vector", nil);
-        }
-        else if (_recentsDataSourceMode == RecentsDataSourceModePeople || indexPath.section == peopleSection)
-        {
+        } else if (_recentsDataSourceMode == RecentsDataSourceModePeople || indexPath.section == peopleSection) {
             tableViewCell.textLabel.text = NSLocalizedStringFromTable(@"people_no_conversation", @"Vector", nil);
-        }
-        else
-        {
+        } else {
             tableViewCell.textLabel.text = NSLocalizedStringFromTable(@"room_recents_no_conversation", @"Vector", nil);
         }
-        
+
         return tableViewCell;
     }
     

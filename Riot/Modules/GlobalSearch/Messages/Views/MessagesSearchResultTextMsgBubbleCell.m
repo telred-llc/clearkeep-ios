@@ -29,13 +29,15 @@
     
     self.roomNameLabel.textColor = kRiotSecondaryTextColor;
     
-    self.messageTextView.tintColor = kRiotColorGreen;
+    self.messageTextView.tintColor = kRiotLinkTextColor;
 }
 
-- (void)render:(MXKCellData *)cellData
-{
+- (void)render:(MXKCellData *)cellData {
     [super render:cellData];
-    
+
+    // CK 337: Edit the font size for the "account name"
+    [self.userNameLabel setFont:[UIFont boldSystemFontOfSize:17]];
+
     if (bubbleData)
     {
         MXRoom* room = [bubbleData.mxSession roomWithRoomId:bubbleData.roomId];

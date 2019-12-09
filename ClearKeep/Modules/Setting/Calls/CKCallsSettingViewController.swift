@@ -36,6 +36,7 @@ class CKCallsSettingViewController: MXKViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addCustomBackButton()
         setupInitization()
     }
     
@@ -53,11 +54,11 @@ class CKCallsSettingViewController: MXKViewController {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
             self?.defaultBarTintColor = themeService.attrs.navBarBgColor
-            self?.barTitleColor = themeService.attrs.primaryTextColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.secondBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
     
@@ -97,14 +98,14 @@ extension CKCallsSettingViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CKSettingToggleItemTableViewCell", for: indexPath) as! CKSettingToggleItemTableViewCell
-        
+
         let cellType = sections[indexPath.section][indexPath.row]
         cell.titleLabel.text = cellType.title()
         cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
@@ -116,7 +117,7 @@ extension CKCallsSettingViewController: UITableViewDataSource {
             cell.switchView.isEnabled = true
             cell.switchView.addTarget(self, action: #selector(toggleCallKit(_:)), for: UIControlEvents.valueChanged)
         }
-        
+
         return cell
     }
 }

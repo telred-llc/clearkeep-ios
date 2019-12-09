@@ -22,38 +22,67 @@ final class CKRoomCreatingNameCell: CKRoomCreatingBaseCell {
      */
     internal var edittingChangedHandler: ((String?) -> Void)?
     
+    var triggerReturnHandler: (() -> Void)?
+    
     // MARK: - OVERRIDE
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .clear
+        self.selectionStyle = .none
         self.nameTextField.addTarget(self, action: #selector(edittingChanged), for: .editingChanged)
-        self.nameTextField.addTarget(self, action: #selector(edittingBegin), for: .editingDidBegin)
-        self.nameTextField.addTarget(self, action: #selector(edittingEnd), for: .editingDidEnd)
         self.nameTextField.rectangleBorder()
         self.nameTextField.setLeftPaddingPoints(10)
-        self.nameTextField.borderColor = CKColor.Text.lightGray
-        self.lblHeader.textColor = CKColor.Text.lightGray
         self.nameTextField.autocapitalizationType = .allCharacters
+        self.nameTextField.delegate = self
+        self.nameTextField.clearButtonMode = .never
+        self.focusEditingTextField(textField: nameTextField, isEditing: false)
     }
     
     // MARK: - ACTION
     
     @objc func edittingChanged(textField: UITextField) {
-        edittingChangedHandler?(textField.text?.uppercased())
+        
+        let resultText = (textField.text ?? "").uppercased()
+        nameTextField.text = resultText // force display name always uppercased
+        edittingChangedHandler?(resultText.trimmingCharacters(in: .whitespacesAndNewlines))
     }
     
-    @objc func edittingBegin(){
-        self.nameTextField.borderColor = CKColor.Text.blueNavigation
-        self.nameTextField.textColor = CKColor.Text.blueNavigation
-        self.lblHeader.textColor = CKColor.Text.blueNavigation
-        self.nameTextField.attributedPlaceholder = NSAttributedString(string: "Name",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: CKColor.Text.blueNavigation])
+    private func focusEditingTextField(textField: UITextField, isEditing: Bool = true) {
+        
+        let color = isEditing ? themeService.attrs.textFieldEditingColor : themeService.attrs.textFieldColor
+        
+        let background = isEditing ? themeService.attrs.textFieldEditingBackground : themeService.attrs.textFieldBackground
+        textField.backgroundColor = background
+        
+        lblHeader.textColor = color
+        
+        textField.borderColor = color
+        textField.textColor = themeService.attrs.textFieldEditingColor
+        textField.attributedPlaceholder = NSAttributedString(string: CKLocalization.string(byKey: "topic_name_room_placeholder"), attributes: [NSAttributedStringKey.foregroundColor: color.withAlphaComponent(0.7)])
+//        textField.setClearButtonColorTo(color: themeService.attrs.secondTextColor)
+    }
+}
+
+extension CKRoomCreatingNameCell: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        focusEditingTextField(textField: nameTextField, isEditing: true)
     }
     
-    @objc func edittingEnd(){
-        self.nameTextField.borderColor = CKColor.Text.lightGray
-        self.nameTextField.textColor = CKColor.Text.lightGray
-        self.lblHeader.textColor = CKColor.Text.lightGray
-        self.nameTextField.attributedPlaceholder = NSAttributedString(string: "Name",
-                                                                      attributes: [NSAttributedStringKey.foregroundColor: CKColor.Text.lightGray])
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        focusEditingTextField(textField: nameTextField, isEditing: false)
     }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        triggerReturnHandler?()
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
 }

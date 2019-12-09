@@ -75,8 +75,6 @@ class CKOtherProfileViewController: MXKViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Profile"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CKColor.Icon.back]
-        self.navigationController?.navigationBar.clearNavigationBar()
     }
     
     // MARK: - PRIVATE
@@ -90,6 +88,8 @@ class CKOtherProfileViewController: MXKViewController {
         self.tableView.register(CKAssignAdminButtonTableViewCell.nib, forCellReuseIdentifier:CKAssignAdminButtonTableViewCell.identifier)
         self.tableView.allowsSelection = false
         
+        addCustomBackButton()
+        
         if self.isForcedPresenting {
             // Setup close button item
             let closeItemButton = UIBarButtonItem.init(
@@ -98,6 +98,7 @@ class CKOtherProfileViewController: MXKViewController {
                 target: self, action: #selector(clickedOnBackButton(_:)))
             
             // set nv items
+            closeItemButton.tintColor = themeService.attrs.navBarTintColor
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
         
@@ -116,12 +117,12 @@ class CKOtherProfileViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = themeService.attrs.newBackgroundColor
-            self?.barTitleColor = themeService.attrs.newBackgroundColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.newBackgroundColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -141,9 +142,9 @@ class CKOtherProfileViewController: MXKViewController {
             
             // Is admin
             if let mxMember = mxMember, let powerLevels = mxRoomPowerLevels, powerLevels.powerLevelOfUser(withUserID: mxMember.userId) == kCkRoomAdminLevel {
-                cell.adminStatusView.isHidden = false
+                cell.isAdminPower = true
             } else {
-                cell.adminStatusView.isHidden = true
+                cell.isAdminPower = false
             }
             
             //status
@@ -159,7 +160,7 @@ class CKOtherProfileViewController: MXKViewController {
                 cell.settingStatus(online: false)
             }
 
-            cell.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
             return cell
         }
@@ -202,11 +203,11 @@ class CKOtherProfileViewController: MXKViewController {
             for: indexPath) as? CKUserProfileDetailCell {
             switch indexPath.row {
             case 0:
-                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: mxMember.userId)
+                cell.bindingData(icon: #imageLiteral(resourceName: "user_profile"), content: mxMember.userId, placeholder: "")
             case 1:
-                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: "仙台市　日本国 - JP")
+                cell.bindingData(icon: #imageLiteral(resourceName: "location_profile"), content: nil, placeholder: CKLocalization.string(byKey: "profile_location_placeholder"))
             case 2:
-                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: "+84 222 11 5550")
+                cell.bindingData(icon: #imageLiteral(resourceName: "phone_profile"), content: nil, placeholder: CKLocalization.string(byKey: "profile_phone_placeholder"))
             default:
                 break
             }
@@ -228,8 +229,7 @@ class CKOtherProfileViewController: MXKViewController {
                 }
             }
 
-            cell.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
-//            cell.assignAdminButton.theme.titleColor(from: themeService.attrStream{ $0.newBackgroundColor }, for: .normal)
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
             return cell
         }
         
@@ -380,13 +380,13 @@ extension CKOtherProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView.init()
-        view.theme.backgroundColor = themeService.attrStream{ $0.newBackgroundColor }
+        view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
         return view
     }
     

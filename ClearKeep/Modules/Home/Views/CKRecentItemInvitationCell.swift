@@ -21,7 +21,8 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var statusView: UIView!
-    
+    @IBOutlet weak var timeLabelWidth: NSLayoutConstraint!
+
 
     // MARK: - PROPERTY
     
@@ -53,6 +54,8 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
         }
     }
     
+    private var disposeBag = DisposeBag()
+    
     // MARK: - OVERRIDE
     
     override func awakeFromNib() {
@@ -60,8 +63,7 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
                 
         self.declineButton.addTarget(self, action: #selector(declineOnPress(_:)) , for: .touchUpInside)
         self.joinButton.addTarget(self, action: #selector(joinOnPress(_:)) , for: .touchUpInside)
-        self.contentView.theme.backgroundColor = themeService.attrStream{ $0.cellPrimaryBgColor }
-        
+        self.contentView.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }        
         self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor
         self.statusView.layer.borderWidth = 2
@@ -74,6 +76,7 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
         self.roomCellData = nil
         self.joinOnPressHandler = nil
         self.declineOnPressHandler = nil
+        disposeBag = DisposeBag()
     }
     
     // MARK: - ACTION
@@ -143,7 +146,10 @@ extension CKRecentItemInvitationCell: MXKCellRendering {
         roomCellData = cellData as? MXKRecentCellDataStoring
         roomNameLabel.text = roomCellData?.roomSummary.displayname
         lblTime.text = roomCellData?.lastEventDate
-        
+        lblTime.sizeToFit()
+        self.timeLabelWidth.constant = lblTime.frame.size.width
+        self.layoutIfNeeded()
+
         // last message
         guard let lastMessage = roomCellData?.roomSummary.lastMessageString else {
             self.lblDescription.text = ""
@@ -156,6 +162,9 @@ extension CKRecentItemInvitationCell: MXKCellRendering {
             message.replaceSubrange(start..<end, with: "you")
             self.lblDescription.text = message
         }
+        
+        self.lblDescription.theme.textColor = themeService.attrStream { $0.navBarTintColor }
+        self.joinButton.setBackgroundImage(themeService.attrs.enableButtonBG, for: .normal)
     }
 
     func updateUI() {

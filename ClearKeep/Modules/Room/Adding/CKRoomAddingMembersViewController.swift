@@ -58,6 +58,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         self.navigationItem.title = "Add Members"
         
         updateBarItems()
+        UIApplication.shared.sendAction(#selector(UIApplication.resignFirstResponder), to: nil, from: nil, for: nil)
         self.hideKeyboardWhenTappedAround()
         
         // on new creating a room, may cancel inviting the members
@@ -68,10 +69,12 @@ final class CKRoomAddingMembersViewController: MXKViewController {
                 image: UIImage(named: "ic_x_close"),
                 style: .plain,
                 target: self, action: #selector(clickedOnBackButton(_:)))
-            closeItemButton.tintColor = CKColor.Text.blueNavigation
+            closeItemButton.tintColor = themeService.attrs.navBarTintColor
             self.navigationItem.leftBarButtonItem = closeItemButton
         }
 
+        addCustomBackButton()
+        
         bindingTheme()
     }
     
@@ -80,15 +83,13 @@ final class CKRoomAddingMembersViewController: MXKViewController {
     private func bindingTheme() {
         // Binding navigation bar color
         themeService.attrsStream.subscribe(onNext: { [weak self] (theme) in
-            self?.defaultBarTintColor = theme.searchBarBgColor
-            self?.barTitleColor = CKColor.Text.blueNavigation
-            self?.tableView?.backgroundColor = theme.searchBarBgColor
-            self?.tableView?.separatorColor = theme.separatorColor
+            self?.defaultBarTintColor = themeService.attrs.navBarBgColor
+            self?.barTitleColor = themeService.attrs.navBarTintColor
             self?.tableView?.reloadData()
         }).disposed(by: disposeBag)
 
         themeService.rx
-            .bind({ $0.searchBarBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
+            .bind({ $0.primaryBgColor }, to: view.rx.backgroundColor, tableView.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 
@@ -165,9 +166,9 @@ final class CKRoomAddingMembersViewController: MXKViewController {
                 }
             })
         }
-
-        cell.searchBar.setTextFieldTextColor(color: themeService.attrs.primaryTextColor)
-        cell.backgroundColor = .white
+        
+        cell.contentView.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
+        cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
         return cell
     }
     
@@ -197,7 +198,7 @@ final class CKRoomAddingMembersViewController: MXKViewController {
             } else { cell.status = 0 }
 
             cell.displayNameLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
-            cell.theme.backgroundColor = themeService.attrStream{ $0.secondBgColor }
+            cell.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }
 
             return cell
         }
@@ -219,14 +220,11 @@ final class CKRoomAddingMembersViewController: MXKViewController {
         
         let hasSelected = self.selectedUser.count > 0
         self.btnInvite.isEnabled = hasSelected
-        let bgValid = UIImage(named: "bg_button_create")
-        let bgNotValid = UIImage(named: "bg_btn_not_valid")
-
-        if hasSelected {
-            btnInvite.setBackgroundImage(bgValid, for: .normal)
-        } else {
-            btnInvite.setBackgroundImage(bgNotValid, for: .normal)
-        }
+        
+        themeService.attrsStream.subscribe { (theme) in
+            let image = hasSelected ? theme.element?.enableButtonBG : theme.element?.disableButtonBG
+            self.btnInvite.setBackgroundImage(image, for: .normal)
+        }.disposed(by: self.disposeBag)
     }
     
     private func promiseInvite(mxContact contact: MXKContact!) -> Promise<Bool> {
@@ -332,7 +330,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         guard let s = Section(rawValue: indexPath.section) else { return 1 }
         switch s {
         case .search:
-            return CKLayoutSize.Table.row44px
+            return CKLayoutSize.Table.row70px
         default:
             return CKLayoutSize.Table.row60px
         }
@@ -341,9 +339,9 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let view = CKRoomHeaderInSectionView.instance() {
             view.descriptionLabel?.text = self.titleForHeader(atSection: section)
-            view.descriptionLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.2666666667, blue: 0.2666666667, alpha: 1)
-            view.backgroundColor = .white
-            view.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
+            view.descriptionLabel.theme.textColor = themeService.attrStream{ $0.primaryTextColor }
+            view.descriptionLabel.font = UIFont.systemFont(ofSize: 17)
+            view.theme.backgroundColor = themeService.attrStream{ $0.tblHeaderBgColor }
             return view
         }
         return UIView()
@@ -351,7 +349,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UILabel()
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         return view
     }
     
@@ -361,7 +359,7 @@ extension CKRoomAddingMembersViewController: UITableViewDelegate {
         case .search:
             return CGFloat.leastNonzeroMagnitude
         default:
-            return 50
+            return CKLayoutSize.Table.defaultHeader
         }
     }
 
@@ -461,12 +459,12 @@ fileprivate extension MXKContact {
 
 extension CKRoomAddingMembersViewController {
     func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CKRoomCreatingViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
-    @objc func dismissKeyboard() {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
 }

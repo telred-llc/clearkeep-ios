@@ -16,13 +16,9 @@
  */
 
 #import "MXKRoomBubbleTableViewCell+Riot.h"
-
 #import "RoomBubbleCellData.h"
-
 #import "RiotDesignValues.h"
-
 #import <objc/runtime.h>
-
 #import "Riot-Swift.h"
 
 #define VECTOR_ROOMBUBBLETABLEVIEWCELL_TIMELABEL_WIDTH 39
@@ -139,10 +135,18 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
 
 - (void)selectComponent:(NSUInteger)componentIndex
 {
+    [self selectComponent:componentIndex showEditButton:NO showTimestamp:YES];
+}
+
+- (void)selectComponent:(NSUInteger)componentIndex showEditButton:(BOOL)showEditButton showTimestamp:(BOOL)showTimestamp
+{
     if (componentIndex < bubbleData.bubbleComponents.count)
     {
-        // Add time label
-        [self addTimestampLabelForComponent:componentIndex];
+        if (showTimestamp)
+        {
+            // Add time label
+            [self addTimestampLabelForComponent:componentIndex];
+        }
         
         // Blur timestamp labels which are not related to the selected component (if any)
         for (UIView* view in self.bubbleInfoContainer.subviews)
@@ -165,8 +169,11 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
             }
         }
         
-        // Add the edit button
-        [self addEditButtonForComponent:componentIndex completion:nil];
+        if (showEditButton)
+        {
+            // Add the edit button
+            [self addEditButtonForComponent:componentIndex completion:nil];
+        }
     }
 }
 
@@ -275,17 +282,14 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
         
         timeLabel.textAlignment = NSTextAlignmentRight;
         timeLabel.textColor = kRiotSecondaryTextColor;
-        if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)])
-        {
+        if ([UIFont respondsToSelector:@selector(systemFontOfSize:weight:)]) {
             timeLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightLight];
-        }
-        else
-        {
+        } else {
             timeLabel.font = [UIFont systemFontOfSize:12];
         }
-        timeLabel.adjustsFontSizeToFitWidth = YES;
-        
+        timeLabel.adjustsFontSizeToFitWidth = NO;
         [timeLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [timeLabel sizeToFit];
         timeLabel.accessibilityIdentifier = @"dateLabel";
         [self.bubbleInfoContainer addSubview:timeLabel];
         
@@ -307,10 +311,10 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
         NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:timeLabel
                                                                            attribute:NSLayoutAttributeWidth
                                                                            relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.bubbleInfoContainer
+                                                                              toItem:nil
                                                                            attribute:NSLayoutAttributeWidth
                                                                           multiplier:1.0
-                                                                            constant:0];
+                                                                            constant:timeLabel.frame.size.width];
         NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:timeLabel
                                                                             attribute:NSLayoutAttributeHeight
                                                                             relatedBy:NSLayoutRelationEqual
@@ -318,20 +322,27 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
                                                                             attribute:NSLayoutAttributeNotAnAttribute
                                                                            multiplier:1.0
                                                                              constant:18];
-        
+        NSLayoutConstraint *nameRightConstraint = [NSLayoutConstraint constraintWithItem:self.userNameLabel
+                                                                           attribute:NSLayoutAttributeTrailing
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:timeLabel
+                                                                           attribute:NSLayoutAttributeLeading
+                                                                          multiplier:1.0
+                                                                            constant:-10];
+
         // Available on iOS 8 and later
-        [NSLayoutConstraint activateConstraints:@[rightConstraint, topConstraint, widthConstraint, heightConstraint]];
+        [NSLayoutConstraint activateConstraints:@[rightConstraint, topConstraint, widthConstraint, heightConstraint, nameRightConstraint]];
     }
 }
 
 - (void)setBlurred:(BOOL)blurred
 {
-    objc_setAssociatedObject(self, @selector(blurred), [NSNumber numberWithBool:blurred], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(blurred), @(blurred), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     if (blurred)
     {
         self.bubbleOverlayContainer.hidden = NO;
-        self.bubbleOverlayContainer.backgroundColor = kRiotPrimaryBgColor;
+        self.bubbleOverlayContainer.backgroundColor = UIColor.blackColor;
         self.bubbleOverlayContainer.alpha = 0.8;
         self.bubbleOverlayContainer.userInteractionEnabled = YES;
         
@@ -394,6 +405,20 @@ NSString *const kMXKRoomBubbleCellTapOnReceiptsContainer = @"kMXKRoomBubbleCellT
 -(UIView *)markerView
 {
     return objc_getAssociatedObject(self, @selector(markerView));
+}
+
+- (void)updateEventFormatter
+{
+    MXSession* session = [[AppDelegate theDelegate].mxSessions objectAtIndex:0];
+    if (session) {
+        // Set a new event formatter
+        // TODO: We should use the same EventFormatter instance for all the rooms of a mxSession.
+        self.bubbleData.eventFormatter = [[EventFormatter alloc] initWithMatrixSession:session];
+        self.bubbleData.eventFormatter.treatMatrixUserIdAsLink = YES;
+        self.bubbleData.eventFormatter.treatMatrixRoomIdAsLink = YES;
+        self.bubbleData.eventFormatter.treatMatrixRoomAliasAsLink = YES;
+        self.bubbleData.eventFormatter.treatMatrixGroupIdAsLink = YES;
+    }
 }
 
 #pragma mark - User actions
