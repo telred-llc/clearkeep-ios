@@ -3625,6 +3625,7 @@
                     // "Initializing" closedAttachmentEventId so it is equal to openedAttachmentEventId at the beginning
                     self.closedAttachmentEventId = self.openedAttachmentEventId;
                     
+                    [attachmentsViewer setModalPresentationStyle: UIModalPresentationFullScreen]; // CK - 524: fix bug present photo in ios 13
                     [self presentViewController:attachmentsViewer animated:YES completion:nil];
                     
                     self.attachmentsViewer = attachmentsViewer;

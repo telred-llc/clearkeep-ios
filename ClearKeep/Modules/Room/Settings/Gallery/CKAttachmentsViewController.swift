@@ -17,6 +17,9 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
         self.backButton.image = #imageLiteral(resourceName: "cancel").withRenderingMode(.alwaysTemplate)
         self.backButton.theme.tintColor = themeService.attrStream{ $0.navBarTintColor }
         bindingTheme()
+        
+        self.navigationBar.frame.origin.y = self.safeArea.top
+        setupNavigationBar(color: .black)
     }
 
     private func bindingTheme() {
@@ -25,7 +28,7 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
             self?.defaultBarTintColor = themeService.attrs.primaryBgColor
             self?.barTitleColor = themeService.attrs.primaryTextColor
             self?.activityIndicator?.backgroundColor = themeService.attrs.overlayColor
-            self?.view.backgroundColor = themeService.attrs.secondBgColor
+            self?.view.backgroundColor = themeService.attrs.primaryBgColor
         }).disposed(by: disposeBag)
     }
     
@@ -34,5 +37,18 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
         // fixbug: CK 309 - app crash when touch search button
         // -- release CKAttachmentsViewController before dismiss display
         self.destroy()
+    }
+}
+
+extension CKAttachmentsViewController {
+    
+    func setupNavigationBar(color: UIColor) {
+        var alphaValue: CGFloat = 1.0
+        color.getRed(nil, green: nil, blue: nil, alpha: &alphaValue)
+        
+        self.navigationBar.setBackgroundImage(UIImage.init(color: color), for: .default)
+        self.navigationBar.isTranslucent = alphaValue < 1
+        
+        self.navigationBar.shadowImage = UIImage()
     }
 }
