@@ -37,10 +37,10 @@ final public class CkForgotPasswordViewController: CkAuthenticationViewControlle
         passwordTFView.resetData()
         rePasswordTFView.resetData()
         
-        
+        // - CK 633: Reset all data in model
+        resetPasswordModel.userId = ""
         resetPasswordModel.password = ""
         resetPasswordModel.repassword = ""
-        resetPasswordModel.userId = ""
     }
     public override func viewDidDisappear(_ animated: Bool) {
         self.__isResetPassword = false
