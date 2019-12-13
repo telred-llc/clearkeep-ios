@@ -9,7 +9,7 @@
 	<key>pinRoomsWithUnread</key>
 	<true/>
 	<key>pushGatewayURL</key>
-	<string>http://dev.clearkeep.me:5000/_matrix/push/v1/notify</string>
+	<string>http://push.clearkeep.xyz/_matrix/push/v1/notify</string>
 	<key>pusherAppIdDev</key>
 	<string>im.vector.vmodev.app</string>
 	<key>pusherAppIdProd</key>
