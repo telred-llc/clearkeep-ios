@@ -316,5 +316,9 @@ public class CKAppManager: NSObject {
     func isPasswordAvailable() -> Bool {
         return (self.userPassword != nil)
     }
+    
+    @objc func showDeviceTokenString(_ data: Data) -> NSString {
+        return data.hexString as NSString
+    }
 }
 
