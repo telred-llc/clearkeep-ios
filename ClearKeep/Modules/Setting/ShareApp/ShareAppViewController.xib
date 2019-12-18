@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShareAppViewController" customModule="Riot" customModuleProvider="target">
+            <connections>
+                <outlet property="descriptionLabel" destination="KrD-PZ-JM9" id="gMA-IL-iqV"/>
+                <outlet property="dismissButton" destination="flB-0b-5SE" id="f5S-uR-tnH"/>
+                <outlet property="logoImageView" destination="WHx-1F-DxJ" id="lyV-LW-hYy"/>
+                <outlet property="shareButton" destination="lvp-sS-w94" id="Lp0-JH-wRw"/>
+                <outlet property="view" destination="7Os-GX-hzy" id="HLz-nf-hd8"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="7Os-GX-hzy">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="VL7-02-gb4">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vY6-4P-DZe">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="713.5"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_app_logo_light" translatesAutoresizingMaskIntoConstraints="NO" id="WHx-1F-DxJ">
+                                    <rect key="frame" x="24" y="40" width="180" height="120"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="WHx-1F-DxJ" secondAttribute="height" multiplier="3:2" id="Y9n-v4-jvF"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KrD-PZ-JM9">
+                                    <rect key="frame" x="24" y="200" width="168.5" height="53"/>
+                                    <string key="text">Invite your friends
+Join with us!</string>
+                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_app_light" translatesAutoresizingMaskIntoConstraints="NO" id="IT9-vK-lWX">
+                                    <rect key="frame" x="16" y="313" width="382" height="254.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="IT9-vK-lWX" secondAttribute="height" multiplier="3:2" id="KJN-XT-lSS"/>
+                                    </constraints>
+                                </imageView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Ubx-jL-a0V">
+                                    <rect key="frame" x="16" y="607.5" width="382" height="90"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lvp-sS-w94">
+                                            <rect key="frame" x="0.0" y="0.0" width="382" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                            <state key="normal" title="Share now!" backgroundImage="btn_start_room_light">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="shareAction:" destination="-1" eventType="touchUpInside" id="1qs-Td-LLW"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flB-0b-5SE">
+                                            <rect key="frame" x="0.0" y="60" width="382" height="30"/>
+                                            <state key="normal" title="I will do later">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="dismissAction:" destination="-1" eventType="touchUpInside" id="KdB-xO-gMY"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="IT9-vK-lWX" secondAttribute="trailing" constant="16" id="OPl-jQ-Xa0"/>
+                                <constraint firstItem="IT9-vK-lWX" firstAttribute="width" secondItem="IT9-vK-lWX" secondAttribute="height" multiplier="3:2" id="Q1d-DR-bfJ"/>
+                                <constraint firstItem="IT9-vK-lWX" firstAttribute="leading" secondItem="vY6-4P-DZe" secondAttribute="leading" constant="16" id="R3Q-ea-htp"/>
+                                <constraint firstAttribute="bottom" secondItem="Ubx-jL-a0V" secondAttribute="bottom" constant="16" id="W3f-u8-b8K"/>
+                                <constraint firstItem="Ubx-jL-a0V" firstAttribute="leading" secondItem="vY6-4P-DZe" secondAttribute="leading" constant="16" id="Yzu-BJ-Kxe"/>
+                                <constraint firstItem="Ubx-jL-a0V" firstAttribute="top" secondItem="IT9-vK-lWX" secondAttribute="bottom" constant="40" id="eDJ-Kl-k0H"/>
+                                <constraint firstItem="KrD-PZ-JM9" firstAttribute="leading" secondItem="WHx-1F-DxJ" secondAttribute="leading" id="fEb-Mo-zXF"/>
+                                <constraint firstItem="KrD-PZ-JM9" firstAttribute="top" secondItem="WHx-1F-DxJ" secondAttribute="bottom" constant="40" id="gqz-xo-T9n"/>
+                                <constraint firstItem="WHx-1F-DxJ" firstAttribute="top" secondItem="vY6-4P-DZe" secondAttribute="top" constant="40" id="lWa-IW-qMo"/>
+                                <constraint firstAttribute="trailing" secondItem="Ubx-jL-a0V" secondAttribute="trailing" constant="16" id="oBV-iT-pRs"/>
+                                <constraint firstItem="IT9-vK-lWX" firstAttribute="top" secondItem="KrD-PZ-JM9" secondAttribute="bottom" constant="60" id="odH-yi-hYj"/>
+                                <constraint firstItem="WHx-1F-DxJ" firstAttribute="leading" secondItem="vY6-4P-DZe" secondAttribute="leading" constant="24" id="uPI-mO-tlV"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="vY6-4P-DZe" secondAttribute="trailing" id="6qZ-mU-tEb"/>
+                        <constraint firstAttribute="bottom" secondItem="vY6-4P-DZe" secondAttribute="bottom" id="IBH-3D-H8Y"/>
+                        <constraint firstItem="vY6-4P-DZe" firstAttribute="leading" secondItem="VL7-02-gb4" secondAttribute="leading" id="JTB-Rk-JHW"/>
+                        <constraint firstItem="vY6-4P-DZe" firstAttribute="top" secondItem="VL7-02-gb4" secondAttribute="top" id="iBQ-h9-LbH"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="VL7-02-gb4" firstAttribute="top" secondItem="EFX-kg-PuF" secondAttribute="top" id="0Db-sK-z3g"/>
+                <constraint firstItem="EFX-kg-PuF" firstAttribute="bottom" secondItem="VL7-02-gb4" secondAttribute="bottom" id="2sO-eK-jRn"/>
+                <constraint firstAttribute="trailing" secondItem="VL7-02-gb4" secondAttribute="trailing" id="2yK-XJ-Iyi"/>
+                <constraint firstItem="vY6-4P-DZe" firstAttribute="width" secondItem="7Os-GX-hzy" secondAttribute="width" id="Ehx-We-ZSZ"/>
+                <constraint firstItem="VL7-02-gb4" firstAttribute="leading" secondItem="7Os-GX-hzy" secondAttribute="leading" id="hru-7T-VWJ"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="EFX-kg-PuF"/>
+            <point key="canvasLocation" x="1042.0289855072465" y="55.580357142857139"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_start_room_light" width="207" height="44"/>
+        <image name="share_app_light" width="375.5" height="258"/>
+        <image name="share_app_logo_light" width="81.5" height="60"/>
+    </resources>
+</document>

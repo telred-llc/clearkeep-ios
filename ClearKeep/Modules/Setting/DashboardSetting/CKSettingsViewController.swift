@@ -19,6 +19,7 @@ final class CKSettingsViewController: MXKViewController {
         case report
         case security
         case feedback
+        case shareApp
         case darkmode
         case terms
         case privacyPolicy
@@ -59,7 +60,7 @@ final class CKSettingsViewController: MXKViewController {
     
     private func setupInitization() {
         // Init datasource
-        tblDatasource = [[.profile], [.notification, .calls, .report , .security, .feedback], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
+        tblDatasource = [[.profile], [.notification, .calls, .report , .security, .feedback, .shareApp], [.darkmode], [.terms, .privacyPolicy, .copyright], [.markAllMessageAsRead, .clearCache], [.deactivateAccount]]
         setupTableView()
         bindingTheme()
     }
@@ -155,6 +156,9 @@ private extension CKSettingsViewController {
         case .feedback:
             cell.titleLabel.text = "Feedback"
             cell.iconImageView.image = #imageLiteral(resourceName: "feedback.png").withRenderingMode(.alwaysTemplate)
+        case .shareApp:
+            cell.titleLabel.text = CKLocalization.string(byKey: "room_event_action_share")
+            cell.iconImageView.image = #imageLiteral(resourceName: "share_app_setting.png").withRenderingMode(.alwaysTemplate)
         case .terms:
             cell.titleLabel.text = NSLocalizedString("settings_term_conditions", tableName: "Vector", bundle: Bundle.main, value: "", comment: "")
             cell.iconImageView.image = #imageLiteral(resourceName: "ic_terms_condition_setting").withRenderingMode(.alwaysTemplate)
@@ -300,6 +304,10 @@ extension CKSettingsViewController: UITableViewDelegate {
         case .feedback:
             let vc = CKFeedbackViewController.instance()
             self.navigationController?.pushViewController(vc, animated: true)
+        case .shareApp:
+            let vc = ShareAppViewController.instance()
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true, completion: nil)
         case .report:
             let vc = CKReportSettingViewController.instance()
             vc.importSession(self.mxSessions)
