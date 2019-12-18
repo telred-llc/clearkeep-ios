@@ -13,6 +13,7 @@
                 <outlet property="descriptionLabel" destination="KrD-PZ-JM9" id="gMA-IL-iqV"/>
                 <outlet property="dismissButton" destination="flB-0b-5SE" id="f5S-uR-tnH"/>
                 <outlet property="logoImageView" destination="WHx-1F-DxJ" id="lyV-LW-hYy"/>
+                <outlet property="scrollView" destination="VL7-02-gb4" id="EZU-iE-ZQZ"/>
                 <outlet property="shareButton" destination="lvp-sS-w94" id="Lp0-JH-wRw"/>
                 <outlet property="view" destination="7Os-GX-hzy" id="HLz-nf-hd8"/>
             </connections>

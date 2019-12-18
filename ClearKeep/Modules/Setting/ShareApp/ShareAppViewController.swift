@@ -14,12 +14,14 @@ class ShareAppViewController: MXKViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     private let disposeBag = DisposeBag()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        scrollView.showsVerticalScrollIndicator = false
         
         descriptionLabel.text = CKLocalization.string(byKey: "share_app_description")
         shareButton.setTitle(CKLocalization.string(byKey: "share_app_button_now"), for: .normal)
@@ -45,12 +47,18 @@ class ShareAppViewController: MXKViewController {
         guard let url = URL(string: urlString) else { return }
         
         let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let subview = sender as? UIView, activityVC.responds(to: #selector(getter: UIViewController.popoverPresentationController)) {
+                activityVC.popoverPresentationController?.sourceView = subview
+            }
+        }
+        
         present(activityVC, animated: true, completion: nil)
     }
     
     @IBAction func dismissAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
     
 }

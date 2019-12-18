@@ -216,6 +216,11 @@ extension CkMasterTabBarController {
     
     private func forceUpdateVersion() {
         
+        // force remove topSpinner
+        if topSpinner != nil {
+            self.removeSpinner()
+        }
+        
         showSpinner()
         
         CKAppManager.shared.apiClient.getCurrentVersion(CKAppVersion.Request()).done { response in
@@ -235,6 +240,7 @@ extension CkMasterTabBarController {
                     }
                 }))
                 
+                alertVC.view.theme.tintColor = themeService.attrStream { $0.navBarTintColor }
                 self.present(alertVC, animated: true) { }
                 
             } else {
