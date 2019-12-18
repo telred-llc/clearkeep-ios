@@ -88,3 +88,13 @@ extension CKAPIClient {
 //        }
 //    }
 }
+
+
+// MARK: Get current version application
+extension CKAPIClient {
+    
+    @discardableResult
+    func getCurrentVersion(_ model: CKAppVersion.Request) -> Promise<CKAppVersion.Response> {
+        return request(.get, "/api/version/get-current-version", parameters: model.toParams(), encoding: URLEncoding.queryString).responseTask()
+    }
+}
