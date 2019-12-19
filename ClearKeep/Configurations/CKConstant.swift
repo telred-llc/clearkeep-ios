@@ -38,3 +38,18 @@ extension Notification.Name {
     static let ckBackUpKeyDidSuccess = Notification.Name("CKBackUpKeyDidSuccess")
     static let presentPhotoLibrary = Notification.Name(rawValue: "presentPhotoLibrary")
 }
+
+
+struct AppInfo {
+
+    static var currentVersion: String {
+        return (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0.0"
+    }
+    
+    
+    struct AppStote {
+        static let urlStote = URL(string: "itms-apps://itunes.apple.com/app/id1474076360")!
+        static let urlHttp = URL(string: "https://apps.apple.com/app/id1474076360")!
+    }
+    
+}

@@ -42,6 +42,8 @@ final public class CkMasterTabBarController: MasterTabBarController {
 
         // Observe server sync at room data source level too
         NotificationCenter.default.addObserver(self, selector: #selector(onSyncNotification), name: NSNotification.Name.mxSessionDidSync, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(appOnResume(_:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -206,5 +208,52 @@ extension CkMasterTabBarController: KeyBackupRecoverCoordinatorBridgePresenterDe
             self.keyBackupRecoverCoordinatorBridgePresenter?.dismiss(animated: true)
             self.keyBackupRecoverCoordinatorBridgePresenter = nil
         }
+    }
+}
+
+
+extension CkMasterTabBarController {
+    
+    private func forceUpdateVersion() {
+        
+        // force remove topSpinner
+        if topSpinner != nil {
+            self.removeSpinner()
+        }
+        
+        showSpinner()
+        
+        CKAppManager.shared.apiClient.getCurrentVersion(CKAppVersion.Request()).done { response in
+            if response.version != AppInfo.currentVersion {
+                let alertVC = UIAlertController(title: CKLocalization.string(byKey: "current_version_title"),
+                                                message: CKLocalization.string(byKey: "current_version_message"), preferredStyle: .alert)
+                
+                alertVC.addAction(UIAlertAction(title: CKLocalization.string(byKey: "current_version_update").uppercased(), style: .cancel, handler: { (action) in
+                    if UIApplication.shared.canOpenURL(AppInfo.AppStote.urlStote) {
+                        UIApplication.shared.open(AppInfo.AppStote.urlStote, options: [:]) { _ in
+                            self.removeSpinner()
+                        }
+                    } else {
+                        UIApplication.shared.open(AppInfo.AppStote.urlHttp, options: [:]) { _ in
+                            self.removeSpinner()
+                        }
+                    }
+                }))
+                
+                alertVC.view.theme.tintColor = themeService.attrStream { $0.navBarTintColor }
+                self.present(alertVC, animated: true) { }
+                
+            } else {
+                self.removeSpinner()
+            }
+        }.catch { error in
+            
+            self.removeSpinner()
+        }
+    }
+    
+    
+    @objc func appOnResume(_ notification: Notification) {
+        forceUpdateVersion()
     }
 }

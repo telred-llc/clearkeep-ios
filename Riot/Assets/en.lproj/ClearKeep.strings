@@ -234,3 +234,14 @@
 "profile_location_placeholder" = "Your location";
 "profile_phone_placeholder" = "Your phone";
 "profile_update_success" = "Profile updated successfully ";
+
+
+// update current version application
+"current_version_title" = "New version available";
+"current_version_message" = "Please, update the app to the new version to continue using";
+"current_version_update" = "Update";
+
+// share app
+"share_app_description" = "Invite your friends\nJoin with us!";
+"share_app_button_now" = "Share now !";
+"share_app_button_will_later" = "I will do it later";
