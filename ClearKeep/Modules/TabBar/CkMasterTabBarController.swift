@@ -26,6 +26,34 @@ final public class CkMasterTabBarController: MasterTabBarController {
     var keyBackupAlert: UIAlertController?
     var keyBackupSetupCoordinatorBridgePresenter: KeyBackupSetupCoordinatorBridgePresenter?
     var keyBackupRecoverCoordinatorBridgePresenter: KeyBackupRecoverCoordinatorBridgePresenter?
+    
+    private var isShowSpinner: Bool = false {
+        didSet {
+            
+            if isShowSpinner {
+                self.showSpinner()
+            } else {
+                self.removeSpinner()
+                
+                // force remove all subview spiners
+                for window in UIApplication.shared.windows {
+                    if let spiner = window.rootViewController?.view.viewWithTag(99999) {
+                        DispatchQueue.main.async {
+                            spiner.removeFromSuperview()
+                        }
+                    }
+                    
+                    if let spiner2 = window.viewWithTag(99999) {
+                        DispatchQueue.main.async {
+                            spiner2.removeFromSuperview()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private var alertViewController: UIAlertController?
 
     override public var preferredStatusBarStyle: UIStatusBarStyle {
         return themeService.attrs.statusBarStyle
@@ -216,42 +244,51 @@ extension CkMasterTabBarController {
     
     private func forceUpdateVersion() {
         
-        // force remove topSpinner
-        if topSpinner != nil {
-            self.removeSpinner()
+        if CKAppManager.shared.apiClient == nil {
+            CKAppManager.shared.setup()
         }
         
-        showSpinner()
+        self.resetStateApp()
         
-        CKAppManager.shared.apiClient.getCurrentVersion(CKAppVersion.Request()).done { response in
+        CKAppManager.shared.apiClient.getCurrentVersion(CKAppVersion.Request()) {
+            
+            self.isShowSpinner = true
+            
+        }.done { response in
+            
             if response.version != AppInfo.currentVersion {
-                let alertVC = UIAlertController(title: CKLocalization.string(byKey: "current_version_title"),
+                self.alertViewController = UIAlertController(title: CKLocalization.string(byKey: "current_version_title"),
                                                 message: CKLocalization.string(byKey: "current_version_message"), preferredStyle: .alert)
-                
-                alertVC.addAction(UIAlertAction(title: CKLocalization.string(byKey: "current_version_update").uppercased(), style: .cancel, handler: { (action) in
+
+                self.alertViewController?.addAction(UIAlertAction(title: CKLocalization.string(byKey: "current_version_update").uppercased(), style: .cancel, handler: { (action) in
                     if UIApplication.shared.canOpenURL(AppInfo.AppStote.urlStote) {
                         UIApplication.shared.open(AppInfo.AppStote.urlStote, options: [:]) { _ in
-                            self.removeSpinner()
+
                         }
                     } else {
                         UIApplication.shared.open(AppInfo.AppStote.urlHttp, options: [:]) { _ in
-                            self.removeSpinner()
+                            
                         }
                     }
                 }))
-                
-                alertVC.view.theme.tintColor = themeService.attrStream { $0.navBarTintColor }
-                self.present(alertVC, animated: true) { }
-                
+
+                self.alertViewController?.view.theme.tintColor = themeService.attrStream { $0.navBarTintColor }
+                self.alertViewController?.presentForceUpdate(animated: true, completion: nil)
+
             } else {
-                self.removeSpinner()
+                self.resetStateApp()
             }
         }.catch { error in
-            
-            self.removeSpinner()
+            self.resetStateApp()
         }
     }
     
+    private func resetStateApp() {
+        UIAlertController.isForceUpdate = false
+        self.alertViewController?.viewDidDisappear(false)
+        self.alertViewController?.vc_removeFromParent()
+        self.isShowSpinner = false
+    }
     
     @objc func appOnResume(_ notification: Notification) {
         forceUpdateVersion()
