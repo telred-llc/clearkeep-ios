@@ -36,6 +36,11 @@ final public class CkForgotPasswordViewController: CkAuthenticationViewControlle
         userEmailTextFieldView.resetData()
         passwordTFView.resetData()
         rePasswordTFView.resetData()
+        
+        
+        resetPasswordModel.password = ""
+        resetPasswordModel.repassword = ""
+        resetPasswordModel.userId = ""
     }
     
     public override func validateParameters() -> String? {
