@@ -48,10 +48,6 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
         
 //        self.navigationBar.frame.origin.y = self.safeArea.top == 44 ? self.safeArea.top : 0 // fix origin frame
         setupNavigationBar(color: .black)
-        
-        if #available(iOS 13.0, *) {
-            // register custom cell
-        }
     }
 
     private func bindingTheme() {
@@ -63,16 +59,6 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
             self?.view.backgroundColor = themeService.attrs.primaryBgColor
         }).disposed(by: disposeBag)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        if #available(iOS 13.0, *) {
-            super.viewWillDisappear(animated) // fake test
-        } else {
-            super.viewWillDisappear(animated)
-        }
-    }
-    
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -154,7 +140,7 @@ extension CKAttachmentsViewController {
                                 
                             }
                             
-                            NotificationCenter.default.addObserver(self, selector: #selector(movieAVPlayerPlaybackDidFinishNotification(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+                            NotificationCenter.default.addObserver(self, selector: #selector(movieAVPlayerPlaybackDidFinishNotification(_:)), name: NSNotification.Name.AVPlayerItemFailedToPlayToEndTime, object: selectedCell.movieAVPlayer.player)
                             
                         }
                     }
@@ -163,6 +149,15 @@ extension CKAttachmentsViewController {
                         
                         if selectedCell.movieAVPlayer.player?.timeControlStatus == .playing {
                             self.navigationBar.isHidden = !self.navigationBar.isHidden
+                            
+                            navigationBarDisplayHandled = true
+                            
+                            if (!self.navigationBar.isHidden) {
+                                navigationBarDisplayTimer?.invalidate()
+                                navigationBarDisplayTimer = nil
+                                navigationBarDisplayTimer = Timer(timeInterval: 5, target: self, selector: #selector(hidenShowNavigationBar), userInfo: self, repeats: false)
+                            }
+                            
                         } else {
                             let pieChartView: MXKPieChartView = MXKPieChartView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
                             pieChartView.progress = 0
@@ -181,7 +176,7 @@ extension CKAttachmentsViewController {
                                     // update progress
                                     switch loader.state {
                                     case MXMediaLoaderStateDownloadInProgress:
-                                        if let progressNumber: NSNumber = loader.statisticsDict.value(forKey: kMXMediaLoaderProgressValueKey) as? NSNumber {
+                                        if let statisticsDict = loader.statisticsDict, let progressNumber: NSNumber = statisticsDict.value(forKey: kMXMediaLoaderProgressValueKey) as? NSNumber {
                                             pieChartView.progress = CGFloat(progressNumber.floatValue)
                                         }
                                     default:
@@ -205,12 +200,15 @@ extension CKAttachmentsViewController {
                                     
                                     let playerURL = URL(fileURLWithPath: self.videoFile)
                                     selectedCell.movieAVPlayer.player = AVPlayer(url: playerURL)
-                                    selectedCell.movieAVPlayer.player?.allowsExternalPlayback = true
+                                    selectedCell.movieAVPlayer.player?.allowsExternalPlayback = false
+                                    selectedCell.movieAVPlayer.player?.usesExternalPlaybackWhileExternalScreenIsActive = false
                                     selectedCell.movieAVPlayer.player?.play()
                                     
                                     pieChartView.removeFromSuperview()
                                     
-        //                                [self hideNavigationBar];
+                                    self.hidenShowNavigationBar()
+                                    
+                                    selectedCell.layoutIfNeeded()
                                 }
                                 
                             }) { (error) in
@@ -242,8 +240,9 @@ extension CKAttachmentsViewController {
                 if self.navigationBar.isHidden {
                     self.navigationBar.isHidden = false
                     navigationBarDisplayTimer?.invalidate()
-//                    navigationBarDisplayTimer = Timer(timeInterval: 3, target: self, selector: #selector(hidenShowNavigationBar()), userInfo: self, repeats: false)
                     navigationBarDisplayTimer = Timer(timeInterval: 3, target: self, selector: #selector(hidenShowNavigationBar), userInfo: self, repeats: false)
+                } else {
+                    self.hidenShowNavigationBar()
                 }
             }
             
@@ -259,8 +258,11 @@ extension CKAttachmentsViewController {
     
     @objc func movieAVPlayerPlaybackDidFinishNotification(_ notification: Notification) {
           
-        guard let notificationUserInfo = notification.userInfo else { return }
-//        let resultValue = notificationUserInfo[]
+        if let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error {
+            print("CKAttachmentsViewController: -------> ", error.localizedDescription)
+            self.navigationBar.isHidden = true
+            NotificationCenter.default.post(name: NSNotification.Name.mxkError, object: error)
+        }
     }
 }
 
