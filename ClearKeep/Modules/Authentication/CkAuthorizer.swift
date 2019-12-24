@@ -387,7 +387,6 @@ extension CkAuthorizer {
                 if parameters.keys.count > 0 {
                     self.resetPass(withParameters: parameters)
                 } else if let err = error {
-                    self.update(withUserId: "", password: "")
                     self.onFailureDuringAuthRequest(withError: err)
                 }
             }

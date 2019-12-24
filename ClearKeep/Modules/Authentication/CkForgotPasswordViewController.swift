@@ -37,6 +37,9 @@ final public class CkForgotPasswordViewController: CkAuthenticationViewControlle
         passwordTFView.resetData()
         rePasswordTFView.resetData()
     }
+    public override func viewDidDisappear(_ animated: Bool) {
+        self.__isResetPassword = false
+    }
     
     public override func validateParameters() -> String? {
         
