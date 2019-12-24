@@ -66,6 +66,8 @@ final public class CkForgotPasswordViewController: CkAuthenticationViewControlle
         } else {
             completion([:])
         }
+        resetPasswordModel.userId = ""
+        resetPasswordModel.password = ""
     }
     
     public override func isResetPassword() -> Bool {
