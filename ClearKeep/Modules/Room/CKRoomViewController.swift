@@ -988,8 +988,7 @@ extension CKRoomViewController {
     
     func isSupportCallOption() -> Bool {
         // Check whether the call option is supported
-        var isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && (self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2
-        
+        var isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && ((self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2 || (self.roomDataSource?.room?.summary?.membersCount?.members ?? 0) >= 2)
         let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
         if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource?.roomId) {
             // there is an active call in this room
