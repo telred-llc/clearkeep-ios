@@ -155,7 +155,7 @@ extension CKAttachmentsViewController {
                             if (!self.navigationBar.isHidden) {
                                 navigationBarDisplayTimer?.invalidate()
                                 navigationBarDisplayTimer = nil
-                                navigationBarDisplayTimer = Timer(timeInterval: 5, target: self, selector: #selector(hidenShowNavigationBar), userInfo: self, repeats: false)
+                                navigationBarDisplayTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(hidenShowNavigationBar), userInfo: self, repeats: false)
                             }
                             
                         } else {
@@ -240,7 +240,7 @@ extension CKAttachmentsViewController {
                 if self.navigationBar.isHidden {
                     self.navigationBar.isHidden = false
                     navigationBarDisplayTimer?.invalidate()
-                    navigationBarDisplayTimer = Timer(timeInterval: 3, target: self, selector: #selector(hidenShowNavigationBar), userInfo: self, repeats: false)
+                    navigationBarDisplayTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(hidenShowNavigationBar), userInfo: self, repeats: false)
                 } else {
                     self.hidenShowNavigationBar()
                 }
