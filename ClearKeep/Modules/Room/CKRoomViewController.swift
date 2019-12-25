@@ -992,7 +992,7 @@ extension CKRoomViewController {
         let joinedMembers = self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0
         if joinedMembers >= 2 {
             isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil
-        } else {
+        } else if joinedMembers > 1 {
             isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && ((self.roomDataSource?.room?.summary?.membersCount?.members ?? 0) >= 2)
         }
 //        var isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && ((self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2)
