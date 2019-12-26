@@ -989,13 +989,18 @@ extension CKRoomViewController {
     func isSupportCallOption() -> Bool {
         // Check whether the call option is supported
         var isSupportCallOption : Bool = false
-        let joinedMembers = self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0
-        if joinedMembers >= 2 {
-            isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil
-        } else if joinedMembers > 1 {
-            isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && ((self.roomDataSource?.room?.summary?.membersCount?.members ?? 0) >= 2)
-        }
-//        var isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && ((self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2)
+        var joinedMembers : UInt = 0
+        roomDataSource?.room.members({ (members) in
+            if let newJoinedCount = members?.joinedMembers.count {
+                joinedMembers = UInt(newJoinedCount)
+            }
+            }, lazyLoadedMembers: { (_) in
+                //
+        }, failure: { (error) in
+            print("Sync room members failed again")
+        })
+        isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && (joinedMembers >= 2)
+//        isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && ((self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2)
         let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
         if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource?.roomId) {
             // there is an active call in this room
