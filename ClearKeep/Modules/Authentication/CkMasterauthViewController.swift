@@ -111,7 +111,10 @@ final public class CkMasterauthViewController: MXKViewController, CkAuthenticati
                 indicatorViewController.displayType = .register
             } else if forgotPwdViewController.isResetPassword() {
                 indicatorViewController.displayType = .forgot
+            } else {
+                indicatorViewController.displayType = .indicator
             }
+            
             add(asChildViewController: indicatorViewController)
         }
     }

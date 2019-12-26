@@ -605,10 +605,10 @@ extension CKRoomViewController {
             self.mentionListTableView?.reloadData()
             
             let inputToolbarViewHeight: CGFloat = self.inputToolbarHeight()
-            var visibleAreaHeight = view.frame.size.height - keyboardHeight - inputToolbarViewHeight
+            let visibleAreaHeight = view.frame.size.height - keyboardHeight - inputToolbarViewHeight - 100
             
             // Hardcode to fix layout bug
-            visibleAreaHeight -= 100
+//            visibleAreaHeight -= 100
             
             if self.mentionListTableView.contentSize.height > visibleAreaHeight {
                 self.mentionListTableViewHeightConstraint.constant = visibleAreaHeight
@@ -3041,7 +3041,7 @@ extension CKRoomViewController {
             
             let keyboardRectangle = keyboardFrame.cgRectValue
             let height = keyboardRectangle.height - self.safeArea.bottom
-            
+            self.keyboardHeight = height
             if self.roomInputToolbarContainerBottomConstraint.constant != height {
                 self.roomInputToolbarContainerBottomConstraint.constant = height
                 self.forceScrollBottom()
@@ -3053,6 +3053,7 @@ extension CKRoomViewController {
     @objc func onKeyboardWillHide(_ notification: Notification) {
         
         self.keyboardView = nil
+        self.keyboardHeight = 0
         
         let animationCurve: UInt? = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt
         

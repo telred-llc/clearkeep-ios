@@ -291,6 +291,6 @@ extension CkMasterTabBarController {
     }
     
     @objc func appOnResume(_ notification: Notification) {
-        forceUpdateVersion()
+//        forceUpdateVersion()
     }
 }

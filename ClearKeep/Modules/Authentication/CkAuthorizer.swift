@@ -493,6 +493,7 @@ extension CkAuthorizer {
                         }
                     }
                 }) { (error) in
+                    completion([:], error)
                     print("error \(error.debugDescription)")
                 }
             }

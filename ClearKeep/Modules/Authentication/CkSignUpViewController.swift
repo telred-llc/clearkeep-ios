@@ -92,6 +92,10 @@ public class CkSignUpViewController: CkAuthenticationViewController, UITextField
         }.disposed(by: disposeBag)
         
     }
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.__isRegisteringWithEmail = false
+    }
    
     
     @objc func hideKeyboard() {

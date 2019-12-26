@@ -42,6 +42,9 @@ final public class CkForgotPasswordViewController: CkAuthenticationViewControlle
         resetPasswordModel.repassword = ""
         resetPasswordModel.userId = ""
     }
+    public override func viewDidDisappear(_ animated: Bool) {
+        self.__isResetPassword = false
+    }
     
     public override func validateParameters() -> String? {
         
@@ -71,6 +74,8 @@ final public class CkForgotPasswordViewController: CkAuthenticationViewControlle
         } else {
             completion([:])
         }
+        resetPasswordModel.userId = ""
+        resetPasswordModel.password = ""
     }
     
     public override func isResetPassword() -> Bool {

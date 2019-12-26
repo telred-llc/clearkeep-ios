@@ -140,32 +140,32 @@ class CKEditRoomSettingsCell: CKBaseCell {
     
     
     func bindingData(mxRoom: MXRoom, mxRoomState: MXRoomState?) {
-        
-        titleRoomTextField.setCursorTextField(placeholderText: CKLocalization.string(byKey: "display_name_room_placeholder")) // binding theme again
-        topicRoomTextField.setCursorTextField(placeholderText: CKLocalization.string(byKey: "topic_name_room_placeholder")) // binding theme again
-        
-        infoCreateRoomLabel.attributedText = topicCreatAttributeBy(mxRoom: mxRoom, mxRoomState: mxRoomState)
-        
-        let previewImage = AvatarGenerator.generateAvatar(forText: mxRoom.summary.displayname ?? "A")
-
-        avatarRoomView?.setImageURI(mxRoom.summary.avatar,
-                                   withType: nil,
-                                   andImageOrientation: .up,
-                                   toFitViewSize: avatarRoomView.frame.size,
-                                   with: MXThumbnailingMethodScale,
-                                   previewImage: previewImage,
-                                   mediaManager: mxRoom.summary.mxSession.mediaManager)
-        
-        let displayRoom = (mxRoom.summary.displayname ?? "")
-        titleRoomTextField.text = displayRoom.uppercased()
-        currentRoomData.displayName = displayRoom
-        
-        
-        let topicName = (mxRoom.summary.topic ?? "").isEmpty ? displayRoom : (mxRoom.summary.topic ?? "")
-        topicRoomTextField.text = topicName
-        currentRoomData.topicName = topicName
-        
-        newEditRoomData = currentRoomData // set data
+        if mxRoom.summary != nil {
+            titleRoomTextField.setCursorTextField(placeholderText: CKLocalization.string(byKey: "display_name_room_placeholder")) // binding theme again
+            topicRoomTextField.setCursorTextField(placeholderText: CKLocalization.string(byKey: "topic_name_room_placeholder")) // binding theme again
+            
+            infoCreateRoomLabel.attributedText = topicCreatAttributeBy(mxRoom: mxRoom, mxRoomState: mxRoomState)
+            let previewImage = AvatarGenerator.generateAvatar(forText: mxRoom.summary.displayname ?? "A")
+            avatarRoomView?.setImageURI(mxRoom.summary.avatar,
+                                        withType: nil,
+                                        andImageOrientation: .up,
+                                        toFitViewSize: avatarRoomView.frame.size,
+                                        with: MXThumbnailingMethodScale,
+                                        previewImage: previewImage,
+                                        mediaManager: mxRoom.summary.mxSession.mediaManager)
+            
+            
+            let displayRoom = (mxRoom.summary.displayname ?? "")
+            titleRoomTextField.text = displayRoom.uppercased()
+            currentRoomData.displayName = displayRoom
+            
+            
+            let topicName = (mxRoom.summary.topic ?? "").isEmpty ? displayRoom : (mxRoom.summary.topic ?? "")
+            topicRoomTextField.text = topicName
+            currentRoomData.topicName = topicName
+            
+            newEditRoomData = currentRoomData // set data
+        }
     }
     
     @IBAction func saveAction(_ sender: Any) {
