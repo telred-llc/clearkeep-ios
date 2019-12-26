@@ -94,7 +94,16 @@ extension CKAPIClient {
 extension CKAPIClient {
     
     @discardableResult
-    func getCurrentVersion(_ model: CKAppVersion.Request) -> Promise<CKAppVersion.Response> {
+    func getCurrentVersion(_ model: CKAppVersion.Request, showSpinnerHandler: (() -> Void)) -> Promise<CKAppVersion.Response> {
+        
+        showSpinnerHandler()
+        
+        return request(.get, "/api/version/get-current-version", parameters: model.toParams(), encoding: URLEncoding.queryString).responseTask()
+    }
+    
+    @discardableResult
+    func getCurrentVersiosn(_ model: CKAppVersion.Request, completion: (() -> Void)) -> Promise<CKAppVersion.Response> {
+        completion()
         return request(.get, "/api/version/get-current-version", parameters: model.toParams(), encoding: URLEncoding.queryString).responseTask()
     }
 }
