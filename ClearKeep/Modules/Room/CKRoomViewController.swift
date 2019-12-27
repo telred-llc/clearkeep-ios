@@ -1001,16 +1001,15 @@ extension CKRoomViewController {
                 print("Sync room members failed again")
             })
             isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && (joinedMembers >= 2)
+            let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
+            if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource?.roomId) {
+                // there is an active call in this room
+            } else {
+                // Hide the call button if there is an active call in another room
+                isSupportCallOption = isSupportCallOption && (AppDelegate.the()?.callStatusBarWindow == nil)
+            }
+            return isSupportCallOption
         }
-//        isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && ((self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2)
-        let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
-        if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource?.roomId) {
-            // there is an active call in this room
-        } else {
-            // Hide the call button if there is an active call in another room
-            isSupportCallOption = isSupportCallOption && (AppDelegate.the()?.callStatusBarWindow == nil)
-        }
-        
         return isSupportCallOption
     }
     
