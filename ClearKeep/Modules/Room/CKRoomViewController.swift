@@ -990,7 +990,7 @@ extension CKRoomViewController {
         // Check whether the call option is supported
         var isSupportCallOption : Bool = false
         var joinedMembers : UInt = 0
-        roomDataSource?.room.members({ (members) in
+        roomDataSource?.room?.members({ (members) in
             if let newJoinedCount = members?.joinedMembers.count {
                 joinedMembers = UInt(newJoinedCount)
             }

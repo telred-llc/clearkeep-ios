@@ -147,12 +147,13 @@ extension CKContactListViewController {
             
             // assign fms to oms
             self.filteredMatrixSource = self.originalMatrixSource.sorted(by: { (a, b) -> Bool in
-                a.displayName < b.displayName
+                return a.displayName < b.displayName
             })
             
             let groupedDictionary = Dictionary(grouping: self.filteredMatrixSource, by: {$0.displayName.uppercased().prefix(1)})
-            let keys = groupedDictionary.keys.sorted()
             
+            let keys = groupedDictionary.keys.sorted()
+
             self.sections = keys.map{ Section(letter: String($0), contacts: groupedDictionary[$0]!) }
             
         }
@@ -223,7 +224,8 @@ extension CKContactListViewController: UITableViewDelegate {
                     self.stopActivityIndicator()
                 })
             }
-        }    }
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -243,6 +245,12 @@ extension CKContactListViewController: UITableViewDataSource {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: CKContactListMatrixCell.identifier, for: indexPath) as! CKContactListMatrixCell
         let section = sections[indexPath.section]
         let contacts = section.contacts[indexPath.row]
+        for i in section.contacts{
+            print(i.displayName)
+            
+            
+            
+        }
         cell.displayNameLabel.text = contacts.displayName
         cell.setAvatarUri(
             contacts.matrixAvatarURL,
