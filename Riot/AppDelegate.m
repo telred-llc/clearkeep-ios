@@ -3689,6 +3689,8 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
 
 - (void)addCallStatusBar:(NSString*)buttonTitle
 {
+    UIApplication *app = [UIApplication sharedApplication];
+    CGFloat topPadding = app.keyWindow.safeAreaInsets.top;
     // Add a call status bar
     CGSize topBarSize = CGSizeMake([[UIScreen mainScreen] bounds].size.width, CALL_STATUS_BAR_HEIGHT);
     
@@ -3698,6 +3700,10 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     // Create statusBarButton
     _callStatusBarButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _callStatusBarButton.frame = CGRectMake(0, 0, topBarSize.width, topBarSize.height);
+    
+    if (topPadding >= 24){
+        [_callStatusBarButton setTitleEdgeInsets:UIEdgeInsetsMake(topPadding - 10, 0.0f, 0.0f, 0.0f)];
+    }
     
     [_callStatusBarButton setTitle:buttonTitle forState:UIControlStateNormal];
     [_callStatusBarButton setTitle:buttonTitle forState:UIControlStateHighlighted];
@@ -3800,10 +3806,12 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     UIApplication *app = [UIApplication sharedApplication];
     UIViewController *rootController = app.keyWindow.rootViewController;
     
+    CGFloat topPadding = app.keyWindow.safeAreaInsets.top;
+    
     // Refresh the root view controller frame
     CGRect rootControllerFrame = [[UIScreen mainScreen] bounds];
     
-    if (_callStatusBarWindow)
+    ;    if (_callStatusBarWindow)
     {
         UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
         
@@ -3824,14 +3832,23 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
             default:
             {
                 _callStatusBarWindow.transform = CGAffineTransformIdentity;
-                _callStatusBarWindow.frame = CGRectMake(0, 0, rootControllerFrame.size.width, CALL_STATUS_BAR_HEIGHT);
+                if (topPadding >= 24) {
+                    _callStatusBarWindow.frame = CGRectMake(0, 0, rootControllerFrame.size.width, CALL_STATUS_BAR_HEIGHT + (topPadding - 24));
+                } else {
+                    _callStatusBarWindow.frame = CGRectMake(0, 0, rootControllerFrame.size.width, CALL_STATUS_BAR_HEIGHT);
+                }
                 break;
             }
         }
         
         // Apply the vertical offset due to call status bar
-        rootControllerFrame.origin.y = CALL_STATUS_BAR_HEIGHT;
-        rootControllerFrame.size.height -= CALL_STATUS_BAR_HEIGHT;
+        if (topPadding > 24) {
+            rootControllerFrame.origin.y = CALL_STATUS_BAR_HEIGHT + (topPadding - 24);
+            rootControllerFrame.size.height -= CALL_STATUS_BAR_HEIGHT + (topPadding - 20);
+        } else {
+            rootControllerFrame.origin.y = CALL_STATUS_BAR_HEIGHT;
+            rootControllerFrame.size.height -= CALL_STATUS_BAR_HEIGHT;
+        }
     }
     
     rootController.view.frame = rootControllerFrame;

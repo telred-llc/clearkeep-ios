@@ -295,6 +295,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.navigationController?.presentationController?.delegate = self
         
         self.reloadTableView()
+        AppDelegate.the()?.statusBarDidChangeFrame()
     }
     
     deinit {
