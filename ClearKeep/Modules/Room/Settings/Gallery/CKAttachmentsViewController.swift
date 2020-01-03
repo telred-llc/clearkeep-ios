@@ -39,6 +39,9 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
     Navigation bar handling
     */
     var navigationBarDisplayTimer: Timer?
+    
+    
+    var currentAVPlayer: AVPlayer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +51,8 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
         
 //        self.navigationBar.frame.origin.y = self.safeArea.top == 44 ? self.safeArea.top : 0 // fix origin frame
         setupNavigationBar(color: .black)
+        NotificationCenter.default.addObserver(self, selector: #selector(appEnteredBackgound), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appEnteredForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
 
     private func bindingTheme() {
@@ -60,14 +65,44 @@ class CKAttachmentsViewController: MXKAttachmentsViewController {
         }).disposed(by: disposeBag)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.currentAVPlayer = nil
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // fixbug: CK 309 - app crash when touch search button
         // -- release CKAttachmentsViewController before dismiss display
         self.destroy()
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     
     
+}
+
+extension CKAttachmentsViewController {
+    
+    @objc func appEnteredBackgound() {
+        if let tracks = currentAVPlayer?.currentItem?.tracks {
+            for track in tracks {
+                if (track.assetTrack.hasMediaCharacteristic(AVMediaCharacteristic.visual)) {
+                    track.isEnabled = false
+                }
+            }
+        }
+    }
+
+    @objc func appEnteredForeground() {
+        if let tracks = currentAVPlayer?.currentItem?.tracks {
+            for track in tracks {
+                if (track.assetTrack.hasMediaCharacteristic(AVMediaCharacteristic.visual)) {
+                    track.isEnabled = true
+                }
+            }
+        }
+    }
 }
 
 extension CKAttachmentsViewController {
@@ -110,6 +145,8 @@ extension CKAttachmentsViewController {
                     if selectedCell.movieAVPlayer == nil {
                         
                         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                        try? AVAudioSession.sharedInstance().setActive(true)
+                            
                         selectedCell.movieAVPlayer = AVPlayerViewController()
                         
                         if selectedCell.movieAVPlayer != nil {
@@ -199,7 +236,8 @@ extension CKAttachmentsViewController {
                                     selectedCell.centerIcon.isHidden = true
                                     
                                     let playerURL = URL(fileURLWithPath: self.videoFile)
-                                    selectedCell.movieAVPlayer.player = AVPlayer(url: playerURL)
+                                    self.currentAVPlayer = AVPlayer(url: playerURL)
+                                    selectedCell.movieAVPlayer.player = self.currentAVPlayer
                                     selectedCell.movieAVPlayer.player?.allowsExternalPlayback = false
                                     selectedCell.movieAVPlayer.player?.usesExternalPlaybackWhileExternalScreenIsActive = false
                                     selectedCell.movieAVPlayer.player?.play()
