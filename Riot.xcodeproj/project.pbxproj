@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1803D92F23B0C9FB007A14D9 /* SerializationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803D92D23B0C9FB007A14D9 /* SerializationService.swift */; };
-		1803D93023B0C9FB007A14D9 /* SerializationServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803D92E23B0C9FB007A14D9 /* SerializationServiceType.swift */; };
 		24CBEC591F0EAD310093EABB /* RiotShareExtension-Dev.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 24CBEC4E1F0EAD310093EABB /* RiotShareExtension-Dev.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		24EEE5A21F23A8B400B3C705 /* MXRoom+Riot.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BBE81E7009EC00A9B29C /* MXRoom+Riot.m */; };
 		24EEE5A31F23A8C300B3C705 /* AvatarGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F083BC111E7009EC00A9B29C /* AvatarGenerator.m */; };
@@ -1512,8 +1510,6 @@
 
 /* Begin PBXFileReference section */
 		109F7C862A4D67CA0B12F408 /* Pods-RiotPods-Riot-Prod.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-Riot-Prod.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod.release.xcconfig"; sourceTree = "<group>"; };
-		1803D92D23B0C9FB007A14D9 /* SerializationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializationService.swift; sourceTree = "<group>"; };
-		1803D92E23B0C9FB007A14D9 /* SerializationServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializationServiceType.swift; sourceTree = "<group>"; };
 		230A4E332C11035BBE0615E2 /* Pods-RiotPods-Riot-Prod.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiotPods-Riot-Prod.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiotPods-Riot-Prod/Pods-RiotPods-Riot-Prod.debug.xcconfig"; sourceTree = "<group>"; };
 		24CBEC4E1F0EAD310093EABB /* RiotShareExtension-Dev.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "RiotShareExtension-Dev.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2510A69B4A681C1FEC36E848 /* Pods_RiotPods_Riot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiotPods_Riot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4648,7 +4644,6 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
-  
 		D3FA9C0723570EB100FB0BD1 /* EmojiMart */ = {
 			isa = PBXGroup;
 			children = (
@@ -6737,7 +6732,6 @@
 				E5C0B9A221CA37E500910D8B /* CkLoginViewController.swift in Sources */,
 				853174C722BDF09D0092F73D /* CKSearchBar+Extension.swift in Sources */,
 				D3FA9BBF2356EF8E00FB0BD1 /* EmojiPickerViewModel.swift in Sources */,
-				1803D93023B0C9FB007A14D9 /* SerializationServiceType.swift in Sources */,
 				851BC3C822FC84E000291AA0 /* CKRoomFilesSearchDataSource..swift in Sources */,
 				D372A81123694E6000CF79D3 /* CKCustomTextField.swift in Sources */,
 				D3FA9BB72356EF8E00FB0BD1 /* EmojiPickerViewController.swift in Sources */,
@@ -7063,7 +7057,6 @@
 				B16932E720F3C37100746532 /* HomeMessagesSearchDataSource.m in Sources */,
 				B1B558CE20EF768F00210D55 /* RoomOutgoingEncryptedAttachmentBubbleCell.m in Sources */,
 				B1B5577D20EE84BF00210D55 /* CircleButton.m in Sources */,
-				1803D92F23B0C9FB007A14D9 /* SerializationService.swift in Sources */,
 				B1B558FF20EF768F00210D55 /* RoomIncomingTextMsgBubbleCell.m in Sources */,
 				B1B5591020EF782800210D55 /* TableViewCellWithPhoneNumberTextField.m in Sources */,
 				D3FA9C2123572AD400FB0BD1 /* RoomBubbleCellLayout.swift in Sources */,
