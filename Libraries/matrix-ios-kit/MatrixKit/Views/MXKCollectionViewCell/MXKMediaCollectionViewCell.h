@@ -20,6 +20,8 @@
 
 #import "MXKImageView.h"
 
+#import <AVKit/AVKit.h>
+
 /**
  'MXKMediaCollectionViewCell' class is used to display picture or video thumbnail.
  */
@@ -36,6 +38,11 @@
  A potential player used in the cell.
  */
 @property (nonatomic) MPMoviePlayerController *moviePlayer;
+
+/**
+ CK 646: A potential player used in the cell, support >= ios 13
+ */
+@property (nonatomic) AVPlayerViewController *movieAVPlayer;
 
 /**
  A potential observer used to update cell display.
