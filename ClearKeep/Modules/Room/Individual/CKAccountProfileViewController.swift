@@ -361,6 +361,7 @@ class CKAccountProfileViewController: MXKViewController {
                 let myPickerController = UIImagePickerController()
                 myPickerController.sourceType = .camera
                 myPickerController.delegate = self;
+                
                 self?.present(myPickerController, animated: true, completion: nil)
             }
         }))
@@ -369,8 +370,8 @@ class CKAccountProfileViewController: MXKViewController {
             let imagePickerController = UIImagePickerController()
             imagePickerController.sourceType = .photoLibrary
             imagePickerController.delegate = self
+            imagePickerController.modalPresentationStyle = .currentContext
             self?.present(imagePickerController, animated: true, completion: nil)
-
         }))
         
         optionAlert.addAction(UIAlertAction.init(title: CKLocalization.string(byKey: "cancel"), style: .cancel, handler: { (action) in
@@ -494,7 +495,7 @@ extension CKAccountProfileViewController: SignOutAlertPresenterDelegate {
             // Enable the button and stop activity indicator
             self?.removeSpinner()
             self?.signOutButton?.isEnabled = true
-
+ 
             if isLoggedOut {
                 CKRoomCacheManager.shared.clearAllCachedData()
                 CKKeyBackupRecoverManager.shared.destroy()

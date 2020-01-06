@@ -3703,6 +3703,8 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     
     if (topPadding >= 24){
         [_callStatusBarButton setTitleEdgeInsets:UIEdgeInsetsMake(topPadding - 10, 0.0f, 0.0f, 0.0f)];
+    } else {
+        [_callStatusBarButton setTitleEdgeInsets:UIEdgeInsetsMake(topPadding - 5.0f, 0.0f, 0.0f, 0.0f)];
     }
     
     [_callStatusBarButton setTitle:buttonTitle forState:UIControlStateNormal];
@@ -3850,7 +3852,6 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
             rootControllerFrame.size.height -= CALL_STATUS_BAR_HEIGHT;
         }
     }
-    
     rootController.view.frame = rootControllerFrame;
     if (rootController.presentedViewController)
     {

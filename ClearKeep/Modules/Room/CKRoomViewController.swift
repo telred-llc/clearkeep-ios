@@ -326,9 +326,7 @@ extension CKRoomViewController {
         if self.roomInputToolbarContainerBottomConstraint.constant == 0 {
             self.view.endEditing(true)
         }
-        if isCallingInRoom() {
-            AppDelegate.the()?.statusBarDidChangeFrame()
-        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -2207,7 +2205,7 @@ extension CKRoomViewController {
             }
 
             // present nvc
-//            nvc.modalPresentationStyle = .popover
+            nvc.modalPresentationStyle = .currentContext
             self.present(nvc, animated: true, completion: nil)
         }
     }

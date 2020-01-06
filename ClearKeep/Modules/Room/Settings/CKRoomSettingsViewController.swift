@@ -283,6 +283,7 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.registerKeyboardNotification()
         
         self.edgesForExtendedLayout = []
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -296,6 +297,11 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         
         self.reloadTableView()
         AppDelegate.the()?.statusBarDidChangeFrame()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        AppDelegate.the()?.statusBarDidChangeFrame()
+        super.viewDidDisappear(animated)
     }
     
     deinit {
