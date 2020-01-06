@@ -62,7 +62,7 @@ final class CKRecentItemInvitationCell: MXKTableViewCell {
         super.awakeFromNib()
                 
         self.declineButton.addTarget(self, action: #selector(declineOnPress(_:)) , for: .touchUpInside)
-        self.joinButton.addTarget(self, action: #selector(joinOnPress(_:)) , for: .touchUpInside)
+        self.joinButton.addTarget(self, action: #selector(   joinOnPress(_:)) , for: .touchUpInside)
         self.contentView.theme.backgroundColor = themeService.attrStream{ $0.primaryBgColor }        
         self.statusView.layer.cornerRadius = self.statusView.bounds.height / 2
         self.statusView.layer.borderColor = UIColor.white.cgColor

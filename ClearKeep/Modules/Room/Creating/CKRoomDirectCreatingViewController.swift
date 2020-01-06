@@ -289,7 +289,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
      Make a direct chat
      */
     private func directChat(atIndexPath indexPath: IndexPath) {
-        
+        self.tableView.allowsSelection = false
         // in range
         if suggestedDataSource.count > indexPath.row {
             
@@ -310,8 +310,13 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
                     
                     // dismiss
                     if success == true { self.clickedOnBackButton(nil)}
+                    self.tableView.allowsSelection = true
                 })
+            } else {
+                self.tableView.allowsSelection = true
             }
+        } else {
+            self.tableView.allowsSelection = true
         }
     }
     
@@ -326,7 +331,7 @@ final class CKRoomDirectCreatingViewController: MXKViewController {
             // re-update
             for u in results {
                 if let c = MXKContact(matrixContactWithDisplayName: u.displayname, andMatrixID: u.userId) {
-                    self.suggestedDataSource.append(c)
+                    self.suggestedDataSource.append(c)   
                 }
             }
             

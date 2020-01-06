@@ -407,7 +407,8 @@ private extension CKRecentListViewController {
 
         // join
         cell.joinOnPressHandler = {
-            
+            cell.joinButton.isEnabled = false
+            cell.isUserInteractionEnabled = false
             // session
             var ms: MXSession! = self.mainSession
             
@@ -431,12 +432,16 @@ private extension CKRecentListViewController {
                     // got error
                     if let error = response.error {
                         let errorMessage = error.localizedDescription == "No known servers" ? Bundle.mxk_localizedString(forKey: "room_error_join_failed_empty_room") : error.localizedDescription
-                        self.showAlert(errorMessage ?? "") 
+                        self.showAlert(errorMessage ?? "")
+                        cell.joinButton.isEnabled = true
+                        cell.isUserInteractionEnabled = true
                     } else {
                         
                         // select room
                         AppDelegate.the()?.masterTabBarController.selectRoom(withId: cellData.roomSummary?.roomId, andEventId: nil, inMatrixSession: cellData.roomSummary?.mxSession) {
                             cellData.roomSummary?.mxSession.markAllMessagesAsRead()
+                            cell.joinButton.isEnabled = true
+                            cell.isUserInteractionEnabled = true
                         }
                     }
                 }
