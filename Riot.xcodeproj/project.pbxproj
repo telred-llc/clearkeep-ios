@@ -7335,7 +7335,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.shareExtension;
 				PRODUCT_NAME = RiotShareExtension;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7377,7 +7377,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep.shareExtension;
 				PRODUCT_NAME = RiotShareExtension;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7427,7 +7427,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep;
 				PRODUCT_NAME = Riot;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7477,7 +7477,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.telred.clearkeep;
 				PRODUCT_NAME = Riot;
 				PROVISIONING_PROFILE_SPECIFIER = "";
