@@ -2831,7 +2831,8 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                                                                             queue:[NSOperationQueue mainQueue]
                                                                        usingBlock:^(NSNotification *notif)
     {
-        
+
+        [self checkMediaPermission:currentCallViewController];
         // One more check leak vc
         if ([currentCallViewController mxCall].state == MXCallStateEnded ) {
             currentCallViewController = nil;
@@ -2890,18 +2891,17 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                                                                                      object:mxCall
                                                                                       queue:nil
                                                                                  usingBlock:^(NSNotification * _Nonnull note) {
-                                                                                     MXCall *call = (MXCall *)note.object;
-
-                                                                                     NSLog(@"[AppDelegate] call.state: %@", call);
-
-                                                                                     if (call.state == MXCallStateCreateAnswer)
-                                                                                     {
-                                                                                         [notificationCenter removeObserver:token];
-
-                                                                                         NSLog(@"[AppDelegate] presentCallViewController");
-                                                                                         [self presentCallViewController:NO completion:nil];
-                                                                                     }
-                                                                                 }];
+                    MXCall *call = (MXCall *)note.object;
+                    NSLog(@"[AppDelegate] call.state: %@", call);
+                    if (call.state == MXCallStateCreateAnswer)
+                    {
+                        [notificationCenter removeObserver:token];
+                        
+                        NSLog(@"[AppDelegate] presentCallViewController");
+                        [self presentCallViewController:NO completion:nil];
+                    }
+                }];
+                
             }
             else
             {
@@ -4303,5 +4303,14 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
         // do nothing, this observer wasn't registered
     }
 }
+#pragma mark - Check media permission
+
+-(void) checkMediaPermission:(UIViewController *)viewController{
+    NSString *appDisplayName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+    NSString *messagesForAudio = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"microphone_access_not_granted_for_call"], appDisplayName];
+    [MXKTools checkAccessForCall:NO manualChangeMessageForAudio:messagesForAudio manualChangeMessageForVideo:@"" showPopUpInViewController:viewController completionHandler:^(BOOL granted) {
+    }];
+}
+
 
 @end
