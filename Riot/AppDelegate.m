@@ -2832,7 +2832,6 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                                                                        usingBlock:^(NSNotification *notif)
     {
 
-        [self checkMediaPermission:currentCallViewController];
         // One more check leak vc
         if ([currentCallViewController mxCall].state == MXCallStateEnded ) {
             currentCallViewController = nil;
@@ -2881,27 +2880,40 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                                                                                      }
                                                                                  }];
             }
-
+            
             if (mxCall.isIncoming && isCallKitEnabled)
             {
                 // Let's CallKit display the system incoming call screen
                 // Show the callVC only after the user answered the call
-                __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
-                                                                                     object:mxCall
-                                                                                      queue:nil
-                                                                                 usingBlock:^(NSNotification * _Nonnull note) {
-                    MXCall *call = (MXCall *)note.object;
-                    NSLog(@"[AppDelegate] call.state: %@", call);
-                    if (call.state == MXCallStateCreateAnswer)
-                    {
-                        [notificationCenter removeObserver:token];
-                        
-                        NSLog(@"[AppDelegate] presentCallViewController");
-                        [self presentCallViewController:NO completion:nil];
+                NSString *appDisplayName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+                NSString *messagesForAudio = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"microphone_access_not_granted_for_call"], appDisplayName];
+                NSString *messagesForVideo = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"camera_access_not_granted_for_call"], appDisplayName];
+                [self checkMediaPermission:self.window.rootViewController messForAudio:messagesForAudio messForVideo:messagesForVideo completion:^(BOOL granted) {
+                    if (granted){
+                        __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                        __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
+                                                                                             object:mxCall
+                                                                                              queue:nil
+                                                                                         usingBlock:^(NSNotification * _Nonnull note) {
+                            MXCall *call = (MXCall *)note.object;
+                            NSLog(@"[AppDelegate] call.state: %@", call);
+                            if (call.state == MXCallStateCreateAnswer)
+                            {
+                                [notificationCenter removeObserver:token];
+                                
+                                NSLog(@"[AppDelegate] presentCallViewController");
+                                [self presentCallViewController:NO completion:nil];
+                            }
+                        }];
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [mxCall hangup];
+                            [MXKTools checkAccessForMediaType:AVMediaTypeAudio manualChangeMessage:messagesForAudio showPopUpInViewController:self.window.rootViewController completionHandler:^(BOOL granted) {
+                                
+                            }];
+                        });
                     }
                 }];
-                
             }
             else
             {
@@ -4305,12 +4317,35 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
 }
 #pragma mark - Check media permission
 
--(void) checkMediaPermission:(UIViewController *)viewController{
-    NSString *appDisplayName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
-    NSString *messagesForAudio = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"microphone_access_not_granted_for_call"], appDisplayName];
-    [MXKTools checkAccessForCall:NO manualChangeMessageForAudio:messagesForAudio manualChangeMessageForVideo:@"" showPopUpInViewController:viewController completionHandler:^(BOOL granted) {
-    }];
+-(void) checkMediaPermission: (UIViewController *)viewController messForAudio: (NSString *)messagesForAudio messForVideo:(NSString *) messagesForVideo completion:(void (^)(BOOL granted))completion{
+    
+    switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio]) {
+        {
+        case AVAuthorizationStatusDenied:
+            completion(NO);
+            break;
+        }
+        case AVAuthorizationStatusAuthorized:
+            completion(YES);
+            break;
+        {
+        default:
+//            [MXKTools checkAccessForCall:YES manualChangeMessageForAudio:messagesForAudio manualChangeMessageForVideo:messagesForVideo showPopUpInViewController:viewController completionHandler:^(BOOL granted) {
+//                if (granted){
+//                    completion(YES);
+//                } else {
+//                    completion(NO);
+//                }
+//            }];
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
+                if (granted){
+                    completion(YES);
+                } else {
+                    completion(NO);
+                }
+            }];
+            break;
+        }
+    }
 }
-
-
 @end
