@@ -2887,8 +2887,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                 // Show the callVC only after the user answered the call
                 NSString *appDisplayName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
                 NSString *messagesForAudio = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"microphone_access_not_granted_for_call"], appDisplayName];
-                NSString *messagesForVideo = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"camera_access_not_granted_for_call"], appDisplayName];
-                [self checkMediaPermission:self.window.rootViewController messForAudio:messagesForAudio messForVideo:messagesForVideo completion:^(BOOL granted) {
+                [self checkMediaPermission:self.window.rootViewController messForAudio:messagesForAudio completion:^(BOOL granted) {
                     if (granted){
                         __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                         __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
@@ -2907,9 +2906,11 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                         }];
                     } else {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [mxCall hangup];
-                            [MXKTools checkAccessForMediaType:AVMediaTypeAudio manualChangeMessage:messagesForAudio showPopUpInViewController:self.window.rootViewController completionHandler:^(BOOL granted) {
-                                
+                            [mxCall terminateWithReason:nil];
+                            [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio completion:^(BOOL granted) {
+                                if (granted == NO){
+                                    [mxCall forceHangup];
+                                }
                             }];
                         });
                     }
@@ -4317,7 +4318,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
 }
 #pragma mark - Check media permission
 
--(void) checkMediaPermission: (UIViewController *)viewController messForAudio: (NSString *)messagesForAudio messForVideo:(NSString *) messagesForVideo completion:(void (^)(BOOL granted))completion{
+-(void) checkMediaPermission: (UIViewController *)viewController messForAudio: (NSString *)messagesForAudio completion:(void (^)(BOOL granted))completion{
     
     switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio]) {
         {
@@ -4330,13 +4331,6 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
             break;
         {
         default:
-//            [MXKTools checkAccessForCall:YES manualChangeMessageForAudio:messagesForAudio manualChangeMessageForVideo:messagesForVideo showPopUpInViewController:viewController completionHandler:^(BOOL granted) {
-//                if (granted){
-//                    completion(YES);
-//                } else {
-//                    completion(NO);
-//                }
-//            }];
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
                 if (granted){
                     completion(YES);
@@ -4347,5 +4341,38 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
             break;
         }
     }
+}
+-(void)displayAlertView: (UIViewController *)viewController messForAudio:(NSString *)manualChangeMessage completion:(void (^)(BOOL granted))handler {
+    // Access not granted to mediaType
+    // Display manualChangeMessage
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:manualChangeMessage preferredStyle:UIAlertControllerStyleAlert];
+    
+    // On iOS >= 8, add a shortcut to the app settings (This requires the shared application instance)
+    UIApplication *sharedApplication = [UIApplication performSelector:@selector(sharedApplication)];
+    if (sharedApplication && UIApplicationOpenSettingsURLString)
+    {
+        [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"settings"]
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+            
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            [sharedApplication performSelector:@selector(openURL:) withObject:url];
+            
+            // Note: it does not worth to check if the user changes the permission
+            // because iOS restarts the app in case of change of app privacy settings
+            handler(NO);
+            
+        }]];
+    }
+    
+    [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action) {
+        
+        handler(NO);
+        
+    }]];
+    
+    [viewController presentViewController:alert animated:YES completion:nil];
 }
 @end

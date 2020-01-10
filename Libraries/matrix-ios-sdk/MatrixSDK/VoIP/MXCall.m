@@ -455,6 +455,17 @@ NSString *const kMXCallStateDidChange = @"kMXCallStateDidChange";
         }];
     }
 }
+-(void) forceHangup {
+    // Send the hangup event
+    NSDictionary *content = @{
+        @"call_id": _callId,
+        @"version": @(0)
+    };
+    [_callSignalingRoom sendEventOfType:kMXEventTypeStringCallHangup content:content localEcho:nil success:nil failure:^(NSError *error) {
+        NSLog(@"[MXCall] hangup: ERROR: Cannot send m.call.hangup event.");
+        [self didEncounterError:error];
+    }];
+}
 
 
 #pragma marl - Properties
