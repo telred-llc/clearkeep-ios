@@ -3076,7 +3076,7 @@ extension CKRoomViewController {
             
             self.roomInputToolbarContainerBottomConstraint.constant = 0
         }) { (finish) in
-            self.view.endEditing(true)
+//            self.view.endEditing(true)
         }
         
     }

@@ -2887,26 +2887,27 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                 // Show the callVC only after the user answered the call
                 NSString *appDisplayName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
                 NSString *messagesForAudio = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"microphone_access_not_granted_for_call"], appDisplayName];
+                __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
+                                                                                     object:mxCall
+                                                                                      queue:nil
+                                                                                 usingBlock:^(NSNotification * _Nonnull note) {
+                    MXCall *call = (MXCall *)note.object;
+                    NSLog(@"[AppDelegate] call.state: %@", call);
+                    if (call.state == MXCallStateCreateAnswer)
+                    {
+                        [notificationCenter removeObserver:token];
+                        
+                        NSLog(@"[AppDelegate] presentCallViewController");
+                        [self presentCallViewController:NO completion:nil];
+                    }
+                }];
                 [self checkMediaPermission:self.window.rootViewController messForAudio:messagesForAudio completion:^(BOOL granted) {
-                    if (granted){
-                        __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                        __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
-                                                                                             object:mxCall
-                                                                                              queue:nil
-                                                                                         usingBlock:^(NSNotification * _Nonnull note) {
-                            MXCall *call = (MXCall *)note.object;
-                            NSLog(@"[AppDelegate] call.state: %@", call);
-                            if (call.state == MXCallStateCreateAnswer)
-                            {
-                                [notificationCenter removeObserver:token];
-                                
-                                NSLog(@"[AppDelegate] presentCallViewController");
-                                [self presentCallViewController:NO completion:nil];
-                            }
-                        }];
-                    } else {
-                        [mxCall terminateWithReason:nil];
-                        [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio];
+                    if(granted == NO) {
+                        dispatch_after(dispatch_walltime(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                            [mxCall terminateWithReason:nil];
+                            [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio];
+                        });
                     }
                 }];
             }
