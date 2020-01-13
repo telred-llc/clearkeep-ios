@@ -106,7 +106,7 @@ extern NSString *const kMXCallStateDidChange;
  @param event the call event coming from the event stream.
  */
 - (void)handleCallEvent:(MXEvent *)event;
-
+- (void)terminateWithReason:(MXEvent *)event;
 
 #pragma mark - Controls
 /**
@@ -123,7 +123,6 @@ extern NSString *const kMXCallStateDidChange;
  Hang up a call in progress or reject an incoming call.
  */
 - (void)hangup;
-
 
 #pragma mark - Properties
 /**

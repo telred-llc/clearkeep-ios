@@ -735,26 +735,26 @@ static NSMutableDictionary* backgroundByImageNameDict;
                 if (sharedApplication && UIApplicationOpenSettingsURLString)
                 {
                     [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"settings"]
-                                                                     style:UIAlertActionStyleDefault
-                                                                   handler:^(UIAlertAction * action) {
-                                                                       
-                                                                       NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                       [sharedApplication performSelector:@selector(openURL:) withObject:url];
-                                                                       
-                                                                       // Note: it does not worth to check if the user changes the permission
-                                                                       // because iOS restarts the app in case of change of app privacy settings
-                                                                       handler(NO);
-                                                                       
-                                                                   }]];
+                                                              style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction * action) {
+                        
+                        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                        [sharedApplication performSelector:@selector(openURL:) withObject:url];
+                        
+                        // Note: it does not worth to check if the user changes the permission
+                        // because iOS restarts the app in case of change of app privacy settings
+                        handler(NO);
+                        
+                    }]];
                 }
                 
                 [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
                                                           style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction * action) {
-                                                            
-                                                            handler(NO);
-                                                            
-                                                        }]];
+                    
+                    handler(NO);
+                    
+                }]];
                 
                 [viewController presentViewController:alert animated:YES completion:nil];
             }

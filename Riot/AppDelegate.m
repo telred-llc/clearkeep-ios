@@ -2831,7 +2831,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                                                                             queue:[NSOperationQueue mainQueue]
                                                                        usingBlock:^(NSNotification *notif)
     {
-        
+
         // One more check leak vc
         if ([currentCallViewController mxCall].state == MXCallStateEnded ) {
             currentCallViewController = nil;
@@ -2880,28 +2880,35 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                                                                                      }
                                                                                  }];
             }
-
+            
             if (mxCall.isIncoming && isCallKitEnabled)
             {
                 // Let's CallKit display the system incoming call screen
                 // Show the callVC only after the user answered the call
-                __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
-                                                                                     object:mxCall
-                                                                                      queue:nil
-                                                                                 usingBlock:^(NSNotification * _Nonnull note) {
-                                                                                     MXCall *call = (MXCall *)note.object;
-
-                                                                                     NSLog(@"[AppDelegate] call.state: %@", call);
-
-                                                                                     if (call.state == MXCallStateCreateAnswer)
-                                                                                     {
-                                                                                         [notificationCenter removeObserver:token];
-
-                                                                                         NSLog(@"[AppDelegate] presentCallViewController");
-                                                                                         [self presentCallViewController:NO completion:nil];
-                                                                                     }
-                                                                                 }];
+                NSString *appDisplayName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+                NSString *messagesForAudio = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"microphone_access_not_granted_for_call"], appDisplayName];
+                [self checkMediaPermission:self.window.rootViewController messForAudio:messagesForAudio completion:^(BOOL granted) {
+                    if (granted){
+                        __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                        __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
+                                                                                             object:mxCall
+                                                                                              queue:nil
+                                                                                         usingBlock:^(NSNotification * _Nonnull note) {
+                            MXCall *call = (MXCall *)note.object;
+                            NSLog(@"[AppDelegate] call.state: %@", call);
+                            if (call.state == MXCallStateCreateAnswer)
+                            {
+                                [notificationCenter removeObserver:token];
+                                
+                                NSLog(@"[AppDelegate] presentCallViewController");
+                                [self presentCallViewController:NO completion:nil];
+                            }
+                        }];
+                    } else {
+                        [mxCall terminateWithReason:nil];
+                        [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio];
+                    }
+                }];
             }
             else
             {
@@ -4303,5 +4310,60 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
         // do nothing, this observer wasn't registered
     }
 }
+#pragma mark - Check media permission
 
+-(void) checkMediaPermission: (UIViewController *)viewController messForAudio: (NSString *)messagesForAudio completion:(void (^)(BOOL granted))completion{
+    
+    switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio]) {
+        {
+        case AVAuthorizationStatusDenied:
+            completion(NO);
+            break;
+        }
+        case AVAuthorizationStatusAuthorized:
+            completion(YES);
+            break;
+        {
+        default:
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
+                if (granted){
+                    completion(YES);
+                } else {
+                    completion(NO);
+                }
+            }];
+            break;
+        }
+    }
+}
+-(void)displayAlertView: (UIViewController *)viewController messForAudio:(NSString *)manualChangeMessage {
+    // Access not granted to mediaType
+    // Display manualChangeMessage
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:manualChangeMessage preferredStyle:UIAlertControllerStyleAlert];
+    
+    // On iOS >= 8, add a shortcut to the app settings (This requires the shared application instance)
+    UIApplication *sharedApplication = [UIApplication performSelector:@selector(sharedApplication)];
+    if (sharedApplication && UIApplicationOpenSettingsURLString)
+    {
+        [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"settings"]
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+            
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            [sharedApplication performSelector:@selector(openURL:) withObject:url];
+            
+            // Note: it does not worth to check if the user changes the permission
+            // because iOS restarts the app in case of change of app privacy settings
+            
+        }]];
+    }
+    
+    [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action) {
+        
+    }]];
+    
+    [viewController presentViewController:alert animated:YES completion:nil];
+}
 @end
