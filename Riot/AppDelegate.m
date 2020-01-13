@@ -2905,14 +2905,8 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                             }
                         }];
                     } else {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [mxCall terminateWithReason:nil];
-                            [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio completion:^(BOOL granted) {
-                                if (granted == NO){
-                                    [mxCall forceHangup];
-                                }
-                            }];
-                        });
+                        [mxCall terminateWithReason:nil];
+                        [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio];
                     }
                 }];
             }
@@ -4342,7 +4336,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
         }
     }
 }
--(void)displayAlertView: (UIViewController *)viewController messForAudio:(NSString *)manualChangeMessage completion:(void (^)(BOOL granted))handler {
+-(void)displayAlertView: (UIViewController *)viewController messForAudio:(NSString *)manualChangeMessage {
     // Access not granted to mediaType
     // Display manualChangeMessage
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:manualChangeMessage preferredStyle:UIAlertControllerStyleAlert];
@@ -4360,7 +4354,6 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
             
             // Note: it does not worth to check if the user changes the permission
             // because iOS restarts the app in case of change of app privacy settings
-            handler(NO);
             
         }]];
     }
@@ -4368,8 +4361,6 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     [alert addAction:[UIAlertAction actionWithTitle:[NSBundle mxk_localizedStringForKey:@"ok"]
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * action) {
-        
-        handler(NO);
         
     }]];
     

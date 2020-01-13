@@ -123,11 +123,6 @@ extern NSString *const kMXCallStateDidChange;
  Hang up a call in progress or reject an incoming call.
  */
 - (void)hangup;
-/**
- Just sent event hangup
- */
-- (void)forceHangup;
-
 
 #pragma mark - Properties
 /**
