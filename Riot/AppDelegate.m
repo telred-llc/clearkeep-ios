@@ -2887,26 +2887,41 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                 // Show the callVC only after the user answered the call
                 NSString *appDisplayName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
                 NSString *messagesForAudio = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"microphone_access_not_granted_for_call"], appDisplayName];
-                [self checkMediaPermission:self.window.rootViewController messForAudio:messagesForAudio completion:^(BOOL granted) {
-                    if (granted){
-                        __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                        __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
-                                                                                             object:mxCall
-                                                                                              queue:nil
-                                                                                         usingBlock:^(NSNotification * _Nonnull note) {
-                            MXCall *call = (MXCall *)note.object;
-                            NSLog(@"[AppDelegate] call.state: %@", call);
-                            if (call.state == MXCallStateCreateAnswer)
-                            {
-                                [notificationCenter removeObserver:token];
-                                
-                                NSLog(@"[AppDelegate] presentCallViewController");
-                                [self presentCallViewController:NO completion:nil];
-                            }
+                NSString *messagesForVideo = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"camera_access_not_granted_for_call"], appDisplayName];
+                __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+                __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
+                                                                                     object:mxCall
+                                                                                      queue:nil
+                                                                                 usingBlock:^(NSNotification * _Nonnull note) {
+                    MXCall *call = (MXCall *)note.object;
+                    NSLog(@"[AppDelegate] call.state: %@", call);
+                    if (call.state == MXCallStateCreateAnswer)
+                    {
+                        [notificationCenter removeObserver:token];
+                        
+                        NSLog(@"[AppDelegate] presentCallViewController");
+                        [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
+                            [self presentCallViewController:NO completion:nil];
                         }];
-                    } else {
-                        [mxCall terminateWithReason:nil];
-                        [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio];
+                    }
+                }];
+                if (mxCall.isVideoCall) {
+                    [self checkMediaPermission:self.window.rootViewController mxCall:mxCall mediaType:AVMediaTypeVideo completion:^(BOOL granted) {
+                        
+                        if (granted == NO){
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [mxCall terminateWithReason:nil];
+                                [self displayAlertView:self.window.rootViewController messForAudio:messagesForVideo];
+                            });
+                        }
+                    }];
+                }
+                [self checkMediaPermission:self.window.rootViewController mxCall:mxCall mediaType:AVMediaTypeAudio completion:^(BOOL granted) {
+                    if (granted == NO){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [mxCall terminateWithReason:nil];
+                            [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio];
+                        });
                     }
                 }];
             }
@@ -4312,9 +4327,9 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
 }
 #pragma mark - Check media permission
 
--(void) checkMediaPermission: (UIViewController *)viewController messForAudio: (NSString *)messagesForAudio completion:(void (^)(BOOL granted))completion{
+-(void) checkMediaPermission: (UIViewController *)viewController mxCall:(MXCall *)mxCall mediaType:(NSString *)type completion:(void (^)(BOOL granted))completion{
     
-    switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio]) {
+    switch ([AVCaptureDevice authorizationStatusForMediaType:type]) {
         {
         case AVAuthorizationStatusDenied:
             completion(NO);
@@ -4329,6 +4344,9 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                 if (granted){
                     completion(YES);
                 } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [mxCall hangup];
+                    });
                     completion(NO);
                 }
             }];
@@ -4337,8 +4355,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     }
 }
 -(void)displayAlertView: (UIViewController *)viewController messForAudio:(NSString *)manualChangeMessage {
-    // Access not granted to mediaType
-    // Display manualChangeMessage
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:manualChangeMessage preferredStyle:UIAlertControllerStyleAlert];
     
     // On iOS >= 8, add a shortcut to the app settings (This requires the shared application instance)
@@ -4363,7 +4380,6 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                                             handler:^(UIAlertAction * action) {
         
     }]];
-    
     [viewController presentViewController:alert animated:YES completion:nil];
 }
 @end
