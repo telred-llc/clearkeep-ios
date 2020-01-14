@@ -278,7 +278,6 @@ import Foundation
             
             let cellData = bubbleCell.bubbleData as? RoomBubbleCellData
             let bubbleComponents = cellData?.bubbleComponents
-            
             // Display time for each message
             if bubbleCell.bubbleInfoContainer != nil {
 //                bubbleCell.addDateLabel(true) // don't add datatimeLabel when aviable on cell reactions

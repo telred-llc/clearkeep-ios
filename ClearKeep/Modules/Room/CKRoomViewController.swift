@@ -326,6 +326,7 @@ extension CKRoomViewController {
         if self.roomInputToolbarContainerBottomConstraint.constant == 0 {
             self.view.endEditing(true)
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -2205,7 +2206,7 @@ extension CKRoomViewController {
             }
 
             // present nvc
-//            nvc.modalPresentationStyle = .fullScreen
+            nvc.modalPresentationStyle = .currentContext
             self.present(nvc, animated: true, completion: nil)
         }
     }
