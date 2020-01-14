@@ -200,6 +200,6 @@ extern NSString *const kAppDelegateNetworkStatusDidChangeNotification;
  */
 - (void)observeKeybackupState;
 - (void)removeKeyBackupStateObserver;
-
+- (void)statusBarDidChangeFrame;
 @end
 

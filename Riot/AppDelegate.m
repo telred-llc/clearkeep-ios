@@ -2887,6 +2887,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                 // Show the callVC only after the user answered the call
                 NSString *appDisplayName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
                 NSString *messagesForAudio = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"microphone_access_not_granted_for_call"], appDisplayName];
+                NSString *messagesForVideo = [NSString stringWithFormat:[NSBundle mxk_localizedStringForKey:@"camera_access_not_granted_for_call"], appDisplayName];
                 __weak NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                 __block id token = [[NSNotificationCenter defaultCenter] addObserverForName:kMXCallStateDidChange
                                                                                      object:mxCall
@@ -2899,12 +2900,25 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                         [notificationCenter removeObserver:token];
                         
                         NSLog(@"[AppDelegate] presentCallViewController");
-                        [self presentCallViewController:NO completion:nil];
+                        [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
+                            [self presentCallViewController:NO completion:nil];
+                        }];
                     }
                 }];
-                [self checkMediaPermission:self.window.rootViewController messForAudio:messagesForAudio completion:^(BOOL granted) {
-                    if(granted == NO) {
-                        dispatch_after(dispatch_walltime(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                if (mxCall.isVideoCall) {
+                    [self checkMediaPermission:self.window.rootViewController mxCall:mxCall mediaType:AVMediaTypeVideo completion:^(BOOL granted) {
+                        
+                        if (granted == NO){
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [mxCall terminateWithReason:nil];
+                                [self displayAlertView:self.window.rootViewController messForAudio:messagesForVideo];
+                            });
+                        }
+                    }];
+                }
+                [self checkMediaPermission:self.window.rootViewController mxCall:mxCall mediaType:AVMediaTypeAudio completion:^(BOOL granted) {
+                    if (granted == NO){
+                        dispatch_async(dispatch_get_main_queue(), ^{
                             [mxCall terminateWithReason:nil];
                             [self displayAlertView:self.window.rootViewController messForAudio:messagesForAudio];
                         });
@@ -3697,6 +3711,8 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
 
 - (void)addCallStatusBar:(NSString*)buttonTitle
 {
+    UIApplication *app = [UIApplication sharedApplication];
+    CGFloat topPadding = app.keyWindow.safeAreaInsets.top;
     // Add a call status bar
     CGSize topBarSize = CGSizeMake([[UIScreen mainScreen] bounds].size.width, CALL_STATUS_BAR_HEIGHT);
     
@@ -3706,6 +3722,12 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     // Create statusBarButton
     _callStatusBarButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _callStatusBarButton.frame = CGRectMake(0, 0, topBarSize.width, topBarSize.height);
+    
+    if (topPadding >= 24){
+        [_callStatusBarButton setTitleEdgeInsets:UIEdgeInsetsMake(topPadding - 10, 0.0f, 0.0f, 0.0f)];
+    } else {
+        [_callStatusBarButton setTitleEdgeInsets:UIEdgeInsetsMake(topPadding - 5.0f, 0.0f, 0.0f, 0.0f)];
+    }
     
     [_callStatusBarButton setTitle:buttonTitle forState:UIControlStateNormal];
     [_callStatusBarButton setTitle:buttonTitle forState:UIControlStateHighlighted];
@@ -3808,10 +3830,12 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     UIApplication *app = [UIApplication sharedApplication];
     UIViewController *rootController = app.keyWindow.rootViewController;
     
+    CGFloat topPadding = app.keyWindow.safeAreaInsets.top;
+    
     // Refresh the root view controller frame
     CGRect rootControllerFrame = [[UIScreen mainScreen] bounds];
     
-    if (_callStatusBarWindow)
+    ;    if (_callStatusBarWindow)
     {
         UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
         
@@ -3832,16 +3856,24 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
             default:
             {
                 _callStatusBarWindow.transform = CGAffineTransformIdentity;
-                _callStatusBarWindow.frame = CGRectMake(0, 0, rootControllerFrame.size.width, CALL_STATUS_BAR_HEIGHT);
+                if (topPadding >= 24) {
+                    _callStatusBarWindow.frame = CGRectMake(0, 0, rootControllerFrame.size.width, CALL_STATUS_BAR_HEIGHT + (topPadding - 24));
+                } else {
+                    _callStatusBarWindow.frame = CGRectMake(0, 0, rootControllerFrame.size.width, CALL_STATUS_BAR_HEIGHT);
+                }
                 break;
             }
         }
         
         // Apply the vertical offset due to call status bar
-        rootControllerFrame.origin.y = CALL_STATUS_BAR_HEIGHT;
-        rootControllerFrame.size.height -= CALL_STATUS_BAR_HEIGHT;
+        if (topPadding > 24) {
+            rootControllerFrame.origin.y = CALL_STATUS_BAR_HEIGHT + (topPadding - 24);
+            rootControllerFrame.size.height -= CALL_STATUS_BAR_HEIGHT + (topPadding - 20);
+        } else {
+            rootControllerFrame.origin.y = CALL_STATUS_BAR_HEIGHT;
+            rootControllerFrame.size.height -= CALL_STATUS_BAR_HEIGHT;
+        }
     }
-    
     rootController.view.frame = rootControllerFrame;
     if (rootController.presentedViewController)
     {
@@ -4313,9 +4345,9 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
 }
 #pragma mark - Check media permission
 
--(void) checkMediaPermission: (UIViewController *)viewController messForAudio: (NSString *)messagesForAudio completion:(void (^)(BOOL granted))completion{
+-(void) checkMediaPermission: (UIViewController *)viewController mxCall:(MXCall *)mxCall mediaType:(NSString *)type completion:(void (^)(BOOL granted))completion{
     
-    switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio]) {
+    switch ([AVCaptureDevice authorizationStatusForMediaType:type]) {
         {
         case AVAuthorizationStatusDenied:
             completion(NO);
@@ -4330,6 +4362,9 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                 if (granted){
                     completion(YES);
                 } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [mxCall hangup];
+                    });
                     completion(NO);
                 }
             }];
@@ -4338,8 +4373,7 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     }
 }
 -(void)displayAlertView: (UIViewController *)viewController messForAudio:(NSString *)manualChangeMessage {
-    // Access not granted to mediaType
-    // Display manualChangeMessage
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:manualChangeMessage preferredStyle:UIAlertControllerStyleAlert];
     
     // On iOS >= 8, add a shortcut to the app settings (This requires the shared application instance)
@@ -4364,7 +4398,6 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
                                             handler:^(UIAlertAction * action) {
         
     }]];
-    
     [viewController presentViewController:alert animated:YES completion:nil];
 }
 @end
