@@ -606,7 +606,7 @@ extension CKRoomViewController {
             self.mentionListTableView?.reloadData()
             
             let inputToolbarViewHeight: CGFloat = self.inputToolbarHeight()
-            let visibleAreaHeight = view.frame.size.height - keyboardHeightContanst - inputToolbarViewHeight - 100
+            let visibleAreaHeight = view.frame.size.height - keyboardHeightContanst - inputToolbarViewHeight - 80
             
             // Hardcode to fix layout bug
 //            visibleAreaHeight -= 100
@@ -3049,7 +3049,6 @@ extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
 extension CKRoomViewController {
     
     @objc func onKeyboardWillShow(_ notification: Notification) {
-
         if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
             
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -3060,6 +3059,7 @@ extension CKRoomViewController {
                 self.forceScrollBottom()
             }
         }
+        self.updateMentionTableView(mentionDataSource: self.mentionDataSource)
     }
     
     
