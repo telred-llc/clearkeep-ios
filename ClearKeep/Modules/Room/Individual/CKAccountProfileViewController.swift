@@ -286,7 +286,8 @@ class CKAccountProfileViewController: MXKViewController {
         let account = MXKAccountManager.shared().activeAccounts.first
         guard let updatedPicture = MXKTools.forceImageOrientationUp(image) else { return }
         
-        self.showSpinner()
+        self.showSpinner(onView: UIApplication.topViewController()?.view ?? self.view)
+
         
         let uploader: MXMediaLoader? = MXMediaManager.prepareUploader(withMatrixSession: account?.mxSession, initialRange: 0.0, andRange: 1.0)
     
