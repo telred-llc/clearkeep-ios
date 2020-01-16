@@ -351,11 +351,28 @@
     senderDisplayName = roomState ? [self senderDisplayNameForEvent:event withRoomState:roomState] : event.sender;
     
     switch (event.eventType)
-    {
+    {    /* CK - add case notification local */
+        case MXEventTypeRoomAvatar:
+        {
+            NSString *roomAvatar;
+            MXJSONModelSetString(roomAvatar, event.content[@"url"]);
+            if (roomAvatar == roomState.avatar) {
+                break;
+            }
+            
+            displayText = [NSString stringWithFormat:@"%@ changed avatar room", senderDisplayName];
+            break;
+        }
+        /* CK - add case notification local */
         case MXEventTypeRoomName:
         {
             NSString *roomName;
             MXJSONModelSetString(roomName, event.content[@"name"]);
+            /* CK - add case notification local */
+            if (roomName == roomState.name) {
+                break;
+            }
+            /* CK - add case notification local */
             
             if (isRedacted)
             {
@@ -381,7 +398,11 @@
         {
             NSString *roomTopic;
             MXJSONModelSetString(roomTopic, event.content[@"topic"]);
-            
+            /* CK - add case notification local */
+            if (roomTopic == roomState.topic) {
+                break;
+            }
+            /* CK - add case notification local */
             if (isRedacted)
             {
                 if (!redactedInfo)

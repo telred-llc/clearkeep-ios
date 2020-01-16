@@ -537,11 +537,23 @@ NSString *const kMXRoomSummaryDidChangeNotification = @"kMXRoomSummaryDidChangeN
                     updated = YES;
                 }
             }
-            else if (self.notificationCount != roomSync.unreadNotifications.notificationCount
-                     || self.highlightCount != roomSync.unreadNotifications.highlightCount)
-            {
-                self->_notificationCount = roomSync.unreadNotifications.notificationCount;
-                self->_highlightCount = roomSync.unreadNotifications.highlightCount;
+            else {
+                /* CK - add case notification local */
+                if (self.localUnreadEventCount == 0) {
+                    self->_notificationCount = roomSync.unreadNotifications.notificationCount;
+                    self->_highlightCount = roomSync.unreadNotifications.highlightCount;
+                } else {
+                    if (self.localUnreadEventCount < roomSync.unreadNotifications.notificationCount ||
+                        self.localUnreadEventCount == roomSync.unreadNotifications.notificationCount) {
+                            
+                        self->_notificationCount = roomSync.unreadNotifications.notificationCount;
+                        self->_highlightCount = roomSync.unreadNotifications.highlightCount;
+                    }
+                    else {
+                        self->_notificationCount = self.localUnreadEventCount;
+                    }
+                }
+                /* CK - add case notification local */
                 updated = YES;
             }
         }

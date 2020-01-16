@@ -404,6 +404,10 @@ extension CKRoomViewController {
             NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
             kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
         }
+        
+        if let _ = UIApplication.topViewController() as? CkSplitViewController, (UIApplication.topViewController() as? CKAttachmentsViewController) == nil {
+            customizedRoomDataSource?.delegate = nil
+        }
     }
 
     private func bindingTheme() {
