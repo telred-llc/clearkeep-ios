@@ -32,7 +32,7 @@ import MatrixKit
     // MARK: - Properties
     
     // MARK: Public
-    
+    var keyboardHeightContanst : CGFloat = 0
     
     // Reactions
     var roomContextualMenuViewController: RoomContextualMenuViewController?
@@ -606,7 +606,7 @@ extension CKRoomViewController {
             self.mentionListTableView?.reloadData()
             
             let inputToolbarViewHeight: CGFloat = self.inputToolbarHeight()
-            let visibleAreaHeight = view.frame.size.height - keyboardHeight - inputToolbarViewHeight - 100
+            let visibleAreaHeight = view.frame.size.height - keyboardHeightContanst - inputToolbarViewHeight - 80
             
             // Hardcode to fix layout bug
 //            visibleAreaHeight -= 100
@@ -3049,24 +3049,24 @@ extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
 extension CKRoomViewController {
     
     @objc func onKeyboardWillShow(_ notification: Notification) {
-
         if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
             
             let keyboardRectangle = keyboardFrame.cgRectValue
             let height = keyboardRectangle.height - self.safeArea.bottom
-            self.keyboardHeight = height
+            keyboardHeightContanst = height
             if self.roomInputToolbarContainerBottomConstraint.constant != height {
                 self.roomInputToolbarContainerBottomConstraint.constant = height
                 self.forceScrollBottom()
             }
         }
+        self.updateMentionTableView(mentionDataSource: self.mentionDataSource)
     }
     
     
     @objc func onKeyboardWillHide(_ notification: Notification) {
         
         self.keyboardView = nil
-        self.keyboardHeight = 0
+        keyboardHeightContanst = 0
         
         let animationCurve: UInt? = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt
         
