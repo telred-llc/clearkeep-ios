@@ -30,6 +30,8 @@ final class CKCallViewController: CallViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindingTheme()
+        //App on resume
+        NotificationCenter.default.addObserver(self, selector: #selector(appOnResume(_:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
 
     private func bindingTheme() {
@@ -297,5 +299,12 @@ extension CKCallViewController {
             return
         }
         super.touchesMoved(touches, with: event)
+    }
+}
+extension CKCallViewController {
+    @objc func appOnResume(_ notification: Notification) {
+        pulseView.layer.sublayers?.removeAll()
+        pulseArray.removeAll()
+        self.createPulse(sourceView: pulseView)
     }
 }
