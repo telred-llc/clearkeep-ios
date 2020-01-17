@@ -53,7 +53,7 @@ extension CKEditRoomDetailRequest {
     @discardableResult
     private func editTopicName(mxRoom: MXRoom, topicName: String) -> Promise<Void> {
         
-        if mxRoom.summary.topic == topicName {
+        if mxRoom.summary.topic == topicName || topicName == "" {
             return Promise()
         }
         
