@@ -2210,7 +2210,7 @@ extension CKRoomViewController {
             }
 
             // present nvc
-            nvc.modalPresentationStyle = .currentContext
+//            nvc.modalPresentationStyle = .currentContext // fix bug choose avatar
             self.present(nvc, animated: true, completion: nil)
         }
     }
