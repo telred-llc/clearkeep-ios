@@ -192,11 +192,13 @@ final class CKRoomCreatingViewController: MXKViewController {
         self.stateCreateRoom = false // update state button create room
         
         // starting to attemp creating room
+        let topicName = creatingData.topic.isEmpty ? creatingData.name : creatingData.topic // if topic name == nil --> set displayname
+        
         self.request = mxMainSession.createRoom(
             name: creatingData.name,
             visibility: creatingData.isPublic ? MXRoomDirectoryVisibility.public : MXRoomDirectoryVisibility.private,
             alias: nil,
-            topic: creatingData.topic,
+            topic: topicName,
             preset: nil) { (response: MXResponse<MXRoom>) in
                 
                 // a closure finishing room
