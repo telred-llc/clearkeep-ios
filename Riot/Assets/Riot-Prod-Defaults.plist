@@ -11,9 +11,9 @@
 	<key>pushGatewayURL</key>
 	<string>https://push.clearkeep.me/_matrix/push/v1/notify</string>
 	<key>pusherAppIdDev</key>
-	<string>com.telred.clearkeep</string>
+	<string>com.telred.clearkeep.ios</string>
 	<key>pusherAppIdProd</key>
-	<string>com.telred.clearkeep</string>
+	<string>com.telred.clearkeep.ios</string>
 	<key>pushKitAppIdProd</key>
 	<string>com.telred.clearkeep.ios</string>
 	<key>identityserverurl</key>

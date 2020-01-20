@@ -1231,9 +1231,28 @@ NSString *const AppDelegateDidValidateEmailNotificationClientSecretKey = @"AppDe
     
     MXKAccountManager* accountManager = [MXKAccountManager sharedManager];
     [accountManager setPushDeviceToken:token withPushOptions:@{@"format": @"event_id_only"}];
-    
+
+    NSUInteger length = token.length;
+    const unsigned char *buffer = token.bytes;
+    NSMutableString *hexString  = [NSMutableString stringWithCapacity:(length * 2)];
+    for (int i = 0; i < length; ++i) {
+        [hexString appendFormat:@"%02x", buffer[i]];
+    }
+
+    NSLog(@"[AppDelegate][Push] ============as dihqiuhr i23 (%@)", hexString);
+    UIAlertController *alertDemo = [UIAlertController alertControllerWithTitle:nil message:hexString preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* yesButton = [UIAlertAction
+                                actionWithTitle:@"Yes"
+                                style:UIAlertActionStyleDefault
+                                handler:^(UIAlertAction * action) {
+                                }];
+
+    [alertDemo addAction:yesButton];
+    UIViewController *topVC = [UIApplication topViewControllerWithController: [UIApplication sharedApplication].keyWindow.rootViewController];
+    [topVC presentViewController:alertDemo animated:YES completion:nil];
+
     isPushRegistered = YES;
-    
+
     if (self.registrationForRemoteNotificationsCompletion)
     {
         self.registrationForRemoteNotificationsCompletion(nil);
