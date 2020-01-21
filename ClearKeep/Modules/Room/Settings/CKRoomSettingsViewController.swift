@@ -487,7 +487,8 @@ extension CKRoomSettingsViewController {
             self.view.endEditing(true)
             self.showSpinner()
             
-            CKEditRoomDetailRequest().editRoomDetail(mxRoom: self.mxRoom, displayName: model.displayName, topicName: model.topicName, image: model.avatar) { (error) in
+            let topicName = model.topicName.isEmpty ? model.displayName : model.topicName
+            CKEditRoomDetailRequest().editRoomDetail(mxRoom: self.mxRoom, displayName: model.displayName, topicName: topicName, image: model.avatar) { (error) in
                 self.reloadAvatarCell()
                 if let `error` = error {
                     self.showAlert(error.localizedDescription)

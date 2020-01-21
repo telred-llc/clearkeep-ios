@@ -240,6 +240,7 @@ typedef void (^MXOnResumeDone)(void);
 
         _unreadEventTypes = @[kMXEventTypeStringRoomName,
                               kMXEventTypeStringRoomTopic,
+                              kMXEventTypeStringRoomAvatar, // CK - add case notification local
                               kMXEventTypeStringRoomMessage,
                               kMXEventTypeStringCallInvite,
                               kMXEventTypeStringRoomEncrypted,

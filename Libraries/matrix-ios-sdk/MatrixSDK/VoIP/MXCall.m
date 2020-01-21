@@ -438,7 +438,9 @@ NSString *const kMXCallStateDidChange = @"kMXCallStateDidChange";
 {
     NSLog(@"[MXCall] hangup");
 
-    if (self.state != MXCallStateEnded)
+    {
+        
+    }    if (self.state != MXCallStateEnded)
     {
         [self terminateWithReason:nil];
 
@@ -453,7 +455,6 @@ NSString *const kMXCallStateDidChange = @"kMXCallStateDidChange";
         }];
     }
 }
-
 
 #pragma marl - Properties
 - (void)setState:(MXCallState)state reason:(MXEvent *)event

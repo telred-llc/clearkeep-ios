@@ -265,6 +265,8 @@ public class CKAppManager: NSObject {
     func setup() {
         if let account = MXKAccountManager.shared()?.accounts.first {
             self.setup(with: account.mxCredentials, password: nil)
+        } else {
+            apiClient = CKAPIClient(baseURLString: CKEnvironment.target.serviceURL)
         }
     }
 

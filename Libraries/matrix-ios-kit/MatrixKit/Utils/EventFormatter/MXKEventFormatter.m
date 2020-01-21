@@ -351,7 +351,15 @@
     senderDisplayName = roomState ? [self senderDisplayNameForEvent:event withRoomState:roomState] : event.sender;
     
     switch (event.eventType)
-    {
+    {    /* CK - add case notification local */
+        case MXEventTypeRoomAvatar:
+        {
+            NSString *roomAvatar;
+            MXJSONModelSetString(roomAvatar, event.content[@"url"]);
+            displayText = [NSString stringWithFormat:@"%@ changed avatar room", senderDisplayName];
+            break;
+        }
+        /* CK - add case notification local */
         case MXEventTypeRoomName:
         {
             NSString *roomName;

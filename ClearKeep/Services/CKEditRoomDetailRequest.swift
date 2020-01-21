@@ -32,6 +32,10 @@ extension CKEditRoomDetailRequest {
     @discardableResult
     private func editDisplayName(mxRoom: MXRoom, displayName: String) -> Promise<Void> {
         
+        if mxRoom.summary.displayname == displayName {
+            return Promise()
+        }
+        
         return Promise { seal in
             mxRoom.summary.displayname = displayName
             mxRoom.setName(displayName) { (response) in
@@ -48,6 +52,10 @@ extension CKEditRoomDetailRequest {
     
     @discardableResult
     private func editTopicName(mxRoom: MXRoom, topicName: String) -> Promise<Void> {
+        
+        if mxRoom.summary.topic == topicName {
+            return Promise()
+        }
         
         return Promise { seal in
             mxRoom.summary.topic = topicName

@@ -200,6 +200,8 @@ extension UIViewController: UIGestureRecognizerDelegate {
 
 extension UIAlertController {
     private static var globalPresentationWindow: UIWindow?
+    
+    static var isForceUpdate: Bool = false
 
     func show(animated: Bool = true, completion: (() -> Void)?) {
         let window = UIWindow(frame: UIScreen.main.bounds)
@@ -219,9 +221,20 @@ extension UIAlertController {
         UIAlertController.globalPresentationWindow?.makeKeyAndVisible()
         UIAlertController.globalPresentationWindow?.rootViewController?.present(self, animated: animated, completion: completion)
     }
+    
+    func presentForceUpdate(animated: Bool, completion: (() -> Void)?) {
+        UIAlertController.globalPresentationWindow = UIWindow(frame: UIScreen.main.bounds)
+        UIAlertController.globalPresentationWindow?.rootViewController = UIViewController()
+        UIAlertController.globalPresentationWindow?.windowLevel = UIWindowLevelAlert + 1
+        UIAlertController.globalPresentationWindow?.backgroundColor = .clear
+        UIAlertController.globalPresentationWindow?.makeKeyAndVisible()
+        UIAlertController.isForceUpdate = true
+        UIAlertController.globalPresentationWindow?.rootViewController?.present(self, animated: animated, completion: completion)
+    }
      
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        if UIAlertController.isForceUpdate { return }
         UIAlertController.globalPresentationWindow?.isHidden = true
         UIAlertController.globalPresentationWindow = nil
     }
@@ -278,7 +291,10 @@ extension UIViewController {
 
     @objc
     func showSpinner(onView : UIView = (UIApplication.topViewController()?.view)!) {
+        if topSpinner != nil { return }
+        
         let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.tag = 99999
         spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.25)
         let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .gray)
         ai.startAnimating()

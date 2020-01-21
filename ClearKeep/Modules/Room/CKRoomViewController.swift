@@ -32,7 +32,7 @@ import MatrixKit
     // MARK: - Properties
     
     // MARK: Public
-    
+    var keyboardHeightContanst : CGFloat = 0
     
     // Reactions
     var roomContextualMenuViewController: RoomContextualMenuViewController?
@@ -404,6 +404,10 @@ extension CKRoomViewController {
             NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
             kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
         }
+        
+        if let _ = UIApplication.topViewController() as? CkSplitViewController, (UIApplication.topViewController() as? CKAttachmentsViewController) == nil {
+            customizedRoomDataSource?.delegate = nil
+        }
     }
 
     private func bindingTheme() {
@@ -606,7 +610,7 @@ extension CKRoomViewController {
             self.mentionListTableView?.reloadData()
             
             let inputToolbarViewHeight: CGFloat = self.inputToolbarHeight()
-            let visibleAreaHeight = view.frame.size.height - keyboardHeight - inputToolbarViewHeight - 100
+            let visibleAreaHeight = view.frame.size.height - keyboardHeightContanst - inputToolbarViewHeight - 80
             
             // Hardcode to fix layout bug
 //            visibleAreaHeight -= 100
@@ -991,25 +995,26 @@ extension CKRoomViewController {
         // Check whether the call option is supported
         var isSupportCallOption : Bool = false
         var joinedMembers : UInt = 0
-        roomDataSource?.room?.members({ (members) in
-            if let newJoinedCount = members?.joinedMembers.count {
-                joinedMembers = UInt(newJoinedCount)
-            }
+        if roomDataSource?.room != nil {
+            roomDataSource?.room.members({ (members) in
+                if let newJoinedCount = members?.joinedMembers.count {
+                    joinedMembers = UInt(newJoinedCount)
+                }
             }, lazyLoadedMembers: { (_) in
                 //
-        }, failure: { (error) in
-            print("Sync room members failed again")
-        })
-        isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && (joinedMembers >= 2)
-//        isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && ((self.roomDataSource?.room?.summary?.membersCount?.joined ?? 0) >= 2)
-        let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
-        if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource?.roomId) {
-            // there is an active call in this room
-        } else {
-            // Hide the call button if there is an active call in another room
-            isSupportCallOption = isSupportCallOption && (AppDelegate.the()?.callStatusBarWindow == nil)
+            }, failure: { (error) in
+                print("Sync room members failed again")
+            })
+            isSupportCallOption = self.roomDataSource?.mxSession?.callManager != nil && (joinedMembers >= 2)
+            let callInRoom = self.roomDataSource?.mxSession?.callManager?.call(inRoom: self.roomDataSource.roomId)
+            if (callInRoom != nil && callInRoom?.state != MXCallState.ended) || (AppDelegate.the().jitsiViewController?.widget?.roomId == roomDataSource?.roomId) {
+                // there is an active call in this room
+            } else {
+                // Hide the call button if there is an active call in another room
+                isSupportCallOption = isSupportCallOption && (AppDelegate.the()?.callStatusBarWindow == nil)
+            }
+            return isSupportCallOption
         }
-        
         return isSupportCallOption
     }
     
@@ -2205,7 +2210,7 @@ extension CKRoomViewController {
             }
 
             // present nvc
-//            nvc.modalPresentationStyle = .currentContext
+//            nvc.modalPresentationStyle = .currentContext // fix bug choose avatar
             self.present(nvc, animated: true, completion: nil)
         }
     }
@@ -3048,24 +3053,24 @@ extension CKRoomViewController: MXKDocumentPickerPresenterDelegate {
 extension CKRoomViewController {
     
     @objc func onKeyboardWillShow(_ notification: Notification) {
-
         if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
             
             let keyboardRectangle = keyboardFrame.cgRectValue
             let height = keyboardRectangle.height - self.safeArea.bottom
-            self.keyboardHeight = height
+            keyboardHeightContanst = height
             if self.roomInputToolbarContainerBottomConstraint.constant != height {
                 self.roomInputToolbarContainerBottomConstraint.constant = height
                 self.forceScrollBottom()
             }
         }
+        self.updateMentionTableView(mentionDataSource: self.mentionDataSource)
     }
     
     
     @objc func onKeyboardWillHide(_ notification: Notification) {
         
         self.keyboardView = nil
-        self.keyboardHeight = 0
+        keyboardHeightContanst = 0
         
         let animationCurve: UInt? = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt
         

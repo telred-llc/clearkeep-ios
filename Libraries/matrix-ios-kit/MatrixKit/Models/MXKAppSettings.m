@@ -122,6 +122,7 @@ static NSString *const kMXAppGroupID = @"group.org.matrix";
         eventsFilterForMessages = [NSMutableArray arrayWithArray:@[
                                                                   kMXEventTypeStringRoomName,
                                                                   kMXEventTypeStringRoomTopic,
+                                                                  kMXEventTypeStringRoomAvatar, /* CK - add case notification local */
                                                                   kMXEventTypeStringRoomMember,
                                                                   kMXEventTypeStringRoomEncrypted,
                                                                   kMXEventTypeStringRoomEncryption,
@@ -137,6 +138,7 @@ static NSString *const kMXAppGroupID = @"group.org.matrix";
         // List all the event types, except kMXEventTypeStringPresence which are not related to a specific room.
         allEventTypesForMessages = [NSMutableArray arrayWithArray:@[
                                                                     kMXEventTypeStringRoomName,
+                                                                    kMXEventTypeStringRoomAvatar,/* CK - add case notification local */
                                                                     kMXEventTypeStringRoomTopic,
                                                                     kMXEventTypeStringRoomMember,
                                                                     kMXEventTypeStringRoomCreate,

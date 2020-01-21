@@ -25,6 +25,7 @@
     [super prepareForReuse];
     [self.moviePlayer stop];
     self.moviePlayer = nil;
+    self.movieAVPlayer = nil;
     
     // Restore the cell in reusable state
     self.mxkImageView.hidden = NO;
@@ -64,7 +65,13 @@
 
 - (void)dealloc
 {
-    [self.moviePlayer stop];
+    // CK 646: crash >= ios 13
+    if (@available(iOS 13, *)) {
+        [[self.movieAVPlayer player] seekToTime: CMTimeMake(0, 1)];
+        [[self.movieAVPlayer player] pause];
+    } else {
+        [self.moviePlayer stop];
+    }
 }
 
 @end
