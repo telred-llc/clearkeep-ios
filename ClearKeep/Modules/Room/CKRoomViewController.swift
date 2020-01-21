@@ -404,6 +404,10 @@ extension CKRoomViewController {
             NotificationCenter.default.removeObserver(kAppDelegateNetworkStatusDidChangeNotificationObserver!)
             kAppDelegateNetworkStatusDidChangeNotificationObserver = nil
         }
+        
+        if let _ = UIApplication.topViewController() as? CkSplitViewController, (UIApplication.topViewController() as? CKAttachmentsViewController) == nil {
+            customizedRoomDataSource?.delegate = nil
+        }
     }
 
     private func bindingTheme() {
@@ -2206,7 +2210,7 @@ extension CKRoomViewController {
             }
 
             // present nvc
-            nvc.modalPresentationStyle = .currentContext
+//            nvc.modalPresentationStyle = .currentContext // fix bug choose avatar
             self.present(nvc, animated: true, completion: nil)
         }
     }
