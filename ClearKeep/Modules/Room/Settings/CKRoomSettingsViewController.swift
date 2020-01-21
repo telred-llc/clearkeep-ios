@@ -296,11 +296,9 @@ protocol CKRoomSettingsViewControllerDelegate: class {
         self.navigationController?.presentationController?.delegate = self
         
         self.reloadTableView()
-        AppDelegate.the()?.statusBarDidChangeFrame()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        AppDelegate.the()?.statusBarDidChangeFrame()
         super.viewDidDisappear(animated)
     }
     
